@@ -989,7 +989,7 @@
             transform-origin: left;
         }
         .slide-progress span.done::after { transform: scaleX(1); }
-        .slide-progress span.active::after { animation: slide-fill 2s linear forwards; }
+        .slide-progress span.active::after { animation: slide-fill var(--slide-duration, 2s) linear forwards; }
         @keyframes slide-fill { to { transform: scaleX(1); } }
         @media (prefers-reduced-motion: reduce) {
             .slide-progress span.active::after { animation: none; transform: scaleX(1); }
@@ -1515,7 +1515,7 @@
             </ul>
         </div>
         <div class="img-border reveal reveal-left">
-            <div class="slideshow slideshow-wide">
+            <div class="slideshow slideshow-wide" data-interval="4000">
                 <img class="slide active" src="./img/plakat-spotkanie-powtorkowe-oij.webp" alt="Plakat T-Olimpians: spotkanie powtórkowe pod OIJ na Discordzie, 21 października o 16:00 (1 z 3)">
                 <img class="slide" src="./img/plakat-pre-oi-pre-oij.webp" alt="Plakat T-Olimpians: Pre-OI i Pre-OIJ, próbna sesja olimpijska w sobotę 19 czerwca o 9:00 (2 z 3)" loading="lazy">
                 <img class="slide slide-center" src="./img/oai zdjecie.webp" alt="Drużyna z polskimi flagami na międzynarodowej olimpiadzie IOAI (3 z 3)" loading="lazy">
@@ -1847,6 +1847,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const slides   = show.querySelectorAll('.slide');
         const progress = show.querySelector('.slide-progress');
         const bars     = [...slides].map(() => progress.appendChild(document.createElement('span')));
+        const interval = Number(show.dataset.interval) || 2000; // czas jednego slajdu w ms
+        show.style.setProperty('--slide-duration', interval + 'ms');
         let current    = 0;
         function updateBars() {
             bars.forEach((bar, i) => {
@@ -1864,7 +1866,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         updateBars();
         function advance() { goTo((current + 1) % slides.length); }
-        setInterval(advance, 2000);
+        setInterval(advance, interval);
     });
 
     /* ── HAMBURGER ── */

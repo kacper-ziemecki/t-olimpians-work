@@ -568,21 +568,30 @@
 
         /* ─── IMAGE BORDER ─── */
         .img-border {
+            --frame-pad: 8px;
             position: relative;
             flex: 1;
+            padding: var(--frame-pad);
+            border: 1.5px solid transparent;
             border-radius: var(--radius-lg);
+            background:
+                linear-gradient(160deg, var(--bg-elevated), var(--bg-card)) padding-box,
+                conic-gradient(
+                    from var(--angle, 0deg),
+                    #3b82f6, #7c3aed, #06b6d4, #a78bfa, #3b82f6
+                ) border-box;
+            box-shadow:
+                0 28px 60px -24px rgba(0,0,0,0.8),
+                0 18px 50px -20px rgba(59,130,246,0.35),
+                0 30px 70px -34px rgba(124,58,237,0.45);
+            animation: spin-border 8s linear infinite;
+            transition: box-shadow 0.5s ease;
         }
-        .img-border::before {
-            content: '';
-            position: absolute;
-            inset: -2px;
-            border-radius: calc(var(--radius-lg) + 2px);
-            background: conic-gradient(
-                from var(--angle, 0deg),
-                #3b82f6, #7c3aed, #06b6d4, #a78bfa, #3b82f6
-            );
-            z-index: 0;
-            animation: spin-border 4s linear infinite;
+        .img-border:hover {
+            box-shadow:
+                0 28px 60px -24px rgba(0,0,0,0.8),
+                0 22px 60px -18px rgba(59,130,246,0.55),
+                0 34px 80px -30px rgba(124,58,237,0.6);
         }
         @property --angle {
             syntax: '<angle>';
@@ -590,17 +599,14 @@
             inherits: false;
         }
         @keyframes spin-border { to { --angle: 360deg; } }
-        .img-border::after {
-            content: '';
-            position: absolute;
-            inset: 2px;
-            background: var(--bg-base);
-            border-radius: var(--radius-lg);
-            z-index: 0;
+        @media (prefers-reduced-motion: reduce) {
+            .img-border { animation: none; }
+        }
+        .img-border .section-image,
+        .img-border .slideshow {
+            border-radius: calc(var(--radius-lg) - var(--frame-pad) - 1.5px);
         }
         .img-border .section-image {
-            position: relative;
-            z-index: 1;
             width: 100%;
             display: block;
         }
@@ -611,13 +617,21 @@
             height: 340px;
             object-fit: cover;
             border-radius: var(--radius-lg);
-            border: 1px solid var(--border);
-            transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), box-shadow 0.5s ease;
-            will-change: transform;
+            transition: filter 0.5s ease;
         }
         .section-image:hover {
-            transform: scale(1.03) translateY(-4px);
-            box-shadow: 0 24px 60px rgba(0,0,0,0.55), 0 0 0 1px var(--border-accent);
+            filter: brightness(1.06) saturate(1.08);
+        }
+
+        /* ─── PHOTO FRAME (galeria, Discord) ─── */
+        .founder-gallery img,
+        .discord-cta img {
+            padding: 4px;
+            border: 1px solid transparent;
+            background:
+                linear-gradient(160deg, var(--bg-elevated), var(--bg-card)) padding-box,
+                linear-gradient(135deg, rgba(96,165,250,0.75), rgba(124,58,237,0.55) 50%, rgba(6,182,212,0.7)) border-box;
+            box-shadow: 0 16px 36px -14px rgba(0,0,0,0.75), 0 10px 30px -18px rgba(59,130,246,0.45);
         }
 
         /* ─── ACHIEVEMENTS ─── */
@@ -675,12 +689,11 @@
             height: 140px;
             object-fit: cover;
             border-radius: var(--radius-md);
-            border: 1px solid var(--border);
             transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s ease;
         }
         .founder-gallery img:hover {
             transform: translateY(-4px);
-            box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 44px -14px rgba(0,0,0,0.8), 0 14px 40px -14px rgba(59,130,246,0.6);
         }
         .founder-quote {
             position: relative;
@@ -797,7 +810,11 @@
             border-radius: 50%;
             object-fit: cover;
             object-position: top center;
-            border: 2px solid var(--border-accent);
+            padding: 3px;
+            border: 2px solid transparent;
+            background:
+                linear-gradient(var(--bg-base), var(--bg-base)) padding-box,
+                linear-gradient(135deg, #60a5fa, #7c3aed 55%, #06b6d4) border-box;
             box-shadow: 0 0 0 6px var(--accent-dim), 0 12px 32px rgba(0,0,0,0.45);
             flex-shrink: 0;
         }
@@ -853,7 +870,6 @@
             height: 200px;
             object-fit: cover;
             border-radius: var(--radius-md);
-            border: 1px solid var(--border);
         }
         .btn-discord {
             display: inline-flex;
@@ -949,7 +965,7 @@
             object-fit: cover;
             opacity: 0;
             transition: opacity 0.4s ease;
-            border-radius: var(--radius-lg);
+            border-radius: inherit;
         }
         .slide.active { opacity: 1; }
         .slide-dots {
@@ -1287,7 +1303,7 @@
             .founder-result-title { font-size: 13.5px; }
             .founder-result-detail { font-size: 12.5px; line-height: 1.45; }
             .founder-gallery { gap: 6px; }
-            .founder-gallery img { height: 70px; border-radius: var(--radius-sm); }
+            .founder-gallery img { height: 70px; padding: 3px; border-radius: var(--radius-sm); }
             .founder-avatar { width: 52px; height: 52px; }
         }
 
@@ -1490,11 +1506,11 @@
         </div>
         <div class="img-border reveal reveal-right">
             <div class="slideshow" id="slideshow03">
-                <img class="slide active" src="./img/zdjecie materialow1.PNG" alt="Notatki z zajęć z algorytmiki — przykładowe materiały T-Olimpians (1 z 5)">
-                <img class="slide" src="./img/zdjecie materialow2.PNG" alt="Przykładowe materiały T-Olimpians do nauki algorytmiki (2 z 5)">
-                <img class="slide" src="./img/zdjecie materialow3.PNG" alt="Przykładowe materiały T-Olimpians do nauki algorytmiki (3 z 5)">
-                <img class="slide" src="./img/zdjecie materialow4.PNG" alt="Przykładowe materiały T-Olimpians do nauki algorytmiki (4 z 5)">
-                <img class="slide" src="./img/zdjecie materialow5.PNG" alt="Przykładowe materiały T-Olimpians do nauki algorytmiki (5 z 5)">
+                <img class="slide active" src="./img/zdjecie materialow1.png" alt="Notatki z zajęć z algorytmiki — przykładowe materiały T-Olimpians (1 z 5)">
+                <img class="slide" src="./img/zdjecie materialow2.png" alt="Przykładowe materiały T-Olimpians do nauki algorytmiki (2 z 5)">
+                <img class="slide" src="./img/zdjecie materialow3.png" alt="Przykładowe materiały T-Olimpians do nauki algorytmiki (3 z 5)">
+                <img class="slide" src="./img/zdjecie materialow4.png" alt="Przykładowe materiały T-Olimpians do nauki algorytmiki (4 z 5)">
+                <img class="slide" src="./img/zdjecie materialow5.png" alt="Przykładowe materiały T-Olimpians do nauki algorytmiki (5 z 5)">
                 <div class="slide-dots" id="slideDots03">
                     <span class="dot active"></span>
                     <span class="dot"></span>

@@ -441,55 +441,114 @@
         }
 
         /* ─── FAQ ─── */
-        .faq-section { padding: 80px 0; border-bottom: 1px solid var(--border); }
+        .faq-section { padding: 80px 0; border-bottom: 1px solid var(--border); text-align: center; }
         .faq-section h2 {
             font-family: var(--font-display);
             font-size: clamp(26px, 3vw, 38px);
             font-weight: 700;
             letter-spacing: -0.02em;
             line-height: 1.2;
-            margin-bottom: 14px;
+            margin: 0 auto 14px;
+            max-width: 760px;
         }
-        .faq-intro { color: var(--text-secondary); font-size: 15.5px; max-width: 680px; margin-bottom: 36px; }
-        .faq-list { display: flex; flex-direction: column; gap: 10px; max-width: 880px; }
+        .faq-intro { color: var(--text-secondary); font-size: 15.5px; max-width: 640px; margin: 0 auto 40px; line-height: 1.7; }
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-width: 820px;
+            margin: 0 auto;
+            text-align: left;
+            counter-reset: faq;
+        }
         .faq-item {
+            counter-increment: faq;
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: var(--radius-md);
-            transition: border-color 0.25s;
+            transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
         }
-        .faq-item:hover, .faq-item[open] { border-color: var(--border-accent); }
+        .faq-item:hover { border-color: var(--border-accent); }
+        .faq-item[open] {
+            border-color: var(--border-accent);
+            background: linear-gradient(135deg, var(--accent-dim), transparent 55%), var(--bg-card);
+            box-shadow: 0 16px 40px -24px var(--accent-glow);
+        }
         .faq-item summary {
             list-style: none;
             cursor: pointer;
             display: flex;
-            justify-content: space-between;
             align-items: center;
             gap: 16px;
-            padding: 18px 22px;
+            padding: 18px 20px 18px 22px;
             font-family: var(--font-display);
             font-weight: 600;
             font-size: 16px;
+            line-height: 1.4;
             color: var(--text-primary);
         }
         .faq-item summary::-webkit-details-marker { display: none; }
+        .faq-item summary::before {
+            content: counter(faq, decimal-leading-zero);
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            color: var(--accent-bright);
+            opacity: 0.7;
+            flex-shrink: 0;
+            width: 22px;
+        }
         .faq-item summary::after {
             content: '+';
+            margin-left: auto;
+            display: grid;
+            place-items: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 1px solid var(--border-accent);
             font-family: var(--font-mono);
-            font-size: 20px;
+            font-size: 18px;
+            line-height: 1;
             color: var(--accent-bright);
             flex-shrink: 0;
-            transition: transform 0.25s;
+            transition: transform 0.3s ease, background 0.3s, color 0.3s, border-color 0.3s;
         }
-        .faq-item[open] summary::after { transform: rotate(45deg); }
+        .faq-item summary:hover::after { background: var(--accent-dim); }
+        .faq-item[open] summary::after {
+            transform: rotate(45deg);
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
+        }
         .faq-item summary:focus-visible { outline: 2px solid var(--accent-bright); outline-offset: 2px; border-radius: var(--radius-md); }
-        .faq-answer { padding: 0 22px 20px; color: var(--text-secondary); font-size: 15px; line-height: 1.7; }
+        .faq-answer {
+            padding: 0 66px 22px 60px;
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.75;
+        }
+        .faq-item[open] .faq-answer { animation: faq-open 0.35s ease both; }
+        @keyframes faq-open {
+            from { opacity: 0; transform: translateY(-6px); }
+            to   { opacity: 1; transform: none; }
+        }
         .faq-answer a { color: var(--accent-bright); text-decoration: none; border-bottom: 1px solid var(--border-accent); }
         .faq-answer a:hover { border-bottom-color: var(--accent-bright); }
+        .faq-more { margin: 32px auto 0; color: var(--text-secondary); font-size: 15px; line-height: 1.7; }
+        .faq-more a { color: var(--accent-bright); text-decoration: none; border-bottom: 1px solid var(--border-accent); white-space: nowrap; }
+        .faq-more a:hover { border-bottom-color: var(--accent-bright); }
+        @media (prefers-reduced-motion: reduce) {
+            .faq-item[open] .faq-answer { animation: none; }
+        }
         @media (max-width: 640px) {
             .faq-section { padding: 60px 0; }
-            .faq-item summary { padding: 16px 18px; font-size: 15px; }
-            .faq-answer { padding: 0 18px 18px; font-size: 14.5px; }
+            .faq-intro { margin-bottom: 28px; }
+            .faq-item summary { padding: 16px 14px 16px 16px; gap: 12px; font-size: 15px; }
+            .faq-item summary::before { width: 18px; font-size: 11px; }
+            .faq-item summary::after { width: 26px; height: 26px; font-size: 16px; }
+            .faq-answer { padding: 0 16px 18px 46px; font-size: 14.5px; }
         }
 
         /* ─── MAIN ─── */
@@ -1651,39 +1710,40 @@
         <h2>Przygotowanie do Olimpiady Informatycznej — FAQ</h2>
         <p class="faq-intro">Wszystko, co warto wiedzieć, zanim zaczniesz przygotowania do Olimpiady Informatycznej (OI) lub Olimpiady Informatycznej Juniorów (OIJ) z T-Olimpians.</p>
         <div class="faq-list">
-            <details class="faq-item">
+            <details class="faq-item" name="faq">
                 <summary>Jak wygląda przygotowanie do Olimpiady Informatycznej w T-Olimpians?</summary>
                 <div class="faq-answer">Każdy uczeń trafia do jednej z sześciu grup dopasowanych do poziomu — od początkujących w C++, przez pierwsze algorytmy i Olimpiadę Informatyczną Juniorów, aż po grupę dla finalistów i laureatów OI, którzy przygotowują się do BOI i IOI. Zajęcia grupowe odbywają się w weekendy i trwają 60 minut, a po każdych uczniowie dostają ponad 20 zadań z przerabianych tematów i rywalizują w rankingu. Można też wybrać <a href="zapisy.html">lekcje indywidualne 1 na 1</a> z mentorem.</div>
             </details>
-            <details class="faq-item">
+            <details class="faq-item" name="faq">
                 <summary>Czy trzeba umieć programować, żeby zacząć?</summary>
                 <div class="faq-answer">Nie. Grupa „Początkujący C++” zaczyna od zera: składnia C++, pętle, tablice, funkcje i biblioteka STL, a potem pierwsze algorytmy konkursowe. Do samodzielnej nauki podstaw służą też bezpłatne materiały <a href="materialy.html">C++ od podstaw</a>.</div>
             </details>
-            <details class="faq-item">
+            <details class="faq-item" name="faq">
                 <summary>Czym różni się Olimpiada Informatyczna od Olimpiady Informatycznej Juniorów?</summary>
                 <div class="faq-answer">Olimpiada Informatyczna Juniorów (OIJ) jest przeznaczona dla uczniów szkół podstawowych, a Olimpiada Informatyczna (OI) — dla uczniów szkół ponadpodstawowych. Obie są trzyetapowe, a zadania polegają na napisaniu programu, który rozwiąże problem algorytmiczny w limicie czasu i pamięci. W T-Olimpians prowadzimy osobne grupy przygotowujące do OIJ i do OI.</div>
             </details>
-            <details class="faq-item">
+            <details class="faq-item" name="faq">
                 <summary>Gdzie odbywają się zajęcia?</summary>
                 <div class="faq-answer">Online — na naszym serwerze Discord (awaryjnie przez Google Meet), więc można dołączyć z dowolnego miejsca w Polsce.</div>
             </details>
-            <details class="faq-item">
+            <details class="faq-item" name="faq">
                 <summary>Ile kosztują zajęcia?</summary>
                 <div class="faq-answer">Lekcje grupowe kosztują 50 zł (poziom OIJ) lub 70 zł (poziom OI) za lekcję. Lekcje indywidualne — od 120 zł do 180 zł, zależnie od poziomu ucznia. Jest też jednorazowa konsultacja: 50 zł za 15 minut. Szczegóły znajdziesz w <a href="cennik.html">cenniku</a>.</div>
             </details>
-            <details class="faq-item">
+            <details class="faq-item" name="faq">
                 <summary>Czy materiały do nauki są darmowe?</summary>
                 <div class="faq-answer">Tak. T-Olimpians Net jest dostępny bezpłatnie dla każdego: <a href="materialy.html">C++ i logika od podstaw</a>, <a href="net.html">algorytmy i struktury danych do OI i OIJ</a> oraz <a href="zadania-oi-oij.html">zbiór zadań z Olimpiady Informatycznej i OIJ</a>.</div>
             </details>
-            <details class="faq-item">
+            <details class="faq-item" name="faq">
                 <summary>Kto prowadzi zajęcia?</summary>
                 <div class="faq-answer">Zespół finalistów i laureatów Olimpiady Informatycznej oraz Olimpiady Informatycznej Juniorów. Założycielem T-Olimpians jest Kacper Ziemecki, finalista Olimpiady Informatycznej.</div>
             </details>
-            <details class="faq-item">
+            <details class="faq-item" name="faq">
                 <summary>Jak się zapisać?</summary>
                 <div class="faq-answer">Wypełnij formularz na stronie <a href="zapisy.html">Zapisy</a> — odezwiemy się w ciągu 24–48 godzin. Możesz też zadzwonić pod numer <a href="tel:+48720854368">+48 720 854 368</a> lub napisać na <a href="mailto:t.olympians.poland@gmail.com">t.olympians.poland@gmail.com</a>.</div>
             </details>
         </div>
+        <p class="faq-more">Nie ma tu Twojego pytania? Napisz na <a href="mailto:t.olympians.poland@gmail.com">t.olympians.poland@gmail.com</a> lub zadzwoń: <a href="tel:+48720854368">+48 720 854 368</a>.</p>
     </section>
 
 </main>

@@ -685,6 +685,7 @@ table.tbl td code.ic { white-space: nowrap; }
          text-transform: uppercase; margin-bottom: 12px; }
 .toc span { display: block; font-size: 17.5px; color: #c8c8d8; padding: 5.5px 0; border-bottom: 1px solid #1d1d2a; }
 .toc span:last-child { border-bottom: none; }
+.toc.long span { font-size: 16.5px; padding: 4px 0; }
 .toc b { font-family: 'JetBrains Mono', monospace; color: var(--tl); margin-right: 12px; }
 .cover-foot { position: absolute; left: 64px; bottom: 34px; font-family: 'JetBrains Mono', monospace;
               font-size: 13px; color: var(--mu); }
@@ -717,7 +718,7 @@ def render(d):
     <div class="meta">{cov['meta']}</div>
     <div class="deco">{cov['deco']}</div>
   </div>
-  <div class="cover-r"><div class="toc-t">Plan prezentacji</div><div class="toc">{toc}</div></div>
+  <div class="cover-r"><div class="toc-t">Plan prezentacji</div><div class="toc{' long' if len(secs) > 15 else ''}">{toc}</div></div>
   <div class="cover-foot"><b>T-Olimpians</b> Team Poland · t-olimpians.com</div>
 </section>''')
     for k, (s, title, body) in enumerate(SLIDES, 2):

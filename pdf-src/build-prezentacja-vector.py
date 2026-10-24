@@ -23,14 +23,15 @@ SECS = [
     ('05', 'Więcej metod'),
     ('06', 'Wypisywanie vectora'),
     ('07', 'Pętla for-each i &'),
-    ('08', 'Wczytywanie vectora'),
-    ('09', 'Vector 2D'),
-    ('10', 'Podtablica'),
-    ('11', 'Podzbiór'),
-    ('12', 'Prefiks i sufiks'),
-    ('13', 'Zadania'),
-    ('14', 'Najczęstsze błędy'),
-    ('15', 'Podsumowanie'),
+    ('08', 'Iteratory: begin i end'),
+    ('09', 'Wczytywanie vectora'),
+    ('10', 'Vector 2D'),
+    ('11', 'Podtablica'),
+    ('12', 'Podzbiór'),
+    ('13', 'Prefiks i sufiks'),
+    ('14', 'Zadania'),
+    ('15', 'Najczęstsze błędy'),
+    ('16', 'Podsumowanie'),
 ]
 
 LAWKI = ['C', '.', 'L', '.', '.', '.', 'B', '.', '.', 'K', '.', '.']
@@ -407,59 +408,6 @@ slide('`resize` — skracanie', stack(
     note('Gdy nowy rozmiar jest <b>mniejszy</b>, vector <b>obcina</b> elementy z końca. Zostają tylko pierwsze dwa.'),
     gap=20))
 
-slide('Pozycja w vectorze: `lista.begin() + k`', stack(
-    P('Metody erase i insert nie przyjmują zwykłego indeksu, tylko <b>pozycję</b>. Pozycję elementu o indeksie k '
-      'zapisujemy jako <b>lista.begin() + k</b>.'),
-    center(arr([1, 2, 3, 4, 5, 6], name='lista', ptr={0: 'begin()', 1: '+ 1', 2: '+ 2', 3: '+ 3'})),
-    table(['Zapis', 'Pozycja elementu o indeksie'], [
-        [c('lista.begin()'), '0 — pierwszy element'], [c('lista.begin() + 1'), '1'],
-        [c('lista.begin() + 2'), '2'], [c('lista.begin() + k'), 'k']], widths=['45%', '55%'], cls='mid'),
-    note('Dokładnie begin() i end() poznasz na kolejnej lekcji (sortowanie). Na razie wystarczy: '
-         '<b>begin() + k</b> = „miejsce, w którym stoi element o indeksie k”.')))
-
-slide('`erase` — usuwa jeden element', stack(
-    P('Trzy <b>osobne</b> przykłady z notatek — za każdym razem startujemy od tej samej listy {1, 2, 3, 4, 5, 6}:'),
-    rows(*[f'<div class="rw" style="grid-template-columns:470px 1fr"><div>{c(src)}'
-           f'<span class="rwn">usunie {u}</span></div><div>{arr(res, size="sm", idx=False)}</div></div>'
-           for src, u, res in [('lista.erase(lista.begin());', 1, [2, 3, 4, 5, 6]),
-                               ('lista.erase(lista.begin() + 1);', 2, [1, 3, 4, 5, 6]),
-                               ('lista.erase(lista.begin() + 2);', 3, [1, 2, 4, 5, 6])]]),
-    note('erase usuwa element z podanej pozycji, a wszystkie elementy za nim <b>przesuwają się w lewo</b>. '
-         'size() maleje o 1.')))
-
-slide('Uwaga: erase po kolei przesuwa indeksy', cols(
-    code('''
-        vector<int> lista = {1, 2, 3, 4, 5, 6};
-        lista.erase(lista.begin());       // usuwa 1
-        lista.erase(lista.begin() + 1);   // usuwa 3!
-        lista.erase(lista.begin() + 2);   // usuwa 5!''', size='sm'),
-    chain(('start', [1, 2, 3, 4, 5, 6], ()), ('krok 1', [2, 3, 4, 5, 6], ()), ('krok 2', [2, 4, 5, 6], ()),
-          ('krok 3', [2, 4, 6], ())),
-    t='1.3fr 1fr'),
-    warn('gdy wykonamy te trzy linijki <b>jedna po drugiej</b>, wynik jest inny niż w trzech osobnych przykładach. '
-         'Po usunięciu 1 na indeksie 1 stoi już <b>3</b>, a nie 2. Wynik: <b>{2, 4, 6}</b>.'))
-
-slide('`insert` — wstawia element w środek', stack(
-    code('''
-        vector<int> lista = {1, 2, 3};
-        lista.insert(lista.begin() + 1, 9);   // {1, 9, 2, 3}
-        lista.insert(lista.begin(), 7);       // {7, 1, 9, 2, 3}''', size='lg'),
-    center(chain(('start', [1, 2, 3], ()), ('krok 1', [1, 9, 2, 3], (1,)), ('krok 2', [7, 1, 9, 2, 3], (0,)), size='')),
-    note('insert(pozycja, wartość) wstawia element <b>przed</b> podaną pozycję. Elementy za nim przesuwają się '
-         'w prawo, a size() rośnie o 1.')))
-
-slide('Metody vectora — ściąga', table(['Metoda', 'Co robi', 'Przykład'], [
-    [c('push_back(x)'), 'dodaje x na koniec', c('{5} → {5, 7}')],
-    [c('pop_back()'), 'usuwa ostatni element', c('{4, 8, 15} → {4, 8}')],
-    [c('size()'), 'zwraca liczbę elementów', c('{1, 2, 5} → 3')],
-    [c('clear()'), 'usuwa wszystkie elementy', c('{1, 2} → {}')],
-    [c('front() / back()'), 'pierwszy / ostatni element', c('{4, 8, 15} → 4 / 15')],
-    [c('assign(ile, co)'), 'wypełnia od nowa', c('assign(3, 1) → {1, 1, 1}')],
-    [c('resize(n)'), 'zmienia rozmiar (dokłada zera)', c('{1} → resize(3) → {1, 0, 0}')],
-    [c('erase(begin() + k)'), 'usuwa element o indeksie k', c('{1, 2, 3}, k = 1 → {1, 3}')],
-    [c('insert(begin() + k, x)'), 'wstawia x przed indeks k', c('{1, 3}, k = 1, x = 2 → {1, 2, 3}')],
-], widths=['27%', '35%', '38%'], cls='mid'))
-
 # ================================================================ 06
 sec('06')
 slide('Nie da się wypisać vectora jednym `cout`', cols(
@@ -616,6 +564,282 @@ slide('Bez `&` czy z `&`?', stack(
 
 # ================================================================ 08
 sec('08')
+V = [4, 8, 15, 16, 23]
+VE = V + [('', 'ghost')]
+VE_I = ['0', '1', '2', '3', '4', '']
+
+slide('Po co nowe pojęcie?', stack(
+    P('Do tej pory miejsce w vectorze wskazywaliśmy <b>indeksem</b>: ' + c('lista[2]') + '. Ale niektóre polecenia '
+      '<b>nie przyjmują indeksu</b>. Zamiast numeru chcą dostać coś innego:'),
+    code('''
+        lista.erase(⟦lista.begin()⟧ + 1);          // usuń element — za chwilę
+        lista.insert(⟦lista.begin()⟧, 7);          // wstaw element — za chwilę
+        sort(⟦lista.begin()⟧, ⟦lista.end()⟧);       // posortuj — następna lekcja''', size='lg'),
+    P('Te zaznaczone kawałki to <b>iteratory</b>. Zanim użyjemy erase i insert, musimy dokładnie zrozumieć trzy rzeczy:'),
+    steps(['<b>Co to jest</b> iterator?',
+           f'Na co wskazuje {c("lista.begin()")}, a na co {c("lista.end()")}?',
+           '<b>Dlaczego</b> w ogóle używamy iteratorów, skoro mamy indeksy?'], cls='tight')))
+
+slide('Co to jest iterator?', stack(
+    big('Iterator to <em>strzałka</em>, która <strong>pokazuje jeden element</strong> vectora.'),
+    center(arr(V, name='lista', size='lg', hi=(2,), ptr={2: 'iterator'})),
+    steps(['Pomyśl o ławkach z parku: iterator to <b>palec</b>, którym pokazujesz jedną ławkę. Palec to nie osoba na ławce '
+           '— on tylko mówi, <b>gdzie</b> patrzymy.',
+           'Iterator to <b>nie wartość</b> (15) i <b>nie numer</b> (2). To wskazanie miejsca w vectorze.',
+           'Strzałkę można <b>przesuwać</b> — o jeden element albo o kilka, w prawo albo w lewo.'], cls='tight'),
+    gap=18))
+
+slide('Indeks, iterator, wartość — trzy różne rzeczy', stack(
+    center(arr(V, name='lista', size='lg', hi=(2,), ptr={2: 'iterator'})),
+    table(['Pojęcie', 'Przykład', 'Co to jest'], [
+        ['<b>indeks</b>', c('2'), 'numer szufladki — zwykła liczba int'],
+        ['<b>iterator</b>', c('lista.begin() + 2'), 'strzałka pokazująca szufladkę'],
+        ['<b>wartość</b>', c('15'), 'to, co leży w szufladce'],
+    ], widths=['18%', '34%', '48%'], cls='big'),
+    note('Skojarzenie z książką: <b>indeks</b> to numer strony, <b>iterator</b> to zakładka włożona między kartki, '
+         'a <b>wartość</b> to tekst wydrukowany na tej stronie.'), gap=18))
+
+slide('`begin()` — strzałka na pierwszy element', stack(
+    code('''
+        vector<int> lista = {4, 8, 15, 16, 23};
+        auto it = lista.begin();   // it pokazuje na 4''', size='lg', hl=(2,)),
+    center(arr(V, name='lista', size='lg', hi=(0,), ptr={0: 'begin()'})),
+    steps([f'{c("begin()")} to metoda vectora — tak jak {c("size()")} — więc piszemy ją po kropce, z nawiasami.',
+           'Zwraca iterator, który pokazuje na <b>pierwszy</b> element — ten o indeksie 0.',
+           f'Zapisujemy go do zmiennej {c("it")}. Typ iteratora ma długą nazwę ({c("vector<int>::iterator")}), '
+           f'dlatego piszemy {c("auto")} — znamy je z pętli for-each.'], cls='tight'), gap=16))
+
+slide('Gwiazdka `*` — co leży pod strzałką?', cols(
+    stack(code('''
+            vector<int> lista = {4, 8, 15, 16, 23};
+            auto it = lista.begin();
+            cout << *it << endl;   // 4'''),
+          term('4'),
+          code('''
+            cout << it << endl;    // BŁĄD''', size='sm', bad=True, cap='bez gwiazdki — błąd kompilacji')),
+    stack(center(arr(V, name='lista', hi=(0,), ptr={0: 'it'})),
+          table(['Zapis', 'Co to jest'], [[c('it'), 'strzałka (iterator)'],
+                                          [c('*it'), 'to, na co strzałka pokazuje — <b>4</b>']], cls='mid'),
+          note('Gwiazdkę czytamy: „to, co jest pod strzałką”. Sam iterator to nie liczba — dlatego cout bez '
+               'gwiazdki się nie skompiluje.')),
+    t='1.05fr 1fr'))
+
+slide('Przez `*it` można też zmienić element', stack(
+    code('''
+        vector<int> lista = {4, 8, 15, 16, 23};
+        auto it = lista.begin();
+        *it = 100;             // zmieniamy to, co jest pod strzałką''', size='lg', hl=(3,)),
+    center(before_after(arr(V, name='lista', size='sm', sel=(0,), ptr={0: 'it'}),
+                        arr([100] + V[1:], name='lista', size='sm', hi=(0,), ptr={0: 'it'}))),
+    note('*it to <b>ta sama szufladka</b>, na którą pokazuje strzałka — tak jak referencja <b>&</b> z pętli for-each. '
+         'Zmiana *it zmienia vector.'), gap=18))
+
+slide('Przesuwanie strzałki: `it++` i `it + k`', cols(
+    code('''
+        vector<int> lista = {4, 8, 15, 16, 23};
+        auto it = lista.begin();   // pokazuje na 4
+        it++;                      // pokazuje na 8
+        it = it + 2;               // pokazuje na 16
+        cout << *it << endl;       // 16''', size='sm'),
+    stack(*[f'<div>{arr(V, name=lab, size="sm", idx=False, hi=(k,), ptr={k: "it"})}</div>'
+            for lab, k in [('start', 0), ('it++', 1), ('it + 2', 3)]], gap=6),
+    t='1.25fr 1fr'),
+    note(f'{c("it++")} przesuwa strzałkę o <b>jeden</b> element w prawo, a {c("it + k")} — o <b>k</b> elementów. '
+         f'W lewo tak samo: {c("it--")} i {c("it - k")}.'))
+
+slide('`lista.begin() + k` — strzałka na indeks k', stack(
+    center(arr(V, name='lista', ptr={0: 'begin()', 1: '+ 1', 2: '+ 2', 3: '+ 3', 4: '+ 4'})),
+    table(['Iterator', 'pokazuje na indeks', '* daje wartość'], [
+        [c('lista.begin()'), '0', '4'], [c('lista.begin() + 1'), '1', '8'], [c('lista.begin() + 2'), '2', '15'],
+        [c('lista.begin() + 3'), '3', '16'], [c('lista.begin() + 4'), '4', '23']], widths=['40%', '30%', '30%'], cls='mid'),
+    good(f'{c("lista.begin() + k")} pokazuje na element o indeksie k. Czyli {c("*(lista.begin() + k)")} to to samo co '
+         f'{c("lista[k]")}.', label='Zapamiętaj:')))
+
+slide('`end()` — strzałka ZA ostatnim elementem', stack(
+    code('auto koniec = lista.end();   // pokazuje ZA 23', size='lg'),
+    center(arr(VE, name='lista', size='lg', idxs=VE_I, ptr={0: 'begin()', 5: 'end()'},
+               spans=[(0, 5, '5 elementów', 'tl'), (5, 1, 'pusto', 'or')])),
+    warn(f'{c("end()")} <b>nie</b> pokazuje na ostatni element (23)! Pokazuje na miejsce <b>tuż za nim</b>, w którym '
+         'nie ma już żadnego elementu — jak meta za ostatnim zawodnikiem albo puste miejsce za ostatnią osobą w kolejce.'),
+    gap=18))
+
+slide('Nie wolno zaglądać pod `end()`', cols(
+    stack(code('cout << *lista.end();         // BŁĄD', bad=True, cap='źle — pod end() nic nie ma', size='sm'),
+          code('cout << *(lista.end() - 1);   // 23', good=True, cap='dobrze — ostatni element', size='sm'),
+          table(['Iterator', 'pokazuje na'], [[c('lista.end()'), 'puste miejsce za vectorem'],
+                                              [c('lista.end() - 1'), 'ostatni element — <b>23</b>'],
+                                              [c('lista.end() - 2'), 'przedostatni — <b>16</b>']], cls='mid')),
+    stack(center(arr(VE, name='lista', size='sm', idxs=VE_I, hi=(4,), ptr={3: '- 2', 4: '- 1', 5: 'end()'})),
+          note(f'{c("*lista.end()")} to tak jak {c("lista[lista.size()]")} — czytanie spoza vectora. Program wypisze '
+               'śmieci albo się wysypie.')),
+    t='1.1fr 1fr'))
+
+slide('Dlaczego `end()` jest ZA ostatnim? Powód 1', stack(
+    P('Bo tak samo działa <b>n</b> w zwykłej pętli po indeksach. Porównaj dwie pętle, które wypisują ten sam vector:'),
+    cols(stack(code('''
+                for(int i = 0; i < 5; i++){
+                    cout << lista[i] << ' ';
+                }''', cap='pętla po indeksach', size='sm'),
+               center(arr(VE, size='sm', idxs=['0', '1', '2', '3', '4', '5'], ptr={0: 'i = 0', 5: 'i = 5'}))),
+         stack(code('''
+                for(auto it = lista.begin(); it != lista.end(); it++){
+                    cout << *it << ' ';
+                }''', cap='pętla z iteratorem', size='xs'),
+               center(arr(VE, size='sm', idxs=VE_I, ptr={0: 'begin()', 5: 'end()'}))), gap=24),
+    note('Indeksu <b>5</b> też nie ma — to „pierwszy numer za vectorem”. Pętla kończy się, gdy i dojdzie do 5. Tak samo '
+         'pętla z iteratorem kończy się, gdy strzałka dojdzie do <b>end()</b>. end() to dla iteratorów to, czym n jest dla '
+         'indeksów.')))
+
+slide('Dlaczego `end()` jest ZA ostatnim? Powody 2 i 3', cols(
+    stack(card('Powód 2: łatwo policzyć elementy',
+               f'Od begin() do end() jest dokładnie tyle kroków, ile elementów: {c("lista.end() - lista.begin()")} = <b>5</b> '
+               f'= {c("lista.size()")}.', 'tlc'),
+          center(arr(VE, size='sm', idxs=VE_I, ptr={0: 'begin()', 5: 'end()'}, spans=[(0, 5, '5 kroków', 'tl')]))),
+    stack(card('Powód 3: pusty vector',
+               f'W pustym vectorze {c("begin() == end()")} — obie strzałki stoją w tym samym miejscu, więc od razu widać, '
+               'że nie ma elementów. Gdyby end() pokazywał ostatni element, w pustym vectorze nie miałby na co pokazywać!',
+               'orc'),
+          center(arr([('', 'ghost')], name='pusty', size='sm', idxs=[''], ptr={0: 'begin() = end()'}))),
+    t='1fr 1fr'))
+
+slide('Zakres `[begin, end)`', stack(
+    big('Od <em>begin()</em> — <em>wliczamy</em> &nbsp;·&nbsp; do <strong>end()</strong> — <strong>nie wliczamy</strong>'),
+    center(arr(VE, name='lista', size='lg', idxs=VE_I, hi=(0, 1, 2, 3, 4), ptr={0: 'begin()', 5: 'end()'},
+               spans=[(0, 5, '[begin, end) — wszystkie elementy', 'tl')])),
+    note('Taki zapis — nawias kwadratowy z lewej, okrągły z prawej — oznacza: „lewy koniec należy, prawy nie należy”. '
+         'Zakres [begin, end) to dokładnie <b>wszystkie</b> elementy vectora. Ten sam pomysł co w pętli i &lt; n: '
+         'od 0 włącznie do n wyłącznie.'), gap=18))
+
+LOOP = '''
+    vector<int> lista = {4, 8, 15, 16, 23};
+    for(auto it = lista.begin(); it != lista.end(); it++){
+        cout << *it << ' ';
+    }'''
+slide('Pętla z iteratorem — krok po kroku', stack(
+    code(LOOP, size='sm'),
+    table(['Obrót', 'it pokazuje na', 'it != end() ?', 'wypisujemy *it', 'na ekranie'],
+          [[str(k + 1), f'indeks {k}', 'tak', f'<b>{v}</b>', c(' '.join(map(str, V[:k + 1])))] for k, v in enumerate(V)]
+          + [['—', 'end()', '<b class="no">nie</b>', 'koniec pętli', c('4 8 15 16 23')]],
+          widths=['10%', '22%', '18%', '20%', '30%'], cls='mid')))
+
+slide('for-each to iteratory w przebraniu', cols(
+    stack(code('''
+            for(auto el : lista){
+                cout << el << ' ';
+            }''', cap='to, co piszemy', size='lg'),
+          code('''
+            for(auto it = lista.begin(); it != lista.end(); it++){
+                auto el = *it;
+                cout << el << ' ';
+            }''', cap='to, co C++ robi „pod spodem”', size='xs')),
+    stack(P('Pętla for-each z rozdziału 06 sama w środku używa <b>begin()</b> i <b>end()</b>.'),
+          steps(['Startuje od strzałki <b>begin()</b>.',
+                 'W każdym obrocie bierze do el to, co jest pod strzałką.',
+                 'Przesuwa strzałkę o jeden i kończy, gdy dojdzie do <b>end()</b>.'], cls='tight'),
+          note('Dlatego for-each sam wie, gdzie zacząć i gdzie skończyć — a my nie piszemy żadnego i.')),
+    t='1.1fr 1fr'))
+
+slide('Dlaczego używamy iteratorów?', stack(
+    P('Skoro mamy indeksy, po co nam strzałki? Oto <b>cztery</b> powody:'),
+    cards(card('1. Metody vectora', f'{c("erase")} i {c("insert")} dostają <b>iterator</b>, a nie indeks — zobaczysz je '
+                                    'za chwilę.', 'tlc'),
+          card('2. Algorytmy', f'Gotowe funkcje, np. {c("sort")} czy {c("reverse")}, dostają <b>dwie strzałki</b>: '
+                               'od którego elementu zacząć i przed którym skończyć.', 'puc'),
+          card('3. Struktury bez indeksów', 'Zbiór (set) i mapa (map), które poznasz później, <b>nie mają</b> [ ]. '
+                                            'Ale mają begin() i end() — iteratory działają wszędzie tak samo.', 'orc'),
+          card('4. Pętla for-each', 'Działa tylko dlatego, że struktura ma begin() i end().', 'tlc'), n=2)))
+
+slide('Podgląd: iteratory w algorytmach', stack(
+    code('''
+        #include <algorithm>   // tu mieszkają sort i reverse
+
+        vector<int> a = {5, 2, 9, 1, 7};
+        sort(a.begin(), a.end());          // {1, 2, 5, 7, 9}   — cały vector
+        vector<int> b = {5, 2, 9, 1, 7};
+        sort(b.begin(), b.begin() + 3);    // {2, 5, 9, 1, 7}   — tylko pierwsze 3
+        vector<int> r = {1, 2, 3, 4};
+        reverse(r.begin(), r.end());       // {4, 3, 2, 1}      — odwróć''', size='sm'),
+    center(arr([5, 2, 9, 1, 7], name='b', size='lg', ptr={0: 'begin()', 3: 'begin() + 3'},
+               spans=[(0, 3, 'sortujemy', 'tl'), (3, 2, 'bez zmian', 'gr')])),
+    note('Sortowanie poznasz dokładnie na następnej lekcji. Tu ważne jest tylko to, że funkcja dostaje <b>dwie strzałki</b> '
+         'i działa na zakresie od pierwszej (wliczamy) do drugiej (nie wliczamy).')))
+
+QV = '<div class="center">' + arr(VE, name='lista', idxs=VE_I) + '</div>'
+QS = [('lista.begin() + 2', '15', 'indeks 2'), ('lista.end() - 1', '23', 'ostatni'),
+      ('lista.begin() + 5', 'nic', 'to samo miejsce co end()'), ('lista.end() - 5', '4', 'to samo co begin()'),
+      ('*(lista.begin() + 1)', '8', 'gwiazdka: wartość'), ('lista.end() - lista.begin()', '5', 'liczba elementów')]
+slide('Sprawdź się: na co pokazuje strzałka?', stack(
+    QV, P('Dla każdego zapisu powiedz, na który element pokazuje strzałka (albo ile wynosi wynik):'),
+    cards(*[card(c(q), '?') for q, _, _ in QS], n=3),
+    P('Zastanów się, <b>zanim</b> przejdziesz dalej.', 'muted cen')))
+
+slide('Odpowiedzi', stack(
+    center(arr(VE, name='lista', size='lg', idxs=VE_I, hi=(0, 1, 2, 4),
+               ptr={0: 'begin()', 1: '+1', 2: '+2', 4: 'end()-1', 5: 'end()'})),
+    cards(*[card(c(q), f'<b>{a}</b> — {d}') for q, a, d in QS], n=3)))
+
+slide('`erase` — usuwa jeden element', stack(
+    P('erase dostaje <b>iterator</b> — strzałkę na element, który ma zniknąć. Cztery <b>osobne</b> przykłady — za każdym '
+      'razem startujemy od tej samej listy {1, 2, 3, 4, 5, 6}:'),
+    rows(*[f'<div class="rw" style="grid-template-columns:470px 1fr"><div>{c(src)}'
+           f'<span class="rwn">usunie {u}</span></div><div>{arr(res, size="sm", idx=False)}</div></div>'
+           for src, u, res in [('lista.erase(lista.begin());', 1, [2, 3, 4, 5, 6]),
+                               ('lista.erase(lista.begin() + 1);', 2, [1, 3, 4, 5, 6]),
+                               ('lista.erase(lista.begin() + 2);', 3, [1, 2, 4, 5, 6]),
+                               ('lista.erase(lista.end() - 1);', '6 (ostatni)', [1, 2, 3, 4, 5])]]),
+    note('erase usuwa element z podanej pozycji, a wszystkie elementy za nim <b>przesuwają się w lewo</b>. '
+         'size() maleje o 1.')))
+
+slide('Uwaga: erase po kolei przesuwa indeksy', cols(
+    code('''
+        vector<int> lista = {1, 2, 3, 4, 5, 6};
+        lista.erase(lista.begin());       // usuwa 1
+        lista.erase(lista.begin() + 1);   // usuwa 3!
+        lista.erase(lista.begin() + 2);   // usuwa 5!''', size='sm'),
+    chain(('start', [1, 2, 3, 4, 5, 6], ()), ('krok 1', [2, 3, 4, 5, 6], ()), ('krok 2', [2, 4, 5, 6], ()),
+          ('krok 3', [2, 4, 6], ())),
+    t='1.3fr 1fr'),
+    warn('gdy wykonamy te trzy linijki <b>jedna po drugiej</b>, wynik jest inny niż w trzech osobnych przykładach. '
+         'Po usunięciu 1 na indeksie 1 stoi już <b>3</b>, a nie 2. Wynik: <b>{2, 4, 6}</b>.'))
+
+slide('`erase` z dwiema strzałkami — zakres [od, do)', stack(
+    code('''
+        vector<int> lista = {1, 2, 3, 4, 5, 6};
+        lista.erase(lista.begin() + 1, lista.begin() + 3);   // {1, 4, 5, 6}''', size='sm', hl=(2,)),
+    center(arr([1, 2, 3, 4, 5, 6], name='lista', sel=(1, 2), ptr={1: 'begin() + 1', 3: 'begin() + 3'},
+               spans=[(1, 2, 'usuwamy', 'or'), (3, 3, 'zostaje', 'tl')])),
+    center(before_after(arr([1, 2, 3, 4, 5, 6], name='lista', size='sm', idx=False, sel=(1, 2)),
+                        arr([1, 4, 5, 6], name='lista', size='sm', idx=False))),
+    note('Gdy podamy <b>dwie</b> strzałki, erase usuwa cały kawałek: od pierwszej strzałki (<b>wliczamy</b>) do drugiej '
+         '(<b>nie wliczamy</b>). Dokładnie tak jak begin() i end(): usuwamy indeksy 1 i 2, a 3 zostaje.'), gap=14))
+
+slide('`insert` — wstawia element w środek', stack(
+    code('''
+        vector<int> lista = {1, 2, 3};
+        lista.insert(lista.begin() + 1, 9);   // {1, 9, 2, 3}
+        lista.insert(lista.begin(), 7);       // {7, 1, 9, 2, 3}
+        lista.insert(lista.end(), 5);         // {7, 1, 9, 2, 3, 5}''', size='sm'),
+    center(chain(('start', [1, 2, 3], ()), ('krok 1', [1, 9, 2, 3], (1,)), ('krok 2', [7, 1, 9, 2, 3], (0,)),
+                 ('krok 3', [7, 1, 9, 2, 3, 5], (5,)))),
+    note('insert(iterator, wartość) wstawia element <b>przed</b> miejscem, na które wskazuje strzałka. Elementy za nim '
+         'przesuwają się w prawo, a size() rośnie o 1. Wstawienie przed <b>end()</b> to wstawienie na sam koniec — '
+         'tak jak push_back.')))
+
+slide('Metody vectora — ściąga', table(['Metoda', 'Co robi', 'Przykład'], [
+    [c('push_back(x)'), 'dodaje x na koniec', c('{5} → {5, 7}')],
+    [c('pop_back()'), 'usuwa ostatni element', c('{4, 8, 15} → {4, 8}')],
+    [c('size()'), 'zwraca liczbę elementów', c('{1, 2, 5} → 3')],
+    [c('clear()'), 'usuwa wszystkie elementy', c('{1, 2} → {}')],
+    [c('front() / back()'), 'pierwszy / ostatni element', c('{4, 8, 15} → 4 / 15')],
+    [c('assign(ile, co)'), 'wypełnia od nowa', c('assign(3, 1) → {1, 1, 1}')],
+    [c('resize(n)'), 'zmienia rozmiar (dokłada zera)', c('{1} → resize(3) → {1, 0, 0}')],
+    [c('begin() / end()'), 'strzałka na pierwszy / za ostatni', c('*begin() → 1, *(end() - 1) → 3')],
+    [c('erase(begin() + k)'), 'usuwa element o indeksie k', c('{1, 2, 3}, k = 1 → {1, 3}')],
+    [c('insert(begin() + k, x)'), 'wstawia x przed indeks k', c('{1, 3}, k = 1, x = 2 → {1, 2, 3}')],
+], widths=['27%', '35%', '38%'], cls='mid'))
+
+# ================================================================ 09
+sec('09')
 slide('Klasyczne wejście', cols(
     stack(term('n\na<sub>0</sub> a<sub>1</sub> a<sub>2</sub> a<sub>3</sub> … a<sub>n-1</sub>', 'in',
                cap='format (z notatek)', raw=True),
@@ -745,8 +969,8 @@ slide('Wczytywanie innych typów', stack(
     note(f'Przy napisach dopisz na górze {c("#include <string>")}. cin czyta napis do najbliższej spacji — '
          'jedno słowo trafia do jednej szufladki.')))
 
-# ================================================================ 09
-sec('09')
+# ================================================================ 10
+sec('10')
 slide('Vector 1D i vector 2D', cols(
     stack(P('<b>vector 1D</b> — jeden rząd szufladek:'),
           arr([3, 1, 4, 1, 5], name='1D', size='sm', idx=False),
@@ -863,8 +1087,8 @@ slide('Dla ciekawych: vector 3D', stack(
     note(f'To vector, którego elementami są vectory 2D. Tutaj: 2 „warstwy”, w każdej 2 wiersze po 2 kolumny. '
          f'Dostęp: {c("lista2[i][j][k]")} — warstwa, wiersz, kolumna.')))
 
-# ================================================================ 10
-sec('10')
+# ================================================================ 11
+sec('11')
 slide('Podtablica (subarray) — definicja', stack(
     big('Podtablica to <em>kawałek tablicy</em> z elementów<br><strong>stojących obok siebie, bez przerw</strong>.'),
     center(span(A9, 1, 3, name='tablica', size='', label='podtablica {5, 4, -6}')),
@@ -920,8 +1144,8 @@ slide('Ile jest podtablic?', stack(
     table(['N', '1', '2', '3', '4', '5', '10', '100'], [['podtablic', '1', '3', '6', '10', '15', '55', '5050']],
           cls='ctr')))
 
-# ================================================================ 11
-sec('11')
+# ================================================================ 12
+sec('12')
 slide('Podzbiór (subset) — definicja', stack(
     big('Podzbiór to <em>dowolne elementy</em> tablicy —<br><strong>nie muszą stać obok siebie</strong>.'),
     center(arr(pick(A9, {1, 3, 5, 6, 7}), name='tablica', hi=(1, 3, 5, 6, 7))),
@@ -978,8 +1202,8 @@ slide('Podtablic jest mało, podzbiorów — bardzo dużo', stack(
     note('Podzbiorów szybko robi się bardzo dużo — dla N = 30 nie da się ich wszystkich wypisać. Podtablic jest „tylko” '
          'około N² / 2.')))
 
-# ================================================================ 12
-sec('12')
+# ================================================================ 13
+sec('13')
 slide('Prefiks — początek tablicy', stack(
     P('<b>Prefiks</b> to podtablica, która <b>zaczyna się na samym początku</b> — na indeksie 0. '
       'Przykłady z notatek dla ' + c('vector<int>') + ' {5, 4, 9, 1, 3, -5, 2, 1, 1, 7}:'),
@@ -1025,8 +1249,8 @@ slide('Prefiks czy sufiks?', stack(
           card('{5}', '<b>prefiks</b> — (0, 0)'),
           card('{7}', '<b>sufiks</b> — (9, 9)'), n=3), gap=20))
 
-# ================================================================ 13
-sec('13')
+# ================================================================ 14
+sec('14')
 slide('Zadania — od najłatwiejszych', stack(
     P('Wszystkie zadania z notatek, po kolei. Najpierw tworzenie i wczytywanie, potem logika, a na końcu zadania, '
       'w których przydadzą się podtablice i prefiksy.'),
@@ -1055,7 +1279,7 @@ slide('Zadania 8–11: wczytaj input i zapisz listę do wektora', stack(
         ['10', 'n, potem c<sub>0</sub> … c<sub>n-1</sub>', c('4') + '<br>' + c('a c b d'), 'znaki'],
         ['11', 'n, potem s<sub>0</sub> … s<sub>n-1</sub>', c('5') + '<br>' + c('c++ programowanie kod oi oij'), 'napisy'],
     ], widths=['7%', '33%', '38%', '22%'], cls='mid'),
-    note('Wybierz typ vectora i jeden ze sposobów wczytywania z rozdziału 08. Na koniec wypisz vector, '
+    note('Wybierz typ vectora i jeden ze sposobów wczytywania z rozdziału 09. Na koniec wypisz vector, '
          'żeby sprawdzić, czy wszystko się wczytało.')))
 
 slide('Zadania z logiką 1–4', cols(
@@ -1113,7 +1337,7 @@ slide('Zadanie 1 — rozwiązanie (zajrzyj po swojej próbie)', cols(
 slide('Zadanie 2 (Codeforces)', stack(
     P('Treść zadania znajdziesz pod linkiem z notatek (zadanie w grupie na Codeforces — może być potrzebne logowanie):'),
     note('<b>codeforces.com/group/MWSDmqGsZm/contest/219774/problem/L</b>'),
-    good('upewnij się, że rozumiesz <b>podtablice</b> i <b>podzbiory</b> (rozdziały 10 i 11) — w notatkach '
+    good('upewnij się, że rozumiesz <b>podtablice</b> i <b>podzbiory</b> (rozdziały 11 i 12) — w notatkach '
          'definicje stoją zaraz przy tym zadaniu.', label='Zanim zaczniesz:')))
 
 slide('Zadanie: wypisz wszystkie podtablice', cols(
@@ -1231,8 +1455,8 @@ slide('Suma prefiksów — rozwiązanie', cols(
     stack(term('5\n1 3 0 -1 2', 'in'), term('1\n4\n4\n3\n5')),
     t='1.35fr 1fr'))
 
-# ================================================================ 14
-sec('14')
+# ================================================================ 15
+sec('15')
 slide('Najczęstsze błędy (1/2)', traps([
     f'<b>Indeks w pustym vectorze.</b> {c("vector<int> lista; lista[0] = 5;")} — szufladki 0 nie ma. '
     f'Użyj {c("push_back")} albo {c("vector<int> lista(n);")}.',
@@ -1246,23 +1470,25 @@ slide('Najczęstsze błędy (2/2)', traps([
     f'<b>Indeks poza zakresem.</b> {c("lista[lista.size()]")} nie istnieje — ostatni element to '
     f'{c("lista[lista.size() - 1]")} albo {c("lista.back()")}.',
     '<b>erase po kolei.</b> Po usunięciu elementy przesuwają się w lewo — indeksy pozostałych elementów się zmieniają.',
+    f'<b>end() to nie ostatni element.</b> {c("*lista.end()")} czyta spoza vectora. Ostatni element to '
+    f'{c("*(lista.end() - 1)")}. Iteratora nie wypisujemy bez gwiazdki: {c("cout << it;")} — błąd.',
     f'<b>Brak {c("#include <vector>")}.</b> Kompilator nie wie, co to vector.',
     f'<b>Kolejność w 2D.</b> {c("m[wiersz][kolumna]")}. {c("vector<vector<int>> m(3, vector<int>(2));")} '
     'to 3 wiersze po 2 kolumny — nie odwrotnie.',
 ]))
 
-# ================================================================ 15
-sec('15')
+# ================================================================ 16
+sec('16')
 slide('Ściąga: tworzenie i metody', cards(
     card('Pusty', c('vector<int> lista;') + ' → { }'),
     card('Z wartościami', c('vector<int> lista = {1, 2, 3};')),
-    card('n razy x', c('vector<int> lista(5, 0);')),
-    card('n zer', c('vector<int> lista(5);')),
+    card('n razy x / n zer', c('vector<int> lista(5, 0);') + ' · ' + c('lista(5)')),
     card('Odczyt / zmiana', c('lista[2]') + ' · ' + c('lista[2] = 7;')),
     card('Rozmiar', c('lista.size()')),
     card('Dodaj / usuń z końca', c('push_back(x)') + ' · ' + c('pop_back()')),
     card('Pierwszy / ostatni', c('front()') + ' · ' + c('back()')),
     card('Wyczyść / wypełnij / zmień rozmiar', c('clear()') + ' · ' + c('assign(n, x)') + ' · ' + c('resize(n)')),
+    card('Iteratory', c('begin()') + ' → pierwszy · ' + c('end()') + ' → za ostatnim · ' + c('*it') + ' → wartość'),
     card('Usuń / wstaw', c('erase(begin() + k)') + ' · ' + c('insert(begin() + k, x)')), n=2))
 
 slide('Ściąga: wczytywanie, wypisywanie, 2D', cols(
@@ -1308,15 +1534,15 @@ build(
         kicker='// T-OLIMPIANS — PREZENTACJA DO LEKCJI',
         h1='Vector w C++<br>— krok po kroku',
         sub='''Wszystko o vectorze, powoli i po kolei: tworzenie, indeksowanie, metody, wypisywanie, pętla
-      for-each z referencją, wczytywanie i vector 2D. Potem podtablice, podzbiory, prefiksy i sufiksy —
+      for-each z referencją, iteratory begin() i end(), wczytywanie i vector 2D. Potem podtablice, podzbiory, prefiksy i sufiksy —
       a na końcu zadania z notatek, część z rozwiązaniem krok po kroku.''',
         meta='C++ · LEKCJA 10 · VECTOR · PO TABLICACH, STRINGACH I PARACH',
         deco=arr([5, 7, -1, 5], name='lista', size='sm')),
     end=dict(
         kicker='// KONIEC LEKCJI 10',
         h1='Umiesz już<br>korzystać z vectora!',
-        sub='''Tworzenie, indeksowanie, metody, wypisywanie, for-each z referencją, wczytywanie, vector 2D,
-      podtablice, podzbiory, prefiksy i sufiksy. Teraz zadania! Na następnej lekcji: <b>sortowanie</b> —
-      tam dokładnie poznasz begin() i end().''',
+        sub='''Tworzenie, indeksowanie, metody, wypisywanie, for-each z referencją, iteratory begin() i end(),
+      wczytywanie, vector 2D, podtablice, podzbiory, prefiksy i sufiksy. Teraz zadania! Na następnej lekcji:
+      <b>sortowanie</b> — iteratory przydadzą się od razu: sort(lista.begin(), lista.end()).''',
         deco=arr([1, 4, 9, 16, 25], name='kwadraty', size='sm', hi=tuple(range(5)))),
 )

@@ -390,7 +390,26 @@
             height: auto;
             border-radius: calc(var(--radius-lg) - var(--frame-pad) - 1.5px);
             display: block;
+            transition: opacity 0.8s ease;
         }
+        /* monitor 3D (js/hero-3d.js): płótno jest większe niż ramka, film służy za obraz ekranu */
+        .hero-3d-canvas {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+        .hero-media.is-3d {
+            background: none;
+            border-color: transparent;
+            box-shadow: none;
+            animation: fadeInRight 0.7s 0.2s ease both;
+        }
+        .hero-media.is-3d video { opacity: 0; }
+        .hero-media.is-3d .hero-3d-canvas { opacity: 1; }
 
         /* ─── PARTICLES ─── */
         #particles {
@@ -1351,6 +1370,7 @@
             .hero-stats { justify-content: center; margin-top: 36px; }
             .hero-actions { justify-content: center; }
             .hero-media { max-width: 100%; margin-top: 56px; }
+            .hero-media.is-3d { margin-top: 34vw; margin-bottom: 26vw; }
             main { padding: 0 24px; }
             .section-block { grid-template-columns: 1fr; gap: 32px; padding: 60px 0; }
             .section-block.reverse { direction: ltr; }
@@ -2066,6 +2086,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 <!-- licznik odwiedzin -> panel kacperos.html -->
+<script type="module" src="/js/hero-3d.js"></script>
 <script type="module" src="/track.js"></script>
 </body>
 </html>

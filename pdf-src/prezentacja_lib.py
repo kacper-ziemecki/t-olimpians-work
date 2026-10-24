@@ -4,6 +4,7 @@ Skrypt prezentacji importuje wszystko stąd, układa slajdy przez sec()/slide()
 i na końcu woła build(...). Z flagą --pdf powstaje też PDF (Playwright/Chromium).
 """
 import html
+import math
 import re
 import subprocess
 import sys
@@ -327,6 +328,95 @@ def mem(*items, cap='pamięć komputera'):
     return f'<div class="mem"><div class="mem-cap">{cap}</div>{"".join(items)}</div>'
 
 
+def _nice_step(span, target=5):
+    raw = span / target
+    mag = 10 ** math.floor(math.log10(raw)) if raw > 0 else 1
+    for m in (1, 2, 5, 10):
+        if raw <= m * mag:
+            return m * mag
+    return 10 * mag
+
+
+def _fmt_tick(v):
+    v = round(v, 6)
+    if v >= 1000 and v % 1000 == 0:
+        return f'{int(v // 1000)}K' if v < 10 ** 6 else f'{v / 10 ** 6:g}M'
+    return f'{v:g}'
+
+
+_CHART_ID = [0]
+
+
+def chart(series, xmax, ymax, xmin=0, w=620, h=300, xlabel='n', ylabel='liczba operacji', points=None):
+    """Wykres liniowy (SVG): series = [(etykieta, funkcja, kolor)]. Linie przycinane do obszaru wykresu,
+    etykieta przy końcu linii (albo tam, gdzie linia wychodzi górą), rozsunięte, żeby się nie nakładały."""
+    _CHART_ID[0] += 1
+    cid = f'cp{_CHART_ID[0]}'
+    ml, mr, mt, mb = 58, 128, 14, 44
+    pw_, ph = w - ml - mr, h - mt - mb
+    X = lambda x: ml + (x - xmin) / (xmax - xmin) * pw_
+    Y = lambda y: mt + ph - y / ymax * ph
+    out = [f'<svg class="chart" viewBox="0 0 {w} {h}" xmlns="http://www.w3.org/2000/svg">',
+           f'<defs><clipPath id="{cid}"><rect x="{ml}" y="{mt - 2}" width="{pw_ + 2}" height="{ph + 4}"/></clipPath></defs>']
+    xs, ys = _nice_step(xmax - xmin), _nice_step(ymax)
+    t = 0
+    while t <= ymax + 1e-9:
+        out.append(f'<line class="grid" x1="{ml}" x2="{ml + pw_}" y1="{Y(t):.1f}" y2="{Y(t):.1f}"/>'
+                   f'<text class="tick" x="{ml - 8}" y="{Y(t) + 4:.1f}" text-anchor="end">{_fmt_tick(t)}</text>')
+        t += ys
+    t = math.ceil(xmin / xs) * xs
+    while t <= xmax + 1e-9:
+        out.append(f'<text class="tick" x="{X(t):.1f}" y="{mt + ph + 18}" text-anchor="middle">{_fmt_tick(t)}</text>')
+        t += xs
+    out.append(f'<line class="axis" x1="{ml}" x2="{ml + pw_}" y1="{mt + ph}" y2="{mt + ph}"/>'
+               f'<line class="axis" x1="{ml}" x2="{ml}" y1="{mt}" y2="{mt + ph}"/>'
+               f'<text class="alab" x="{ml + pw_}" y="{h - 6}" text-anchor="end">{xlabel} →</text>'
+               f'<text class="alab" x="{ml - 50}" y="{mt + 8}" text-anchor="start" transform="rotate(-90 {ml - 44} {mt + 8})" '
+               f'dx="-{ph - 10}">{ylabel} →</text>')
+    labels = []
+    for name, f, col in series:
+        pts, last = [], None
+        n = 240
+        for k in range(n + 1):
+            x = xmin + (xmax - xmin) * k / n
+            y = f(x)
+            pts.append(f'{X(x):.1f},{Y(min(y, ymax * 1.05)):.1f}')
+            if y <= ymax:
+                last = (x, y)
+        out.append(f'<polyline clip-path="url(#{cid})" fill="none" stroke="{col}" stroke-width="2.5" '
+                   f'stroke-linejoin="round" stroke-linecap="round" points="{" ".join(pts)}"/>')
+        if last:
+            labels.append([Y(last[1]), X(last[0]), name, col])
+    labels.sort()
+    for _ in range(60):
+        for a, b in zip(labels, labels[1:]):
+            if b[0] - a[0] < 19:
+                d = (19 - (b[0] - a[0])) / 2
+                a[0] -= d
+                b[0] += d
+        for l in labels:
+            l[0] = min(max(l[0], mt + 6), mt + ph - 4)
+    for yy, xx, name, col in labels:
+        lx = min(xx, ml + pw_) + 8
+        out.append(f'<circle cx="{lx + 4}" cy="{yy - 4:.1f}" r="4.5" fill="{col}"/>'
+                   f'<text class="slab" x="{lx + 13}" y="{yy:.1f}">{name}</text>')
+    for x, y, txt in points or []:
+        out.append(f'<circle cx="{X(x):.1f}" cy="{Y(y):.1f}" r="4" class="pt"/>'
+                   f'<text class="ptl" x="{X(x) + 8:.1f}" y="{Y(y) - 8:.1f}">{txt}</text>')
+    out.append('</svg>')
+    return '<div class="chartbox">' + ''.join(out) + '</div>'
+
+
+def flow(*boxes):
+    """Schemat: pudełka połączone strzałkami → (wejście → program → wyjście)."""
+    items = []
+    for k, (title, body, cls) in enumerate(boxes):
+        if k:
+            items.append('<div class="farrow">→</div>')
+        items.append(f'<div class="fbox {cls}"><div class="ftitle">{title}</div><div class="fbody">{body}</div></div>')
+    return '<div class="flow">' + ''.join(items) + '</div>'
+
+
 def anat(parts, legend):
     """Linijka kodu rozłożona na kolorowe, ponumerowane części + legenda."""
     line = ''
@@ -569,6 +659,30 @@ pre.code.bare .ln { padding: 0 14px; }
 .venn { width: 100%; height: auto; display: block; }
 .venn text { font-family: 'JetBrains Mono', monospace; font-weight: 700; }
 
+/* ---------- wykresy i schematy ---------- */
+.chartbox { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 10px 8px 4px; }
+.chart { width: 100%; height: auto; display: block; }
+.chart .grid { stroke: #1d1d2a; stroke-width: 1; }
+.chart .axis { stroke: #3a3a4c; stroke-width: 1; }
+.chart text { font-family: 'JetBrains Mono', monospace; }
+.chart .tick { fill: var(--mu); font-size: 12px; }
+.chart .alab { fill: var(--mu); font-size: 12.5px; }
+.chart .slab { fill: var(--tx); font-size: 15px; font-weight: 700; }
+.chart .pt { fill: var(--tx); }
+.chart .ptl { fill: var(--tx); font-size: 13px; }
+.flow { display: flex; align-items: stretch; justify-content: center; gap: 14px; }
+.fbox { border: 2px solid var(--line); border-radius: 10px; background: var(--panel); padding: 12px 18px; min-width: 200px; }
+.fbox.in { border-color: rgba(255,180,84,.6); }
+.fbox.pr { border-color: rgba(124,92,255,.7); }
+.fbox.out { border-color: rgba(0,229,199,.6); }
+.ftitle { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase;
+          color: var(--mu); margin-bottom: 8px; }
+.fbody { font-family: 'JetBrains Mono', monospace; font-size: 19px; color: var(--tx); white-space: pre; line-height: 1.5; }
+.farrow { align-self: center; font-size: 34px; color: var(--mu); }
+.st-ok { color: var(--tl) !important; font-weight: 700; }
+.st-bad { color: var(--or) !important; font-weight: 700; }
+.toc.xlong span { font-size: 15.5px; padding: 2.5px 0; }
+
 /* ---------- budowa linijki ---------- */
 .anat { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 26px 30px 22px; }
 .aline { font-family: 'JetBrains Mono', monospace; font-size: 31px; white-space: pre; text-align: center; padding-bottom: 30px; }
@@ -718,7 +832,7 @@ def render(d):
     <div class="meta">{cov['meta']}</div>
     <div class="deco">{cov['deco']}</div>
   </div>
-  <div class="cover-r"><div class="toc-t">Plan prezentacji</div><div class="toc{' long' if len(secs) > 15 else ''}">{toc}</div></div>
+  <div class="cover-r"><div class="toc-t">Plan prezentacji</div><div class="toc{' long' if len(secs) > 15 else ''}{' xlong' if len(secs) > 16 else ''}">{toc}</div></div>
   <div class="cover-foot"><b>T-Olimpians</b> Team Poland · t-olimpians.com</div>
 </section>''')
     for k, (s, title, body) in enumerate(SLIDES, 2):

@@ -21,7 +21,7 @@ def esc(s):
 
 KW = {'int', 'for', 'return', 'using', 'namespace', 'if', 'else', 'while',
       'char', 'bool', 'void', 'long', 'double', 'const'}
-BI = {'cout', 'cin', 'endl', 'main', 'std', 'pair', 'make_pair', 'string'}
+BI = {'cout', 'cin', 'endl', 'main', 'std', 'pair', 'make_pair', 'string', 'vector', 'auto'}
 TOK = re.compile(r"""(?P<c>//.*)|(?P<inc>\#include)|(?P<hdr><\w+>)|(?P<s>"[^"]*"|'[^']*')"""
                  r"""|(?P<n>(?<![\w)\]])-?\d+)|(?P<id>[A-Za-z_]\w*)|(?P<sp>\s+)|(?P<p>.)""")
 
@@ -182,7 +182,7 @@ def inp_tokens(lines, used=0, cur=None, cap=None):
     return term('\n'.join(out), 'in', cap=cap, raw=True)
 
 
-SIZES = {'wide': (104, 29, 8), 'lg': (76, 29, 8), '': (60, 23, 6), 'sm': (48, 19, 5), 'xs': (38, 15, 4)}
+SIZES = {'wide': (104, 29, 8), 'smw': (66, 19, 5), 'lg': (76, 29, 8), '': (60, 23, 6), 'sm': (48, 19, 5), 'xs': (38, 15, 4)}
 
 
 def arr(vals, name=None, hi=(), sel=(), size='', ptr=None, ptrname='', spans=None,
@@ -305,6 +305,26 @@ def npr(a, b, c3, name, size=''):
     labels = ('<div class="prow"><div class="pm wide">first</div><div class="pm">second</div></div>')
     return (f'<div class="arr pair" style="--cw:{cw}px;--cf:{cf}px;--gap:{gap}px">'
             f'<div class="arow">{lab(esc(name))}{outer}</div><div class="arow">{lab()}{labels}</div></div>')
+
+
+def grid(m, name=None, hi=(), rowhi=(), size='sm'):
+    """Vector 2D: każdy wiersz to osobne pudełko (vector<int>); z lewej indeks wiersza, u góry — kolumny."""
+    cw, cf, gap = SIZES[size]
+    ncol = max(len(r) for r in m)
+    head = (f'<div class="g-row"><div class="g-lab">i \\ j</div><div class="prow">'
+            + ''.join(f'<div class="idx">{j}</div>' for j in range(ncol)) + '</div></div>')
+    rows = ''.join(
+        f'<div class="g-row"><div class="g-lab{" hi" if i in rowhi else ""}">{i}</div>'
+        f'<div class="pbox{" on" if i in rowhi else ""}">'
+        + ''.join(_pcell(v, 'hi' if (i, j) in hi else '') for j, v in enumerate(r)) + '</div></div>'
+        for i, r in enumerate(m))
+    capd = f'<div class="arr-cap">{name}</div>' if name else ''
+    return f'<div class="grid2" style="--cw:{cw}px;--cf:{cf}px;--gap:{gap}px">{capd}{head}{rows}</div>'
+
+
+def mem(*items, cap='pamięć komputera'):
+    """Ramka „pamięć” z notatek o referencji."""
+    return f'<div class="mem"><div class="mem-cap">{cap}</div>{"".join(items)}</div>'
 
 
 def anat(parts, legend):
@@ -535,6 +555,19 @@ pre.code.bare .ln { padding: 0 14px; }
 .parr .al { justify-self: end; }
 .parr .idx { width: auto; }
 .pdots { font-family: 'JetBrains Mono', monospace; font-size: var(--cf); color: var(--mu); }
+
+/* ---------- vector 2D i pamięć ---------- */
+.grid2 { display: inline-flex; flex-direction: column; gap: 6px; }
+.g-row { display: flex; align-items: center; gap: 10px; }
+.g-lab { width: 6ch; white-space: nowrap; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 15px; color: var(--mu); }
+.g-lab.hi { color: var(--tl); font-weight: 700; }
+.grid2 .idx { width: var(--cw); }
+.mem { border: 2px solid rgba(124,92,255,.45); border-radius: 10px; padding: 12px 16px 14px; background: rgba(124,92,255,.04); }
+.mem-cap { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase;
+           color: #c6b8ff; margin-bottom: 10px; }
+.mem .arr + .arr { margin-top: 12px; }
+.venn { width: 100%; height: auto; display: block; }
+.venn text { font-family: 'JetBrains Mono', monospace; font-weight: 700; }
 
 /* ---------- budowa linijki ---------- */
 .anat { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 26px 30px 22px; }

@@ -997,6 +997,8 @@
         @media (max-width: 640px) {
             .slideshow { height: auto; aspect-ratio: 3 / 2; }
         }
+        .slideshow.slideshow-wide { height: auto; aspect-ratio: 16 / 9; } /* plakaty 16:9 bez ucinania boków */
+        .slide.slide-center { object-position: center; }
 
         /* ─── FOOTER ─── */
         footer {
@@ -1483,7 +1485,7 @@
             <p data-i18n="s3_p2">Oferujemy także <strong>Progress Sessions</strong> – spotkania motywacyjne, które pomagają w utrzymaniu dyscypliny i systematyczności w nauce.</p>
         </div>
         <div class="img-border reveal reveal-right">
-            <div class="slideshow" id="slideshow03">
+            <div class="slideshow">
                 <img class="slide active" src="./img/materialy-mosty-punkty-artykulacji.webp" alt="Notatki z zajęć z algorytmiki: mosty i punkty artykulacji w grafie, DFS_NUM i DFS_LOW (1 z 11)">
                 <img class="slide" src="./img/materialy-dag-sortowanie-topologiczne.webp" alt="Notatki z zajęć z algorytmiki: stopnie wierzchołków, graf DAG i sortowanie topologiczne (2 z 11)" loading="lazy">
                 <img class="slide" src="./img/materialy-graf-wazony.webp" alt="Notatki z zajęć z algorytmiki: wczytywanie grafu ważonego w C++ (3 z 11)" loading="lazy">
@@ -1495,7 +1497,7 @@
                 <img class="slide" src="./img/materialy-obrot-zapis-biegunowy.webp" alt="Materiały T-Olimpians: obracanie płaszczyzny, zapis biegunowy punktu (9 z 11)" loading="lazy">
                 <img class="slide" src="./img/materialy-obrot-wzor.webp" alt="Materiały T-Olimpians: wzór na obrót punktu o kąt β (10 z 11)" loading="lazy">
                 <img class="slide" src="./img/materialy-metryka-rzeka.webp" alt="Materiały T-Olimpians: metryka rzeka, odległość przez rzekę wzdłuż prostej y = 0 (11 z 11)" loading="lazy">
-                <div class="slide-progress" id="slideProgress03" aria-hidden="true"></div>
+                <div class="slide-progress" aria-hidden="true"></div>
             </div>
         </div>
     </div>
@@ -1513,7 +1515,12 @@
             </ul>
         </div>
         <div class="img-border reveal reveal-left">
-            <img class="section-image" src="./img/oai zdjecie.webp" alt="Drużyna z polskimi flagami na międzynarodowej olimpiadzie IOAI">
+            <div class="slideshow slideshow-wide">
+                <img class="slide active" src="./img/plakat-spotkanie-powtorkowe-oij.webp" alt="Plakat T-Olimpians: spotkanie powtórkowe pod OIJ na Discordzie, 21 października o 16:00 (1 z 3)">
+                <img class="slide" src="./img/plakat-pre-oi-pre-oij.webp" alt="Plakat T-Olimpians: Pre-OI i Pre-OIJ, próbna sesja olimpijska w sobotę 19 czerwca o 9:00 (2 z 3)" loading="lazy">
+                <img class="slide slide-center" src="./img/oai zdjecie.webp" alt="Drużyna z polskimi flagami na międzynarodowej olimpiadzie IOAI (3 z 3)" loading="lazy">
+                <div class="slide-progress" aria-hidden="true"></div>
+            </div>
         </div>
     </div>
 
@@ -1836,9 +1843,9 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('[data-count]').forEach(el => counterObs.observe(el));
 
     /* ── SLIDESHOW ── */
-    (function () {
-        const slides   = document.querySelectorAll('#slideshow03 .slide');
-        const progress = document.getElementById('slideProgress03');
+    document.querySelectorAll('.slideshow').forEach(function (show) {
+        const slides   = show.querySelectorAll('.slide');
+        const progress = show.querySelector('.slide-progress');
         const bars     = [...slides].map(() => progress.appendChild(document.createElement('span')));
         let current    = 0;
         function updateBars() {
@@ -1858,7 +1865,7 @@ document.addEventListener('DOMContentLoaded', function () {
         updateBars();
         function advance() { goTo((current + 1) % slides.length); }
         setInterval(advance, 2000);
-    })();
+    });
 
     /* ── HAMBURGER ── */
     const hamburger = document.getElementById('hamburger');

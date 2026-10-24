@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wkuwanie Szablonu — T-Olimpians</title>
+    <meta name="description" content="Trening przepisywania z pamięci szablonu olimpijskiego w C++ i skryptu bash do testowania — z pomiarem czasu i dokładności. Przygotowanie do Olimpiady Informatycznej.">
+    <link rel="canonical" href="https://t-olimpians.com/wkuwanie.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="T-Olimpians Team Poland">
+    <meta property="og:locale" content="pl_PL">
+    <meta property="og:url" content="https://t-olimpians.com/wkuwanie.html">
+    <meta property="og:title" content="Wkuwanie Szablonu — T-Olimpians">
+    <meta property="og:description" content="Trening przepisywania z pamięci szablonu olimpijskiego w C++ i skryptu bash do testowania — z pomiarem czasu i dokładności. Przygotowanie do Olimpiady Informatycznej.">
+    <meta property="og:image" content="https://t-olimpians.com/img/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="./img/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-base:        #0a0a0f;
+            --bg-card:        #15151e;
+            --bg-elevated:    #1c1c28;
+            --accent:         #3b82f6;
+            --accent-bright:  #60a5fa;
+            --accent-glow:    rgba(59,130,246,0.25);
+            --accent-dim:     rgba(59,130,246,0.12);
+            --green:          #4ade80;
+            --green-dim:      rgba(74,222,128,0.12);
+            --red:            #f87171;
+            --red-dim:        rgba(248,113,113,0.25);
+            --yellow:         #fbbf24;
+            --purple:         #a78bfa;
+            --purple-dim:     rgba(167,139,250,0.12);
+            --text-primary:   #f0f0f8;
+            --text-secondary: #9090aa;
+            --text-muted:     #55556a;
+            --border:         rgba(255,255,255,0.07);
+            --border-accent:  rgba(59,130,246,0.3);
+            --font-display:   'Syne', sans-serif;
+            --font-body:      'DM Sans', sans-serif;
+            --font-mono:      'JetBrains Mono', monospace;
+            --radius-sm: 8px; --radius-md: 14px; --radius-lg: 20px;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            background: var(--bg-base);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none; z-index: 0; opacity: 0.6;
+        }
+
+        /* ── NAVBAR ── */
+        .navbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 48px; height: 68px;
+            background: rgba(10,10,15,0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            transition: background 0.3s;
+        }
+        .navbar.scrolled { background: rgba(10,10,15,0.97); box-shadow: 0 4px 32px rgba(0,0,0,0.4); }
+        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .logo img:first-child { width: 38px; height: 38px; border-radius: 10px; object-fit: cover; transition: transform 0.3s, box-shadow 0.3s; }
+        .logo:hover img:first-child { transform: rotate(-5deg) scale(1.08); box-shadow: 0 0 16px var(--accent-glow); }
+        #polska-flaga { width: 22px; border-radius: 3px; }
+        .logo-text { font-family: var(--font-display); font-weight: 700; font-size: 15px; color: var(--text-primary); }
+        .nav-links { list-style: none; display: flex; align-items: center; gap: 4px; }
+        .nav-links a {
+            text-decoration: none; color: var(--text-secondary); font-size: 14px; font-weight: 500;
+            padding: 8px 16px; border-radius: var(--radius-sm);
+            transition: color 0.2s, background 0.2s; position: relative;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: 4px; left: 16px; right: 16px;
+            height: 1px; background: var(--accent-bright); transform: scaleX(0); transition: transform 0.25s;
+        }
+        .nav-links a:hover { color: var(--text-primary); background: var(--accent-dim); }
+        .nav-links a:hover::after { transform: scaleX(1); }
+        .nav-links a.active { color: var(--accent-bright); }
+        .nav-links .nav-cta a { background: var(--accent); color: white; font-weight: 600; }
+        .nav-links .nav-cta a:hover { background: var(--accent-bright); }
+        .nav-links .nav-cta a::after { display: none; }
+        .hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px; z-index: 110; }
+        .hamburger span { display: block; width: 24px; height: 2px; background: var(--text-primary); border-radius: 2px; transition: transform 0.3s, opacity 0.3s; }
+        .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        /* ── PARTICLES ── */
+        #particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.35; }
+
+        /* ── HERO ── */
+        .hero {
+            padding: 120px 80px 48px;
+            text-align: center;
+            position: relative; z-index: 1;
+        }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: var(--accent-dim); border: 1px solid var(--border-accent);
+            color: var(--accent-bright); font-family: var(--font-mono); font-size: 11px;
+            padding: 6px 14px; border-radius: 100px; letter-spacing: 0.08em;
+            text-transform: uppercase; margin-bottom: 24px;
+        }
+        .hero-badge::before { content: ''; width: 6px; height: 6px; background: var(--accent-bright); border-radius: 50%; animation: blink 2s ease-in-out infinite; }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+        .hero h1 { font-family: var(--font-display); font-size: clamp(32px, 5vw, 56px); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 16px; }
+        .hero h1 span { background: linear-gradient(135deg, var(--accent-bright), #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .hero p { color: var(--text-secondary); font-size: 16px; max-width: 520px; margin: 0 auto; line-height: 1.75; }
+
+        /* ── MODE SWITCHER ── */
+        .mode-switcher {
+            display: flex; justify-content: center; gap: 0;
+            margin: 32px auto 0; max-width: 480px;
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: var(--radius-md); padding: 5px; position: relative; z-index: 1;
+        }
+        .mode-btn {
+            flex: 1; padding: 11px 20px; border: none; border-radius: 10px;
+            background: transparent; color: var(--text-secondary); font-family: var(--font-mono);
+            font-size: 12px; font-weight: 600; cursor: pointer; letter-spacing: 0.04em;
+            transition: all 0.22s; display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .mode-btn.active {
+            background: var(--bg-elevated); color: var(--text-primary);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+        }
+        .mode-btn.active.cpp { color: var(--accent-bright); }
+        .mode-btn.active.bash { color: var(--purple); }
+        .mode-btn:hover:not(.active) { color: var(--text-primary); }
+        .mode-icon { font-size: 14px; }
+
+        /* ── MAIN LAYOUT ── */
+        .main-wrap { max-width: 1100px; margin: 0 auto; padding: 0 48px 80px; position: relative; z-index: 1; }
+
+        /* ── STATS BAR ── */
+        .stats-bar {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 14px; margin-bottom: 20px;
+        }
+        .stat-box {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: var(--radius-md); padding: 16px 20px;
+            text-align: center; transition: border-color 0.3s;
+        }
+        .stat-box.active { border-color: var(--border-accent); }
+        .stat-box-val { font-family: var(--font-mono); font-size: 28px; font-weight: 600; color: var(--accent-bright); letter-spacing: -0.02em; line-height: 1; margin-bottom: 4px; }
+        .stat-box-val.green { color: var(--green); }
+        .stat-box-val.red   { color: var(--red); }
+        .stat-box-val.yellow{ color: var(--yellow); }
+        .stat-box-label { font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; }
+
+        /* ── MODE BADGE ── */
+        .mode-indicator {
+            display: flex; align-items: center; gap: 10px;
+            margin-bottom: 16px;
+        }
+        .mode-tag {
+            font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+            padding: 4px 12px; border-radius: 100px; letter-spacing: 0.08em; text-transform: uppercase;
+        }
+        .mode-tag.cpp { background: var(--accent-dim); border: 1px solid var(--border-accent); color: var(--accent-bright); }
+        .mode-tag.bash { background: var(--purple-dim); border: 1px solid rgba(167,139,250,0.3); color: var(--purple); }
+        .mode-desc { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
+
+        /* ── PROGRESS BAR ── */
+        .progress-wrap { margin-bottom: 20px; }
+        .progress-track { height: 4px; background: var(--bg-elevated); border-radius: 100px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), #a78bfa); border-radius: 100px; width: 0%; transition: width 0.15s ease; }
+        .progress-fill.bash-mode { background: linear-gradient(90deg, var(--purple), #ec4899); }
+        .progress-labels { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); margin-top: 6px; }
+
+        /* ── TYPING AREA ── */
+        .typing-wrap {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: var(--radius-lg); overflow: hidden;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            cursor: text; position: relative;
+        }
+        .typing-wrap.focused { border-color: var(--border-accent); box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
+        .typing-wrap.focused.bash-mode { border-color: rgba(167,139,250,0.4); box-shadow: 0 0 0 3px rgba(167,139,250,0.08); }
+        .typing-wrap.error-shake { animation: shake 0.3s ease; }
+        @keyframes shake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-6px)} 40%,80%{transform:translateX(6px)} }
+
+        .code-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 12px 20px; background: var(--bg-elevated); border-bottom: 1px solid var(--border);
+        }
+        .code-dots { display: flex; gap: 6px; }
+        .code-dots span { width: 10px; height: 10px; border-radius: 50%; }
+        .code-dots span:nth-child(1){background:#ff5f56}
+        .code-dots span:nth-child(2){background:#ffbd2e}
+        .code-dots span:nth-child(3){background:#27c93f}
+        .code-filename { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); }
+        .focus-hint { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); transition: opacity 0.3s; }
+        .typing-wrap.focused .focus-hint { opacity: 0; }
+
+        .code-display {
+            padding: 28px 32px;
+            font-family: var(--font-mono);
+            font-size: 14px;
+            line-height: 2;
+            white-space: pre;
+            overflow-x: auto;
+            position: relative;
+            user-select: none;
+        }
+
+        /* Character states */
+        .ch { position: relative; display: inline; }
+        .ch.pending  { color: #3a3a55; }
+        .ch.correct  { color: var(--text-primary); }
+        .ch.wrong    { color: var(--red); background: var(--red-dim); border-radius: 2px; }
+        .ch.current  { position: relative; }
+        .ch.current::before {
+            content: '';
+            position: absolute; left: 0; top: 5%; width: 2px; height: 90%;
+            background: var(--accent-bright);
+            border-radius: 2px;
+            animation: cursor-blink 1s ease-in-out infinite;
+        }
+        .bash-mode .ch.current::before { background: var(--purple); }
+        @keyframes cursor-blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+        /* Hidden real input */
+        #hiddenInput {
+            position: absolute; opacity: 0; pointer-events: none;
+            width: 1px; height: 1px; top: 0; left: 0;
+        }
+
+        /* ── CONTROLS ── */
+        .controls { display: flex; gap: 12px; margin-top: 20px; align-items: center; }
+        .btn {
+            font-family: var(--font-body); font-size: 14px; font-weight: 600;
+            padding: 12px 24px; border-radius: var(--radius-sm); border: none;
+            cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px;
+        }
+        .btn-primary { background: var(--accent); color: white; }
+        .btn-primary:hover { background: var(--accent-bright); transform: translateY(-2px); box-shadow: 0 6px 20px var(--accent-glow); }
+        .btn-primary.bash-style { background: linear-gradient(135deg, #7c3aed, #a78bfa); }
+        .btn-primary.bash-style:hover { background: linear-gradient(135deg, #8b5cf6, #c4b5fd); box-shadow: 0 6px 20px rgba(167,139,250,0.3); }
+        .btn-ghost { background: transparent; color: var(--text-secondary); border: 1px solid var(--border); }
+        .btn-ghost:hover { color: var(--text-primary); border-color: var(--border-accent); transform: translateY(-2px); }
+        .controls-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+        .best-time-label { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); }
+        .best-time-val { font-family: var(--font-mono); font-size: 14px; color: var(--yellow); font-weight: 600; }
+
+        /* ── LEADERBOARD / HISTORY ── */
+        .history-section { margin-top: 48px; }
+        .history-section h3 { font-family: var(--font-display); font-size: 22px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 20px; }
+        .runs-list { display: flex; flex-direction: column; gap: 10px; }
+        .run-row {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: var(--radius-md); padding: 14px 22px;
+            display: flex; align-items: center; gap: 16px;
+            transition: border-color 0.3s;
+        }
+        .run-row.best { border-color: rgba(251,191,36,0.4); }
+        .run-rank { font-family: var(--font-mono); font-size: 13px; color: var(--text-muted); width: 28px; flex-shrink: 0; }
+        .run-rank.gold { color: var(--yellow); font-weight: 700; }
+        .run-time { font-family: var(--font-mono); font-size: 20px; font-weight: 600; color: var(--accent-bright); min-width: 80px; }
+        .run-time.bash { color: var(--purple); }
+        .run-meta { flex: 1; }
+        .run-wpm { font-family: var(--font-mono); font-size: 13px; color: var(--text-secondary); }
+        .run-accuracy { font-family: var(--font-mono); font-size: 13px; }
+        .run-accuracy.perfect { color: var(--green); }
+        .run-accuracy.good { color: var(--yellow); }
+        .run-accuracy.bad { color: var(--red); }
+        .run-errors { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); }
+        .run-badge { font-family: var(--font-mono); font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 100px; background: rgba(251,191,36,0.15); color: var(--yellow); border: 1px solid rgba(251,191,36,0.3); letter-spacing: 0.06em; }
+        .run-mode-tag { font-family: var(--font-mono); font-size: 10px; padding: 2px 7px; border-radius: 100px; letter-spacing: 0.06em; }
+        .run-mode-tag.cpp { background: var(--accent-dim); color: var(--accent-bright); }
+        .run-mode-tag.bash { background: var(--purple-dim); color: var(--purple); }
+
+        /* ── COMPLETION OVERLAY ── */
+        .overlay {
+            position: fixed; inset: 0; z-index: 200;
+            background: rgba(0,0,0,0.7); backdrop-filter: blur(12px);
+            display: none; align-items: center; justify-content: center;
+        }
+        .overlay.show { display: flex; }
+        .result-card {
+            background: var(--bg-card); border: 1px solid var(--border-accent);
+            border-radius: var(--radius-lg); padding: 56px 64px; text-align: center;
+            max-width: 480px; width: 90%; position: relative;
+            animation: popIn 0.4s cubic-bezier(0.16,1,0.3,1) both;
+        }
+        .result-card.bash-result { border-color: rgba(167,139,250,0.4); }
+        @keyframes popIn { from{opacity:0;transform:scale(0.85) translateY(20px)} to{opacity:1;transform:scale(1) translateY(0)} }
+        .result-emoji { font-size: 52px; margin-bottom: 16px; }
+        .result-title { font-family: var(--font-display); font-size: 32px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 8px; }
+        .result-subtitle { color: var(--text-secondary); font-size: 15px; margin-bottom: 36px; }
+        .result-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 36px; }
+        .result-stat { background: var(--bg-elevated); border-radius: var(--radius-sm); padding: 16px; }
+        .result-stat-val { font-family: var(--font-mono); font-size: 32px; font-weight: 700; color: var(--accent-bright); letter-spacing: -0.02em; }
+        .result-stat-val.green { color: var(--green); }
+        .result-stat-val.yellow { color: var(--yellow); }
+        .result-stat-val.red { color: var(--red); }
+        .result-stat-val.purple { color: var(--purple); }
+        .result-stat-label { font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; }
+        .result-new-best { background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.3); border-radius: var(--radius-sm); padding: 12px; margin-bottom: 24px; font-family: var(--font-mono); font-size: 13px; color: var(--yellow); }
+        .result-btns { display: flex; gap: 12px; justify-content: center; }
+
+        footer { border-top: 1px solid var(--border); padding: 28px 80px; display: flex; justify-content: space-between; align-items: center; color: var(--text-muted); font-size: 13px; position: relative; z-index: 1; }
+        footer span { font-family: var(--font-mono); }
+
+        /* ── FLOATING SIDEBAR ── */
+        .floating-sidebar {
+            position: fixed;
+            top: 90px;
+            right: 20px;
+            width: 260px;
+            z-index: 90;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+            transition: transform 0.3s, opacity 0.3s;
+            overflow: hidden;
+        }
+        .sidebar-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 14px;
+            background: var(--bg-elevated);
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+        }
+        .sidebar-title {
+            font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+            color: var(--purple); text-transform: uppercase; letter-spacing: 0.08em;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .sidebar-title::before { content: '▶'; font-size: 9px; color: var(--red); }
+        .sidebar-toggle {
+            font-family: var(--font-mono); font-size: 11px; color: var(--text-muted);
+            background: none; border: none; cursor: pointer; padding: 0;
+            transition: color 0.2s;
+        }
+        .sidebar-toggle:hover { color: var(--text-primary); }
+        .sidebar-video {
+            position: relative; width: 100%; padding-bottom: 56.25%;
+            overflow: hidden;
+        }
+        .sidebar-video iframe {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%; border: 0;
+        }
+        .sidebar-caption {
+            padding: 10px 14px;
+            font-family: var(--font-mono); font-size: 10px;
+            color: var(--text-muted); line-height: 1.5;
+            border-top: 1px solid var(--border);
+        }
+        .floating-sidebar.collapsed .sidebar-video,
+        .floating-sidebar.collapsed .sidebar-caption { display: none; }
+
+        /* ── TESTING SECTION ── */
+        .testing-section {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: var(--radius-lg); padding: 36px 40px;
+            margin-top: 48px; position: relative; overflow: hidden;
+        }
+        .testing-section::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, var(--purple), #ec4899);
+        }
+        .testing-section h2 {
+            font-family: var(--font-display); font-size: 22px; font-weight: 700;
+            letter-spacing: -0.02em; margin-bottom: 8px;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .testing-section h2 .tag-bash {
+            font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+            padding: 3px 10px; border-radius: 100px;
+            background: var(--purple-dim); border: 1px solid rgba(167,139,250,0.3);
+            color: var(--purple); vertical-align: middle;
+        }
+        .testing-section > p {
+            color: var(--text-secondary); font-size: 14px; line-height: 1.75;
+            margin-bottom: 28px; max-width: 660px;
+        }
+        .testing-grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 14px; margin-bottom: 28px;
+        }
+        .tbox {
+            background: var(--bg-elevated); border: 1px solid var(--border);
+            border-radius: var(--radius-md); padding: 18px 20px;
+        }
+        .tbox-icon { font-size: 22px; margin-bottom: 8px; }
+        .tbox-name {
+            font-family: var(--font-mono); font-size: 12px; font-weight: 600;
+            color: var(--accent-bright); margin-bottom: 6px; letter-spacing: 0.04em;
+        }
+        .tbox-name.purple { color: var(--purple); }
+        .tbox-name.green  { color: var(--green); }
+        .tbox-name.yellow { color: var(--yellow); }
+        .tbox p { font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin: 0; }
+        .tbox code {
+            font-family: var(--font-mono); font-size: 11px;
+            color: var(--text-muted); background: rgba(255,255,255,0.05);
+            padding: 1px 5px; border-radius: 3px;
+        }
+        .flow-wrap {
+            background: var(--bg-elevated); border: 1px solid var(--border);
+            border-radius: var(--radius-md); padding: 20px 24px;
+            margin-bottom: 20px;
+        }
+        .flow-title {
+            font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+            color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;
+            margin-bottom: 14px;
+        }
+        .flow-steps {
+            display: flex; align-items: center; gap: 8px;
+            flex-wrap: wrap;
+        }
+        .flow-step {
+            font-family: var(--font-mono); font-size: 12px;
+            padding: 6px 12px; border-radius: 100px;
+            border: 1px solid var(--border);
+            white-space: nowrap;
+        }
+        .flow-step.seed  { color: var(--yellow); border-color: rgba(251,191,36,0.3); background: rgba(251,191,36,0.08); }
+        .flow-step.gen   { color: var(--green);  border-color: rgba(74,222,128,0.3); background: var(--green-dim); }
+        .flow-step.brut  { color: var(--accent-bright); border-color: var(--border-accent); background: var(--accent-dim); }
+        .flow-step.wzor  { color: var(--purple); border-color: rgba(167,139,250,0.3); background: var(--purple-dim); }
+        .flow-step.diff  { color: var(--red);    border-color: rgba(248,113,113,0.3); background: rgba(248,113,113,0.08); }
+        .flow-arrow { color: var(--text-muted); font-family: var(--font-mono); font-size: 14px; }
+        .tip-box {
+            background: rgba(74,222,128,0.05); border: 1px solid rgba(74,222,128,0.2);
+            border-radius: var(--radius-sm); padding: 14px 18px;
+            font-size: 13px; color: var(--text-secondary); line-height: 1.65;
+        }
+        .tip-box strong { color: var(--green); font-weight: 600; }
+
+        @media (max-width: 1200px) {
+            .floating-sidebar { display: none; }
+        }
+        .nav-group-item { display: flex; align-items: center; }
+        .nav-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border-accent);
+            border-radius: var(--radius-sm);
+            padding: 8px 10px 3px;
+            margin-top: 7px;
+            background: var(--accent-dim);
+        }
+        .nav-group-label {
+            position: absolute;
+            top: -7px;
+            left: 12px;
+            background: #0a0a0f;
+            padding: 1px 7px;
+            border: 1px solid var(--border-accent);
+            border-radius: 100px;
+            font-family: var(--font-mono);
+            font-size: 9.5px;
+            font-weight: 500;
+            color: var(--accent-bright);
+            text-transform: lowercase;
+            letter-spacing: 0.06em;
+            line-height: 1.3;
+        }
+        .nav-group-links { display: flex; align-items: center; gap: 2px; }
+
+
+        @media (max-width: 900px) {
+            .navbar { padding: 0 20px; }
+            .hamburger { display: flex; }
+            .nav-links { display: none; flex-direction: column; position: fixed; top: 68px; left: 0; right: 0; background: rgba(10,10,15,0.98); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 16px 0 24px; gap: 0; z-index: 99; }
+            .nav-links.open { display: flex; }
+            .nav-links li { width: 100%; }
+            .nav-group-item { width: 100%; }
+            .nav-group {
+                flex-direction: column;
+                align-items: stretch;
+                border-radius: var(--radius-md);
+                margin: 16px 28px 6px;
+                padding: 12px 0 6px;
+                width: auto;
+            }
+            .nav-group-label { left: 16px; background: #0a0a0f; }
+            .nav-group-links { flex-direction: column; width: 100%; }
+            .nav-group-links a { width: 100%; }
+
+            .nav-links a { display: block; padding: 14px 28px; border-radius: 0; }
+            .nav-links .nav-cta { padding: 12px 20px 0; }
+            .nav-links .nav-cta a { display: block; text-align: center; border-radius: var(--radius-sm); }
+            .hero { padding: 100px 24px 36px; }
+            .main-wrap { padding: 0 20px 60px; }
+            .stats-bar { grid-template-columns: repeat(2, 1fr); }
+            .code-display { font-size: 12px; padding: 20px; }
+            .result-card { padding: 36px 28px; }
+            footer { flex-direction: column; gap: 10px; padding: 24px; text-align: center; }
+            .mode-switcher { margin: 24px 20px 0; }
+            .testing-grid { grid-template-columns: 1fr; }
+            .testing-section { padding: 24px 20px; }
+        }
+    </style>
+    <style id="tablet-nav">
+        /* ─── TABLET: nawigacja i logo (641–1299px) ───
+           < 1024px  menu pod hamburgerem jako panel po prawej,
+           1024–1299 pelne menu w wersji kompaktowej + logo w dwoch liniach. */
+        @media (min-width: 641px) {
+            .logo { flex-shrink: 0; }
+            .logo-text { white-space: nowrap; }
+        }
+
+        @media (min-width: 641px) and (max-width: 1023px) {
+            .navbar { padding: 0 28px; }
+            .logo-text { font-size: 15px; }
+            .hamburger { display: flex; }
+            .nav-pointer-bubble { display: none !important; }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: fixed;
+                top: 76px; right: 20px; left: auto;
+                width: 340px;
+                max-height: calc(100vh - 96px);
+                overflow-y: auto;
+                background: rgba(10, 10, 15, 0.98);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border: 1px solid var(--border);
+                border-radius: var(--radius-lg, 20px);
+                box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+                padding: 10px 0 16px;
+                gap: 0;
+                z-index: 99;
+            }
+            .nav-links.open { display: flex; }
+            .nav-links li { width: 100%; }
+            .nav-group-item { width: 100%; }
+            .nav-group {
+                flex: 1;
+                flex-direction: column;
+                align-items: stretch;
+                border-radius: var(--radius-md, 14px);
+                margin: 18px 16px 8px;
+                padding: 12px 0 6px;
+                width: auto;
+            }
+            .nav-group-label { left: 14px; background: #0a0a0f; }
+            .nav-group-links { flex-direction: column; align-items: stretch; width: 100%; gap: 0; }
+            .nav-group-links a { width: 100%; }
+            .focus-toggle {
+                width: 100%; justify-content: center; margin: 8px 0 0; padding: 10px 0 4px;
+                border-left: none; border-top: 1px solid var(--border);
+            }
+            .nav-links a { display: block; padding: 12px 24px; font-size: 15px; border-radius: 0; }
+            .nav-links a::after { display: none; }
+            .nav-links .nav-cta { padding: 10px 16px 0; }
+            .nav-links .nav-cta a { display: block; text-align: center; border-radius: var(--radius-sm, 8px); padding: 13px; }
+        }
+
+        @media (min-width: 1024px) and (max-width: 1299px) {
+            .navbar { padding: 0 24px; }
+            .logo { gap: 10px; }
+            .logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+            .logo-text-sub {
+                margin-top: 3px;
+                font-family: var(--font-mono);
+                font-size: 9.5px;
+                font-weight: 500;
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                color: var(--accent-bright);
+            }
+            .nav-links { gap: 2px; }
+            .nav-links a { padding: 8px 10px; font-size: 13.5px; letter-spacing: 0.01em; }
+            .nav-links a::after { left: 10px; right: 10px; }
+            .nav-group { padding: 8px 6px 3px; }
+            .nav-group-links { gap: 0; }
+            .focus-toggle { margin-left: 4px; padding-left: 8px; gap: 6px; }
+        }
+    </style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+
+<!-- FLOATING SIDEBAR -->
+<div class="floating-sidebar collapsed" id="floatingSidebar">
+    <div class="sidebar-header" onclick="toggleSidebar()">
+        <span class="sidebar-title">Testowanie na OI</span>
+        <button class="sidebar-toggle" id="sidebarToggleBtn">▶ rozwiń</button>
+    </div>
+    <div class="sidebar-video">
+        <iframe src="https://www.youtube.com/embed/a27eXSugdPQ" title="Testowanie na olimpiadzie informatycznej" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <div class="sidebar-caption">🎬 Jak testować rozwiązanie na OI — generator, brut, wzorcówka i skrypt bash.</div>
+</div>
+
+<nav class="navbar" id="navbar">
+    <a class="logo" href="index.html">
+        <img src="./img/t-olimpians-logo.jpg" alt="Logo">
+        <span class="logo-text">T-Olimpians <span class="logo-text-sub">Team Poland</span></span>
+        <img id="polska-flaga" src="./img/polska_flaga.png" alt="">
+    </a>
+    <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="nav-close">Home</a></li>
+        <li><a href="index.html#o-nas" class="nav-close">O nas</a></li>
+        <li class="nav-group-item">
+            <div class="nav-group">
+                <span class="nav-group-label">t-olimpians net</span>
+                <div class="nav-group-links">
+                <a href="materialy.html" class="nav-close">C++/logika</a>
+                <a href="net.html" class="nav-close">Algorytmy</a>
+                <a href="zadania-OI-OIJ.html" class="nav-close">Zadania OI/OIJ</a>
+                <a href="konkursy.html" class="nav-close">Konkursy</a>
+                </div>
+            </div>
+        </li>
+        <li><a href="zapisy.html" class="nav-close">Zapisy</a></li>
+        <li class="nav-cta"><a href="index.html#contact-section" class="nav-close">Dołącz →</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<section class="hero">
+    <div class="hero-badge">C++ · Bash · Szablon · Olimpiada</div>
+    <h1>Wkuwanie <span>szablonów</span></h1>
+    <p>Przepisz szablon olimpijski z pamięci. Im szybciej i dokładniej — tym lepiej. Timer startuje przy pierwszym znaku.</p>
+
+    <!-- MODE SWITCHER -->
+    <div class="mode-switcher">
+        <button class="mode-btn cpp active" id="modeCpp">
+            <span class="mode-icon">⚙️</span> C++ Szablon
+        </button>
+        <button class="mode-btn bash" id="modeBash">
+            <span class="mode-icon">🖥️</span> Bash Testerka
+        </button>
+    </div>
+</section>
+
+<div class="main-wrap">
+
+    <!-- MODE INDICATOR -->
+    <div class="mode-indicator">
+        <span class="mode-tag cpp" id="modeTag">C++</span>
+        <span class="mode-desc" id="modeDesc">szablon_olimpijski.cpp · 17 linii</span>
+    </div>
+
+    <!-- STATS BAR -->
+    <div class="stats-bar">
+        <div class="stat-box" id="statTimer">
+            <div class="stat-box-val" id="valTimer">0.0s</div>
+            <div class="stat-box-label">⏱ Czas</div>
+        </div>
+        <div class="stat-box" id="statWpm">
+            <div class="stat-box-val yellow" id="valWpm">0</div>
+            <div class="stat-box-label">⚡ Znaki/min</div>
+        </div>
+        <div class="stat-box" id="statErrors">
+            <div class="stat-box-val red" id="valErrors">0</div>
+            <div class="stat-box-label">❌ Błędy</div>
+        </div>
+        <div class="stat-box" id="statAccuracy">
+            <div class="stat-box-val green" id="valAccuracy">100%</div>
+            <div class="stat-box-label">✅ Dokładność</div>
+        </div>
+    </div>
+
+    <!-- PROGRESS -->
+    <div class="progress-wrap">
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="progress-labels">
+            <span id="progressLabel">Kliknij w kod aby zacząć</span>
+            <span id="progressPct">0%</span>
+        </div>
+    </div>
+
+    <!-- TYPING AREA -->
+    <div class="typing-wrap" id="typingWrap" tabindex="0">
+        <div class="code-header">
+            <div class="code-dots"><span></span><span></span><span></span></div>
+            <div class="code-filename" id="codeFilename">szablon_olimpijski.cpp</div>
+            <div class="focus-hint" id="focusHint">↵ kliknij aby aktywować</div>
+        </div>
+        <div class="code-display" id="codeDisplay"></div>
+        <input id="hiddenInput" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+    </div>
+
+    <!-- CONTROLS -->
+    <div class="controls">
+        <button class="btn btn-primary" id="btnRestart">↺ Restart</button>
+        <button class="btn btn-ghost" id="btnPeek">👁 Podgląd 3s</button>
+        <div class="controls-right">
+            <span class="best-time-label">Najlepszy czas:</span>
+            <span class="best-time-val" id="bestTimeVal">—</span>
+        </div>
+    </div>
+
+    <!-- HISTORY -->
+    <div class="history-section" id="historySection" style="display:none">
+        <h3>Twoje wyniki tej sesji</h3>
+        <div class="runs-list" id="runsList"></div>
+    </div>
+</div>
+
+<!-- TESTING SECTION -->
+<div class="main-wrap">
+<div class="testing-section" id="testowanie">
+    <h2>Testowanie na Olimpiadzie <span class="tag-bash">bash</span></h2>
+    <p>Podczas zawodów OI nie wystarczy napisać poprawne rozwiązanie — trzeba je też sprawdzić. Standardowy workflow to: <strong>generator losowych danych → brut (naiwne rozwiązanie) → wzorcówka → porównanie wyników</strong>. Całość automatyzuje skrypt bash.</p>
+
+    <div class="testing-grid">
+        <div class="tbox">
+            <div class="tbox-icon">🌱</div>
+            <div class="tbox-name yellow">seed / generator</div>
+            <p>Generator tworzy losowy test na podstawie seeda (<code>seed</code>). Każda iteracja pętli używa innego numeru jako ziarna, by testy były różne. Kompiluj jako <code>./generator</code>.</p>
+        </div>
+        <div class="tbox">
+            <div class="tbox-icon">🐢</div>
+            <div class="tbox-name">brut</div>
+            <p>Naiwne, powolne rozwiązanie O(n²) lub O(n³) — ważne, żeby było <em>na pewno poprawne</em>. Służy jako wyrocznia. Kompiluj jako <code>./brut</code>.</p>
+        </div>
+        <div class="tbox">
+            <div class="tbox-icon">⚡</div>
+            <div class="tbox-name green">wzorcówka</div>
+            <p>Twoje właściwe rozwiązanie (szybkie, optymalne). Jego wyniki porównujemy z brutem. Kompiluj jako <code>./wzor</code>.</p>
+        </div>
+        <div class="tbox">
+            <div class="tbox-icon">🔍</div>
+            <div class="tbox-name purple">diff</div>
+            <p>Polecenie <code>diff -b</code> porównuje pliki wyjściowe, ignorując różnice w białych znakach. Jeśli pliki są identyczne — test zaliczony.</p>
+        </div>
+    </div>
+
+    <div class="flow-wrap">
+        <div class="flow-title">Przepływ testu w każdej iteracji pętli</div>
+        <div class="flow-steps">
+            <span class="flow-step seed">echo $i → seed</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step gen">generator → test.in</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step brut">brut → brut.out</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step wzor">wzor → wzor.out</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step diff">diff → OK / ZLE</span>
+        </div>
+    </div>
+
+    <div class="tip-box">
+        <strong>💡 Wskazówki:</strong> Przy <code>ZLE</code> skrypt zatrzymuje się (<code>break</code>) — plik <code>test.in</code> zawiera kontrprzykład gotowy do analizy. Używaj małych limitów w generatorze (np. n ≤ 10) żeby brut był szybki. Skrypt wkuwasz w trybie <strong>Bash Testerka</strong> powyżej!
+    </div>
+</div>
+</div>
+
+<!-- COMPLETION OVERLAY -->
+<div class="overlay" id="overlay">
+    <div class="result-card" id="resultCard">
+        <div class="result-emoji" id="resultEmoji">🏆</div>
+        <div class="result-title" id="resultTitle">Ukończono!</div>
+        <div class="result-subtitle" id="resultSubtitle">Szablon wkuty w pamięć</div>
+        <div class="result-new-best" id="resultNewBest" style="display:none">🥇 Nowy rekord sesji!</div>
+        <div class="result-stats">
+            <div class="result-stat">
+                <div class="result-stat-val" id="rTime">0.0s</div>
+                <div class="result-stat-label">Czas</div>
+            </div>
+            <div class="result-stat">
+                <div class="result-stat-val yellow" id="rWpm">0</div>
+                <div class="result-stat-label">Znaki/min</div>
+            </div>
+            <div class="result-stat">
+                <div class="result-stat-val green" id="rAccuracy">100%</div>
+                <div class="result-stat-label">Dokładność</div>
+            </div>
+            <div class="result-stat">
+                <div class="result-stat-val red" id="rErrors">0</div>
+                <div class="result-stat-label">Błędów</div>
+            </div>
+        </div>
+        <div class="result-btns">
+            <button class="btn btn-primary" id="btnResultRestart">↺ Jeszcze raz</button>
+            <button class="btn btn-ghost" id="btnResultClose">Zamknij</button>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <span>© 2025 T-Olimpians Team Poland</span>
+    <span>Wkuwanie · C++ · Bash · Szablon olimpijski</span>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    /* ── TEMPLATES ── */
+    const TEMPLATES = {
+        cpp: {
+            id: 'cpp',
+            filename: 'szablon_olimpijski.cpp',
+            lines: '17 linii',
+            label: 'C++',
+            text: `#include<bits/stdc++.h>
+using namespace std;
+#define endl '\\n'
+#define pb push_back
+void dbg_out(){cout << endl; }
+template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T){cout << ' ' << H; dbg_out(T...);}
+#define dbg(...) cout << '(' << #__VA_ARGS__ << "):", dbg_out(__VA_ARGS__)
+
+void solve(){
+
+}
+
+int main(){
+  ios_base::sync_with_stdio(0);
+  cin.tie(0);
+  cout.tie(0);
+
+  solve();
+
+}`
+        },
+        bash: {
+            id: 'bash',
+            filename: 'testerka.sh',
+            lines: '14 linii',
+            label: 'Bash',
+            text: `#!/bin/bash
+for((i=1;;i++))
+do
+\techo $i > seed
+\t./generator < seed > test.in 
+\t./brut < test.in > brut.out 
+\t./wzor < test.in > wzor.out 
+\tif diff -b wzor.out brut.out > /dev/null
+\tthen
+\t\techo "OK" $i 
+\telse
+\t\techo "ZLE" $i 
+\t\tbreak 
+\tfi 
+done`
+        }
+    };
+
+    /* ── STATE ── */
+    let currentMode = 'cpp';
+    let TEMPLATE = TEMPLATES.cpp.text;
+    let position  = 0;
+    let errors    = 0;
+    let totalTyped = 0;
+    let started   = false;
+    let finished  = false;
+    let startTime = 0;
+    let timerInterval = null;
+    let runs      = [];
+    let peekTimeout = null;
+
+    /* ── DOM ── */
+    const display     = document.getElementById('codeDisplay');
+    const hiddenInput = document.getElementById('hiddenInput');
+    const typingWrap  = document.getElementById('typingWrap');
+    const progressFill= document.getElementById('progressFill');
+    const progressLbl = document.getElementById('progressLabel');
+    const progressPct = document.getElementById('progressPct');
+    const valTimer    = document.getElementById('valTimer');
+    const valWpm      = document.getElementById('valWpm');
+    const valErrors   = document.getElementById('valErrors');
+    const valAccuracy = document.getElementById('valAccuracy');
+    const bestTimeVal = document.getElementById('bestTimeVal');
+    const overlay     = document.getElementById('overlay');
+    const historySection = document.getElementById('historySection');
+    const runsList    = document.getElementById('runsList');
+    const modeTag     = document.getElementById('modeTag');
+    const modeDesc    = document.getElementById('modeDesc');
+    const codeFilename= document.getElementById('codeFilename');
+    const resultCard  = document.getElementById('resultCard');
+    const btnRestart  = document.getElementById('btnRestart');
+
+    /* ── MODE SWITCH ── */
+    document.getElementById('modeCpp').addEventListener('click', () => switchMode('cpp'));
+    document.getElementById('modeBash').addEventListener('click', () => switchMode('bash'));
+
+    function switchMode(mode) {
+        if (mode === currentMode) return;
+        currentMode = mode;
+        TEMPLATE = TEMPLATES[mode].text;
+
+        // Update UI
+        document.getElementById('modeCpp').classList.toggle('active', mode === 'cpp');
+        document.getElementById('modeBash').classList.toggle('active', mode === 'bash');
+
+        const tpl = TEMPLATES[mode];
+        modeTag.textContent = tpl.label;
+        modeTag.className = 'mode-tag ' + mode;
+        modeDesc.textContent = tpl.filename + ' · ' + tpl.lines;
+        codeFilename.textContent = tpl.filename;
+
+        progressFill.className = 'progress-fill' + (mode === 'bash' ? ' bash-mode' : '');
+        typingWrap.classList.toggle('bash-mode', mode === 'bash');
+
+        // Style restart button
+        btnRestart.className = 'btn btn-primary' + (mode === 'bash' ? ' bash-style' : '');
+
+        // Reset & rebuild
+        restart(true);
+    }
+
+    /* ── BUILD DISPLAY ── */
+    function buildDisplay() {
+        display.innerHTML = '';
+        for (let i = 0; i < TEMPLATE.length; i++) {
+            const ch = TEMPLATE[i];
+            const span = document.createElement('span');
+            span.className = 'ch pending';
+            span.dataset.i = i;
+            if (ch === '\n') {
+                span.textContent = '\n';
+            } else {
+                span.textContent = ch;
+            }
+            display.appendChild(span);
+        }
+        updateCursor();
+    }
+
+    function getSpan(i) {
+        return display.querySelector(`.ch[data-i="${i}"]`);
+    }
+
+    function updateCursor() {
+        const old = display.querySelector('.ch.current');
+        if (old) old.classList.remove('current');
+        if (position < TEMPLATE.length) {
+            const cur = getSpan(position);
+            if (cur) cur.classList.add('current');
+        }
+    }
+
+    /* ── FOCUS ── */
+    typingWrap.addEventListener('click', () => {
+        if (!finished) {
+            typingWrap.classList.add('focused');
+            hiddenInput.focus();
+        }
+    });
+
+    hiddenInput.addEventListener('blur', () => {
+        typingWrap.classList.remove('focused');
+    });
+
+    hiddenInput.addEventListener('focus', () => {
+        typingWrap.classList.add('focused');
+        progressLbl.textContent = position === 0 ? 'Zacznij pisać…' : `Pozycja ${position} / ${TEMPLATE.length}`;
+    });
+
+    /* ── KEY HANDLING ── */
+    hiddenInput.addEventListener('keydown', function (e) {
+        if (finished) return;
+
+        if (e.key === 'Backspace') {
+            e.preventDefault();
+            if (position > 0) {
+                position--;
+                const span = getSpan(position);
+                span.classList.remove('correct', 'wrong');
+                span.classList.add('pending');
+                updateCursor();
+                updateStats();
+            }
+            return;
+        }
+
+        if (e.key.length > 1 && e.key !== 'Enter' && e.key !== 'Tab') return;
+        e.preventDefault();
+
+        let typedChar;
+        if (e.key === 'Enter') typedChar = '\n';
+        else if (e.key === 'Tab') typedChar = '\t';
+        else typedChar = e.key;
+
+        if (position >= TEMPLATE.length) return;
+
+        if (!started) {
+            started = true;
+            startTime = performance.now();
+            timerInterval = setInterval(updateTimer, 50);
+            progressLbl.textContent = 'Pisanie…';
+            document.getElementById('statTimer').classList.add('active');
+        }
+
+        const expected = TEMPLATE[position];
+        const span = getSpan(position);
+        totalTyped++;
+
+        if (typedChar === expected) {
+            span.classList.remove('pending', 'wrong');
+            span.classList.add('correct');
+        } else {
+            span.classList.remove('pending', 'correct');
+            span.classList.add('wrong');
+            errors++;
+            typingWrap.classList.remove('error-shake');
+            void typingWrap.offsetWidth;
+            typingWrap.classList.add('error-shake');
+        }
+
+        position++;
+        updateCursor();
+        updateStats();
+
+        const curSpan = getSpan(position);
+        if (curSpan) curSpan.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+
+        if (position === TEMPLATE.length) {
+            finishRun();
+        }
+    });
+
+    /* ── TIMER ── */
+    function updateTimer() {
+        if (!started || finished) return;
+        const elapsed = (performance.now() - startTime) / 1000;
+        valTimer.textContent = elapsed.toFixed(1) + 's';
+        const cpm = position > 0 ? Math.round((position / elapsed) * 60) : 0;
+        valWpm.textContent = cpm;
+    }
+
+    /* ── STATS ── */
+    function updateStats() {
+        valErrors.textContent = errors;
+        const acc = totalTyped > 0 ? Math.round(((totalTyped - errors) / totalTyped) * 100) : 100;
+        valAccuracy.textContent = acc + '%';
+        valAccuracy.className = 'stat-box-val ' + (acc >= 98 ? 'green' : acc >= 90 ? 'yellow' : 'red');
+
+        const pct = Math.round((position / TEMPLATE.length) * 100);
+        progressFill.style.width = pct + '%';
+        progressPct.textContent = pct + '%';
+        progressLbl.textContent = `Pozycja ${position} / ${TEMPLATE.length}`;
+    }
+
+    /* ── FINISH ── */
+    function finishRun() {
+        finished = true;
+        clearInterval(timerInterval);
+        typingWrap.classList.remove('focused');
+
+        const elapsed = (performance.now() - startTime) / 1000;
+        const cpm = Math.round((TEMPLATE.length / elapsed) * 60);
+        const acc = Math.round(((totalTyped - errors) / totalTyped) * 100);
+
+        const run = { time: elapsed, cpm, errors, acc, mode: currentMode };
+        runs.push(run);
+
+        // Best per mode
+        const modeRuns = runs.filter(r => r.mode === currentMode).sort((a, b) => a.time - b.time);
+        const isBest = modeRuns.length === 1 || modeRuns[0] === run;
+        const bestTime = modeRuns[0].time;
+
+        bestTimeVal.textContent = bestTime.toFixed(2) + 's';
+
+        const isBash = currentMode === 'bash';
+        resultCard.className = 'result-card' + (isBash ? ' bash-result' : '');
+
+        document.getElementById('resultEmoji').textContent =
+            errors === 0 ? '🏆' : acc >= 95 ? '🎯' : acc >= 80 ? '💪' : '📝';
+        document.getElementById('resultTitle').textContent =
+            errors === 0 ? 'Perfekcyjny!' : 'Ukończono!';
+        document.getElementById('resultSubtitle').textContent =
+            errors === 0 ? 'Zero błędów — mistrzostwo!' : `${errors} błąd${errors === 1 ? '' : errors < 5 ? 'y' : 'ów'} — trenuj dalej!`;
+        document.getElementById('rTime').textContent = elapsed.toFixed(2) + 's';
+        document.getElementById('rTime').className = 'result-stat-val' + (isBash ? ' purple' : '');
+        document.getElementById('rWpm').textContent = cpm;
+        document.getElementById('rAccuracy').textContent = acc + '%';
+        document.getElementById('rAccuracy').className = 'result-stat-val ' + (acc >= 98 ? 'green' : acc >= 90 ? 'yellow' : 'red');
+        document.getElementById('rErrors').textContent = errors;
+        document.getElementById('resultNewBest').style.display = isBest ? '' : 'none';
+
+        const restartBtn = document.getElementById('btnResultRestart');
+        restartBtn.className = 'btn btn-primary' + (isBash ? ' bash-style' : '');
+
+        overlay.classList.add('show');
+        renderHistory();
+    }
+
+    /* ── HISTORY ── */
+    function renderHistory() {
+        if (runs.length === 0) { historySection.style.display = 'none'; return; }
+        historySection.style.display = '';
+        runsList.innerHTML = '';
+
+        // Sort all runs by time, group by mode
+        const sorted = [...runs].sort((a, b) => a.time - b.time);
+        // Track best per mode
+        const bestByMode = {};
+        sorted.forEach(r => { if (!bestByMode[r.mode]) bestByMode[r.mode] = r; });
+
+        sorted.forEach((r, i) => {
+            const isBestOverall = i === 0;
+            const isBestForMode = bestByMode[r.mode] === r;
+            const row = document.createElement('div');
+            row.className = 'run-row' + (isBestOverall ? ' best' : '');
+            row.innerHTML = `
+                <span class="run-rank ${isBestOverall ? 'gold' : ''}">${isBestOverall ? '🥇' : '#' + (i+1)}</span>
+                <span class="run-time ${r.mode}">${r.time.toFixed(2)}s</span>
+                <div class="run-meta">
+                    <div class="run-wpm">${r.cpm} zn/min</div>
+                    <div class="run-errors">${r.errors} błąd${r.errors===1?'':r.errors<5?'y':'ów'}</div>
+                </div>
+                <span class="run-mode-tag ${r.mode}">${r.mode.toUpperCase()}</span>
+                <span class="run-accuracy ${r.acc >= 98 ? 'perfect' : r.acc >= 90 ? 'good' : 'bad'}">${r.acc}%</span>
+                ${isBestOverall ? '<span class="run-badge">BEST</span>' : ''}
+            `;
+            runsList.appendChild(row);
+        });
+    }
+
+    /* ── RESTART ── */
+    function restart(modeSwitch) {
+        position = 0; errors = 0; totalTyped = 0;
+        started = false; finished = false; startTime = 0;
+        clearInterval(timerInterval);
+        valTimer.textContent = '0.0s';
+        valWpm.textContent = '0';
+        valErrors.textContent = '0';
+        valAccuracy.textContent = '100%';
+        valAccuracy.className = 'stat-box-val green';
+        progressFill.style.width = '0%';
+        progressPct.textContent = '0%';
+        progressLbl.textContent = 'Kliknij w kod aby zacząć';
+        document.getElementById('statTimer').classList.remove('active');
+        overlay.classList.remove('show');
+        typingWrap.classList.remove('error-shake');
+
+        // Update best time for current mode
+        const modeRuns = runs.filter(r => r.mode === currentMode).sort((a, b) => a.time - b.time);
+        bestTimeVal.textContent = modeRuns.length > 0 ? modeRuns[0].time.toFixed(2) + 's' : '—';
+
+        buildDisplay();
+        renderHistory();
+    }
+
+    btnRestart.addEventListener('click', () => restart(false));
+    document.getElementById('btnResultRestart').addEventListener('click', () => restart(false));
+    document.getElementById('btnResultClose').addEventListener('click', () => overlay.classList.remove('show'));
+
+    /* ── PEEK ── */
+    document.getElementById('btnPeek').addEventListener('click', () => {
+        clearTimeout(peekTimeout);
+        display.querySelectorAll('.ch.pending').forEach(s => s.style.color = '#6060a0');
+        peekTimeout = setTimeout(() => {
+            display.querySelectorAll('.ch.pending').forEach(s => s.style.color = '');
+        }, 3000);
+    });
+
+    /* ── NAVBAR ── */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 40));
+    const hamburger = document.getElementById('hamburger');
+    const navLinks  = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => { navLinks.classList.toggle('open'); hamburger.classList.toggle('open'); });
+    document.querySelectorAll('.nav-close').forEach(a => a.addEventListener('click', () => { navLinks.classList.remove('open'); hamburger.classList.remove('open'); }));
+
+    /* ── PARTICLES ── */
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    let W, H, dots = [];
+    function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+    resize();
+    window.addEventListener('resize', () => { resize(); spawnDots(); });
+    function spawnDots() {
+        dots = [];
+        const n = Math.floor((W * H) / 22000);
+        for (let i = 0; i < n; i++) dots.push({ x: Math.random()*W, y: Math.random()*H, r: Math.random()*1.2+0.3, vx: (Math.random()-.5)*.25, vy: (Math.random()-.5)*.25, a: Math.random()*.4+.15 });
+    }
+    spawnDots();
+    function drawP() {
+        ctx.clearRect(0,0,W,H);
+        for (let i = 0; i < dots.length; i++) {
+            const d = dots[i];
+            d.x += d.vx; d.y += d.vy;
+            if (d.x<0) d.x=W; if (d.x>W) d.x=0;
+            if (d.y<0) d.y=H; if (d.y>H) d.y=0;
+            ctx.beginPath(); ctx.arc(d.x,d.y,d.r,0,Math.PI*2);
+            ctx.fillStyle=`rgba(96,165,250,${d.a})`; ctx.fill();
+            for (let j=i+1;j<dots.length;j++){
+                const d2=dots[j], dx=d.x-d2.x, dy=d.y-d2.y, dist=Math.sqrt(dx*dx+dy*dy);
+                if(dist<100){ctx.beginPath();ctx.moveTo(d.x,d.y);ctx.lineTo(d2.x,d2.y);ctx.strokeStyle=`rgba(59,130,246,${.1*(1-dist/100)})`;ctx.lineWidth=.5;ctx.stroke();}
+            }
+        }
+        requestAnimationFrame(drawP);
+    }
+    drawP();
+
+    /* ── SIDEBAR TOGGLE ── */
+    window.toggleSidebar = function() {
+        const sidebar = document.getElementById('floatingSidebar');
+        const btn = document.getElementById('sidebarToggleBtn');
+        sidebar.classList.toggle('collapsed');
+        btn.textContent = sidebar.classList.contains('collapsed') ? '▶ rozwiń' : '▼ zwiń';
+    };
+
+    /* ── INIT ── */
+    buildDisplay();
+});
+</script>
+<!-- licznik odwiedzin -> panel kacperos.html -->
+<script type="module" src="/track.js"></script>
+</body>
+</html>

@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<title>Trwałe drzewo przedziałowe z lazy propagation — T-Olimpians</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+@page { size: A4; margin: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  background: #0a0a0f;
+  color: #e8e8f0;
+  font-family: 'DM Sans', sans-serif;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+/* JetBrains Mono skleja -> w strzalke; wylaczamy globalnie (wlasciwosc dziedziczona) */
+html, body, code, pre, span, div, td, th, li {
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "calt" 0, "dlig" 0;
+}
+
+/* ---------- okładka ---------- */
+.cover {
+  position: relative;
+  height: 297mm;
+  padding: 26pt 26pt 0 26pt;
+  overflow: hidden;
+  page-break-after: always;
+  background:
+    radial-gradient(760pt 560pt at 6% -12%, rgba(124,92,255,.30), transparent 62%),
+    radial-gradient(700pt 560pt at 104% 74%, rgba(0,229,199,.22), transparent 60%),
+    #0a0a0f;
+}
+.cover-inner { position: absolute; left: 26pt; right: 26pt; top: 355pt; }
+.kicker {
+  font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; font-weight: 500;
+  color: #00e5c7; letter-spacing: .22em; margin-bottom: 14pt;
+}
+.cover h1 {
+  font-size: 40pt; font-weight: 700; line-height: 1.08; color: #00e5c7;
+  letter-spacing: -.015em; max-width: 380pt;
+}
+.cover .sub {
+  margin-top: 14pt; font-size: 10.5pt; line-height: 1.55; color: #e8e8f0;
+  max-width: 330pt; font-weight: 400;
+}
+.cover .meta {
+  margin-top: 16pt; font-family: 'JetBrains Mono', monospace; font-size: 8pt;
+  color: #8888a0; letter-spacing: .06em;
+}
+.cover-foot {
+  position: absolute; left: 26pt; bottom: 26pt;
+  font-family: 'JetBrains Mono', monospace; font-size: 8pt; color: #8888a0;
+}
+.cover-foot b { color: #7c5cff; font-weight: 700; }
+
+/* ---------- sekcja ---------- */
+.sec { padding: 34pt 26pt 0 26pt; page-break-after: always; }
+.sec:last-child { page-break-after: auto; }
+.sec-head {
+  display: flex; align-items: baseline; gap: 8pt;
+  border-left: 3pt solid #7c5cff; padding-left: 10pt; margin-bottom: 14pt;
+}
+.sec-num { font-family: 'JetBrains Mono', monospace; font-size: 10pt; font-weight: 700; color: #00e5c7; }
+.sec h2 { font-size: 15pt; font-weight: 700; color: #fff; letter-spacing: -.01em; }
+.sec p { font-size: 9.5pt; line-height: 1.62; color: #e8e8f0; margin: 9pt 0; }
+.sec p b { color: #fff; font-weight: 700; }
+
+/* ---------- boxy ---------- */
+.note, .warn, .good {
+  font-size: 8.5pt; line-height: 1.55; padding: 9pt 12pt; border-radius: 3pt;
+  margin: 10pt 0; page-break-inside: avoid;
+}
+.note { background: #11111a; border-left: 2.5pt solid #00e5c7; color: #8888a0; }
+.note b { color: #e8e8f0; }
+.warn { background: rgba(255,180,84,.07); border-left: 2.5pt solid #ffb454; color: #8888a0; }
+.warn b { color: #ffcf87; }
+.warn-label { font-family: 'JetBrains Mono', monospace; color: #ffb454; font-weight: 700; }
+.good { background: rgba(0,229,199,.06); border-left: 2.5pt solid #00e5c7; color: #8888a0; }
+.good b { color: #e8e8f0; }
+.good-label { font-family: 'JetBrains Mono', monospace; color: #00e5c7; font-weight: 700; }
+
+.formula {
+  background: #1d1d2a; border: 1px solid #2a2a38; border-radius: 4pt;
+  padding: 12pt; margin: 12pt 0; text-align: center;
+  font-family: 'JetBrains Mono', monospace; font-size: 9.5pt; color: #e8e8f0;
+  page-break-inside: avoid;
+}
+.formula b { color: #00e5c7; }
+.formula .fw { color: #ffb454; }
+
+/* ---------- kod ---------- */
+.code-wrap { margin: 10pt 0; page-break-inside: avoid; }
+.code-cap {
+  font-family: 'JetBrains Mono', monospace; font-size: 7pt; color: #8888a0;
+  letter-spacing: .14em; text-transform: uppercase; margin-bottom: 4pt;
+}
+pre.code, pre.term {
+  font-family: 'JetBrains Mono', monospace; font-size: 7.6pt; line-height: 1.5;
+  background: #11111a; border: 1px solid #2a2a38; border-radius: 4pt;
+  padding: 10pt 12pt; white-space: pre; overflow: hidden; color: #e8e8f0;
+}
+pre.term { color: #8888a0; background: #0d0d14; }
+code.ic {
+  font-family: 'JetBrains Mono', monospace; font-size: .92em;
+  background: #1d1d2a; color: #00e5c7; padding: 1pt 3.5pt; border-radius: 2.5pt;
+}
+.p { font-family: 'JetBrains Mono', monospace; color: #00e5c7; }
+.t { color: #00e5c7; font-family: 'JetBrains Mono', monospace; }
+.o { color: #ffb454; font-family: 'JetBrains Mono', monospace; }
+
+/* ---------- tabela ---------- */
+table.tbl {
+  width: 100%; border-collapse: collapse; margin: 12pt 0;
+  font-size: 8.5pt; page-break-inside: avoid;
+  border: 1px solid #2a2a38; border-radius: 4pt; overflow: hidden;
+}
+table.tbl th {
+  background: #1d1d2a; color: #00e5c7; text-align: left;
+  font-family: 'JetBrains Mono', monospace; font-size: 8pt; font-weight: 700;
+  padding: 7pt 10pt; border-bottom: 1px solid #2a2a38;
+}
+table.tbl td {
+  padding: 7pt 10pt; border-bottom: 1px solid #2a2a38;
+  color: #e8e8f0; line-height: 1.45; vertical-align: top;
+}
+table.tbl tbody tr:nth-child(odd) td { background: #11111a; }
+table.tbl tbody tr:nth-child(even) td { background: #16161f; }
+table.tbl tbody tr:last-child td { border-bottom: none; }
+table.tbl td b { color: #fff; }
+.ok { color: #00e5c7; font-weight: 700; }
+.mid { color: #ffb454; font-weight: 700; }
+.bad { color: #ff6b81; font-weight: 700; }
+
+/* ---------- lista pułapek ---------- */
+ol.traps { margin: 10pt 0 0 0; padding: 0; list-style: none; counter-reset: t; }
+ol.traps li {
+  counter-increment: t; position: relative;
+  background: #11111a; border: 1px solid #2a2a38; border-left: 2.5pt solid #ffb454;
+  border-radius: 3pt; padding: 8pt 12pt 8pt 30pt; margin-bottom: 6pt;
+  font-size: 8.5pt; line-height: 1.5; color: #8888a0; page-break-inside: avoid;
+}
+ol.traps li::before {
+  content: counter(t, decimal-leading-zero);
+  position: absolute; left: 11pt; top: 8pt;
+  font-family: 'JetBrains Mono', monospace; font-size: 8pt; font-weight: 700; color: #ffb454;
+}
+ol.traps li b { color: #e8e8f0; }
+
+/* ---------- diagram ---------- */
+.diagram {
+  background: #11111a; border: 1px solid #2a2a38; border-radius: 4pt;
+  padding: 10pt; margin: 12pt 0; page-break-inside: avoid;
+}
+.diagram svg { width: 100%; height: auto; }
+.diagram .edge { stroke: #2a2a38; stroke-width: 1.6; }
+.diagram .edge.new { stroke: #7c5cff; stroke-width: 2; }
+.diagram .edge.dashed { stroke: #8888a0; stroke-width: 1.4; stroke-dasharray: 3 3; }
+.diagram .arrow { stroke: #8888a0; stroke-width: 1.4; }
+.diagram .old { fill: #1d1d2a; stroke: #2a2a38; stroke-width: 1.5; }
+.diagram .shared { fill: #1d1d2a; stroke: #00e5c7; stroke-width: 1.8; }
+.diagram .new-n { fill: #7c5cff; stroke: #7c5cff; stroke-width: 1.5; }
+.diagram .dn {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700;
+  fill: #e8e8f0; text-anchor: middle;
+}
+.diagram .dn.dark { fill: #0a0a0f; }
+.diagram .dlabel {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700;
+  fill: #00e5c7; text-anchor: middle; letter-spacing: .1em;
+}
+.diagram .dsmall {
+  font-family: 'JetBrains Mono', monospace; font-size: 9px;
+  fill: #8888a0; text-anchor: middle;
+}
+.diagram .dleg { font-family: 'DM Sans', sans-serif; font-size: 10px; fill: #8888a0; }
+
+/* ---------- stopka ---------- */
+.foot {
+  margin-top: 16pt; text-align: center;
+  font-family: 'JetBrains Mono', monospace; font-size: 7.5pt; color: #8888a0;
+  letter-spacing: .04em;
+}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="cover-inner">
+    <div class="kicker">// T-OLIMPIANS — TUTORIAL</div>
+    <h1>Trwałe drzewo przedziałowe z lazy propagation</h1>
+    <div class="sub">Persistent segment tree na wskaźnikach w C++. Path copying,
+      lazy bez push-downu, inwariant, gotowy kod i test poprawności.</div>
+    <div class="meta">C++ · WSKAŹNIKI · STRUKTURY DANYCH · OI / OIJ</div>
+  </div>
+  <div class="cover-foot"><b>T-Olimpians</b> Team Poland · t-olimpians.com</div>
+</div>
+
+
+<section class="sec">
+  <div class="sec-head"><span class="sec-num">01</span><h2>Po co nam trwałe drzewo?</h2></div>
+  <div class="note">Zwykłe drzewo przedziałowe po aktualizacji <b>zapomina</b> poprzedni stan. Wersja trwała (<i>persistent</i>) trzyma <b>wszystkie</b> stany naraz i pozwala pytać o dowolny z nich.</div><div class="code-wrap"><div class="code-cap">historia wersji</div><pre class="code"><span style="color: #E8E8F0">v0 </span><span style="color: #A8A8C0">=</span><span style="color: #E8E8F0"> build</span><span style="color: #A8A8C0">({</span><span style="color: #FFB454">1</span><span style="color: #A8A8C0">,</span><span style="color: #FFB454">2</span><span style="color: #A8A8C0">,</span><span style="color: #FFB454">3</span><span style="color: #A8A8C0">,</span><span style="color: #FFB454">4</span><span style="color: #A8A8C0">,</span><span style="color: #FFB454">5</span><span style="color: #A8A8C0">,</span><span style="color: #FFB454">6</span><span style="color: #A8A8C0">,</span><span style="color: #FFB454">7</span><span style="color: #A8A8C0">,</span><span style="color: #FFB454">8</span><span style="color: #A8A8C0">});</span>
+<span style="color: #E8E8F0">v1 </span><span style="color: #A8A8C0">=</span><span style="color: #E8E8F0"> rangeAdd</span><span style="color: #A8A8C0">(</span><span style="color: #E8E8F0">v0</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> </span><span style="color: #FFB454">1</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> </span><span style="color: #FFB454">4</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> </span><span style="color: #A8A8C0">+</span><span style="color: #FFB454">10</span><span style="color: #A8A8C0">);</span><span style="color: #E8E8F0">    </span><span style="color: #8888A0">// v0 dalej istnieje i dziala</span>
+<span style="color: #E8E8F0">v2 </span><span style="color: #A8A8C0">=</span><span style="color: #E8E8F0"> rangeAdd</span><span style="color: #A8A8C0">(</span><span style="color: #E8E8F0">v1</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> </span><span style="color: #FFB454">0</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> </span><span style="color: #FFB454">7</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> </span><span style="color: #FFB454">-1</span><span style="color: #A8A8C0">);</span>
+<span style="color: #E8E8F0">v3 </span><span style="color: #A8A8C0">=</span><span style="color: #E8E8F0"> rangeAdd</span><span style="color: #A8A8C0">(</span><span style="color: #E8E8F0">v1</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> </span><span style="color: #FFB454">5</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> </span><span style="color: #FFB454">6</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> </span><span style="color: #A8A8C0">+</span><span style="color: #FFB454">100</span><span style="color: #A8A8C0">);</span><span style="color: #E8E8F0">   </span><span style="color: #8888A0">// galaz z v1, NIE z v2</span>
+<span style="color: #E8E8F0">query</span><span style="color: #A8A8C0">(</span><span style="color: #E8E8F0">v0</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> </span><span style="color: #FFB454">0</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> </span><span style="color: #FFB454">7</span><span style="color: #A8A8C0">);</span><span style="color: #E8E8F0">                 </span><span style="color: #8888A0">// 36 - tak, jakby nic sie nie stalo</span></pre></div><p>Zwróć uwagę na <b>v3</b>: nową wersję można zrobić z <i>dowolnej</i> starej, nie tylko
+    z ostatniej. Historia wersji jest więc <b>drzewem</b>, a nie listą — stąd bierze się
+    siła tej struktury (cofanie, „co by było gdyby”, zapytania offline po czasie).</p><table class="tbl"><colgroup><col style="width:30%"><col style="width:40%"><col style="width:30%"></colgroup><thead><tr><th>Operacja</th><th>Znaczenie</th><th>Koszt</th></tr></thead><tbody><tr><td><code class="ic">build(a)</code></td><td>wersja 0 z tablicy</td><td><code class="ic">O(n)</code> czasu i pamięci</td></tr><tr><td><code class="ic">rangeAdd(ver, l, r, v)</code></td><td>nowa wersja: <span class='p'>a[i] += v</span> dla i ∈ [l, r]</td><td><code class="ic">O(log n)</code> czasu i <b>nowej</b> pamięci</td></tr><tr><td><code class="ic">query(ver, l, r)</code></td><td>suma <span class='p'>a[l..r]</span> w wersji <span class='p'>ver</span></td><td><code class="ic">O(log n)</code> czasu, <b>0</b> nowej pamięci</td></tr></tbody></table><div class="warn"><span class="warn-label">Naiwne podejście:</span> kopiowanie całej tablicy przy każdej wersji to <code class="ic">O(n)</code> pamięci na wersję. Dla <code class="ic">n = q = 100 000</code> to 10<sup>10</sup> komórek — kilkadziesiąt gigabajtów. Trwałe drzewo zbija to do <code class="ic">O(n + q log n)</code>.</div>
+  <div class="foot">t-olimpians.com — persistent segment tree — str. 2</div>
+</section>
+<section class="sec">
+  <div class="sec-head"><span class="sec-num">02</span><h2>Trwałość = path copying</h2></div>
+  <div class="note">Podstawowy trik: żeby coś zmienić, <b>nie modyfikujemy żadnego starego węzła</b>. Kopiujemy tylko węzły na ścieżce od korzenia w dół, a nietknięte poddrzewa nowa wersja <b>współdzieli</b> ze starą — po prostu ten sam wskaźnik.</div>
+<div class="diagram">
+<svg viewBox="0 0 640 250" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="ar" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#8888a0"/>
+    </marker>
+  </defs>
+
+  <!-- wersja 0 -->
+  <text x="78" y="20" class="dlabel">wersja 0</text>
+  <line x1="78" y1="46" x2="42" y2="88" class="edge"/>
+  <line x1="78" y1="46" x2="114" y2="88" class="edge"/>
+  <line x1="42" y1="110" x2="20" y2="152" class="edge"/>
+  <line x1="42" y1="110" x2="64" y2="152" class="edge"/>
+  <circle cx="78" cy="38" r="14" class="old"/><text x="78" y="42" class="dn">A</text>
+  <circle cx="42" cy="100" r="14" class="old"/><text x="42" y="104" class="dn">B</text>
+  <circle cx="114" cy="100" r="14" class="shared"/><text x="114" y="104" class="dn">C</text>
+  <circle cx="20" cy="162" r="14" class="shared"/><text x="20" y="166" class="dn">D</text>
+  <circle cx="64" cy="162" r="14" class="old"/><text x="64" y="166" class="dn">E</text>
+
+  <line x1="200" y1="100" x2="270" y2="100" class="arrow" marker-end="url(#ar)"/>
+  <text x="235" y="88" class="dsmall">rangeAdd</text>
+
+  <!-- wersja 1 -->
+  <text x="400" y="20" class="dlabel">wersja 1</text>
+  <line x1="400" y1="46" x2="364" y2="88" class="edge new"/>
+  <line x1="400" y1="46" x2="436" y2="88" class="edge dashed"/>
+  <line x1="364" y1="110" x2="342" y2="152" class="edge dashed"/>
+  <line x1="364" y1="110" x2="386" y2="152" class="edge new"/>
+  <circle cx="400" cy="38" r="14" class="new-n"/><text x="400" y="42" class="dn dark">A'</text>
+  <circle cx="364" cy="100" r="14" class="new-n"/><text x="364" y="104" class="dn dark">B'</text>
+  <circle cx="436" cy="100" r="14" class="shared"/><text x="436" y="104" class="dn">C</text>
+  <circle cx="342" cy="162" r="14" class="shared"/><text x="342" y="166" class="dn">D</text>
+  <circle cx="386" cy="162" r="14" class="new-n"/><text x="386" y="166" class="dn dark">E'</text>
+
+  <!-- legenda -->
+  <circle cx="46" cy="205" r="7" class="new-n"/>
+  <text x="62" y="209" class="dleg">nowe węzły — powstają tylko na ścieżce, O(log n) sztuk na aktualizację</text>
+  <circle cx="46" cy="231" r="7" class="shared"/>
+  <text x="62" y="235" class="dleg">węzły współdzielone — dokładnie ten sam wskaźnik w obu wersjach</text>
+</svg>
+</div><p>Ścieżka od korzenia do liścia ma długość <b>log n</b> — i dokładnie tyle
+    nowych węzłów powstaje. Cała reszta drzewa jest wspólna dla obu wersji, bo
+    <b>nikt jej nie nadpisuje</b>. W kodzie widać to w jednej linijce:</p><div class="code-wrap"><div class="code-cap">serce trwałości</div><pre class="code"><span style="color: #8888A0">// brak przeciecia z [l, r] -&gt; oddajemy STARY wskaznik.</span>
+<span style="color: #8888A0">// zero nowych wezlow, cale poddrzewo wspoldzielone przez obie wersje</span>
+<span style="color: #7C5CFF">if</span><span style="color: #E8E8F0"> </span><span style="color: #A8A8C0">(</span><span style="color: #E8E8F0">r </span><span style="color: #A8A8C0">&lt;</span><span style="color: #E8E8F0"> lo </span><span style="color: #A8A8C0">||</span><span style="color: #E8E8F0"> hi </span><span style="color: #A8A8C0">&lt;</span><span style="color: #E8E8F0"> l</span><span style="color: #A8A8C0">)</span><span style="color: #E8E8F0"> </span><span style="color: #7C5CFF">return</span><span style="color: #E8E8F0"> v</span><span style="color: #A8A8C0">;</span></pre></div><div class="good"><span class="good-label">Zapamiętaj:</span> każda operacja pisząca zaczyna się od <code class="ic">clone</code> węzła. Jeżeli gdziekolwiek zapiszesz do węzła, którego nie sklonowałeś w tej operacji — właśnie zepsułeś wszystkie starsze wersje.</div>
+  <div class="foot">t-olimpians.com — persistent segment tree — str. 3</div>
+</section>
+<section class="sec">
+  <div class="sec-head"><span class="sec-num">03</span><h2>Gdzie lazy zderza się z trwałością</h2></div>
+  <div class="note">W zwykłym drzewie lazy działa tak: schodząc przez węzeł robimy <b>push-down</b> — spychamy zaległą operację do dzieci. To jest <b>zapis do dzieci</b>.</div><p>I tu robi się problem. W drzewie trwałym dzieci są <b>współdzielone ze starymi
+    wersjami</b>. Push-down zapisałby lazy do węzła, który należy też do wersji 0 —
+    i wersja 0 nagle zmieniłaby wartości. Cała trwałość w gruzach.</p><div class="warn"><span class="warn-label">Pułapka:</span> push-down robimy także w <b>zapytaniach</b>. W trwałym drzewie oznaczałoby to, że samo <i>czytanie</i> starej wersji ją psuje — a błąd zobaczysz dopiero w zapytaniu zadanym 200 operacji później.</div><div class="formula">W trwałym drzewie przedziałowym z lazy <b>nie ma push-downu.</b></div><p>Skoro nie możemy zepchnąć lazy w dół, to niech tam zostanie — a ten,
+    kto schodzi niżej, sam <b>pamięta</b>, co go po drodze „dotyczy”. Cała reszta tego
+    arkusza to konsekwencje tej jednej decyzji.</p>
+  <div class="foot">t-olimpians.com — persistent segment tree — str. 4</div>
+</section>
+<section class="sec">
+  <div class="sec-head"><span class="sec-num">04</span><h2>Inwariant — to jest cały algorytm</h2></div>
+  <table class="tbl"><colgroup><col style="width:22%"><col style="width:78%"></colgroup><thead><tr><th>Pole</th><th>Co dokładnie oznacza</th></tr></thead><tbody><tr><td><code class="ic">v-&gt;sum</code></td><td>prawdziwa suma przedziału węzła <span class='p'>v</span>, <b>z uwzględnieniem własnego</b> <span class='p'>v-&gt;lazy</span>, ale <b>bez</b> lazy przodków <span class='p'>v</span></td></tr><tr><td><code class="ic">v-&gt;lazy</code></td><td>„+lazy do każdego elementu”, które <b>nie jest widoczne w dzieciach</b> i nigdy do nich nie trafi</td></tr></tbody></table><div class="formula">v-&gt;sum &nbsp;=&nbsp; v-&gt;l-&gt;sum &nbsp;+&nbsp; v-&gt;r-&gt;sum &nbsp;+&nbsp; v-&gt;lazy &nbsp;×&nbsp; <span class='fw'>ilość wierzchołków w poddrzewie v</span></div><div class="note"><b>ilość wierzchołków w poddrzewie v</b> — czyli ile pozycji tablicy obsługuje węzeł <span class='p'>v</span>; w kodzie jest to po prostu <code class="ic">hi - lo + 1</code>.</div><p>Ostatni składnik trzeba doliczać <b>ręcznie</b> — dzieci o własnym lazy
+    rodzica nie wiedzą i nigdy się nie dowiedzą. Kto o tym zapomni, dostanie drzewo,
+    które zgadza się w liściach i rozjeżdża w środku.</p><div class="good"><span class="good-label">Konsekwencja:</span> skoro lazy nigdy nie schodzi w dół, to węzeł raz zapisany jest <b>niezmienny</b> (immutable). Dlatego można go bezpiecznie współdzielić między dowolną liczbą wersji.</div>
+  <div class="foot">t-olimpians.com — persistent segment tree — str. 5</div>
+</section>
+<section class="sec">
+  <div class="sec-head"><span class="sec-num">05</span><h2>Węzeł i aktualizacja</h2></div>
+  <div class="code-wrap"><div class="code-cap">struktura węzła</div><pre class="code"><span style="color: #7C5CFF">struct</span><span style="color: #E8E8F0"> </span><span style="color: #00E5C7">Node</span><span style="color: #E8E8F0"> </span><span style="color: #A8A8C0">{</span>
+<span style="color: #E8E8F0">    ll sum</span><span style="color: #A8A8C0">;</span><span style="color: #E8E8F0">         </span><span style="color: #8888A0">// suma przedzialu (z wlasnym lazy, bez lazy przodkow)</span>
+<span style="color: #E8E8F0">    ll lazy</span><span style="color: #A8A8C0">;</span><span style="color: #E8E8F0">        </span><span style="color: #8888A0">// zalegle +lazy dla kazdego elementu, niewidoczne w dzieciach</span>
+<span style="color: #E8E8F0">    Node </span><span style="color: #A8A8C0">*</span><span style="color: #E8E8F0">l</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> </span><span style="color: #A8A8C0">*</span><span style="color: #E8E8F0">r</span><span style="color: #A8A8C0">;</span><span style="color: #E8E8F0">    </span><span style="color: #8888A0">// dzieci - WSPOLDZIELONE miedzy wersjami!</span>
+
+<span style="color: #E8E8F0">    Node</span><span style="color: #A8A8C0">(</span><span style="color: #E8E8F0">ll s</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> ll lz</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> Node</span><span style="color: #A8A8C0">*</span><span style="color: #E8E8F0"> L</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> Node</span><span style="color: #A8A8C0">*</span><span style="color: #E8E8F0"> R</span><span style="color: #A8A8C0">)</span><span style="color: #E8E8F0"> </span><span style="color: #A8A8C0">:</span><span style="color: #E8E8F0"> sum</span><span style="color: #A8A8C0">(</span><span style="color: #E8E8F0">s</span><span style="color: #A8A8C0">),</span><span style="color: #E8E8F0"> lazy</span><span style="color: #A8A8C0">(</span><span style="color: #E8E8F0">lz</span><span style="color: #A8A8C0">),</span><span style="color: #E8E8F0"> l</span><span style="color: #A8A8C0">(</span><span style="color: #E8E8F0">L</span><span style="color: #A8A8C0">),</span><span style="color: #E8E8F0"> r</span><span style="color: #A8A8C0">(</span><span style="color: #E8E8F0">R</span><span style="color: #A8A8C0">)</span><span style="color: #E8E8F0"> </span><span style="color: #A8A8C0">{}</span>
+<span style="color: #A8A8C0">};</span>
+
+<span style="color: #8888A0">// kopia PLYTKA: dzieci zostaja te same wskazniki co w starej wersji</span>
+<span style="color: #E8E8F0">Node</span><span style="color: #A8A8C0">*</span><span style="color: #E8E8F0"> </span><span style="color: #00E5C7">cloneNode</span><span style="color: #A8A8C0">(</span><span style="color: #7C5CFF">const</span><span style="color: #E8E8F0"> Node</span><span style="color: #A8A8C0">*</span><span style="color: #E8E8F0"> v</span><span style="color: #A8A8C0">)</span><span style="color: #E8E8F0"> </span><span style="color: #A8A8C0">{</span>
+<span style="color: #E8E8F0">    </span><span style="color: #7C5CFF">return</span><span style="color: #E8E8F0"> </span><span style="color: #7C5CFF">new</span><span style="color: #E8E8F0"> Node</span><span style="color: #A8A8C0">(</span><span style="color: #E8E8F0">v</span><span style="color: #A8A8C0">-&gt;</span><span style="color: #E8E8F0">sum</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> v</span><span style="color: #A8A8C0">-&gt;</span><span style="color: #E8E8F0">lazy</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> v</span><span style="color: #A8A8C0">-&gt;</span><span style="color: #E8E8F0">l</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> v</span><span style="color: #A8A8C0">-&gt;</span><span style="color: #E8E8F0">r</span><span style="color: #A8A8C0">);</span>
+<span style="color: #A8A8C0">}</span></pre></div><div class="code-wrap"><div class="code-cap">nowa wersja w O(log n)</div><pre class="code"><span style="color: #E8E8F0">Node</span><span style="color: #A8A8C0">*</span><span style="color: #E8E8F0"> </span><span style="color: #00E5C7">rangeAdd</span><span style="color: #A8A8C0">(</span><span style="color: #E8E8F0">Node</span><span style="color: #A8A8C0">*</span><span style="color: #E8E8F0"> v</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> </span><span style="color: #00E5C7">int</span><span style="color: #E8E8F0"> lo</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> </span><span style="color: #00E5C7">int</span><span style="color: #E8E8F0"> hi</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> </span><span style="color: #00E5C7">int</span><span style="color: #E8E8F0"> l</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> </span><span style="color: #00E5C7">int</span><span style="color: #E8E8F0"> r</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> ll val</span><span style="color: #A8A8C0">)</span><span style="color: #E8E8F0"> </span><span style="color: #A8A8C0">{</span>
+<span style="color: #E8E8F0">    </span><span style="color: #7C5CFF">if</span><span style="color: #E8E8F0"> </span><span style="color: #A8A8C0">(</span><span style="color: #E8E8F0">r </span><span style="color: #A8A8C0">&lt;</span><span style="color: #E8E8F0"> lo </span><span style="color: #A8A8C0">||</span><span style="color: #E8E8F0"> hi </span><span style="color: #A8A8C0">&lt;</span><span style="color: #E8E8F0"> l</span><span style="color: #A8A8C0">)</span><span style="color: #E8E8F0"> </span><span style="color: #7C5CFF">return</span><span style="color: #E8E8F0"> v</span><span style="color: #A8A8C0">;</span><span style="color: #E8E8F0">          </span><span style="color: #8888A0">// wspoldzielenie calego poddrzewa</span>
+
+<span style="color: #E8E8F0">    Node</span><span style="color: #A8A8C0">*</span><span style="color: #E8E8F0"> nv </span><span style="color: #A8A8C0">=</span><span style="color: #E8E8F0"> cloneNode</span><span style="color: #A8A8C0">(</span><span style="color: #E8E8F0">v</span><span style="color: #A8A8C0">);</span><span style="color: #E8E8F0">                 </span><span style="color: #8888A0">// nigdy nie piszemy po starym wezle!</span>
+
+<span style="color: #E8E8F0">    </span><span style="color: #7C5CFF">if</span><span style="color: #E8E8F0"> </span><span style="color: #A8A8C0">(</span><span style="color: #E8E8F0">l </span><span style="color: #A8A8C0">&lt;=</span><span style="color: #E8E8F0"> lo </span><span style="color: #A8A8C0">&amp;&amp;</span><span style="color: #E8E8F0"> hi </span><span style="color: #A8A8C0">&lt;=</span><span style="color: #E8E8F0"> r</span><span style="color: #A8A8C0">)</span><span style="color: #E8E8F0"> </span><span style="color: #A8A8C0">{</span><span style="color: #E8E8F0">                </span><span style="color: #8888A0">// PELNE pokrycie - konczymy tutaj</span>
+<span style="color: #E8E8F0">        nv</span><span style="color: #A8A8C0">-&gt;</span><span style="color: #E8E8F0">sum  </span><span style="color: #A8A8C0">+=</span><span style="color: #E8E8F0"> val </span><span style="color: #A8A8C0">*</span><span style="color: #E8E8F0"> </span><span style="color: #A8A8C0">(</span><span style="color: #E8E8F0">hi </span><span style="color: #A8A8C0">-</span><span style="color: #E8E8F0"> lo </span><span style="color: #A8A8C0">+</span><span style="color: #E8E8F0"> </span><span style="color: #FFB454">1</span><span style="color: #A8A8C0">);</span><span style="color: #E8E8F0">     </span><span style="color: #8888A0">// sum i lazy ruszamy RAZEM,</span>
+<span style="color: #E8E8F0">        nv</span><span style="color: #A8A8C0">-&gt;</span><span style="color: #E8E8F0">lazy </span><span style="color: #A8A8C0">+=</span><span style="color: #E8E8F0"> val</span><span style="color: #A8A8C0">;</span><span style="color: #E8E8F0">                     </span><span style="color: #8888A0">// inaczej inwariant pada</span>
+<span style="color: #E8E8F0">        </span><span style="color: #7C5CFF">return</span><span style="color: #E8E8F0"> nv</span><span style="color: #A8A8C0">;</span>
+<span style="color: #E8E8F0">    </span><span style="color: #A8A8C0">}</span>
+
+<span style="color: #E8E8F0">    </span><span style="color: #00E5C7">int</span><span style="color: #E8E8F0"> mid </span><span style="color: #A8A8C0">=</span><span style="color: #E8E8F0"> lo </span><span style="color: #A8A8C0">+</span><span style="color: #E8E8F0"> </span><span style="color: #A8A8C0">(</span><span style="color: #E8E8F0">hi </span><span style="color: #A8A8C0">-</span><span style="color: #E8E8F0"> lo</span><span style="color: #A8A8C0">)</span><span style="color: #E8E8F0"> </span><span style="color: #A8A8C0">/</span><span style="color: #E8E8F0"> </span><span style="color: #FFB454">2</span><span style="color: #A8A8C0">;</span>
+<span style="color: #E8E8F0">    nv</span><span style="color: #A8A8C0">-&gt;</span><span style="color: #E8E8F0">l </span><span style="color: #A8A8C0">=</span><span style="color: #E8E8F0"> rangeAdd</span><span style="color: #A8A8C0">(</span><span style="color: #E8E8F0">v</span><span style="color: #A8A8C0">-&gt;</span><span style="color: #E8E8F0">l</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> lo</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0">      mid</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> l</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> r</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> val</span><span style="color: #A8A8C0">);</span>
+<span style="color: #E8E8F0">    nv</span><span style="color: #A8A8C0">-&gt;</span><span style="color: #E8E8F0">r </span><span style="color: #A8A8C0">=</span><span style="color: #E8E8F0"> rangeAdd</span><span style="color: #A8A8C0">(</span><span style="color: #E8E8F0">v</span><span style="color: #A8A8C0">-&gt;</span><span style="color: #E8E8F0">r</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> mid </span><span style="color: #A8A8C0">+</span><span style="color: #E8E8F0"> </span><span style="color: #FFB454">1</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> hi</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0">  l</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> r</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> val</span><span style="color: #A8A8C0">);</span>
+<span style="color: #E8E8F0">    nv</span><span style="color: #A8A8C0">-&gt;</span><span style="color: #E8E8F0">sum </span><span style="color: #A8A8C0">=</span><span style="color: #E8E8F0"> nv</span><span style="color: #A8A8C0">-&gt;</span><span style="color: #E8E8F0">l</span><span style="color: #A8A8C0">-&gt;</span><span style="color: #E8E8F0">sum </span><span style="color: #A8A8C0">+</span><span style="color: #E8E8F0"> nv</span><span style="color: #A8A8C0">-&gt;</span><span style="color: #E8E8F0">r</span><span style="color: #A8A8C0">-&gt;</span><span style="color: #E8E8F0">sum </span><span style="color: #A8A8C0">+</span><span style="color: #E8E8F0"> nv</span><span style="color: #A8A8C0">-&gt;</span><span style="color: #E8E8F0">lazy </span><span style="color: #A8A8C0">*</span><span style="color: #E8E8F0"> </span><span style="color: #A8A8C0">(</span><span style="color: #E8E8F0">ll</span><span style="color: #A8A8C0">)(</span><span style="color: #E8E8F0">hi </span><span style="color: #A8A8C0">-</span><span style="color: #E8E8F0"> lo </span><span style="color: #A8A8C0">+</span><span style="color: #E8E8F0"> </span><span style="color: #FFB454">1</span><span style="color: #A8A8C0">);</span>
+<span style="color: #E8E8F0">    </span><span style="color: #7C5CFF">return</span><span style="color: #E8E8F0"> nv</span><span style="color: #A8A8C0">;</span>
+<span style="color: #A8A8C0">}</span></pre></div><div class="note">Przy pełnym pokryciu <b>nie schodzimy niżej</b> — dzieci zostają dokładnie te ze starej wersji, a informacja „temu poddrzewu należy się +val” siedzi w <code class="ic">nv-&gt;lazy</code>. Ostatnia linijka to inwariant z sekcji 04 przepisany 1:1.</div>
+  <div class="foot">t-olimpians.com — persistent segment tree — str. 6</div>
+</section>
+<section class="sec">
+  <div class="sec-head"><span class="sec-num">06</span><h2>Zapytanie — lazy zbierane do akumulatora</h2></div>
+  <div class="note">Skoro lazy zostaje w węźle, to schodząc w dół zbieramy lazy <b>wszystkich przodków</b> do akumulatora <code class="ic">acc</code> i doliczamy je dopiero na dole.</div><div class="code-wrap"><div class="code-cap">zapytanie, które niczego nie psuje</div><pre class="code"><span style="color: #E8E8F0">ll </span><span style="color: #00E5C7">query</span><span style="color: #A8A8C0">(</span><span style="color: #E8E8F0">Node</span><span style="color: #A8A8C0">*</span><span style="color: #E8E8F0"> v</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> </span><span style="color: #00E5C7">int</span><span style="color: #E8E8F0"> lo</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> </span><span style="color: #00E5C7">int</span><span style="color: #E8E8F0"> hi</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> </span><span style="color: #00E5C7">int</span><span style="color: #E8E8F0"> l</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> </span><span style="color: #00E5C7">int</span><span style="color: #E8E8F0"> r</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> ll acc</span><span style="color: #A8A8C0">)</span><span style="color: #E8E8F0"> </span><span style="color: #A8A8C0">{</span>
+<span style="color: #E8E8F0">    </span><span style="color: #7C5CFF">if</span><span style="color: #E8E8F0"> </span><span style="color: #A8A8C0">(</span><span style="color: #E8E8F0">r </span><span style="color: #A8A8C0">&lt;</span><span style="color: #E8E8F0"> lo </span><span style="color: #A8A8C0">||</span><span style="color: #E8E8F0"> hi </span><span style="color: #A8A8C0">&lt;</span><span style="color: #E8E8F0"> l</span><span style="color: #A8A8C0">)</span><span style="color: #E8E8F0"> </span><span style="color: #7C5CFF">return</span><span style="color: #E8E8F0"> </span><span style="color: #FFB454">0</span><span style="color: #A8A8C0">;</span>
+<span style="color: #E8E8F0">    </span><span style="color: #7C5CFF">if</span><span style="color: #E8E8F0"> </span><span style="color: #A8A8C0">(</span><span style="color: #E8E8F0">l </span><span style="color: #A8A8C0">&lt;=</span><span style="color: #E8E8F0"> lo </span><span style="color: #A8A8C0">&amp;&amp;</span><span style="color: #E8E8F0"> hi </span><span style="color: #A8A8C0">&lt;=</span><span style="color: #E8E8F0"> r</span><span style="color: #A8A8C0">)</span>
+<span style="color: #E8E8F0">        </span><span style="color: #7C5CFF">return</span><span style="color: #E8E8F0"> v</span><span style="color: #A8A8C0">-&gt;</span><span style="color: #E8E8F0">sum </span><span style="color: #A8A8C0">+</span><span style="color: #E8E8F0"> acc </span><span style="color: #A8A8C0">*</span><span style="color: #E8E8F0"> </span><span style="color: #A8A8C0">(</span><span style="color: #E8E8F0">ll</span><span style="color: #A8A8C0">)(</span><span style="color: #E8E8F0">hi </span><span style="color: #A8A8C0">-</span><span style="color: #E8E8F0"> lo </span><span style="color: #A8A8C0">+</span><span style="color: #E8E8F0"> </span><span style="color: #FFB454">1</span><span style="color: #A8A8C0">);</span><span style="color: #E8E8F0">   </span><span style="color: #8888A0">// &lt;- tu wpada acc</span>
+
+<span style="color: #E8E8F0">    </span><span style="color: #00E5C7">int</span><span style="color: #E8E8F0"> mid </span><span style="color: #A8A8C0">=</span><span style="color: #E8E8F0"> lo </span><span style="color: #A8A8C0">+</span><span style="color: #E8E8F0"> </span><span style="color: #A8A8C0">(</span><span style="color: #E8E8F0">hi </span><span style="color: #A8A8C0">-</span><span style="color: #E8E8F0"> lo</span><span style="color: #A8A8C0">)</span><span style="color: #E8E8F0"> </span><span style="color: #A8A8C0">/</span><span style="color: #E8E8F0"> </span><span style="color: #FFB454">2</span><span style="color: #A8A8C0">;</span>
+<span style="color: #E8E8F0">    acc </span><span style="color: #A8A8C0">+=</span><span style="color: #E8E8F0"> v</span><span style="color: #A8A8C0">-&gt;</span><span style="color: #E8E8F0">lazy</span><span style="color: #A8A8C0">;</span><span style="color: #E8E8F0">                                </span><span style="color: #8888A0">// zbieramy po drodze</span>
+<span style="color: #E8E8F0">    </span><span style="color: #7C5CFF">return</span><span style="color: #E8E8F0"> query</span><span style="color: #A8A8C0">(</span><span style="color: #E8E8F0">v</span><span style="color: #A8A8C0">-&gt;</span><span style="color: #E8E8F0">l</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> lo</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0">      mid</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> l</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> r</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> acc</span><span style="color: #A8A8C0">)</span>
+<span style="color: #E8E8F0">         </span><span style="color: #A8A8C0">+</span><span style="color: #E8E8F0"> query</span><span style="color: #A8A8C0">(</span><span style="color: #E8E8F0">v</span><span style="color: #A8A8C0">-&gt;</span><span style="color: #E8E8F0">r</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> mid </span><span style="color: #A8A8C0">+</span><span style="color: #E8E8F0"> </span><span style="color: #FFB454">1</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> hi</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0">  l</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> r</span><span style="color: #A8A8C0">,</span><span style="color: #E8E8F0"> acc</span><span style="color: #A8A8C0">);</span>
+<span style="color: #A8A8C0">}</span></pre></div><p><b>Dlaczego to poprawne.</b> Jeśli przodek ma <span class="p">lazy = +5</span>,
+    to każdy element jego poddrzewa jest w rzeczywistości o 5 większy, niż wynika
+    z zapisanych niżej sum. Gdy zatrzymamy się na fragmencie obsługującym
+    <span class="p">d</span> pozycji tablicy, brakuje nam dokładnie
+    <span class="p">5 · d</span> — i tyle dodajemy. Niczego nie trzeba zapisywać.</p><div class="good"><span class="good-label">Miła własność:</span> zapytanie <b>nie modyfikuje ani jednego węzła</b>. Możesz pytać o dowolną wersję, w dowolnej kolejności, dowolnie wiele razy — bez efektów ubocznych i bez alokacji.</div>
+  <div class="foot">t-olimpians.com — persistent segment tree — str. 7</div>
+</section>
+<section class="sec">
+  <div class="sec-head"><span class="sec-num">07</span><h2>Złożoność</h2></div>
+  <table class="tbl"><colgroup><col style="width:40%"><col style="width:30%"><col style="width:30%"></colgroup><thead><tr><th>Operacja</th><th>Czas</th><th>Nowa pamięć</th></tr></thead><tbody><tr><td><code class="ic">build</code></td><td><code class="ic">O(n)</code></td><td>2n − 1 węzłów</td></tr><tr><td><code class="ic">rangeAdd</code></td><td><code class="ic">O(log n)</code></td><td><code class="ic">O(log n)</code> węzłów</td></tr><tr><td><code class="ic">query</code></td><td><code class="ic">O(log n)</code></td><td><b>0</b></td></tr></tbody></table><div class="formula">przy q aktualizacjach: &nbsp; <span class='fw'>O(n + q log n)</span> pamięci</div><p>Dla porównania — pomiar z dołączonego programu testowego, gdzie każda kolejna
+    operacja losuje wersję bazową z <i>całej</i> dotychczasowej historii:</p><table class="tbl"><colgroup><col style="width:70%"><col style="width:30%"></colgroup><thead><tr><th>Wariant</th><th>Węzły</th></tr></thead><tbody><tr><td>40 elementów, 149 wersji — trwałe drzewo (path copying)</td><td><span class='t'>1 739</span></td></tr><tr><td>to samo, gdyby kopiować całe drzewo na każdą wersję</td><td><span class='o'>≈ 11 800</span></td></tr></tbody></table><div class="note">Różnica rośnie z <code class="ic">n</code>: kopiowanie całości to <code class="ic">O(n)</code> na wersję, path copying — <code class="ic">O(log n)</code>.</div>
+  <div class="foot">t-olimpians.com — persistent segment tree — str. 8</div>
+</section>
+<section class="sec">
+  <div class="sec-head"><span class="sec-num">08</span><h2>Pułapki konkursowe</h2></div>
+  <ol class="traps"><li><b>Zapis do starego węzła.</b> Każde <code class="ic">v-&gt;coś = ...</code> musi iść na świeżą kopię. Jedno przeoczenie psuje wersje wstecz, a debugowanie tego jest okropne.</li><li><b>Push-down.</b> Ani w aktualizacji, ani — zwłaszcza — w zapytaniu.</li><li><b><code class="ic">sum</code> bez <code class="ic">lazy</code>.</b> Przy pełnym pokryciu ruszasz oba pola naraz: <code class="ic">sum += val * (hi-lo+1)</code> <i>oraz</i> <code class="ic">lazy += val</code>.</li><li><b>Brak własnego lazy przy przeliczaniu.</b> <code class="ic">nv-&gt;sum = l-&gt;sum + r-&gt;sum + nv-&gt;lazy * (hi-lo+1)</code> — ostatni składnik znika najczęściej.</li><li><b>Złe mnożenie <code class="ic">acc</code>.</b> Mnożysz przez ilość wierzchołków w poddrzewie, na którym się zatrzymałeś — nie przez długość całego zapytania.</li><li><b>Pamięć.</b> Nie wolno robić <code class="ic">delete</code> na pojedynczym węźle — jest współdzielony. Na zawodach po prostu nie zwalniasz; poza nimi użyj areny (<code class="ic">std::deque&lt;Node&gt;</code> — <b>nie</b> <code class="ic">vector</code>, bo realokacja unieważni wszystkie wskaźniki) albo <code class="ic">shared_ptr</code>.</li><li><b>Stała.</b> Wersja na wskaźnikach jest wolniejsza od tablicowej (<code class="ic">int lc[MAX], rc[MAX]</code>). Przy <code class="ic">n, q ~ 10^6</code> tablice bywają 2–3× szybsze i lepiej leżą w cache. Wskaźniki są za to czytelniejsze do nauki.</li></ol>
+  <div class="foot">t-olimpians.com — persistent segment tree — str. 9</div>
+</section>
+<section class="sec">
+  <div class="sec-head"><span class="sec-num">09</span><h2>Kiedy ta technika działa</h2></div>
+  <div class="note">Warunek jest jeden: operacja lazy musi dać się zastosować do całego przedziału <b>bez zaglądania do dzieci</b> — znając tylko ilość wierzchołków w poddrzewie — i musi być <b>składalna</b> w akumulatorze.</div><table class="tbl"><colgroup><col style="width:6%"><col style="width:38%"><col style="width:56%"></colgroup><thead><tr><th></th><th>Operacja</th><th>Uwagi</th></tr></thead><tbody><tr><td><span class='ok'>✔</span></td><td>dodawanie na przedziale + suma</td><td>wzorcowy przypadek, opisany wyżej</td></tr><tr><td><span class='ok'>✔</span></td><td>dodawanie + min / max</td><td><code class="ic">acc</code> dodajesz, nie mnożysz przez ilość wierzchołków</td></tr><tr><td><span class='ok'>✔</span></td><td>przypisanie (assign) na przedziale</td><td><code class="ic">acc</code> to „ostatnie przypisanie od przodka”, przykrywa wszystko niżej</td></tr><tr><td><span class='mid'>~</span></td><td>assign + add jednocześnie</td><td>działa, ale <code class="ic">acc</code> musi być parą <code class="ic">(assign?, add)</code> ze świadomą kolejnością składania</td></tr><tr><td><span class='bad'>✘</span></td><td>operacje nieskracalne do jednej wartości</td><td>jeśli nie streścisz efektu na przedziale — lazy nie pomoże</td></tr></tbody></table><div class="good"><span class="good-label">Alternatywa:</span> można też robić push-down, ale <b>tworząc przy nim nowe węzły</b> (klonujesz dzieci przed zapisem). Wtedy aktualizacja wygląda klasycznie, ale zapytanie musiałoby zwracać nowy korzeń albo alokować przy każdym czytaniu — dlatego wersja z akumulatorem jest standardem.</div>
+  <div class="foot">t-olimpians.com — persistent segment tree — str. 10</div>
+</section>
+<section class="sec">
+  <div class="sec-head"><span class="sec-num">10</span><h2>Gotowy kod i wynik uruchomienia</h2></div>
+  <div class="note">Pełna implementacja (budowa, aktualizacja, zapytanie, opakowanie na wersje oraz test losowy porównujący <b>każdą</b> wersję z brute force) leży w pliku <code class="ic">persistent-segtree-lazy.cpp</code>.</div><div class="code-wrap"><div class="code-cap">kompilacja</div><pre class="term">g++ -std=c++14 -O2 -o pst persistent-segtree-lazy.cpp &amp;&amp; ./pst</pre></div><div class="code-wrap"><div class="code-cap">wynik</div><pre class="term">=== DEMO ===
+wezlow po budowie: 15
+wersja 0: [1, 2, 3, 4, 5, 6, 7, 8]
+wersja 1: [1, 12, 13, 14, 15, 6, 7, 8]
+wersja 2: [0, 11, 12, 13, 14, 5, 6, 7]
+wersja 3: [1, 12, 13, 14, 15, 106, 107, 8]
+wersja 0 (nadal nietknieta): [1, 2, 3, 4, 5, 6, 7, 8]
+
+suma [0..7] w wersji 0 = 36  (oczek. 36)
+suma [0..7] w wersji 1 = 76  (oczek. 76)
+suma [0..7] w wersji 2 = 68  (oczek. 68)
+suma [2..5] w wersji 3 = 148  (oczek. 148)
+wezlow po 3 aktualizacjach: 30
+
+=== TEST LOSOWY (kazda wersja porownana z brute force) ===
+OK - wszystkie wersje sie zgadzaja
+wersji: 149, wezlow lacznie: 1739 (drzewo jednowersyjne mialoby 79)</pre></div><div class="good"><span class="good-label">Test losowy:</span> 300 operacji, wersja bazowa losowana z <b>całej</b> historii (więc gałęzi jest dużo), a na koniec porównanie każdej wersji element po elemencie z tablicą referencyjną. To minimum, jakie warto odpalić, zanim wyślesz trwałe drzewo na sprawdzaczkę.</div>
+  <div class="foot">t-olimpians.com — persistent segment tree — str. 11</div>
+</section>
+
+</body>
+</html>

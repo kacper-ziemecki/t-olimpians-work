@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wskaźniki w C++ od podstaw | T-Olimpians</title>
+    <meta name="description" content="Kompletny przewodnik po wskaźnikach w C++: adresy, dereferencja, przekazywanie do funkcji, wskaźniki w klasach oraz pełne rozwiązanie zadania Range Sum of BST z LeetCode.">
+    <link rel="canonical" href="https://t-olimpians.com/wskazniki.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="T-Olimpians Team Poland">
+    <meta property="og:locale" content="pl_PL">
+    <meta property="og:url" content="https://t-olimpians.com/wskazniki.html">
+    <meta property="og:title" content="Wskaźniki w C++ od podstaw | T-Olimpians">
+    <meta property="og:description" content="Kompletny przewodnik po wskaźnikach w C++: adresy, dereferencja, przekazywanie do funkcji, wskaźniki w klasach oraz pełne rozwiązanie zadania Range Sum of BST z LeetCode.">
+    <meta property="og:image" content="https://t-olimpians.com/img/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="./img/favicon2.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-base: #0a0a0f;
+            --bg-surface: #111118;
+            --bg-card: #15151e;
+            --bg-elevated: #1c1c28;
+            --accent: #3b82f6;
+            --accent-bright: #60a5fa;
+            --accent-glow: rgba(59, 130, 246, 0.25);
+            --accent-dim: rgba(59, 130, 246, 0.12);
+            --text-primary: #f0f0f8;
+            --text-secondary: #9090aa;
+            --text-muted: #55556a;
+            --border: rgba(255,255,255,0.07);
+            --border-accent: rgba(59, 130, 246, 0.3);
+            --font-display: 'Syne', sans-serif;
+            --font-body: 'DM Sans', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.6;
+        }
+
+        /* ─── NAVBAR ─── */
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 48px;
+            height: 68px;
+            background: rgba(10, 10, 15, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            transition: background 0.3s;
+        }
+        .navbar.scrolled { background: rgba(10, 10, 15, 0.95); box-shadow: 0 4px 32px rgba(0,0,0,0.4); }
+        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .logo img:first-child { width: 38px; height: 38px; border-radius: 10px; object-fit: cover; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .logo:hover img:first-child { transform: rotate(-5deg) scale(1.08); box-shadow: 0 0 16px var(--accent-glow); }
+        #polska-flaga { width: 22px; height: auto; border-radius: 3px; }
+        .logo-text { font-family: var(--font-display); font-weight: 700; font-size: 15px; color: var(--text-primary); letter-spacing: 0.01em; }
+        .navbar-right { display: flex; align-items: center; gap: 0; flex-shrink: 0; }
+        .nav-links { list-style: none; display: flex; align-items: center; gap: 4px; }
+        .nav-links a {
+            text-decoration: none; color: var(--text-secondary); font-size: 14px; font-weight: 500;
+            padding: 8px 16px; border-radius: var(--radius-sm); transition: color 0.2s, background 0.2s;
+            cursor: pointer; letter-spacing: 0.02em; position: relative;
+        }
+        .nav-links a:hover { color: var(--text-primary); background: var(--accent-dim); }
+        .nav-links .nav-cta a { background: var(--accent); color: white; font-weight: 600; }
+        .nav-links .nav-cta a:hover { background: var(--accent-bright); color: white; }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: 4px; left: 16px; right: 16px; height: 1px;
+            background: var(--accent-bright); transform: scaleX(0); transition: transform 0.25s ease;
+        }
+        .nav-links a:hover::after { transform: scaleX(1); }
+        .nav-links .nav-cta a::after { display: none; }
+        .hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px; z-index: 110; }
+        .hamburger span { display: block; width: 24px; height: 2px; background: var(--text-primary); border-radius: 2px; transition: transform 0.3s, opacity 0.3s; }
+        .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        /* ─── PARTICLES ─── */
+        #particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.4; }
+
+        /* ─── REVEAL ─── */
+        .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1); }
+        .reveal.visible { opacity: 1; transform: translate(0); }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+
+        /* ─── LESSON HEADER ─── */
+        .lesson-header {
+            position: relative;
+            padding: 150px 24px 64px;
+            max-width: 760px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .lesson-header::after {
+            content: '';
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 700px; height: 400px;
+            background: radial-gradient(circle, rgba(59,130,246,0.10) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: -1;
+        }
+        .breadcrumb {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--text-muted);
+            letter-spacing: 0.03em;
+            margin-bottom: 22px;
+            animation: fadeInUp 0.6s ease both;
+        }
+        .breadcrumb a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+        .breadcrumb a:hover { color: var(--accent-bright); }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: var(--accent-dim); border: 1px solid var(--border-accent); color: var(--accent-bright);
+            font-family: var(--font-mono); font-size: 11px; font-weight: 500; padding: 6px 14px;
+            border-radius: 100px; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 26px;
+            animation: fadeInUp 0.6s 0.05s ease both;
+        }
+        .hero-badge::before { content: ''; width: 6px; height: 6px; background: var(--accent-bright); border-radius: 50%; animation: blink 2s ease-in-out infinite; }
+        .lesson-header h1 {
+            font-family: var(--font-display); font-size: clamp(34px, 5vw, 52px); font-weight: 800;
+            line-height: 1.12; letter-spacing: -0.03em; color: var(--text-primary); margin-bottom: 20px;
+            animation: fadeInUp 0.6s 0.1s ease both;
+        }
+        .lesson-header h1 span {
+            background: linear-gradient(135deg, var(--accent-bright), #a78bfa);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .lesson-header > p {
+            font-size: 16px; color: var(--text-secondary); line-height: 1.8; margin: 0 auto 32px;
+            max-width: 600px; animation: fadeInUp 0.6s 0.15s ease both;
+        }
+        .lesson-meta {
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
+            animation: fadeInUp 0.6s 0.2s ease both;
+        }
+        .lesson-meta span {
+            font-family: var(--font-mono); font-size: 12px; color: var(--text-secondary);
+            background: var(--bg-card); border: 1px solid var(--border); padding: 7px 14px; border-radius: 100px;
+        }
+
+        /* ─── CONCEPT CARDS ─── */
+        .concept-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px; max-width: 1100px; margin: 0 auto 20px; padding: 0 24px;
+        }
+        .concept-card {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md);
+            padding: 22px; position: relative; overflow: hidden;
+            transition: border-color 0.3s, transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s ease;
+        }
+        .concept-card::before {
+            content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, var(--accent-dim), transparent 60%);
+            opacity: 0; transition: opacity 0.3s; border-radius: inherit;
+        }
+        .concept-card:hover::before { opacity: 1; }
+        .concept-card:hover { border-color: var(--border-accent); transform: translateY(-4px); box-shadow: 0 16px 40px var(--accent-glow); }
+        .concept-icon { font-family: var(--font-mono); font-size: 20px; color: var(--accent-bright); margin-bottom: 10px; font-weight: 600; }
+        .concept-card h3 { font-family: var(--font-display); font-size: 16px; font-weight: 700; margin-bottom: 6px; position: relative; }
+        .concept-card p { color: var(--text-secondary); font-size: 13.5px; line-height: 1.6; position: relative; }
+
+        .divider { height: 1px; background: linear-gradient(to right, transparent, var(--border), transparent); margin: 56px 80px; }
+
+        /* ─── LAYOUT ─── */
+        .lesson-layout {
+            display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 56px; align-items: start;
+            max-width: 1180px; margin: 0 auto; padding: 0 80px 60px;
+            position: relative; z-index: 1;
+        }
+        .toc { position: sticky; top: 90px; display: flex; flex-direction: column; gap: 2px; }
+        /* Tablet poziomo: wezszy spis tresci i mniejsze marginesy */
+        @media (min-width: 901px) and (max-width: 1100px) {
+            .lesson-layout { grid-template-columns: 190px minmax(0, 1fr); gap: 36px; padding: 0 40px 60px; }
+            .divider { margin: 48px 40px; }
+        }
+        .toc-label { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
+        .toc a {
+            font-size: 13.5px; color: var(--text-secondary); text-decoration: none; padding: 8px 12px;
+            border-radius: var(--radius-sm); border-left: 2px solid transparent; transition: color 0.2s, background 0.2s, border-color 0.2s;
+            line-height: 1.4;
+        }
+        .toc a:hover { color: var(--text-primary); background: var(--accent-dim); }
+        .toc a.active { color: var(--accent-bright); border-left-color: var(--accent-bright); background: var(--accent-dim); font-weight: 500; }
+
+        /* ─── ARTICLE ─── */
+        .lesson-content { max-width: 760px; }
+        .lesson-section { padding-bottom: 56px; margin-bottom: 56px; border-bottom: 1px solid var(--border); scroll-margin-top: 90px; }
+        .lesson-section:last-child { border-bottom: none; }
+        .section-number {
+            font-family: var(--font-mono); font-size: 12px; color: var(--accent-bright);
+            letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; display: block;
+        }
+        .lesson-section h2 {
+            font-family: var(--font-display); font-size: clamp(24px, 3vw, 32px); font-weight: 700;
+            letter-spacing: -0.02em; margin-bottom: 18px; line-height: 1.25;
+        }
+        .lesson-section h3 {
+            font-family: var(--font-display); font-size: 18px; font-weight: 700; margin: 32px 0 12px;
+            color: var(--text-primary); letter-spacing: -0.01em;
+        }
+        .lesson-section p { color: var(--text-secondary); font-size: 15.5px; line-height: 1.85; margin-bottom: 16px; }
+        .lesson-section p strong { color: var(--text-primary); font-weight: 600; }
+        .lesson-section p code, .lesson-section li code, .mem-table code, td code {
+            font-family: var(--font-mono); font-size: 0.88em; color: var(--accent-bright);
+            background: var(--accent-dim); padding: 2px 6px; border-radius: 4px;
+        }
+        .lesson-section ul, .lesson-section ol { color: var(--text-secondary); font-size: 15.5px; line-height: 1.85; margin: 0 0 16px 22px; }
+        .lesson-section li { margin-bottom: 6px; }
+        .lesson-section ul.feature-list { list-style: none; margin-left: 0; display: flex; flex-direction: column; gap: 12px; margin-top: 8px; margin-bottom: 24px; }
+        .lesson-section .feature-list li {
+            display: flex; align-items: flex-start; gap: 12px; font-size: 15px; line-height: 1.6;
+        }
+        .lesson-section .feature-list li::before {
+            content: ''; flex-shrink: 0; width: 18px; height: 18px; margin-top: 3px;
+            background: var(--accent-dim); border: 1px solid var(--border-accent); border-radius: 50%;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6l3 3 5-5' stroke='%2360a5fa' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: center; background-size: 12px;
+        }
+
+        /* ─── CALLOUTS ─── */
+        .callout { border-radius: var(--radius-md); padding: 18px 22px; margin: 24px 0; background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--accent); }
+        .callout-title { font-weight: 700; font-size: 14px; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; color: var(--text-primary); }
+        .callout p { font-size: 14.5px; margin-bottom: 0; color: var(--text-secondary); }
+        .callout p + p { margin-top: 8px; }
+        .callout-tip { border-left-color: var(--accent-bright); }
+        .callout-tip .callout-title { color: var(--accent-bright); }
+        .callout-warning { border-left-color: #f59e0b; }
+        .callout-warning .callout-title { color: #fbbf24; }
+        .callout-note { border-left-color: #a78bfa; }
+        .callout-note .callout-title { color: #c4b5fd; }
+        .callout-bug { border-left-color: #f87171; }
+        .callout-bug .callout-title { color: #f87171; }
+
+        /* ─── CODE BLOCKS ─── */
+        .code-block { background: #0d0d13; border: 1px solid var(--border); border-radius: var(--radius-md); margin: 22px 0; overflow: hidden; }
+        .code-block-header {
+            display: flex; align-items: center; justify-content: space-between; padding: 10px 16px;
+            background: var(--bg-elevated); border-bottom: 1px solid var(--border);
+        }
+        .code-dots { display: flex; gap: 6px; }
+        .code-dots span { width: 9px; height: 9px; border-radius: 50%; display: block; }
+        .code-dots span:nth-child(1) { background: #f87171; }
+        .code-dots span:nth-child(2) { background: #fbbf24; }
+        .code-dots span:nth-child(3) { background: #4ade80; }
+        .code-label { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase; }
+        .copy-btn {
+            font-family: var(--font-mono); font-size: 11px; color: var(--text-secondary); background: transparent;
+            border: 1px solid var(--border); padding: 5px 11px; border-radius: var(--radius-sm); cursor: pointer;
+            transition: color 0.2s, border-color 0.2s, background 0.2s;
+        }
+        .copy-btn:hover { color: var(--text-primary); border-color: var(--border-accent); background: var(--accent-dim); }
+        .code-block pre { padding: 18px 20px; overflow-x: auto; }
+        .code-block code {
+            font-family: var(--font-mono); font-size: 13.3px; line-height: 1.7; color: var(--text-primary);
+            white-space: pre; tab-size: 4;
+        }
+        .tk-kw { color: var(--accent-bright); }
+        .tk-type { color: #c4b5fd; }
+        .tk-str { color: #86efac; }
+        .tk-num { color: #fdba74; }
+        .tk-com { color: var(--text-muted); font-style: italic; }
+        .tk-pre { color: var(--text-muted); }
+
+        /* ─── MEM TABLE / TRACE TABLE ─── */
+        .mem-table-wrap { overflow-x: auto; margin: 22px 0; }
+        table.mem-table { width: 100%; border-collapse: collapse; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; font-size: 14px; }
+        table.mem-table th, table.mem-table td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border); }
+        table.mem-table th {
+            font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em;
+            color: var(--accent-bright); background: var(--bg-elevated);
+        }
+        table.mem-table tr:last-child td { border-bottom: none; }
+        table.mem-table td { color: var(--text-secondary); }
+        table.mem-table td.hl { color: var(--accent-bright); font-weight: 600; }
+        table.mem-table td code { white-space: nowrap; }
+
+        /* ─── COMPARISON TABLE ─── */
+        .compare-table th:first-child, .compare-table td:first-child { color: var(--text-primary); font-weight: 600; font-family: var(--font-mono); font-size: 12.5px; }
+
+        /* ─── POINTER PLAYGROUND ─── */
+        .ptr-playground { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px; margin: 26px 0; }
+        .ptr-playground-label { font-family: var(--font-mono); font-size: 11px; color: var(--accent-bright); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+        .ptr-playground-label::before { content: ''; width: 6px; height: 6px; background: var(--accent-bright); border-radius: 50%; }
+        .ptr-code { font-family: var(--font-mono); font-size: 13px; color: var(--text-secondary); margin-bottom: 22px; line-height: 1.7; }
+        .ptr-row { position: relative; display: flex; gap: 10px; padding-top: 38px; margin-bottom: 18px; overflow-x: auto; }
+        .ptr-marker {
+            position: absolute; top: 0; left: 0; width: 56px; text-align: center;
+            font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: var(--bg-base);
+            background: var(--accent-bright); border-radius: var(--radius-sm); padding: 4px 0;
+            transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+        }
+        .ptr-marker::after {
+            content: ''; position: absolute; left: 50%; bottom: -6px; transform: translateX(-50%);
+            width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 6px solid var(--accent-bright);
+        }
+        .ptr-box {
+            width: 56px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 4px;
+            background: var(--bg-elevated); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 4px;
+            transition: border-color 0.3s, background 0.3s;
+        }
+        .ptr-box.active { border-color: var(--border-accent); background: var(--accent-dim); }
+        .ptr-box-index { font-family: var(--font-mono); font-size: 9.5px; color: var(--text-muted); }
+        .ptr-box-val { font-family: var(--font-mono); font-size: 15px; font-weight: 700; color: var(--text-primary); }
+        .ptr-readout { display: flex; flex-wrap: wrap; gap: 24px; margin-bottom: 20px; font-size: 13.5px; color: var(--text-secondary); }
+        .ptr-readout strong { color: var(--accent-bright); font-family: var(--font-mono); }
+        .ptr-controls { display: flex; flex-wrap: wrap; gap: 10px; }
+        .ptr-btn {
+            font-family: var(--font-mono); font-size: 12.5px; color: var(--text-primary); background: var(--bg-elevated);
+            border: 1px solid var(--border); padding: 9px 16px; border-radius: var(--radius-sm); cursor: pointer;
+            transition: border-color 0.2s, background 0.2s, transform 0.2s;
+        }
+        .ptr-btn:hover { border-color: var(--border-accent); background: var(--accent-dim); transform: translateY(-1px); }
+        .ptr-warn { font-size: 12.5px; color: #fbbf24; min-height: 18px; margin-top: 12px; font-family: var(--font-mono); }
+
+        /* ─── TREE DIAGRAM ─── */
+        .tree-wrap { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 26px; margin: 26px 0; }
+        .tree-wrap svg { width: 100%; height: auto; display: block; }
+        .tree-legend { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--border); }
+        .tree-legend-item { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--text-secondary); }
+        .tree-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
+
+        /* ─── BOTTOM CTA ─── */
+        .lesson-cta {
+            max-width: 1180px; margin: 0 auto 80px; padding: 0 80px;
+        }
+        .lesson-cta-card {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg);
+            padding: 44px 48px; display: flex; align-items: center; justify-content: space-between; gap: 32px;
+            flex-wrap: wrap; position: relative; overflow: hidden;
+        }
+        .lesson-cta-card::before {
+            content: ''; position: absolute; top: -50%; right: -10%; width: 360px; height: 360px;
+            background: radial-gradient(circle, rgba(88,101,242,0.08) 0%, transparent 70%); pointer-events: none;
+        }
+        .lesson-cta-card h3 { font-family: var(--font-display); font-size: 24px; font-weight: 700; margin-bottom: 8px; position: relative; }
+        .lesson-cta-card p { color: var(--text-secondary); font-size: 14.5px; max-width: 420px; position: relative; }
+        .lesson-cta-actions { display: flex; gap: 12px; flex-wrap: wrap; position: relative; }
+        .btn-primary {
+            background: var(--accent); color: white; border: none; padding: 13px 24px; border-radius: var(--radius-sm);
+            font-family: var(--font-body); font-size: 14.5px; font-weight: 600; cursor: pointer; text-decoration: none;
+            display: inline-flex; align-items: center; transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-primary:hover { background: var(--accent-bright); transform: translateY(-2px); box-shadow: 0 8px 24px var(--accent-glow); }
+        .btn-discord {
+            display: inline-flex; align-items: center; gap: 8px; background: #5865F2; color: white; text-decoration: none;
+            padding: 13px 22px; border-radius: var(--radius-sm); font-weight: 600; font-size: 14.5px; transition: background 0.2s, transform 0.2s;
+        }
+        .btn-discord:hover { background: #4752c4; transform: translateY(-2px); }
+
+        /* ─── FOOTER ─── */
+        footer { border-top: 1px solid var(--border); padding: 32px 80px; display: flex; justify-content: space-between; align-items: center; color: var(--text-muted); font-size: 13px; position: relative; z-index: 1; }
+        footer span { font-family: var(--font-mono); }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 900px) {
+            .navbar { padding: 0 20px; }
+            .hamburger { display: flex; }
+            .logo-text { font-size: 13px; }
+            .nav-links {
+                display: none; flex-direction: column; position: fixed; top: 68px; left: 0; right: 0;
+                background: rgba(10, 10, 15, 0.98); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border);
+                padding: 16px 0 24px; gap: 0; z-index: 99;
+            }
+            .nav-links.open { display: flex; }
+            .nav-links li { width: 100%; }
+            .nav-links a { display: block; padding: 14px 28px; font-size: 16px; border-radius: 0; }
+            .nav-links .nav-cta { padding: 12px 20px 0; }
+            .nav-links .nav-cta a { display: block; text-align: center; border-radius: var(--radius-sm); padding: 14px; }
+            .lesson-header { padding: 130px 20px 48px; }
+            .divider { margin: 40px 20px; }
+            .lesson-layout { grid-template-columns: minmax(0, 1fr); padding: 0 20px 40px; gap: 28px; }
+            .toc { position: static; flex-direction: row; flex-wrap: wrap; gap: 8px; padding-bottom: 24px; border-bottom: 1px solid var(--border); margin-bottom: 8px; }
+            .toc-label { width: 100%; margin-bottom: 4px; }
+            .toc a { border-left: none; border: 1px solid var(--border); font-size: 12.5px; padding: 7px 12px; }
+            .toc a.active { border-color: var(--border-accent); }
+            .lesson-content { max-width: 100%; }
+            .concept-grid { padding: 0 20px; }
+            .lesson-cta { padding: 0 20px; }
+            .lesson-cta-card { padding: 32px 24px; }
+            footer { flex-direction: column; gap: 12px; padding: 24px; text-align: center; }
+        }
+    </style>
+    <style id="tablet-nav">
+        /* ─── TABLET: nawigacja i logo (641–1299px) ───
+           < 1024px  menu pod hamburgerem jako panel po prawej,
+           1024–1299 pelne menu w wersji kompaktowej + logo w dwoch liniach. */
+        @media (min-width: 641px) {
+            .logo { flex-shrink: 0; }
+            .logo-text { white-space: nowrap; }
+        }
+
+        @media (min-width: 641px) and (max-width: 1023px) {
+            .navbar { padding: 0 28px; }
+            .logo-text { font-size: 15px; }
+            .hamburger { display: flex; }
+            .nav-pointer-bubble { display: none !important; }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: fixed;
+                top: 76px; right: 20px; left: auto;
+                width: 340px;
+                max-height: calc(100vh - 96px);
+                overflow-y: auto;
+                background: rgba(10, 10, 15, 0.98);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border: 1px solid var(--border);
+                border-radius: var(--radius-lg, 20px);
+                box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+                padding: 10px 0 16px;
+                gap: 0;
+                z-index: 99;
+            }
+            .nav-links.open { display: flex; }
+            .nav-links li { width: 100%; }
+            .nav-group-item { width: 100%; }
+            .nav-group {
+                flex: 1;
+                flex-direction: column;
+                align-items: stretch;
+                border-radius: var(--radius-md, 14px);
+                margin: 18px 16px 8px;
+                padding: 12px 0 6px;
+                width: auto;
+            }
+            .nav-group-label { left: 14px; background: #0a0a0f; }
+            .nav-group-links { flex-direction: column; align-items: stretch; width: 100%; gap: 0; }
+            .nav-group-links a { width: 100%; }
+            .focus-toggle {
+                width: 100%; justify-content: center; margin: 8px 0 0; padding: 10px 0 4px;
+                border-left: none; border-top: 1px solid var(--border);
+            }
+            .nav-links a { display: block; padding: 12px 24px; font-size: 15px; border-radius: 0; }
+            .nav-links a::after { display: none; }
+            .nav-links .nav-cta { padding: 10px 16px 0; }
+            .nav-links .nav-cta a { display: block; text-align: center; border-radius: var(--radius-sm, 8px); padding: 13px; }
+        }
+
+        @media (min-width: 1024px) and (max-width: 1299px) {
+            .navbar { padding: 0 24px; }
+            .logo { gap: 10px; }
+            .logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+            .logo-text-sub {
+                margin-top: 3px;
+                font-family: var(--font-mono);
+                font-size: 9.5px;
+                font-weight: 500;
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                color: var(--accent-bright);
+            }
+            .nav-links { gap: 2px; }
+            .nav-links a { padding: 8px 10px; font-size: 13.5px; letter-spacing: 0.01em; }
+            .nav-links a::after { left: 10px; right: 10px; }
+            .nav-group { padding: 8px 6px 3px; }
+            .nav-group-links { gap: 0; }
+            .focus-toggle { margin-left: 4px; padding-left: 8px; gap: 6px; }
+        }
+    </style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+    <a class="logo" href="index.html">
+        <img src="./img/t-olimpians-logo.jpg" alt="Logo">
+        <span class="logo-text">T-Olimpians <span class="logo-text-sub">Team Poland</span></span>
+        <img id="polska-flaga" src="./img/polska_flaga.png" alt="Flaga Polski">
+    </a>
+    <div class="navbar-right">
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#o-nas">O nas</a></li>
+            <li><a href="materialy.html">Materiały</a></li>
+            <li><a href="net.html">Net</a></li>
+            <li><a href="zapisy.html">Zapisy</a></li>
+            <li class="nav-cta"><a href="index.html#contact-section">Dołącz →</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+
+<!-- LESSON HEADER -->
+<header class="lesson-header reveal" id="header-block">
+    <div class="breadcrumb"><a href="index.html">Home</a> / <a href="materialy.html">Materiały</a> / Wskaźniki</div>
+    <div class="hero-badge">C++ · Wskaźniki</div>
+    <h1>Wskaźniki w C++ <span>od podstaw</span></h1>
+    <p>Adresy pamięci, dereferencja, przekazywanie do funkcji, wskaźniki jako pola klas i to, co naprawdę
+    oznacza „klasa jest wskaźnikiem”. Na końcu — pełne, wytłumaczone krok po kroku rozwiązanie zadania
+    <strong style="color:var(--text-primary)">Range Sum of BST</strong> z LeetCoda, bo struktura drzewa binarnego
+    to jeden z najlepszych przykładów na to, dlaczego wskaźniki w ogóle istnieją.</p>
+    <div class="lesson-meta">
+        <span>📘 Poziom: podstawy → średnio-zaawansowany</span>
+        <span>⏱️ ok. 25–30 min</span>
+        <span>🎯 + zadanie z LeetCode (DFS)</span>
+    </div>
+</header>
+
+<!-- QUICK CONCEPTS -->
+<div class="concept-grid">
+    <div class="concept-card reveal"><div class="concept-icon">&amp;x</div><h3>Adres</h3><p>Operator <code>&amp;</code> mówi „daj mi adres tej zmiennej w pamięci”, a nie jej wartość.</p></div>
+    <div class="concept-card reveal"><div class="concept-icon">*p</div><h3>Dereferencja</h3><p>Operator <code>*</code> mówi „wejdź pod adres przechowywany w <code>p</code> i pokaż mi, co tam jest”.</p></div>
+    <div class="concept-card reveal"><div class="concept-icon">p-&gt;</div><h3>Dostęp do pól</h3><p>Skrót na <code>(*p).pole</code> — używany, gdy mamy wskaźnik na obiekt, a nie sam obiekt.</p></div>
+    <div class="concept-card reveal"><div class="concept-icon">new / delete</div><h3>Stertа (heap)</h3><p>Obiekty tworzone przez <code>new</code> żyją, dopóki ręcznie nie zwolnisz ich przez <code>delete</code>.</p></div>
+</div>
+
+<div class="divider"></div>
+
+<!-- LAYOUT: TOC + CONTENT -->
+<div class="lesson-layout">
+    <aside class="toc">
+        <span class="toc-label">Spis treści</span>
+        <a href="#podstawy">1. Czym jest wskaźnik</a>
+        <a href="#operacje">2. Operacje na wskaźnikach</a>
+        <a href="#funkcje">3. Wskaźniki w funkcjach</a>
+        <a href="#klasy">4. Wskaźniki a klasy</a>
+        <a href="#pola">5. Gdy pole klasy to wskaźnik</a>
+        <a href="#bledy">6. Najczęstsze błędy</a>
+        <a href="#zadanie">7. Zadanie: Range Sum of BST</a>
+    </aside>
+
+    <article class="lesson-content">
+
+        <!-- 1. PODSTAWY -->
+        <section class="lesson-section reveal" id="podstawy">
+            <span class="section-number">01 / Podstawy</span>
+            <h2>Czym jest wskaźnik?</h2>
+            <p>Każda zmienna w programie ma dwie rzeczy: <strong>wartość</strong> i <strong>adres</strong>
+            w pamięci, pod którym ta wartość jest fizycznie zapisana. Wskaźnik to po prostu zmienna, której
+            wartością jest właśnie taki adres — wskaźnik „wskazuje” na miejsce w pamięci, w którym leży
+            inna zmienna.</p>
+            <p>Do pracy ze wskaźnikami potrzebujesz dwóch operatorów, które na pierwszy rzut oka wyglądają
+            tak samo (<code>*</code> i <code>&amp;</code>), ale robią coś zupełnie innego w zależności od kontekstu:</p>
+            <ul class="feature-list">
+                <li><strong style="color:var(--text-primary)">&amp; (adres-of)</strong> — postawiony przed zmienną zwraca jej adres w pamięci, np. <code>&amp;x</code>.</li>
+                <li><strong style="color:var(--text-primary)">* w deklaracji</strong> — mówi „ta zmienna jest wskaźnikiem”, np. <code>int* p</code> deklaruje wskaźnik na inta.</li>
+                <li><strong style="color:var(--text-primary)">* w wyrażeniu (dereferencja)</strong> — wchodzi pod adres i daje dostęp do wartości tam zapisanej, np. <code>*p</code>.</li>
+            </ul>
+
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-dots"><span></span><span></span><span></span></div>
+                    <span class="code-label">C++</span>
+                    <button class="copy-btn">Kopiuj</button>
+                </div>
+                <pre><code>int x = 10;        // zwykła zmienna typu int
+int* p = &amp;x;      // p to wskaźnik na inta — przechowuje ADRES zmiennej x
+
+cout &lt;&lt; x;          // 10           -> wartość x
+cout &lt;&lt; &amp;x;         // np. 0x61fe1c -> adres x w pamięci
+cout &lt;&lt; p;          // np. 0x61fe1c -> to samo co &amp;x, bo p PRZECHOWUJE ten adres
+cout &lt;&lt; *p;         // 10           -> dereferencja: wartość pod adresem, na który wskazuje p
+
+*p = 99;            // zmieniamy wartość POD adresem, czyli zmieniamy x!
+cout &lt;&lt; x;          // 99</code></pre>
+            </div>
+
+            <div class="mem-table-wrap">
+                <table class="mem-table">
+                    <tr><th>Zmienna</th><th>Typ</th><th>Przykładowy adres</th><th>Wartość</th></tr>
+                    <tr><td><code>x</code></td><td><code>int</code></td><td><code>0x61fe1c</code></td><td class="hl">10 → 99</td></tr>
+                    <tr><td><code>p</code></td><td><code>int*</code></td><td><code>0x61fe10</code></td><td><code>0x61fe1c</code> (adres x)</td></tr>
+                </table>
+            </div>
+
+            <div class="callout callout-tip">
+                <div class="callout-title">💡 Jak czytać deklarację <code>int* p</code></div>
+                <p>Czytaj ją jako: „<strong>p</strong> jest wskaźnikiem, który wskazuje na <strong>int</strong>-a”.
+                Gwiazdka jest tu częścią <em>typu</em> zmiennej <code>p</code> (typ to <code>int*</code>), nie częścią jej nazwy.</p>
+            </div>
+
+            <h3>nullptr — wskaźnik, który „donikąd” nie wskazuje</h3>
+            <p>Niezainicjalizowany wskaźnik wskazuje na losowy, przypadkowy adres w pamięci — to bardzo
+            niebezpieczne. Dlatego wskaźnik, który chwilowo nie ma na co wskazywać, ustawiamy jawnie na
+            <code>nullptr</code>:</p>
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-dots"><span></span><span></span><span></span></div>
+                    <span class="code-label">C++</span>
+                    <button class="copy-btn">Kopiuj</button>
+                </div>
+                <pre><code>int* p = nullptr;     // bezpieczny, "pusty" stan początkowy
+
+if (p != nullptr) {   // ZAWSZE sprawdzaj przed dereferencją
+    cout &lt;&lt; *p;
+}</code></pre>
+            </div>
+            <p>Wskaźnik zawsze ma <strong>stały rozmiar</strong> — na typowym systemie 64-bitowym to 8 bajtów,
+            niezależnie od tego, czy wskazuje na <code>int</code>, <code>double</code> czy ogromny obiekt klasy.
+            Przechowuje przecież tylko adres, nigdy samą wartość.</p>
+        </section>
+
+        <!-- 2. OPERACJE -->
+        <section class="lesson-section reveal" id="operacje">
+            <span class="section-number">02 / Operacje</span>
+            <h2>Operacje na wskaźnikach</h2>
+            <p>Przypisanie wskaźnika do wskaźnika <strong>kopiuje adres</strong>, a nie wartość, na którą
+            ten adres wskazuje. Oba wskaźniki zaczynają wtedy wskazywać na to samo miejsce w pamięci:</p>
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-dots"><span></span><span></span><span></span></div>
+                    <span class="code-label">C++</span>
+                    <button class="copy-btn">Kopiuj</button>
+                </div>
+                <pre><code>int a = 5, b = 99;
+int* p1 = &amp;a;
+int* p2 = p1;      // p2 wskazuje na to samo co p1, czyli na "a"
+
+*p2 = 50;          // zmieniamy wartość POD adresem -> zmienia się "a"!
+cout &lt;&lt; a;         // 50
+
+p1 = &amp;b;           // teraz p1 wskazuje na "b" -> to NIE zmienia ani a, ani p2
+cout &lt;&lt; *p1;       // 99
+cout &lt;&lt; *p2;       // 50 (p2 wciąż wskazuje na "a")</code></pre>
+            </div>
+            <p>Kluczowe rozróżnienie: <code>*p = wartość</code> zmienia to, na co wskaźnik wskazuje, natomiast
+            <code>p = &amp;cosInnego</code> zmienia samego <strong>wskaźnika</strong>, żeby wskazywał gdzie indziej.</p>
+
+            <h3>Wskaźniki i tablice</h3>
+            <p>Nazwa tablicy w C++ w większości kontekstów „rozpada się” (ang. <em>array decay</em>) do
+            wskaźnika na jej pierwszy element. Dzięki temu arytmetyka wskaźników działa jak poruszanie się
+            po tablicy — przy czym <code>p + 1</code> oznacza „następny element danego typu”, a nie
+            „następny bajt”:</p>
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-dots"><span></span><span></span><span></span></div>
+                    <span class="code-label">C++</span>
+                    <button class="copy-btn">Kopiuj</button>
+                </div>
+                <pre><code>int tab[5] = {10, 20, 30, 40, 50};
+int* p = tab;        // p wskazuje na tab[0]
+
+cout &lt;&lt; *p;          // 10
+cout &lt;&lt; *(p + 1);    // 20  -> p przesuwa się o sizeof(int), nie o 1 bajt
+cout &lt;&lt; p[2];        // 30  -> p[i] to dokładnie *(p + i)
+p++;                   // teraz p wskazuje na tab[1]
+cout &lt;&lt; *p;          // 20</code></pre>
+            </div>
+
+            <div class="ptr-playground">
+                <div class="ptr-playground-label">Plac zabaw: arytmetyka wskaźników</div>
+                <div class="ptr-code">int tab[] = {10, 20, 30, 40, 50, 60};<br>int* p = tab;</div>
+                <div class="ptr-row" id="ptrRow">
+                    <div class="ptr-marker" id="ptrMarker">p</div>
+                </div>
+                <div class="ptr-readout">
+                    <span>*p = <strong id="ptrVal">10</strong></span>
+                    <span>p - tab = <strong id="ptrIdx">0</strong></span>
+                </div>
+                <div class="ptr-controls">
+                    <button class="ptr-btn" data-action="reset">p = tab</button>
+                    <button class="ptr-btn" data-action="dec">p--</button>
+                    <button class="ptr-btn" data-action="inc">p++</button>
+                    <button class="ptr-btn" data-action="mod">*p += 10</button>
+                </div>
+                <div class="ptr-warn" id="ptrWarn"></div>
+            </div>
+        </section>
+
+        <!-- 3. FUNKCJE -->
+        <section class="lesson-section reveal" id="funkcje">
+            <span class="section-number">03 / Funkcje</span>
+            <h2>Przekazywanie wskaźników do funkcji</h2>
+            <p>To jest właściwy powód, dla którego wskaźniki są tak ważne. W C++ argumenty domyślnie
+            przekazywane są <strong>przez wartość</strong> — funkcja dostaje kopię i jakiekolwiek zmiany
+            wewnątrz niej nie wychodzą na zewnątrz:</p>
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-dots"><span></span><span></span><span></span></div>
+                    <span class="code-label">C++</span>
+                    <button class="copy-btn">Kopiuj</button>
+                </div>
+                <pre><code>void zmienPrzezWartosc(int x) {
+    x = 100;          // zmienia tylko lokalną kopię
+}
+
+int a = 5;
+zmienPrzezWartosc(a);
+cout &lt;&lt; a;             // wciąż 5</code></pre>
+            </div>
+            <p>Żeby funkcja mogła faktycznie zmienić zmienną z zewnątrz, trzeba dać jej <strong>adres</strong>
+            tej zmiennej — wtedy funkcja, mając ten adres, może dereferencją dotrzeć do oryginału:</p>
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-dots"><span></span><span></span><span></span></div>
+                    <span class="code-label">C++</span>
+                    <button class="copy-btn">Kopiuj</button>
+                </div>
+                <pre><code>void zmienPrzezWskaznik(int* x) {
+    *x = 100;          // dereferencja -> wchodzimy pod adres i zmieniamy oryginał
+}
+
+int a = 5;
+zmienPrzezWskaznik(&amp;a);   // przekazujemy ADRES a, nie samo a
+cout &lt;&lt; a;                  // 100</code></pre>
+            </div>
+            <p>C++ ma też <strong>referencje</strong> (<code>int&amp;</code>) — to składniowo wygodniejszy
+            wariant tego samego mechanizmu: pod spodem nadal przekazywany jest adres, ale nie trzeba pisać
+            <code>&amp;</code> przy wywołaniu ani <code>*</code> przy każdym użyciu wewnątrz funkcji:</p>
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-dots"><span></span><span></span><span></span></div>
+                    <span class="code-label">C++</span>
+                    <button class="copy-btn">Kopiuj</button>
+                </div>
+                <pre><code>void zmienPrzezReferencje(int&amp; x) {
+    x = 100;           // wygląda jak zwykłe przypisanie, ale modyfikuje oryginał
+}
+
+int a = 5;
+zmienPrzezReferencje(a);   // bez &amp; przy wywołaniu!
+cout &lt;&lt; a;                  // 100</code></pre>
+            </div>
+
+            <div class="mem-table-wrap">
+                <table class="mem-table compare-table">
+                    <tr><th>Sposób</th><th>Co dostaje funkcja</th><th>Składnia wywołania</th><th>Może być „pusty”?</th></tr>
+                    <tr><td>przez wartość</td><td>kopię danych</td><td><code>f(a)</code></td><td>nie dotyczy</td></tr>
+                    <tr><td>przez wskaźnik</td><td>adres (kopię adresu)</td><td><code>f(&amp;a)</code></td><td>tak, <code>nullptr</code></td></tr>
+                    <tr><td>przez referencję</td><td>alias do oryginału</td><td><code>f(a)</code></td><td>nie, zawsze coś wskazuje</td></tr>
+                </table>
+            </div>
+
+            <h3>Tablice w funkcjach i niebezpieczeństwo zwracania wskaźnika</h3>
+            <p>Tablica przekazana do funkcji zawsze „rozpada się” do wskaźnika na pierwszy element — dlatego
+            w środku funkcji modyfikujesz oryginalną tablicę, a nie jej kopię, mimo że nie widać tam jawnego
+            <code>&amp;</code>:</p>
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-dots"><span></span><span></span><span></span></div>
+                    <span class="code-label">C++</span>
+                    <button class="copy-btn">Kopiuj</button>
+                </div>
+                <pre><code>void wyzeruj(int tab[], int n) {   // tak naprawdę: int* tab
+    for (int i = 0; i &lt; n; i++) tab[i] = 0;
+}
+// po wywołaniu wyzeruj(tablica, 5) -> oryginalna tablica jest faktycznie wyzerowana</code></pre>
+            </div>
+            <div class="callout callout-warning">
+                <div class="callout-title">⚠️ Nigdy nie zwracaj wskaźnika do zmiennej lokalnej</div>
+                <p>Zmienna lokalna funkcji żyje tylko do momentu jej zakończenia. Jeśli zwrócisz jej adres,
+                otrzymasz wskaźnik wiszący (<em>dangling pointer</em>) — adres, pod którym formalnie nic
+                już nie istnieje.</p>
+                <p style="margin-top:10px;"><code>int* zly() { int x = 5; return &amp;x; }</code> — to błąd,
+                nawet jeśli się skompiluje.</p>
+            </div>
+        </section>
+
+        <!-- 4. KLASY -->
+        <section class="lesson-section reveal" id="klasy">
+            <span class="section-number">04 / Klasy</span>
+            <h2>Wskaźniki a klasy</h2>
+            <p>Obiekt klasy można mieć na dwa sposoby: jako zwykłą zmienną na stosie, albo jako wskaźnik
+            na obiekt utworzony na stercie. To rozróżnienie zmienia zarówno składnię dostępu do pól, jak
+            i czas życia obiektu.</p>
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-dots"><span></span><span></span><span></span></div>
+                    <span class="code-label">C++</span>
+                    <button class="copy-btn">Kopiuj</button>
+                </div>
+                <pre><code>class Punkt {
+public:
+    int x, y;
+    Punkt(int x, int y) : x(x), y(y) {}
+    void pokaz() { cout &lt;&lt; x &lt;&lt; "," &lt;&lt; y; }
+};
+
+Punkt p1(1, 2);        // obiekt NA STOSIE
+p1.pokaz();              // dostęp przez kropkę
+
+Punkt* wp = &amp;p1;        // wskaźnik na ISTNIEJĄCY obiekt p1
+wp-&gt;pokaz();              // dostęp przez strzałkę
+(*wp).pokaz();            // dokładnie to samo co wyżej, tylko mniej wygodne w zapisie</code></pre>
+            </div>
+            <div class="callout callout-tip">
+                <div class="callout-title">💡 <code>wp-&gt;pole</code> to skrót na <code>(*wp).pole</code></div>
+                <p>Najpierw dereferencja (<code>*wp</code> daje obiekt), potem dostęp do pola kropką.
+                Operator <code>-&gt;</code> łączy te dwa kroki w jeden, bo robi się to bardzo często.</p>
+            </div>
+
+            <h3>Wskaźnik <code>this</code></h3>
+            <p>Każda niestatyczna metoda klasy w tle dostaje ukryty parametr <code>this</code> —
+            wskaźnik na obiekt, na którym tę metodę wywołano. Dzięki temu metoda „wie”, czyje pola modyfikuje:</p>
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-dots"><span></span><span></span><span></span></div>
+                    <span class="code-label">C++</span>
+                    <button class="copy-btn">Kopiuj</button>
+                </div>
+                <pre><code>class Licznik {
+    int wartosc = 0;
+public:
+    Licznik&amp; dodaj(int x) {
+        this-&gt;wartosc += x;   // "this-&gt;" jest tu opcjonalne, ale jasno pokazuje pole obiektu
+        return *this;           // zwracamy referencję do samego siebie
+    }
+    int get() { return wartosc; }
+};
+
+Licznik l;
+l.dodaj(1).dodaj(2).dodaj(3);   // łańcuchowanie wywołań dzięki "return *this"
+cout &lt;&lt; l.get();                 // 6</code></pre>
+            </div>
+
+            <h3>Dynamiczne tworzenie obiektów: <code>new</code> i <code>delete</code></h3>
+            <p>Obiekt utworzony na stosie znika automatycznie, gdy kończy się jego zasięg (np. funkcja, w
+            której go zadeklarowano). Obiekt utworzony przez <code>new</code> trafia na <strong>stertę</strong>
+            i żyje tak długo, aż go ręcznie zwolnisz przez <code>delete</code> — dlatego sterta jest niezbędna
+            wszędzie tam, gdzie obiekt musi „przeżyć” funkcję, w której powstał (np. węzły drzewa czy listy).</p>
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-dots"><span></span><span></span><span></span></div>
+                    <span class="code-label">C++</span>
+                    <button class="copy-btn">Kopiuj</button>
+                </div>
+                <pre><code>Punkt* dynPunkt = new Punkt(3, 4);   // obiekt na stercie
+dynPunkt-&gt;pokaz();
+delete dynPunkt;                       // KONIECZNE -> inaczej wyciek pamięci
+dynPunkt = nullptr;                    // dobra praktyka po delete</code></pre>
+            </div>
+        </section>
+
+        <!-- 5. POLA WSKAŹNIKOWE -->
+        <section class="lesson-section reveal" id="pola">
+            <span class="section-number">05 / Struktury rekurencyjne</span>
+            <h2>Gdy pole klasy jest wskaźnikiem</h2>
+            <p>Pole klasy może samo być wskaźnikiem — także na obiekt <em>tego samego</em> typu. To dokładnie
+            ten mechanizm stoi za listami jednokierunkowymi, drzewami i każdą inną strukturą, która „wskazuje
+            sama na siebie”:</p>
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-dots"><span></span><span></span><span></span></div>
+                    <span class="code-label">C++</span>
+                    <button class="copy-btn">Kopiuj</button>
+                </div>
+                <pre><code>struct Node {
+    int val;
+    Node* next;             // pole klasy będące wskaźnikiem na kolejny węzeł
+    Node(int v) : val(v), next(nullptr) {}
+};
+
+Node* head = new Node(1);
+head-&gt;next = new Node(2);
+head-&gt;next-&gt;next = new Node(3);
+// head -&gt; [1] -&gt; [2] -&gt; [3] -&gt; nullptr
+
+cout &lt;&lt; head-&gt;next-&gt;val;   // 2</code></pre>
+            </div>
+            <p>To samo dzieje się w strukturze drzewa binarnego — każdy węzeł ma pola <code>left</code> i
+            <code>right</code> będące wskaźnikami na poddrzewa, a brak dziecka oznaczany jest przez
+            <code>nullptr</code>. Wracamy do tego dokładnie w sekcji 7.</p>
+
+            <h3>Co właściwie znaczy „klasa jest wskaźnikiem”?</h3>
+            <p>Sama klasa nigdy nie „jest” wskaźnikiem — to <strong>zmienna danego typu</strong> może być
+            albo zwykłym obiektem (<code>Klasa obj</code>), albo wskaźnikiem na obiekt (<code>Klasa* obj</code>).
+            To rozróżnienie ma realne konsekwencje:</p>
+            <div class="mem-table-wrap">
+                <table class="mem-table compare-table">
+                    <tr><th>Cecha</th><th><code>Klasa obj</code></th><th><code>Klasa* obj</code></th></tr>
+                    <tr><td>dostęp do pól</td><td><code>obj.pole</code></td><td><code>obj-&gt;pole</code></td></tr>
+                    <tr><td>kopiowanie</td><td>tworzy nowy, niezależny obiekt</td><td>kopiuje tylko adres — oba wskaźniki dalej widzą ten sam obiekt</td></tr>
+                    <tr><td>porównanie <code>==</code></td><td>(jeśli zdefiniowane) porównuje zawartość</td><td>porównuje adresy — „czy to ten sam obiekt?”</td></tr>
+                    <tr><td>czas życia</td><td>kończy się wraz z zasięgiem</td><td>żyje na stercie, aż wywołasz <code>delete</code></td></tr>
+                    <tr><td>może być „pusty”</td><td>nie</td><td>tak, <code>nullptr</code></td></tr>
+                </table>
+            </div>
+            <div class="callout callout-note">
+                <div class="callout-title">📌 Kopiowanie wskaźnika ≠ kopiowanie obiektu</div>
+                <p><code>Node* b = a;</code> nie tworzy nowego węzła — <code>a</code> i <code>b</code> to
+                teraz dwie nazwy wskazujące na ten sam obiekt. Zmiana przez jedną z nich (np. <code>b-&gt;val = 5</code>)
+                jest widoczna również przez drugą.</p>
+            </div>
+
+            <h3>Wskaźnik na wskaźnik (krótko)</h3>
+            <p>Czasem funkcja musi zmienić sam wskaźnik znajdujący się poza nią (np. przestawić <code>head</code>
+            listy na nowy pierwszy element) — wtedy przekazuje się <code>Node**</code>, czyli adres wskaźnika:</p>
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-dots"><span></span><span></span><span></span></div>
+                    <span class="code-label">C++</span>
+                    <button class="copy-btn">Kopiuj</button>
+                </div>
+                <pre><code>void wstawNaPoczatek(Node** head, int val) {
+    Node* nowy = new Node(val);
+    nowy-&gt;next = *head;   // nowy węzeł wskazuje na dotychczasowy początek
+    *head = nowy;           // zmieniamy SAM wskaźnik head w main, nie tylko to, na co wskazywał
+}
+
+Node* head = nullptr;
+wstawNaPoczatek(&amp;head, 5);   // przekazujemy adres wskaźnika head</code></pre>
+            </div>
+
+            <div class="callout callout-tip">
+                <div class="callout-title">💡 A co ze smart pointerami?</div>
+                <p>Nowoczesny C++ oferuje <code>std::unique_ptr</code> i <code>std::shared_ptr</code> —
+                „inteligentne” wskaźniki, które same wywołują <code>delete</code> w odpowiednim momencie,
+                eliminując wycieki pamięci. Na olimpiadach i w zadaniach typu LeetCode rzadko są potrzebne
+                (czas życia obiektów jest krótki, kod startowy zwykle używa surowych wskaźników), ale warto
+                wiedzieć, że istnieją jako bezpieczniejsza alternatywa dla <code>new</code>/<code>delete</code>
+                w większych projektach.</p>
+            </div>
+        </section>
+
+        <!-- 6. BŁĘDY -->
+        <section class="lesson-section reveal" id="bledy">
+            <span class="section-number">06 / Pułapki</span>
+            <h2>Najczęstsze błędy</h2>
+            <p>Większość błędów ze wskaźnikami nie daje błędu kompilacji — program się skompiluje i czasem
+            nawet zadziała „przez przypadek”, a zawiedzie dopiero przy innych danych wejściowych. Warto
+            umieć je rozpoznać:</p>
+
+            <div class="callout callout-bug">
+                <div class="callout-title">🐛 Dziki wskaźnik (wild pointer)</div>
+                <p>Niezainicjalizowany wskaźnik wskazuje na losowy adres. <code>int* p; *p = 5;</code> —
+                kompiluje się, ale jest niezdefiniowanym zachowaniem. Zawsze inicjalizuj wskaźnik, jeśli
+                nie masz na co go od razu ustawić — użyj <code>nullptr</code>.</p>
+            </div>
+            <div class="callout callout-bug">
+                <div class="callout-title">🐛 Wskaźnik wiszący (dangling pointer)</div>
+                <p>Wskaźnik wskazuje na pamięć, która już nie istnieje — najczęściej po <code>delete</code>
+                albo po zwróceniu adresu zmiennej lokalnej z funkcji (zobacz sekcję 3).</p>
+            </div>
+            <div class="callout callout-bug">
+                <div class="callout-title">🐛 Wyciek pamięci (memory leak)</div>
+                <p><code>new</code> bez odpowiadającego <code>delete</code>. Każdy obiekt utworzony na
+                stercie trzeba prędzej czy później zwolnić — inaczej program będzie zużywał coraz więcej
+                pamięci.</p>
+            </div>
+            <div class="callout callout-bug">
+                <div class="callout-title">🐛 Podwójne zwolnienie (double free)</div>
+                <p><code>delete p; delete p;</code> — wywołanie <code>delete</code> dwa razy na ten sam
+                wskaźnik to niezdefiniowane zachowanie. Po pierwszym <code>delete</code> ustaw wskaźnik na
+                <code>nullptr</code> — wywołanie <code>delete nullptr</code> jest bezpieczne i nic nie robi.</p>
+            </div>
+            <div class="callout callout-bug">
+                <div class="callout-title">🐛 Dereferencja nullptr</div>
+                <p><code>Node* p = nullptr; p-&gt;val;</code> — to klasyczny <em>segmentation fault</em>.
+                Zawsze sprawdzaj <code>if (p != nullptr)</code> (albo po prostu <code>if (p)</code>) przed
+                dostępem do pól.</p>
+            </div>
+        </section>
+
+        <!-- 7. ZADANIE -->
+        <section class="lesson-section reveal" id="zadanie">
+            <span class="section-number">07 / Zadanie z LeetCode</span>
+            <h2>Range Sum of BST (LeetCode 938)</h2>
+            <p><strong>Treść zadania:</strong> dany jest korzeń drzewa BST (<em>binary search tree</em>) oraz
+            dwie liczby <code>low</code> i <code>high</code>. Trzeba zwrócić sumę wartości wszystkich węzłów,
+            których wartość mieści się w przedziale domkniętym <code>[low, high]</code>.</p>
+
+            <h3>Dlaczego to jest zadanie o wskaźnikach</h3>
+            <p>Kod startowy definiuje strukturę dokładnie taką, jak w sekcji 5 — węzeł drzewa przechowujący
+            dwa wskaźniki na poddrzewa:</p>
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-dots"><span></span><span></span><span></span></div>
+                    <span class="code-label">C++</span>
+                    <button class="copy-btn">Kopiuj</button>
+                </div>
+                <pre><code>struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode() : val(0), left(nullptr), right(nullptr) {}
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+};</code></pre>
+            </div>
+            <p><code>root</code> to <code>TreeNode*</code> — wskaźnik na korzeń drzewa, a nie sam obiekt.
+            <code>root-&gt;left</code> i <code>root-&gt;right</code> to wskaźniki na poddrzewa, które mogą
+            być <code>nullptr</code>, jeśli dziecko nie istnieje. Wywołując funkcję rekurencyjnie z argumentem
+            <code>root-&gt;left</code>, nie kopiujemy całego poddrzewa — kopiujemy tylko 8-bajtowy adres, więc
+            rekurencja jest tania niezależnie od tego, jak duże jest poddrzewo. To dokładnie mechanizm z
+            sekcji 3 („przekazywanie wskaźnika do funkcji”).</p>
+
+            <h3>Pomysł na rozwiązanie</h3>
+            <p>Najprostsze podejście to przejście całego drzewa (DFS) i sprawdzenie każdego węzła. Ale własność
+            BST — <strong>lewe poddrzewo zawiera tylko wartości mniejsze od rodzica, prawe tylko większe</strong>
+            — pozwala obciąć (ang. <em>prune</em>) całe gałęzie, w których nie ma sensu szukać:</p>
+            <ul class="feature-list">
+                <li>jeśli <code>root == nullptr</code>, poddrzewo jest puste — wynik to <code>0</code> (przypadek bazowy);</li>
+                <li>jeśli <code>root-&gt;val</code> mieści się w <code>[low, high]</code>, dodajemy go do sumy;</li>
+                <li>jeśli <code>root-&gt;val &gt; low</code>, w lewym poddrzewie mogą jeszcze istnieć wartości <code>≥ low</code> — wchodzimy w lewo;</li>
+                <li>jeśli <code>root-&gt;val &lt; high</code>, w prawym poddrzewie mogą jeszcze istnieć wartości <code>≤ high</code> — wchodzimy w prawo.</li>
+            </ul>
+            <p>Gdy <code>root-&gt;val ≤ low</code>, cała lewa strona poddrzewa jest jeszcze mniejsza — z definicji
+            BST nie może tam być nic w przedziale, więc w ogóle nie odwiedzamy tej gałęzi (analogicznie po
+            prawej stronie dla <code>high</code>).</p>
+
+            <h3>Rozwiązanie</h3>
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-dots"><span></span><span></span><span></span></div>
+                    <span class="code-label">C++</span>
+                    <button class="copy-btn">Kopiuj</button>
+                </div>
+                <pre><code>class Solution {
+public:
+    int rangeSumBST(TreeNode* root, int low, int high) {
+        if (root == nullptr) return 0;          // puste poddrzewo -> nic nie dodajemy
+
+        int suma = 0;
+
+        if (root-&gt;val &gt;= low &amp;&amp; root-&gt;val &lt;= high)   // wartość w przedziale
+            suma += root-&gt;val;
+
+        if (root-&gt;val &gt; low)                            // w lewym poddrzewie mogą być wartości &gt;= low
+            suma += rangeSumBST(root-&gt;left, low, high);
+
+        if (root-&gt;val &lt; high)                           // w prawym poddrzewie mogą być wartości &lt;= high
+            suma += rangeSumBST(root-&gt;right, low, high);
+
+        return suma;
+    }
+};</code></pre>
+            </div>
+            <div class="callout callout-warning">
+                <div class="callout-title">⚠️ Dlaczego sprawdzamy <code>root == nullptr</code> jako pierwsze</div>
+                <p>Gdybyśmy najpierw spróbowali odczytać <code>root-&gt;val</code> bez tego sprawdzenia,
+                a <code>root</code> okazał się <code>nullptr</code>, dostalibyśmy dereferencję nullptra —
+                dokładnie błąd opisany w sekcji 6.</p>
+            </div>
+
+            <h3>Krok po kroku na przykładzie</h3>
+            <p>Dla drzewa <code>[10,5,15,3,7,null,18]</code> z <code>low = 7</code>, <code>high = 15</code>
+            (Przykład 1 z treści zadania), wywołania wyglądają tak:</p>
+
+            <div class="tree-wrap">
+                <svg viewBox="0 0 500 230" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="250" y1="40" x2="150" y2="115" stroke="rgba(255,255,255,0.18)" stroke-width="2"/>
+                    <line x1="250" y1="40" x2="350" y2="115" stroke="rgba(255,255,255,0.18)" stroke-width="2"/>
+                    <line x1="150" y1="115" x2="90" y2="190" stroke="rgba(255,255,255,0.18)" stroke-width="2"/>
+                    <line x1="150" y1="115" x2="210" y2="190" stroke="rgba(255,255,255,0.18)" stroke-width="2"/>
+                    <line x1="350" y1="115" x2="410" y2="190" stroke="rgba(255,255,255,0.18)" stroke-width="2"/>
+
+                    <!-- 10: root, dodany -->
+                    <circle cx="250" cy="40" r="24" fill="rgba(59,130,246,0.22)" stroke="#60a5fa" stroke-width="2"/>
+                    <text x="250" y="46" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" fill="#f0f0f8" font-weight="700">10</text>
+
+                    <!-- 5: odwiedzony, nie dodany -->
+                    <circle cx="150" cy="115" r="24" fill="none" stroke="#9090aa" stroke-width="2"/>
+                    <text x="150" y="121" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" fill="#9090aa" font-weight="700">5</text>
+
+                    <!-- 15: dodany -->
+                    <circle cx="350" cy="115" r="24" fill="rgba(59,130,246,0.22)" stroke="#60a5fa" stroke-width="2"/>
+                    <text x="350" y="121" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" fill="#f0f0f8" font-weight="700">15</text>
+
+                    <!-- 3: pominięty -->
+                    <circle cx="90" cy="190" r="22" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="2" stroke-dasharray="4 4"/>
+                    <text x="90" y="196" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="14" fill="#55556a">3</text>
+
+                    <!-- 7: dodany -->
+                    <circle cx="210" cy="190" r="24" fill="rgba(59,130,246,0.22)" stroke="#60a5fa" stroke-width="2"/>
+                    <text x="210" y="196" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" fill="#f0f0f8" font-weight="700">7</text>
+
+                    <!-- 18: pominięty -->
+                    <circle cx="410" cy="190" r="22" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="2" stroke-dasharray="4 4"/>
+                    <text x="410" y="196" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="14" fill="#55556a">18</text>
+                </svg>
+                <div class="tree-legend">
+                    <div class="tree-legend-item"><span class="tree-dot" style="background:rgba(59,130,246,0.35); border:2px solid #60a5fa;"></span> dodany do sumy</div>
+                    <div class="tree-legend-item"><span class="tree-dot" style="background:transparent; border:2px solid #9090aa;"></span> odwiedzony, pominięty</div>
+                    <div class="tree-legend-item"><span class="tree-dot" style="background:transparent; border:2px dashed rgba(255,255,255,0.3);"></span> nigdy nie odwiedzony (dzięki BST)</div>
+                </div>
+            </div>
+
+            <div class="mem-table-wrap">
+                <table class="mem-table">
+                    <tr><th>Krok</th><th>Węzeł</th><th>W [7,15]?</th><th>Rekursja w lewo?</th><th>Rekursja w prawo?</th><th>Suma</th></tr>
+                    <tr><td>1</td><td><code>10</code></td><td class="hl">tak, +10</td><td>tak (10 &gt; 7)</td><td>tak (10 &lt; 15)</td><td>10</td></tr>
+                    <tr><td>2</td><td><code>5</code></td><td>nie</td><td>nie — poddrzewo z <code>3</code> obcięte</td><td>tak (5 &lt; 15)</td><td>10</td></tr>
+                    <tr><td>3</td><td><code>7</code></td><td class="hl">tak, +7</td><td>nie (7 &gt; 7 to fałsz)</td><td>tak → ale dziecko <code>nullptr</code></td><td>17</td></tr>
+                    <tr><td>4</td><td><code>15</code></td><td class="hl">tak, +15</td><td>tak → ale dziecko <code>nullptr</code></td><td>nie — poddrzewo z <code>18</code> obcięte</td><td>32</td></tr>
+                </table>
+            </div>
+            <p>Wynik: <code>10 + 7 + 15 = 32</code> — zgadza się z oczekiwanym wyjściem z treści zadania.
+            Węzły <code>3</code> i <code>18</code> nigdy nie zostały odwiedzone — to właśnie dzięki własności
+            BST nie musieliśmy sprawdzać całego drzewa.</p>
+
+            <h3>Złożoność</h3>
+            <p>W najgorszym przypadku (przedział obejmuje cały zakres wartości albo drzewo jest mocno
+            niezbalansowane) odwiedzamy wszystkie węzły: <code>O(N)</code>. Dla zbalansowanego drzewa i
+            wąskiego przedziału, dzięki obcinaniu gałęzi, czas zbliża się do <code>O(log N + k)</code>, gdzie
+            <code>k</code> to liczba węzłów w przedziale. Pamięć dodatkowa to <code>O(H)</code> na stos
+            wywołań rekurencyjnych, gdzie <code>H</code> to wysokość drzewa.</p>
+
+            <h3>Bonus: wersja iteracyjna</h3>
+            <p>To samo da się zapisać bez rekurencji, trzymając wskaźniki do węzłów „do odwiedzenia” w
+            jawnym stosie — co dodatkowo pokazuje, że wskaźniki świetnie nadają się do przechowywania
+            w kontenerach, bo kopiowanie elementu <code>vector&lt;TreeNode*&gt;</code> to wciąż tylko
+            kopiowanie 8-bajtowego adresu, a nie całego węzła:</p>
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-dots"><span></span><span></span><span></span></div>
+                    <span class="code-label">C++</span>
+                    <button class="copy-btn">Kopiuj</button>
+                </div>
+                <pre><code>int rangeSumBST(TreeNode* root, int low, int high) {
+    int suma = 0;
+    vector&lt;TreeNode*&gt; stos;     // przechowujemy WSKAŹNIKI do węzłów
+    stos.push_back(root);
+
+    while (!stos.empty()) {
+        TreeNode* w = stos.back();
+        stos.pop_back();
+        if (w == nullptr) continue;
+
+        if (w-&gt;val &gt;= low &amp;&amp; w-&gt;val &lt;= high) suma += w-&gt;val;
+        if (w-&gt;val &gt; low)  stos.push_back(w-&gt;left);
+        if (w-&gt;val &lt; high) stos.push_back(w-&gt;right);
+    }
+    return suma;
+}</code></pre>
+            </div>
+        </section>
+
+    </article>
+</div>
+
+<!-- CTA -->
+<div class="lesson-cta">
+    <div class="lesson-cta-card reveal">
+        <div>
+            <h3>Chcesz więcej takich materiałów?</h3>
+            <p>Dołącz do naszej społeczności na Discordzie albo zobacz pozostałe materiały T-Olimpians —
+            kolejne tematy z C++ i algorytmów pojawiają się regularnie.</p>
+        </div>
+        <div class="lesson-cta-actions">
+            <a class="btn-primary" href="materialy.html">Zobacz materiały →</a>
+            <a class="btn-discord" href="https://discord.gg/cgvWjzB5e4" target="_blank">Serwer Discord</a>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <span>© 2025 T-Olimpians Team Poland</span>
+    <span style="color: var(--text-muted);">Built for champions 🏆</span>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    /* ── PARTICLES ── */
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    let W, H, dots = [];
+
+    function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+    resize();
+    window.addEventListener('resize', () => { resize(); spawnDots(); });
+
+    function spawnDots() {
+        dots = [];
+        const count = Math.floor((W * H) / 18000);
+        for (let i = 0; i < count; i++) {
+            dots.push({
+                x: Math.random() * W, y: Math.random() * H,
+                r: Math.random() * 1.4 + 0.3,
+                vx: (Math.random() - 0.5) * 0.3,
+                vy: (Math.random() - 0.5) * 0.3,
+                alpha: Math.random() * 0.5 + 0.2
+            });
+        }
+    }
+    spawnDots();
+
+    const LINK_DIST = 120;
+    function drawParticles() {
+        ctx.clearRect(0, 0, W, H);
+        for (let i = 0; i < dots.length; i++) {
+            const d = dots[i];
+            d.x += d.vx; d.y += d.vy;
+            if (d.x < 0) d.x = W; if (d.x > W) d.x = 0;
+            if (d.y < 0) d.y = H; if (d.y > H) d.y = 0;
+            ctx.beginPath();
+            ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(96,165,250,${d.alpha})`;
+            ctx.fill();
+            for (let j = i + 1; j < dots.length; j++) {
+                const d2 = dots[j];
+                const dx = d.x - d2.x, dy = d.y - d2.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < LINK_DIST) {
+                    ctx.beginPath();
+                    ctx.moveTo(d.x, d.y);
+                    ctx.lineTo(d2.x, d2.y);
+                    ctx.strokeStyle = `rgba(59,130,246,${0.12 * (1 - dist / LINK_DIST)})`;
+                    ctx.lineWidth = 0.6;
+                    ctx.stroke();
+                }
+            }
+        }
+        requestAnimationFrame(drawParticles);
+    }
+    drawParticles();
+
+    /* ── SCROLL REVEAL ── */
+    const revealEls = document.querySelectorAll('.reveal');
+    const revealObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                revealObs.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.08 });
+    revealEls.forEach(el => revealObs.observe(el));
+
+    /* ── HAMBURGER ── */
+    const hamburger = document.getElementById('hamburger');
+    const navLinks  = document.getElementById('navLinks');
+    hamburger.addEventListener('click', function () {
+        navLinks.classList.toggle('open');
+        hamburger.classList.toggle('open');
+    });
+    document.querySelectorAll('.nav-links a').forEach(function (link) {
+        link.addEventListener('click', function () {
+            navLinks.classList.remove('open');
+            hamburger.classList.remove('open');
+        });
+    });
+
+    /* ── NAVBAR SCROLL ── */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', function () {
+        navbar.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    /* ── TOC SCROLL-SPY ── */
+    const sections = document.querySelectorAll('.lesson-section');
+    const tocLinks = document.querySelectorAll('.toc a');
+    const tocObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            const id = entry.target.getAttribute('id');
+            const link = document.querySelector('.toc a[href="#' + id + '"]');
+            if (!link) return;
+            if (entry.isIntersecting) {
+                tocLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+            }
+        });
+    }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+    sections.forEach(s => tocObs.observe(s));
+
+    /* ── SYNTAX HIGHLIGHTING ── */
+    const KEYWORDS = new Set(['int','char','bool','double','float','void','class','struct','public','private',
+        'protected','return','if','else','while','for','new','delete','nullptr','const','static','this',
+        'true','false','namespace','using','template','typename','virtual','override','auto','long',
+        'unsigned','short','break','continue','switch','case','default','sizeof','do','throw','try','catch']);
+    const TYPES = new Set(['TreeNode','Solution','Node','Punkt','Licznik','vector','string','size_t']);
+
+    function escHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+    function highlightCpp(code) {
+        let i = 0, n = code.length, out = '';
+        while (i < n) {
+            const c = code[i];
+            if (c === '/' && code[i+1] === '/') {
+                let j = code.indexOf('\n', i); if (j === -1) j = n;
+                out += '<span class="tk-com">' + escHtml(code.slice(i, j)) + '</span>';
+                i = j; continue;
+            }
+            if (c === '/' && code[i+1] === '*') {
+                let j = code.indexOf('*/', i + 2); j = (j === -1) ? n : j + 2;
+                out += '<span class="tk-com">' + escHtml(code.slice(i, j)) + '</span>';
+                i = j; continue;
+            }
+            if (c === '"' || c === "'") {
+                const quote = c; let j = i + 1;
+                while (j < n && code[j] !== quote) { if (code[j] === '\\') j++; j++; }
+                j = Math.min(j + 1, n);
+                out += '<span class="tk-str">' + escHtml(code.slice(i, j)) + '</span>';
+                i = j; continue;
+            }
+            if (c === '#') {
+                let j = code.indexOf('\n', i); if (j === -1) j = n;
+                out += '<span class="tk-pre">' + escHtml(code.slice(i, j)) + '</span>';
+                i = j; continue;
+            }
+            if (/[0-9]/.test(c)) {
+                let j = i;
+                while (j < n && /[0-9.]/.test(code[j])) j++;
+                out += '<span class="tk-num">' + escHtml(code.slice(i, j)) + '</span>';
+                i = j; continue;
+            }
+            if (/[A-Za-z_]/.test(c)) {
+                let j = i;
+                while (j < n && /[A-Za-z0-9_]/.test(code[j])) j++;
+                const word = code.slice(i, j);
+                if (KEYWORDS.has(word)) out += '<span class="tk-kw">' + escHtml(word) + '</span>';
+                else if (TYPES.has(word)) out += '<span class="tk-type">' + escHtml(word) + '</span>';
+                else out += escHtml(word);
+                i = j; continue;
+            }
+            out += escHtml(c); i++;
+        }
+        return out;
+    }
+
+    document.querySelectorAll('.code-block code').forEach(function (el) {
+        el.innerHTML = highlightCpp(el.textContent);
+    });
+
+    /* ── COPY BUTTONS ── */
+    document.querySelectorAll('.copy-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            const codeEl = btn.closest('.code-block').querySelector('code');
+            navigator.clipboard.writeText(codeEl.textContent).then(function () {
+                const original = btn.textContent;
+                btn.textContent = 'Skopiowano!';
+                setTimeout(function () { btn.textContent = original; }, 1500);
+            });
+        });
+    });
+
+    /* ── POINTER PLAYGROUND ── */
+    (function () {
+        const values = [10, 20, 30, 40, 50, 60];
+        let idx = 0;
+        const row = document.getElementById('ptrRow');
+        const marker = document.getElementById('ptrMarker');
+        const valEl = document.getElementById('ptrVal');
+        const idxEl = document.getElementById('ptrIdx');
+        const warnEl = document.getElementById('ptrWarn');
+        if (!row) return;
+
+        const boxes = [];
+        values.forEach(function (v, i) {
+            const box = document.createElement('div');
+            box.className = 'ptr-box';
+            box.innerHTML = '<span class="ptr-box-index">tab[' + i + ']</span><span class="ptr-box-val">' + v + '</span>';
+            row.appendChild(box);
+            boxes.push(box);
+        });
+
+        const STEP = 66; // box width (56) + gap (10)
+        function render() {
+            marker.style.transform = 'translateX(' + (idx * STEP) + 'px)';
+            boxes.forEach((b, i) => b.classList.toggle('active', i === idx));
+            valEl.textContent = values[idx];
+            idxEl.textContent = idx;
+        }
+
+        document.querySelectorAll('.ptr-controls .ptr-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                const action = btn.dataset.action;
+                warnEl.textContent = '';
+                if (action === 'reset') { idx = 0; }
+                else if (action === 'inc') {
+                    if (idx >= values.length - 1) { warnEl.textContent = '⚠️ p++ poza ostatni element to undefined behavior — wskaźnik się nie rusza.'; }
+                    else { idx++; }
+                }
+                else if (action === 'dec') {
+                    if (idx <= 0) { warnEl.textContent = '⚠️ p-- przed pierwszy element to undefined behavior — wskaźnik się nie rusza.'; }
+                    else { idx--; }
+                }
+                else if (action === 'mod') {
+                    values[idx] += 10;
+                    boxes[idx].querySelector('.ptr-box-val').textContent = values[idx];
+                }
+                render();
+            });
+        });
+
+        render();
+    })();
+});
+</script>
+<!-- licznik odwiedzin -> panel kacperos.html -->
+<script type="module" src="/track.js"></script>
+</body>
+</html>

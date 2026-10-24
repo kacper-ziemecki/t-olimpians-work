@@ -1,0 +1,467 @@
+{
+  "meta": {
+    "version": 1,
+    "description": "Baza zadań treningowych T-Olimpians. Aby dodać nowe zadanie, dopisz kolejny obiekt do tablicy \"tasks\" — struktura każdego pola jest opisana poniżej w kluczu \"schema_hint\".",
+    "schema_hint": {
+      "id": "unikalny identyfikator tekstowy, np. 'manhattan-najdalszy'",
+      "number": "numer porządkowy zadania (liczba całkowita)",
+      "title": "tytuł zadania",
+      "category": "dział / temat, np. 'Geometria obliczeniowa'",
+      "time_limit": "np. '1 s'",
+      "memory_limit": "np. '128 MB'",
+      "statement": "tablica akapitów (stringów) z treścią zadania",
+      "input_format": "tablica akapitów opisujących format wejścia",
+      "output_format": "tablica akapitów opisujących format wyjścia",
+      "constraints": "tablica ograniczeń (stringów)",
+      "examples": "tablica obiektów {input, output, note}",
+      "tests": "tablica 5 obiektów {input, output} — testy, na których automatycznie sprawdzany jest kod wklejony przez ucznia w przycisku 'Wyślij'"
+    }
+  },
+  "tasks": [
+    {
+      "id": "manhattan-najdalszy",
+      "number": 1,
+      "title": "Najdalszy sąsiad",
+      "category": "Geometria obliczeniowa",
+      "time_limit": "1 s",
+      "memory_limit": "128 MB",
+      "statement": [
+        "Na płaszczyźnie dane jest n punktów o współrzędnych całkowitych. Odległość między punktami A = (x₁, y₁) oraz B = (x₂, y₂) mierzymy w metryce Manhattan: dist(A, B) = |x₁ − x₂| + |y₁ − y₂|.",
+        "Dla każdego punktu wyznacz punkt do niego najdalszy (spośród pozostałych n − 1 punktów). Jeśli istnieje kilka punktów w tej samej, maksymalnej odległości, wybierz ten o najmniejszym numerze."
+      ],
+      "input_format": [
+        "W pierwszym wierszu znajduje się jedna liczba całkowita n (0 ≤ n ≤ 10⁶) — liczba punktów.",
+        "W każdym z kolejnych n wierszy znajdują się dwie liczby całkowite xᵢ, yᵢ (−10⁹ ≤ xᵢ, yᵢ ≤ 10⁹) — współrzędne i-tego punktu (punkty numerujemy od 1)."
+      ],
+      "output_format": [
+        "Wypisz n wierszy. W i-tym wierszu podaj jedną liczbę: numer punktu najdalszego od punktu i.",
+        "Jeżeli n ≤ 1, nie wypisuj nic (nie ma innych punktów do porównania)."
+      ],
+      "constraints": [
+        "0 ≤ n ≤ 10⁶",
+        "−10⁹ ≤ xᵢ, yᵢ ≤ 10⁹",
+        "punkty mogą się powtarzać"
+      ],
+      "examples": [
+        {
+          "input": "4\n1 1\n1 4\n4 1\n4 4",
+          "output": "4\n3\n2\n1",
+          "note": "Wszystkie cztery punkty leżą w wierzchołkach kwadratu. Dla punktu 1 odległości do 2, 3, 4 wynoszą odpowiednio 3, 3, 6, więc najdalszy to punkt 4. Analogicznie dla pozostałych punktów najdalszy jest ten leżący po przekątnej kwadratu."
+        }
+      ],
+      "tests": [
+        {
+          "input": "0",
+          "output": ""
+        },
+        {
+          "input": "1\n5 -3",
+          "output": ""
+        },
+        {
+          "input": "3\n20 -13\n-19 -3\n-5 -6",
+          "output": "2\n1\n1"
+        },
+        {
+          "input": "5\n-12 -14\n14 -15\n-18 -19\n-12 -14\n-19 15",
+          "output": "5\n5\n2\n5\n2"
+        },
+        {
+          "input": "6\n-572999404 537640408\n395616196 506083910\n170252923 -99088046\n-526607376 -35330923\n265438422 -402590008\n738238661 866808229",
+          "output": "5\n4\n6\n6\n1\n4"
+        }
+      ]
+    },
+    {
+      "id": "manhattan-max-para",
+      "number": 2,
+      "title": "Maksymalna odległość Manhattan",
+      "category": "Geometria obliczeniowa",
+      "time_limit": "1 s",
+      "memory_limit": "128 MB",
+      "statement": [
+        "Na płaszczyźnie dane jest n punktów o współrzędnych całkowitych. Odległość między punktami A = (x₁, y₁) oraz B = (x₂, y₂) mierzymy w metryce Manhattan: dist(A, B) = |x₁ − x₂| + |y₁ − y₂|.",
+        "Wyznacz maksymalną odległość Manhattan pomiędzy dowolną parą spośród podanych punktów."
+      ],
+      "input_format": [
+        "W pierwszym wierszu znajduje się jedna liczba całkowita n (2 ≤ n ≤ 10⁶) — liczba punktów.",
+        "W każdym z kolejnych n wierszy znajdują się dwie liczby całkowite xᵢ, yᵢ (−10⁹ ≤ xᵢ, yᵢ ≤ 10⁹) — współrzędne i-tego punktu."
+      ],
+      "output_format": [
+        "Wypisz jedną liczbę całkowitą — maksymalną odległość Manhattan pomiędzy dowolną parą punktów."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 10⁶",
+        "−10⁹ ≤ xᵢ, yᵢ ≤ 10⁹",
+        "punkty mogą się powtarzać"
+      ],
+      "examples": [
+        {
+          "input": "4\n1 1\n1 4\n4 1\n4 4",
+          "output": "6",
+          "note": "Maksymalna odległość występuje między parami (1,1)–(4,4) oraz (1,4)–(4,1) — w obu przypadkach wynosi 3 + 3 = 6."
+        }
+      ],
+      "tests": [
+        {
+          "input": "2\n-20 -10\n7 1",
+          "output": "38"
+        },
+        {
+          "input": "3\n-3 -11\n-3 -11\n-3 -11",
+          "output": "0"
+        },
+        {
+          "input": "5\n-14 2\n2 18\n-4 -18\n9 14\n-13 4",
+          "output": "45"
+        },
+        {
+          "input": "6\n-830777868 185498232\n-370404448 781132953\n349993687 328261053\n901493143 850501472\n-223394696 239854303\n-587063402 513056504",
+          "output": "2397274251"
+        },
+        {
+          "input": "8\n-16 -18\n-2 -15\n-14 4\n-14 4\n-10 3\n-3 -16\n-10 14\n-10 9",
+          "output": "38"
+        }
+      ]
+    },
+    {
+      "id": "manhattan-zliczanie-par",
+      "number": 3,
+      "title": "Zliczanie par w zadanej odległości Manhattan",
+      "category": "Geometria obliczeniowa",
+      "time_limit": "2 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na płaszczyźnie dane jest n punktów o współrzędnych całkowitych oraz liczba całkowita D. Odległość między punktami mierzymy w metryce Manhattan.",
+        "Policz, dla ilu nieuporządkowanych par punktów (i, j), i ≠ j, zachodzi dist(i, j) ≤ D."
+      ],
+      "input_format": [
+        "W pierwszym wierszu znajdują się dwie liczby całkowite n oraz D (1 ≤ n ≤ 2·10⁵, 0 ≤ D ≤ 4·10⁹).",
+        "W każdym z kolejnych n wierszy znajdują się dwie liczby całkowite xᵢ, yᵢ (−10⁹ ≤ xᵢ, yᵢ ≤ 10⁹) — współrzędne i-tego punktu."
+      ],
+      "output_format": [
+        "Wypisz jedną liczbę całkowitą — liczbę par punktów odległych od siebie o co najwyżej D w metryce Manhattan."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2·10⁵",
+        "0 ≤ D ≤ 4·10⁹",
+        "−10⁹ ≤ xᵢ, yᵢ ≤ 10⁹",
+        "wynik może przekraczać zakres 32-bitowego typu całkowitego"
+      ],
+      "examples": [
+        {
+          "input": "4 3\n1 1\n1 4\n4 1\n4 4",
+          "output": "4",
+          "note": "Odległości między parami wynoszą: (1,2)=3, (1,3)=3, (1,4)=6, (2,3)=6, (2,4)=3, (3,4)=3. Warunek dist ≤ 3 spełniają cztery pary: (1,2), (1,3), (2,4), (3,4)."
+        }
+      ],
+      "tests": [
+        {
+          "input": "1 5\n4 -3",
+          "output": "0"
+        },
+        {
+          "input": "3 10\n20 15\n-6 0\n-17 -6",
+          "output": "0"
+        },
+        {
+          "input": "5 15\n-18 0\n-16 -7\n16 0\n-16 -7\n9 -11",
+          "output": "3"
+        },
+        {
+          "input": "6 0\n-4 -12\n-5 15\n14 -4\n17 7\n17 5\n3 -6",
+          "output": "0"
+        },
+        {
+          "input": "8 2000000000\n-702934846 94199380\n59817199 -804773524\n623029829 -898818358\n849204427 -764530278\n-671775761 347430114\n-656441280 700977478\n461322282 -93418380\n280778650 -863575288",
+          "output": "19"
+        }
+      ]
+    },
+    {
+      "id": "manhattan-najblizszy",
+      "number": 4,
+      "title": "Najbliższy sąsiad w metryce Manhattan",
+      "category": "Geometria obliczeniowa",
+      "time_limit": "2 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na płaszczyźnie dane jest n punktów o współrzędnych całkowitych. Odległość mierzymy w metryce Manhattan.",
+        "Dla każdego punktu wyznacz punkt do niego najbliższy spośród pozostałych n − 1 punktów. Jeśli istnieje kilka punktów w tej samej, minimalnej odległości, wybierz ten o najmniejszym numerze."
+      ],
+      "input_format": [
+        "W pierwszym wierszu znajduje się jedna liczba całkowita n (2 ≤ n ≤ 10⁶) — liczba punktów.",
+        "W każdym z kolejnych n wierszy znajdują się dwie liczby całkowite xᵢ, yᵢ (−10⁹ ≤ xᵢ, yᵢ ≤ 10⁹) — współrzędne i-tego punktu (punkty numerujemy od 1)."
+      ],
+      "output_format": [
+        "Wypisz n wierszy. W i-tym wierszu podaj numer punktu najbliższego od punktu i."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 10⁶",
+        "−10⁹ ≤ xᵢ, yᵢ ≤ 10⁹",
+        "punkty mogą się powtarzać"
+      ],
+      "examples": [
+        {
+          "input": "4\n1 1\n1 4\n4 1\n4 4",
+          "output": "2\n1\n1\n2",
+          "note": "Dla punktu 1 najbliższe są punkty 2 i 3 (odległość 3) — remis rozstrzygamy na korzyść mniejszego numeru, więc odpowiedzią jest 2. Analogicznie dla pozostałych punktów."
+        }
+      ],
+      "tests": [
+        {
+          "input": "2\n4 4\n18 9",
+          "output": "2\n1"
+        },
+        {
+          "input": "3\n13 -4\n-20 -13\n14 -3",
+          "output": "3\n1\n1"
+        },
+        {
+          "input": "5\n1 -13\n-2 7\n-10 9\n-20 -4\n12 -9",
+          "output": "5\n3\n2\n3\n1"
+        },
+        {
+          "input": "6\n90238094 959853367\n-771484498 869424395\n342821943 -359094700\n807471163 372133587\n90197738 307753571\n-572841660 -671780162",
+          "output": "5\n1\n5\n5\n1\n3"
+        },
+        {
+          "input": "8\n3 -10\n13 -20\n11 -19\n13 -20\n-1 -5\n-1 -5\n-15 11\n14 -12",
+          "output": "5\n4\n2\n2\n6\n5\n5\n2"
+        }
+      ]
+    },
+    {
+      "id": "helikopter-restauracje",
+      "number": 5,
+      "title": "Helikopter Bajtka",
+      "category": "Grafy / najkrótsze ścieżki",
+      "time_limit": "2 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Bajtocja jest gęsto zabudowanym miastem, w którym poruszać się można wyłącznie po siatce ulic — w każdym kroku wolno przejść jedną jednostkę odległości w jednym z czterech kierunków: w górę, w dół, w lewo lub w prawo (ruchy po skosie są zabronione). Przejście o jedną jednostkę zajmuje dokładnie jedną jednostkę czasu.",
+        "Bajtek jest właścicielem n restauracji rozsianych po mieście. Ponieważ mieszka daleko poza Bajtocją, do każdej restauracji może dolecieć bezpośrednio helikopterem — lądowanie przy i-tej restauracji zajmuje mu cᵢ jednostek czasu (jest to czas dotarcia wprost z jego domu do tej restauracji, niezależny od pozostałych restauracji). Może też wylądować przy dowolnej restauracji, a następnie dojść pieszo ulicami do innej.",
+        "Dla każdej restauracji wyznacz najkrótszy możliwy czas, w jakim Bajtek może się do niej dostać — czy to lądując helikopterem bezpośrednio przy niej, czy lądując przy innej restauracji i dochodząc resztę drogi pieszo."
+      ],
+      "input_format": [
+        "W pierwszym wierszu znajduje się jedna liczba całkowita n (1 ≤ n ≤ 10⁵) — liczba restauracji.",
+        "W każdym z kolejnych n wierszy znajdują się trzy liczby całkowite xᵢ, yᵢ, cᵢ (−10⁹ ≤ xᵢ, yᵢ ≤ 10⁹, 0 ≤ cᵢ ≤ 10⁹) — współrzędne i-tej restauracji oraz czas potrzebny Bajtkowi na dolot helikopterem bezpośrednio do niej."
+      ],
+      "output_format": [
+        "Wypisz n wierszy. W i-tym wierszu podaj jedną liczbę całkowitą — najkrótszy czas, w jakim Bajtek może dotrzeć do i-tej restauracji."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10⁵",
+        "−10⁹ ≤ xᵢ, yᵢ ≤ 10⁹",
+        "0 ≤ cᵢ ≤ 10⁹",
+        "restauracje mogą znajdować się w tym samym punkcie",
+        "wynik może przekraczać zakres 32-bitowego typu całkowitego"
+      ],
+      "examples": [
+        {
+          "input": "3\n0 0 5\n3 0 1\n0 3 10",
+          "output": "4\n1\n7",
+          "note": "Do restauracji 2 Bajtek leci helikopterem bezpośrednio w 1 jednostkę czasu. Do restauracji 1 opłaca mu się wylądować przy restauracji 2 (koszt 1) i dojść pieszo (odległość Manhattan 3), co daje łącznie 4 — szybciej niż lądowanie bezpośrednio (5). Analogicznie do restauracji 3 opłaca się wylądować przy restauracji 2 i dojść pieszo (1 + 6 = 7), co jest lepsze niż 8 (przez restaurację 1) i 10 (bezpośrednio)."
+        }
+      ],
+      "tests": [
+        {
+          "input": "1\n-12 10 30",
+          "output": "30"
+        },
+        {
+          "input": "3\n15 -10 8\n13 18 13\n-7 14 24",
+          "output": "8\n13\n24"
+        },
+        {
+          "input": "5\n-8 -1 12\n3 8 28\n13 8 3\n-5 -6 2\n1 -19 18",
+          "output": "10\n13\n3\n2\n18"
+        },
+        {
+          "input": "6\n189537409 -505832375 631832764\n-527086757 -984557781 76228245\n520076855 355283291 63215224\n-508351254 -855258909 972187337\n-932541187 846052960 354794895\n-847834999 104141864 255555531",
+          "output": "631832764\n76228245\n63215224\n224262620\n354794895\n255555531"
+        },
+        {
+          "input": "8\n-3 11 6\n14 -12 23\n16 16 15\n-5 10 25\n6 -8 3\n-14 7 11\n7 6 14\n-17 -14 1",
+          "output": "6\n15\n15\n9\n3\n11\n14\n1"
+        }
+      ]
+    },
+    {
+      "id": "nadajniki-zasieg",
+      "number": 6,
+      "title": "Zasięg nadajników w Bajtocji",
+      "category": "Geometria obliczeniowa / struktury danych",
+      "time_limit": "2 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W Bajtocji, w której poruszać się można wyłącznie po siatce ulic w czterech kierunkach, Bajtek rozstawił n nadajników radiowych. i-ty nadajnik znajduje się w punkcie (xᵢ, yᵢ) i ma zasięg rᵢ mierzony w metryce Manhattan — obejmuje swoim sygnałem wszystkie punkty (a, b), dla których |a − xᵢ| + |b − yᵢ| ≤ rᵢ (czyli tzw. romb o promieniu rᵢ).",
+        "Bajtek chce sprawdzić jakość pokrycia sygnałem dla m wybranych punktów (adresów mieszkańców). Dla każdego z tych punktów wyznacz, przez ile spośród n nadajników jest on objęty zasięgiem.",
+        "Uwaga: n oraz m mogą być duże, więc rozwiązanie sprawdzające dla każdego punktu wszystkie nadajniki po kolei (O(n·m)) będzie zbyt wolne — potrzebne jest podejście działające w czasie rzędu O((n + m) log(n + m))."
+      ],
+      "input_format": [
+        "W pierwszym wierszu znajdują się dwie liczby całkowite n oraz m (1 ≤ n, m ≤ 2·10⁵) — liczba nadajników oraz liczba punktów zapytań.",
+        "W każdym z kolejnych n wierszy znajdują się trzy liczby całkowite xᵢ, yᵢ, rᵢ (−10⁹ ≤ xᵢ, yᵢ ≤ 10⁹, 0 ≤ rᵢ ≤ 2·10⁹) — położenie i zasięg i-tego nadajnika.",
+        "W każdym z kolejnych m wierszy znajdują się dwie liczby całkowite aⱼ, bⱼ (−10⁹ ≤ aⱼ, bⱼ ≤ 10⁹) — współrzędne j-tego punktu zapytania."
+      ],
+      "output_format": [
+        "Wypisz m wierszy. W j-tym wierszu podaj jedną liczbę całkowitą — liczbę nadajników, które obejmują swoim zasięgiem j-ty punkt zapytania."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 2·10⁵",
+        "−10⁹ ≤ xᵢ, yᵢ, aⱼ, bⱼ ≤ 10⁹",
+        "0 ≤ rᵢ ≤ 2·10⁹",
+        "nadajniki i punkty zapytań mogą się pokrywać"
+      ],
+      "examples": [
+        {
+          "input": "2 3\n0 0 2\n5 5 1\n1 1\n5 4\n3 3",
+          "output": "1\n1\n0",
+          "note": "Nadajnik 1 (0,0) o zasięgu 2 obejmuje punkt (1,1), bo |1−0|+|1−0|=2 ≤ 2. Nadajnik 2 (5,5) o zasięgu 1 obejmuje punkt (5,4), bo |5−5|+|4−5|=1 ≤ 1. Punkt (3,3) jest poza zasięgiem obu nadajników (odległości wynoszą odpowiednio 6 i 4)."
+        }
+      ],
+      "hint": [
+        "Romb w metryce Manhattan o środku (x, y) i promieniu r to po podstawieniu u = x + y, v = x − y kwadrat osiowo-równoległy [u−r, u+r] × [v−r, v+r] w nowych współrzędnych — sprawdzenie, ile rombów pokrywa dany punkt, sprowadza się do zliczenia, w ilu prostokątach osiowo-równoległych leży przekształcony punkt zapytania. To klasyczne zadanie 'stabbing count', które rozwiązuje się np. zamiataniem (sweep-line) po jednej współrzędnej z drzewem Fenwicka obsługującym dodawanie na przedziale i zapytanie punktowe na drugiej współrzędnej."
+      ],
+      "tests": [
+        {
+          "input": "1 1\n5 1 1\n-5 -8",
+          "output": "0"
+        },
+        {
+          "input": "3 4\n-8 14 7\n-12 7 2\n-3 9 3\n-16 8\n15 -14\n-17 14\n-20 -15",
+          "output": "0\n0\n0\n0"
+        },
+        {
+          "input": "5 5\n-5 -10 13\n11 10 6\n5 -17 5\n4 -20 12\n-4 9 9\n7 15\n11 -11\n-8 -2\n-7 -17\n17 14",
+          "output": "0\n0\n1\n1\n0"
+        },
+        {
+          "input": "4 3\n-869094619 606265293 673461213\n-877238507 -892320159 1254511837\n23895541 79862962 1974368819\n831202021 140584701 338084210\n-877852048 90553393\n-827961943 828244200\n-600943925 -852851564",
+          "output": "3\n2\n2"
+        },
+        {
+          "input": "6 6\n18 -16 7\n5 -13 18\n-5 17 19\n-18 19 2\n6 17 18\n13 0 8\n-7 0\n-5 -4\n5 -12\n-1 9\n0 -16\n-20 9",
+          "output": "1\n0\n1\n2\n1\n0"
+        }
+      ]
+    },
+    {
+      "id": "manhattan-mst",
+      "number": 7,
+      "title": "Minimalne drzewo rozpinające w metryce Manhattan",
+      "category": "Geometria obliczeniowa / grafy",
+      "time_limit": "3 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na płaszczyźnie dane jest n punktów o współrzędnych całkowitych. Rozważamy graf pełny, w którym wierzchołkami są te punkty, a waga krawędzi między punktami A = (x₁, y₁) oraz B = (x₂, y₂) jest równa odległości Manhattan: dist(A, B) = |x₁ − x₂| + |y₁ − y₂|.",
+        "Wyznacz wagę minimalnego drzewa rozpinającego (MST) tego grafu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu znajduje się jedna liczba całkowita n (1 ≤ n ≤ 10⁶) — liczba punktów.",
+        "W każdym z kolejnych n wierszy znajdują się dwie liczby całkowite xᵢ, yᵢ (−10⁹ ≤ xᵢ, yᵢ ≤ 10⁹) — współrzędne i-tego punktu."
+      ],
+      "output_format": [
+        "Wypisz jedną liczbę całkowitą — sumę wag krawędzi minimalnego drzewa rozpinającego.",
+        "Jeżeli n ≤ 1, wypisz 0."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10⁶",
+        "−10⁹ ≤ xᵢ, yᵢ ≤ 10⁹",
+        "punkty mogą się powtarzać (odległość między nimi wynosi wtedy 0)",
+        "wynik może przekraczać zakres 32-bitowego typu całkowitego"
+      ],
+      "examples": [
+        {
+          "input": "4\n1 1\n1 4\n4 1\n4 4",
+          "output": "9",
+          "note": "Punkty tworzą wierzchołki kwadratu. Krawędzie boków kwadratu mają wagę 3 każda (np. (1,1)-(1,4), (1,1)-(4,1), (4,1)-(4,4) lub (1,4)-(4,4)), przekątne mają wagę 6. Minimalne drzewo rozpinające składa się z trzech krawędzi o wadze 3, czyli suma wynosi 9."
+        }
+      ],
+      "hint": [
+        "Klasyczna metoda: dla każdej z 4 kombinacji znaków (±(x−y), ±(x+y)) sortujemy punkty i strukturą typu drzewo Fenwicka/BIT po jednej współrzędnej (po podstawieniu u = x+y, v = x−y) znajdujemy dla każdego punktu najbliższego kandydata w danym 'oktancie' — to daje O(n) potencjalnych krawędzi zamiast O(n²). Następnie na tych O(n) krawędziach uruchamiamy standardowy Kruskal z find-union, co daje łączną złożoność O(n log n)."
+      ],
+      "tests": [
+        {
+          "input": "1\n19 16",
+          "output": "0"
+        },
+        {
+          "input": "2\n-14 -16\n14 -7",
+          "output": "37"
+        },
+        {
+          "input": "5\n12 -4\n12 -4\n-5 3\n12 -4\n-1 19",
+          "output": "44"
+        },
+        {
+          "input": "6\n733233928 404403443\n135891495 -983200008\n434225304 754717773\n190999339 -357089035\n424616419 -777549683\n885763298 -711612025",
+          "output": "3593405306"
+        },
+        {
+          "input": "8\n-4 -13\n-14 15\n-11 -3\n-2 18\n-7 1\n-7 20\n-4 12\n11 -4",
+          "output": "89"
+        }
+      ]
+    },
+    {
+      "id": "manhattan-progowa-spojnosc",
+      "number": 8,
+      "title": "Grupy punktów przy progu odległości Manhattan",
+      "category": "Geometria obliczeniowa",
+      "time_limit": "3 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na płaszczyźnie dane jest n punktów o współrzędnych całkowitych oraz liczba całkowita D. Dwa punkty uznajemy za połączone, jeśli ich odległość Manhattan jest nie większa niż D. Połączenie jest przechodnie — jeśli punkt A jest połączony z B, a B jest połączony z C, to A, B i C należą do tej samej grupy, nawet jeśli odległość między A i C przekracza D.",
+        "Wyznacz, na ile grup rozpadają się wszystkie punkty przy takiej regule łączenia."
+      ],
+      "input_format": [
+        "W pierwszym wierszu znajdują się dwie liczby całkowite n oraz D (1 ≤ n ≤ 10⁶, 0 ≤ D ≤ 4·10⁹).",
+        "W każdym z kolejnych n wierszy znajdują się dwie liczby całkowite xᵢ, yᵢ (−10⁹ ≤ xᵢ, yᵢ ≤ 10⁹) — współrzędne i-tego punktu."
+      ],
+      "output_format": [
+        "Wypisz jedną liczbę całkowitą — liczbę grup, na jakie rozpadają się punkty."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10⁶",
+        "0 ≤ D ≤ 4·10⁹",
+        "−10⁹ ≤ xᵢ, yᵢ ≤ 10⁹",
+        "punkty mogą się powtarzać"
+      ],
+      "examples": [
+        {
+          "input": "4 3\n0 0\n1 0\n10 10\n11 10",
+          "output": "2",
+          "note": "Punkty 1 i 2 są odległe o 1 (≤ 3), więc tworzą jedną grupę. Punkty 3 i 4 są odległe o 1 (≤ 3), więc tworzą drugą grupę. Odległości między tymi dwiema parami są dużo większe niż 3, więc grupy pozostają rozłączne — w sumie są 2 grupy."
+        }
+      ],
+      "hint": [
+        "Kluczowa obserwacja: dwa punkty należą do tej samej grupy (czyli są połączone łańcuchem par o odległości ≤ D) wtedy i tylko wtedy, gdy są połączone krawędziami o wadze ≤ D w minimalnym drzewie rozpinającym pełnego grafu odległości Manhattan między punktami (własność minimax ścieżki / bottleneck spanning tree) — nie trzeba więc analizować wszystkich O(n²) par punktów.",
+        "Wyznacz zatem — tak jak w zadaniu o minimalnym drzewie rozpinającym w metryce Manhattan — zbiór O(n log n) par kandydujących (4 kierunki × sortowanie + drzewo Fenwicka) gwarantowanie wystarczający do zbudowania MST, policz to MST algorytmem Kruskala z Union-Find, a następnie policz, ile spośród tych par ma odległość ≤ D i połącz odpowiadające im punkty. Liczba grup na końcu to n minus liczba wykonanych połączeń."
+      ],
+      "tests": [
+        {
+          "input": "1 5\n-17 -15",
+          "output": "1"
+        },
+        {
+          "input": "3 8\n20 7\n-3 -18\n-20 1",
+          "output": "3"
+        },
+        {
+          "input": "5 12\n-12 20\n-10 8\n7 15\n-12 20\n-11 14",
+          "output": "2"
+        },
+        {
+          "input": "6 0\n-18 3\n17 15\n-11 7\n-12 -18\n-1 3\n-18 2",
+          "output": "6"
+        },
+        {
+          "input": "8 2000000000\n-548864074 464727067\n-464138973 432228605\n-779252383 -240480923\n675286878 202340699\n898664814 878431265\n-127311201 332860437\n609490924 -668099234\n988062668 996904282",
+          "output": "1"
+        }
+      ]
+    }
+  ]
+}

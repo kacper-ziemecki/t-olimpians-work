@@ -1,0 +1,2317 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Rejestr Lekcji — T-Olimpians</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0a0a0f">
+<meta name="description" content="Rejestr niezapłaconych lekcji dla korepetytorów T-Olimpians Team Poland.">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png?v=11">
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=11">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Rejestr Lekcji">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-base: #0a0a0f;
+    --bg-surface: #111118;
+    --bg-card: #15151e;
+    --bg-elevated: #1c1c28;
+    --accent: #3b82f6;
+    --accent-bright: #60a5fa;
+    --accent-glow: rgba(59, 130, 246, 0.25);
+    --accent-dim: rgba(59, 130, 246, 0.12);
+    --purple: #7c3aed;
+    --purple-bright: #a78bfa;
+    --text-primary: #f0f0f8;
+    --text-secondary: #9090aa;
+    --text-muted: #55556a;
+    --border: rgba(255,255,255,0.07);
+    --border-accent: rgba(59, 130, 246, 0.3);
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+
+    --debt: #f43f5e;
+    --debt-glow: rgba(244, 63, 94, 0.18);
+    --debt-dim: rgba(244, 63, 94, 0.12);
+    --paid: #34d399;
+    --paid-dim: rgba(52, 211, 153, 0.12);
+    --credit: var(--purple-bright);
+    --credit-dim: rgba(167, 139, 250, 0.12);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    min-height: 100vh;
+    padding-bottom: 130px;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.6;
+  }
+
+  /* ─── AMBIENT BACKGROUND GLOWS ─── */
+  .bg-glow {
+    position: fixed;
+    pointer-events: none;
+    z-index: 0;
+    border-radius: 50%;
+    filter: blur(10px);
+    will-change: transform, opacity;
+  }
+  .bg-glow-1 {
+    top: -12%;
+    left: -12%;
+    width: 620px;
+    height: 620px;
+    background: radial-gradient(circle, rgba(59,130,246,0.14) 0%, transparent 70%);
+    animation: drift-1 16s ease-in-out infinite;
+  }
+  .bg-glow-2 {
+    bottom: -18%;
+    right: -14%;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(124,58,237,0.13) 0%, transparent 70%);
+    animation: drift-2 20s ease-in-out infinite;
+  }
+  .bg-glow-3 {
+    top: 40%;
+    right: 8%;
+    width: 420px;
+    height: 420px;
+    background: radial-gradient(circle, rgba(52,211,153,0.08) 0%, transparent 70%);
+    animation: drift-3 14s ease-in-out infinite;
+  }
+  @keyframes drift-1 {
+    0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.55; }
+    50%      { transform: translate(60px, 40px) scale(1.15); opacity: 0.9; }
+  }
+  @keyframes drift-2 {
+    0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+    50%      { transform: translate(-50px, -60px) scale(1.1); opacity: 0.85; }
+  }
+  @keyframes drift-3 {
+    0%, 100% { transform: translate(0, 0) scale(0.9); opacity: 0.35; }
+    50%      { transform: translate(-40px, 30px) scale(1.05); opacity: 0.6; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bg-glow { animation: none !important; }
+  }
+
+  /* ─── PARTICLE NETWORK ─── */
+  #particles {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.75;
+  }
+
+  /* ─── TOP BAR ─── */
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: env(safe-area-inset-top) 28px 0;
+    height: calc(64px + env(safe-area-inset-top));
+    background: rgba(10, 10, 15, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brand-mark {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .brand-mark img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+  .brand-mark-edit {
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 10, 15, 0.65);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    pointer-events: none;
+  }
+  .brand-mark:hover .brand-mark-edit,
+  .brand-mark:focus-visible .brand-mark-edit {
+    opacity: 1;
+  }
+  .brand-text {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.01em;
+    color: var(--text-primary);
+    white-space: nowrap;
+    cursor: text;
+    outline: none;
+    border-radius: 6px;
+    padding: 3px 6px;
+    margin: -3px -6px;
+    transition: background 0.15s ease, box-shadow 0.15s ease;
+  }
+  .brand-text:hover {
+    background: rgba(255,255,255,0.06);
+  }
+  .brand-text:focus {
+    background: var(--accent-dim);
+    box-shadow: 0 0 0 1px var(--border-accent);
+  }
+  .topbar-tag {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--accent-bright);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 1px solid var(--border-accent);
+    background: var(--accent-dim);
+    padding: 5px 12px;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .topbar.topbar--centered {
+    justify-content: center;
+  }
+  .topbar.topbar--centered .topbar-right {
+    display: none;
+  }
+  .install-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    font-family: var(--font-body);
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 7px 14px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    white-space: nowrap;
+  }
+  .install-btn[hidden] { display: none; }
+  .install-btn:hover {
+    background: var(--accent-bright);
+    box-shadow: 0 6px 18px var(--accent-glow);
+    transform: translateY(-1px);
+  }
+  .install-btn:active { transform: scale(0.95); }
+  .install-btn::before { content: '⬇'; font-size: 11px; }
+
+  /* ─── HEADER ─── */
+  header {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 56px 28px 8px;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent-dim);
+    border: 1px solid var(--border-accent);
+    color: var(--accent-bright);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 100px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+  }
+  .hero-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--accent-bright);
+    border-radius: 50%;
+    animation: blink 2s ease-in-out infinite;
+  }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(30px, 5vw, 44px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 10px;
+  }
+  h1 span {
+    background: linear-gradient(135deg, var(--accent-bright), var(--purple-bright));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .subtitle {
+    color: var(--text-secondary);
+    font-size: 15px;
+    max-width: 46ch;
+  }
+
+  /* ─── SUMMARY ─── */
+  .summary {
+    max-width: 720px;
+    margin: 32px auto 0;
+    padding: 0 28px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    position: relative;
+    z-index: 1;
+  }
+  .summary-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 16px 18px;
+  }
+  .summary-card .label {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+  .summary-card .value {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--accent-bright);
+    letter-spacing: -0.02em;
+  }
+  .summary-card .value.debt-color { color: var(--debt); }
+  .summary-card .value.money-color { color: var(--purple-bright); }
+
+  /* ─── EARNINGS STATS ─── */
+  .earnings-section {
+    max-width: 720px;
+    margin: 40px auto 0;
+    padding: 0 28px;
+    position: relative;
+    z-index: 1;
+  }
+  .earnings-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .earnings-heading h2 {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+  }
+  .earnings-heading .earnings-note {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+  .earnings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+  }
+  .earnings-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 18px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .earnings-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(52,211,153,0.1), transparent 60%);
+    pointer-events: none;
+  }
+  .earnings-card .label {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 1;
+  }
+  .earnings-card .value {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--paid);
+    letter-spacing: -0.02em;
+    position: relative;
+    z-index: 1;
+  }
+  .earnings-card .sub {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-top: 6px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ─── EARNINGS CHART ─── */
+  .earnings-chart-section {
+    max-width: 720px;
+    margin: 24px auto 0;
+    padding: 0 28px;
+    position: relative;
+    z-index: 1;
+  }
+  .chart-toggle {
+    display: flex;
+    gap: 3px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 3px;
+    flex: 0 0 auto;
+  }
+  .chart-toggle-btn {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    background: transparent;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: color .18s ease, background .18s ease;
+  }
+  .chart-toggle-btn.active {
+    color: #06140e;
+    background: var(--paid);
+    font-weight: 700;
+  }
+  .chart-toggle-btn:not(.active):hover { color: var(--text-secondary); }
+  .chart-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 22px 16px 6px;
+    position: relative;
+  }
+  .chart-svg-wrap { position: relative; }
+  .earnings-svg { width: 100%; height: auto; display: block; overflow: visible; }
+  .chart-grid-line {
+    stroke: var(--border);
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+  }
+  .chart-area { transition: opacity .2s ease; }
+  .chart-line {
+    fill: none;
+    stroke: var(--paid);
+    stroke-width: 2.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+    filter: drop-shadow(0 3px 8px rgba(52, 211, 153, 0.35));
+  }
+  .chart-dot {
+    fill: var(--bg-card);
+    stroke: var(--paid);
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+    transition: r .15s ease, fill .15s ease;
+  }
+  .chart-dot.active { fill: var(--paid); }
+  .chart-hit { fill: transparent; cursor: pointer; }
+  .chart-x-label {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    fill: var(--text-muted);
+    text-transform: uppercase;
+  }
+  .chart-tooltip {
+    position: absolute;
+    transform: translate(-50%, calc(-100% - 14px));
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-accent);
+    border-radius: var(--radius-sm);
+    padding: 7px 11px;
+    pointer-events: none;
+    white-space: nowrap;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.45);
+    z-index: 5;
+  }
+  .chart-tooltip .tt-label {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .chart-tooltip .tt-value {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--paid);
+    margin-top: 2px;
+    letter-spacing: -0.01em;
+  }
+  .chart-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--text-secondary);
+    padding: 10px 6px 4px;
+  }
+  .chart-delta {
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+  .chart-delta.up { color: var(--paid); background: var(--paid-dim); }
+  .chart-delta.down { color: var(--debt); background: var(--debt-dim); }
+  .chart-delta.flat { color: var(--text-muted); background: rgba(255,255,255,0.05); }
+
+  /* ─── MAIN ─── */
+  main {
+    max-width: 720px;
+    margin: 36px auto 0;
+    padding: 0 28px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 70px 20px;
+    color: var(--text-secondary);
+    background: var(--bg-card);
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-lg);
+  }
+  .empty-state .glyph {
+    font-family: var(--font-display);
+    font-size: 40px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+  .empty-state p { font-size: 14.5px; }
+
+  .student-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .student-card-wrapper {
+    position: relative;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    margin-bottom: 12px;
+    transition: max-height 0.3s cubic-bezier(0.4,0,0.2,1), opacity 0.28s ease, margin-bottom 0.3s cubic-bezier(0.4,0,0.2,1), transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s ease;
+  }
+  .student-card-wrapper:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 36px rgba(0,0,0,0.4);
+  }
+
+  .swipe-delete-action {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 88px;
+    border: none;
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, var(--debt), #c81e45);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    font-family: var(--font-body);
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transform-origin: center;
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease;
+  }
+  .swipe-delete-action .icon { font-size: 19px; line-height: 1; transition: transform 0.2s ease; }
+
+  .student-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    touch-action: pan-y;
+    will-change: transform;
+    transition: border-color 0.3s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease, opacity 0.3s ease;
+  }
+  .student-card.dragging {
+    transition: box-shadow 0.15s ease;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.4);
+  }
+  .student-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--accent-dim), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    border-radius: inherit;
+    pointer-events: none;
+  }
+  .student-card-wrapper:hover .student-card::before { opacity: 1; }
+  .student-card-wrapper:hover .student-card {
+    border-color: var(--border-accent);
+  }
+  .student-card.unpaid { border-color: rgba(244, 63, 94, 0.25); }
+  .student-card.credit { border-color: rgba(167, 139, 250, 0.25); }
+
+  .name-block { flex: 1; min-width: 0; position: relative; z-index: 1; }
+  .name {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 6px;
+  }
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.02em;
+    padding: 3px 10px;
+    border-radius: 100px;
+    background: var(--paid-dim);
+    color: var(--paid);
+  }
+  .status.owes { background: var(--debt-dim); color: var(--debt); }
+  .status.credit { background: var(--credit-dim); color: var(--credit); }
+
+  .price-line {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--text-muted);
+    margin-top: 7px;
+  }
+
+  .tally {
+    display: flex;
+    gap: 3px;
+    margin-top: 9px;
+    flex-wrap: wrap;
+    max-width: 190px;
+  }
+  .tally span {
+    width: 3px;
+    height: 15px;
+    background: var(--debt);
+    opacity: 0.7;
+    border-radius: 1px;
+  }
+  .tally.zero span { background: var(--paid); opacity: 0.4; height: 6px; align-self: flex-end; }
+  .tally.credit span { background: var(--credit); opacity: 0.7; }
+
+  .counter {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+  .count-value {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 22px;
+    min-width: 32px;
+    text-align: center;
+    color: var(--paid);
+  }
+  .count-value.zero { color: var(--text-muted); }
+  .count-value.owes { color: var(--debt); }
+  .count-value.credit { color: var(--credit); }
+
+  .stamp-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--bg-elevated);
+    color: var(--text-secondary);
+    font-size: 17px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease, transform 0.08s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .stamp-btn.minus:hover {
+    background: var(--debt-dim);
+    color: var(--debt);
+    border-color: rgba(244, 63, 94, 0.4);
+  }
+  .stamp-btn.plus {
+    background: var(--accent);
+    color: white;
+    border-color: transparent;
+  }
+  .stamp-btn.plus:hover {
+    background: var(--accent-bright);
+    box-shadow: 0 6px 18px var(--accent-glow);
+  }
+  .stamp-btn:active { transform: scale(0.9); }
+
+  /* ─── ADD BAR ─── */
+  .add-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(17, 17, 24, 0.9);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid var(--border);
+    padding: 16px 20px calc(16px + env(safe-area-inset-bottom));
+    z-index: 40;
+  }
+  .add-bar-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .add-bar input {
+    border: 1px solid var(--border);
+    background: var(--bg-elevated);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: 15px;
+    padding: 11px 14px;
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .add-bar input::placeholder { color: var(--text-muted); }
+  .add-bar input:focus { border-color: var(--border-accent); }
+  .add-bar input#nameInput { flex: 1; min-width: 0; }
+  .add-bar input.price-field { flex: 0 0 130px; }
+  .add-bar input[type=number]::-webkit-outer-spin-button,
+  .add-bar input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .add-bar input[type=number] { -moz-appearance: textfield; }
+
+  .add-submit {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: white;
+    border: none;
+    font-size: 19px;
+    cursor: pointer;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  }
+  .add-submit:hover { background: var(--accent-bright); box-shadow: 0 8px 24px var(--accent-glow); transform: translateY(-2px); }
+  .add-submit:active { transform: scale(0.92); }
+
+  .name-block {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+    border-radius: var(--radius-sm);
+    padding: 8px 10px;
+    margin: -8px -10px;
+    transition: background 0.15s ease;
+  }
+  .name-block:hover { background: rgba(255,255,255,0.045); }
+  .name-block:active { background: rgba(255,255,255,0.07); }
+  .name-block:focus-visible { box-shadow: 0 0 0 2px var(--accent-bright); }
+
+  /* ─── HISTORIA ZMIAN — MODAL ─── */
+  .history-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(6, 6, 10, 0.6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  .history-overlay.open { opacity: 1; }
+
+  .history-modal {
+    width: 100%;
+    max-width: 420px;
+    max-height: 76vh;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 24px 64px rgba(0,0,0,0.55);
+    display: flex;
+    flex-direction: column;
+    transform: scale(0.94) translateY(10px);
+    transition: transform 0.22s cubic-bezier(0.16,1,0.3,1);
+    overflow: hidden;
+  }
+  .history-overlay.open .history-modal { transform: scale(1) translateY(0); }
+
+  .history-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 20px 20px 14px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .history-header .htitle {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .history-header .hsub {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 3px;
+  }
+  .history-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--bg-elevated);
+    color: var(--text-secondary);
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .history-close:hover { background: var(--debt-dim); color: var(--debt); }
+
+  .history-list {
+    overflow-y: auto;
+    padding: 10px 14px 20px;
+  }
+  .history-empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-secondary);
+    font-size: 14px;
+  }
+  .history-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .history-item:last-child { border-bottom: none; }
+  .history-badge {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+  .history-badge.plus { background: var(--debt-dim); color: var(--debt); }
+  .history-badge.minus { background: var(--paid-dim); color: var(--paid); }
+  .history-text { flex: 1; min-width: 0; }
+  .history-label {
+    font-size: 13.5px;
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+  .history-date {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+  .history-delete {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+  .history-delete:hover { background: var(--debt-dim); color: var(--debt); border-color: var(--debt-glow); }
+
+  .history-note {
+    padding: 12px 20px 18px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    text-align: center;
+    border-top: 1px solid var(--border);
+  }
+
+  @media (max-width: 480px) {
+    .topbar { padding: env(safe-area-inset-top) 18px 0; }
+    .topbar-tag { display: none; }
+    header { padding: 40px 18px 8px; }
+    .summary, main { padding-left: 18px; padding-right: 18px; }
+    .name { font-size: 15.5px; }
+    .count-value { font-size: 19px; }
+    .brand-text { font-size: 12.5px; }
+
+    .add-bar { padding: 14px 14px calc(14px + env(safe-area-inset-bottom)); }
+    .add-bar-inner { gap: 8px; }
+    .add-bar input { padding: 11px 10px; font-size: 14.5px; }
+    .add-bar input#nameInput { flex: 1.3 1 0; min-width: 0; }
+    .add-bar input.price-field { flex: 1 1 0; min-width: 0; }
+  }
+
+  :focus-visible { outline: 2px solid var(--accent-bright); outline-offset: 2px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+<div class="bg-glow bg-glow-1"></div>
+<div class="bg-glow bg-glow-2"></div>
+<div class="bg-glow bg-glow-3"></div>
+
+<div class="topbar">
+  <div class="brand">
+    <div class="brand-mark" id="brandMark" tabindex="0" role="button" title="Kliknij, aby zmienić logo" aria-label="Zmień logo — kliknij, aby wybrać zdjęcie z plików">
+      <img id="brandLogo" src="logo.png" alt="T-Olimpians">
+      <div class="brand-mark-edit">✎</div>
+    </div>
+    <input type="file" id="logoInput" accept="image/*" hidden>
+    <div class="brand-text" id="brandText" contenteditable="true" spellcheck="false" inputmode="text" role="textbox" aria-label="Nazwa w pasku górnym — kliknij, aby edytować" title="Kliknij, aby zmienić nazwę">T-Olimpians Team Poland</div>
+  </div>
+  <div class="topbar-right">
+    <div class="topbar-tag">Panel korepetytora</div>
+    <button id="installBtn" class="install-btn" hidden>Zainstaluj</button>
+  </div>
+</div>
+
+<header>
+  <div class="hero-badge">Rejestr korepetycji</div>
+  <h1>Płatności <span>pod kontrolą</span></h1>
+  <p class="subtitle">Licznik niezapłaconych lekcji dla każdego ucznia.</p>
+</header>
+
+<div class="summary" id="summary"></div>
+
+<main>
+  <div id="listContainer"></div>
+</main>
+
+<div class="earnings-section" id="earningsSection"></div>
+
+<div class="earnings-chart-section" id="earningsChartSection"></div>
+
+<div class="add-bar">
+  <div class="add-bar-inner">
+    <input type="text" id="nameInput" placeholder="Imię ucznia" maxlength="40" autocomplete="off">
+    <input type="number" id="priceInput" placeholder="Cena" min="0" step="1" inputmode="decimal" class="price-field">
+    <button class="add-submit" id="addBtn" aria-label="Dodaj ucznia">+</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  const canvas = document.getElementById('particles');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W, H, dots = [];
+
+  function resize(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+  resize();
+  window.addEventListener('resize', () => { resize(); spawnDots(); });
+
+  function spawnDots(){
+    dots = [];
+    const count = Math.floor((W * H) / 11000);
+    for(let i = 0; i < count; i++){
+      dots.push({
+        x: Math.random() * W, y: Math.random() * H,
+        r: Math.random() * 1.8 + 0.6,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35,
+        alpha: Math.random() * 0.5 + 0.4
+      });
+    }
+  }
+  spawnDots();
+
+  const LINK_DIST = 140;
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function drawParticles(){
+    ctx.clearRect(0, 0, W, H);
+    for(let i = 0; i < dots.length; i++){
+      const d = dots[i];
+      d.x += d.vx; d.y += d.vy;
+      if(d.x < 0) d.x = W; if(d.x > W) d.x = 0;
+      if(d.y < 0) d.y = H; if(d.y > H) d.y = 0;
+      ctx.beginPath();
+      ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(96,165,250,${d.alpha})`;
+      ctx.fill();
+      for(let j = i + 1; j < dots.length; j++){
+        const d2 = dots[j];
+        const dx = d.x - d2.x, dy = d.y - d2.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if(dist < LINK_DIST){
+          ctx.beginPath();
+          ctx.moveTo(d.x, d.y);
+          ctx.lineTo(d2.x, d2.y);
+          ctx.strokeStyle = `rgba(96,165,250,${0.22 * (1 - dist / LINK_DIST)})`;
+          ctx.lineWidth = 0.6;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(drawParticles);
+  }
+
+  if(!reduceMotion){
+    drawParticles();
+  } else {
+    // static single frame for reduced-motion users
+    ctx.clearRect(0, 0, W, H);
+    dots.forEach(d => {
+      ctx.beginPath();
+      ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(96,165,250,${d.alpha})`;
+      ctx.fill();
+    });
+  }
+})();
+</script>
+
+<script>
+(function(){
+  const STORAGE_KEY = 'rejestr-lekcji-uczniowie';
+  const MAX_HISTORY = 300;
+
+  function makeHistoryId(){
+    return 'h' + Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+  }
+
+  function addHistoryEntry(student, type){
+    if(!Array.isArray(student.history)) student.history = [];
+    student.history.unshift({ id: makeHistoryId(), date: new Date().toISOString(), type: type });
+    if(student.history.length > MAX_HISTORY){
+      student.history.length = MAX_HISTORY;
+    }
+  }
+
+  function removeHistoryEntry(student, entryId){
+    if(!Array.isArray(student.history)) return;
+    const idx = student.history.findIndex(function(e){ return e.id === entryId; });
+    if(idx === -1) return;
+    const entry = student.history[idx];
+    student.history.splice(idx, 1);
+    // Cofnij efekt tego wpisu na licznik ucznia
+    student.count += (entry.type === 'minus' ? 1 : -1);
+    saveStudents();
+  }
+
+  function formatHistoryDate(iso){
+    const d = new Date(iso);
+    if(isNaN(d.getTime())) return '';
+    const datePart = d.toLocaleDateString('pl-PL', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    const timePart = d.toLocaleTimeString('pl-PL', { hour: '2-digit', minute: '2-digit' });
+    return datePart + ' · ' + timePart;
+  }
+
+  function openHistoryModal(student){
+    const sorted = (Array.isArray(student.history) ? student.history.slice() : [])
+      .sort(function(a, b){ return new Date(b.date) - new Date(a.date); })
+      .slice(0, MAX_HISTORY);
+
+    const overlay = document.createElement('div');
+    overlay.className = 'history-overlay';
+
+    const modal = document.createElement('div');
+    modal.className = 'history-modal';
+
+    const header = document.createElement('div');
+    header.className = 'history-header';
+    header.innerHTML =
+      '<div><div class="htitle">' + escapeHtml(student.name) + '</div>' +
+      '<div class="hsub">Historia zmian</div></div>';
+
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'history-close';
+    closeBtn.type = 'button';
+    closeBtn.setAttribute('aria-label', 'Zamknij');
+    closeBtn.textContent = '✕';
+    header.appendChild(closeBtn);
+
+    const list = document.createElement('div');
+    list.className = 'history-list';
+
+    if(sorted.length === 0){
+      const empty = document.createElement('div');
+      empty.className = 'history-empty';
+      empty.textContent = 'Brak zapisanych zmian dla tego ucznia.';
+      list.appendChild(empty);
+    } else {
+      sorted.forEach(function(entry){
+        if(!entry.id) entry.id = makeHistoryId(); // uzupełnij starsze wpisy bez id
+
+        const item = document.createElement('div');
+        item.className = 'history-item';
+
+        const badge = document.createElement('div');
+        badge.className = 'history-badge ' + (entry.type === 'minus' ? 'minus' : 'plus');
+        badge.textContent = entry.type === 'minus' ? '−' : '+';
+
+        const text = document.createElement('div');
+        text.className = 'history-text';
+
+        const label = document.createElement('div');
+        label.className = 'history-label';
+        label.textContent = entry.type === 'minus' ? 'Odjęto lekcję' : 'Dodano lekcję';
+
+        const date = document.createElement('div');
+        date.className = 'history-date';
+        date.textContent = formatHistoryDate(entry.date);
+
+        text.appendChild(label);
+        text.appendChild(date);
+        item.appendChild(badge);
+        item.appendChild(text);
+
+        const delBtn = document.createElement('button');
+        delBtn.className = 'history-delete';
+        delBtn.type = 'button';
+        delBtn.setAttribute('aria-label', 'Usuń ten wpis');
+        delBtn.textContent = '✕';
+        delBtn.addEventListener('click', function(e){
+          e.stopPropagation();
+          const label = entry.type === 'minus' ? 'odjęcie lekcji' : 'dodanie lekcji';
+          if(!window.confirm('Usunąć wpis: ' + label + ' (' + formatHistoryDate(entry.date) + ')?')) return;
+          removeHistoryEntry(student, entry.id);
+          close();
+          render();
+          openHistoryModal(student);
+        });
+        item.appendChild(delBtn);
+
+        list.appendChild(item);
+      });
+    }
+
+    modal.appendChild(header);
+    modal.appendChild(list);
+
+    const note = document.createElement('div');
+    note.className = 'history-note';
+    note.textContent = 'Przechowywane jest ostatnie ' + MAX_HISTORY + ' zmian.';
+    modal.appendChild(note);
+
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
+    document.body.style.overflow = 'hidden';
+
+    function close(){
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+      setTimeout(function(){ overlay.remove(); }, 220);
+    }
+
+    overlay.addEventListener('click', function(e){
+      if(e.target === overlay) close();
+    });
+    closeBtn.addEventListener('click', close);
+
+    function onKeydown(e){
+      if(e.key === 'Escape'){
+        close();
+        document.removeEventListener('keydown', onKeydown);
+      }
+    }
+    document.addEventListener('keydown', onKeydown);
+
+    requestAnimationFrame(function(){ overlay.classList.add('open'); });
+  }
+
+  function escapeHtml(str){
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  function loadStudents(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(!raw) return [];
+      const parsed = JSON.parse(raw);
+      if(Array.isArray(parsed)) return parsed;
+      return [];
+    }catch(e){
+      return [];
+    }
+  }
+
+  function saveStudents(){
+    try{
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(students));
+    }catch(e){ /* ignore */ }
+  }
+
+  let students = loadStudents();
+
+  const listContainer = document.getElementById('listContainer');
+  const summaryEl = document.getElementById('summary');
+  const nameInput = document.getElementById('nameInput');
+  const priceInput = document.getElementById('priceInput');
+  const addBtn = document.getElementById('addBtn');
+
+  function makeId(){
+    return 's' + Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+  }
+
+  function formatMoney(value){
+    const rounded = Math.round(value * 100) / 100;
+    return rounded.toLocaleString('pl-PL', { minimumFractionDigits: 0, maximumFractionDigits: 2 }) + ' zł';
+  }
+
+  function startOfWeek(d){
+    const date = new Date(d);
+    const day = (date.getDay() + 6) % 7; // poniedziałek = 0
+    date.setHours(0, 0, 0, 0);
+    date.setDate(date.getDate() - day);
+    return date;
+  }
+
+  function startOfMonth(d){
+    const date = new Date(d.getFullYear(), d.getMonth(), 1);
+    date.setHours(0, 0, 0, 0);
+    return date;
+  }
+
+  function computeEarnings(fromDate){
+    let total = 0, lessons = 0;
+    students.forEach(function(student){
+      if(!Array.isArray(student.history)) return;
+      student.history.forEach(function(entry){
+        if(entry.type !== 'plus') return;
+        const d = new Date(entry.date);
+        if(isNaN(d.getTime())) return;
+        if(d >= fromDate){
+          total += (student.price || 0);
+          lessons += 1;
+        }
+      });
+    });
+    return { total: total, lessons: lessons };
+  }
+
+  function renderEarnings(){
+    const earningsEl = document.getElementById('earningsSection');
+    if(!earningsEl) return;
+
+    if(students.length === 0){
+      earningsEl.innerHTML = '';
+      return;
+    }
+
+    const now = new Date();
+    const week = computeEarnings(startOfWeek(now));
+    const month = computeEarnings(startOfMonth(now));
+
+    function lessonWord(n){
+      return n === 1 ? 'lekcja' : (n >= 2 && n <= 4 ? 'lekcje' : 'lekcji');
+    }
+
+    earningsEl.innerHTML =
+      '<div class="earnings-heading"><h2>Zarobki</h2><span class="earnings-note">wg zaznaczonych lekcji</span></div>' +
+      '<div class="earnings-grid">' +
+        '<div class="earnings-card"><div class="label">Ten tydzień</div><div class="value">' + formatMoney(week.total) + '</div><div class="sub">' + week.lessons + ' ' + lessonWord(week.lessons) + '</div></div>' +
+        '<div class="earnings-card"><div class="label">Ten miesiąc</div><div class="value">' + formatMoney(month.total) + '</div><div class="sub">' + month.lessons + ' ' + lessonWord(month.lessons) + '</div></div>' +
+      '</div>';
+
+    renderEarningsChart();
+  }
+
+  /* ─── EARNINGS LINE CHART ─── */
+  const CHART_MODE_KEY = 'rejestr-lekcji-chartMode';
+  const MONTH_SHORT = ['sty','lut','mar','kwi','maj','cze','lip','sie','wrz','paź','lis','gru'];
+  let chartMode = (function(){
+    try{
+      const saved = localStorage.getItem(CHART_MODE_KEY);
+      return saved === 'month' ? 'month' : 'week';
+    }catch(e){ return 'week'; }
+  })();
+
+  function setChartMode(mode){
+    chartMode = mode;
+    try{ localStorage.setItem(CHART_MODE_KEY, mode); }catch(e){ /* ignore */ }
+  }
+
+  function buildWeekBuckets(count){
+    const thisWeekStart = startOfWeek(new Date());
+    const buckets = [];
+    for(let i = count - 1; i >= 0; i--){
+      const from = new Date(thisWeekStart);
+      from.setDate(from.getDate() - i * 7);
+      const to = new Date(from);
+      to.setDate(to.getDate() + 7);
+      buckets.push({ from: from, to: to, label: from.getDate() + ' ' + MONTH_SHORT[from.getMonth()] });
+    }
+    return buckets;
+  }
+
+  function buildMonthBuckets(count){
+    const now = new Date();
+    const buckets = [];
+    for(let i = count - 1; i >= 0; i--){
+      const from = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      const to = new Date(now.getFullYear(), now.getMonth() - i + 1, 1);
+      buckets.push({ from: from, to: to, label: MONTH_SHORT[from.getMonth()] });
+    }
+    return buckets;
+  }
+
+  function computeEarningsInRange(from, to){
+    let total = 0;
+    students.forEach(function(student){
+      if(!Array.isArray(student.history)) return;
+      student.history.forEach(function(entry){
+        if(entry.type !== 'plus') return;
+        const d = new Date(entry.date);
+        if(isNaN(d.getTime())) return;
+        if(d >= from && d < to) total += (student.price || 0);
+      });
+    });
+    return total;
+  }
+
+  function smoothChartPath(points){
+    if(points.length < 2) return '';
+    if(points.length === 2){
+      return 'M' + points[0].x + ',' + points[0].y + ' L' + points[1].x + ',' + points[1].y;
+    }
+    let d = 'M' + points[0].x + ',' + points[0].y + ' ';
+    for(let i = 0; i < points.length - 1; i++){
+      const p0 = points[i === 0 ? 0 : i - 1];
+      const p1 = points[i];
+      const p2 = points[i + 1];
+      const p3 = points[i + 2 < points.length ? i + 2 : i + 1];
+      const cp1x = p1.x + (p2.x - p0.x) / 6;
+      const cp1y = p1.y + (p2.y - p0.y) / 6;
+      const cp2x = p2.x - (p3.x - p1.x) / 6;
+      const cp2y = p2.y - (p3.y - p1.y) / 6;
+      d += 'C' + cp1x + ',' + cp1y + ' ' + cp2x + ',' + cp2y + ' ' + p2.x + ',' + p2.y + ' ';
+    }
+    return d.trim();
+  }
+
+  function renderEarningsChart(){
+    const el = document.getElementById('earningsChartSection');
+    if(!el) return;
+
+    if(students.length === 0){
+      el.innerHTML = '';
+      return;
+    }
+
+    const count = chartMode === 'week' ? 8 : 6;
+    const buckets = chartMode === 'week' ? buildWeekBuckets(count) : buildMonthBuckets(count);
+    const values = buckets.map(function(b){ return computeEarningsInRange(b.from, b.to); });
+    const maxVal = Math.max.apply(null, values.concat([0]));
+    const niceMax = maxVal > 0 ? maxVal * 1.12 : 10;
+
+    const W = 640, H = 220;
+    const padL = 6, padR = 6, padT = 14, padB = 26;
+    const chartW = W - padL - padR;
+    const chartH = H - padT - padB;
+    const stepX = buckets.length > 1 ? chartW / (buckets.length - 1) : 0;
+
+    const coords = values.map(function(v, i){
+      return {
+        x: padL + stepX * i,
+        y: padT + chartH - (v / niceMax) * chartH,
+        v: v,
+        label: buckets[i].label
+      };
+    });
+
+    const linePath = smoothChartPath(coords);
+    const baseline = padT + chartH;
+    const areaPath = coords.length > 1
+      ? linePath + ' L' + coords[coords.length - 1].x + ',' + baseline + ' L' + coords[0].x + ',' + baseline + ' Z'
+      : '';
+
+    let gridLines = '';
+    for(let i = 0; i <= 3; i++){
+      const y = padT + (chartH / 3) * i;
+      gridLines += '<line x1="' + padL + '" y1="' + y + '" x2="' + (padL + chartW) + '" y2="' + y + '" class="chart-grid-line"/>';
+    }
+
+    const dots = coords.map(function(c, i){
+      return '<circle cx="' + c.x + '" cy="' + c.y + '" r="4" class="chart-dot" data-idx="' + i + '"/>' +
+             '<circle cx="' + c.x + '" cy="' + c.y + '" r="13" class="chart-hit" data-idx="' + i +
+             '" data-value="' + escapeHtml(formatMoney(c.v)) + '" data-label="' + escapeHtml(c.label) + '"/>';
+    }).join('');
+
+    const labels = coords.map(function(c){
+      return '<text x="' + c.x + '" y="' + (H - 6) + '" class="chart-x-label" text-anchor="middle">' + escapeHtml(c.label) + '</text>';
+    }).join('');
+
+    const sum = values.reduce(function(a, b){ return a + b; }, 0);
+    const avg = sum / values.length;
+    const last = values[values.length - 1];
+    const prev = values[values.length - 2];
+    let deltaHtml = '';
+    if(typeof prev === 'number' && prev > 0){
+      const pct = Math.round(((last - prev) / prev) * 100);
+      const cls = pct > 0 ? 'up' : (pct < 0 ? 'down' : 'flat');
+      const sign = pct > 0 ? '+' : '';
+      deltaHtml = '<span class="chart-delta ' + cls + '">' + sign + pct + '%</span>';
+    }
+
+    el.innerHTML =
+      '<div class="earnings-heading"><h2>Zarobki w czasie</h2>' +
+        '<div class="chart-toggle" role="tablist">' +
+          '<button type="button" class="chart-toggle-btn' + (chartMode === 'week' ? ' active' : '') + '" data-mode="week">Tygodnie</button>' +
+          '<button type="button" class="chart-toggle-btn' + (chartMode === 'month' ? ' active' : '') + '" data-mode="month">Miesiące</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="chart-card">' +
+        '<div class="chart-svg-wrap">' +
+          '<svg class="earnings-svg" viewBox="0 0 ' + W + ' ' + H + '">' +
+            '<defs>' +
+              '<linearGradient id="chartFillGrad" x1="0" y1="0" x2="0" y2="1">' +
+                '<stop offset="0%" stop-color="#34d399" stop-opacity="0.32"/>' +
+                '<stop offset="100%" stop-color="#34d399" stop-opacity="0"/>' +
+              '</linearGradient>' +
+            '</defs>' +
+            '<g>' + gridLines + '</g>' +
+            (areaPath ? '<path d="' + areaPath + '" fill="url(#chartFillGrad)" class="chart-area"/>' : '') +
+            '<path d="' + linePath + '" class="chart-line"/>' +
+            '<g class="chart-dots">' + dots + '</g>' +
+            labels +
+          '</svg>' +
+          '<div class="chart-tooltip" id="chartTooltip" hidden></div>' +
+        '</div>' +
+        '<div class="chart-footer"><span>Śr. ' + (chartMode === 'week' ? 'tygodniowo' : 'miesięcznie') + ': ' + formatMoney(avg) + '</span>' + deltaHtml + '</div>' +
+      '</div>';
+
+    const svg = el.querySelector('.earnings-svg');
+    const tooltip = document.getElementById('chartTooltip');
+
+    function showTooltip(hit){
+      const idx = hit.getAttribute('data-idx');
+      tooltip.innerHTML = '<div class="tt-label">' + hit.getAttribute('data-label') + '</div><div class="tt-value">' + hit.getAttribute('data-value') + '</div>';
+      tooltip.hidden = false;
+      const rect = svg.getBoundingClientRect();
+      const cx = parseFloat(hit.getAttribute('cx'));
+      const cy = parseFloat(hit.getAttribute('cy'));
+      tooltip.style.left = ((cx / W) * rect.width) + 'px';
+      tooltip.style.top = ((cy / H) * rect.height) + 'px';
+      el.querySelectorAll('.chart-dot').forEach(function(d){ d.classList.remove('active'); });
+      const dot = svg.querySelector('.chart-dot[data-idx="' + idx + '"]');
+      if(dot) dot.classList.add('active');
+    }
+
+    el.querySelectorAll('.chart-hit').forEach(function(hit){
+      hit.addEventListener('mouseenter', function(){ showTooltip(hit); });
+      hit.addEventListener('click', function(){ showTooltip(hit); });
+      hit.addEventListener('touchstart', function(){ showTooltip(hit); }, { passive: true });
+    });
+
+    el.addEventListener('mouseleave', function(){
+      tooltip.hidden = true;
+      el.querySelectorAll('.chart-dot').forEach(function(d){ d.classList.remove('active'); });
+    });
+
+    el.querySelectorAll('.chart-toggle-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        if(btn.getAttribute('data-mode') === chartMode) return;
+        setChartMode(btn.getAttribute('data-mode'));
+        renderEarningsChart();
+      });
+    });
+  }
+
+  function renderTally(count){
+    const wrap = document.createElement('div');
+    wrap.className = 'tally' +
+      (count === 0 ? ' zero' : '') +
+      (count < 0 ? ' credit' : '');
+    const n = count === 0 ? 1 : Math.min(Math.abs(count), 24);
+    for(let i=0; i<n; i++){
+      wrap.appendChild(document.createElement('span'));
+    }
+    return wrap;
+  }
+
+  function render(){
+    listContainer.innerHTML = '';
+
+    if(students.length === 0){
+      const empty = document.createElement('div');
+      empty.className = 'empty-state';
+      empty.innerHTML = '<div class="glyph">＋</div><p>Brak uczniów na liście — dodaj pierwszego na dole.</p>';
+      listContainer.appendChild(empty);
+      summaryEl.innerHTML = '';
+      renderEarnings();
+      return;
+    }
+
+    // Nadpłata jednego ucznia nie może pomniejszać zaległości innych — liczymy tylko dodatnie salda
+    function owedLessons(s){
+      const c = Number(s.count);
+      return (isFinite(c) && c > 0) ? c : 0;
+    }
+    function lessonPrice(s){
+      const p = Number(s.price);
+      return (isFinite(p) && p > 0) ? p : 0;
+    }
+    const totalOwed = students.reduce((sum, s) => sum + owedLessons(s), 0);
+    const owingCount = students.filter(s => owedLessons(s) > 0).length;
+    const totalMoney = students.reduce((sum, s) => sum + owedLessons(s) * lessonPrice(s), 0);
+
+    summaryEl.innerHTML =
+      '<div class="summary-card"><div class="label">Uczniowie</div><div class="value">' + students.length + '</div></div>' +
+      '<div class="summary-card"><div class="label">Zalega</div><div class="value debt-color">' + owingCount + '</div></div>' +
+      '<div class="summary-card"><div class="label">Lekcji do zapłaty</div><div class="value debt-color">' + totalOwed + '</div></div>' +
+      '<div class="summary-card"><div class="label">Łącznie</div><div class="value money-color">' + formatMoney(totalMoney) + '</div></div>';
+
+    const list = document.createElement('div');
+    list.className = 'student-list';
+
+    students.forEach(function(student){
+      const wrapper = document.createElement('div');
+      wrapper.className = 'student-card-wrapper';
+
+      const deleteAction = document.createElement('button');
+      deleteAction.className = 'swipe-delete-action';
+      deleteAction.type = 'button';
+      deleteAction.setAttribute('aria-label', 'Usuń ucznia ' + student.name);
+      deleteAction.innerHTML = '<span class="icon">🗑</span><span>Usuń</span>';
+      wrapper.appendChild(deleteAction);
+
+      const card = document.createElement('div');
+      card.className = 'student-card' +
+        (student.count > 0 ? ' unpaid' : '') +
+        (student.count < 0 ? ' credit' : '');
+
+      const nameBlock = document.createElement('div');
+      nameBlock.className = 'name-block';
+
+      const nameEl = document.createElement('p');
+      nameEl.className = 'name';
+      nameEl.textContent = student.name;
+      nameBlock.appendChild(nameEl);
+
+      const status = document.createElement('span');
+      status.className = 'status' +
+        (student.count > 0 ? ' owes' : '') +
+        (student.count < 0 ? ' credit' : '');
+      if(student.count > 0){
+        status.textContent = student.count === 1 ? '1 lekcja do zapłaty' : student.count + ' lekcji do zapłaty';
+      } else if(student.count < 0){
+        const abs = Math.abs(student.count);
+        status.textContent = 'nadpłata: ' + abs + (abs === 1 ? ' lekcja' : ' lekcje');
+      } else {
+        status.textContent = 'rozliczony';
+      }
+      nameBlock.appendChild(status);
+
+      if(student.price > 0){
+        const priceLine = document.createElement('p');
+        priceLine.className = 'price-line';
+        const amount = student.count * student.price;
+        if(student.count !== 0){
+          priceLine.textContent = formatMoney(student.price) + '/lekcja · ' +
+            (amount > 0 ? formatMoney(amount) + ' do zapłaty' : formatMoney(Math.abs(amount)) + ' nadpłaty');
+        } else {
+          priceLine.textContent = formatMoney(student.price) + ' / lekcja';
+        }
+        nameBlock.appendChild(priceLine);
+      }
+
+      nameBlock.appendChild(renderTally(student.count));
+
+      nameBlock.setAttribute('role', 'button');
+      nameBlock.setAttribute('tabindex', '0');
+      nameBlock.setAttribute('aria-label', 'Pokaż historię zmian ucznia ' + student.name);
+      nameBlock.addEventListener('click', function(){
+        openHistoryModal(student);
+      });
+      nameBlock.addEventListener('keydown', function(e){
+        if(e.key === 'Enter' || e.key === ' '){
+          e.preventDefault();
+          openHistoryModal(student);
+        }
+      });
+
+      card.appendChild(nameBlock);
+
+      const counter = document.createElement('div');
+      counter.className = 'counter';
+
+      const minusBtn = document.createElement('button');
+      minusBtn.className = 'stamp-btn minus';
+      minusBtn.setAttribute('aria-label', 'Odejmij lekcję');
+      minusBtn.textContent = '−';
+      minusBtn.addEventListener('click', function(e){
+        e.stopPropagation();
+        student.count -= 1;
+        addHistoryEntry(student, 'minus');
+        saveStudents();
+        render();
+      });
+
+      const valueEl = document.createElement('span');
+      valueEl.className = 'count-value' +
+        (student.count === 0 ? ' zero' : (student.count < 0 ? ' credit' : ' owes'));
+      valueEl.textContent = student.count;
+
+      const plusBtn = document.createElement('button');
+      plusBtn.className = 'stamp-btn plus';
+      plusBtn.setAttribute('aria-label', 'Dodaj lekcję');
+      plusBtn.textContent = '+';
+      plusBtn.addEventListener('click', function(e){
+        e.stopPropagation();
+        student.count += 1;
+        addHistoryEntry(student, 'plus');
+        saveStudents();
+        render();
+      });
+
+      counter.appendChild(minusBtn);
+      counter.appendChild(valueEl);
+      counter.appendChild(plusBtn);
+      card.appendChild(counter);
+
+      wrapper.appendChild(card);
+
+      attachSwipeToDelete(wrapper, card, deleteAction, function(){
+        students = students.filter(s => s.id !== student.id);
+        saveStudents();
+        render();
+      });
+
+      list.appendChild(wrapper);
+    });
+
+    listContainer.appendChild(list);
+    renderEarnings();
+  }
+
+  const reduceMotionDelete = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function spawnDeleteParticles(rect){
+    if(reduceMotionDelete) return;
+    const PAD = 24;
+    const w = rect.width;
+    const h = rect.height + PAD * 2;
+    const canvas = document.createElement('canvas');
+    canvas.style.position = 'fixed';
+    canvas.style.left = rect.left + 'px';
+    canvas.style.top = (rect.top - PAD) + 'px';
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    canvas.style.pointerEvents = 'none';
+    canvas.style.zIndex = '999';
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    document.body.appendChild(canvas);
+    const ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+
+    const colors = ['#f43f5e', '#60a5fa', '#a78bfa', '#f0f0f8'];
+    const count = Math.round(28 + w / 12);
+    const particles = [];
+    for(let i = 0; i < count; i++){
+      const angle = (Math.random() * Math.PI) + Math.PI; // głównie w górę/na boki
+      const speed = Math.random() * 2.6 + 0.6;
+      particles.push({
+        x: Math.random() * w,
+        y: PAD + Math.random() * rect.height,
+        r: Math.random() * 2.6 + 0.8,
+        vx: Math.cos(angle) * speed * 0.6 + (Math.random() - 0.5) * 1.2,
+        vy: Math.sin(angle) * speed - 0.6,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        spin: Math.random() * 0.5,
+        delay: Math.random() * 90
+      });
+    }
+
+    const start = performance.now();
+    const DURATION = 750;
+
+    function tick(now){
+      const elapsed = now - start;
+      ctx.clearRect(0, 0, w, h);
+      let stillAlive = false;
+      particles.forEach(function(p){
+        const local = elapsed - p.delay;
+        if(local < 0){ stillAlive = true; return; }
+        const t = Math.min(1, local / DURATION);
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.05;
+        p.vx *= 0.985;
+        const alpha = Math.max(0, 1 - t);
+        if(alpha > 0) stillAlive = true;
+        ctx.globalAlpha = alpha;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r * (1 - t * 0.4), 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+      });
+      ctx.globalAlpha = 1;
+      if(stillAlive){
+        requestAnimationFrame(tick);
+      } else {
+        canvas.remove();
+      }
+    }
+    requestAnimationFrame(tick);
+  }
+
+  /* ── PRZECIĄGNIJ KARTĘ W LEWO, ABY USUNĄĆ ── */
+  let openSwipeWrapper = null;
+
+  function closeOpenSwipe(){
+    if(openSwipeWrapper){
+      openSwipeWrapper.card.style.transform = 'translateX(0) scale(1)';
+      resetDeleteAction(openSwipeWrapper.deleteAction);
+      openSwipeWrapper = null;
+    }
+  }
+
+  function resetDeleteAction(deleteAction){
+    deleteAction.style.transform = 'scale(0.82)';
+    deleteAction.style.opacity = '0.55';
+    const icon = deleteAction.querySelector('.icon');
+    if(icon) icon.style.transform = 'scale(0.9)';
+  }
+
+  function attachSwipeToDelete(wrapper, card, deleteAction, onDelete){
+    const REVEAL_WIDTH = 88;
+    const RESISTANCE = 0.35;
+    let startX = 0, startY = 0, baseX = 0, liveX = 0;
+    let dragging = false, decided = false, horizontal = false;
+
+    resetDeleteAction(deleteAction);
+
+    function applyDelete(x){
+      const progress = Math.min(1, Math.max(0, -x / REVEAL_WIDTH));
+      const scale = 0.82 + progress * 0.18;
+      deleteAction.style.transform = 'scale(' + scale.toFixed(3) + ')';
+      deleteAction.style.opacity = String(0.55 + progress * 0.45);
+      const icon = deleteAction.querySelector('.icon');
+      if(icon) icon.style.transform = 'scale(' + (0.9 + progress * 0.25).toFixed(3) + ')';
+    }
+
+    function setX(x, scaleCard){
+      card.style.transform = 'translateX(' + x + 'px)' + (scaleCard ? ' scale(0.985)' : '');
+      applyDelete(x);
+    }
+
+    function onPointerDown(e){
+      if(e.pointerType === 'mouse' && e.button !== 0) return;
+      if(openSwipeWrapper && openSwipeWrapper.wrapper !== wrapper){
+        closeOpenSwipe();
+      }
+      startX = e.clientX;
+      startY = e.clientY;
+      baseX = (openSwipeWrapper && openSwipeWrapper.wrapper === wrapper) ? -REVEAL_WIDTH : 0;
+      liveX = baseX;
+      dragging = true;
+      decided = false;
+      horizontal = false;
+    }
+
+    function onPointerMove(e){
+      if(!dragging) return;
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+      if(!decided){
+        if(Math.abs(dx) > 8 || Math.abs(dy) > 8){
+          decided = true;
+          horizontal = Math.abs(dx) > Math.abs(dy);
+          if(horizontal){
+            try{ card.setPointerCapture(e.pointerId); }catch(err){}
+            card.classList.add('dragging');
+          } else {
+            dragging = false;
+            return;
+          }
+        } else {
+          return;
+        }
+      }
+      if(!horizontal) return;
+      e.preventDefault();
+      let x = baseX + dx;
+      // delikatny opór ("rubber-band"), gdy przeciągamy poza dopuszczalny zakres
+      if(x > 0){
+        x = x * RESISTANCE;
+      } else if(x < -REVEAL_WIDTH){
+        const over = x + REVEAL_WIDTH;
+        x = -REVEAL_WIDTH + over * RESISTANCE;
+      }
+      liveX = x;
+      setX(x, true);
+    }
+
+    function endDrag(e){
+      if(!dragging) return;
+      dragging = false;
+      card.classList.remove('dragging');
+      if(!horizontal){
+        return;
+      }
+      const dx = (typeof e.clientX === 'number' ? e.clientX : startX) - startX;
+      const intendedX = Math.min(0, Math.max(baseX + dx, -REVEAL_WIDTH));
+      if(intendedX <= -REVEAL_WIDTH / 2){
+        setX(-REVEAL_WIDTH, false);
+        openSwipeWrapper = { wrapper: wrapper, card: card, deleteAction: deleteAction };
+      } else {
+        setX(0, false);
+        if(openSwipeWrapper && openSwipeWrapper.wrapper === wrapper) openSwipeWrapper = null;
+      }
+    }
+
+    function removeCard(){
+      openSwipeWrapper = null;
+      const rect = wrapper.getBoundingClientRect();
+      const width = rect.width;
+      card.classList.remove('dragging');
+      spawnDeleteParticles(rect);
+      setX(-width, false);
+      wrapper.style.opacity = '1';
+      requestAnimationFrame(function(){
+        wrapper.style.opacity = '0.35';
+      });
+
+      function collapse(){
+        card.removeEventListener('transitionend', collapse);
+        const height = wrapper.getBoundingClientRect().height;
+        wrapper.style.maxHeight = height + 'px';
+        requestAnimationFrame(function(){
+          wrapper.style.maxHeight = '0px';
+          wrapper.style.marginBottom = '0px';
+          wrapper.style.opacity = '0';
+        });
+        setTimeout(onDelete, 320);
+      }
+      card.addEventListener('transitionend', collapse);
+      // zabezpieczenie na wypadek, gdyby transitionend się nie odpalił
+      setTimeout(collapse, 500);
+    }
+
+    card.addEventListener('pointerdown', onPointerDown);
+    card.addEventListener('pointermove', onPointerMove);
+    card.addEventListener('pointerup', endDrag);
+    card.addEventListener('pointercancel', endDrag);
+    deleteAction.addEventListener('click', removeCard);
+  }
+
+  document.addEventListener('pointerdown', function(e){
+    if(openSwipeWrapper && !openSwipeWrapper.wrapper.contains(e.target)){
+      closeOpenSwipe();
+    }
+  });
+
+  function addStudent(){
+    const name = nameInput.value.trim();
+    if(!name) return;
+    const priceRaw = parseFloat(priceInput.value);
+    const price = (!isNaN(priceRaw) && priceRaw >= 0) ? priceRaw : 0;
+    students.push({ id: makeId(), name: name, count: 0, price: price, history: [] });
+    saveStudents();
+    nameInput.value = '';
+    priceInput.value = '';
+    render();
+    nameInput.focus();
+  }
+
+  addBtn.addEventListener('click', addStudent);
+  nameInput.addEventListener('keydown', function(e){
+    if(e.key === 'Enter') addStudent();
+  });
+  priceInput.addEventListener('keydown', function(e){
+    if(e.key === 'Enter') addStudent();
+  });
+
+  render();
+
+  /* ── INSTALACJA NA TELEFONIE / PULPICIE ── */
+  const installBtn = document.getElementById('installBtn');
+  const topbarEl = document.querySelector('.topbar');
+  const topbarTagEl = document.querySelector('.topbar-tag');
+  let deferredPrompt = null;
+
+  function updateTopbarCentering(){
+    const tagVisible = topbarTagEl && getComputedStyle(topbarTagEl).display !== 'none';
+    const btnVisible = installBtn && !installBtn.hidden;
+    topbarEl.classList.toggle('topbar--centered', !tagVisible && !btnVisible);
+  }
+
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+  const isIOSDevice = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  const alreadyInstalled = localStorage.getItem('pwaInstalled') === '1';
+
+  // Jeśli aplikacja jest właśnie uruchomiona w trybie zainstalowanym (standalone),
+  // zapisz ten fakt na stałe — dzięki temu przycisk nie pojawi się już
+  // nawet wtedy, gdy ktoś odwiedzi tę samą stronę w zwykłej przeglądarce.
+  if(isStandalone){
+    localStorage.setItem('pwaInstalled', '1');
+  }
+
+  if(!isStandalone){
+    // beforeinstallprompt przychodzi tylko wtedy, gdy aplikacji faktycznie da się
+    // zainstalować — więc nie blokujemy go flagą pwaInstalled (po odinstalowaniu
+    // aplikacji przycisk musi się znowu pojawić).
+    window.addEventListener('beforeinstallprompt', function(e){
+      e.preventDefault();
+      deferredPrompt = e;
+      installBtn.hidden = false;
+      updateTopbarCentering();
+    });
+
+    if(isIOSDevice && !alreadyInstalled){
+      installBtn.hidden = false;
+    }
+  }
+
+  updateTopbarCentering();
+  window.addEventListener('resize', updateTopbarCentering);
+
+  installBtn.addEventListener('click', async function(){
+    if(deferredPrompt){
+      deferredPrompt.prompt();
+      const choice = await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      if(choice && choice.outcome === 'accepted'){
+        installBtn.hidden = true;
+        localStorage.setItem('pwaInstalled', '1');
+        updateTopbarCentering();
+      }
+      return;
+    }
+    if(isIOSDevice){
+      // Przycisk zostaje widoczny — na iOS nie ma zdarzenia potwierdzającego instalację,
+      // a po uruchomieniu z ekranu początkowego (standalone) i tak się schowa.
+      alert('Aby zainstalować: stuknij ikonę Udostępnij (kwadrat ze strzałką), a następnie wybierz „Do ekranu początkowego”.');
+    } else {
+      alert('Aby zainstalować: otwórz menu przeglądarki i wybierz „Zainstaluj aplikację” lub „Dodaj do ekranu głównego”.');
+    }
+  });
+
+  window.addEventListener('appinstalled', function(){
+    installBtn.hidden = true;
+    deferredPrompt = null;
+    localStorage.setItem('pwaInstalled', '1');
+    updateTopbarCentering();
+  });
+
+  window.matchMedia('(display-mode: standalone)').addEventListener('change', function(evt){
+    if(evt.matches){
+      installBtn.hidden = true;
+      localStorage.setItem('pwaInstalled', '1');
+      updateTopbarCentering();
+    }
+  });
+
+  if('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')){
+    window.addEventListener('load', function(){
+      navigator.serviceWorker.register('service-worker.js', { updateViaCache: 'none' }).catch(function(){ /* ignore */ });
+    });
+  }
+})();
+</script>
+
+<script>
+(function(){
+  /* ── EDYTOWALNA NAZWA W PASKU GÓRNYM ── */
+  const STORAGE_KEY_BRAND = 'rejestr-lekcji-brandName';
+  const DEFAULT_BRAND = 'T-Olimpians Team Poland';
+  const MAX_LEN = 40;
+  const brandText = document.getElementById('brandText');
+  if(!brandText) return;
+
+  function loadBrand(){
+    try{
+      const saved = localStorage.getItem(STORAGE_KEY_BRAND);
+      return (saved && saved.trim()) ? saved : DEFAULT_BRAND;
+    }catch(e){
+      return DEFAULT_BRAND;
+    }
+  }
+
+  function saveBrand(value){
+    try{ localStorage.setItem(STORAGE_KEY_BRAND, value); }catch(e){ /* ignore */ }
+  }
+
+  function placeCaretAtEnd(el){
+    const range = document.createRange();
+    range.selectNodeContents(el);
+    range.collapse(false);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+  }
+
+  function selectAll(el){
+    const range = document.createRange();
+    range.selectNodeContents(el);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+  }
+
+  brandText.textContent = loadBrand();
+
+  brandText.addEventListener('focus', function(){
+    selectAll(brandText);
+  });
+
+  brandText.addEventListener('keydown', function(e){
+    if(e.key === 'Enter'){
+      e.preventDefault();
+      brandText.blur();
+    } else if(e.key === 'Escape'){
+      e.preventDefault();
+      brandText.textContent = loadBrand();
+      brandText.blur();
+    }
+  });
+
+  brandText.addEventListener('paste', function(e){
+    e.preventDefault();
+    const clipboard = e.clipboardData || window.clipboardData;
+    const text = clipboard.getData('text').replace(/[\r\n]+/g, ' ');
+    document.execCommand('insertText', false, text);
+  });
+
+  brandText.addEventListener('input', function(){
+    if(brandText.textContent.length > MAX_LEN){
+      brandText.textContent = brandText.textContent.slice(0, MAX_LEN);
+      placeCaretAtEnd(brandText);
+    }
+  });
+
+  brandText.addEventListener('blur', function(){
+    let value = brandText.textContent.replace(/\s+/g, ' ').trim();
+    if(!value) value = DEFAULT_BRAND;
+    brandText.textContent = value;
+    saveBrand(value);
+    window.dispatchEvent(new Event('app-identity-changed'));
+  });
+})();
+</script>
+
+<script>
+(function(){
+  /* ── WŁASNE LOGO Z PLIKÓW ── */
+  const STORAGE_KEY_LOGO = 'rejestr-lekcji-logoData';
+  const MAX_DIM = 160;
+  const brandMark = document.getElementById('brandMark');
+  const brandLogo = document.getElementById('brandLogo');
+  const logoInput = document.getElementById('logoInput');
+  if(!brandMark || !brandLogo || !logoInput) return;
+
+  function loadLogo(){
+    try{
+      const saved = localStorage.getItem(STORAGE_KEY_LOGO);
+      if(saved) brandLogo.src = saved;
+    }catch(e){ /* ignore */ }
+  }
+  loadLogo();
+
+  function openPicker(){ logoInput.click(); }
+
+  brandMark.addEventListener('click', openPicker);
+  brandMark.addEventListener('keydown', function(e){
+    if(e.key === 'Enter' || e.key === ' '){
+      e.preventDefault();
+      openPicker();
+    }
+  });
+  logoInput.addEventListener('change', function(){
+    const file = logoInput.files && logoInput.files[0];
+    logoInput.value = '';
+    if(!file) return;
+
+    if(!file.type || file.type.indexOf('image/') !== 0){
+      alert('Wybierz plik graficzny, np. JPG lub PNG.');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(){
+      const img = new Image();
+      img.onload = function(){
+        let dataUrl;
+        try{
+          const canvas = document.createElement('canvas');
+          const scale = Math.min(1, MAX_DIM / Math.max(img.width, img.height));
+          const w = Math.max(1, Math.round(img.width * scale));
+          const h = Math.max(1, Math.round(img.height * scale));
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          dataUrl = canvas.toDataURL('image/png');
+        }catch(e){
+          dataUrl = reader.result;
+        }
+
+        brandLogo.src = dataUrl;
+        try{
+          localStorage.setItem(STORAGE_KEY_LOGO, dataUrl);
+        }catch(e){
+          alert('Zdjęcie wyświetla się, ale nie udało się go zapisać na później (zbyt duży plik). Spróbuj mniejszego zdjęcia.');
+        }
+        window.dispatchEvent(new Event('app-identity-changed'));
+      };
+      img.onerror = function(){
+        alert('Nie udało się wczytać tego obrazu.');
+      };
+      img.src = reader.result;
+    };
+    reader.onerror = function(){
+      alert('Nie udało się odczytać wybranego pliku.');
+    };
+    reader.readAsDataURL(file);
+  });
+})();
+</script>
+
+<script>
+(function(){
+  /* ── DOSTOSOWANIE TOŻSAMOŚCI ZAINSTALOWANEJ APLIKACJI DO WŁASNEGO LOGO I NAZWY ──
+     Jeśli użytkownik zmienił logo lub nazwę w pasku górnym, ikona i nazwa aplikacji
+     po zainstalowaniu (na ekranie głównym / w menu Start) mają wyglądać tak samo. */
+  const STORAGE_KEY_BRAND = 'rejestr-lekcji-brandName';
+  const STORAGE_KEY_LOGO = 'rejestr-lekcji-logoData';
+  const DEFAULT_BRAND = 'T-Olimpians Team Poland';
+
+  const manifestLink = document.querySelector('link[rel="manifest"]');
+  const iconLink = document.querySelector('link[rel="icon"]');
+  const appleIconLink = document.querySelector('link[rel="apple-touch-icon"]');
+  const appleTitleMeta = document.querySelector('meta[name="apple-mobile-web-app-title"]');
+  const brandTextEl = document.getElementById('brandText');
+  const brandLogoEl = document.getElementById('brandLogo');
+  if(!manifestLink || !brandTextEl || !brandLogoEl) return;
+
+  function isCustomized(){
+    try{
+      return !!(localStorage.getItem(STORAGE_KEY_BRAND) || localStorage.getItem(STORAGE_KEY_LOGO));
+    }catch(e){
+      return false;
+    }
+  }
+
+  function loadImageFromSrc(src){
+    return new Promise(function(resolve, reject){
+      const img = new Image();
+      img.onload = function(){ resolve(img); };
+      img.onerror = reject;
+      img.src = src;
+    });
+  }
+
+  function renderIcon(img, size, maskable){
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#0a0a0f';
+    ctx.fillRect(0, 0, size, size);
+    const scale = maskable ? 0.7 : 0.94;
+    const targetSize = size * scale;
+    const srcSize = Math.min(img.width, img.height);
+    const sx = (img.width - srcSize) / 2;
+    const sy = (img.height - srcSize) / 2;
+    const offset = (size - targetSize) / 2;
+    ctx.drawImage(img, sx, sy, srcSize, srcSize, offset, offset, targetSize, targetSize);
+    return canvas.toDataURL('image/png');
+  }
+
+  async function buildManifest(){
+    const name = (brandTextEl.textContent || '').trim() || DEFAULT_BRAND;
+    const shortName = name.length > 20 ? name.slice(0, 20).trim() : name;
+    let img;
+    try{
+      // bez własnego logo używamy domyślnej ikony aplikacji zamiast logo z paska górnego
+      let hasCustomLogo = false;
+      try{ hasCustomLogo = !!localStorage.getItem(STORAGE_KEY_LOGO); }catch(e){ /* ignore */ }
+      img = await loadImageFromSrc(hasCustomLogo ? brandLogoEl.src : 'icon-512.png');
+    }catch(e){
+      return null;
+    }
+    return {
+      name: name,
+      short_name: shortName,
+      description: 'Rejestr niezapłaconych lekcji dla korepetytorów.',
+      start_url: './rejestr-lekcji.html',
+      scope: './',
+      display: 'standalone',
+      orientation: 'portrait',
+      background_color: '#0a0a0f',
+      theme_color: '#0a0a0f',
+      icons: [
+        { src: renderIcon(img, 192, false), sizes: '192x192', type: 'image/png', purpose: 'any' },
+        { src: renderIcon(img, 512, false), sizes: '512x512', type: 'image/png', purpose: 'any' },
+        { src: renderIcon(img, 192, true), sizes: '192x192', type: 'image/png', purpose: 'maskable' },
+        { src: renderIcon(img, 512, true), sizes: '512x512', type: 'image/png', purpose: 'maskable' }
+      ]
+    };
+  }
+
+  async function refreshAppIdentity(){
+    if(!isCustomized()) return;
+    const manifestObj = await buildManifest();
+    if(!manifestObj) return;
+
+    // Manifest zostaje statyczny (manifest.json) — podmiana na blob: blokowała
+    // instalację na Androidzie (Chrome nie potrafi zainstalować aplikacji z manifestu blob:).
+    const icon192 = manifestObj.icons[0].src;
+    if(iconLink) iconLink.setAttribute('href', icon192);
+    if(appleIconLink) appleIconLink.setAttribute('href', icon192);
+    if(appleTitleMeta) appleTitleMeta.setAttribute('content', manifestObj.short_name);
+    document.title = manifestObj.name;
+  }
+
+  window.addEventListener('app-identity-changed', refreshAppIdentity);
+  refreshAppIdentity();
+})();
+</script>
+
+<!-- licznik odwiedzin -> panel kacperos.html -->
+<script type="module" src="/track.js"></script>
+</body>
+</html>

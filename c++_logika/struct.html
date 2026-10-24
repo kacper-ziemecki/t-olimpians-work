@@ -1,0 +1,2212 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Struct — własny typ w C++ — T-Olimpians</title>
+    <meta name="description" content="Struct w C++ od zera — własny typ z kilkoma polami, wektor struktur, sortowanie po wybranym polu. T-Olimpians Team Poland.">
+    <link rel="canonical" href="https://t-olimpians.com/c++_logika/struct.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="T-Olimpians Team Poland">
+    <meta property="og:locale" content="pl_PL">
+    <meta property="og:url" content="https://t-olimpians.com/c++_logika/struct.html">
+    <meta property="og:title" content="Struct — własny typ w C++ — T-Olimpians">
+    <meta property="og:description" content="Struct w C++ od zera — własny typ z kilkoma polami, wektor struktur, sortowanie po wybranym polu. T-Olimpians Team Poland.">
+    <meta property="og:image" content="https://t-olimpians.com/img/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="../img/favicon2.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-base: #0a0a0f;
+            --bg-surface: #111118;
+            --bg-card: #15151e;
+            --bg-elevated: #1c1c28;
+            --accent: #3b82f6;
+            --accent-bright: #60a5fa;
+            --accent-glow: rgba(59, 130, 246, 0.25);
+            --accent-dim: rgba(59, 130, 246, 0.12);
+            --green: #22c55e;
+            --green-dim: rgba(34, 197, 94, 0.12);
+            --green-glow: rgba(34, 197, 94, 0.25);
+            --purple: #a78bfa;
+            --purple-dim: rgba(167, 139, 250, 0.12);
+            --orange: #fb923c;
+            --orange-dim: rgba(251, 146, 60, 0.12);
+            --text-primary: #f0f0f8;
+            --text-secondary: #9090aa;
+            --text-muted: #55556a;
+            --border: rgba(255,255,255,0.07);
+            --border-accent: rgba(59, 130, 246, 0.3);
+            --font-display: 'Syne', sans-serif;
+            --font-body: 'DM Sans', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.6;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 48px;
+            height: 68px;
+            background: rgba(10, 10, 15, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            transition: background 0.3s;
+        }
+        .navbar.scrolled {
+            background: rgba(10, 10, 15, 0.95);
+            box-shadow: 0 4px 32px rgba(0,0,0,0.4);
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        .logo img:first-child {
+            width: 38px; height: 38px;
+            border-radius: 10px;
+            object-fit: cover;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .logo:hover img:first-child {
+            transform: rotate(-5deg) scale(1.08);
+            box-shadow: 0 0 16px var(--accent-glow);
+        }
+        #polska-flaga { width: 22px; height: auto; border-radius: 3px; }
+        .logo-text {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--text-primary);
+            letter-spacing: 0.01em;
+        }
+        .nav-links {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            transition: color 0.2s, background 0.2s;
+            cursor: pointer;
+            letter-spacing: 0.02em;
+            position: relative;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 4px; left: 16px; right: 16px;
+            height: 1px;
+            background: var(--accent-bright);
+            transform: scaleX(0);
+            transition: transform 0.25s ease;
+        }
+        .nav-links a:hover::after { transform: scaleX(1); }
+        .nav-links a:hover {
+            color: var(--text-primary);
+            background: var(--accent-dim);
+        }
+        .nav-links a.active-page {
+            color: var(--accent-bright);
+        }
+        .nav-links .nav-cta a {
+            background: var(--accent);
+            color: white;
+            font-weight: 600;
+        }
+        .nav-links .nav-cta a:hover { background: var(--accent-bright); color: white; }
+        .nav-links .nav-cta a::after { display: none; }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            z-index: 110;
+        }
+        .hamburger span {
+            display: block;
+            width: 24px; height: 2px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: transform 0.3s, opacity 0.3s;
+        }
+        .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        #particles {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        .hero {
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 120px 80px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 700px; height: 500px;
+            background: radial-gradient(circle, rgba(59,130,246,0.07) 0%, transparent 70%);
+            pointer-events: none;
+            animation: pulse-glow 6s ease-in-out infinite;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.5; transform: translateX(-50%) scale(1); }
+            50% { opacity: 1; transform: translateX(-50%) scale(1.1); }
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--accent-dim);
+            border: 1px solid var(--border-accent);
+            color: var(--accent-bright);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 500;
+            padding: 6px 14px;
+            border-radius: 100px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+            animation: fadeInUp 0.6s ease both;
+        }
+        .hero-badge::before {
+            content: '';
+            width: 6px; height: 6px;
+            background: var(--accent-bright);
+            border-radius: 50%;
+            animation: blink 2s ease-in-out infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(36px, 5vw, 64px);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.7s 0.1s cubic-bezier(0.16,1,0.3,1) both;
+        }
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--accent-bright), #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero > p {
+            font-size: 16px;
+            color: var(--text-secondary);
+            line-height: 1.75;
+            max-width: 560px;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.7s 0.2s cubic-bezier(0.16,1,0.3,1) both;
+        }
+        .hero code {
+            font-family: var(--font-mono);
+            font-size: 14px;
+            background: var(--accent-dim);
+            border: 1px solid var(--border-accent);
+            color: var(--accent-bright);
+            padding: 2px 8px;
+            border-radius: 5px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.7s 0.3s cubic-bezier(0.16,1,0.3,1) both;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+            letter-spacing: 0.01em;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: inherit;
+            background: linear-gradient(135deg, var(--accent), #7c3aed);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s;
+            filter: blur(8px);
+        }
+        .btn-primary:hover::after { opacity: 0.6; }
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 60%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            transform: skewX(-20deg);
+            transition: left 0.5s ease;
+        }
+        .btn-primary:hover::before { left: 150%; }
+        .btn-primary:hover {
+            background: var(--accent-bright);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px var(--accent-glow);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            padding: 14px 28px;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.2s, border-color 0.2s, transform 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-ghost:hover {
+            color: var(--text-primary);
+            border-color: var(--border-accent);
+            transform: translateY(-2px);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.reveal-left { transform: translateX(-40px); }
+        .reveal.reveal-right { transform: translateX(40px); }
+        .reveal.visible { opacity: 1; transform: translate(0); }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--border), transparent);
+            margin: 0 80px;
+        }
+
+        .section-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--accent-bright);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        main {
+            padding: 0 80px;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .syntax-section {
+            padding: 72px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .syntax-section h2 {
+            font-family: var(--font-display);
+            font-size: clamp(26px, 3vw, 38px);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+        }
+        .syntax-section > p {
+            color: var(--text-secondary);
+            font-size: 15.5px;
+            line-height: 1.8;
+            max-width: 640px;
+            margin-bottom: 40px;
+        }
+
+        .code-block {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin: 24px 0;
+            position: relative;
+        }
+        .code-block-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 20px;
+            background: var(--bg-elevated);
+            border-bottom: 1px solid var(--border);
+        }
+        .code-block-title {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+        }
+        .code-dots { display: flex; gap: 6px; }
+        .code-dots span { width: 10px; height: 10px; border-radius: 50%; }
+        .code-dots span:nth-child(1) { background: #ff5f56; }
+        .code-dots span:nth-child(2) { background: #ffbd2e; }
+        .code-dots span:nth-child(3) { background: #27c93f; }
+        .code-block pre { padding: 24px; overflow-x: auto; margin: 0; }
+        .code-block code {
+            font-family: var(--font-mono);
+            font-size: 14px;
+            line-height: 1.8;
+            color: var(--text-primary);
+        }
+
+        /* Syntax highlighting */
+        .kw   { color: #c792ea; }
+        .tp   { color: #82aaff; }
+        .fn   { color: #82aaff; }
+        .num  { color: #f78c6c; }
+        .str  { color: #c3e88d; }
+        .cm   { color: #546e7a; font-style: italic; }
+        .op   { color: #89ddff; }
+        .var  { color: #eeffff; }
+        .inc  { color: #c3e88d; }
+        .pp   { color: #c792ea; }
+
+        .anatomy-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 48px;
+            align-items: start;
+            margin-top: 48px;
+        }
+
+        .part-cards { display: flex; flex-direction: column; gap: 14px; }
+        .part-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 18px 22px;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            transition: border-color 0.3s, transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+        .part-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--accent-dim), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .part-card:hover::before { opacity: 1; }
+        .part-card:hover {
+            border-color: var(--border-accent);
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 12px 36px var(--accent-glow);
+        }
+        .part-icon {
+            width: 36px; height: 36px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+        }
+        .part-icon.blue  { background: var(--accent-dim);   border: 1px solid var(--border-accent); }
+        .part-icon.green { background: var(--green-dim);    border: 1px solid rgba(34,197,94,0.3);  }
+        .part-icon.purp  { background: var(--purple-dim);   border: 1px solid rgba(167,139,250,0.3); }
+        .part-icon.ora   { background: var(--orange-dim);   border: 1px solid rgba(251,146,60,0.3);  }
+        .part-body { flex: 1; position: relative; z-index: 1; }
+        .part-body h4 {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+        .part-body p { font-size: 13.5px; color: var(--text-secondary); line-height: 1.6; }
+        .part-body code {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            background: var(--bg-elevated);
+            padding: 1px 6px;
+            border-radius: 4px;
+            color: var(--accent-bright);
+        }
+
+        .part-icon.cyan  { background: rgba(56,189,248,0.12); border: 1px solid rgba(56,189,248,0.3); }
+        .part-icon.pink  { background: rgba(244,114,182,0.12); border: 1px solid rgba(244,114,182,0.3); }
+
+        .syntax-section > p code {
+            font-family: var(--font-mono);
+            font-size: 12.5px;
+            background: var(--accent-dim);
+            border: 1px solid var(--border-accent);
+            color: var(--accent-bright);
+            padding: 2px 8px;
+            border-radius: 5px;
+        }
+
+        /* ─── FILMY OKI ─── */
+        .wideo-sekcja {
+            margin: 0 0 12px;
+            padding: 30px 32px 32px;
+            background: linear-gradient(140deg, rgba(239,68,68,0.07), rgba(120,60,180,0.04) 55%, transparent);
+            border: 1px solid rgba(239,68,68,0.20);
+            border-radius: var(--radius-lg);
+            position: relative;
+            overflow: hidden;
+        }
+        .wideo-sekcja::before {
+            content: '';
+            position: absolute;
+            top: -80px; right: -80px;
+            width: 260px; height: 260px;
+            background: radial-gradient(circle, rgba(239,68,68,0.10) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .wideo-gora {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-bottom: 22px;
+            position: relative;
+            z-index: 1;
+        }
+        .wideo-gora-tekst { flex: 1 1 320px; min-width: 0; }
+        .wideo-etykieta {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #f87171;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        .wideo-etykieta::before {
+            content: '';
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: #ef4444;
+            box-shadow: 0 0 8px rgba(239,68,68,0.7);
+            flex-shrink: 0;
+        }
+        .wideo-sekcja h2 {
+            font-family: var(--font-display);
+            font-size: clamp(19px, 2.3vw, 25px);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        .wideo-sekcja h2 span {
+            background: linear-gradient(90deg, #f87171, #fb923c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .wideo-wstep {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.7;
+            max-width: 560px;
+        }
+        .wideo-playlisty {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            flex-shrink: 0;
+        }
+        .wideo-playlisty a {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            letter-spacing: 0.04em;
+            padding: 8px 14px;
+            border-radius: 100px;
+            border: 1px solid rgba(239,68,68,0.28);
+            background: rgba(239,68,68,0.07);
+            color: #f87171;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: background 0.2s, border-color 0.2s, color 0.2s;
+        }
+        .wideo-playlisty a:hover {
+            background: rgba(239,68,68,0.16);
+            border-color: rgba(239,68,68,0.55);
+            color: #fca5a5;
+        }
+        .wideo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(228px, 1fr));
+            gap: 14px;
+            position: relative;
+            z-index: 1;
+        }
+        .wideo-karta {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            transition: border-color 0.25s, transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s;
+        }
+        .wideo-karta:hover {
+            border-color: rgba(239,68,68,0.45);
+            transform: translateY(-4px);
+            box-shadow: 0 14px 34px rgba(239,68,68,0.15);
+        }
+        .wideo-miniatura {
+            position: relative;
+            aspect-ratio: 16 / 9;
+            background: #000;
+        }
+        .wideo-miniatura img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: opacity 0.25s;
+        }
+        .wideo-karta:hover .wideo-miniatura img { opacity: 0.72; }
+        .wideo-miniatura iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%; height: 100%;
+            border: 0;
+        }
+        .wideo-play {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+        .wideo-play span {
+            width: 48px; height: 33px;
+            border-radius: 8px;
+            background: rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.22);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            transition: background 0.25s, border-color 0.25s, transform 0.25s;
+        }
+        .wideo-karta:hover .wideo-play span {
+            background: #ef4444;
+            border-color: #ef4444;
+            transform: scale(1.12);
+        }
+        .wideo-czas {
+            position: absolute;
+            right: 7px; bottom: 7px;
+            font-family: var(--font-mono);
+            font-size: 10.5px;
+            letter-spacing: 0.02em;
+            color: #fff;
+            background: rgba(0,0,0,0.82);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        .wideo-opis { padding: 11px 13px 13px; }
+        .wideo-meta {
+            font-family: var(--font-mono);
+            font-size: 9.5px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+        .wideo-meta b {
+            color: #f87171;
+            font-weight: 600;
+        }
+        .wideo-tytul {
+            font-size: 13px;
+            line-height: 1.45;
+            color: var(--text-secondary);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            transition: color 0.2s;
+        }
+        .wideo-karta:hover .wideo-tytul { color: var(--text-primary); }
+        .wideo-zrodlo {
+            margin-top: 16px;
+            font-size: 11.5px;
+            color: var(--text-muted);
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 720px) {
+            .wideo-sekcja { padding: 22px 18px 24px; border-radius: var(--radius-md); }
+            .wideo-gora { gap: 16px; }
+            .wideo-grid { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
+            .wideo-tytul { font-size: 12.5px; }
+        }
+
+        .output-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin: 16px 0 8px;
+        }
+        .output-box {
+            background: rgba(34,197,94,0.06);
+            border: 1px solid rgba(34,197,94,0.2);
+            border-radius: var(--radius-sm);
+            padding: 14px 18px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: #4ade80;
+            line-height: 1.8;
+            white-space: pre;
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 32px;
+            margin-top: 40px;
+        }
+
+        /* Tablet: dwa bloki kodu obok siebie sie nie mieszcza - jeden pod drugim */
+        @media (min-width: 901px) and (max-width: 1100px) {
+            main { padding: 0 48px; }
+            .anatomy-grid { gap: 32px; }
+            .two-col { grid-template-columns: minmax(0, 1fr); }
+        }
+
+        .tips-section {
+            padding: 80px 0;
+            border-top: 1px solid var(--border);
+        }
+        .tips-section h2 {
+            font-family: var(--font-display);
+            font-size: clamp(26px, 3vw, 38px);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 40px;
+        }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+        .tip-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 26px;
+            transition: border-color 0.3s, transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+        .tip-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--accent-dim), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            border-radius: inherit;
+        }
+        .tip-card:hover::before { opacity: 1; }
+        .tip-card:hover {
+            border-color: var(--border-accent);
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 14px 40px var(--accent-glow);
+        }
+        .tip-icon { font-size: 26px; margin-bottom: 14px; position: relative; z-index: 1; }
+        .tip-title {
+            font-family: var(--font-display);
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+        .tip-text { font-size: 13.5px; color: var(--text-secondary); line-height: 1.65; position: relative; z-index: 1; }
+        .tip-text code {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            background: var(--bg-elevated);
+            padding: 1px 6px;
+            border-radius: 4px;
+            color: var(--accent-bright);
+        }
+
+        .cta-banner {
+            margin: 0 0 80px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 56px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-banner::before {
+            content: '';
+            position: absolute;
+            top: -40%; left: 50%;
+            transform: translateX(-50%);
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(59,130,246,0.07) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .cta-banner::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -60%;
+            width: 40%; height: 200%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
+            transform: skewX(-15deg);
+            animation: shimmer 6s ease-in-out infinite;
+        }
+        @keyframes shimmer { 0% { left: -60%; } 50% { left: 120%; } 100% { left: 120%; } }
+        .cta-banner h2 {
+            font-family: var(--font-display);
+            font-size: clamp(26px, 3.5vw, 40px);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 14px;
+            position: relative;
+            z-index: 1;
+        }
+        .cta-banner p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            max-width: 480px;
+            margin: 0 auto 28px;
+            position: relative;
+            z-index: 1;
+        }
+        .cta-banner .hero-actions { animation: none; position: relative; z-index: 1; }
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 32px 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+        footer span { font-family: var(--font-mono); }
+
+        .nav-group-item { display: flex; align-items: center; }
+        .nav-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border-accent);
+            border-radius: var(--radius-sm);
+            padding: 8px 10px 3px;
+            margin-top: 7px;
+            background: var(--accent-dim);
+        }
+        .nav-group-label {
+            position: absolute;
+            top: -7px;
+            left: 12px;
+            background: #0a0a0f;
+            padding: 1px 7px;
+            border: 1px solid var(--border-accent);
+            border-radius: 100px;
+            font-family: var(--font-mono);
+            font-size: 9.5px;
+            font-weight: 500;
+            color: var(--accent-bright);
+            text-transform: lowercase;
+            letter-spacing: 0.06em;
+            line-height: 1.3;
+        }
+        .nav-group-links { display: flex; align-items: center; gap: 2px; }
+
+        @media (max-width: 900px) {
+            .navbar { padding: 0 20px; }
+            .hamburger { display: flex; }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: fixed;
+                top: 68px; left: 0; right: 0;
+                background: rgba(10, 10, 15, 0.98);
+                backdrop-filter: blur(20px);
+                border-bottom: 1px solid var(--border);
+                padding: 16px 0 24px;
+                gap: 0;
+                z-index: 99;
+            }
+            .nav-links.open { display: flex; }
+            .nav-links li { width: 100%; }
+            .nav-group-item { width: 100%; }
+            .nav-group {
+                flex-direction: column;
+                align-items: stretch;
+                border-radius: var(--radius-md);
+                margin: 16px 28px 6px;
+                padding: 12px 0 6px;
+                width: auto;
+            }
+            .nav-group-label { left: 16px; background: #0a0a0f; }
+            .nav-group-links { flex-direction: column; width: 100%; }
+            .nav-group-links a { width: 100%; }
+
+            .nav-links a { display: block; padding: 14px 28px; font-size: 16px; border-radius: 0; }
+            .nav-links .nav-cta { padding: 12px 20px 0; }
+            .nav-links .nav-cta a { display: block; text-align: center; border-radius: var(--radius-sm); }
+            .hero { padding: 100px 24px 60px; }
+            main { padding: 0 24px; }
+            .anatomy-grid { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+            .two-col { grid-template-columns: minmax(0, 1fr); }
+            footer { flex-direction: column; gap: 12px; padding: 24px; text-align: center; }
+            .divider { margin: 0 24px; }
+            .cta-banner { padding: 36px 24px; }
+        }
+
+        /* ─── Tabela metod ze złożonością ─── */
+        .metody-wrap {
+            margin-top: 32px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow-x: auto;
+            background: var(--bg-card);
+        }
+
+        table.metody {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            min-width: 520px;
+        }
+
+        table.metody th {
+            text-align: left;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border);
+            background: rgba(255,255,255,0.02);
+            white-space: nowrap;
+        }
+
+        table.metody td {
+            padding: 13px 18px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+            line-height: 1.6;
+            vertical-align: top;
+        }
+
+        table.metody tr:last-child td { border-bottom: none; }
+        table.metody tbody tr { transition: background 0.2s; }
+        table.metody tbody tr:hover { background: rgba(96,165,250,0.05); }
+
+        table.metody td:first-child { white-space: nowrap; }
+        table.metody td:last-child { white-space: nowrap; }
+
+        table.metody code {
+            font-family: var(--font-mono);
+            font-size: 12.5px;
+            color: var(--accent-bright);
+            background: var(--accent-dim);
+            border: 1px solid var(--border-accent);
+            padding: 3px 9px;
+            border-radius: 5px;
+        }
+
+        .zloz {
+            font-family: var(--font-mono);
+            font-size: 11.5px;
+            font-weight: 500;
+            padding: 3px 10px;
+            border-radius: 100px;
+            white-space: nowrap;
+            display: inline-block;
+        }
+
+        .zloz.z1    { color:#4ade80; background:rgba(74,222,128,0.1);  border:1px solid rgba(74,222,128,0.28); }
+        .zloz.zlog  { color:#60a5fa; background:rgba(96,165,250,0.1);  border:1px solid rgba(96,165,250,0.28); }
+        .zloz.znlog { color:#a78bfa; background:rgba(167,139,250,0.1); border:1px solid rgba(167,139,250,0.28); }
+        .zloz.zn    { color:#fbbf24; background:rgba(251,191,36,0.1);  border:1px solid rgba(251,191,36,0.28); }
+        .zloz.zn2   { color:#f87171; background:rgba(248,113,113,0.1); border:1px solid rgba(248,113,113,0.28); }
+        .zloz.zinny { color:var(--text-secondary); background:rgba(255,255,255,0.05); border:1px solid var(--border); }
+
+        /* ─── Przykładowe zadania ─── */
+        .zadania-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 32px;
+        }
+
+        .zadanie {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 22px 24px;
+            transition: border-color 0.3s, transform 0.35s cubic-bezier(0.16,1,0.3,1);
+        }
+
+        .zadanie:hover {
+            border-color: var(--border-accent);
+            transform: translateY(-2px);
+        }
+
+        .zadanie-gora {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .zadanie-poziom {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            border-radius: 100px;
+            flex-shrink: 0;
+        }
+
+        .poz-latwe   { color:#4ade80; background:rgba(74,222,128,0.1);  border:1px solid rgba(74,222,128,0.28); }
+        .poz-srednie { color:#fbbf24; background:rgba(251,191,36,0.1);  border:1px solid rgba(251,191,36,0.28); }
+        .poz-trudne  { color:#f87171; background:rgba(248,113,113,0.1); border:1px solid rgba(248,113,113,0.28); }
+
+        .zadanie-tytul {
+            font-family: var(--font-display);
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+        }
+
+        .zadanie-tresc {
+            color: var(--text-secondary);
+            font-size: 14.5px;
+            line-height: 1.75;
+        }
+
+        .zadanie-wsk {
+            margin-top: 12px;
+            padding: 12px 16px;
+            background: var(--bg-surface);
+            border-left: 2px solid var(--border-accent);
+            border-radius: var(--radius-sm);
+            font-size: 13.5px;
+            line-height: 1.65;
+            color: var(--text-secondary);
+        }
+
+        .zadanie-wsk strong { color: var(--accent-bright); }
+
+        .zadanie-rozw { margin-top: 16px; }
+
+        .zadanie-rozw summary {
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--accent-bright);
+            letter-spacing: 0.05em;
+            padding: 9px 16px;
+            border: 1px solid var(--border-accent);
+            border-radius: 100px;
+            display: inline-block;
+            list-style: none;
+            transition: background 0.25s, transform 0.25s;
+            user-select: none;
+        }
+
+        .zadanie-rozw summary::-webkit-details-marker { display: none; }
+        .zadanie-rozw summary::before { content: '▸ '; }
+        .zadanie-rozw[open] summary::before { content: '▾ '; }
+        .zadanie-rozw summary:hover { background: var(--accent-dim); transform: translateY(-1px); }
+        .zadanie-rozw[open] summary { margin-bottom: 16px; }
+
+        @media (max-width: 720px) {
+            .zadanie { padding: 18px 16px; }
+            table.metody { font-size: 13px; }
+            table.metody th, table.metody td { padding: 11px 13px; }
+        }
+    </style>
+    <style id="tablet-nav">
+        /* ─── TABLET: nawigacja i logo (641–1299px) ───
+           < 1024px  menu pod hamburgerem jako panel po prawej,
+           1024–1299 pelne menu w wersji kompaktowej + logo w dwoch liniach. */
+        @media (min-width: 641px) {
+            .logo { flex-shrink: 0; }
+            .logo-text { white-space: nowrap; }
+        }
+
+        @media (min-width: 641px) and (max-width: 1023px) {
+            .navbar { padding: 0 28px; }
+            .logo-text { font-size: 15px; }
+            .hamburger { display: flex; }
+            .nav-pointer-bubble { display: none !important; }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: fixed;
+                top: 76px; right: 20px; left: auto;
+                width: 340px;
+                max-height: calc(100vh - 96px);
+                overflow-y: auto;
+                background: rgba(10, 10, 15, 0.98);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border: 1px solid var(--border);
+                border-radius: var(--radius-lg, 20px);
+                box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+                padding: 10px 0 16px;
+                gap: 0;
+                z-index: 99;
+            }
+            .nav-links.open { display: flex; }
+            .nav-links li { width: 100%; }
+            .nav-group-item { width: 100%; }
+            .nav-group {
+                flex: 1;
+                flex-direction: column;
+                align-items: stretch;
+                border-radius: var(--radius-md, 14px);
+                margin: 18px 16px 8px;
+                padding: 12px 0 6px;
+                width: auto;
+            }
+            .nav-group-label { left: 14px; background: #0a0a0f; }
+            .nav-group-links { flex-direction: column; align-items: stretch; width: 100%; gap: 0; }
+            .nav-group-links a { width: 100%; }
+            .focus-toggle {
+                width: 100%; justify-content: center; margin: 8px 0 0; padding: 10px 0 4px;
+                border-left: none; border-top: 1px solid var(--border);
+            }
+            .nav-links a { display: block; padding: 12px 24px; font-size: 15px; border-radius: 0; }
+            .nav-links a::after { display: none; }
+            .nav-links .nav-cta { padding: 10px 16px 0; }
+            .nav-links .nav-cta a { display: block; text-align: center; border-radius: var(--radius-sm, 8px); padding: 13px; }
+        }
+
+        @media (min-width: 1024px) and (max-width: 1299px) {
+            .navbar { padding: 0 24px; }
+            .logo { gap: 10px; }
+            .logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+            .logo-text-sub {
+                margin-top: 3px;
+                font-family: var(--font-mono);
+                font-size: 9.5px;
+                font-weight: 500;
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                color: var(--accent-bright);
+            }
+            .nav-links { gap: 2px; }
+            .nav-links a { padding: 8px 10px; font-size: 13.5px; letter-spacing: 0.01em; }
+            .nav-links a::after { left: 10px; right: 10px; }
+            .nav-group { padding: 8px 6px 3px; }
+            .nav-group-links { gap: 0; }
+            .focus-toggle { margin-left: 4px; padding-left: 8px; gap: 6px; }
+        }
+    </style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+
+<nav class="navbar" id="navbar">
+    <a class="logo" href="../index.html">
+        <img src="../img/t-olimpians-logo.jpg" alt="Logo">
+        <span class="logo-text">T-Olimpians <span class="logo-text-sub">Team Poland</span></span>
+        <img id="polska-flaga" src="../img/polska_flaga.png" alt="Flaga Polski">
+    </a>
+
+    <ul class="nav-links" id="navLinks">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../index.html#o-nas" class="nav-close">O nas</a></li>
+        <li class="nav-group-item">
+            <div class="nav-group">
+                <span class="nav-group-label">t-olimpians net</span>
+                <div class="nav-group-links">
+                <a href="../materialy.html" class="nav-close">C++/logika</a>
+                <a href="../net.html" class="nav-close">Algorytmy</a>
+                <a href="../zadania-OI-OIJ.html" class="nav-close">Zadania OI/OIJ</a>
+                <a href="../konkursy.html" class="nav-close">Konkursy</a>
+                </div>
+            </div>
+        </li>
+        <li><a href="../zapisy.html" class="nav-close">Zapisy</a></li>
+        <li class="nav-cta"><a href="../index.html#contact-section" class="nav-close">Dołącz →</a></li>
+    </ul>
+
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+    </button>
+</nav>
+
+<section class="hero">
+    <div class="hero-badge">C++ · Podstawy · Struct</div>
+    <h1><span>Struct</span>, czyli własny typ</h1>
+    <p>Gdy jedna rzecz ma kilka cech — uczeń ma imię, wiek i ocenę — nie trzymaj tego w trzech osobnych tablicach. Zrób z tego jeden typ.</p>
+    <div class="hero-actions">
+        <button class="btn-primary" onclick="document.getElementById('podstawy').scrollIntoView({ behavior: 'smooth' });">Zacznij naukę</button>
+        <button class="btn-ghost" onclick="document.getElementById('porady').scrollIntoView({ behavior: 'smooth' });">Częste błędy</button>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<main>
+
+    <section class="wideo-sekcja reveal" id="filmy">
+        <div class="wideo-gora">
+            <div class="wideo-gora-tekst">
+                <div class="wideo-etykieta">Filmy z OKI</div>
+                <h2>Wolisz <span>obejrzeć</span>?</h2>
+                <p class="wideo-wstep">Olimpijskie Koło Informatyczne nagrywa swoje zajęcia i udostępnia je za darmo. Poniżej 5 odcinków o tym temacie — dobre uzupełnienie, jeśli wolisz obejrzeć niż przeczytać.</p>
+            </div>
+            <div class="wideo-playlisty">
+                <a href="https://www.youtube.com/playlist?list=PL9BlBU4U-rDPrKykeT62mK-cH_NCuIg4Q" target="_blank" rel="noopener">Programowanie OD PODSTAW &#8599;</a>
+                <a href="https://www.youtube.com/playlist?list=PL9BlBU4U-rDNF9AxZ5GTmm75TAvh76ndK" target="_blank" rel="noopener">Programowanie ZAAWANSOWANE &#8599;</a>
+            </div>
+        </div>
+        <div class="wideo-grid">
+                <a class="wideo-karta" href="https://www.youtube.com/watch?v=fwIA4nyU-GU"
+                   target="_blank" rel="noopener" onclick="return okiWideo(this, 'fwIA4nyU-GU')">
+                    <div class="wideo-miniatura">
+                        <img src="https://i.ytimg.com/vi/fwIA4nyU-GU/hqdefault.jpg" alt="" loading="lazy">
+                        <div class="wideo-play"><span>&#9654;</span></div>
+                        <div class="wideo-czas">1:20:51</div>
+                    </div>
+                    <div class="wideo-opis">
+                        <div class="wideo-meta"><b>Odc. 21</b> &middot; OD PODSTAW</div>
+                        <div class="wideo-tytul">🗂️ Danych w bród - STRUCT robi cud!</div>
+                    </div>
+                </a>
+                <a class="wideo-karta" href="https://www.youtube.com/watch?v=IymLq1zoIAU"
+                   target="_blank" rel="noopener" onclick="return okiWideo(this, 'IymLq1zoIAU')">
+                    <div class="wideo-miniatura">
+                        <img src="https://i.ytimg.com/vi/IymLq1zoIAU/hqdefault.jpg" alt="" loading="lazy">
+                        <div class="wideo-play"><span>&#9654;</span></div>
+                        <div class="wideo-czas">1:20:02</div>
+                    </div>
+                    <div class="wideo-opis">
+                        <div class="wideo-meta"><b>Odc. 23</b> &middot; OD PODSTAW</div>
+                        <div class="wideo-tytul">🧑‍💻Klasy i obiekty – tak rodzą się projekty!</div>
+                    </div>
+                </a>
+                <a class="wideo-karta" href="https://www.youtube.com/watch?v=xZSUCFidKls"
+                   target="_blank" rel="noopener" onclick="return okiWideo(this, 'xZSUCFidKls')">
+                    <div class="wideo-miniatura">
+                        <img src="https://i.ytimg.com/vi/xZSUCFidKls/hqdefault.jpg" alt="" loading="lazy">
+                        <div class="wideo-play"><span>&#9654;</span></div>
+                        <div class="wideo-czas">1:05:34</div>
+                    </div>
+                    <div class="wideo-opis">
+                        <div class="wideo-meta"><b>Odc. 24</b> &middot; ZAAWANSOWANE</div>
+                        <div class="wideo-tytul">⏰🔍 Nadszedł czas - struct zapełniamy — rekordów szukamy</div>
+                    </div>
+                </a>
+                <a class="wideo-karta" href="https://www.youtube.com/watch?v=s_8OUPx6kiw"
+                   target="_blank" rel="noopener" onclick="return okiWideo(this, 's_8OUPx6kiw')">
+                    <div class="wideo-miniatura">
+                        <img src="https://i.ytimg.com/vi/s_8OUPx6kiw/hqdefault.jpg" alt="" loading="lazy">
+                        <div class="wideo-play"><span>&#9654;</span></div>
+                        <div class="wideo-czas">1:10:07</div>
+                    </div>
+                    <div class="wideo-opis">
+                        <div class="wideo-meta"><b>Odc. 26</b> &middot; ZAAWANSOWANE</div>
+                        <div class="wideo-tytul">💻 Klasa ulamek – Programowanie obiektowe w służbie Olimpiady!</div>
+                    </div>
+                </a>
+                <a class="wideo-karta" href="https://www.youtube.com/watch?v=WMQtAACifHc"
+                   target="_blank" rel="noopener" onclick="return okiWideo(this, 'WMQtAACifHc')">
+                    <div class="wideo-miniatura">
+                        <img src="https://i.ytimg.com/vi/WMQtAACifHc/hqdefault.jpg" alt="" loading="lazy">
+                        <div class="wideo-play"><span>&#9654;</span></div>
+                        <div class="wideo-czas">1:18:28</div>
+                    </div>
+                    <div class="wideo-opis">
+                        <div class="wideo-meta"><b>Odc. 27</b> &middot; ZAAWANSOWANE</div>
+                        <div class="wideo-tytul">🧑‍💻 C++, class – własny kompilator masz!</div>
+                    </div>
+                </a>
+        </div>
+        <div class="wideo-zrodlo">Materiały Olimpijskiego Koła Informatycznego — kanał zewnętrzny. Kliknięcie odtwarza film tutaj, bez opuszczania strony.</div>
+    </section>
+
+    <section class="syntax-section" id="podstawy">
+        <span class="section-label reveal">01 — Podstawy</span>
+        <h2 class="reveal">Po co komu własny typ?</h2>
+        <p class="reveal">Przy parach widziałeś już ten problem: dwie osobne listy łatwo rozjechać przy sortowaniu. <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">pair</code> rozwiązuje to dla <strong style="color:var(--text-primary)">dwóch</strong> wartości. A co, gdy uczeń ma imię, wiek <strong style="color:var(--accent-bright)">i</strong> ocenę? Trzy pola to już za dużo na parę — i tu wchodzi <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">struct</code>.</p>
+
+        <p class="reveal"><code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">struct</code> pozwala skleić kilka zmiennych w <strong style="color:var(--accent-bright)">jeden nowy typ</strong>, który sam nazywasz. Każda zmienna w środku to <strong style="color:var(--accent-bright)">pole</strong>, a dobierasz się do niego kropką: <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">uczen.imie</code>.</p>
+
+        <div class="two-col">
+            <div class="reveal reveal-left">
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-dots"><span></span><span></span><span></span></div>
+                        <div class="code-block-title">bez_struktury.cpp</div>
+                    </div>
+                    <pre><code><span class="cm">// trzy osobne tablice - latwo o pomylke</span>
+<span class="tp">string</span> <span class="var">imiona</span>[<span class="num">100</span>]<span class="op">;</span>
+<span class="tp">int</span> <span class="var">wiek</span>[<span class="num">100</span>]<span class="op">;</span>
+<span class="tp">int</span> <span class="var">oceny</span>[<span class="num">100</span>]<span class="op">;</span>
+
+<span class="var">imiona</span>[<span class="num">0</span>] <span class="op">=</span> <span class="str">"Ala"</span><span class="op">;</span>
+<span class="var">wiek</span>[<span class="num">0</span>] <span class="op">=</span> <span class="num">12</span><span class="op">;</span>
+<span class="var">oceny</span>[<span class="num">0</span>] <span class="op">=</span> <span class="num">5</span><span class="op">;</span>
+
+<span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">imiona</span>[<span class="num">0</span>] <span class="op">&lt;&lt;</span> <span class="str">" "</span> <span class="op">&lt;&lt;</span> <span class="var">oceny</span>[<span class="num">0</span>]<span class="op">;</span></code></pre>
+                </div>
+                <div class="output-label">▶ Wyjście programu</div>
+                <div class="output-box">Ala 5</div>
+            </div>
+            <div class="reveal reveal-right">
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-dots"><span></span><span></span><span></span></div>
+                        <div class="code-block-title">ze_struktura.cpp</div>
+                    </div>
+                    <pre><code><span class="cm">// jeden typ, trzy pola razem</span>
+<span class="kw">struct</span> <span class="var">Uczen</span> {
+    <span class="tp">string</span> <span class="var">imie</span><span class="op">;</span>
+    <span class="tp">int</span> <span class="var">wiek</span><span class="op">;</span>
+    <span class="tp">int</span> <span class="var">ocena</span><span class="op">;</span>
+}<span class="op">;</span>                    <span class="cm">// &lt;- sredniki nie zapomnij!</span>
+
+<span class="var">Uczen u</span><span class="op">;</span>
+<span class="var">u</span><span class="op">.</span><span class="var">imie</span> <span class="op">=</span> <span class="str">"Ala"</span><span class="op">;</span>
+<span class="var">u</span><span class="op">.</span><span class="var">wiek</span> <span class="op">=</span> <span class="num">12</span><span class="op">;</span>
+<span class="var">u</span><span class="op">.</span><span class="var">ocena</span> <span class="op">=</span> <span class="num">5</span><span class="op">;</span>
+
+<span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">u</span><span class="op">.</span><span class="var">imie</span> <span class="op">&lt;&lt;</span> <span class="str">" "</span> <span class="op">&lt;&lt;</span> <span class="var">u</span><span class="op">.</span><span class="var">ocena</span><span class="op">;</span></code></pre>
+                </div>
+                <div class="output-label">▶ Wyjście programu</div>
+                <div class="output-box">Ala 5</div>
+            </div>
+        </div>
+
+        <p class="reveal"><strong style="color:var(--text-primary)">Pamiętaj o średniku po zamykającej klamrze</strong> deklaracji struktury. To jedno z niewielu miejsc w C++, gdzie po klamrze stawia się średnik — i jeden z najczęstszych błędów kompilacji przy pierwszym własnym typie.</p>
+
+        <div class="anatomy-grid">
+            <div class="part-cards reveal reveal-left">
+                <div class="part-card">
+                    <div class="part-icon blue">🏷️</div>
+                    <div class="part-body">
+                        <h4>struct Nazwa { };</h4>
+                        <p>Deklaracja nowego typu. Nazwę wymyślasz sam; zwyczajowo zaczyna się od <strong style="color:var(--text-primary)">dużej litery</strong>.</p>
+                    </div>
+                </div>
+                <div class="part-card">
+                    <div class="part-icon green">📦</div>
+                    <div class="part-body">
+                        <h4>pola w środku</h4>
+                        <p>Zwykłe zmienne — każda z własnym typem. Mogą być różne: <code>string</code>, <code>int</code>, <code>double</code>, a nawet wektor.</p>
+                    </div>
+                </div>
+                <div class="part-card">
+                    <div class="part-icon purp">⚙️</div>
+                    <div class="part-body">
+                        <h4>Nazwa zmienna;</h4>
+                        <p>Po deklaracji <code>Nazwa</code> jest pełnoprawnym typem. Tworzysz nim zmienne jak <code>int</code>-em.</p>
+                    </div>
+                </div>
+                <div class="part-card">
+                    <div class="part-icon ora">•</div>
+                    <div class="part-body">
+                        <h4>zmienna.pole</h4>
+                        <p>Kropka daje dostęp do pojedynczego pola. Czytasz i zapisujesz tak samo jak zwykłą zmienną.</p>
+                    </div>
+                </div>
+                <div class="part-card">
+                    <div class="part-icon cyan">🔨</div>
+                    <div class="part-body">
+                        <h4>{a, b, c}</h4>
+                        <p>Szybkie wypełnienie wszystkich pól naraz, <strong style="color:var(--text-primary)">w kolejności deklaracji</strong>.</p>
+                    </div>
+                </div>
+                <div class="part-card">
+                    <div class="part-icon pink">❗</div>
+                    <div class="part-body">
+                        <h4>średnik po klamrze</h4>
+                        <p><code>};</code> — bez niego kompilator zgłosi dziwny błąd w następnej linijce.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="reveal reveal-right">
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-dots"><span></span><span></span><span></span></div>
+                        <div class="code-block-title">podstawy.cpp</div>
+                    </div>
+                    <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;string&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="kw">struct</span> <span class="var">Uczen</span> {
+    <span class="tp">string</span> <span class="var">imie</span><span class="op">;</span>
+    <span class="tp">int</span> <span class="var">wiek</span><span class="op">;</span>
+    <span class="tp">double</span> <span class="var">srednia</span><span class="op">;</span>
+}<span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="cm">// pole po polu</span>
+    <span class="var">Uczen a</span><span class="op">;</span>
+    <span class="var">a</span><span class="op">.</span><span class="var">imie</span> <span class="op">=</span> <span class="str">"Ala"</span><span class="op">;</span>
+    <span class="var">a</span><span class="op">.</span><span class="var">wiek</span> <span class="op">=</span> <span class="num">12</span><span class="op">;</span>
+    <span class="var">a</span><span class="op">.</span><span class="var">srednia</span> <span class="op">=</span> <span class="num">4.75</span><span class="op">;</span>
+
+    <span class="cm">// albo wszystko naraz, w kolejnosci pol</span>
+    <span class="var">Uczen b</span> <span class="op">=</span> {<span class="str">"Bartek"</span><span class="op">,</span> <span class="num">13</span><span class="op">,</span> <span class="num">3.90</span>}<span class="op">;</span>
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">a</span><span class="op">.</span><span class="var">imie</span> <span class="op">&lt;&lt;</span> <span class="str">", "</span> <span class="op">&lt;&lt;</span> <span class="var">a</span><span class="op">.</span><span class="var">wiek</span>
+         <span class="op">&lt;&lt;</span> <span class="str">" lat, srednia "</span> <span class="op">&lt;&lt;</span> <span class="var">a</span><span class="op">.</span><span class="var">srednia</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">b</span><span class="op">.</span><span class="var">imie</span> <span class="op">&lt;&lt;</span> <span class="str">", "</span> <span class="op">&lt;&lt;</span> <span class="var">b</span><span class="op">.</span><span class="var">wiek</span>
+         <span class="op">&lt;&lt;</span> <span class="str">" lat, srednia "</span> <span class="op">&lt;&lt;</span> <span class="var">b</span><span class="op">.</span><span class="var">srednia</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+                </div>
+                <div class="output-label">▶ Wyjście programu</div>
+                <div class="output-box">Ala, 12 lat, srednia 4.75
+Bartek, 13 lat, srednia 3.9</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="syntax-section" id="wektor-struktur">
+        <span class="section-label reveal">02 — Lista obiektów</span>
+        <h2 class="reveal">Wektor struktur i sortowanie</h2>
+        <p class="reveal">Pojedyncza struktura przydaje się rzadko. Prawdziwa siła pojawia się, gdy wsadzisz je do wektora — dostajesz <strong style="color:var(--accent-bright)">listę rzeczy</strong>, z których każda ma komplet cech i nic się nie rozjedzie.</p>
+
+        <div class="reveal">
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-dots"><span></span><span></span><span></span></div>
+                    <div class="code-block-title">lista.cpp</div>
+                </div>
+                <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;vector&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;string&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="kw">struct</span> <span class="var">Uczen</span> {
+    <span class="tp">string</span> <span class="var">imie</span><span class="op">;</span>
+    <span class="tp">int</span> <span class="var">ocena</span><span class="op">;</span>
+}<span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">int</span> <span class="var">n</span><span class="op">;</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">n</span><span class="op">;</span>
+
+    <span class="tp">vector</span><span class="op">&lt;</span><span class="var">Uczen</span><span class="op">&gt;</span> <span class="fn">klasa</span>(<span class="var">n</span>)<span class="op">;</span>
+
+    <span class="kw">for</span> (<span class="tp">int</span> <span class="var">i</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span> <span class="var">i</span> <span class="op">&lt;</span> <span class="var">n</span><span class="op">;</span> <span class="var">i</span><span class="op">++</span>) {
+        <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">klasa</span>[<span class="var">i</span>]<span class="op">.</span><span class="var">imie</span> <span class="op">&gt;&gt;</span> <span class="var">klasa</span>[<span class="var">i</span>]<span class="op">.</span><span class="var">ocena</span><span class="op">;</span>
+    }
+
+    <span class="cm">// kto ma piatke?</span>
+    <span class="kw">for</span> (<span class="tp">int</span> <span class="var">i</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span> <span class="var">i</span> <span class="op">&lt;</span> <span class="var">n</span><span class="op">;</span> <span class="var">i</span><span class="op">++</span>) {
+        <span class="kw">if</span> (<span class="var">klasa</span>[<span class="var">i</span>]<span class="op">.</span><span class="var">ocena</span> <span class="op">==</span> <span class="num">5</span>) {
+            <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">klasa</span>[<span class="var">i</span>]<span class="op">.</span><span class="var">imie</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+        }
+    }
+
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+            </div>
+            <div class="output-label">▶ Wyjście programu</div>
+            <div class="output-box">Wejście:
+3
+Ala 5
+Bartek 3
+Cela 5
+
+Ala
+Cela</div>
+        </div>
+
+        <p class="reveal">Przy sortowaniu jest jedna różnica względem par. Pary C++ <strong style="color:var(--text-primary)">umie porównywać sam</strong>, bo wie, że najpierw <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">first</code>, potem <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">second</code>. Twojej struktury nie zna — nie ma pojęcia, czy ważniejsze jest imię czy ocena. Musisz mu to powiedzieć.</p>
+
+        <div class="two-col">
+            <div class="reveal reveal-left">
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-dots"><span></span><span></span><span></span></div>
+                        <div class="code-block-title">po_ocenie.cpp</div>
+                    </div>
+                    <pre><code><span class="pp">#include</span> <span class="inc">&lt;algorithm&gt;</span>
+
+<span class="tp">vector</span><span class="op">&lt;</span><span class="var">Uczen</span><span class="op">&gt;</span> <span class="var">klasa</span> <span class="op">=</span> {
+    {<span class="str">"Ala"</span><span class="op">,</span> <span class="num">5</span>}<span class="op">,</span> {<span class="str">"Bartek"</span><span class="op">,</span> <span class="num">3</span>}<span class="op">,</span> {<span class="str">"Cela"</span><span class="op">,</span> <span class="num">4</span>}
+}<span class="op">;</span>
+
+<span class="cm">// regula: kto ma stac przed kim?</span>
+<span class="fn">sort</span>(<span class="var">klasa</span><span class="op">.</span><span class="fn">begin</span>()<span class="op">,</span> <span class="var">klasa</span><span class="op">.</span><span class="fn">end</span>()<span class="op">,</span>
+     [](<span class="var">Uczen a</span><span class="op">,</span> <span class="var">Uczen b</span>) {
+         <span class="kw">return</span> <span class="var">a</span><span class="op">.</span><span class="var">ocena</span> <span class="op">&lt;</span> <span class="var">b</span><span class="op">.</span><span class="var">ocena</span><span class="op">;</span>
+     })<span class="op">;</span>
+
+<span class="kw">for</span> (<span class="var">Uczen u</span> <span class="op">:</span> <span class="var">klasa</span>)
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">u</span><span class="op">.</span><span class="var">imie</span> <span class="op">&lt;&lt;</span> <span class="str">" "</span> <span class="op">&lt;&lt;</span> <span class="var">u</span><span class="op">.</span><span class="var">ocena</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span></code></pre>
+                </div>
+                <div class="output-label">▶ Wyjście programu</div>
+                <div class="output-box">Bartek 3
+Cela 4
+Ala 5</div>
+            </div>
+            <div class="reveal reveal-right">
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-dots"><span></span><span></span><span></span></div>
+                        <div class="code-block-title">po_imieniu.cpp</div>
+                    </div>
+                    <pre><code><span class="pp">#include</span> <span class="inc">&lt;algorithm&gt;</span>
+
+<span class="tp">vector</span><span class="op">&lt;</span><span class="var">Uczen</span><span class="op">&gt;</span> <span class="var">klasa</span> <span class="op">=</span> {
+    {<span class="str">"Cela"</span><span class="op">,</span> <span class="num">4</span>}<span class="op">,</span> {<span class="str">"Ala"</span><span class="op">,</span> <span class="num">5</span>}<span class="op">,</span> {<span class="str">"Bartek"</span><span class="op">,</span> <span class="num">3</span>}
+}<span class="op">;</span>
+
+<span class="cm">// ta sama funkcja, inna regula</span>
+<span class="fn">sort</span>(<span class="var">klasa</span><span class="op">.</span><span class="fn">begin</span>()<span class="op">,</span> <span class="var">klasa</span><span class="op">.</span><span class="fn">end</span>()<span class="op">,</span>
+     [](<span class="var">Uczen a</span><span class="op">,</span> <span class="var">Uczen b</span>) {
+         <span class="kw">return</span> <span class="var">a</span><span class="op">.</span><span class="var">imie</span> <span class="op">&lt;</span> <span class="var">b</span><span class="op">.</span><span class="var">imie</span><span class="op">;</span>
+     })<span class="op">;</span>
+
+<span class="kw">for</span> (<span class="var">Uczen u</span> <span class="op">:</span> <span class="var">klasa</span>)
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">u</span><span class="op">.</span><span class="var">imie</span> <span class="op">&lt;&lt;</span> <span class="str">" "</span> <span class="op">&lt;&lt;</span> <span class="var">u</span><span class="op">.</span><span class="var">ocena</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span></code></pre>
+                </div>
+                <div class="output-label">▶ Wyjście programu</div>
+                <div class="output-box">Ala 5
+Bartek 3
+Cela 4</div>
+            </div>
+        </div>
+
+        <p class="reveal">Zmieniasz jedną linijkę w środku i sortujesz po czym innym. Reguła to zawsze odpowiedź na pytanie: <strong style="color:var(--text-primary)">„czy a ma stać przed b?”</strong>. Chcesz malejąco — odwracasz znak na <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">&gt;</code>.</p>
+    </section>
+
+    <section class="syntax-section" id="funkcje-i-struktury">
+        <span class="section-label reveal">03 — Struktury i funkcje</span>
+        <h2 class="reveal">Przekazywanie i metody</h2>
+        <p class="reveal">Strukturę przekazujesz do funkcji tak samo jak wszystko inne — i obowiązuje ta sama zasada co przy wektorach. Bez ampersanda funkcja dostaje <strong style="color:var(--accent-bright)">kopię</strong> wszystkich pól, z ampersandem — <strong style="color:var(--accent-bright)">oryginał</strong>.</p>
+
+        <div class="two-col">
+            <div class="reveal reveal-left">
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-dots"><span></span><span></span><span></span></div>
+                        <div class="code-block-title">przekazywanie.cpp</div>
+                    </div>
+                    <pre><code><span class="cm">// tylko czyta - const &amp;, bez kopiowania</span>
+<span class="tp">void</span> <span class="fn">wypisz</span>(<span class="kw">const</span> <span class="var">Uczen</span><span class="op">&amp;</span> <span class="var">u</span>) {
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">u</span><span class="op">.</span><span class="var">imie</span> <span class="op">&lt;&lt;</span> <span class="str">": "</span> <span class="op">&lt;&lt;</span> <span class="var">u</span><span class="op">.</span><span class="var">ocena</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+}
+
+<span class="cm">// zmienia oryginal - samo &amp;</span>
+<span class="tp">void</span> <span class="fn">podnies</span>(<span class="var">Uczen</span><span class="op">&amp;</span> <span class="var">u</span>) {
+    <span class="kw">if</span> (<span class="var">u</span><span class="op">.</span><span class="var">ocena</span> <span class="op">&lt;</span> <span class="num">6</span>) <span class="var">u</span><span class="op">.</span><span class="var">ocena</span><span class="op">++</span><span class="op">;</span>
+}
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="var">Uczen a</span> <span class="op">=</span> {<span class="str">"Ala"</span><span class="op">,</span> <span class="num">4</span>}<span class="op">;</span>
+
+    <span class="fn">wypisz</span>(<span class="var">a</span>)<span class="op">;</span>
+    <span class="fn">podnies</span>(<span class="var">a</span>)<span class="op">;</span>
+    <span class="fn">wypisz</span>(<span class="var">a</span>)<span class="op">;</span>
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+                </div>
+                <div class="output-label">▶ Wyjście programu</div>
+                <div class="output-box">Ala: 4
+Ala: 5</div>
+            </div>
+            <div class="reveal reveal-right">
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-dots"><span></span><span></span><span></span></div>
+                        <div class="code-block-title">funkcja_zwraca.cpp</div>
+                    </div>
+                    <pre><code><span class="cm">// funkcja moze tez ZWROCIC strukture</span>
+<span class="var">Uczen</span> <span class="fn">stworz</span>(<span class="tp">string</span> <span class="var">imie</span><span class="op">,</span> <span class="tp">int</span> <span class="var">ocena</span>) {
+    <span class="var">Uczen u</span><span class="op">;</span>
+    <span class="var">u</span><span class="op">.</span><span class="var">imie</span> <span class="op">=</span> <span class="var">imie</span><span class="op">;</span>
+    <span class="var">u</span><span class="op">.</span><span class="var">ocena</span> <span class="op">=</span> <span class="var">ocena</span><span class="op">;</span>
+    <span class="kw">return</span> <span class="var">u</span><span class="op">;</span>
+}
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="var">Uczen a</span> <span class="op">=</span> <span class="fn">stworz</span>(<span class="str">"Bartek"</span><span class="op">,</span> <span class="num">3</span>)<span class="op">;</span>
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">a</span><span class="op">.</span><span class="var">imie</span> <span class="op">&lt;&lt;</span> <span class="str">" "</span> <span class="op">&lt;&lt;</span> <span class="var">a</span><span class="op">.</span><span class="var">ocena</span><span class="op">;</span>
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+                </div>
+                <div class="output-label">▶ Wyjście programu</div>
+                <div class="output-box">Bartek 3</div>
+            </div>
+        </div>
+
+        <p class="reveal">Struktura może mieć też własne funkcje w środku — nazywa się je <strong style="color:var(--accent-bright)">metodami</strong>. Metoda widzi pola swojej struktury bez żadnych kropek i wywołuje się ją jak wszystko inne: <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">obiekt.metoda()</code>.</p>
+
+        <div class="reveal">
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-dots"><span></span><span></span><span></span></div>
+                    <div class="code-block-title">metody.cpp</div>
+                </div>
+                <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;string&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="kw">struct</span> <span class="var">Prostokat</span> {
+    <span class="tp">int</span> <span class="var">a</span><span class="op">,</span> <span class="var">b</span><span class="op">;</span>
+
+    <span class="cm">// metoda - widzi pola a i b wprost</span>
+    <span class="tp">int</span> <span class="fn">pole</span>() {
+        <span class="kw">return</span> <span class="var">a</span> <span class="op">*</span> <span class="var">b</span><span class="op">;</span>
+    }
+
+    <span class="tp">int</span> <span class="fn">obwod</span>() {
+        <span class="kw">return</span> <span class="num">2</span> <span class="op">*</span> (<span class="var">a</span> <span class="op">+</span> <span class="var">b</span>)<span class="op">;</span>
+    }
+
+    <span class="tp">bool</span> <span class="fn">czyKwadrat</span>() {
+        <span class="kw">return</span> <span class="var">a</span> <span class="op">==</span> <span class="var">b</span><span class="op">;</span>
+    }
+}<span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="var">Prostokat p</span> <span class="op">=</span> {<span class="num">3</span><span class="op">,</span> <span class="num">4</span>}<span class="op">;</span>
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Pole:   "</span> <span class="op">&lt;&lt;</span> <span class="var">p</span><span class="op">.</span><span class="fn">pole</span>() <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Obwod:  "</span> <span class="op">&lt;&lt;</span> <span class="var">p</span><span class="op">.</span><span class="fn">obwod</span>() <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Kwadrat: "</span> <span class="op">&lt;&lt;</span> <span class="var">p</span><span class="op">.</span><span class="fn">czyKwadrat</span>() <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+            </div>
+            <div class="output-label">▶ Wyjście programu</div>
+            <div class="output-box">Pole:   12
+Obwod:  14
+Kwadrat: 0</div>
+        </div>
+
+        <p class="reveal">Metody nie są konieczne — wszystko da się napisać zwykłymi funkcjami. Ale gdy funkcja dotyczy wyłącznie jednej struktury, w środku czyta się ją lepiej. To zresztą <strong style="color:var(--text-primary)">pierwszy krok w stronę klas</strong>, o których usłyszysz później.</p>
+    </section>
+
+    <section class="syntax-section" id="metody">
+        <span class="section-label reveal">04 — Ściąga</span>
+        <h2 class="reveal">Wszystko, co robi się ze strukturą</h2>
+        <p class="reveal">Dziesięć zapisów, które w praktyce wyczerpują temat struktur na poziomie pierwszych zadań.</p>
+
+        <div class="metody-wrap reveal">
+            <table class="metody">
+                <thead><tr><th>Zapis</th><th>Co robi</th><th>Uwaga</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td><code>struct Nazwa { ... };</code></td>
+                        <td>Deklaruje nowy typ.</td>
+                        <td>Średnik po klamrze!</td>
+                    </tr>
+                    <tr>
+                        <td><code>Nazwa zmienna;</code></td>
+                        <td>Tworzy obiekt tego typu.</td>
+                        <td>Pola mają na razie śmieci</td>
+                    </tr>
+                    <tr>
+                        <td><code>Nazwa z = {a, b, c};</code></td>
+                        <td>Tworzy i od razu wypełnia pola.</td>
+                        <td>W kolejności deklaracji</td>
+                    </tr>
+                    <tr>
+                        <td><code>z.pole</code></td>
+                        <td>Dostęp do pojedynczego pola.</td>
+                        <td>Czytasz i zapisujesz jak zmienną</td>
+                    </tr>
+                    <tr>
+                        <td><code>vector&lt;Nazwa&gt; v;</code></td>
+                        <td>Lista obiektów.</td>
+                        <td>Najczęstsze zastosowanie</td>
+                    </tr>
+                    <tr>
+                        <td><code>v.push_back({a, b});</code></td>
+                        <td>Dokłada nowy obiekt na koniec.</td>
+                        <td>Klamry zamiast konstruktora</td>
+                    </tr>
+                    <tr>
+                        <td><code>sort(v.begin(), v.end(), regula)</code></td>
+                        <td>Sortuje po wybranym polu.</td>
+                        <td>Reguła obowiązkowa — C++ sam nie wie</td>
+                    </tr>
+                    <tr>
+                        <td><code>[](Nazwa a, Nazwa b){ return a.pole &lt; b.pole; }</code></td>
+                        <td>Reguła: rosnąco po <code>pole</code>.</td>
+                        <td>Zamień na <code>&gt;</code> dla malejąco</td>
+                    </tr>
+                    <tr>
+                        <td><code>void f(const Nazwa&amp; z)</code></td>
+                        <td>Przekazanie bez kopiowania, tylko do odczytu.</td>
+                        <td>Domyślny wybór dla dużych struktur</td>
+                    </tr>
+                    <tr>
+                        <td><code>int metoda() { ... }</code></td>
+                        <td>Funkcja w środku struktury.</td>
+                        <td>Widzi pola bez kropki</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p class="reveal">Wiersz ósmy to cały przepis na sortowanie po dowolnym kryterium. Podmieniasz nazwę pola i znak porównania — i masz nową kolejność. Nic więcej nie trzeba pamiętać.</p>
+    </section>
+
+    <section class="syntax-section" id="zadania">
+        <span class="section-label reveal">05 — Przykładowe zadania</span>
+        <h2 class="reveal">Sprawdź się na zadaniach</h2>
+        <p class="reveal">Sześć zadań od najprostszego. Wszystkie opierają się na jednym schemacie: własny typ, wektor takich obiektów, jedno przejście albo jedno sortowanie. <strong style="color:var(--text-primary)">Najpierw spróbuj sam</strong>.</p>
+
+        <div class="zadania-grid">
+            <div class="zadanie reveal">
+                <div class="zadanie-gora">
+                    <span class="zadanie-poziom poz-latwe">Łatwe</span>
+                    <span class="zadanie-tytul">Jeden punkt</span>
+                </div>
+                <div class="zadanie-tresc">Zdefiniuj strukturę <code>Punkt</code> z polami <code>x</code> i <code>y</code>. Wczytaj jeden punkt i wypisz go w formacie <code>(3, 5)</code>.</div>
+                <div class="zadanie-wsk"><strong>Jak to ugryźć:</strong> Zadanie na rozgrzewkę — chodzi o samą składnię. Pamiętaj o średniku po zamykającej klamrze struktury.</div>
+                <details class="zadanie-rozw">
+                    <summary>Pokaż rozwiązanie</summary>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-dots"><span></span><span></span><span></span></div>
+                            <div class="code-block-title">punkt.cpp</div>
+                        </div>
+                        <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="kw">struct</span> <span class="var">Punkt</span> {
+    <span class="tp">int</span> <span class="var">x</span><span class="op">;</span>
+    <span class="tp">int</span> <span class="var">y</span><span class="op">;</span>
+}<span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="var">Punkt p</span><span class="op">;</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">p</span><span class="op">.</span><span class="var">x</span> <span class="op">&gt;&gt;</span> <span class="var">p</span><span class="op">.</span><span class="var">y</span><span class="op">;</span>
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"("</span> <span class="op">&lt;&lt;</span> <span class="var">p</span><span class="op">.</span><span class="var">x</span> <span class="op">&lt;&lt;</span> <span class="str">", "</span> <span class="op">&lt;&lt;</span> <span class="var">p</span><span class="op">.</span><span class="var">y</span> <span class="op">&lt;&lt;</span> <span class="str">")"</span><span class="op">;</span>
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+            <div class="zadanie reveal">
+                <div class="zadanie-gora">
+                    <span class="zadanie-poziom poz-latwe">Łatwe</span>
+                    <span class="zadanie-tytul">Lista uczniów</span>
+                </div>
+                <div class="zadanie-tresc">Wczytaj <code>n</code> uczniów (imię i ocena) i wypisz tylko tych, którzy mają ocenę wyższą niż 3.</div>
+                <div class="zadanie-wsk"><strong>Jak to ugryźć:</strong> Struktura z dwoma polami, wektor takich struktur i jedno przejście pętlą z <code>if</code>-em w środku. Żadnego sortowania.</div>
+                <details class="zadanie-rozw">
+                    <summary>Pokaż rozwiązanie</summary>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-dots"><span></span><span></span><span></span></div>
+                            <div class="code-block-title">uczniowie.cpp</div>
+                        </div>
+                        <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;vector&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;string&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="kw">struct</span> <span class="var">Uczen</span> {
+    <span class="tp">string</span> <span class="var">imie</span><span class="op">;</span>
+    <span class="tp">int</span> <span class="var">ocena</span><span class="op">;</span>
+}<span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">int</span> <span class="var">n</span><span class="op">;</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">n</span><span class="op">;</span>
+
+    <span class="tp">vector</span><span class="op">&lt;</span><span class="var">Uczen</span><span class="op">&gt;</span> <span class="fn">v</span>(<span class="var">n</span>)<span class="op">;</span>
+    <span class="kw">for</span> (<span class="tp">int</span> <span class="var">i</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span> <span class="var">i</span> <span class="op">&lt;</span> <span class="var">n</span><span class="op">;</span> <span class="var">i</span><span class="op">++</span>) {
+        <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">v</span>[<span class="var">i</span>]<span class="op">.</span><span class="var">imie</span> <span class="op">&gt;&gt;</span> <span class="var">v</span>[<span class="var">i</span>]<span class="op">.</span><span class="var">ocena</span><span class="op">;</span>
+    }
+
+    <span class="kw">for</span> (<span class="tp">int</span> <span class="var">i</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span> <span class="var">i</span> <span class="op">&lt;</span> <span class="var">n</span><span class="op">;</span> <span class="var">i</span><span class="op">++</span>) {
+        <span class="kw">if</span> (<span class="var">v</span>[<span class="var">i</span>]<span class="op">.</span><span class="var">ocena</span> <span class="op">&gt;</span> <span class="num">3</span>) {
+            <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">v</span>[<span class="var">i</span>]<span class="op">.</span><span class="var">imie</span> <span class="op">&lt;&lt;</span> <span class="str">" "</span> <span class="op">&lt;&lt;</span> <span class="var">v</span>[<span class="var">i</span>]<span class="op">.</span><span class="var">ocena</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+        }
+    }
+
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+            <div class="zadanie reveal">
+                <div class="zadanie-gora">
+                    <span class="zadanie-poziom poz-latwe">Łatwe</span>
+                    <span class="zadanie-tytul">Najlepszy uczeń</span>
+                </div>
+                <div class="zadanie-tresc">Wczytaj <code>n</code> uczniów (imię i liczba punktów) i wypisz imię tego, który ma najwięcej punktów.</div>
+                <div class="zadanie-wsk"><strong>Jak to ugryźć:</strong> Wzorzec rekordu, który znasz z tematu Max/Min — tylko że tym razem zapamiętujesz całą strukturę, a nie samą liczbę. Zacznij od pierwszego ucznia.</div>
+                <details class="zadanie-rozw">
+                    <summary>Pokaż rozwiązanie</summary>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-dots"><span></span><span></span><span></span></div>
+                            <div class="code-block-title">najlepszy.cpp</div>
+                        </div>
+                        <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;vector&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;string&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="kw">struct</span> <span class="var">Uczen</span> {
+    <span class="tp">string</span> <span class="var">imie</span><span class="op">;</span>
+    <span class="tp">int</span> <span class="var">punkty</span><span class="op">;</span>
+}<span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">int</span> <span class="var">n</span><span class="op">;</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">n</span><span class="op">;</span>
+
+    <span class="var">Uczen najlepszy</span><span class="op">;</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">najlepszy</span><span class="op">.</span><span class="var">imie</span> <span class="op">&gt;&gt;</span> <span class="var">najlepszy</span><span class="op">.</span><span class="var">punkty</span><span class="op">;</span>
+
+    <span class="kw">for</span> (<span class="tp">int</span> <span class="var">i</span> <span class="op">=</span> <span class="num">1</span><span class="op">;</span> <span class="var">i</span> <span class="op">&lt;</span> <span class="var">n</span><span class="op">;</span> <span class="var">i</span><span class="op">++</span>) {
+        <span class="var">Uczen u</span><span class="op">;</span>
+        <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">u</span><span class="op">.</span><span class="var">imie</span> <span class="op">&gt;&gt;</span> <span class="var">u</span><span class="op">.</span><span class="var">punkty</span><span class="op">;</span>
+
+        <span class="kw">if</span> (<span class="var">u</span><span class="op">.</span><span class="var">punkty</span> <span class="op">&gt;</span> <span class="var">najlepszy</span><span class="op">.</span><span class="var">punkty</span>) {
+            <span class="var">najlepszy</span> <span class="op">=</span> <span class="var">u</span><span class="op">;</span>          <span class="cm">// cala strukture naraz</span>
+        }
+    }
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">najlepszy</span><span class="op">.</span><span class="var">imie</span><span class="op">;</span>
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+            <div class="zadanie reveal">
+                <div class="zadanie-gora">
+                    <span class="zadanie-poziom poz-srednie">Średnie</span>
+                    <span class="zadanie-tytul">Sortowanie po wybranym polu</span>
+                </div>
+                <div class="zadanie-tresc">Wczytaj <code>n</code> książek (tytuł, autor, liczba stron). Wypisz je posortowane rosnąco po liczbie stron, a przy remisie alfabetycznie po tytule.</div>
+                <div class="zadanie-wsk"><strong>Jak to ugryźć:</strong> Jedna lambda z dwoma krokami: najpierw porównaj strony, a gdy są równe — porównaj tytuły. Wzorzec <code>if (a.pole != b.pole) return ...; return ...;</code> działa dla dowolnej liczby kryteriów.</div>
+                <details class="zadanie-rozw">
+                    <summary>Pokaż rozwiązanie</summary>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-dots"><span></span><span></span><span></span></div>
+                            <div class="code-block-title">ksiazki.cpp</div>
+                        </div>
+                        <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;vector&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;algorithm&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;string&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="kw">struct</span> <span class="var">Ksiazka</span> {
+    <span class="tp">string</span> <span class="var">tytul</span><span class="op">;</span>
+    <span class="tp">string</span> <span class="var">autor</span><span class="op">;</span>
+    <span class="tp">int</span> <span class="var">strony</span><span class="op">;</span>
+}<span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">int</span> <span class="var">n</span><span class="op">;</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">n</span><span class="op">;</span>
+
+    <span class="tp">vector</span><span class="op">&lt;</span><span class="var">Ksiazka</span><span class="op">&gt;</span> <span class="fn">v</span>(<span class="var">n</span>)<span class="op">;</span>
+    <span class="kw">for</span> (<span class="tp">int</span> <span class="var">i</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span> <span class="var">i</span> <span class="op">&lt;</span> <span class="var">n</span><span class="op">;</span> <span class="var">i</span><span class="op">++</span>) {
+        <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">v</span>[<span class="var">i</span>]<span class="op">.</span><span class="var">tytul</span> <span class="op">&gt;&gt;</span> <span class="var">v</span>[<span class="var">i</span>]<span class="op">.</span><span class="var">autor</span> <span class="op">&gt;&gt;</span> <span class="var">v</span>[<span class="var">i</span>]<span class="op">.</span><span class="var">strony</span><span class="op">;</span>
+    }
+
+    <span class="fn">sort</span>(<span class="var">v</span><span class="op">.</span><span class="fn">begin</span>()<span class="op">,</span> <span class="var">v</span><span class="op">.</span><span class="fn">end</span>()<span class="op">,</span> [](<span class="var">Ksiazka a</span><span class="op">,</span> <span class="var">Ksiazka b</span>) {
+        <span class="kw">if</span> (<span class="var">a</span><span class="op">.</span><span class="var">strony</span> <span class="op">!=</span> <span class="var">b</span><span class="op">.</span><span class="var">strony</span>) <span class="kw">return</span> <span class="var">a</span><span class="op">.</span><span class="var">strony</span> <span class="op">&lt;</span> <span class="var">b</span><span class="op">.</span><span class="var">strony</span><span class="op">;</span>
+        <span class="kw">return</span> <span class="var">a</span><span class="op">.</span><span class="var">tytul</span> <span class="op">&lt;</span> <span class="var">b</span><span class="op">.</span><span class="var">tytul</span><span class="op">;</span>
+    })<span class="op">;</span>
+
+    <span class="kw">for</span> (<span class="var">Ksiazka k</span> <span class="op">:</span> <span class="var">v</span>) {
+        <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">k</span><span class="op">.</span><span class="var">strony</span> <span class="op">&lt;&lt;</span> <span class="str">" "</span> <span class="op">&lt;&lt;</span> <span class="var">k</span><span class="op">.</span><span class="var">tytul</span> <span class="op">&lt;&lt;</span> <span class="str">" "</span> <span class="op">&lt;&lt;</span> <span class="var">k</span><span class="op">.</span><span class="var">autor</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+    }
+
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+            <div class="zadanie reveal">
+                <div class="zadanie-gora">
+                    <span class="zadanie-poziom poz-srednie">Średnie</span>
+                    <span class="zadanie-tytul">Prostokąty z metodami</span>
+                </div>
+                <div class="zadanie-tresc">Zdefiniuj strukturę <code>Prostokat</code> z polami <code>a</code> i <code>b</code> oraz metodami <code>pole()</code> i <code>obwod()</code>. Wczytaj <code>n</code> prostokątów i wypisz ten o największym polu.</div>
+                <div class="zadanie-wsk"><strong>Jak to ugryźć:</strong> Metoda to zwykła funkcja napisana w środku struktury — widzi pola bez kropki. Wywołujesz ją jako <code>p.pole()</code>, z nawiasami.</div>
+                <details class="zadanie-rozw">
+                    <summary>Pokaż rozwiązanie</summary>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-dots"><span></span><span></span><span></span></div>
+                            <div class="code-block-title">prostokaty.cpp</div>
+                        </div>
+                        <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;vector&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="kw">struct</span> <span class="var">Prostokat</span> {
+    <span class="tp">int</span> <span class="var">a</span><span class="op">,</span> <span class="var">b</span><span class="op">;</span>
+
+    <span class="tp">int</span> <span class="fn">pole</span>()  { <span class="kw">return</span> <span class="var">a</span> <span class="op">*</span> <span class="var">b</span><span class="op">;</span> }
+    <span class="tp">int</span> <span class="fn">obwod</span>() { <span class="kw">return</span> <span class="num">2</span> <span class="op">*</span> (<span class="var">a</span> <span class="op">+</span> <span class="var">b</span>)<span class="op">;</span> }
+}<span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">int</span> <span class="var">n</span><span class="op">;</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">n</span><span class="op">;</span>
+
+    <span class="var">Prostokat najwiekszy</span><span class="op">;</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">najwiekszy</span><span class="op">.</span><span class="var">a</span> <span class="op">&gt;&gt;</span> <span class="var">najwiekszy</span><span class="op">.</span><span class="var">b</span><span class="op">;</span>
+
+    <span class="kw">for</span> (<span class="tp">int</span> <span class="var">i</span> <span class="op">=</span> <span class="num">1</span><span class="op">;</span> <span class="var">i</span> <span class="op">&lt;</span> <span class="var">n</span><span class="op">;</span> <span class="var">i</span><span class="op">++</span>) {
+        <span class="var">Prostokat p</span><span class="op">;</span>
+        <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">p</span><span class="op">.</span><span class="var">a</span> <span class="op">&gt;&gt;</span> <span class="var">p</span><span class="op">.</span><span class="var">b</span><span class="op">;</span>
+
+        <span class="kw">if</span> (<span class="var">p</span><span class="op">.</span><span class="fn">pole</span>() <span class="op">&gt;</span> <span class="var">najwiekszy</span><span class="op">.</span><span class="fn">pole</span>()) {
+            <span class="var">najwiekszy</span> <span class="op">=</span> <span class="var">p</span><span class="op">;</span>
+        }
+    }
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">najwiekszy</span><span class="op">.</span><span class="var">a</span> <span class="op">&lt;&lt;</span> <span class="str">"x"</span> <span class="op">&lt;&lt;</span> <span class="var">najwiekszy</span><span class="op">.</span><span class="var">b</span>
+         <span class="op">&lt;&lt;</span> <span class="str">" pole "</span> <span class="op">&lt;&lt;</span> <span class="var">najwiekszy</span><span class="op">.</span><span class="fn">pole</span>()
+         <span class="op">&lt;&lt;</span> <span class="str">" obwod "</span> <span class="op">&lt;&lt;</span> <span class="var">najwiekszy</span><span class="op">.</span><span class="fn">obwod</span>()<span class="op">;</span>
+
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+            <div class="zadanie reveal">
+                <div class="zadanie-gora">
+                    <span class="zadanie-poziom poz-trudne">Trudne</span>
+                    <span class="zadanie-tytul">Ile spotkań się zmieści</span>
+                </div>
+                <div class="zadanie-tresc">Wczytaj <code>n</code> spotkań, każde z godziną początku i końca. Ile najwięcej z nich da się odbyć jedno po drugim, jeśli nie mogą na siebie zachodzić?</div>
+                <div class="zadanie-wsk"><strong>Jak to ugryźć:</strong> Sztuczka polega na kolejności: posortuj spotkania po <strong style="color:var(--text-primary)">godzinie zakończenia</strong>, a potem bierz po kolei każde, które zaczyna się nie wcześniej niż skończyło poprzednie wybrane. Sortowanie po godzinie rozpoczęcia dałoby gorszy wynik — jedno długie spotkanie na starcie zablokowałoby resztę dnia.</div>
+                <details class="zadanie-rozw">
+                    <summary>Pokaż rozwiązanie</summary>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-dots"><span></span><span></span><span></span></div>
+                            <div class="code-block-title">spotkania.cpp</div>
+                        </div>
+                        <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;vector&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;algorithm&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="kw">struct</span> <span class="var">Spotkanie</span> {
+    <span class="tp">int</span> <span class="var">start</span><span class="op">;</span>
+    <span class="tp">int</span> <span class="var">koniec</span><span class="op">;</span>
+}<span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">int</span> <span class="var">n</span><span class="op">;</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">n</span><span class="op">;</span>
+
+    <span class="tp">vector</span><span class="op">&lt;</span><span class="var">Spotkanie</span><span class="op">&gt;</span> <span class="fn">v</span>(<span class="var">n</span>)<span class="op">;</span>
+    <span class="kw">for</span> (<span class="tp">int</span> <span class="var">i</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span> <span class="var">i</span> <span class="op">&lt;</span> <span class="var">n</span><span class="op">;</span> <span class="var">i</span><span class="op">++</span>) {
+        <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">v</span>[<span class="var">i</span>]<span class="op">.</span><span class="var">start</span> <span class="op">&gt;&gt;</span> <span class="var">v</span>[<span class="var">i</span>]<span class="op">.</span><span class="var">koniec</span><span class="op">;</span>
+    }
+
+    <span class="cm">// klucz: sortujemy po KONCU</span>
+    <span class="fn">sort</span>(<span class="var">v</span><span class="op">.</span><span class="fn">begin</span>()<span class="op">,</span> <span class="var">v</span><span class="op">.</span><span class="fn">end</span>()<span class="op">,</span> [](<span class="var">Spotkanie a</span><span class="op">,</span> <span class="var">Spotkanie b</span>) {
+        <span class="kw">return</span> <span class="var">a</span><span class="op">.</span><span class="var">koniec</span> <span class="op">&lt;</span> <span class="var">b</span><span class="op">.</span><span class="var">koniec</span><span class="op">;</span>
+    })<span class="op">;</span>
+
+    <span class="tp">int</span> <span class="var">ile</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
+    <span class="tp">int</span> <span class="var">wolnyOd</span> <span class="op">= -</span><span class="num">1000000</span><span class="op">;</span>
+
+    <span class="kw">for</span> (<span class="tp">int</span> <span class="var">i</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span> <span class="var">i</span> <span class="op">&lt;</span> <span class="var">n</span><span class="op">;</span> <span class="var">i</span><span class="op">++</span>) {
+        <span class="kw">if</span> (<span class="var">v</span>[<span class="var">i</span>]<span class="op">.</span><span class="var">start</span> <span class="op">&gt;=</span> <span class="var">wolnyOd</span>) {
+            <span class="var">ile</span><span class="op">++</span><span class="op">;</span>
+            <span class="var">wolnyOd</span> <span class="op">=</span> <span class="var">v</span>[<span class="var">i</span>]<span class="op">.</span><span class="var">koniec</span><span class="op">;</span>
+        }
+    }
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">ile</span><span class="op">;</span>
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <section class="tips-section" id="porady">
+        <span class="section-label reveal">06 — Porady</span>
+        <h2 class="reveal">Częste błędy i dobre praktyki</h2>
+        <div class="tips-grid">
+                <div class="tip-card reveal">
+                    <div class="tip-icon">❗</div>
+                    <div class="tip-title">Średnik po klamrze</div>
+                    <div class="tip-text"><code>struct Nazwa { ... };</code> — bez tego średnika kompilator zgłosi dziwny błąd, i to zwykle w następnej linijce.</div>
+                </div>
+                <div class="tip-card reveal">
+                    <div class="tip-icon">🔢</div>
+                    <div class="tip-title">Kolejność przy klamrach</div>
+                    <div class="tip-text"><code>Uczen u = {"Ala", 12, 4.5};</code> wypełnia pola w kolejności <strong style="color:var(--text-primary)">deklaracji</strong>. Zamiana pól miejscami w strukturze cicho zepsuje wszystkie takie zapisy.</div>
+                </div>
+                <div class="tip-card reveal">
+                    <div class="tip-icon">⚖️</div>
+                    <div class="tip-title">Sortowanie wymaga reguły</div>
+                    <div class="tip-text">C++ nie wie, po którym polu chcesz sortować. Podaj lambdę jako trzeci argument <code>sort</code>.</div>
+                </div>
+                <div class="tip-card reveal">
+                    <div class="tip-icon">🔗</div>
+                    <div class="tip-title">Przekazuj przez referencję</div>
+                    <div class="tip-text"><code>const Uczen&amp; u</code> nie kopiuje wszystkich pól. Przy strukturze z wektorem w środku różnica bywa ogromna.</div>
+                </div>
+                <div class="tip-card reveal">
+                    <div class="tip-icon">🤔</div>
+                    <div class="tip-title">struct czy pair?</div>
+                    <div class="tip-text">Dwa pola o oczywistym znaczeniu — <code>pair</code> wystarczy. Trzy pola albo nazwy, które trzeba pamiętać — <code>struct</code>.</div>
+                </div>
+                <div class="tip-card reveal">
+                    <div class="tip-icon">📛</div>
+                    <div class="tip-title">Nazywaj pola po ludzku</div>
+                    <div class="tip-text"><code>u.ocena</code> mówi wszystko, <code>u.x2</code> nie mówi nic. To główna przewaga struktury nad parą — nie zmarnuj jej.</div>
+                </div>
+        </div>
+    </section>
+
+</main>
+
+<div class="divider"></div>
+
+<main>
+
+    <div class="cta-banner reveal">
+        <span class="section-label" style="display:block;text-align:center;margin-bottom:12px;">07 — Idź dalej</span>
+        <h2>Gotowy na więcej?</h2>
+        <p>Dołącz do T-Olimpians i trenuj z doświadczonymi mentorami. Zbuduj bazę, która prowadzi do finałów OI.</p>
+        <div class="hero-actions">
+            <a class="btn-primary" href="../index.html#contact-section">Zapisz się teraz</a>
+            <a class="btn-ghost" href="../materialy.html">← Wróć do materiałów</a>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <span>© 2025 T-Olimpians Team Poland</span>
+    <span style="color: var(--text-muted);">
+        <a href="../index.html" style="color:var(--text-muted);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--accent-bright)'" onmouseout="this.style.color='var(--text-muted)'">Home</a>
+        &nbsp;·&nbsp;
+        <a href="../materialy.html" style="color:var(--text-muted);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--accent-bright)'" onmouseout="this.style.color='var(--text-muted)'">Materiały</a>
+        &nbsp;·&nbsp;Stos (stack) · C++
+    </span>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    /* ── PARTICLES ── */
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    let W, H, dots = [];
+    function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+    resize();
+    window.addEventListener('resize', () => { resize(); spawnDots(); });
+    function spawnDots() {
+        dots = [];
+        const count = Math.floor((W * H) / 18000);
+        for (let i = 0; i < count; i++) {
+            dots.push({ x: Math.random()*W, y: Math.random()*H, r: Math.random()*1.4+0.3, vx: (Math.random()-0.5)*0.3, vy: (Math.random()-0.5)*0.3, alpha: Math.random()*0.5+0.2 });
+        }
+    }
+    spawnDots();
+    const LINK_DIST = 120;
+    function drawParticles() {
+        ctx.clearRect(0, 0, W, H);
+        for (let i = 0; i < dots.length; i++) {
+            const d = dots[i];
+            d.x += d.vx; d.y += d.vy;
+            if (d.x < 0) d.x = W; if (d.x > W) d.x = 0;
+            if (d.y < 0) d.y = H; if (d.y > H) d.y = 0;
+            ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, Math.PI*2);
+            ctx.fillStyle = `rgba(96,165,250,${d.alpha})`; ctx.fill();
+            for (let j = i+1; j < dots.length; j++) {
+                const d2 = dots[j];
+                const dx = d.x-d2.x, dy = d.y-d2.y;
+                const dist = Math.sqrt(dx*dx+dy*dy);
+                if (dist < LINK_DIST) {
+                    ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d2.x, d2.y);
+                    ctx.strokeStyle = `rgba(59,130,246,${0.12*(1-dist/LINK_DIST)})`; ctx.lineWidth = 0.6; ctx.stroke();
+                }
+            }
+        }
+        requestAnimationFrame(drawParticles);
+    }
+    drawParticles();
+
+    /* ── SCROLL REVEAL ── */
+    const revealObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const parent = entry.target.closest('.part-cards, .tips-grid, .anatomy-grid');
+                let delay = 0;
+                if (parent) {
+                    const all = parent.querySelectorAll('.reveal');
+                    all.forEach((el, idx) => { if (el === entry.target) delay = idx * 100; });
+                }
+                setTimeout(() => entry.target.classList.add('visible'), delay);
+                revealObs.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+    /* ── NAVBAR SCROLL ── */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 40));
+
+    /* ── HAMBURGER ── */
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => {
+        navLinks.classList.toggle('open');
+        hamburger.classList.toggle('open');
+    });
+    document.querySelectorAll('.nav-close').forEach(a => {
+        a.addEventListener('click', () => {
+            navLinks.classList.remove('open');
+            hamburger.classList.remove('open');
+        });
+    });
+});
+</script>
+<script>
+/* Filmy OKI: klikniecie podmienia miniature na odtwarzacz w tym samym miejscu.
+   Bez JavaScriptu karta zostaje zwyklym linkiem do YouTube. */
+function okiWideo(el, id) {
+    var m = el.querySelector('.wideo-miniatura');
+    if (!m) return true;
+    m.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + id +
+        '?autoplay=1&rel=0" title="Film OKI" allow="accelerometer; autoplay; ' +
+        'clipboard-write; encrypted-media; gyroscope; picture-in-picture" ' +
+        'allowfullscreen></iframe>';
+    el.removeAttribute('href');
+    el.removeAttribute('target');
+    return false;
+}
+</script>
+<!-- licznik odwiedzin -> panel kacperos.html -->
+<script type="module" src="/track.js"></script>
+</body>
+</html>

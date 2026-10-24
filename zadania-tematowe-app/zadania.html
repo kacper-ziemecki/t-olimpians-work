@@ -1,0 +1,1786 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zadania treningowe — T-Olimpians</title>
+<meta name="description" content="Zadania treningowe do samodzielnego ćwiczenia przed Olimpiadą Informatyczną i OIJ.">
+<link rel="icon" href="../img/t-olimpians-logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --bg-base: #0a0a0f;
+        --bg-surface: #111118;
+        --bg-card: #15151e;
+        --bg-elevated: #1c1c28;
+        --accent: #3b82f6;
+        --accent-bright: #60a5fa;
+        --accent-glow: rgba(59, 130, 246, 0.25);
+        --accent-dim: rgba(59, 130, 246, 0.12);
+        --text-primary: #f0f0f8;
+        --text-secondary: #9090aa;
+        --text-muted: #55556a;
+        --border: rgba(255,255,255,0.07);
+        --border-accent: rgba(59, 130, 246, 0.3);
+        --font-display: 'Syne', sans-serif;
+        --font-body: 'DM Sans', sans-serif;
+        --font-mono: 'JetBrains Mono', monospace;
+        --radius-sm: 8px;
+        --radius-md: 14px;
+        --radius-lg: 20px;
+        --ok: #34d399;
+        --warn: #f59e0b;
+        --danger: #f87171;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+        background-color: var(--bg-base);
+        color: var(--text-primary);
+        font-family: var(--font-body);
+        line-height: 1.6;
+        min-height: 100vh;
+    }
+    body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 0;
+        opacity: 0.6;
+    }
+
+    a { color: inherit; }
+
+    /* ─── NAVBAR ─── */
+    .navbar {
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        z-index: 100;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 48px;
+        height: 68px;
+        background: rgba(10, 10, 15, 0.75);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border);
+    }
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+    }
+    .logo-mark {
+        width: 34px; height: 34px;
+        border-radius: 9px;
+        object-fit: cover;
+        flex-shrink: 0;
+    }
+    .logo-text {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 15px;
+        letter-spacing: 0.01em;
+    }
+    .nav-links {
+        list-style: none;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+    .nav-links a {
+        text-decoration: none;
+        color: var(--text-secondary);
+        font-size: 14px;
+        font-weight: 500;
+        padding: 8px 16px;
+        border-radius: var(--radius-sm);
+        transition: color 0.2s, background 0.2s;
+        letter-spacing: 0.02em;
+    }
+    .nav-links a:hover { color: var(--text-primary); background: var(--accent-dim); }
+    .nav-links .active a { color: var(--accent-bright); background: var(--accent-dim); }
+
+    /* ─── TOOLBAR ─── */
+    main {
+        padding: 118px 80px 100px;
+        max-width: 1280px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+    }
+    .toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        margin-bottom: 36px;
+        padding-bottom: 28px;
+        border-bottom: 1px solid var(--border);
+    }
+    .toolbar input[type="search"],
+    .toolbar select {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        color: var(--text-primary);
+        font-family: var(--font-body);
+        font-size: 14px;
+        padding: 11px 16px;
+        border-radius: var(--radius-sm);
+        outline: none;
+        transition: border-color 0.2s;
+    }
+    .toolbar input[type="search"] { flex: 1; min-width: 200px; }
+    .toolbar input[type="search"]:focus,
+    .toolbar select:focus { border-color: var(--border-accent); }
+    .toolbar select { cursor: pointer; }
+    .toolbar .count {
+        margin-left: auto;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--text-muted);
+        letter-spacing: 0.05em;
+        white-space: nowrap;
+    }
+
+    /* ─── TASK LIST ─── */
+    #taskList { display: flex; flex-direction: column; gap: 16px; }
+
+    .task-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        overflow: hidden;
+        transition: border-color 0.25s ease;
+    }
+    .task-card:hover { border-color: var(--border-accent); }
+
+    .task-head {
+        display: flex;
+        align-items: flex-start;
+        gap: 18px;
+        padding: 22px 26px;
+        cursor: pointer;
+        user-select: none;
+    }
+    .task-num {
+        font-family: var(--font-mono);
+        font-size: 13px;
+        color: var(--text-muted);
+        padding-top: 3px;
+        flex-shrink: 0;
+        width: 34px;
+    }
+    .task-head-main { flex: 1; min-width: 0; }
+    .task-title-row {
+        display: flex;
+        align-items: baseline;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 8px;
+    }
+    .task-title-row h3 {
+        font-family: var(--font-display);
+        font-size: 19px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+    }
+    .task-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+        color: var(--text-muted);
+        font-size: 13px;
+    }
+    .task-meta .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--text-muted); }
+    .task-limits {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        align-items: flex-end;
+        flex-shrink: 0;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--text-secondary);
+        padding-top: 3px;
+    }
+    .task-limits span b { color: var(--text-primary); font-weight: 500; }
+    .chevron {
+        flex-shrink: 0;
+        width: 18px; height: 18px;
+        margin-top: 5px;
+        transition: transform 0.3s ease;
+        color: var(--text-muted);
+    }
+    .task-card.open .chevron { transform: rotate(180deg); color: var(--accent-bright); }
+    .link-copy-btn {
+        flex-shrink: 0;
+        width: 30px; height: 30px;
+        margin-top: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: color 0.2s, border-color 0.2s, background 0.2s;
+    }
+    .link-copy-btn:hover {
+        color: var(--accent-bright);
+        border-color: var(--border-accent);
+        background: var(--accent-dim);
+    }
+    .link-copy-btn svg { width: 15px; height: 15px; }
+    .link-copy-btn.copied { color: var(--ok); border-color: rgba(52,211,153,0.35); }
+
+    .copy-link-bottom {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        margin-top: 26px;
+        background: transparent;
+        border: 1px solid var(--border-accent);
+        color: var(--accent-bright);
+        font-family: var(--font-body);
+        font-size: 13.5px;
+        font-weight: 500;
+        padding: 10px 18px;
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+    .copy-link-bottom svg { width: 15px; height: 15px; flex-shrink: 0; }
+    .copy-link-bottom:hover { background: var(--accent-dim); }
+    .copy-link-bottom.copied { color: var(--ok); border-color: rgba(52,211,153,0.35); }
+
+    .task-card.highlight-target {
+        animation: highlightPulse 1.6s ease;
+    }
+    @keyframes highlightPulse {
+        0% { border-color: var(--accent-bright); box-shadow: 0 0 0 3px var(--accent-glow); }
+        100% { border-color: var(--border); box-shadow: none; }
+    }
+
+    #linkToast {
+        position: fixed;
+        bottom: 28px;
+        left: 50%;
+        transform: translateX(-50%) translateY(12px);
+        background: var(--bg-elevated);
+        border: 1px solid var(--border-accent);
+        color: var(--text-primary);
+        font-family: var(--font-mono);
+        font-size: 13px;
+        padding: 12px 22px;
+        border-radius: 100px;
+        box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s ease, transform 0.25s ease;
+        z-index: 200;
+    }
+    #linkToast.shown {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+
+    .task-body {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s cubic-bezier(0.16,1,0.3,1);
+    }
+    .task-card.open .task-body { max-height: 4000px; }
+    /* Tryb ręczny i rozwinięte wyniki testów potrafią przekroczyć 4000px — wtedy bez limitu. */
+    .task-card.open .task-body:has(.manual-mode.shown, .judge-row.open) { max-height: none; }
+    .task-body-inner {
+        padding: 4px 26px 30px 78px;
+        border-top: 1px solid var(--border);
+        margin: 0 26px;
+        padding-left: 0;
+    }
+    .task-body-inner { padding: 22px 0 30px; margin: 0 26px; }
+
+    .task-section { margin-bottom: 22px; }
+    .task-section:last-child { margin-bottom: 0; }
+    .task-section h4 {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--accent-bright);
+        margin-bottom: 10px;
+    }
+    .task-section p {
+        color: var(--text-secondary);
+        font-size: 14.5px;
+        line-height: 1.75;
+        margin-bottom: 10px;
+    }
+    .task-section p:last-child { margin-bottom: 0; }
+    .task-section ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    .task-section ul li {
+        color: var(--text-secondary);
+        font-size: 14px;
+        line-height: 1.6;
+        padding-left: 18px;
+        position: relative;
+        font-family: var(--font-mono);
+    }
+    .task-section ul li::before {
+        content: '';
+        position: absolute;
+        left: 0; top: 8px;
+        width: 5px; height: 5px;
+        border-radius: 50%;
+        background: var(--accent-bright);
+    }
+
+    .example-block {
+        background: var(--bg-elevated);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 16px 18px;
+        margin-bottom: 12px;
+    }
+    .example-block:last-child { margin-bottom: 0; }
+    .example-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+    }
+    .example-col span {
+        display: block;
+        font-family: var(--font-mono);
+        font-size: 10.5px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        margin-bottom: 6px;
+    }
+    .example-col pre {
+        font-family: var(--font-mono);
+        font-size: 13px;
+        color: var(--text-primary);
+        white-space: pre-wrap;
+        word-break: break-word;
+        line-height: 1.6;
+    }
+    .example-note {
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px solid var(--border);
+        font-size: 13px;
+        color: var(--text-muted);
+        line-height: 1.6;
+    }
+
+    .hint-box {
+        border: 1px dashed var(--border-accent);
+        border-radius: var(--radius-sm);
+        padding: 12px 16px;
+    }
+    .hint-box summary {
+        cursor: pointer;
+        list-style: none;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--accent-bright);
+        user-select: none;
+    }
+    .hint-box summary::-webkit-details-marker { display: none; }
+    .hint-box summary::before {
+        content: '▸';
+        display: inline-block;
+        margin-right: 8px;
+        transition: transform 0.2s ease;
+    }
+    .hint-box[open] summary::before { transform: rotate(90deg); }
+    .hint-box[open] summary { margin-bottom: 10px; }
+
+    /* ─── SUBMIT / TESTY ─── */
+    .submit-section {
+        margin-top: 30px;
+        padding-top: 24px;
+        border-top: 1px solid var(--border);
+    }
+    .submit-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 12px;
+    }
+    .submit-head h4 {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--accent-bright);
+    }
+    .local-tests-intro {
+        font-size: 13px;
+        color: var(--text-secondary);
+        line-height: 1.6;
+        margin-bottom: 18px;
+    }
+    .local-test-case {
+        background: var(--bg-elevated);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 14px 16px 16px;
+        margin-bottom: 14px;
+    }
+    .local-test-case-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        font-family: var(--font-mono);
+        font-size: 12.5px;
+        margin-bottom: 10px;
+    }
+    .test-badge.pending { color: var(--text-muted); background: rgba(148,163,184,0.12); }
+    .io-label-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        margin-bottom: 6px;
+    }
+    .io-label-row span {
+        display: block;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+    }
+    .test-io-grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+    }
+    .mini-copy-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--text-muted);
+        font-family: var(--font-mono);
+        font-size: 10.5px;
+        letter-spacing: 0.02em;
+        padding: 3px 8px;
+        border-radius: 100px;
+        cursor: pointer;
+        transition: border-color 0.2s, color 0.2s, background 0.2s;
+        flex-shrink: 0;
+    }
+    .mini-copy-btn:hover { border-color: var(--border-accent); color: var(--text-primary); }
+    .mini-copy-btn.copied { color: var(--ok); border-color: rgba(52,211,153,0.35); }
+    .paste-output-wrap { margin-top: 12px; }
+    .paste-output-editor {
+        width: 100%;
+        min-height: 90px;
+        resize: vertical;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        color: var(--text-primary);
+        font-family: var(--font-mono);
+        font-size: 12.5px;
+        line-height: 1.6;
+        padding: 8px 10px;
+        outline: none;
+        transition: border-color 0.2s;
+    }
+    .paste-output-editor:focus { border-color: var(--border-accent); }
+    .paste-output-editor::placeholder { color: var(--text-muted); }
+    .paste-output-editor.io-pass { border-color: rgba(52,211,153,0.45); }
+    .paste-output-editor.io-fail { border-color: rgba(248,113,113,0.45); }
+
+    .submit-actions {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-top: 14px;
+        flex-wrap: wrap;
+    }
+    .submit-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        background: var(--accent);
+        border: 1px solid var(--accent);
+        color: #fff;
+        font-family: var(--font-body);
+        font-size: 14px;
+        font-weight: 600;
+        padding: 11px 22px;
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        transition: background 0.2s, box-shadow 0.2s, transform 0.05s;
+    }
+    .submit-btn:hover { background: var(--accent-bright); box-shadow: 0 4px 18px var(--accent-glow); }
+    .submit-btn:active { transform: translateY(1px); }
+    .submit-btn:disabled {
+        background: var(--bg-elevated);
+        border-color: var(--border);
+        color: var(--text-muted);
+        cursor: wait;
+        box-shadow: none;
+    }
+    .submit-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+    .submit-status {
+        font-family: var(--font-mono);
+        font-size: 12.5px;
+        color: var(--text-muted);
+    }
+
+    .test-results { margin-top: 18px; display: flex; flex-direction: column; gap: 10px; }
+    .test-summary {
+        font-family: var(--font-mono);
+        font-size: 13px;
+        padding: 10px 16px;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--border);
+        background: var(--bg-elevated);
+        color: var(--text-secondary);
+    }
+    .test-summary.all-pass { border-color: rgba(52,211,153,0.35); color: var(--ok); }
+    .test-summary.some-fail { border-color: rgba(248,113,113,0.35); color: var(--danger); }
+
+    .test-case {
+        background: var(--bg-elevated);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        overflow: hidden;
+    }
+    .test-case-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 10px 16px;
+        cursor: pointer;
+        user-select: none;
+        font-family: var(--font-mono);
+        font-size: 12.5px;
+    }
+    .test-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+        padding: 3px 10px;
+        border-radius: 100px;
+        font-size: 11px;
+    }
+    .test-badge.pass { color: var(--ok); background: rgba(52,211,153,0.12); }
+    .test-badge.fail { color: var(--danger); background: rgba(248,113,113,0.12); }
+    .test-case-body {
+        display: none;
+        padding: 4px 16px 16px;
+        border-top: 1px solid var(--border);
+    }
+    .test-case.open .test-case-body { display: block; }
+    .test-case-head .chevron-small {
+        width: 14px; height: 14px;
+        color: var(--text-muted);
+        transition: transform 0.2s ease;
+        flex-shrink: 0;
+    }
+    .test-case.open .test-case-head .chevron-small { transform: rotate(180deg); }
+    .test-io-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 14px;
+        margin-top: 12px;
+    }
+    .test-io-grid > div span {
+        display: block;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        margin-bottom: 6px;
+    }
+    .test-io-grid pre, .test-io-grid-2 pre {
+        font-family: var(--font-mono);
+        font-size: 12.5px;
+        color: var(--text-primary);
+        white-space: pre-wrap;
+        word-break: break-word;
+        line-height: 1.6;
+        max-height: 160px;
+        overflow: auto;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 8px 10px;
+    }
+    .test-io-grid pre.actual-fail { border-color: rgba(248,113,113,0.4); }
+    .test-error-msg {
+        margin-top: 10px;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--danger);
+        white-space: pre-wrap;
+        word-break: break-word;
+    }
+
+    @media (max-width: 720px) {
+        .test-io-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ─── SPRAWDZARKA C++ ─── */
+    .judge-intro {
+        font-size: 13px;
+        color: var(--text-secondary);
+        line-height: 1.6;
+        margin-bottom: 14px;
+    }
+    .judge-intro code {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        background: var(--bg-elevated);
+        border-radius: 4px;
+        padding: 1px 6px;
+        color: var(--accent-bright);
+    }
+    .code-editor {
+        width: 100%;
+        min-height: 240px;
+        resize: vertical;
+        display: block;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        color: var(--text-primary);
+        font-family: var(--font-mono);
+        font-size: 13px;
+        line-height: 1.65;
+        padding: 14px 16px;
+        outline: none;
+        tab-size: 4;
+        white-space: pre;
+        overflow: auto;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .code-editor:focus { border-color: var(--border-accent); box-shadow: 0 0 0 3px var(--accent-dim); }
+    .code-editor::placeholder { color: var(--text-muted); }
+    .code-editor:disabled { opacity: 0.55; cursor: wait; }
+
+    .judge-toolbar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 6px;
+        margin-bottom: 12px;
+    }
+    .judge-toolbar .spacer { flex: 1 1 auto; }
+    .ghost-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--text-secondary);
+        font-family: var(--font-mono);
+        font-size: 11px;
+        letter-spacing: 0.03em;
+        padding: 6px 12px;
+        border-radius: 100px;
+        cursor: pointer;
+        transition: border-color 0.2s, color 0.2s;
+    }
+    .ghost-btn:hover { border-color: var(--border-accent); color: var(--text-primary); }
+    .ghost-btn svg { width: 13px; height: 13px; }
+
+    .judge-verdict {
+        display: none;
+        align-items: center;
+        gap: 12px;
+        margin-top: 16px;
+        padding: 14px 18px;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--border);
+        background: var(--bg-elevated);
+        font-family: var(--font-mono);
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        color: var(--text-secondary);
+    }
+    .judge-verdict.shown { display: flex; }
+    .judge-verdict .verdict-detail {
+        font-weight: 400;
+        font-size: 12px;
+        color: var(--text-muted);
+        letter-spacing: 0;
+    }
+    .judge-verdict.v-ok { border-color: rgba(52,211,153,0.4); background: rgba(52,211,153,0.07); color: var(--ok); }
+    .judge-verdict.v-bad { border-color: rgba(248,113,113,0.4); background: rgba(248,113,113,0.07); color: var(--danger); }
+    .judge-verdict.v-warn { border-color: rgba(245,158,11,0.4); background: rgba(245,158,11,0.07); color: var(--warn); }
+    .judge-verdict.v-run { border-color: var(--border-accent); background: var(--accent-dim); color: var(--accent-bright); }
+
+    .spinner {
+        width: 15px; height: 15px;
+        border: 2px solid currentColor;
+        border-right-color: transparent;
+        border-radius: 50%;
+        animation: judge-spin 0.7s linear infinite;
+        flex-shrink: 0;
+    }
+    @keyframes judge-spin { to { transform: rotate(360deg); } }
+
+    .judge-rows { margin-top: 14px; display: flex; flex-direction: column; gap: 8px; }
+    .judge-row {
+        background: var(--bg-elevated);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        overflow: hidden;
+    }
+    .judge-row-head {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 16px;
+        cursor: pointer;
+        user-select: none;
+        font-family: var(--font-mono);
+        font-size: 12.5px;
+    }
+    .judge-row-head .row-name { color: var(--text-secondary); min-width: 62px; }
+    .judge-row-head .row-time { margin-left: auto; color: var(--text-muted); font-size: 11.5px; }
+    .judge-row-head .chevron-small {
+        width: 14px; height: 14px;
+        color: var(--text-muted);
+        transition: transform 0.2s ease;
+        flex-shrink: 0;
+    }
+    .judge-row.open .chevron-small { transform: rotate(180deg); }
+    .judge-row-body {
+        display: none;
+        padding: 4px 16px 16px;
+        border-top: 1px solid var(--border);
+    }
+    .judge-row.open .judge-row-body { display: block; }
+    .judge-row.r-ok { border-color: rgba(52,211,153,0.28); }
+    .judge-row.r-bad { border-color: rgba(248,113,113,0.28); }
+    .judge-row.r-warn { border-color: rgba(245,158,11,0.28); }
+
+    .test-badge.running { color: var(--accent-bright); background: var(--accent-dim); }
+    .test-badge.warn { color: var(--warn); background: rgba(245,158,11,0.12); }
+
+    .compile-log {
+        margin-top: 14px;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        line-height: 1.65;
+        color: var(--danger);
+        white-space: pre-wrap;
+        word-break: break-word;
+        background: var(--bg-card);
+        border: 1px solid rgba(248,113,113,0.3);
+        border-radius: 6px;
+        padding: 12px 14px;
+        max-height: 300px;
+        overflow: auto;
+    }
+    .manual-mode { display: none; margin-top: 20px; padding-top: 18px; border-top: 1px dashed var(--border); }
+    .manual-mode.shown { display: block; }
+
+    @media (max-width: 720px) {
+        .test-io-grid-2 { grid-template-columns: 1fr; }
+    }
+
+    /* ─── EMPTY STATE ─── */
+    .empty-state, .loading-state {
+        text-align: center;
+        padding: 80px 20px;
+        color: var(--text-muted);
+        font-family: var(--font-mono);
+        font-size: 13.5px;
+    }
+    .error-state {
+        text-align: center;
+        padding: 60px 30px;
+        border: 1px solid rgba(248,113,113,0.3);
+        background: rgba(248,113,113,0.06);
+        border-radius: var(--radius-md);
+        color: var(--text-secondary);
+        font-size: 14px;
+        line-height: 1.8;
+    }
+    .error-state code {
+        font-family: var(--font-mono);
+        background: var(--bg-elevated);
+        padding: 2px 7px;
+        border-radius: 4px;
+        color: var(--accent-bright);
+        font-size: 13px;
+    }
+
+    @media (max-width: 720px) {
+        .navbar { padding: 0 20px; }
+        .nav-links { display: none; }
+        main { padding: 98px 20px 60px; }
+        .task-head { padding: 18px; gap: 12px; flex-wrap: wrap; }
+        .task-limits { flex-direction: row; gap: 14px; align-items: center; }
+        .task-num { display: none; }
+        .example-grid { grid-template-columns: 1fr; }
+    }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="../index.html" class="logo">
+        <img class="logo-mark" src="../img/t-olimpians-logo.jpg" alt="T-Olimpians">
+        <span class="logo-text">T-Olimpians</span>
+    </a>
+    <ul class="nav-links">
+        <li><a href="../index.html">Strona główna</a></li>
+    </ul>
+</nav>
+
+<main>
+    <div class="toolbar">
+        <input type="search" id="searchInput" placeholder="Szukaj po tytule, dziale lub tagu…">
+        <select id="categoryFilter"><option value="">Wszystkie działy</option></select>
+        <span class="count" id="resultCount"></span>
+    </div>
+
+    <div id="taskList">
+        <div class="loading-state">Wczytywanie zadań…</div>
+    </div>
+</main>
+
+<div id="linkToast">Link skopiowany do schowka</div>
+
+<script>
+(function () {
+    let allTasks = [];
+
+    const taskList = document.getElementById('taskList');
+    const searchInput = document.getElementById('searchInput');
+    const categoryFilter = document.getElementById('categoryFilter');
+    const resultCount = document.getElementById('resultCount');
+    const linkToast = document.getElementById('linkToast');
+
+    function escapeHtml(str) {
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+    }
+
+    function paragraphs(arr) {
+        if (!arr || !arr.length) return '';
+        return arr.map(function (p) { return '<p>' + escapeHtml(p) + '</p>'; }).join('');
+    }
+
+    function renderExamples(examples) {
+        if (!examples || !examples.length) return '';
+        return examples.map(function (ex, i) {
+            var note = ex.note ? '<div class="example-note">' + escapeHtml(ex.note) + '</div>' : '';
+            return (
+                '<div class="example-block">' +
+                    '<div class="example-grid">' +
+                        '<div class="example-col"><span>Wejście — przykład ' + (i + 1) + '</span><pre>' + escapeHtml(ex.input || '') + '</pre></div>' +
+                        '<div class="example-col"><span>Wyjście — przykład ' + (i + 1) + '</span><pre>' + escapeHtml(ex.output || '') + '</pre></div>' +
+                    '</div>' +
+                    note +
+                '</div>'
+            );
+        }).join('');
+    }
+
+    function renderList(items) {
+        if (!items || !items.length) return '';
+        return '<ul>' + items.map(function (i) { return '<li>' + escapeHtml(i) + '</li>'; }).join('') + '</ul>';
+    }
+
+    function taskCardHtml(task, index) {
+        return (
+            '<div class="task-card" data-id="' + task.id + '">' +
+                '<div class="task-head" data-toggle="' + task.id + '">' +
+                    '<div class="task-num">#' + String(task.number != null ? task.number : index + 1).padStart(2, '0') + '</div>' +
+                    '<div class="task-head-main">' +
+                        '<div class="task-title-row">' +
+                            '<h3>' + escapeHtml(task.title || 'Zadanie bez tytułu') + '</h3>' +
+                        '</div>' +
+                        '<div class="task-meta">' +
+                            '<span>' + escapeHtml(task.category || 'Bez działu') + '</span>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="task-limits">' +
+                        '<span>czas: <b>' + escapeHtml(task.time_limit || '—') + '</b></span>' +
+                        '<span>pamięć: <b>' + escapeHtml(task.memory_limit || '—') + '</b></span>' +
+                    '</div>' +
+                    '<button class="link-copy-btn" type="button" data-copy-link="' + task.id + '" title="Kopiuj link do zadania" aria-label="Kopiuj link do zadania">' +
+                        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>' +
+                    '</button>' +
+                    '<svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>' +
+                '</div>' +
+                '<div class="task-body">' +
+                    '<div class="task-body-inner">' +
+                        '<div class="task-section"><h4>Treść zadania</h4>' + paragraphs(task.statement) + '</div>' +
+                        '<div class="task-section"><h4>Wejście</h4>' + paragraphs(task.input_format) + '</div>' +
+                        '<div class="task-section"><h4>Wyjście</h4>' + paragraphs(task.output_format) + '</div>' +
+                        (task.constraints && task.constraints.length ? '<div class="task-section"><h4>Ograniczenia</h4>' + renderList(task.constraints) + '</div>' : '') +
+                        (task.examples && task.examples.length ? '<div class="task-section"><h4>Przykłady</h4>' + renderExamples(task.examples) + '</div>' : '') +
+                        (task.hint ? '<details class="task-section hint-box"><summary>Wskazówka</summary><p>' + escapeHtml(task.hint) + '</p></details>' : '') +
+                        '<button class="copy-link-bottom" type="button" data-copy-link="' + task.id + '">' +
+                            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>' +
+                            '<span>Skopiuj link do zadania</span>' +
+                        '</button>' +
+                        renderSubmitSection(task) +
+                    '</div>' +
+                '</div>' +
+            '</div>'
+        );
+    }
+
+    function copyIconSvg() {
+        return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>';
+    }
+
+    // Testy potrafia miec dziesiatki kilobajtow — do podgladu wystarczy poczatek.
+    // Przyciski „Kopiuj” i porownywanie wynikow zawsze dzialaja na pelnej tresci.
+    var PREVIEW_LIMIT = 1200;
+
+    function clipText(s) {
+        s = String(s == null ? '' : s);
+        if (s.length <= PREVIEW_LIMIT) return s;
+        return s.slice(0, PREVIEW_LIMIT) +
+            '\n… (podglad skrocony — calosc ma ' + s.length + ' znakow, uzyj przycisku Kopiuj)';
+    }
+
+    function renderLocalTestCase(task, test, idx) {
+        return (
+            '<div class="local-test-case" data-test-case="' + idx + '">' +
+                '<div class="local-test-case-head">' +
+                    '<span>Test ' + (idx + 1) + '</span>' +
+                    '<span class="test-badge pending" data-test-badge="' + idx + '">nie sprawdzone</span>' +
+                '</div>' +
+                '<div class="test-io-grid-2">' +
+                    '<div>' +
+                        '<div class="io-label-row">' +
+                            '<span>Wejście</span>' +
+                            '<button class="mini-copy-btn" type="button" data-copy-io="' + idx + '" data-copy-kind="input">' + copyIconSvg() + '<span>Kopiuj</span></button>' +
+                        '</div>' +
+                        '<pre>' + escapeHtml(clipText(test.input)) + '</pre>' +
+                    '</div>' +
+                    '<div>' +
+                        '<div class="io-label-row">' +
+                            '<span>Oczekiwane wyjście</span>' +
+                            '<button class="mini-copy-btn" type="button" data-copy-io="' + idx + '" data-copy-kind="output">' + copyIconSvg() + '<span>Kopiuj</span></button>' +
+                        '</div>' +
+                        '<pre>' + escapeHtml(clipText(test.output)) + '</pre>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="paste-output-wrap">' +
+                    '<div class="io-label-row"><span>Twoje wyjście (wklej tutaj wynik uruchomienia programu na powyższym wejściu)</span></div>' +
+                    '<textarea class="paste-output-editor" spellcheck="false" data-paste-for="' + idx + '" placeholder="Uruchom swój kod lokalnie na wejściu z testu ' + (idx + 1) + ' i wklej tutaj to, co wypisał..."></textarea>' +
+                '</div>' +
+            '</div>'
+        );
+    }
+
+    function renderSubmitSection(task) {
+        var hasTests = task.tests && task.tests.length;
+
+        if (!hasTests) {
+            return (
+                '<div class="submit-section" data-submit-for="' + task.id + '">' +
+                    '<div class="submit-head"><h4>Rozwiązanie</h4></div>' +
+                    '<p class="judge-intro">Brak testów dla tego zadania.</p>' +
+                '</div>'
+            );
+        }
+
+        return (
+            '<div class="submit-section" data-submit-for="' + task.id + '">' +
+                '<div class="submit-head">' +
+                    '<h4>Rozwiązanie</h4>' +
+                '</div>' +
+                '<p class="judge-intro">' +
+                    'Wklej poniżej cały kod w C++ i kliknij <strong>Wyślij</strong>. Program zostanie skompilowany ' +
+                    '(<code>g++ -O2 -std=gnu++17</code>) i uruchomiony na ' + task.tests.length + ' testach — ' +
+                    'dostaniesz werdykt dla każdego z nich. Limit czasu: <code>' + escapeHtml(task.time_limit || '1 s') + '</code> na test.' +
+                '</p>' +
+                '<textarea class="code-editor" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" ' +
+                    'data-code-for="' + task.id + '" placeholder="Wklej tutaj swoje rozwiązanie w C++…"></textarea>' +
+                '<div class="judge-toolbar">' +
+                    '<button class="submit-btn" type="button" data-run-btn="' + task.id + '">' +
+                        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>' +
+                        '<span>Wyślij</span>' +
+                    '</button>' +
+                    '<span class="submit-status" data-submit-status="' + task.id + '">' + task.tests.length + ' testów</span>' +
+                    '<span class="spacer"></span>' +
+                    '<button class="ghost-btn" type="button" data-clear-code="' + task.id + '">Wyczyść kod</button>' +
+                    '<button class="ghost-btn" type="button" data-toggle-manual="' + task.id + '">Tryb ręczny</button>' +
+                '</div>' +
+                '<div class="judge-verdict" data-verdict="' + task.id + '"></div>' +
+                '<div class="compile-log" data-compile-log="' + task.id + '" style="display:none"></div>' +
+                '<div class="judge-rows" data-judge-rows="' + task.id + '"></div>' +
+                '<div class="manual-mode" data-manual-for="' + task.id + '">' +
+                    '<p class="local-tests-intro">' +
+                        'Tryb ręczny — nie wymaga internetu. Skopiuj wejście testu, uruchom program u siebie ' +
+                        '(dowolny język), a otrzymany wynik wklej w polu poniżej. Potem kliknij „Sprawdź”.' +
+                    '</p>' +
+                    // Testy renderowane dopiero przy pierwszym otwarciu trybu recznego.
+                    '<div data-manual-cases="' + task.id + '"></div>' +
+                    '<div class="submit-actions">' +
+                        '<button class="submit-btn" type="button" data-check-btn="' + task.id + '">' +
+                            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>' +
+                            '<span>Sprawdź</span>' +
+                        '</button>' +
+                        '<span class="submit-status" data-manual-status="' + task.id + '">' + task.tests.length + ' testów dostępnych</span>' +
+                    '</div>' +
+                '</div>' +
+            '</div>'
+        );
+    }
+
+    function populateCategoryFilter(tasks) {
+        var cats = Array.from(new Set(tasks.map(function (t) { return t.category; }).filter(Boolean))).sort();
+        cats.forEach(function (c) {
+            var opt = document.createElement('option');
+            opt.value = c;
+            opt.textContent = c;
+            categoryFilter.appendChild(opt);
+        });
+    }
+
+    function matchesFilters(task) {
+        var q = searchInput.value.trim().toLowerCase();
+        var cat = categoryFilter.value;
+
+        if (cat && task.category !== cat) return false;
+
+        if (q) {
+            var haystack = [
+                task.title,
+                task.category
+            ].join(' ').toLowerCase();
+            if (haystack.indexOf(q) === -1) return false;
+        }
+        return true;
+    }
+
+    function currentHashId() {
+        return decodeURIComponent((location.hash || '').replace(/^#/, ''));
+    }
+
+    function setHash(id) {
+        var url = location.pathname + location.search + (id ? '#' + id : '');
+        history.replaceState(null, '', url);
+    }
+
+    function showToast(msg) {
+        linkToast.textContent = msg;
+        linkToast.classList.add('shown');
+        clearTimeout(showToast._t);
+        showToast._t = setTimeout(function () { linkToast.classList.remove('shown'); }, 2200);
+    }
+
+    function fallbackCopy(text) {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); } catch (e) {}
+        document.body.removeChild(ta);
+    }
+
+    function copyLink(id) {
+        var url = location.origin + location.pathname + '#' + encodeURIComponent(id);
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(url)
+                .then(function () { showToast('Link skopiowany do schowka'); })
+                .catch(function () { fallbackCopy(url); showToast('Link skopiowany do schowka'); });
+        } else {
+            fallbackCopy(url);
+            showToast('Link skopiowany do schowka');
+        }
+    }
+
+    function openCardById(id, opts) {
+        opts = opts || {};
+        var card = taskList.querySelector('.task-card[data-id="' + id.replace(/"/g, '') + '"]');
+        if (!card) return false;
+        card.classList.add('open');
+        if (opts.scroll) {
+            setTimeout(function () {
+                card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 60);
+        }
+        if (opts.highlight) {
+            card.classList.remove('highlight-target');
+            void card.offsetWidth;
+            card.classList.add('highlight-target');
+        }
+        return true;
+    }
+
+    function cssEscape(id) {
+        if (window.CSS && CSS.escape) return CSS.escape(id);
+        return String(id).replace(/["\\]/g, '\\$&');
+    }
+
+    // ─── Lokalne sprawdzanie testów ───
+    // Uczeń uruchamia swoje rozwiązanie lokalnie (w dowolnym języku), a tutaj
+    // jedynie wkleja otrzymany wynik, który jest porównywany z oczekiwanym
+    // wyjściem testu. Żaden kod nie jest wysyłany ani wykonywany po stronie strony.
+    function normalizeOutput(s) {
+        return String(s == null ? '' : s)
+            .replace(/\r\n/g, '\n')
+            .split('\n')
+            .map(function (line) { return line.replace(/[ \t]+$/, ''); })
+            .join('\n')
+            .replace(/\n+$/, '')
+            .trim();
+    }
+
+    // ─── Sprawdzarka C++ ───
+    // Kod ucznia jest kompilowany i uruchamiany przez darmowe, publiczne API
+    // (Compiler Explorer, a gdy ono zawiedzie — Wandbox). Nie wymaga własnego
+    // serwera ani klucza API. Jeśli oba serwisy są nieosiągalne, zostaje
+    // tryb ręczny (uczeń uruchamia program u siebie i wkleja wynik).
+
+    var COMPILE_ARGS = '-O2 -std=gnu++17';
+    var GODBOLT_COMPILERS = ['g132', 'g142', 'gsnapshot'];
+    var WANDBOX_COMPILERS = ['gcc-13.2.0', 'gcc-head'];
+    var REQUEST_TIMEOUT_MS = 30000;
+    var godboltCompiler = null;
+    var wandboxCompiler = null;
+    var activeProvider = null;
+
+    function stripAnsi(s) {
+        return String(s == null ? '' : s).replace(/\u001b\[[0-9;]*[A-Za-z]/g, '');
+    }
+
+    function joinTextLines(arr) {
+        if (!arr || !arr.length) return '';
+        return arr.map(function (l) {
+            return stripAnsi(l && l.text != null ? l.text : '');
+        }).join('\n');
+    }
+
+    function parseTimeLimitMs(str) {
+        var m = String(str || '').match(/([\d.,]+)\s*(ms|s)?/i);
+        if (!m) return 1000;
+        var value = parseFloat(m[1].replace(',', '.'));
+        if (isNaN(value)) return 1000;
+        return /^ms$/i.test(m[2] || 's') ? value : value * 1000;
+    }
+
+    function postJson(url, payload) {
+        var controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+        var timer = controller ? setTimeout(function () { controller.abort(); }, REQUEST_TIMEOUT_MS) : null;
+        var opts = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify(payload)
+        };
+        if (controller) opts.signal = controller.signal;
+        return fetch(url, opts).then(function (res) {
+            if (timer) clearTimeout(timer);
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            return res.json();
+        }, function (err) {
+            if (timer) clearTimeout(timer);
+            throw err;
+        });
+    }
+
+    function runGodbolt(source, stdin) {
+        var ids = godboltCompiler ? [godboltCompiler] : GODBOLT_COMPILERS.slice();
+        var i = 0;
+
+        function attempt() {
+            if (i >= ids.length) return Promise.reject(new Error('Compiler Explorer nie odpowiada'));
+            var id = ids[i++];
+            return postJson('https://godbolt.org/api/compiler/' + id + '/compile', {
+                source: source,
+                lang: 'c++',
+                allowStoreCodeDebug: false,
+                options: {
+                    userArguments: COMPILE_ARGS,
+                    executeParameters: { args: [], stdin: stdin || '' },
+                    compilerOptions: { executorRequest: true, skipAsm: true },
+                    filters: { execute: true }
+                }
+            }).then(function (data) {
+                var build = data.buildResult || {};
+                godboltCompiler = id;
+                if (build.code != null && build.code !== 0) {
+                    return { compileError: joinTextLines(build.stderr) || 'Kompilacja nie powiodła się.' };
+                }
+                return {
+                    stdout: joinTextLines(data.stdout),
+                    stderr: joinTextLines(data.stderr),
+                    exitCode: typeof data.code === 'number' ? data.code : 0,
+                    timedOut: !!data.timedOut,
+                    timeMs: Number(data.execTime) || 0
+                };
+            }, function (err) {
+                if (i < ids.length) return attempt();
+                throw err;
+            });
+        }
+        return attempt();
+    }
+
+    function runWandbox(source, stdin) {
+        var ids = wandboxCompiler ? [wandboxCompiler] : WANDBOX_COMPILERS.slice();
+        var i = 0;
+
+        function attempt() {
+            if (i >= ids.length) return Promise.reject(new Error('Wandbox nie odpowiada'));
+            var id = ids[i++];
+            return postJson('https://wandbox.org/api/compile.json', {
+                code: source,
+                compiler: id,
+                stdin: stdin || '',
+                options: 'warning,gnu++17',
+                save: false
+            }).then(function (data) {
+                if (data && data.error) throw new Error(String(data.error));
+                var ran = data && (data.status !== undefined || data.program_output !== undefined || data.program_error !== undefined);
+                wandboxCompiler = id;
+                if (!ran) {
+                    return { compileError: stripAnsi(data.compiler_error || data.compiler_message || 'Kompilacja nie powiodła się.') };
+                }
+                return {
+                    stdout: String(data.program_output || ''),
+                    stderr: String(data.program_error || ''),
+                    exitCode: parseInt(data.status, 10) || 0,
+                    timedOut: false,
+                    timeMs: 0
+                };
+            }, function (err) {
+                if (i < ids.length) return attempt();
+                throw err;
+            });
+        }
+        return attempt();
+    }
+
+    var JUDGE_PROVIDERS = [
+        { name: 'Compiler Explorer', run: runGodbolt },
+        { name: 'Wandbox', run: runWandbox }
+    ];
+
+    function runOnJudge(source, stdin) {
+        var order = JUDGE_PROVIDERS.slice();
+        if (activeProvider) {
+            order.sort(function (a, b) {
+                return (a === activeProvider ? -1 : 0) - (b === activeProvider ? -1 : 0);
+            });
+        }
+        var i = 0;
+        var lastErr = null;
+
+        function attempt() {
+            if (i >= order.length) {
+                return Promise.reject(lastErr || new Error('Brak dostępnej sprawdzarki'));
+            }
+            var provider = order[i++];
+            return provider.run(source, stdin).then(function (result) {
+                activeProvider = provider;
+                return result;
+            }, function (err) {
+                lastErr = err;
+                return attempt();
+            });
+        }
+        return attempt();
+    }
+
+    var VERDICTS = {
+        OK:  { label: 'Accepted',              badge: 'OK',  cls: 'pass',    tone: 'ok'   },
+        WA:  { label: 'Wrong answer',          badge: 'WA',  cls: 'fail',    tone: 'bad'  },
+        TLE: { label: 'Time limit exceeded',   badge: 'TLE', cls: 'warn',    tone: 'warn' },
+        RE:  { label: 'Runtime error',         badge: 'RE',  cls: 'fail',    tone: 'bad'  },
+        CE:  { label: 'Compilation error',     badge: 'CE',  cls: 'fail',    tone: 'bad'  }
+    };
+
+    function classifyRun(result, test, limitMs) {
+        if (result.timedOut || (result.timeMs && result.timeMs > limitMs)) return 'TLE';
+        if (result.exitCode !== 0) return 'RE';
+        return normalizeOutput(result.stdout) === normalizeOutput(test.output) ? 'OK' : 'WA';
+    }
+
+    function setVerdict(section, tone, text, detail) {
+        var box = section.querySelector('[data-verdict]');
+        if (!box) return;
+        box.className = 'judge-verdict shown v-' + tone;
+        box.innerHTML =
+            (tone === 'run' ? '<span class="spinner"></span>' : '') +
+            '<span>' + escapeHtml(text) + '</span>' +
+            (detail ? '<span class="verdict-detail">' + escapeHtml(detail) + '</span>' : '');
+    }
+
+    function judgeRowSkeleton(idx) {
+        return (
+            '<div class="judge-row" data-judge-row="' + idx + '">' +
+                '<div class="judge-row-head">' +
+                    '<svg class="chevron-small" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>' +
+                    '<span class="row-name">Test ' + (idx + 1) + '</span>' +
+                    '<span class="test-badge pending" data-row-badge>w kolejce</span>' +
+                    '<span class="row-time" data-row-time></span>' +
+                '</div>' +
+                '<div class="judge-row-body" data-row-body></div>' +
+            '</div>'
+        );
+    }
+
+    function fillJudgeRow(section, idx, verdictCode, test, result) {
+        var row = section.querySelector('[data-judge-row="' + idx + '"]');
+        if (!row) return;
+        var meta = VERDICTS[verdictCode];
+        var badge = row.querySelector('[data-row-badge]');
+        var time = row.querySelector('[data-row-time]');
+        var body = row.querySelector('[data-row-body]');
+
+        row.className = 'judge-row r-' + meta.tone;
+        badge.className = 'test-badge ' + meta.cls;
+        badge.textContent = meta.badge;
+        if (time) time.textContent = result.timeMs ? (Math.round(result.timeMs) + ' ms') : '';
+
+        var actual = normalizeOutput(result.stdout);
+        var stderrText = stripAnsi(result.stderr || '').trim();
+
+        body.innerHTML =
+            '<div class="test-io-grid">' +
+                '<div><span>Wejście</span><pre>' + escapeHtml(clipText(test.input)) + '</pre></div>' +
+                '<div><span>Oczekiwane</span><pre>' + escapeHtml(clipText(normalizeOutput(test.output))) + '</pre></div>' +
+                '<div><span>Twoje wyjście</span><pre' + (verdictCode === 'OK' ? '' : ' class="actual-fail"') + '>' +
+                    escapeHtml(actual ? clipText(actual) : '(puste)') + '</pre></div>' +
+            '</div>' +
+            (stderrText ? '<div class="test-error-msg">' + escapeHtml(clipText(stderrText)) + '</div>' : '');
+
+        if (verdictCode !== 'OK') row.classList.add('open');
+    }
+
+    function markRowRunning(section, idx) {
+        var row = section.querySelector('[data-judge-row="' + idx + '"]');
+        if (!row) return;
+        var badge = row.querySelector('[data-row-badge]');
+        badge.className = 'test-badge running';
+        badge.textContent = 'sprawdzanie…';
+    }
+
+    function judgeSubmission(task, section) {
+        var editor = section.querySelector('[data-code-for]');
+        var runBtn = section.querySelector('[data-run-btn]');
+        var rows = section.querySelector('[data-judge-rows]');
+        var log = section.querySelector('[data-compile-log]');
+        var status = section.querySelector('[data-submit-status]');
+        if (!editor || !task.tests || !task.tests.length) return;
+
+        var source = editor.value;
+        if (!source.trim()) {
+            setVerdict(section, 'warn', 'Najpierw wklej kod', 'Pole z rozwiązaniem jest puste.');
+            return;
+        }
+
+        var limitMs = parseTimeLimitMs(task.time_limit);
+        var total = task.tests.length;
+
+        runBtn.disabled = true;
+        editor.disabled = true;
+        log.style.display = 'none';
+        log.textContent = '';
+        rows.innerHTML = task.tests.map(function (t, i) { return judgeRowSkeleton(i); }).join('');
+        setVerdict(section, 'run', 'Kompilowanie…', 'g++ ' + COMPILE_ARGS);
+        if (status) status.textContent = '';
+
+        var failure = null;
+        var maxTime = 0;
+        var idx = 0;
+        var STOP = {};
+
+        function finish() {
+            runBtn.disabled = false;
+            editor.disabled = false;
+            if (failure) {
+                var meta = VERDICTS[failure.code];
+                setVerdict(section, meta.tone, meta.label + ' — test ' + (failure.idx + 1),
+                    'Zaliczone testy: ' + failure.idx + ' / ' + total);
+            } else {
+                setVerdict(section, 'ok', 'Accepted',
+                    total + ' / ' + total + ' testów • najwolniejszy ' + Math.round(maxTime) + ' ms');
+            }
+        }
+
+        function step() {
+            if (idx >= total) return finish();
+            var test = task.tests[idx];
+            markRowRunning(section, idx);
+            setVerdict(section, 'run', 'Test ' + (idx + 1) + ' z ' + total + '…',
+                activeProvider ? activeProvider.name : '');
+
+            return runOnJudge(source, test.input || '').then(function (result) {
+                if (result.compileError) {
+                    log.style.display = 'block';
+                    log.textContent = result.compileError;
+                    rows.innerHTML = '';
+                    runBtn.disabled = false;
+                    editor.disabled = false;
+                    setVerdict(section, 'bad', 'Compilation error', 'Program się nie skompilował.');
+                    throw STOP;
+                }
+                var code = classifyRun(result, test, limitMs);
+                if (result.timeMs > maxTime) maxTime = result.timeMs;
+                fillJudgeRow(section, idx, code, test, result);
+                if (code !== 'OK' && !failure) failure = { code: code, idx: idx };
+                idx++;
+                return step();
+            });
+        }
+
+        step().catch(function (err) {
+            if (err === STOP) return;
+            runBtn.disabled = false;
+            editor.disabled = false;
+            rows.innerHTML = '';
+            setVerdict(section, 'warn', 'Sprawdzarka niedostępna',
+                'Nie udało się połączyć z darmowym kompilatorem. Użyj trybu ręcznego poniżej.');
+            var manual = section.querySelector('[data-manual-for]');
+            if (manual) {
+                ensureManualCases(task, section);
+                manual.classList.add('shown');
+                var toggle = section.querySelector('[data-toggle-manual]');
+                if (toggle) toggle.textContent = 'Ukryj tryb ręczny';
+            }
+            console.error(err);
+        });
+    }
+
+    function codeStorageKey(taskId) {
+        return 'tolimpians:code:' + taskId;
+    }
+
+    // Buduje pola trybu recznego dopiero wtedy, gdy sa naprawde potrzebne —
+    // przy 14 testach na zadanie ich tresc to setki kilobajtow, ktorych nie ma
+    // sensu wrzucac do DOM przy kazdym wejsciu na strone.
+    function ensureManualCases(task, section) {
+        var host = section.querySelector('[data-manual-cases]');
+        if (!host || host.getAttribute('data-rendered') === '1') return;
+        host.innerHTML = task.tests.map(function (t, idx) {
+            return renderLocalTestCase(task, t, idx);
+        }).join('');
+        host.setAttribute('data-rendered', '1');
+    }
+
+    function checkLocalTests(task, section) {
+        var status = section.querySelector('[data-manual-status]');
+        if (!task.tests || !task.tests.length) return;
+
+        var passCount = 0;
+        var checked = 0;
+        var total = task.tests.length;
+
+        task.tests.forEach(function (t, idx) {
+            var textarea = section.querySelector('.paste-output-editor[data-paste-for="' + idx + '"]');
+            var badge = section.querySelector('.test-badge[data-test-badge="' + idx + '"]');
+            if (!textarea || !badge) return;
+
+            var pasted = textarea.value;
+            textarea.classList.remove('io-pass', 'io-fail');
+
+            if (!pasted || !pasted.trim()) {
+                badge.className = 'test-badge pending';
+                badge.textContent = 'nie sprawdzone';
+                return;
+            }
+
+            checked++;
+            var pass = normalizeOutput(pasted) === normalizeOutput(t.output);
+            if (pass) {
+                passCount++;
+                badge.className = 'test-badge pass';
+                badge.textContent = '✓ OK';
+                textarea.classList.add('io-pass');
+            } else {
+                badge.className = 'test-badge fail';
+                badge.textContent = '✗ Błąd';
+                textarea.classList.add('io-fail');
+            }
+        });
+
+        if (!checked) {
+            if (status) status.textContent = 'Wklej najpierw wynik przynajmniej jednego testu.';
+            return;
+        }
+        if (status) {
+            status.textContent = checked < total
+                ? (passCount + ' / ' + checked + ' sprawdzonych zaliczonych (' + (total - checked) + ' bez wklejonego wyniku)')
+                : (passCount === total ? 'Wszystkie testy zaliczone! 🎉' : (passCount + ' / ' + total + ' zaliczonych'));
+        }
+    }
+
+    function render() {
+        var filtered = allTasks.filter(matchesFilters);
+
+        resultCount.textContent = filtered.length + ' / ' + allTasks.length + ' zadań';
+
+        if (!filtered.length) {
+            taskList.innerHTML = '<div class="empty-state">Brak zadań spełniających wybrane kryteria.</div>';
+            return;
+        }
+
+        taskList.innerHTML = filtered.map(function (t, i) { return taskCardHtml(t, i); }).join('');
+
+        taskList.querySelectorAll('[data-toggle]').forEach(function (head) {
+            head.addEventListener('click', function () {
+                var card = head.closest('.task-card');
+                var isOpen = card.classList.toggle('open');
+                var id = head.getAttribute('data-toggle');
+                setHash(isOpen ? id : '');
+            });
+        });
+
+        taskList.querySelectorAll('[data-check-btn]').forEach(function (btn) {
+            btn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                var id = btn.getAttribute('data-check-btn');
+                var task = allTasks.find(function (t) { return t.id === id; });
+                if (!task) return;
+                var section = taskList.querySelector('.submit-section[data-submit-for="' + cssEscape(id) + '"]');
+                checkLocalTests(task, section);
+            });
+        });
+
+        taskList.querySelectorAll('[data-run-btn]').forEach(function (btn) {
+            btn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                var id = btn.getAttribute('data-run-btn');
+                var task = allTasks.find(function (t) { return t.id === id; });
+                if (!task) return;
+                var section = taskList.querySelector('.submit-section[data-submit-for="' + cssEscape(id) + '"]');
+                judgeSubmission(task, section);
+            });
+        });
+
+        taskList.querySelectorAll('[data-toggle-manual]').forEach(function (btn) {
+            btn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                var id = btn.getAttribute('data-toggle-manual');
+                var task = allTasks.find(function (t) { return t.id === id; });
+                var section = taskList.querySelector('.submit-section[data-submit-for="' + cssEscape(id) + '"]');
+                var manual = section.querySelector('[data-manual-for]');
+                if (!manual || !task) return;
+                ensureManualCases(task, section);
+                var shown = manual.classList.toggle('shown');
+                btn.textContent = shown ? 'Ukryj tryb ręczny' : 'Tryb ręczny';
+            });
+        });
+
+        taskList.querySelectorAll('[data-clear-code]').forEach(function (btn) {
+            btn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                var id = btn.getAttribute('data-clear-code');
+                var section = taskList.querySelector('.submit-section[data-submit-for="' + cssEscape(id) + '"]');
+                var editor = section.querySelector('[data-code-for]');
+                if (!editor) return;
+                editor.value = '';
+                try { localStorage.removeItem(codeStorageKey(id)); } catch (err) {}
+                var verdict = section.querySelector('[data-verdict]');
+                if (verdict) verdict.className = 'judge-verdict';
+                section.querySelector('[data-judge-rows]').innerHTML = '';
+                var log = section.querySelector('[data-compile-log]');
+                log.style.display = 'none';
+                log.textContent = '';
+                editor.focus();
+            });
+        });
+
+        taskList.querySelectorAll('[data-code-for]').forEach(function (editor) {
+            var id = editor.getAttribute('data-code-for');
+
+            try {
+                var saved = localStorage.getItem(codeStorageKey(id));
+                if (saved) editor.value = saved;
+            } catch (err) {}
+
+            editor.addEventListener('input', function () {
+                try { localStorage.setItem(codeStorageKey(id), editor.value); } catch (err) {}
+            });
+
+            // Tab wstawia wcięcie zamiast przenosić fokus poza edytor.
+            editor.addEventListener('keydown', function (e) {
+                if (e.key === 'Tab') {
+                    e.preventDefault();
+                    var start = editor.selectionStart;
+                    var end = editor.selectionEnd;
+                    editor.value = editor.value.slice(0, start) + '    ' + editor.value.slice(end);
+                    editor.selectionStart = editor.selectionEnd = start + 4;
+                    try { localStorage.setItem(codeStorageKey(id), editor.value); } catch (err) {}
+                }
+                // Ctrl/Cmd + Enter wysyła rozwiązanie.
+                if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+                    e.preventDefault();
+                    var task = allTasks.find(function (t) { return t.id === id; });
+                    if (task) judgeSubmission(task, editor.closest('.submit-section'));
+                }
+            });
+        });
+
+        wireCopyIo(taskList);
+
+        taskList.querySelectorAll('.submit-section').forEach(function (section) {
+            section.addEventListener('click', function (e) {
+                var head = e.target.closest('.test-case-head');
+                if (head) {
+                    head.closest('.test-case').classList.toggle('open');
+                }
+                var judgeHead = e.target.closest('.judge-row-head');
+                if (judgeHead) {
+                    judgeHead.closest('.judge-row').classList.toggle('open');
+                }
+            });
+            // Prevent the textarea/editor clicks from toggling the parent task card.
+            section.addEventListener('click', function (e) { e.stopPropagation(); });
+        });
+
+        taskList.querySelectorAll('[data-copy-link]').forEach(function (btn) {
+            btn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                var id = btn.getAttribute('data-copy-link');
+                var card = btn.closest('.task-card');
+                card.classList.add('open');
+                setHash(id);
+                copyLink(id);
+                btn.classList.add('copied');
+                var label = btn.querySelector('span');
+                var originalText = label ? label.textContent : null;
+                if (label) label.textContent = 'Skopiowano!';
+                setTimeout(function () {
+                    btn.classList.remove('copied');
+                    if (label && originalText) label.textContent = originalText;
+                }, 1600);
+            });
+        });
+    }
+
+    // Podpina przyciski „Kopiuj” dla wejscia/wyjscia testu. Wywolywane zarowno
+    // przy renderowaniu listy, jak i po leniwym zbudowaniu trybu recznego.
+    function wireCopyIo(scope) {
+        scope.querySelectorAll('[data-copy-io]').forEach(function (btn) {
+            btn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                var section = btn.closest('.submit-section');
+                var id = section.getAttribute('data-submit-for');
+                var task = allTasks.find(function (t) { return t.id === id; });
+                if (!task) return;
+                var idx = parseInt(btn.getAttribute('data-copy-io'), 10);
+                var kind = btn.getAttribute('data-copy-kind');
+                var test = task.tests[idx];
+                if (!test) return;
+                var text = kind === 'output' ? (test.output || '') : (test.input || '');
+                var label = btn.querySelector('span');
+                var originalText = label ? label.textContent : null;
+                var markCopied = function () {
+                    btn.classList.add('copied');
+                    if (label) label.textContent = 'Skopiowano!';
+                    setTimeout(function () {
+                        btn.classList.remove('copied');
+                        if (label && originalText) label.textContent = originalText;
+                    }, 1400);
+                };
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(text).then(markCopied).catch(function () {
+                        fallbackCopy(text);
+                        markCopied();
+                    });
+                } else {
+                    fallbackCopy(text);
+                    markCopied();
+                }
+            });
+        });
+    }
+
+    function applyHashOnLoad() {
+        var id = currentHashId();
+        if (!id) return;
+        var exists = allTasks.some(function (t) { return t.id === id; });
+        if (!exists) return;
+
+        searchInput.value = '';
+        categoryFilter.value = '';
+        render();
+        openCardById(id, { scroll: true, highlight: true });
+    }
+
+    function init(data) {
+        allTasks = (data.tasks || []).slice().sort(function (a, b) {
+            return (a.number || 0) - (b.number || 0);
+        });
+        populateCategoryFilter(allTasks);
+        render();
+
+        searchInput.addEventListener('input', render);
+        categoryFilter.addEventListener('change', render);
+
+        applyHashOnLoad();
+        window.addEventListener('hashchange', applyHashOnLoad);
+    }
+
+    // 'no-cache' wymusza sprawdzenie u serwera, czy plik sie zmienil (warunkowe
+    // zapytanie, przy braku zmian serwer odpowiada 304). Bez tego przegladarka
+    // potrafi w nieskonczonosc trzymac stara liste zadan i testow.
+    fetch('zadania.json', { cache: 'no-cache' })
+        .then(function (res) {
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            return res.json();
+        })
+        .then(init)
+        .catch(function (err) {
+            taskList.innerHTML =
+                '<div class="error-state">' +
+                    '<p><strong>Nie udało się wczytać pliku <code>zadania.json</code>.</strong></p>' +
+                    '<p style="margin-top:10px;">Jeśli otwierasz ten plik bezpośrednio z dysku (adres zaczynający się od <code>file://</code>), przeglądarka blokuje wczytywanie lokalnych plików JSON przez <code>fetch</code>. Uruchom prosty serwer lokalny w folderze ze stroną, np.:</p>' +
+                    '<p style="margin-top:10px;"><code>python -m http.server</code></p>' +
+                    '<p style="margin-top:10px;">a następnie otwórz <code>http://localhost:8000/zadania.html</code>.</p>' +
+                '</div>';
+            console.error(err);
+        });
+})();
+</script>
+<!-- licznik odwiedzin -> panel kacperos.html -->
+<script type="module" src="/track.js"></script>
+</body>
+</html>

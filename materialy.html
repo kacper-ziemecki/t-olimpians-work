@@ -1,0 +1,4633 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C++ od podstaw — kurs dla przyszłych olimpijczyków | T-Olimpians</title>
+    <!-- Tryb focus ustawiany przed pierwszym renderem, zeby strona nie mignela w zwyklym trybie -->
+    <script>try { if (localStorage.getItem('tolimpians_focus_mode') === '1') document.documentElement.classList.add('focus-mode'); } catch (e) {}</script>
+    <meta name="description" content="Darmowy kurs C++ i logiki od zera: zmienne, pętle, tablice, funkcje, STL i pierwsze zadania olimpijskie. Pierwszy krok w przygotowaniu do Olimpiady Informatycznej i OIJ.">
+    <link rel="canonical" href="https://t-olimpians.com/materialy.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="T-Olimpians Team Poland">
+    <meta property="og:locale" content="pl_PL">
+    <meta property="og:url" content="https://t-olimpians.com/materialy.html">
+    <meta property="og:title" content="C++ od podstaw — kurs dla przyszłych olimpijczyków | T-Olimpians">
+    <meta property="og:description" content="Darmowy kurs C++ i logiki od zera: zmienne, pętle, tablice, funkcje, STL i pierwsze zadania olimpijskie. Pierwszy krok w przygotowaniu do Olimpiady Informatycznej i OIJ.">
+    <meta property="og:image" content="https://t-olimpians.com/img/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="./img/favicon2.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <!-- prism-cpp rozszerza prism-c, więc c musi być załadowane wcześniej -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+    <style>
+        :root {
+            --bg-base: #0a0a0f;
+            --bg-surface: #111118;
+            --bg-card: #15151e;
+            --bg-elevated: #1c1c28;
+            --accent: #3b82f6;
+            --accent-bright: #60a5fa;
+            --accent-glow: rgba(59, 130, 246, 0.25);
+            --accent-dim: rgba(59, 130, 246, 0.12);
+            --text-primary: #f0f0f8;
+            --text-secondary: #9090aa;
+            --text-muted: #55556a;
+            --border: rgba(255,255,255,0.07);
+            --border-accent: rgba(59, 130, 246, 0.3);
+            --font-display: 'Syne', sans-serif;
+            --font-body: 'DM Sans', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.6;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 48px;
+            height: 68px;
+            background: rgba(10, 10, 15, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            transition: background 0.3s;
+        }
+
+        .navbar.scrolled {
+            background: rgba(10, 10, 15, 0.95);
+            box-shadow: 0 4px 32px rgba(0,0,0,0.4);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo img:first-child {
+            width: 38px; height: 38px;
+            border-radius: 10px;
+            object-fit: cover;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .logo:hover img:first-child {
+            transform: rotate(-5deg) scale(1.08);
+            box-shadow: 0 0 16px var(--accent-glow);
+        }
+
+        #polska-flaga { width: 22px; height: auto; border-radius: 3px; }
+
+        .logo-text {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--text-primary);
+            letter-spacing: 0.01em;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            flex-shrink: 0;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            transition: color 0.2s, background 0.2s;
+            cursor: pointer;
+            letter-spacing: 0.02em;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 4px; left: 16px; right: 16px;
+            height: 1px;
+            background: var(--accent-bright);
+            transform: scaleX(0);
+            transition: transform 0.25s ease;
+        }
+
+        .nav-links a:hover::after { transform: scaleX(1); }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+            background: var(--accent-dim);
+        }
+
+        .nav-links a.active-page {
+            color: var(--accent-bright);
+        }
+
+        .nav-links .nav-cta a {
+            background: var(--accent);
+            color: white;
+            font-weight: 600;
+        }
+
+        .nav-links .nav-cta a:hover {
+            background: var(--accent-bright);
+            color: white;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background: var(--text-secondary);
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        #particles {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        .page-header {
+            padding: 140px 80px 60px;
+            position: relative;
+            z-index: 1;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .page-header-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--accent-dim);
+            border: 1px solid var(--border-accent);
+            color: var(--accent-bright);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 500;
+            padding: 6px 14px;
+            border-radius: 100px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            animation: fadeInUp 0.6s ease both;
+        }
+
+        .page-header-badge::before {
+            content: '';
+            width: 6px; height: 6px;
+            background: var(--accent-bright);
+            border-radius: 50%;
+            animation: blink 2s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+
+        .page-header h1 {
+            font-family: var(--font-display);
+            font-size: clamp(36px, 5vw, 58px);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 18px;
+            animation: fadeInUp 0.6s 0.1s ease both;
+        }
+
+        .page-header h1 span {
+            background: linear-gradient(100deg, #60a5fa 0%, #a78bfa 30%, #60a5fa 55%, #a78bfa 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: lbShine 7s linear infinite;
+        }
+
+        .page-header p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.75;
+            max-width: 560px;
+            animation: fadeInUp 0.6s 0.2s ease both;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        main {
+            padding: 0 80px 80px;
+            max-width: 1280px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--border), transparent);
+            margin: 0 80px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .phase-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin: 56px 0 32px;
+        }
+
+        .phase-badge {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--accent-bright);
+            background: var(--accent-dim);
+            border: 1px solid var(--border-accent);
+            padding: 5px 14px;
+            border-radius: 100px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .phase-title {
+            font-family: var(--font-display);
+            font-size: clamp(20px, 2.5vw, 28px);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .phase-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, var(--border-accent), transparent);
+        }
+
+        .materials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .material-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 24px 28px;
+            display: flex;
+            align-items: flex-start;
+            gap: 18px;
+            text-decoration: none;
+            color: inherit;
+            transition: border-color 0.3s, transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .material-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--accent-dim), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            border-radius: inherit;
+        }
+
+        .material-card:hover::before { opacity: 1; }
+
+        .material-card:hover {
+            border-color: var(--border-accent);
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 16px 48px var(--accent-glow);
+        }
+
+        .material-number {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--accent-bright);
+            background: var(--accent-dim);
+            border: 1px solid var(--border-accent);
+            border-radius: var(--radius-sm);
+            padding: 6px 10px;
+            min-width: 44px;
+            text-align: center;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .material-info {
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .material-title {
+            font-family: var(--font-display);
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+            margin-bottom: 4px;
+        }
+
+        .material-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .material-arrow {
+            font-size: 16px;
+            color: var(--text-muted);
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+            transition: color 0.2s, transform 0.3s;
+            margin-top: 2px;
+        }
+
+        .material-card:hover .material-arrow {
+            color: var(--accent-bright);
+            transform: translateX(4px);
+        }
+
+        .milestone-card {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-accent);
+            border-radius: var(--radius-md);
+            padding: 28px 32px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin: 32px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .milestone-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(124,58,237,0.05), transparent 70%);
+            pointer-events: none;
+        }
+
+        .milestone-icon {
+            font-size: 32px;
+            flex-shrink: 0;
+        }
+
+        .milestone-info {
+            flex: 1;
+        }
+
+        .milestone-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--accent-bright);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .milestone-title {
+            font-family: var(--font-display);
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .milestone-sub {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .milestone-count {
+            font-family: var(--font-display);
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--accent-bright);
+            flex-shrink: 0;
+        }
+
+        /* ─── WKUWANIE BANNER ─── */
+        .wkuwanie-banner {
+            background: linear-gradient(135deg, #0f1729 0%, #121022 50%, #0f1a14 100%);
+            border: 1px solid rgba(99, 102, 241, 0.4);
+            border-radius: var(--radius-lg);
+            padding: 36px 40px;
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            margin: 48px 0 0;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            transition: border-color 0.3s, transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s ease;
+        }
+
+        .wkuwanie-banner::before {
+            content: '';
+            position: absolute;
+            top: -60px; right: -60px;
+            width: 260px; height: 260px;
+            background: radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .wkuwanie-banner::after {
+            content: '';
+            position: absolute;
+            bottom: -40px; left: 30%;
+            width: 200px; height: 200px;
+            background: radial-gradient(circle, rgba(52,211,153,0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .wkuwanie-banner:hover {
+            border-color: rgba(99, 102, 241, 0.7);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.2);
+        }
+
+        .wkuwanie-icon-wrap {
+            width: 64px; height: 64px;
+            background: rgba(99,102,241,0.15);
+            border: 1px solid rgba(99,102,241,0.3);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .wkuwanie-banner:hover .wkuwanie-icon-wrap {
+            background: rgba(99,102,241,0.25);
+            transform: scale(1.08) rotate(-3deg);
+        }
+
+        .wkuwanie-info {
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .wkuwanie-label {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: #818cf8;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .wkuwanie-label::before {
+            content: '';
+            display: inline-block;
+            width: 5px; height: 5px;
+            background: #34d399;
+            border-radius: 50%;
+            animation: blink 1.8s ease-in-out infinite;
+        }
+
+        .wkuwanie-title {
+            font-family: var(--font-display);
+            font-size: clamp(20px, 2.2vw, 26px);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .wkuwanie-title span {
+            background: linear-gradient(90deg, #818cf8, #34d399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .wkuwanie-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            max-width: 500px;
+        }
+
+        .wkuwanie-tags {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .wkuwanie-tag {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            padding: 3px 10px;
+            border-radius: 100px;
+            letter-spacing: 0.06em;
+        }
+
+        .wkuwanie-tag.cpp {
+            background: rgba(59,130,246,0.12);
+            border: 1px solid rgba(59,130,246,0.3);
+            color: var(--accent-bright);
+        }
+
+        .wkuwanie-tag.bash {
+            background: rgba(52,211,153,0.1);
+            border: 1px solid rgba(52,211,153,0.3);
+            color: #34d399;
+        }
+
+        .wkuwanie-cta {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: #818cf8;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s, transform 0.3s;
+            white-space: nowrap;
+        }
+
+        .wkuwanie-banner:hover .wkuwanie-cta {
+            color: #a5b4fc;
+            transform: translateX(4px);
+        }
+
+        /* ─── WKUWANIE ROW (dwie kolumny) ─── */
+        .wkuwanie-row {
+            display: flex;
+            gap: 20px;
+            margin: 48px 0 0;
+            align-items: stretch;
+        }
+
+        .wkuwanie-row .wkuwanie-banner {
+            margin: 0;
+            flex: 1 1 0;
+            min-width: 0;
+        }
+
+        /* Wariant CodeFlow (zielony akcent) */
+        .wkuwanie-banner.codeflow {
+            background: linear-gradient(135deg, #0a1a14 0%, #0f1220 50%, #0f1a14 100%);
+            border: 1px solid rgba(52, 211, 153, 0.4);
+        }
+
+        .wkuwanie-banner.codeflow::before {
+            background: radial-gradient(circle, rgba(52,211,153,0.12) 0%, transparent 70%);
+        }
+
+        .wkuwanie-banner.codeflow::after {
+            background: radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 70%);
+        }
+
+        .wkuwanie-banner.codeflow:hover {
+            border-color: rgba(52, 211, 153, 0.7);
+            box-shadow: 0 20px 60px rgba(52, 211, 153, 0.2);
+        }
+
+        .wkuwanie-banner.codeflow .wkuwanie-icon-wrap {
+            background: rgba(52,211,153,0.15);
+            border: 1px solid rgba(52,211,153,0.3);
+        }
+
+        .wkuwanie-banner.codeflow:hover .wkuwanie-icon-wrap {
+            background: rgba(52,211,153,0.25);
+        }
+
+        .wkuwanie-banner.codeflow .wkuwanie-label {
+            color: #34d399;
+        }
+
+        .wkuwanie-banner.codeflow .wkuwanie-label::before {
+            background: #818cf8;
+        }
+
+        .wkuwanie-banner.codeflow .wkuwanie-title span {
+            background: linear-gradient(90deg, #34d399, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .wkuwanie-banner.codeflow .wkuwanie-cta {
+            color: #34d399;
+        }
+
+        .wkuwanie-banner.codeflow:hover .wkuwanie-cta {
+            color: #6ee7b7;
+        }
+
+
+        /* Wariant OKI (czerwony akcent) */
+        .wkuwanie-banner.oki {
+            background: linear-gradient(135deg, #1f0d0d 0%, #170f16 50%, #120f1a 100%);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+        }
+
+        .wkuwanie-banner.oki::before {
+            background: radial-gradient(circle, rgba(239,68,68,0.14) 0%, transparent 70%);
+        }
+
+        .wkuwanie-banner.oki::after {
+            background: radial-gradient(circle, rgba(251,146,60,0.08) 0%, transparent 70%);
+        }
+
+        .wkuwanie-banner.oki:hover {
+            border-color: rgba(239, 68, 68, 0.7);
+            box-shadow: 0 20px 60px rgba(239, 68, 68, 0.2);
+        }
+
+        .wkuwanie-banner.oki .wkuwanie-icon-wrap {
+            background: rgba(239,68,68,0.15);
+            border: 1px solid rgba(239,68,68,0.3);
+        }
+
+        .wkuwanie-banner.oki:hover .wkuwanie-icon-wrap {
+            background: rgba(239,68,68,0.25);
+        }
+
+        .wkuwanie-banner.oki .wkuwanie-label { color: #f87171; }
+        .wkuwanie-banner.oki .wkuwanie-label::before { background: #fb923c; }
+
+        .wkuwanie-banner.oki .wkuwanie-title span {
+            background: linear-gradient(90deg, #f87171, #fb923c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .wkuwanie-tag.oki {
+            background: rgba(239,68,68,0.12);
+            border: 1px solid rgba(239,68,68,0.3);
+            color: #f87171;
+        }
+
+        @media (max-width: 900px) {
+            .wkuwanie-row {
+                flex-direction: column;
+                gap: 14px;
+            }
+            .wkuwanie-row .wkuwanie-banner {
+                flex: 0 1 auto;
+                width: 100%;
+            }
+        }
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 32px 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-muted);
+            font-size: 13px;
+            position: relative;
+            z-index: 1;
+        }
+
+        footer span { font-family: var(--font-mono); }
+
+        .popup {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .popup.active { display: flex; }
+
+        .popup-content {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-accent);
+            border-radius: var(--radius-lg);
+            padding: 40px 48px;
+            position: relative;
+            text-align: center;
+            max-width: 340px;
+            animation: fadeInUp 0.3s ease both;
+        }
+
+        .close {
+            position: absolute;
+            top: 14px; right: 18px;
+            font-size: 22px;
+            cursor: pointer;
+            color: var(--text-muted);
+            line-height: 1;
+            transition: color 0.2s;
+        }
+
+        .close:hover { color: var(--text-primary); }
+
+        /* ─── NEXT CARDS (A co dalej?) ─── */
+        .next-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 26px;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.3s, transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s ease;
+        }
+        .next-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--accent-dim), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            border-radius: inherit;
+        }
+        .next-card:hover::before { opacity: 1; }
+        .next-card:hover {
+            border-color: var(--border-accent);
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 16px 48px var(--accent-glow);
+        }
+        .next-card-icon {
+            font-size: 22px;
+            margin-bottom: 14px;
+            position: relative;
+            z-index: 1;
+        }
+        .next-card-title {
+            font-family: var(--font-display);
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+        .next-card-desc {
+            font-size: 13.5px;
+            color: var(--text-secondary);
+            line-height: 1.65;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ─── PAGE LAYOUT WITH SIDEBAR ─── */
+        .page-body {
+            display: block;
+            position: relative;
+        }
+
+        .main-content {
+            margin-right: 300px;
+        }
+
+        /* ─── OLYMPIC SIDEBAR ─── */
+        .olympic-sidebar {
+            width: 284px;
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            bottom: 20px;
+            border-radius: var(--radius-lg);
+            overflow-y: hidden;
+            display: flex;
+            flex-direction: column;
+            z-index: 10;
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.03);
+        }
+
+        /* Glowing top accent line */
+        .olympic-sidebar::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 20px; right: 20px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(59,130,246,0.6), rgba(167,139,250,0.4), transparent);
+            border-radius: 100px;
+        }
+
+        .sidebar-inner {
+            overflow-y: auto;
+            flex: 1;
+            padding: 20px 16px 28px 18px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--border-accent) transparent;
+        }
+
+        .sidebar-inner::-webkit-scrollbar { width: 3px; }
+        .sidebar-inner::-webkit-scrollbar-track { background: transparent; }
+        .sidebar-inner::-webkit-scrollbar-thumb { background: var(--border-accent); border-radius: 4px; }
+
+        .sidebar-header {
+            padding: 6px 0 16px;
+            margin-bottom: 14px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sidebar-eyebrow {
+            font-family: var(--font-mono);
+            font-size: 9.5px;
+            color: var(--accent-bright);
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            margin-bottom: 10px;
+        }
+
+        .sidebar-eyebrow::before {
+            content: '';
+            width: 5px; height: 5px;
+            background: var(--accent-bright);
+            border-radius: 50%;
+            flex-shrink: 0;
+            animation: blink 2s ease-in-out infinite;
+            box-shadow: 0 0 6px var(--accent-bright);
+        }
+
+        .sidebar-title {
+            font-family: var(--font-display);
+            font-size: 17px;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.15;
+            margin-bottom: 5px;
+            background: linear-gradient(135deg, var(--text-primary) 60%, var(--accent-bright));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .sidebar-subtitle {
+            font-size: 11.5px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .sidebar-guarantee {
+            background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(167,139,250,0.06));
+            border: 1px solid rgba(59,130,246,0.22);
+            border-radius: var(--radius-sm);
+            padding: 10px 12px;
+            font-size: 11px;
+            color: #93c5fd;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .sidebar-guarantee strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Track selector */
+        .track-selector {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 12px;
+        }
+
+        .track-btn {
+            flex: 1;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 10px 6px;
+            font-family: var(--font-mono);
+            color: var(--text-muted);
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+            line-height: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .track-btn-icon { font-size: 16px; }
+
+        .track-btn-name {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            color: var(--text-secondary);
+            transition: color 0.2s;
+        }
+
+        .track-btn-pace {
+            font-size: 9px;
+            letter-spacing: 0.03em;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .track-btn-total {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            transition: color 0.2s;
+        }
+
+        .track-btn:hover .track-btn-name { color: var(--text-primary); }
+        .track-btn:hover .track-btn-pace { opacity: 1; }
+
+        .track-btn.fast:hover,
+        .track-btn.fast.active-track {
+            background: rgba(59,130,246,0.12);
+            border-color: rgba(59,130,246,0.35);
+        }
+        .track-btn.fast:hover .track-btn-name,
+        .track-btn.fast.active-track .track-btn-name { color: #60a5fa; }
+        .track-btn.fast:hover .track-btn-total,
+        .track-btn.fast.active-track .track-btn-total { color: #60a5fa; }
+
+        .track-btn.mid:hover,
+        .track-btn.mid.active-track {
+            background: rgba(129,140,248,0.12);
+            border-color: rgba(129,140,248,0.35);
+        }
+        .track-btn.mid:hover .track-btn-name,
+        .track-btn.mid.active-track .track-btn-name { color: #818cf8; }
+        .track-btn.mid:hover .track-btn-total,
+        .track-btn.mid.active-track .track-btn-total { color: #818cf8; }
+
+        .track-btn.slow:hover,
+        .track-btn.slow.active-track {
+            background: rgba(52,211,153,0.1);
+            border-color: rgba(52,211,153,0.3);
+        }
+        .track-btn.slow:hover .track-btn-name,
+        .track-btn.slow.active-track .track-btn-name { color: #34d399; }
+        .track-btn.slow:hover .track-btn-total,
+        .track-btn.slow.active-track .track-btn-total { color: #34d399; }
+
+        .track-label-row {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            margin-bottom: 14px;
+        }
+
+        .track-label-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            animation: blink 2.5s ease-in-out infinite;
+        }
+
+        .track-label-text {
+            font-family: var(--font-mono);
+            font-size: 9.5px;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+        }
+
+        /* Progress tracker */
+        .sidebar-progress {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 12px 14px;
+            margin-bottom: 16px;
+        }
+
+        .progress-top-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .progress-label {
+            font-family: var(--font-mono);
+            font-size: 9.5px;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .progress-count {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .progress-count span {
+            color: var(--accent-bright);
+            font-weight: 600;
+        }
+
+        .progress-bar-wrap {
+            height: 5px;
+            background: var(--bg-elevated);
+            border-radius: 100px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--accent), #a78bfa);
+            border-radius: 100px;
+            transition: width 0.6s cubic-bezier(0.16,1,0.3,1);
+            box-shadow: 0 0 8px rgba(59,130,246,0.4);
+        }
+
+        /* Problem set buttons */
+        .sidebar-section-label {
+            font-family: var(--font-mono);
+            font-size: 9px;
+            color: var(--text-muted);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            padding-left: 2px;
+        }
+
+        .problem-sets {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .pset-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            padding: 8px 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s, transform 0.25s cubic-bezier(0.16,1,0.3,1), box-shadow 0.2s;
+            text-align: left;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pset-btn:hover {
+            border-color: var(--border-accent);
+            background: var(--bg-elevated);
+            transform: translateX(2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+        }
+
+        .pset-num {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text-muted);
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            padding: 3px 6px;
+            min-width: 28px;
+            text-align: center;
+            flex-shrink: 0;
+            transition: color 0.2s, border-color 0.2s, background 0.2s;
+        }
+
+        .pset-btn:hover .pset-num {
+            color: var(--accent-bright);
+            border-color: var(--border-accent);
+            background: var(--accent-dim);
+        }
+
+        .pset-name {
+            font-family: var(--font-body);
+            font-size: 11.5px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            letter-spacing: 0em;
+            transition: color 0.2s;
+            flex: 1;
+            text-align: left;
+        }
+
+        .pset-btn:hover .pset-name {
+            color: var(--text-primary);
+        }
+
+        .pset-arrow {
+            font-size: 11px;
+            color: var(--text-muted);
+            flex-shrink: 0;
+            transition: color 0.2s, transform 0.2s;
+            opacity: 0;
+        }
+
+        .pset-btn:hover .pset-arrow {
+            color: var(--accent-bright);
+            transform: translateX(2px);
+            opacity: 1;
+        }
+
+        .pset-wip-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: #f87171;
+            flex-shrink: 0;
+            box-shadow: 0 0 6px rgba(248,113,113,0.5);
+            opacity: 0.7;
+        }
+
+        /* Fast track accent */
+        .pset-btn.fast:hover { border-color: rgba(96,165,250,0.4); }
+        .pset-btn.fast:hover .pset-num { color: #60a5fa; border-color: rgba(96,165,250,0.4); background: rgba(96,165,250,0.1); }
+
+        /* Mid track accent */
+        .pset-btn.mid:hover { border-color: rgba(129,140,248,0.4); }
+        .pset-btn.mid:hover .pset-num { color: #818cf8; border-color: rgba(129,140,248,0.4); background: rgba(129,140,248,0.1); }
+
+        /* Slow track accent */
+        .pset-btn.slow:hover { border-color: rgba(52,211,153,0.35); }
+        .pset-btn.slow:hover .pset-num { color: #34d399; border-color: rgba(52,211,153,0.35); background: rgba(52,211,153,0.1); }
+
+        /* Sidebar divider */
+        .sidebar-divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--border), transparent);
+            margin: 14px 0;
+        }
+
+        /* ─── ŚCIĄGA BUTTON ─── */
+        .sciaga-btn {
+            width: 100%;
+            background: linear-gradient(135deg, rgba(167,139,250,0.1), rgba(59,130,246,0.07));
+            border: 1px solid rgba(167,139,250,0.3);
+            border-radius: var(--radius-sm);
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            margin-bottom: 14px;
+            transition: border-color 0.2s, background 0.2s, transform 0.2s;
+            text-align: left;
+        }
+
+        .sciaga-btn:hover {
+            border-color: rgba(167,139,250,0.55);
+            background: linear-gradient(135deg, rgba(167,139,250,0.18), rgba(59,130,246,0.1));
+            transform: translateY(-1px);
+        }
+
+        .sciaga-btn-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .sciaga-btn-info { flex: 1; }
+
+        .sciaga-btn-label {
+            font-family: var(--font-display);
+            font-size: 12.5px;
+            font-weight: 700;
+            color: #c4b5fd;
+            letter-spacing: -0.01em;
+        }
+
+        .sciaga-btn-sub {
+            font-family: var(--font-mono);
+            font-size: 9.5px;
+            color: var(--text-muted);
+            letter-spacing: 0.04em;
+            margin-top: 2px;
+        }
+
+        .sciaga-btn-arrow {
+            font-size: 13px;
+            color: #a78bfa;
+            transition: transform 0.2s;
+        }
+
+        .sciaga-btn:hover .sciaga-btn-arrow { transform: translateX(3px); }
+
+        /* ─── ŚCIĄGA POPUP ─── */
+        .sciaga-popup {
+            display: none;
+            position: fixed;
+            z-index: 3000;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .sciaga-popup.active { display: flex; }
+
+        .sciaga-popup-content {
+            background: #1e1e2e;
+            border: 1px solid rgba(167,139,250,0.25);
+            border-radius: 12px;
+            width: 100%;
+            max-width: 900px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            animation: fadeInUp 0.3s cubic-bezier(0.16,1,0.3,1) both;
+            overflow: hidden;
+            box-shadow: 0 32px 80px rgba(0,0,0,0.7), 0 0 0 0.5px rgba(255,255,255,0.06);
+        }
+
+        .sciaga-popup-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 13px 20px;
+            background: #28283c;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            flex-shrink: 0;
+            user-select: none;
+        }
+
+        .sciaga-popup-title {
+            font-family: var(--font-body);
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            letter-spacing: 0.01em;
+        }
+
+        .sciaga-popup-meta {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--text-muted);
+            letter-spacing: 0.04em;
+            margin-top: 1px;
+        }
+
+        .sciaga-popup-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 22px;
+            cursor: pointer;
+            line-height: 1;
+            transition: color 0.2s;
+            padding: 0 0 0 16px;
+        }
+
+        .sciaga-popup-close:hover { color: var(--text-primary); }
+
+        .sciaga-code-wrap {
+            overflow-y: auto;
+            flex: 1;
+            padding: 0;
+        }
+
+        .sciaga-code-wrap::-webkit-scrollbar { width: 6px; }
+        .sciaga-code-wrap::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+        .sciaga-code-wrap::-webkit-scrollbar-thumb { background: rgba(167,139,250,0.25); border-radius: 4px; }
+        .sciaga-code-wrap::-webkit-scrollbar-thumb:hover { background: rgba(167,139,250,0.45); }
+
+        .sciaga-code-wrap pre {
+            margin: 0 !important;
+            border-radius: 0 !important;
+            background: #1e1e2e !important;
+            padding: 22px 28px !important;
+            font-size: 12.5px !important;
+            line-height: 1.7 !important;
+            tab-size: 4;
+            font-family: var(--font-mono) !important;
+        }
+
+        .sciaga-code-wrap code {
+            font-family: var(--font-mono) !important;
+        }
+
+        /* Prism token overrides to match site palette */
+        .token.comment,
+        .token.prolog,
+        .token.doctype,
+        .token.cdata         { color: #4a4a6a !important; font-style: italic; }
+        .token.keyword        { color: #818cf8 !important; font-weight: 600; }
+        .token.string,
+        .token.char          { color: #34d399 !important; }
+        .token.number        { color: #fb923c !important; }
+        .token.function      { color: #60a5fa !important; }
+        .token.operator      { color: #94a3b8 !important; }
+        .token.punctuation   { color: #64748b !important; }
+        .token.class-name    { color: #c4b5fd !important; }
+        .token.preprocessor,
+        .token.directive-hash { color: #f472b6 !important; }
+        .token.macro         { color: #f472b6 !important; }
+        .token.boolean       { color: #fb923c !important; }
+        .token.builtin       { color: #38bdf8 !important; }
+        .token.namespace     { color: #a78bfa !important; }
+        .wip-popup {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wip-popup.active { display: flex; }
+
+        .wip-popup-content {
+            background: var(--bg-elevated);
+            border: 1px solid rgba(59,130,246,0.35);
+            border-radius: var(--radius-lg);
+            padding: 44px 52px;
+            position: relative;
+            text-align: center;
+            max-width: 380px;
+            animation: fadeInUp 0.3s ease both;
+        }
+
+        .wip-icon {
+            font-size: 44px;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .wip-title {
+            font-family: var(--font-display);
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+
+        .wip-num {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: #60a5fa;
+            letter-spacing: 0.08em;
+            margin-bottom: 10px;
+        }
+
+        .wip-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .wip-close {
+            position: absolute;
+            top: 14px; right: 18px;
+            font-size: 22px;
+            cursor: pointer;
+            color: var(--text-muted);
+            line-height: 1;
+            transition: color 0.2s;
+            background: none;
+            border: none;
+        }
+
+        .wip-close:hover { color: var(--text-primary); }
+
+        .nav-group-item { display: flex; align-items: center; }
+        .nav-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border-accent);
+            border-radius: var(--radius-sm);
+            padding: 8px 10px 3px;
+            margin-top: 7px;
+            background: var(--accent-dim);
+        }
+        .nav-group-label {
+            position: absolute;
+            top: -7px;
+            left: 12px;
+            background: #0a0a0f;
+            padding: 1px 7px;
+            border: 1px solid var(--border-accent);
+            border-radius: 100px;
+            font-family: var(--font-mono);
+            font-size: 9.5px;
+            font-weight: 500;
+            color: var(--accent-bright);
+            text-transform: lowercase;
+            letter-spacing: 0.06em;
+            line-height: 1.3;
+        }
+        .nav-group-links { display: flex; align-items: center; gap: 2px; }
+
+        /* ─── FOCUS MODE TOGGLE ─── */
+        .focus-toggle {
+            display: flex; align-items: center; gap: 8px;
+            font-family: var(--font-mono); font-size: 11px; color: var(--text-secondary);
+            letter-spacing: 0.06em; text-transform: uppercase; user-select: none;
+            margin-left: 6px; padding-left: 10px; border-left: 1px solid var(--border);
+        }
+        .focus-switch {
+            position: relative; width: 36px; height: 20px; border-radius: 100px;
+            background: var(--bg-elevated); border: 1px solid var(--border);
+            cursor: pointer; transition: background 0.25s ease, border-color 0.25s ease;
+            flex-shrink: 0;
+        }
+        .focus-switch::after {
+            content: ''; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px;
+            border-radius: 50%; background: var(--text-muted);
+            transition: transform 0.25s ease, background 0.25s ease;
+        }
+        .focus-switch.active, html.focus-mode .focus-switch { background: var(--accent-dim); border-color: var(--border-accent); }
+        .focus-switch.active::after, html.focus-mode .focus-switch::after { transform: translateX(16px); background: var(--accent-bright); }
+        /* Znaczek OI / OIJ widoczny w miejscu logo w trybie focus */
+        .logo-focus-group { display: none; align-items: center; gap: 10px; }
+        .focus-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            height: 38px; padding: 0 13px 0 7px; border-radius: 100px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+            border: 1px solid var(--border);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+            font-family: var(--font-display); font-weight: 800; font-size: 14px;
+            letter-spacing: 0.04em; color: var(--text-primary); line-height: 1;
+        }
+        .logo .focus-badge img.focus-mark {
+            width: auto; height: 26px; border-radius: 0; object-fit: contain;
+            box-shadow: none; transform: none;
+            filter: drop-shadow(0 0 6px rgba(255,255,255,0.08));
+        }
+        .focus-badge-oij img.focus-mark { height: 27px !important; }
+        .focus-sep {
+            width: 5px; height: 5px; border-radius: 50%;
+            background: var(--text-muted);
+        }
+        html.focus-anim .logo-focus-group > * { animation: focusPop 0.45s cubic-bezier(.2,.9,.3,1.2) both; }
+        html.focus-anim .logo-focus-group > :nth-child(2) { animation-delay: 0.06s; }
+        html.focus-anim .logo-focus-group > :nth-child(3) { animation-delay: 0.12s; }
+        @keyframes focusPop {
+            from { opacity: 0; transform: translateY(6px) scale(0.9); }
+            to   { opacity: 1; transform: none; }
+        }
+        html.focus-mode .navbar {
+            background: rgba(10, 10, 15, 0.9);
+            box-shadow: inset 0 -1px 0 var(--border-accent);
+        }
+        /* Płynne przejście między trybami (View Transitions API) */
+        /* Plynne przejscia miedzy podstronami - navbar zostaje na miejscu */
+        @view-transition { navigation: auto; }
+        .navbar { view-transition-name: navbar; }
+        .logo { view-transition-name: nav-logo; }
+        .focus-switch { view-transition-name: focus-switch; }
+        ::view-transition-group(*) { animation-duration: 0.4s; animation-timing-function: cubic-bezier(.4,0,.2,1); }
+        html.focus-anim::view-transition-old(nav-logo) { animation: 0.2s ease both focusFadeOut; }
+        html.focus-anim::view-transition-new(nav-logo) { animation: 0.35s 0.08s cubic-bezier(.2,.9,.3,1) both focusFadeIn; }
+        @keyframes focusFadeOut { to { opacity: 0; transform: scale(0.94); filter: blur(3px); } }
+        @keyframes focusFadeIn { from { opacity: 0; transform: scale(0.94); filter: blur(3px); } }
+        @media (prefers-reduced-motion: reduce) {
+            ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+            html.focus-anim .logo-focus-group > * { animation: none; }
+        }
+        html.focus-mode .nav-hide-focus { display: none !important; }
+        html.focus-mode #logoDefault,
+        html.focus-mode #logoText,
+        html.focus-mode #polska-flaga { display: none !important; }
+        html.focus-mode .logo-focus-group { display: flex !important; }
+        html.focus-mode .logo { pointer-events: none; cursor: default; }
+        html.focus-mode .nav-group-label { display: none !important; }
+        html.focus-mode .nav-group {
+            border: none !important;
+            background: transparent !important;
+            padding: 3px 0 !important;
+            margin: 0 !important;
+        }
+        html.focus-mode .nav-links { flex: 1; justify-content: center; }
+        html.focus-mode .nav-group-item { flex: 1; justify-content: center; }
+        html.focus-mode .nav-group { flex: 1; justify-content: center; }
+        html.focus-mode .nav-group-links { justify-content: center; flex: 1; }
+
+        @media (max-width: 900px) {
+            .olympic-sidebar { display: none; }
+            .main-content { margin-right: 0; }
+
+            .navbar { padding: 0 20px; }
+            .hamburger { display: flex; }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 68px; left: 0; right: 0;
+                flex-direction: column;
+                background: rgba(10, 10, 15, 0.98);
+                backdrop-filter: blur(20px);
+                border-bottom: 1px solid var(--border);
+                padding: 16px 0 24px;
+                gap: 0;
+                z-index: 99;
+            }
+            .nav-links.open { display: flex; }
+            .nav-links li { width: 100%; }
+            .nav-group-item { width: 100%; }
+            .nav-group {
+                flex-direction: column;
+                align-items: stretch;
+                border-radius: var(--radius-md);
+                margin: 16px 28px 6px;
+                padding: 12px 0 6px;
+                width: auto;
+            }
+            .nav-group-label { left: 16px; background: #0a0a0f; }
+            .nav-group-links { flex-direction: column; width: 100%; }
+            .nav-group-links a { width: 100%; }
+            .focus-toggle {
+                width: 100%; justify-content: center; margin: 8px 0 0; padding: 10px 0 0;
+                border-left: none; border-top: 1px solid var(--border);
+            }
+
+            .nav-links a { display: block; padding: 14px 28px; font-size: 16px; border-radius: 0; }
+            .nav-links .nav-cta { padding: 12px 20px 0; }
+            .nav-links .nav-cta a { display: block; text-align: center; border-radius: var(--radius-sm); padding: 14px; }
+            .page-header { padding: 110px 24px 40px; }
+            main { padding: 0 24px 60px; }
+            .divider { margin: 0 24px; }
+            .materials-grid { grid-template-columns: 1fr; }
+            .phase-header { flex-wrap: wrap; gap: 12px; }
+            .phase-line { display: none; }
+            footer { flex-direction: column; gap: 12px; padding: 24px; text-align: center; }
+            .milestone-card { flex-wrap: wrap; }
+            .wkuwanie-banner { flex-direction: column; align-items: flex-start; padding: 28px 24px; }
+            .wkuwanie-cta { display: none; }
+        }
+
+        @media (max-width: 520px) {
+            .wkuwanie-row { gap: 12px; }
+            .wkuwanie-banner {
+                gap: 14px;
+                padding: 22px 20px;
+            }
+            .wkuwanie-icon-wrap {
+                width: 46px; height: 46px;
+                border-radius: 12px;
+                font-size: 20px;
+            }
+            .wkuwanie-label { font-size: 9.5px; }
+            .wkuwanie-title { font-size: 19px; margin-bottom: 6px; }
+            .wkuwanie-desc { font-size: 13px; line-height: 1.55; }
+            .wkuwanie-tags { margin-top: 10px; gap: 6px; }
+            .wkuwanie-tag { font-size: 9.5px; padding: 3px 9px; }
+        }
+
+        .join-cta {
+            margin-top: 56px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-accent);
+            border-radius: var(--radius-lg);
+            padding: 48px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .join-cta::before {
+            content: '';
+            position: absolute;
+            top: -40%; left: 50%;
+            transform: translateX(-50%);
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(59,130,246,0.07) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .join-cta-eyebrow {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--accent-bright);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
+        }
+        .join-cta-title {
+            font-family: var(--font-display);
+            font-size: clamp(22px, 3vw, 34px);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 14px;
+            position: relative;
+            z-index: 1;
+        }
+        .join-cta-desc {
+            color: var(--text-secondary);
+            font-size: 15px;
+            max-width: 460px;
+            margin: 0 auto 28px;
+            line-height: 1.75;
+            position: relative;
+            z-index: 1;
+        }
+        .join-cta-actions {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+        .join-cta-btn {
+            padding: 14px 28px;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-body);
+            font-size: 15px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.2s, transform 0.2s, box-shadow 0.2s, color 0.2s, border-color 0.2s;
+            white-space: nowrap;
+        }
+        .join-cta-btn-primary {
+            background: var(--accent);
+            color: white;
+            border: none;
+            font-weight: 600;
+        }
+        .join-cta-btn-primary:hover {
+            background: var(--accent-bright);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px var(--accent-glow);
+        }
+        .join-cta-btn-secondary {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            font-weight: 500;
+        }
+        .join-cta-btn-secondary:hover {
+            color: var(--text-primary);
+            border-color: var(--border-accent);
+            transform: translateY(-2px);
+        }
+
+        .next-section {
+            padding: 80px 80px;
+            max-width: 1280px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 900px) {
+            .next-section { padding: 60px 24px; }
+            .join-cta { padding: 36px 28px; margin-top: 40px; }
+        }
+
+        @media (max-width: 520px) {
+            .next-section { padding: 48px 24px; }
+            .join-cta { padding: 26px 18px; margin-top: 32px; border-radius: var(--radius-md); }
+            .join-cta::before { width: 320px; height: 320px; }
+            .join-cta-eyebrow { font-size: 10px; margin-bottom: 12px; }
+            .join-cta-title { margin-bottom: 10px; }
+            .join-cta-desc { font-size: 13.5px; line-height: 1.6; margin-bottom: 22px; }
+            .join-cta-actions { flex-direction: column; gap: 10px; }
+            .join-cta-btn { width: 100%; text-align: center; padding: 14px 20px; }
+        }
+
+        /* ═══════════════════════════════════════════════
+           LEADERBOARD ZESTAWÓW (dane z vjudge.net)
+           ═══════════════════════════════════════════════ */
+        .lb-section {
+            padding: 80px 80px;
+            max-width: 1280px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .lb-head { margin-bottom: 40px; }
+
+        .lb-eyebrow {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 500;
+            color: #fbbf24;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .lb-eyebrow::before {
+            content: '';
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #fbbf24;
+            box-shadow: 0 0 8px rgba(251,191,36,0.8);
+            animation: blink 1.8s ease-in-out infinite;
+        }
+
+        .lb-title {
+            font-family: var(--font-display);
+            font-size: clamp(28px, 3.5vw, 44px);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 18px;
+        }
+
+        .lb-title span {
+            background: linear-gradient(100deg, #fde68a 0%, #fbbf24 35%, #f59e0b 60%, #fde68a 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: lbShine 5s linear infinite;
+        }
+
+        @keyframes lbShine {
+            to { background-position: 200% center; }
+        }
+
+        .lb-sub {
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.8;
+            max-width: 640px;
+        }
+
+        /* ─── Pasek statystyk ─── */
+        .lb-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin: 32px 0 48px;
+        }
+
+        .lb-stat {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 18px 20px;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.25s, transform 0.3s cubic-bezier(0.16,1,0.3,1);
+        }
+
+        .lb-stat:hover {
+            border-color: rgba(251,191,36,0.3);
+            transform: translateY(-2px);
+        }
+
+        .lb-stat-num {
+            font-family: var(--font-display);
+            font-size: 26px;
+            font-size: clamp(19px, 4.4vw, 26px);
+            white-space: nowrap;
+            display: inline-block;   /* żeby dało się zmierzyć szerokość samej liczby */
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            line-height: 1;
+        }
+
+        .lb-stat-label {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--text-muted);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-top: 8px;
+        }
+
+        /* ─── PODIUM ─── */
+        .lb-podium {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 56px;
+            position: relative;
+        }
+
+        /* poświata pod podium */
+        .lb-podium::before {
+            content: '';
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: min(760px, 100%);
+            height: 220px;
+            background: radial-gradient(ellipse at center, rgba(251,191,36,0.12) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .lb-place {
+            flex: 1 1 0;
+            max-width: 280px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+            opacity: 0;
+            transform: translateY(48px);
+            transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1),
+                        transform 0.7s cubic-bezier(0.16,1,0.3,1);
+        }
+
+        .lb-podium.lb-in .lb-place { opacity: 1; transform: translateY(0); }
+        .lb-podium.lb-in .lb-place-3 { transition-delay: 0.05s; }
+        .lb-podium.lb-in .lb-place-2 { transition-delay: 0.20s; }
+        .lb-podium.lb-in .lb-place-1 { transition-delay: 0.38s; }
+
+        /* karta zawodnika */
+        .lb-card {
+            width: 100%;
+            container-type: inline-size;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+            padding: 26px 20px 22px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .lb-place-1 .lb-card {
+            background: linear-gradient(170deg, #1f1703 0%, #1a1408 45%, var(--bg-card) 100%);
+            border-color: rgba(251,191,36,0.38);
+            box-shadow: 0 12px 48px rgba(251,191,36,0.14), inset 0 1px 0 rgba(251,191,36,0.12);
+            padding: 32px 20px 26px;
+        }
+
+        .lb-place-2 .lb-card {
+            background: linear-gradient(170deg, #16171d 0%, #14151b 45%, var(--bg-card) 100%);
+            border-color: rgba(203,213,225,0.26);
+            box-shadow: 0 8px 32px rgba(203,213,225,0.07);
+        }
+
+        .lb-place-3 .lb-card {
+            background: linear-gradient(170deg, #1c1408 0%, #181209 45%, var(--bg-card) 100%);
+            border-color: rgba(224,138,74,0.26);
+            box-shadow: 0 8px 32px rgba(224,138,74,0.07);
+        }
+
+        .lb-place-1 .lb-card:hover { border-color: rgba(251,191,36,0.7); }
+        .lb-place-2 .lb-card:hover { border-color: rgba(203,213,225,0.5); }
+        .lb-place-3 .lb-card:hover { border-color: rgba(224,138,74,0.5); }
+
+        /* przesuwający się refleks po karcie zwycięzcy */
+        .lb-place-1 .lb-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -60%;
+            width: 45%;
+            height: 100%;
+            background: linear-gradient(100deg, transparent, rgba(255,255,255,0.07), transparent);
+            transform: skewX(-18deg);
+            animation: lbSweep 4.5s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes lbSweep {
+            0%   { left: -60%; }
+            55%  { left: 135%; }
+            100% { left: 135%; }
+        }
+
+        /* medal */
+        .lb-medal {
+            font-size: 34px;
+            line-height: 1;
+            margin-bottom: 14px;
+            display: inline-block;
+            filter: drop-shadow(0 3px 10px rgba(0,0,0,0.5));
+            animation: lbMedalFloat 3.4s ease-in-out infinite;
+        }
+
+        .lb-place-1 .lb-medal {
+            font-size: 44px;
+            filter: drop-shadow(0 4px 16px rgba(251,191,36,0.45));
+            animation: lbMedalFloat 3s ease-in-out infinite;
+        }
+
+        .lb-place-2 .lb-medal { animation-delay: 0.4s; }
+        .lb-place-3 .lb-medal { animation-delay: 0.8s; }
+
+        @keyframes lbMedalFloat {
+            0%, 100% { transform: translateY(0) rotate(-4deg); }
+            50%      { transform: translateY(-7px) rotate(4deg); }
+        }
+
+        /* avatar */
+        .lb-avatar-wrap {
+            position: relative;
+            width: 72px;
+            height: 72px;
+            margin: 0 auto 14px;
+        }
+
+        .lb-place-1 .lb-avatar-wrap { width: 88px; height: 88px; }
+
+        .lb-avatar-ring {
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, #fde68a, #f59e0b, #fbbf24, #fef3c7, #f59e0b, #fde68a);
+            animation: lbSpin 7s linear infinite;
+        }
+
+        .lb-place-2 .lb-avatar-ring {
+            background: conic-gradient(from 0deg, #f1f5f9, #94a3b8, #cbd5e1, #e2e8f0, #94a3b8, #f1f5f9);
+            animation-duration: 9s;
+        }
+
+        .lb-place-3 .lb-avatar-ring {
+            background: conic-gradient(from 0deg, #fcd9b6, #b9713a, #e08a4a, #fdba74, #b9713a, #fcd9b6);
+            animation-duration: 11s;
+        }
+
+        @keyframes lbSpin { to { transform: rotate(360deg); } }
+
+        .lb-avatar-inner {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            overflow: hidden;
+            background: var(--bg-elevated);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lb-avatar-letter {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 28px;
+            color: var(--text-secondary);
+            user-select: none;
+        }
+
+        .lb-place-1 .lb-avatar-letter { font-size: 34px; }
+
+        .lb-avatar-img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            background: var(--bg-elevated);
+        }
+
+        /* iskry nad zwycięzcą */
+        .lb-sparks { position: absolute; inset: 0; pointer-events: none; }
+
+        .lb-spark {
+            position: absolute;
+            font-size: 11px;
+            opacity: 0;
+            animation: lbSpark 3.2s ease-in-out infinite;
+        }
+
+        .lb-spark:nth-child(1) { left: 6%;  top: 52%; animation-delay: 0s;   }
+        .lb-spark:nth-child(2) { left: 86%; top: 42%; animation-delay: 0.7s; }
+        .lb-spark:nth-child(3) { left: 22%; top: 18%; animation-delay: 1.4s; }
+        .lb-spark:nth-child(4) { left: 70%; top: 10%; animation-delay: 2.1s; }
+        .lb-spark:nth-child(5) { left: 48%; top: 62%; animation-delay: 2.7s; }
+
+        @keyframes lbSpark {
+            0%   { opacity: 0; transform: translateY(6px) scale(0.5); }
+            35%  { opacity: 1; transform: translateY(-8px) scale(1.1); }
+            100% { opacity: 0; transform: translateY(-26px) scale(0.6); }
+        }
+
+        /* nazwa */
+        .lb-name {
+            font-family: var(--font-display);
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            color: var(--text-primary);
+            line-height: 1.25;
+            word-break: break-word;
+        }
+
+        .lb-place-1 .lb-name {
+            font-size: 21px;
+            background: linear-gradient(100deg, #fff7e0 0%, #fde68a 40%, #fbbf24 70%, #fff7e0 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: lbShine 4s linear infinite;
+        }
+
+        .lb-login {
+            font-family: var(--font-mono);
+            font-size: 10.5px;
+            color: var(--text-muted);
+            margin-top: 5px;
+            word-break: break-all;
+        }
+
+        /* wynik */
+        .lb-score {
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2px 5px;
+            margin-top: 16px;
+            min-width: 0;
+        }
+
+        /* Punkty bywaja pieciocyfrowe - liczba skaluje sie do szerokosci karty
+           (cqi), zeby nigdy nie rozpychala podium. */
+        .lb-score-num {
+            font-family: var(--font-display);
+            font-size: 30px;
+            font-size: clamp(18px, 15cqi, 32px);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1;
+            color: var(--text-primary);
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+        }
+
+        .lb-place-1 .lb-score-num {
+            font-size: 40px;
+            font-size: clamp(20px, 15cqi, 46px);
+            color: #fbbf24;
+            text-shadow: 0 0 28px rgba(251,191,36,0.4);
+        }
+        .lb-place-2 .lb-score-num { color: #e2e8f0; }
+        .lb-place-3 .lb-score-num { color: #e08a4a; }
+
+        .lb-score-total {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        .lb-score-word {
+            font-family: var(--font-mono);
+            font-size: 9.5px;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-top: 6px;
+        }
+
+        /* pasek postępu */
+        .lb-bar {
+            height: 6px;
+            border-radius: 99px;
+            background: rgba(255,255,255,0.06);
+            overflow: hidden;
+            margin: 14px 0 12px;
+        }
+
+        .lb-bar-fill {
+            height: 100%;
+            width: 0;
+            border-radius: 99px;
+            transition: width 1.4s cubic-bezier(0.16,1,0.3,1) 0.5s;
+            background: linear-gradient(90deg, #f59e0b, #fbbf24, #fde68a);
+            background-size: 200% auto;
+            animation: lbShine 3s linear infinite;
+        }
+
+        .lb-place-2 .lb-bar-fill { background: linear-gradient(90deg, #94a3b8, #cbd5e1, #f1f5f9); background-size: 200% auto; }
+        .lb-place-3 .lb-bar-fill { background: linear-gradient(90deg, #b9713a, #e08a4a, #fdba74); background-size: 200% auto; }
+
+        .lb-meta {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* cokół */
+        .lb-pedestal {
+            width: 100%;
+            border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+            border: 1px solid var(--border);
+            border-top: none;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: scaleY(0);
+            transform-origin: bottom;
+            transition: transform 0.85s cubic-bezier(0.16,1,0.3,1);
+        }
+
+        .lb-podium.lb-in .lb-pedestal { transform: scaleY(1); }
+        .lb-podium.lb-in .lb-place-3 .lb-pedestal { transition-delay: 0.25s; }
+        .lb-podium.lb-in .lb-place-2 .lb-pedestal { transition-delay: 0.40s; }
+        .lb-podium.lb-in .lb-place-1 .lb-pedestal { transition-delay: 0.58s; }
+
+        .lb-place-1 .lb-pedestal {
+            height: 128px;
+            background: linear-gradient(180deg, rgba(251,191,36,0.22) 0%, rgba(180,124,10,0.12) 55%, rgba(10,10,15,0.2) 100%);
+            border-color: rgba(251,191,36,0.35);
+        }
+
+        .lb-place-2 .lb-pedestal {
+            height: 92px;
+            background: linear-gradient(180deg, rgba(203,213,225,0.16) 0%, rgba(100,116,139,0.1) 55%, rgba(10,10,15,0.2) 100%);
+            border-color: rgba(203,213,225,0.22);
+        }
+
+        .lb-place-3 .lb-pedestal {
+            height: 66px;
+            background: linear-gradient(180deg, rgba(224,138,74,0.16) 0%, rgba(146,85,36,0.1) 55%, rgba(10,10,15,0.2) 100%);
+            border-color: rgba(224,138,74,0.22);
+        }
+
+        .lb-pedestal-num {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 44px;
+            line-height: 1;
+            opacity: 0;
+            transition: opacity 0.5s ease 1.1s;
+            color: rgba(255,255,255,0.16);
+        }
+
+        .lb-podium.lb-in .lb-pedestal-num { opacity: 1; }
+        .lb-place-1 .lb-pedestal-num { font-size: 58px; color: rgba(251,191,36,0.4); }
+        .lb-place-2 .lb-pedestal-num { color: rgba(226,232,240,0.3); }
+        .lb-place-3 .lb-pedestal-num { color: rgba(224,138,74,0.35); }
+
+        /* ─── POZOSTALI (4+) ─── */
+        .lb-rest-label {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--text-muted);
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .lb-rest-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, var(--border), transparent);
+        }
+
+        .lb-rest { display: flex; flex-direction: column; gap: 8px; }
+
+        .lb-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 12px 18px;
+            opacity: 0;
+            transform: translateY(14px);
+            animation: fadeInUp 0.6s cubic-bezier(0.16,1,0.3,1) both;
+            transition: border-color 0.25s, transform 0.3s cubic-bezier(0.16,1,0.3,1), background 0.25s;
+        }
+
+        .lb-row:hover {
+            border-color: var(--border-accent);
+            transform: translateX(3px);
+            background: var(--bg-elevated);
+        }
+
+        .lb-row-rank {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-muted);
+            width: 28px;
+            flex-shrink: 0;
+            text-align: right;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .lb-row-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lb-row-avatar .lb-avatar-letter { font-size: 14px; }
+
+        .lb-row-body { flex: 1; min-width: 0; }
+
+        .lb-row-name {
+            font-family: var(--font-display);
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .lb-row-meta {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--text-muted);
+            margin-top: 3px;
+        }
+
+        .lb-row-bar {
+            flex: 0 1 180px;
+            height: 5px;
+            border-radius: 99px;
+            background: rgba(255,255,255,0.06);
+            overflow: hidden;
+        }
+
+        .lb-row-bar-fill {
+            height: 100%;
+            width: 0;
+            border-radius: 99px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-bright));
+            transition: width 1.2s cubic-bezier(0.16,1,0.3,1) 0.3s;
+        }
+
+        .lb-row-score {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+            flex-shrink: 0;
+            min-width: 78px;
+            text-align: right;
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+        }
+
+        .lb-row-score small {
+            font-family: var(--font-mono);
+            font-size: 9.5px;
+            font-weight: 400;
+            color: var(--text-muted);
+            letter-spacing: 0;
+        }
+
+        /* ─── Stopka / stany ─── */
+        .lb-foot {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-top: 28px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            font-family: var(--font-mono);
+            font-size: 10.5px;
+            color: var(--text-muted);
+        }
+
+        .lb-foot a { color: var(--accent-bright); text-decoration: none; }
+        .lb-foot a:hover { text-decoration: underline; }
+
+        .lb-sync {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+        }
+
+        .lb-sync-sep { color: var(--text-muted); margin: 0 2px; }
+
+        .lb-sync-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            background: #34d399;
+            box-shadow: 0 0 0 0 rgba(52,211,153,0.6);
+            animation: lbPing 2.4s ease-out infinite;
+        }
+
+        .lb-sync-stale { color: #fbbf24; }
+        .lb-sync-stale .lb-sync-dot {
+            background: #fbbf24;
+            box-shadow: 0 0 0 0 rgba(251,191,36,0.6);
+        }
+
+        @keyframes lbPing {
+            0%   { box-shadow: 0 0 0 0 currentColor; opacity: 1; }
+            70%  { box-shadow: 0 0 0 7px rgba(0,0,0,0); opacity: 0.85; }
+            100% { box-shadow: 0 0 0 0 rgba(0,0,0,0); opacity: 1; }
+        }
+
+        .lb-hint {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-top: 20px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-left: 2px solid rgba(251,191,36,0.5);
+            border-radius: var(--radius-sm);
+            padding: 14px 16px;
+            font-size: 12.5px;
+            line-height: 1.65;
+            color: var(--text-secondary);
+        }
+
+        .lb-hint a { color: #fbbf24; text-decoration: none; }
+        .lb-hint a:hover { text-decoration: underline; }
+
+        .lb-state {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--text-muted);
+            text-align: center;
+            padding: 48px 20px;
+            border: 1px dashed var(--border);
+            border-radius: var(--radius-md);
+        }
+
+        .lb-skeleton {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .lb-skeleton div {
+            flex: 1 1 0;
+            max-width: 280px;
+            border-radius: var(--radius-lg) var(--radius-lg) var(--radius-sm) var(--radius-sm);
+            background: linear-gradient(90deg, var(--bg-card) 25%, var(--bg-elevated) 50%, var(--bg-card) 75%);
+            background-size: 200% 100%;
+            animation: lbPulse 1.4s ease-in-out infinite;
+        }
+
+        .lb-skeleton div:nth-child(1) { height: 240px; }
+        .lb-skeleton div:nth-child(2) { height: 320px; animation-delay: 0.15s; }
+        .lb-skeleton div:nth-child(3) { height: 200px; animation-delay: 0.3s; }
+
+        @keyframes lbPulse {
+            0%   { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        @media (max-width: 900px) {
+            .lb-section { padding: 60px 24px; }
+            .lb-podium { gap: 12px; }
+            .lb-card { padding: 20px 12px 18px; }
+            .lb-place-1 .lb-card { padding: 24px 12px 20px; }
+            .lb-medal { font-size: 26px; }
+            .lb-place-1 .lb-medal { font-size: 34px; }
+            .lb-avatar-wrap { width: 54px; height: 54px; }
+            .lb-place-1 .lb-avatar-wrap { width: 66px; height: 66px; }
+            .lb-avatar-letter { font-size: 20px; }
+            .lb-place-1 .lb-avatar-letter { font-size: 25px; }
+            .lb-name { font-size: 14px; }
+            .lb-place-1 .lb-name { font-size: 17px; }
+            .lb-score-num { font-size: clamp(16px, 15cqi, 28px); }
+            .lb-place-1 .lb-score-num { font-size: clamp(18px, 15cqi, 36px); }
+            .lb-pedestal-num { font-size: 32px; }
+            .lb-place-1 .lb-pedestal-num { font-size: 42px; }
+            .lb-place-1 .lb-pedestal { height: 96px; }
+            .lb-place-2 .lb-pedestal { height: 70px; }
+            .lb-place-3 .lb-pedestal { height: 50px; }
+            .lb-row-bar { display: none; }
+        }
+
+        @media (max-width: 560px) {
+            .lb-podium {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 14px;
+            }
+            .lb-place { max-width: none; order: 2; }
+            .lb-place-1 { order: 1; }
+            .lb-place-2 { order: 2; }
+            .lb-place-3 { order: 3; }
+            .lb-card { border-radius: var(--radius-lg); padding: 20px; }
+            .lb-place-1 .lb-card { border-radius: var(--radius-lg); }
+            .lb-pedestal { display: none; }
+            .lb-login { word-break: break-all; }
+            .lb-row { padding: 10px 12px; gap: 10px; }
+            .lb-row-rank { width: 20px; font-size: 11px; }
+            .lb-row-avatar { width: 28px; height: 28px; }
+            .lb-row-score { font-size: 15px; min-width: 42px; }
+            .lb-foot { flex-direction: column; align-items: flex-start; gap: 8px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .lb-medal, .lb-avatar-ring, .lb-spark, .lb-place-1 .lb-card::after,
+            .lb-title span, .lb-place-1 .lb-name, .lb-bar-fill, .lb-skeleton div {
+                animation: none !important;
+            }
+            .lb-place, .lb-pedestal, .lb-pedestal-num, .lb-row {
+                transition-duration: 0.01s !important;
+                animation-duration: 0.01s !important;
+            }
+        }
+
+        /* ═══════════════════════════════════════════════
+           ANIMACJE STRONY
+           ═══════════════════════════════════════════════ */
+
+        /* ─── Nagłówki faz wjeżdżają z boku, linia się dorysowuje ─── */
+        .phase-header.reveal { transform: translateX(-28px); }
+        .phase-header.reveal.visible { transform: translateX(0); }
+
+        .phase-line {
+            transform: scaleX(0);
+            transform-origin: left center;
+            transition: transform 1s cubic-bezier(0.16,1,0.3,1) 0.2s;
+        }
+
+        .phase-header.visible .phase-line { transform: scaleX(1); }
+
+        .phase-badge {
+            transition: box-shadow 0.4s ease, transform 0.4s cubic-bezier(0.16,1,0.3,1);
+        }
+
+        .phase-header.visible .phase-badge {
+            box-shadow: 0 0 22px var(--accent-glow);
+        }
+
+        /* ─── Refleks przejeżdżający po karcie przy najechaniu ─── */
+        .material-card::after,
+        .next-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -75%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(100deg, transparent, rgba(255,255,255,0.07), transparent);
+            transform: skewX(-18deg);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .material-card:hover::after,
+        .next-card:hover::after {
+            animation: cardSweep 0.9s cubic-bezier(0.3,0,0.2,1);
+        }
+
+        @keyframes cardSweep {
+            from { left: -75%; }
+            to   { left: 145%; }
+        }
+
+        /* ─── Numerek materiału „oddycha" przy najechaniu ─── */
+        .material-number {
+            transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s ease;
+        }
+
+        .material-card:hover .material-number {
+            transform: translateY(-2px) scale(1.07);
+            box-shadow: 0 6px 20px var(--accent-glow);
+        }
+
+        .material-title {
+            transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+        }
+
+        .material-card:hover .material-title { transform: translateX(3px); }
+
+        /* ─── Ikona w kafelku „A co dalej?" ─── */
+        .next-card-icon {
+            display: inline-block;
+            transition: transform 0.45s cubic-bezier(0.34,1.56,0.64,1);
+        }
+
+        .next-card:hover .next-card-icon {
+            transform: translateY(-5px) rotate(-8deg) scale(1.15);
+        }
+
+        /* ─── Ikona banera (Szablony / CodeFlow / Net) ─── */
+        .wkuwanie-icon-wrap {
+            transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
+        }
+
+        .wkuwanie-banner:hover .wkuwanie-icon-wrap {
+            transform: rotate(-7deg) scale(1.1);
+        }
+
+        /* ─── Przyciski w finałowym CTA ─── */
+        .join-cta-btn-primary {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .join-cta-btn-primary::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -80%;
+            width: 45%;
+            height: 100%;
+            background: linear-gradient(100deg, transparent, rgba(255,255,255,0.35), transparent);
+            transform: skewX(-20deg);
+            animation: cardSweep 3.6s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .page-header h1 span, .join-cta-btn-primary::after { animation: none !important; }
+            .material-card:hover::after, .next-card:hover::after { animation: none !important; }
+            .phase-header.reveal, .phase-line, .phase-badge,
+            .material-number, .material-title, .next-card-icon,
+            .wkuwanie-icon-wrap {
+                transition-duration: 0.01s !important;
+            }
+        }
+
+        /* ─── TABLET / mniejszy laptop: obok bocznego panelu jest malo miejsca ─── */
+        @media (min-width: 901px) and (max-width: 1439px) {
+            .page-header { padding: 130px 48px 56px; }
+            main { padding: 0 48px 80px; }
+            .divider { margin: 0 48px; }
+        }
+        /* karty narzedzi jedna pod druga - obok siebie tekst sie ucinal */
+        @media (min-width: 901px) and (max-width: 1299px) {
+            .wkuwanie-row { flex-direction: column; gap: 16px; }
+            .wkuwanie-row .wkuwanie-banner { flex: 0 1 auto; width: 100%; }
+            .wkuwanie-banner { padding: 28px 30px; gap: 22px; }
+        }
+        /* Tablet pionowo: dwie kolumny tematow zamiast jednej rozciagnietej */
+        @media (min-width: 641px) and (max-width: 900px) {
+            .page-header { padding: 120px 40px 44px; }
+            main { padding: 0 40px 64px; }
+            .divider { margin: 0 40px; }
+            .materials-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .wkuwanie-banner { flex-direction: row; align-items: center; padding: 28px 30px; gap: 22px; }
+        }
+        @media (min-width: 1300px) and (max-width: 1599px) {
+            .wkuwanie-banner { flex-direction: column; align-items: flex-start; padding: 30px; gap: 18px; }
+            .wkuwanie-cta { display: none; }
+        }
+    </style>
+    <style id="tablet-nav">
+        /* ─── TABLET: nawigacja i logo (641–1299px) ───
+           < 1024px  menu pod hamburgerem jako panel po prawej,
+           1024–1299 pelne menu w wersji kompaktowej + logo w dwoch liniach. */
+        @media (min-width: 641px) {
+            .logo { flex-shrink: 0; }
+            .logo-text { white-space: nowrap; }
+        }
+
+        @media (min-width: 641px) and (max-width: 1023px) {
+            .navbar { padding: 0 28px; }
+            .logo-text { font-size: 15px; }
+            .hamburger { display: flex; }
+            .nav-pointer-bubble { display: none !important; }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: fixed;
+                top: 76px; right: 20px; left: auto;
+                width: 340px;
+                max-height: calc(100vh - 96px);
+                overflow-y: auto;
+                background: rgba(10, 10, 15, 0.98);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border: 1px solid var(--border);
+                border-radius: var(--radius-lg, 20px);
+                box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+                padding: 10px 0 16px;
+                gap: 0;
+                z-index: 99;
+            }
+            .nav-links.open { display: flex; }
+            .nav-links li { width: 100%; }
+            .nav-group-item { width: 100%; }
+            .nav-group {
+                flex: 1;
+                flex-direction: column;
+                align-items: stretch;
+                border-radius: var(--radius-md, 14px);
+                margin: 18px 16px 8px;
+                padding: 12px 0 6px;
+                width: auto;
+            }
+            .nav-group-label { left: 14px; background: #0a0a0f; }
+            .nav-group-links { flex-direction: column; align-items: stretch; width: 100%; gap: 0; }
+            .nav-group-links a { width: 100%; }
+            .focus-toggle {
+                width: 100%; justify-content: center; margin: 8px 0 0; padding: 10px 0 4px;
+                border-left: none; border-top: 1px solid var(--border);
+            }
+            .nav-links a { display: block; padding: 12px 24px; font-size: 15px; border-radius: 0; }
+            .nav-links a::after { display: none; }
+            .nav-links .nav-cta { padding: 10px 16px 0; }
+            .nav-links .nav-cta a { display: block; text-align: center; border-radius: var(--radius-sm, 8px); padding: 13px; }
+        }
+
+        @media (min-width: 1024px) and (max-width: 1299px) {
+            .navbar { padding: 0 24px; }
+            .logo { gap: 10px; }
+            .logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+            .logo-text-sub {
+                margin-top: 3px;
+                font-family: var(--font-mono);
+                font-size: 9.5px;
+                font-weight: 500;
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                color: var(--accent-bright);
+            }
+            .nav-links { gap: 2px; }
+            .nav-links a { padding: 8px 10px; font-size: 13.5px; letter-spacing: 0.01em; }
+            .nav-links a::after { left: 10px; right: 10px; }
+            .nav-group { padding: 8px 6px 3px; }
+            .nav-group-links { gap: 0; }
+            .focus-toggle { margin-left: 4px; padding-left: 8px; gap: 6px; }
+        }
+    </style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+
+<nav class="navbar" id="navbar">
+    <a class="logo" href="index.html">
+        <img id="logoDefault" src="./img/t-olimpians-logo.jpg" alt="Logo">
+        <span class="logo-text" id="logoText">T-Olimpians <span class="logo-text-sub">Team Poland</span></span>
+        <img id="polska-flaga" src="./img/polska_flaga.png" alt="Flaga Polski">
+        <span class="logo-focus-group" aria-label="Olimpiada Informatyczna i Olimpiada Informatyczna Juniorów">
+            <span class="focus-badge"><img class="focus-mark" src="./img/logo-oi-mark.png" alt="" decoding="async">OI</span>
+            <span class="focus-sep" aria-hidden="true"></span>
+            <span class="focus-badge focus-badge-oij"><img class="focus-mark" src="./img/logo-oij-mark.png" alt="" decoding="async">OIJ</span>
+        </span>
+    </a>
+    <div class="navbar-right">
+        <ul class="nav-links" id="navLinks">
+            <li class="nav-hide-focus"><a href="index.html">Home</a></li>
+            <li class="nav-hide-focus"><a href="index.html#o-nas" class="nav-close">O nas</a></li>
+            <li class="nav-group-item">
+                <div class="nav-group">
+                    <span class="nav-group-label">t-olimpians net</span>
+                    <div class="nav-group-links">
+                    <a href="materialy.html" class="active-page nav-close">C++/logika</a>
+                    <a href="net.html" class="nav-close">Algorytmy</a>
+                    <a href="zadania-OI-OIJ.html" class="nav-close">Zadania OI/OIJ</a>
+                    <a href="konkursy.html" class="nav-close">Konkursy</a>
+                        <div class="focus-toggle">
+                            <span>Focus</span>
+                            <div class="focus-switch" id="focusSwitch" role="switch" aria-checked="false" tabindex="0"></div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="nav-hide-focus"><a href="zapisy.html" class="nav-close">Zapisy</a></li>
+            <li class="nav-hide-focus nav-cta"><a href="index.html#contact-section" class="nav-close">Dołącz →</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+
+<div class="page-body">
+<div class="main-content">
+
+<div class="page-header">
+    <div class="page-header-badge">Program nauczania C++</div>
+    <h1>Materiały C++<br><span>T-Olimpians</span></h1>
+    <p>Pełna lista tematów C++ oraz STL — od podstaw po wbudowane struktury danych. Podzielona na trzy etapy z zadaniami kontrolnymi.</p>
+</div>
+
+<div class="divider"></div>
+
+<main>
+
+    <!-- WKUWANIE + CODEFLOW ROW -->
+    <div class="wkuwanie-row">
+        <a href="wkuwanie.html" class="wkuwanie-banner reveal" style="display:flex;">
+            <div class="wkuwanie-icon-wrap">🧠</div>
+            <div class="wkuwanie-info">
+                <div class="wkuwanie-label">Narzędzie do nauki</div>
+                <div class="wkuwanie-title">Nauka <span>Szablonów</span></div>
+                <div class="wkuwanie-desc">Czuj się jak ryba w wodzie na olimpiadzie i zakoduj template c++ i skrypt bash do testowania rozwiązań już na starcie w 2min.</div>
+                <div class="wkuwanie-tags">
+                    <span class="wkuwanie-tag cpp">C++ Template</span>
+                    <span class="wkuwanie-tag bash">Bash Tester</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="https://t-olimpians.com/code-share-app/wspolne-kodowanie" class="wkuwanie-banner codeflow reveal" style="display:flex;">
+            <div class="wkuwanie-icon-wrap">💻</div>
+            <div class="wkuwanie-info">
+                <div class="wkuwanie-label">Wspólne kodowanie</div>
+                <div class="wkuwanie-title">CodeFlow <span>Live</span></div>
+                <div class="wkuwanie-desc">Programuj i rozwiązuj zadania w CodeFlow, gdzie są wbudowane tematy oraz dobrane zadania — ćwicz na żywo razem z innymi.</div>
+                <div class="wkuwanie-tags">
+                    <span class="wkuwanie-tag cpp">Tematy</span>
+                    <span class="wkuwanie-tag bash">Zadania</span>
+                </div>
+            </div>
+        </a>
+    </div>
+
+
+    <div class="wkuwanie-row">
+        <a href="https://www.youtube.com/playlist?list=PL9BlBU4U-rDPrKykeT62mK-cH_NCuIg4Q" target="_blank" rel="noopener" class="wkuwanie-banner oki reveal" style="display:flex;">
+            <div class="wkuwanie-icon-wrap">▶️</div>
+            <div class="wkuwanie-info">
+                <div class="wkuwanie-label">Filmy z OKI</div>
+                <div class="wkuwanie-title">Programowanie <span>OD PODSTAW</span></div>
+                <div class="wkuwanie-desc">Nagrania zajęć Olimpijskiego Koła Informatycznego — 30 odcinków od pierwszego programu po rekurencję. Pojedyncze odcinki znajdziesz też przy tematach niżej.</div>
+                <div class="wkuwanie-tags">
+                    <span class="wkuwanie-tag oki">30 odcinków</span>
+                    <span class="wkuwanie-tag oki">Od zera</span>
+                    <span class="wkuwanie-tag oki">YouTube</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="https://www.youtube.com/playlist?list=PL9BlBU4U-rDNF9AxZ5GTmm75TAvh76ndK" target="_blank" rel="noopener" class="wkuwanie-banner oki reveal" style="display:flex;">
+            <div class="wkuwanie-icon-wrap">🎬</div>
+            <div class="wkuwanie-info">
+                <div class="wkuwanie-label">Filmy z OKI</div>
+                <div class="wkuwanie-title">Programowanie <span>ZAAWANSOWANE</span></div>
+                <div class="wkuwanie-desc">Druga seria OKI — 33 odcinki dla tych, którzy mają już podstawy: bity, grafy, programowanie obiektowe i omówienia zadań olimpijskich.</div>
+                <div class="wkuwanie-tags">
+                    <span class="wkuwanie-tag oki">33 odcinki</span>
+                    <span class="wkuwanie-tag oki">Dla zaawansowanych</span>
+                    <span class="wkuwanie-tag oki">YouTube</span>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- ETAP 1 -->
+    <div class="phase-header reveal">
+        <span class="phase-badge">Etap 1</span>
+        <span class="phase-title">Podstawy C++</span>
+        <div class="phase-line"></div>
+    </div>
+
+    <div class="materials-grid">
+        <div class="material-card reveal" data-link="c++_logika/setup.html">
+            <div class="material-number">00</div>
+            <div class="material-info">
+                <div class="material-title">Setup</div>
+                <div class="material-desc">Konfiguracja środowiska, kompilator, pierwsze uruchomienie</div>
+            </div>
+            <div class="material-arrow">→</div>
+        </div>
+        <div class="material-card reveal" data-link="c++_logika/typy-zmiennych.html">
+            <div class="material-number">01</div>
+            <div class="material-info">
+                <div class="material-title">Typy zmiennych</div>
+                <div class="material-desc">int, long long, char, bool, float, double i zakres wartości</div>
+            </div>
+            <div class="material-arrow">→</div>
+        </div>
+        <div class="material-card reveal" data-link="c++_logika/input-output.html">
+            <div class="material-number">02</div>
+            <div class="material-info">
+                <div class="material-title">Input / Output</div>
+                <div class="material-desc">cin, cout, scanf, printf — wczytywanie i wypisywanie danych</div>
+            </div>
+            <div class="material-arrow">→</div>
+        </div>
+        <div class="material-card reveal" data-link="c++_logika/if-else.html">
+            <div class="material-number">03</div>
+            <div class="material-info">
+                <div class="material-title">If / Else</div>
+                <div class="material-desc">Instrukcje warunkowe, operatory porównania i logiczne</div>
+            </div>
+            <div class="material-arrow">→</div>
+        </div>
+        <div class="material-card reveal" data-link="c++_logika/while-loop.html">
+            <div class="material-number">04</div>
+            <div class="material-info">
+                <div class="material-title">While loop</div>
+                <div class="material-desc">Pętle warunkowe, break, continue</div>
+            </div>
+            <div class="material-arrow">→</div>
+        </div>
+        <div class="material-card reveal" data-link="c++_logika/for-loop.html">
+            <div class="material-number">05</div>
+            <div class="material-info">
+                <div class="material-title">For loop</div>
+                <div class="material-desc">Pętla for, zakres iteracji, zagnieżdżone pętle</div>
+            </div>
+            <div class="material-arrow">→</div>
+        </div>
+        <div class="material-card reveal" data-link="c++_logika/modulo.html">
+            <div class="material-number">06</div>
+            <div class="material-info">
+                <div class="material-title">Modulo</div>
+                <div class="material-desc">Reszta z dzielenia, zastosowania w olimpiadach</div>
+            </div>
+            <div class="material-arrow">→</div>
+        </div>
+    </div>
+
+    <div class="milestone-card reveal">
+        <div class="milestone-icon">🎯</div>
+        <div class="milestone-info">
+            <div class="milestone-label">Sprawdzian wiedzy</div>
+            <div class="milestone-title">ZADANIA 1.0</div>
+            <div class="milestone-sub">Zestaw zadań zamykający Etap 1 — podstawy C++</div>
+        </div>
+        <div class="milestone-count">1.0</div>
+    </div>
+
+    <!-- ETAP 2 -->
+    <div class="phase-header reveal">
+        <span class="phase-badge">Etap 2</span>
+        <span class="phase-title">Struktury danych</span>
+        <div class="phase-line"></div>
+    </div>
+
+    <div class="materials-grid">
+        <div class="material-card reveal" data-link="c++_logika/tablice.html">
+            <div class="material-number">07</div>
+            <div class="material-info">
+                <div class="material-title">Tablice</div>
+                <div class="material-desc">Tablice jednowymiarowe i wielowymiarowe, indeksowanie</div>
+            </div>
+            <div class="material-arrow">→</div>
+        </div>
+        <div class="material-card reveal" data-link="c++_logika/string.html">
+            <div class="material-number">08</div>
+            <div class="material-info">
+                <div class="material-title">String</div>
+                <div class="material-desc">Łańcuchy znaków, operacje, find, substr, getline</div>
+            </div>
+            <div class="material-arrow">→</div>
+        </div>
+        <div class="material-card reveal" data-link="c++_logika/pair.html">
+            <div class="material-number">09</div>
+            <div class="material-info">
+                <div class="material-title">Pair</div>
+                <div class="material-desc">Para wartości std::pair, first i second, zastosowania</div>
+            </div>
+            <div class="material-arrow">→</div>
+        </div>
+        <div class="material-card reveal" data-link="c++_logika/vector.html">
+            <div class="material-number">10</div>
+            <div class="material-info">
+                <div class="material-title">Vector</div>
+                <div class="material-desc">Dynamiczne tablice, push_back, size, iteratory</div>
+            </div>
+            <div class="material-arrow">→</div>
+        </div>
+        <div class="material-card reveal" data-link="c++_logika/sortowanie.html">
+            <div class="material-number">12</div>
+            <div class="material-info">
+                <div class="material-title">Sortowanie</div>
+                <div class="material-desc">std::sort, comparatory, sortowanie par i struktur</div>
+            </div>
+            <div class="material-arrow">→</div>
+        </div>
+        <div class="material-card reveal" data-link="c++_logika/max-min.html">
+            <div class="material-number">13</div>
+            <div class="material-info">
+                <div class="material-title">MAT: Max / Min</div>
+                <div class="material-desc">std::max, std::min, max_element, min_element — funkcje matematyczne</div>
+            </div>
+            <div class="material-arrow">→</div>
+        </div>
+        <div class="material-card reveal" data-link="c++_logika/zaokraglanie.html">
+            <div class="material-number">14</div>
+            <div class="material-info">
+                <div class="material-title">MAT: Zaokrąglanie</div>
+                <div class="material-desc">floor, ceil, round — zaokrąglanie liczb zmiennoprzecinkowych</div>
+            </div>
+            <div class="material-arrow">→</div>
+        </div>
+        <div class="material-card reveal" data-link="c++_logika/silnia.html">
+            <div class="material-number">15</div>
+            <div class="material-info">
+                <div class="material-title">MAT: Silnia</div>
+                <div class="material-desc">Rekurencja i iteracja do obliczania silni, overflow i long long</div>
+            </div>
+            <div class="material-arrow">→</div>
+        </div>
+        <div class="material-card reveal" data-link="c++_logika/wartosc-bezwzgledna.html">
+            <div class="material-number">16</div>
+            <div class="material-info">
+                <div class="material-title">MAT: Wartość bezwzględna</div>
+                <div class="material-desc">abs, fabs — wartość bezwzględna dla int i double</div>
+            </div>
+            <div class="material-arrow">→</div>
+        </div>
+    </div>
+
+    <div class="milestone-card reveal">
+        <div class="milestone-icon">🏆</div>
+        <div class="milestone-info">
+            <div class="milestone-label">Sprawdzian wiedzy</div>
+            <div class="milestone-title">ZADANIA 2.0</div>
+            <div class="milestone-sub">Zestaw zadań zamykający Etap 2 — struktury danych STL</div>
+        </div>
+        <div class="milestone-count">2.0</div>
+    </div>
+
+    <!-- ETAP 3 -->
+    <div class="phase-header reveal">
+        <span class="phase-badge">Etap 3</span>
+        <span class="phase-title">Zaawansowane tematy</span>
+        <div class="phase-line"></div>
+    </div>
+
+    <div class="materials-grid">
+        <div class="material-card reveal" data-link="c++_logika/zlozonosc-czasowa.html">
+            <div class="material-number">17</div>
+            <div class="material-info">
+                <div class="material-title">Złożoność czasowa</div>
+                <div class="material-desc">Notacja Big-O, O(n), O(n²), O(log n) — analiza efektywności algorytmów</div>
+            </div>
+            <div class="material-arrow">→</div>
+        </div>
+        <div class="material-card reveal" data-link="c++_logika/zbior.html">
+            <div class="material-number">18</div>
+            <div class="material-info">
+                <div class="material-title">Zbiór</div>
+                <div class="material-desc">std::set, std::unordered_set — zbiory i operacje</div>
+            </div>
+            <div class="material-arrow">→</div>
+        </div>
+        <div class="material-card reveal" data-link="c++_logika/input-output-plus.html">
+            <div class="material-number">19</div>
+            <div class="material-info">
+                <div class="material-title">Input i Output (+)</div>
+                <div class="material-desc">Zaawansowane wejście/wyjście, ios::sync_with_stdio, pliki</div>
+            </div>
+            <div class="material-arrow">→</div>
+        </div>
+        <div class="material-card reveal" data-link="c++_logika/mapy.html">
+            <div class="material-number">20</div>
+            <div class="material-info">
+                <div class="material-title">Mapy</div>
+                <div class="material-desc">std::map, std::unordered_map — słowniki klucz-wartość</div>
+            </div>
+            <div class="material-arrow">→</div>
+        </div>
+        <div class="material-card reveal" data-link="c++_logika/funkcje.html">
+            <div class="material-number">21</div>
+            <div class="material-info">
+                <div class="material-title">Funkcje</div>
+                <div class="material-desc">Deklaracja, parametry, zwracanie wartości, rekurencja</div>
+            </div>
+            <div class="material-arrow">→</div>
+        </div>
+        <div class="material-card reveal" data-link="c++_logika/rekurencja.html">
+            <div class="material-number">22</div>
+            <div class="material-info">
+                <div class="material-title">Rekurencja</div>
+                <div class="material-desc">Funkcja wywołująca samą siebie, warunek stopu, stos wywołań</div>
+            </div>
+            <div class="material-arrow">→</div>
+        </div>
+        <div class="material-card reveal" data-link="c++_logika/struct.html">
+            <div class="material-number">23</div>
+            <div class="material-info">
+                <div class="material-title">Struct</div>
+                <div class="material-desc">Struktury danych, definiowanie własnych typów</div>
+            </div>
+            <div class="material-arrow">→</div>
+        </div>
+        <div class="material-card reveal" data-link="c++_logika/kolejka.html">
+            <div class="material-number">24</div>
+            <div class="material-info">
+                <div class="material-title">Kolejka</div>
+                <div class="material-desc">std::queue, std::deque — kolejki i ich zastosowania</div>
+            </div>
+            <div class="material-arrow">→</div>
+        </div>
+        <div class="material-card reveal" data-link="c++_logika/stos.html">
+            <div class="material-number">25</div>
+            <div class="material-info">
+                <div class="material-title">Stos</div>
+                <div class="material-desc">std::stack — stos LIFO i klasyczne problemy</div>
+            </div>
+            <div class="material-arrow">→</div>
+        </div>
+        <div class="material-card reveal" data-link="c++_logika/kopiec.html">
+            <div class="material-number">26</div>
+            <div class="material-info">
+                <div class="material-title">Kopiec</div>
+                <div class="material-desc">std::priority_queue, kopiec binarny, min/max-heap</div>
+            </div>
+            <div class="material-arrow">→</div>
+        </div>
+        <div class="material-card reveal" data-link="c++_logika/liczby-dwojkowe.html">
+            <div class="material-number">27</div>
+            <div class="material-info">
+                <div class="material-title">Liczby dwójkowe</div>
+                <div class="material-desc">Jak komputer trzyma liczby, skąd biorą się limity typów, bity</div>
+            </div>
+            <div class="material-arrow">→</div>
+        </div>
+        <div class="material-card reveal" data-link="c++_logika/bitset.html">
+            <div class="material-number">28</div>
+            <div class="material-info">
+                <div class="material-title">Bitset</div>
+                <div class="material-desc">std::bitset — operacje bitowe na zbiorach, optymalizacja pamięci</div>
+            </div>
+            <div class="material-arrow">→</div>
+        </div>
+        <div class="material-card reveal" data-link="c++_logika/stringstream.html">
+            <div class="material-number">29</div>
+            <div class="material-info">
+                <div class="material-title">Stringstream</div>
+                <div class="material-desc">Parsowanie napisów przez strumień, konwersje typów</div>
+            </div>
+            <div class="material-arrow">→</div>
+        </div>
+    </div>
+
+    <div class="milestone-card reveal">
+        <div class="milestone-icon">🚀</div>
+        <div class="milestone-info">
+            <div class="milestone-label">Sprawdzian wiedzy</div>
+            <div class="milestone-title">ZADANIA 3.0</div>
+            <div class="milestone-sub">Zestaw zadań zamykający Etap 3 — zaawansowane struktury i algorytmy</div>
+        </div>
+        <div class="milestone-count">3.0</div>
+    </div>
+
+</main>
+
+<div id="popup" class="popup">
+    <div class="popup-content">
+        <span id="closeBtn" class="close">&times;</span>
+        <p style="font-size: 28px; margin-bottom: 12px;">⚙️</p>
+        <p style="font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">Materiały w przygotowaniu</p>
+        <p style="font-size: 14px; color: var(--text-secondary);">Ten temat jeszcze nie jest dostępny. Wróć wkrótce!</p>
+    </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ─── LEADERBOARD ZESTAWÓW (dane z vjudge.net) ─── -->
+<section class="lb-section" id="leaderboard">
+    <div class="lb-head reveal">
+        <div class="lb-eyebrow">Ranking · dane z vjudge</div>
+        <h2 class="lb-title">Tablica <span>wyników</span></h2>
+        <p class="lb-sub">Kto zebrał najwięcej punktów ze wszystkich <strong id="lbSetCount">51</strong> zestawów? Za każde zadanie zaliczone na <em>Accepted</em> dostajesz tyle punktów, ile wynosi jego <strong>rating trudności na CodeChef</strong> — więc jedno trudne zadanie potrafi być warte tyle, co kilkanaście łatwych. Liczy się każde zadanie raz, niezależnie od liczby zgłoszeń.</p>
+    </div>
+
+    <div class="lb-stats reveal">
+        <div class="lb-stat">
+            <div class="lb-stat-num" id="lbStatSets">—</div>
+            <div class="lb-stat-label">Zestawów</div>
+        </div>
+        <div class="lb-stat">
+            <div class="lb-stat-num" id="lbStatProblems">—</div>
+            <div class="lb-stat-label">Zadań w sumie</div>
+        </div>
+        <div class="lb-stat">
+            <div class="lb-stat-num" id="lbStatPeople">—</div>
+            <div class="lb-stat-label">Osób w rankingu</div>
+        </div>
+        <div class="lb-stat">
+            <div class="lb-stat-num" id="lbStatSolved">—</div>
+            <div class="lb-stat-label">Punktów w puli</div>
+        </div>
+    </div>
+
+    <div id="lbBody">
+        <div class="lb-skeleton" aria-hidden="true"><div></div><div></div><div></div></div>
+    </div>
+
+    <div class="lb-hint reveal">
+        <span style="font-size:15px;line-height:1.3;flex-shrink:0;">🎯</span>
+        <div>Chcesz trafić na podium? Zaloguj się na <a href="https://vjudge.net/" target="_blank" rel="noopener noreferrer">vjudge.net</a>, wejdź w dowolny zestaw z <strong>Olympic ProblemSet Track</strong> i wysyłaj rozwiązania — Twój nick pojawi się w rankingu przy najbliższej aktualizacji.</div>
+    </div>
+
+    <div class="lb-foot">
+        <span id="lbUpdated" class="lb-sync"><span class="lb-sync-dot" aria-hidden="true"></span>Ranking z ostatniej synchronizacji</span>
+        <span>Wyniki: <a href="https://vjudge.net/" target="_blank" rel="noopener noreferrer">vjudge.net</a> · ratingi: <a href="https://www.codechef.com/practice" target="_blank" rel="noopener noreferrer">CodeChef</a></span>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<div class="next-section">
+    <div class="reveal" style="margin-bottom: 48px;">
+        <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 500; color: var(--accent-bright); letter-spacing: 0.12em; text-transform: uppercase; display: block; margin-bottom: 12px;">Horyzont</span>
+        <h2 style="font-family: var(--font-display); font-size: clamp(28px, 3.5vw, 44px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 18px;">A co dalej?</h2>
+        <p style="color: var(--text-secondary); font-size: 16px; line-height: 1.8; max-width: 600px;">To, co masz przed sobą, to solidny fundament. Ale olimpiada informatyczna to znacznie głębsza historia — poniżej czeka na ciebie świat algorytmów, które otwierają drzwi do finałów OI, BOI i IOI.</p>
+    </div>
+
+    <div class="next-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px;">
+        <div class="next-card reveal">
+            <div class="next-card-icon">🌲</div>
+            <div class="next-card-title">Drzewa przedziałowe</div>
+            <div class="next-card-desc">Segment Tree i BIT (Fenwick Tree) — odpowiadaj na zapytania przedziałowe w O(log n). Fundament większości zadań na wyższe etapy OI.</div>
+        </div>
+        <div class="next-card reveal">
+            <div class="next-card-icon">📊</div>
+            <div class="next-card-title">Programowanie dynamiczne</div>
+            <div class="next-card-desc">DP to serce olimpiad — od klasycznego problemu plecakowego, przez LCS i LIS, po DP na drzewie i profilowe. Bez tego nie ma medalu.</div>
+        </div>
+        <div class="next-card reveal">
+            <div class="next-card-icon">🔍</div>
+            <div class="next-card-title">Wyszukiwanie binarne</div>
+            <div class="next-card-desc">Binarny search to nie tylko wyszukiwanie w tablicy — to technika odpowiedzi na pytania postaci "ile co najwyżej" lub "jaka najmniejsza wartość spełnia warunek".</div>
+        </div>
+        <div class="next-card reveal">
+            <div class="next-card-icon">🕸️</div>
+            <div class="next-card-title">Grafy i MST</div>
+            <div class="next-card-desc">BFS, DFS, Dijkstra, Kruskal, Prim — grafy są wszechobecne w zadaniach olimpijskich. Minimalne drzewa rozpinające to klasyka etapu II i III.</div>
+        </div>
+        <div class="next-card reveal">
+            <div class="next-card-icon">🏔️</div>
+            <div class="next-card-title">LCA i HLD</div>
+            <div class="next-card-desc">Najniższy wspólny przodek i Heavy-Light Decomposition — techniki na drzewach, które pozwalają redukować zapytania do ścieżek w O(log² n).</div>
+        </div>
+        <div class="next-card reveal">
+            <div class="next-card-icon">📐</div>
+            <div class="next-card-title">Geometria obliczeniowa</div>
+            <div class="next-card-desc">Otoczka wypukła, sortowanie kątowe, przecinanie odcinków — zadania geometryczne to oddzielna dyscyplina wymagająca precyzji i znajomości algorytmów jak Graham Scan.</div>
+        </div>
+        <div class="next-card reveal">
+            <div class="next-card-icon">🌊</div>
+            <div class="next-card-title">Przepływy w sieciach</div>
+            <div class="next-card-desc">Max-flow, min-cut, Dinic — algorytmy przepływowe pojawiają się w najtrudniejszych zadaniach finałowych. Modelowanie problemu to połowa sukcesu.</div>
+        </div>
+        <div class="next-card reveal">
+            <div class="next-card-icon">⚡</div>
+            <div class="next-card-title">i wiele, wiele więcej…</div>
+            <div class="next-card-desc">FFT, sufiksy, hashing, teoria gier, matematyka kombinatoryczna — olimpiada informatyczna to nieskończona przygoda. Im głębiej, tym ciekawiej.</div>
+        </div>
+    </div>
+
+    <a href="net.html" class="wkuwanie-banner reveal" style="display:flex; margin-top: 48px;">
+        <div class="wkuwanie-icon-wrap">🔗</div>
+        <div class="wkuwanie-info">
+            <div class="wkuwanie-label">Zasoby olimpijskie</div>
+            <div class="wkuwanie-title">Sprawdź <span>T-Olimpians Net</span></div>
+            <div class="wkuwanie-desc">Platformy do ćwiczeń, polecane książki i wszystkie materiały zebrane w jednym miejscu — specjalnie pod OI i OIJ.</div>
+            <div class="wkuwanie-tags">
+                <span class="wkuwanie-tag cpp">Platformy</span>
+                <span class="wkuwanie-tag bash">Książki</span>
+            </div>
+        </div>
+        <div class="wkuwanie-cta">Przejdź do Net →</div>
+    </a>
+
+    <div class="reveal join-cta">
+        <p class="join-cta-eyebrow">Nie rób tego sam</p>
+        <h3 class="join-cta-title">Dołącz do T-Olimpians</h3>
+        <p class="join-cta-desc">Nasi mentorzy przeszli tę drogę przed tobą — od podstaw C++ po finały IOI. Przyspieszysz swój rozwój wielokrotnie ucząc się z kimś, kto wie co i w jakiej kolejności.</p>
+        <div class="join-cta-actions">
+            <a href="zapisy.html" class="join-cta-btn join-cta-btn-primary">Zapisz się teraz</a>
+            <a href="c++_logika/setup.html" class="join-cta-btn join-cta-btn-secondary">Zacznij od Setup →</a>
+        </div>
+    </div>
+</div>
+
+</div><!-- /.main-content -->
+
+<!-- ─── OLYMPIC PROBLEM SET SIDEBAR ─── -->
+<aside class="olympic-sidebar" id="olympicSidebar">
+<div class="sidebar-inner">
+
+    <div class="sidebar-header">
+        <div class="sidebar-eyebrow">C++ Mastery · 51 zestawów</div>
+        <div class="sidebar-title">Olympic ProblemSet<br>Track</div>
+        <div class="sidebar-subtitle">Opanuj C++ do poziomu olimpijskiego</div>
+    </div>
+
+    <div class="sidebar-guarantee">
+        <strong>🏆 Gwarancja olimpijskiego C++.</strong> Po ukończeniu wszystkich zestawów zostają tylko algorytmy i struktury danych.
+    </div>
+
+    <!-- Track selector -->
+    <div class="track-selector">
+        <button class="track-btn fast" data-track="fast" onclick="switchTrack('fast')">
+            <div class="track-btn-icon">🔥</div>
+            <div class="track-btn-name">Fast</div>
+            <div class="track-btn-pace">0.5 tyg / zestaw</div>
+            <div class="track-btn-total">~25 tyg.</div>
+        </button>
+        <button class="track-btn mid active-track" data-track="mid" onclick="switchTrack('mid')">
+            <div class="track-btn-icon">⚡</div>
+            <div class="track-btn-name">Mid</div>
+            <div class="track-btn-pace">1 tyg / zestaw</div>
+            <div class="track-btn-total">~51 tyg.</div>
+        </button>
+        <button class="track-btn slow" data-track="slow" onclick="switchTrack('slow')">
+            <div class="track-btn-icon">🌿</div>
+            <div class="track-btn-name">Slow</div>
+            <div class="track-btn-pace">2 tyg / zestaw</div>
+            <div class="track-btn-total">~102 tyg.</div>
+        </button>
+    </div>
+
+    <div class="track-label-row" id="trackLabelRow">
+        <div class="track-label-dot" id="trackDot" style="background:#818cf8;"></div>
+        <div class="track-label-text" id="trackLabelText">MID TRACK · ~51 tyg. · ok. 1 rok</div>
+    </div>
+
+    <button class="sciaga-btn" id="sciagaBtn">
+        <div class="sciaga-btn-icon">📄</div>
+        <div class="sciaga-btn-info">
+            <div class="sciaga-btn-label">Ściąga C++</div>
+            <div class="sciaga-btn-sub">Szablony olimpijskie</div>
+        </div>
+        <div class="sciaga-btn-arrow">→</div>
+    </button>
+
+    <div class="sidebar-section-label">Zestawy zadań</div>
+    <div class="problem-sets" id="problemSets">
+        <!-- generated by JS -->
+    </div>
+
+</div><!-- /.sidebar-inner -->
+</aside>
+
+</div><!-- /.page-body -->
+
+<!-- Ściąga C++ Popup -->
+<div class="sciaga-popup" id="sciagaPopup">
+    <div class="sciaga-popup-content">
+        <!-- macOS-style titlebar -->
+        <div class="sciaga-popup-header">
+            <div style="display:flex;align-items:center;gap:8px;">
+                <button onclick="document.getElementById('sciagaPopup').classList.remove('active')" style="width:13px;height:13px;border-radius:50%;background:#ff5f57;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;transition:filter 0.15s;" onmouseenter="this.querySelector('span').style.opacity='1'" onmouseleave="this.querySelector('span').style.opacity='0'"><span style="font-size:9px;color:#7a0000;opacity:0;line-height:1;user-select:none;">✕</span></button>
+                <button style="width:13px;height:13px;border-radius:50%;background:#febc2e;border:none;cursor:default;"></button>
+                <button style="width:13px;height:13px;border-radius:50%;background:#28c840;border:none;cursor:default;"></button>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+                <div class="sciaga-popup-title">📄 Ściąga C++ — Olimpiada Informatyczna</div>
+                <div class="sciaga-popup-meta">sciaga_cpp_olimpiada.cpp · 23 sekcje · tylko do odczytu</div>
+            </div>
+            <div style="width:59px;"></div>
+        </div>
+        <div class="sciaga-code-wrap">
+            <pre class="language-cpp"><code class="language-cpp" id="sciagaCode"></code></pre>
+        </div>
+    </div>
+</div>
+
+<!-- WIP Popup -->
+<div class="wip-popup" id="wipPopup">
+    <div class="wip-popup-content">
+        <button class="wip-close" id="wipClose">×</button>
+        <span class="wip-icon">🚧</span>
+        <div class="wip-num" id="wipNum">Zestaw #01</div>
+        <div class="wip-title">Jeszcze nie gotowe</div>
+        <div class="wip-desc">Ten zestaw zadań jest w trakcie przygotowywania. Wróć wkrótce — prace trwają!</div>
+    </div>
+</div>
+
+<div class="divider"></div>
+
+<footer>
+    <span>© 2025 T-Olimpians Team Poland</span>
+    <span style="color: var(--text-muted);">Built for champions 🏆</span>
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const popup   = document.getElementById('popup');
+        const closeBtn = document.getElementById('closeBtn');
+
+        document.querySelectorAll('.material-card').forEach(function (card) {
+            card.addEventListener('click', function () {
+                const link = card.dataset.link;
+                if (link === 'popup') {
+                    popup.classList.add('active');
+                } else if (link) {
+                    window.location.href = link;
+                }
+            });
+        });
+
+        closeBtn.addEventListener('click', function () { popup.classList.remove('active'); });
+        popup.addEventListener('click', function (e) { if (e.target === popup) popup.classList.remove('active'); });
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape') popup.classList.remove('active'); });
+
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        let W, H, dots = [];
+
+        function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+        resize();
+        window.addEventListener('resize', () => { resize(); spawnDots(); });
+
+        function spawnDots() {
+            dots = [];
+            const count = Math.floor((W * H) / 18000);
+            for (let i = 0; i < count; i++) {
+                dots.push({ x: Math.random() * W, y: Math.random() * H, r: Math.random() * 1.4 + 0.3, vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3, alpha: Math.random() * 0.5 + 0.2 });
+            }
+        }
+        spawnDots();
+
+        const LINK_DIST = 120;
+        function drawParticles() {
+            ctx.clearRect(0, 0, W, H);
+            for (let i = 0; i < dots.length; i++) {
+                const d = dots[i];
+                d.x += d.vx; d.y += d.vy;
+                if (d.x < 0) d.x = W; if (d.x > W) d.x = 0;
+                if (d.y < 0) d.y = H; if (d.y > H) d.y = 0;
+                ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(96,165,250,${d.alpha})`; ctx.fill();
+                for (let j = i + 1; j < dots.length; j++) {
+                    const d2 = dots[j];
+                    const dx = d.x - d2.x, dy = d.y - d2.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < LINK_DIST) {
+                        ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d2.x, d2.y);
+                        ctx.strokeStyle = `rgba(59,130,246,${0.12 * (1 - dist / LINK_DIST)})`; ctx.lineWidth = 0.6; ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(drawParticles);
+        }
+        drawParticles();
+
+        const revealEls = document.querySelectorAll('.reveal');
+        const revealObs = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    /* elementy w siatce wchodzą kaskadą, jeden po drugim */
+                    const siblings = entry.target.closest('.materials-grid, .next-grid, .wkuwanie-row');
+                    let delay = 0;
+                    if (siblings) {
+                        const all = siblings.querySelectorAll('.reveal');
+                        all.forEach((el, idx) => { if (el === entry.target) delay = Math.min(idx * 80, 640); });
+                    }
+                    setTimeout(() => entry.target.classList.add('visible'), delay);
+                    revealObs.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.08 });
+        revealEls.forEach(el => revealObs.observe(el));
+
+        const hamburger = document.getElementById('hamburger');
+        const navLinks  = document.getElementById('navLinks');
+        hamburger.addEventListener('click', function () { navLinks.classList.toggle('open'); hamburger.classList.toggle('open'); });
+        document.querySelectorAll('.nav-close').forEach(function (link) {
+            link.addEventListener('click', function () { navLinks.classList.remove('open'); hamburger.classList.remove('open'); });
+        });
+
+        /* ═══════════ TRYB FOCUS (nawigacja) ═══════════ */
+        const FOCUS_MODE_KEY = "tolimpians_focus_mode";
+        const focusSwitch = document.getElementById('focusSwitch');
+
+        function applyFocusMode(active) {
+            document.documentElement.classList.toggle('focus-mode', active);
+            focusSwitch.classList.toggle('active', active);
+            focusSwitch.setAttribute('aria-checked', String(active));
+        }
+
+        function loadFocusMode() {
+            let active = false;
+            try { active = localStorage.getItem(FOCUS_MODE_KEY) === '1'; } catch (e) {}
+            applyFocusMode(active);
+        }
+
+        function toggleFocusMode() {
+            const active = !document.documentElement.classList.contains('focus-mode');
+            const root = document.documentElement;
+            root.classList.add('focus-anim');
+            clearTimeout(toggleFocusMode.t);
+            toggleFocusMode.t = setTimeout(() => root.classList.remove('focus-anim'), 900);
+            const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (document.startViewTransition && !reduce && !document.hidden) {
+                const t = document.startViewTransition(() => applyFocusMode(active));
+                t.ready.catch(() => {});
+                t.finished.catch(() => {});
+                // przejscie moze utknac (np. karta w tle) - wtedy i tak ustawiamy docelowy stan
+                setTimeout(() => {
+                    if (document.documentElement.classList.contains('focus-mode') !== active) { t.skipTransition(); applyFocusMode(active); }
+                }, 400);
+            }
+            else applyFocusMode(active);
+            try { localStorage.setItem(FOCUS_MODE_KEY, active ? '1' : '0'); } catch (e) {}
+        }
+
+        focusSwitch.addEventListener('click', toggleFocusMode);
+        focusSwitch.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleFocusMode(); }
+        });
+
+        loadFocusMode();
+
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', function () { navbar.classList.toggle('scrolled', window.scrollY > 40); });
+
+        // ─── OLYMPIC SIDEBAR LOGIC ───
+        const PSET_NAMES = [
+            '19–144',   '144–172',  '172–185',  '186–210',  '212–231',
+            '232–243',  '245–260',  '262–272',  '272–281',  '281–291',
+            '292–300',  '302–318',  '319–337',  '339–352',  '354–374',
+            '374–397',  '398–419',  '421–453',  '454–475',  '475–489',
+            '492–519',  '524–550',  '553–573',  '574–591',  '592–608',
+            '610–629',  '632–648',  '649–667',  '668–690',
+            '691–711',  '712–720',  '722–739',  '739–760',  '760–777',
+            '778–793',  '793–812',  '815–830',  '830–844',  '844–853',
+            '854–869',
+            '869–878',  '878–892',  '893–904',  '907–924',  '925–932',
+            '932–942',  '943–949',  '949–961',  '962–982',  '983–992',
+            '993–998',
+        ];
+
+        const PSET_TOPICS = [
+            'cin/cout, scanf/printf', 'int, long long, bool, char',
+            'Arytmetyka, priorytety', 'if/else, switch, ternary',
+            'while, do-while, break', 'for, range-for, nested',
+            'Definicja, return, overload', 'Rekurencja, stos wywołań',
+            'Tablice 1D, indeksy', 'Tablice 2D, prefix',
+            'std::string, getline', 'find, substr, compare',
+            'std::pair, make_pair', 'push_back, size, resize',
+            'insert, erase, iteratory', 'Comparator domyślny',
+            'Lambda comparator', 'Reszty, potęgowanie mod',
+            '__gcd, lcm, Euklides', 'Sito Eratostenesa',
+            'Sumy prefiksowe 1D', 'Sumy 2D, prostokąty',
+            'Wskaźniki, referencje', 'Struktury, inicjalizacja',
+            'std::stack, std::queue', 'std::deque, operacje',
+            'Iteratory, lower_bound', 'Mapowanie klucz–wartość',
+            'unordered_map/set', 'AND, OR, XOR, shift',
+            'Maski, popcount', 'Technika dwóch wskaźników',
+            'Okno przesuwne, max/min', 'Wyszukiwanie wartości',
+            'Bsearch na odpowiedzi', 'Zachłanne sortowanie',
+            'Exchange argument', 'Permutacje, podzbiory',
+            'N-Queens, sudoku', 'BFS, odległości',
+            'DFS, cykle, kolory', 'Dijkstra, Bellman-Ford',
+            'Drzewa, dzieci, rodzice', 'DFS na drzewie, LCA',
+            'Memoizacja, subproblemy', 'Plecak, coin change',
+            'LIS, LCS, edit dist.', 'Range query, update',
+            'Fenwick Tree, BIT', 'All STL, tricks',
+            'Zadania mieszane, OI-style'
+        ];
+
+        const PSET_URLS = {
+            0:  'https://vjudge.net/contest/825327',
+            1:  'https://vjudge.net/contest/825330',
+            2:  'https://vjudge.net/contest/825334',
+            3:  'https://vjudge.net/contest/825336',
+            4:  'https://vjudge.net/contest/825338',
+            5:  'https://vjudge.net/contest/825340',
+            6:  'https://vjudge.net/contest/825341',
+            7:  'https://vjudge.net/contest/825342',
+            8:  'https://vjudge.net/contest/825345',
+            9:  'https://vjudge.net/contest/825346',
+            10: 'https://vjudge.net/contest/825348',
+            11: 'https://vjudge.net/contest/825349',
+            12: 'https://vjudge.net/contest/825350',
+            13: 'https://vjudge.net/contest/825351',
+            14: 'https://vjudge.net/contest/825356',
+            15: 'https://vjudge.net/contest/825359',
+            16: 'https://vjudge.net/contest/825362',
+            17: 'https://vjudge.net/contest/825368',
+            18: 'https://vjudge.net/contest/825525',
+            19: 'https://vjudge.net/contest/825526',
+            20: 'https://vjudge.net/contest/825528',
+            21: 'https://vjudge.net/contest/825529',
+            22: 'https://vjudge.net/contest/825686',
+            23: 'https://vjudge.net/contest/825690',
+            24: 'https://vjudge.net/contest/825692',
+            25: 'https://vjudge.net/contest/825693',
+            26: 'https://vjudge.net/contest/825698',
+            27: 'https://vjudge.net/contest/825704',
+            28: 'https://vjudge.net/contest/825709',
+            29: 'https://vjudge.net/contest/827387',
+            30: 'https://vjudge.net/contest/827388',
+            31: 'https://vjudge.net/contest/827389',
+            32: 'https://vjudge.net/contest/827391',
+            33: 'https://vjudge.net/contest/827392',
+            34: 'https://vjudge.net/contest/827393',
+            35: 'https://vjudge.net/contest/827396',
+            36: 'https://vjudge.net/contest/827397',
+            37: 'https://vjudge.net/contest/827398',
+            38: 'https://vjudge.net/contest/827401',
+            39: 'https://vjudge.net/contest/827402',
+            40: 'https://vjudge.net/contest/827623',
+            41: 'https://vjudge.net/contest/827624',
+            42: 'https://vjudge.net/contest/827625',
+            43: 'https://vjudge.net/contest/827626',
+            44: 'https://vjudge.net/contest/827627',
+            45: 'https://vjudge.net/contest/827628',
+            46: 'https://vjudge.net/contest/827629',
+            47: 'https://vjudge.net/contest/827631',
+            48: 'https://vjudge.net/contest/827633',
+            49: 'https://vjudge.net/contest/827636',
+            50: 'https://vjudge.net/contest/827638',
+        };
+
+        const TRACK_CONFIG = {
+            fast:  { color: '#60a5fa', dot: '#3b82f6', label: 'FAST TRACK · ~25 tyg. · ok. 6 mies.' },
+            mid:   { color: '#60a5fa', dot: '#3b82f6', label: 'MID TRACK · ~51 tyg. · ok. 1 rok'    },
+            slow:  { color: '#34d399', dot: '#10b981', label: 'SLOW TRACK · ~102 tyg. · ok. 2 lata'  }
+        };
+
+        let currentTrack = 'mid';
+        let completedSets = JSON.parse(localStorage.getItem('olympic_completed') || '[]');
+
+        function switchTrack(track) {
+            currentTrack = track;
+            document.querySelectorAll('.track-btn').forEach(b => b.classList.remove('active-track'));
+            document.querySelector(`.track-btn[data-track="${track}"]`).classList.add('active-track');
+            const cfg = TRACK_CONFIG[track];
+            document.getElementById('trackDot').style.background = cfg.dot;
+            document.getElementById('trackLabelText').textContent = cfg.label;
+            renderPsets();
+        }
+
+        function renderPsets() {
+            const container = document.getElementById('problemSets');
+            container.innerHTML = '';
+
+            PSET_NAMES.forEach((name, i) => {
+                const num = String(i + 1).padStart(2, '0');
+                const done = completedSets.includes(i);
+                const btn = document.createElement('button');
+                btn.className = `pset-btn ${currentTrack}`;
+                btn.style.opacity = done ? '0.5' : '1';
+                btn.dataset.idx = i;
+
+                const available = !!PSET_URLS[i];
+                const rangeName = PSET_NAMES[i];
+                const isReady = available && rangeName !== '—';
+                btn.innerHTML = `
+                    <div class="pset-num">${num}</div>
+                    <div class="pset-name" style="${done ? 'text-decoration:line-through;opacity:0.5;' : ''}">${done ? '✓ ' : ''}${rangeName === '—' ? 'w trakcie…' : `Zestaw ${i+1} · ${rangeName}`}</div>
+                    ${available ? '' : '<div class="pset-wip-dot"></div>'}
+                `;
+                btn.addEventListener('click', () => {
+                    if (PSET_URLS[i]) {
+                        window.open(PSET_URLS[i], '_blank');
+                    } else {
+                        openWipPopup(i, num, name);
+                    }
+                });
+                container.appendChild(btn);
+
+                if (i === 14) {
+                    const banner = document.createElement('a');
+                    banner.href = 'https://www.codechef.com/contests';
+                    banner.target = '_blank';
+                    banner.rel = 'noopener noreferrer';
+                    banner.style.cssText = 'display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#1a1200 0%,#1c1408 60%,#111118 100%);border:1px solid rgba(251,191,36,0.35);border-radius:12px;padding:14px 16px;margin:8px 0;text-decoration:none;color:inherit;cursor:pointer;transition:border-color 0.25s,transform 0.3s cubic-bezier(0.16,1,0.3,1),box-shadow 0.3s ease;position:relative;overflow:hidden;';
+                    banner.innerHTML = '<div style="font-size:22px;flex-shrink:0;line-height:1;">👨‍🍳</div><div style="flex:1;min-width:0;"><div style="font-family:var(--font-mono);font-size:9px;color:#fbbf24;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:3px;display:flex;align-items:center;gap:6px;"><span style="width:5px;height:5px;background:#fbbf24;border-radius:50%;display:inline-block;animation:blink 1.8s ease-in-out infinite;flex-shrink:0;"></span>Konkursy Codechef</div><div style="font-family:var(--font-display);font-size:13px;font-weight:700;color:#fef3c7;letter-spacing:-0.01em;line-height:1.2;">Czas na prawdziwe konkursy</div><div style="font-size:11px;color:var(--text-muted);margin-top:3px;line-height:1.4;">Przyzwyczajaj się do presji czasu — czas na rywalizację na żywo.</div><div style="font-size:10px;color:#fbbf24;margin-top:5px;opacity:0.8;">📅 Każda środa · 16:30 – 18:30</div></div><div class="codechef-arrow" style="font-size:13px;color:#fbbf24;flex-shrink:0;transition:transform 0.25s;">→</div>';
+                    banner.addEventListener('mouseenter', () => {
+                        banner.style.borderColor = 'rgba(251,191,36,0.7)';
+                        banner.style.transform = 'translateY(-2px)';
+                        banner.style.boxShadow = '0 8px 28px rgba(251,191,36,0.15)';
+                        banner.querySelector('.codechef-arrow').style.transform = 'translateX(3px)';
+                    });
+                    banner.addEventListener('mouseleave', () => {
+                        banner.style.borderColor = 'rgba(251,191,36,0.35)';
+                        banner.style.transform = '';
+                        banner.style.boxShadow = '';
+                        banner.querySelector('.codechef-arrow').style.transform = '';
+                    });
+                    container.appendChild(banner);
+                }
+
+                if (i === 39) {
+                    const banner2 = document.createElement('a');
+                    banner2.href = 'https://codeforces.com/contests';
+                    banner2.target = '_blank';
+                    banner2.rel = 'noopener noreferrer';
+                    banner2.style.cssText = 'display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#0a0a1c 0%,#0e0a1e 60%,#111118 100%);border:1px solid rgba(129,140,248,0.35);border-radius:12px;padding:14px 16px;margin:8px 0;text-decoration:none;color:inherit;cursor:pointer;transition:border-color 0.25s,transform 0.3s cubic-bezier(0.16,1,0.3,1),box-shadow 0.3s ease;position:relative;overflow:hidden;';
+                    banner2.innerHTML = '<div style="font-size:22px;flex-shrink:0;line-height:1;">⚔️</div><div style="flex:1;min-width:0;"><div style="font-family:var(--font-mono);font-size:9px;color:#818cf8;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:3px;display:flex;align-items:center;gap:6px;"><span style="width:5px;height:5px;background:#818cf8;border-radius:50%;display:inline-block;animation:blink 1.8s ease-in-out infinite;flex-shrink:0;"></span>Konkursy Codeforces</div><div style="font-family:var(--font-display);font-size:13px;font-weight:700;color:#e0e7ff;letter-spacing:-0.01em;line-height:1.2;">Czas na trudniejsze konkursy</div><div style="font-size:11px;color:var(--text-muted);margin-top:3px;line-height:1.4;">Poziom rośnie — mierz się z rundami Codeforces na żywo.</div><div style="font-size:10px;color:#818cf8;margin-top:5px;opacity:0.8;">📅 Regularne rundy Div. 1–3</div></div><div class="codeforces-arrow" style="font-size:13px;color:#818cf8;flex-shrink:0;transition:transform 0.25s;">→</div>';
+                    banner2.addEventListener('mouseenter', () => {
+                        banner2.style.borderColor = 'rgba(129,140,248,0.7)';
+                        banner2.style.transform = 'translateY(-2px)';
+                        banner2.style.boxShadow = '0 8px 28px rgba(129,140,248,0.15)';
+                        banner2.querySelector('.codeforces-arrow').style.transform = 'translateX(3px)';
+                    });
+                    banner2.addEventListener('mouseleave', () => {
+                        banner2.style.borderColor = 'rgba(129,140,248,0.35)';
+                        banner2.style.transform = '';
+                        banner2.style.boxShadow = '';
+                        banner2.querySelector('.codeforces-arrow').style.transform = '';
+                    });
+                    container.appendChild(banner2);
+                }
+
+                if (i === 50) {
+                    const banner3 = document.createElement('a');
+                    banner3.href = 'net.html';
+                    banner3.style.cssText = 'display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#0a1a12 0%,#0a1c14 60%,#111118 100%);border:1px solid rgba(52,211,153,0.35);border-radius:12px;padding:14px 16px;margin:8px 0;text-decoration:none;color:inherit;cursor:pointer;transition:border-color 0.25s,transform 0.3s cubic-bezier(0.16,1,0.3,1),box-shadow 0.3s ease;position:relative;overflow:hidden;';
+                    banner3.innerHTML = '<div style="font-size:22px;flex-shrink:0;line-height:1;">🧠</div><div style="flex:1;min-width:0;"><div style="font-family:var(--font-mono);font-size:9px;color:#34d399;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:3px;display:flex;align-items:center;gap:6px;"><span style="width:5px;height:5px;background:#34d399;border-radius:50%;display:inline-block;animation:blink 1.8s ease-in-out infinite;flex-shrink:0;"></span>Kolejny etap</div><div style="font-family:var(--font-display);font-size:13px;font-weight:700;color:#d1fae5;letter-spacing:-0.01em;line-height:1.2;">Czas na Algorytmy i Struktury danych</div><div style="font-size:11px;color:var(--text-muted);margin-top:3px;line-height:1.4;">Podstawy C++ masz opanowane — teraz prawdziwe algorytmy i struktury danych.</div><div style="font-size:10px;color:#34d399;margin-top:5px;opacity:0.8;">📚 Pełny kurs algorytmów</div></div><div class="algosds-arrow" style="font-size:13px;color:#34d399;flex-shrink:0;transition:transform 0.25s;">→</div>';
+                    banner3.addEventListener('mouseenter', () => {
+                        banner3.style.borderColor = 'rgba(52,211,153,0.7)';
+                        banner3.style.transform = 'translateY(-2px)';
+                        banner3.style.boxShadow = '0 8px 28px rgba(52,211,153,0.15)';
+                        banner3.querySelector('.algosds-arrow').style.transform = 'translateX(3px)';
+                    });
+                    banner3.addEventListener('mouseleave', () => {
+                        banner3.style.borderColor = 'rgba(52,211,153,0.35)';
+                        banner3.style.transform = '';
+                        banner3.style.boxShadow = '';
+                        banner3.querySelector('.algosds-arrow').style.transform = '';
+                    });
+                    container.appendChild(banner3);
+                }
+            });
+        }
+
+        function openWipPopup(idx, num, name) {
+            const range = PSET_NAMES[idx];
+            document.getElementById('wipNum').textContent = `Zestaw ${idx+1}${range !== '—' ? ' · ' + range : ''}`;
+            document.getElementById('wipPopup').classList.add('active');
+        }
+
+        document.getElementById('wipClose').addEventListener('click', () => {
+            document.getElementById('wipPopup').classList.remove('active');
+        });
+        document.getElementById('wipPopup').addEventListener('click', function(e) {
+            if (e.target === this) this.classList.remove('active');
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') document.getElementById('wipPopup').classList.remove('active');
+        });
+
+        renderPsets();
+        switchTrack('mid');
+
+        // ─── ŚCIĄGA POPUP LOGIC ───
+        const sciagaCode = `// ============================================================
+//  ŚCIĄGA C++ — OLIMPIADA INFORMATYCZNA (początkujący)
+// ============================================================
+
+// -------------------------------------------------------
+// 0. SZABLON STARTOWY
+// -------------------------------------------------------
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    // twój kod tutaj
+
+    return 0;
+}
+
+// bits/stdc++.h  <- dołącza WSZYSTKIE biblioteki naraz
+// ios::sync...   <- przyspiesza cin/cout (zawsze dawaj na początku main)
+
+
+// -------------------------------------------------------
+// 1. TYPY ZMIENNYCH
+// -------------------------------------------------------
+
+int    a = 5;               // liczba całkowita  (-2 mld  .. +2 mld)
+long long b = 1e18;         // duża liczba całk. (-9*10^18 .. +9*10^18) <- używaj gdy n > 10^9
+double c = 3.14;            // liczba zmiennoprzecinkowa (15 cyfr precyzji)
+bool   d = true;            // true / false
+char   e = 'A';             // jeden znak
+string s = "hello";         // napis
+
+// UWAGA: gdy wynik mnożenia/dodawania może przekroczyć ~2 mld -> użyj long long
+// int * int może overflow! rzutuj: (long long)a * b
+
+
+// -------------------------------------------------------
+// 2. WCZYTYWANIE DANYCH (input)
+// -------------------------------------------------------
+
+int n;
+cin >> n;                               // jedna liczba
+
+long long x;
+cin >> x;                               // long long
+
+string line;
+getline(cin, line);                     // cała linia jako string
+
+int a, b, c;
+cin >> a >> b >> c;                     // kilka liczb z jednej linii
+
+int n; cin >> n;
+vector<int> v(n);
+for (int i = 0; i < n; i++) cin >> v[i]; // n liczb do wektora
+
+// wczytaj n par
+for (int i = 0; i < n; i++) {
+    int a, b;
+    cin >> a >> b;
+}
+
+
+// -------------------------------------------------------
+// 3. WYPISYWANIE DANYCH (output)
+// -------------------------------------------------------
+
+cout << "Hello World" << "\\n";          // "\\n" szybsze niż endl
+cout << a << " " << b << "\\n";         // liczby oddzielone spacją
+cout << fixed << setprecision(2) << 3.14159; // wypisz z 2 miejscami po przecinku -> 3.14
+
+// wypisz wektor
+for (int x : v) cout << x << " ";
+cout << "\\n";
+
+
+// -------------------------------------------------------
+// 4. PRZEPŁYW PROGRAMU (if / else / while / for)
+// -------------------------------------------------------
+
+// IF / ELSE
+if (a > b) {
+    cout << "a wieksze\\n";
+} else if (a == b) {
+    cout << "rowne\\n";
+} else {
+    cout << "b wieksze\\n";
+}
+
+// FOR — po indeksach
+for (int i = 0; i < n; i++) { /* ... */ }
+for (int i = n-1; i >= 0; i--) { /* ... */ }   // od tyłu
+for (int i = 0; i < n; i += 2) { /* ... */ }   // co dwa
+
+// FOR — po elementach (range-based)
+for (int x : v) { /* ... */ }
+for (auto& x : v) { x *= 2; }  // modyfikowanie elementów
+
+// WHILE
+while (cin >> n) { /* wczytuj aż do końca wejścia */ }
+
+// BREAK / CONTINUE
+for (int i = 0; i < n; i++) {
+    if (v[i] == 0) continue;   // pomiń zero
+    if (v[i] < 0) break;       // zakończ przy ujemnym
+}
+
+
+// -------------------------------------------------------
+// 5. FUNKCJE MATEMATYCZNE  (#include <cmath> lub bits/stdc++.h)
+// -------------------------------------------------------
+
+max(3, 7)           // -> 7
+min(3, 7)           // -> 3
+abs(-5)             // -> 5  (dla int)
+fabs(-3.14)         // -> 3.14 (dla double)
+sqrt(16.0)          // -> 4.0
+pow(2.0, 10.0)      // -> 1024.0
+floor(3.7)          // -> 3.0  (zaokrąglij w dół)
+ceil(3.2)           // -> 4.0  (zaokrąglij w górę)
+round(3.5)          // -> 4.0  (standardowe zaokrąglenie)
+__gcd(12, 8)        // -> 4    (NWD — Największy Wspólny Dzielnik)
+// NWW: a/gcd(a,b)*b
+
+
+// -------------------------------------------------------
+// 6. MODULO (%)
+// -------------------------------------------------------
+
+7 % 3       // -> 1  (reszta z dzielenia)
+10 % 2      // -> 0  (parzysta)
+11 % 2      // -> 1  (nieparzysta)
+
+// Sprawdź parzystość:
+if (n % 2 == 0) cout << "parzysta\\n";
+
+// Modulo w pętli (przydatne przy cyklicznych indeksach):
+int next = (i + 1) % n;   // następny indeks cyklicznie
+
+
+// -------------------------------------------------------
+// 7. TABLICE (array) — stały rozmiar, szybkie
+// -------------------------------------------------------
+
+int t[100];                     // tablica 100 intów (niezainicjowana)
+int t[100] = {};                // tablica 100 zer
+int t[] = {1, 2, 3, 4, 5};     // od razu z wartościami
+
+t[0] = 10;                      // dostęp przez indeks (od 0!)
+int dlugosc = sizeof(t) / sizeof(t[0]);  // długość tablicy
+
+// 2D
+int mat[3][3] = {};             // macierz 3x3 zer
+mat[0][1] = 5;
+for (int i = 0; i < 3; i++)
+    for (int j = 0; j < 3; j++)
+        cout << mat[i][j] << " ";
+
+
+// -------------------------------------------------------
+// 8. VECTOR — tablica dynamiczna (najczęściej używana!)
+// -------------------------------------------------------
+
+vector<int> v;                  // pusty wektor
+vector<int> v(n);               // wektor n zer
+vector<int> v(n, -1);           // wektor n wartości -1
+vector<int> v = {1, 2, 3};      // od razu z wartościami
+
+v.push_back(5);     // dodaj na koniec         | O(1)
+v.pop_back();       // usuń z końca            | O(1)
+v[i]                // dostęp przez indeks     | O(1)
+v.size()            // rozmiar                 | O(1)
+v.empty()           // czy pusty?              | O(1)
+v.clear()           // wyczyść                 | O(n)
+v.resize(10)        // zmień rozmiar           | O(n)
+
+// wstawianie/usuwanie w środku (wolne — O(n)):
+v.insert(v.begin() + 2, 99);   // wstaw 99 na pozycję 2
+v.erase(v.begin() + 2);        // usuń element na pozycji 2
+
+// 2D vector (macierz n x m):
+vector<vector<int>> mat(n, vector<int>(m, 0));
+mat[i][j] = 5;
+
+
+// -------------------------------------------------------
+// 9. STRING — napis
+// -------------------------------------------------------
+
+string s = "hello";
+s.size()            // długość                 | O(1)
+s[i]                // i-ty znak               | O(1)
+s += "world"        // sklejanie               | O(n)
+s.substr(2, 3)      // podciąg od idx 2, dł 3  | O(n)
+s.find("ll")        // pozycja lub string::npos| O(n)
+s.push_back('!')    // dodaj znak na koniec    | O(1)
+s.pop_back()        // usuń ostatni znak       | O(1)
+
+// konwersje:
+int n = stoi("123");        // string -> int
+string s = to_string(123);  // int -> string
+
+// przejście po znakach:
+for (char c : s) cout << c << "\\n";
+
+// porównywanie:
+if (s == "abc") { /* ... */ }
+if (s < "bcd")  { /* leksykograficznie mniejszy */ }
+
+
+// -------------------------------------------------------
+// 10. PAIR — para dwóch wartości
+// -------------------------------------------------------
+
+pair<int, int> p = {3, 7};
+p.first     // -> 3
+p.second    // -> 7
+
+// make_pair (starsza składnia):
+pair<int, string> p2 = make_pair(1, "ola");
+
+// sortowanie par (sortuje po first, potem po second):
+vector<pair<int,int>> edges = {{3,1},{1,2},{2,5}};
+sort(edges.begin(), edges.end());  // -> {1,2},{2,5},{3,1}
+
+
+// -------------------------------------------------------
+// 11. SET — zbiór (bez powtórzeń, posortowany)
+// -------------------------------------------------------
+
+set<int> st;
+st.insert(5)        // dodaj 5                 | O(log n)
+st.erase(5)         // usuń 5                  | O(log n)
+st.count(5)         // 1 jeśli jest, 0 jeśli nie | O(log n)
+st.size()           // rozmiar                 | O(1)
+st.empty()          // czy pusty?              | O(1)
+st.clear()          // wyczyść                 | O(n)
+
+if (st.count(x)) { /* x jest w secie */ }
+
+for (int x : st) cout << x << "\\n";  // wypisuje POSORTOWANE
+
+// unordered_set — szybszy (O(1) avg), ale bez porządku:
+unordered_set<int> ust;
+ust.insert(5);
+ust.count(5);   // O(1) średnio
+
+
+// -------------------------------------------------------
+// 12. MAP — słownik klucz -> wartość (posortowany po kluczu)
+// -------------------------------------------------------
+
+map<string, int> mp;
+mp["Ala"] = 5;              // ustaw wartość           | O(log n)
+mp["Ola"] += 1;             // inkrementuj (domyślnie 0)| O(log n)
+mp.count("Ala")             // 1 jeśli klucz istnieje  | O(log n)
+mp.erase("Ala")             // usuń klucz              | O(log n)
+mp.size()                   // rozmiar                 | O(1)
+
+for (auto& [k, v] : mp)
+    cout << k << " -> " << v << "\\n";
+
+// unordered_map — szybszy O(1) avg:
+unordered_map<int, int> ump;
+ump[7]++;
+
+
+// -------------------------------------------------------
+// 13. SORTOWANIE
+// -------------------------------------------------------
+
+sort(v.begin(), v.end());               // rosnąco          | O(n log n)
+sort(v.begin(), v.end(), greater<int>()); // malejąco
+
+// własny komparator:
+sort(v.begin(), v.end(), [](int a, int b) {
+    return a > b;  // malejąco
+});
+
+// sortowanie par malejąco po first:
+sort(edges.begin(), edges.end(), [](auto& a, auto& b) {
+    return a.first > b.first;
+});
+
+// sprawdź czy posortowane:
+is_sorted(v.begin(), v.end());  // true/false
+
+// odwróć wektor:
+reverse(v.begin(), v.end());   // O(n)
+
+
+// -------------------------------------------------------
+// 14. ALGORYTMY STL (przydatne funkcje)
+// -------------------------------------------------------
+
+// min/max elementu w wektorze:
+int mx = *max_element(v.begin(), v.end());
+int mn = *min_element(v.begin(), v.end());
+
+// suma elementów:
+long long suma = accumulate(v.begin(), v.end(), 0LL);
+
+// czy element istnieje w wektorze:
+bool jest = count(v.begin(), v.end(), 5) > 0;
+// lub (po sortowaniu, szybciej):
+bool jest = binary_search(v.begin(), v.end(), 5);  // O(log n)
+
+// wypełnij:
+fill(v.begin(), v.end(), 0);    // wszystko na 0
+
+// permutacje (do brute-force małych n):
+sort(v.begin(), v.end());
+do {
+    // sprawdź permutację v
+} while (next_permutation(v.begin(), v.end()));
+
+// unikalne elementy (po sortowaniu):
+v.erase(unique(v.begin(), v.end()), v.end());
+
+
+// -------------------------------------------------------
+// 15. KOLEJKA (queue) — FIFO
+// -------------------------------------------------------
+
+queue<int> q;
+q.push(5)       // dodaj na koniec     | O(1)
+q.pop()         // usuń z przodu (!)   | O(1)
+q.front()       // podejrzyj przód     | O(1)
+q.back()        // podejrzyj tył       | O(1)
+q.size()        // rozmiar             | O(1)
+q.empty()       // czy pusta?          | O(1)
+
+// typowe użycie — BFS:
+while (!q.empty()) {
+    int x = q.front(); q.pop();
+    // przetwórz x
+}
+
+
+// -------------------------------------------------------
+// 16. STOS (stack) — LIFO
+// -------------------------------------------------------
+
+stack<int> st;
+st.push(5)      // dodaj na wierzchołek | O(1)
+st.pop()        // usuń z wierzchołka   | O(1)
+st.top()        // podejrzyj wierzchołek| O(1)
+st.size()       // rozmiar              | O(1)
+st.empty()      // czy pusty?           | O(1)
+
+
+// -------------------------------------------------------
+// 17. PRIORITY QUEUE (kopiec) — zawsze daje MAX element
+// -------------------------------------------------------
+
+priority_queue<int> pq;                             // max-heap (domyślnie)
+priority_queue<int, vector<int>, greater<int>> pq2; // min-heap
+
+pq.push(5)      // dodaj              | O(log n)
+pq.pop()        // usuń max           | O(log n)
+pq.top()        // podejrzyj max      | O(1)
+pq.size()       // rozmiar            | O(1)
+pq.empty()      // czy pusty?         | O(1)
+
+
+// -------------------------------------------------------
+// 18. STRINGSTREAM — parsowanie napisów
+// -------------------------------------------------------
+
+#include <sstream>
+
+string line = "1 23 456 7";
+stringstream ss(line);
+int x;
+while (ss >> x) {
+    cout << x << "\\n";   // -> 1, 23, 456, 7
+}
+
+// budowanie stringa z liczb:
+stringstream out;
+out << "Wynik: " << 42 << " punkty";
+string result = out.str();
+
+
+// -------------------------------------------------------
+// 19. FUNKCJE
+// -------------------------------------------------------
+
+// deklaracja przed main lub definiowanie przed użyciem:
+int dodaj(int a, int b) {
+    return a + b;
+}
+
+// referencja — modyfikuj oryginał:
+void podwoj(int& x) { x *= 2; }
+
+// referencja do wektora (bez kopiowania!):
+void wypiszVector(const vector<int>& v) {
+    for (int x : v) cout << x << " ";
+}
+
+// rekurencja — silnia:
+long long silnia(int n) {
+    if (n <= 1) return 1;
+    return n * silnia(n - 1);
+}
+
+
+// -------------------------------------------------------
+// 20. ZŁOŻONOŚĆ CZASOWA — szybki przewodnik
+// -------------------------------------------------------
+
+// Zasada kciuka dla olimpiad (limit ~10^8 operacji/s):
+//
+// n <= 10        -> O(n!) lub O(2^n)  — brute force, permutacje
+// n <= 20        -> O(2^n)             — bitmasking, brute force
+// n <= 500       -> O(n^3)             — 3 zagnieżdżone pętle
+// n <= 5000      -> O(n^2)             — 2 zagnieżdżone pętle
+// n <= 10^6      -> O(n log n)         — sort, set, map
+// n <= 10^7      -> O(n)               — jedna pętla
+// n <= 10^18     -> O(log n)           — binary search, potęgowanie
+
+// O(1)      — stały czas          — dostęp do tablicy, push_back
+// O(log n)  — logarytmiczny       — binary_search, set/map operacje
+// O(n)      — liniowy             — jedna pętla po n elementach
+// O(n log n)— prawie liniowy      — sort()
+// O(n^2)    — kwadratowy          — dwie zagnieżdżone pętle
+// O(2^n)    — wykładniczy         — wszystkie podzbiory
+
+
+// -------------------------------------------------------
+// 21. BITSET — szybkie operacje na zbiorach 0/1
+// -------------------------------------------------------
+
+bitset<100> bs;         // 100 bitów, wszystkie 0
+bs.set(3)               // ustaw bit 3 na 1       | O(1)
+bs.reset(3)             // ustaw bit 3 na 0       | O(1)
+bs.flip(3)              // odwróć bit 3           | O(1)
+bs[3]                   // odczyt bitu 3          | O(1)
+bs.count()              // ile jedynek?           | O(n/64)
+bs.any()                // czy jest choć jedna 1? | O(n/64)
+bs.none()               // czy same zera?         | O(n/64)
+
+bitset<100> a, b;
+auto c = a & b;    // przecięcie
+auto d = a | b;    // suma
+auto e = a ^ b;    // różnica symetryczna
+
+
+// -------------------------------------------------------
+// 22. WSKAŹNIKI I DYNAMICZNA PAMIĘĆ (podstawy)
+// -------------------------------------------------------
+
+int x = 5;
+int* ptr = &x;      // ptr przechowuje adres x
+*ptr = 10;          // zmiana wartości przez wskaźnik -> x == 10
+cout << *ptr;       // wyłuskanie -> 10
+
+// dynamiczna alokacja:
+int* arr = new int[10];     // alokuj tablicę 10 intów
+arr[0] = 5;
+delete[] arr;               // ZAWSZE zwalniaj!
+
+// wskaźnik null:
+int* p = nullptr;
+if (p != nullptr) { /* bezpieczny dostęp */ }
+
+
+// -------------------------------------------------------
+// 23. STRUCT — własna struktura danych
+// -------------------------------------------------------
+
+struct Punkt {
+    int x, y;
+};
+
+struct Krawedz {
+    int u, v, waga;
+    bool operator<(const Krawedz& o) const {
+        return waga < o.waga;   // porównanie dla sort()
+    }
+};
+
+Punkt p = {3, 5};
+cout << p.x << " " << p.y << "\\n";
+
+vector<Krawedz> edges;
+edges.push_back({1, 2, 10});
+sort(edges.begin(), edges.end());   // sortuje po wadze`;
+
+        const sciagaCodeEl = document.getElementById('sciagaCode');
+        if (sciagaCodeEl) {
+            sciagaCodeEl.textContent = sciagaCode;
+            if (window.Prism) Prism.highlightElement(sciagaCodeEl);
+        }
+
+        document.getElementById('sciagaBtn').addEventListener('click', function () {
+            document.getElementById('sciagaPopup').classList.add('active');
+        });
+
+        document.getElementById('sciagaPopup').addEventListener('click', function (e) {
+            if (e.target === this) this.classList.remove('active');
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') document.getElementById('sciagaPopup').classList.remove('active');
+        });
+    });
+</script>
+<!-- ─── LEADERBOARD ZESTAWÓW: dane + render ─── -->
+<script>
+(function () {
+    /* Snapshot rankingu wbudowany w stronę — działa też bez serwera (file://).
+       Świeższe dane czytamy z vjudge-leaderboard.json. Oba odświeża
+       `python vjudge-scrape.py` (codziennie o 12:00, patrz sync-leaderboard.bat)
+       — nie edytuj tego bloku ręcznie, jest nadpisywany. */
+    /* LB_SNAPSHOT_START */
+    const LB_FALLBACK = {"generated":"2026-09-29T12:02:03+0200","setCount":51,"totalProblems":710,"totalPoints":420455,"users":[{"name":"Ignaskkko","login":"Ignaskkko","avatar":"https://cdn.vjudge.net.cn/user/avatar/1255446?v=1789301040","points":39901,"solved":45,"best":908,"attempts":54,"setsTouched":4},{"name":"TAdzik","login":"Skorek","avatar":"https://cn.cravatar.com/avatar/c455847d6961aaa9341679769bdc9c57?d=identicon","points":36735,"solved":121,"best":860,"attempts":143,"setsTouched":15},{"name":"ignass","login":"ignass","avatar":"https://cn.cravatar.com/avatar/02a9de0772edc24a62ea2a7e291b15b7?d=identicon","points":6667,"solved":43,"best":190,"attempts":83,"setsTouched":4},{"name":"TAdzik","login":"Tadzik","avatar":"https://cn.cravatar.com/avatar/c455847d6961aaa9341679769bdc9c57?d=identicon","points":5638,"solved":8,"best":869,"attempts":9,"setsTouched":3},{"name":"Krzesik","login":"Krzesik","avatar":"https://cn.cravatar.com/avatar/7f41ac55064e85fd1587158e18a1eb15?d=robohash","points":5630,"solved":36,"best":217,"attempts":50,"setsTouched":4},{"name":"Hana","login":"HanaRaoof01","avatar":"https://cn.cravatar.com/avatar/25c9a3733ba591c0e72b8fd7b0d68a6c?d=wavatar","points":1832,"solved":6,"best":308,"attempts":6,"setsTouched":1},{"name":"Abdo_Gaber.3","login":"AbdoGaber","avatar":"https://cn.cravatar.com/avatar/104c0a8f775837cc9e0f0d0fee0f0863?d=monsterid","points":1738,"solved":2,"best":869,"attempts":5,"setsTouched":1},{"name":"nuha","login":"252_115_074","avatar":"https://cn.cravatar.com/avatar/94ca08e57a3f3393ac3a2a6aad4143ef?d=identicon","points":343,"solved":1,"best":343,"attempts":1,"setsTouched":1},{"name":"252_115_074","login":"Mahe_Jannat","avatar":"https://cn.cravatar.com/avatar/904573d87729138dd89d688303a0c398?d=identicon","points":281,"solved":1,"best":281,"attempts":1,"setsTouched":1},{"name":"zaqbaz","login":"zaqbaz","avatar":"https://cdn.vjudge.net.cn/user/avatar/1036830?v=1731492009","points":19,"solved":1,"best":19,"attempts":1,"setsTouched":1}]};
+    /* LB_SNAPSHOT_END */
+
+    const MIESIACE = ['stycznia','lutego','marca','kwietnia','maja','czerwca',
+                      'lipca','sierpnia','września','października','listopada','grudnia'];
+    const MEDALE = ['🥇', '🥈', '🥉'];
+
+    function esc(s) {
+        return String(s == null ? '' : s)
+            .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    /* 1 zadanie · 2–4 zadania · 5+ zadań (z wyjątkiem nastek) */
+    function zadania(n) {
+        const d = n % 10, s = n % 100;
+        if (n === 1) return 'zadanie';
+        if (d >= 2 && d <= 4 && !(s >= 12 && s <= 14)) return 'zadania';
+        return 'zadań';
+    }
+
+    function punkty(n) {
+        const d = n % 10, s = n % 100;
+        if (n === 1) return 'punkt';
+        if (d >= 2 && d <= 4 && !(s >= 12 && s <= 14)) return 'punkty';
+        return 'punktów';
+    }
+
+    /* 12345 -> "12 345" (spacja nierozdzielająca, jak w polskiej typografii) */
+    function fmt(n) {
+        return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '\u202f');
+    }
+
+    function zgloszenia(n) {
+        const d = n % 10, s = n % 100;
+        if (n === 1) return 'zgłoszenie';
+        if (d >= 2 && d <= 4 && !(s >= 12 && s <= 14)) return 'zgłoszenia';
+        return 'zgłoszeń';
+    }
+
+    function dataPL(iso) {
+        const d = new Date(iso);
+        if (isNaN(d.getTime())) return '';
+        const g = String(d.getHours()).padStart(2, '0');
+        const m = String(d.getMinutes()).padStart(2, '0');
+        return d.getDate() + ' ' + MIESIACE[d.getMonth()] + ' ' + d.getFullYear() + ', ' + g + ':' + m;
+    }
+
+    /* Ranking odświeża skrypt vjudge-scrape.py, codziennie o 12:00. */
+    const SYNC_HOUR = 12;
+
+    function nextSync() {
+        const now = new Date();
+        const t = new Date(now.getFullYear(), now.getMonth(), now.getDate(), SYNC_HOUR, 0, 0, 0);
+        if (t <= now) t.setDate(t.getDate() + 1);
+        return t;
+    }
+
+    /* "dziś o 12:00" / "wczoraj o 11:58" / "13 września, 12:00" */
+    function wzgledny(d) {
+        const godz = String(d.getHours()).padStart(2, '0') + ':'
+                   + String(d.getMinutes()).padStart(2, '0');
+        const dzis = new Date();
+        const dni = Math.round((new Date(dzis.getFullYear(), dzis.getMonth(), dzis.getDate())
+                              - new Date(d.getFullYear(), d.getMonth(), d.getDate())) / 86400000);
+        if (dni === 0) return 'dziś o ' + godz;
+        if (dni === 1) return 'wczoraj o ' + godz;
+        return d.getDate() + ' ' + MIESIACE[d.getMonth()] + ', ' + godz;
+    }
+
+    function syncStatus(generated) {
+        const el = document.getElementById('lbUpdated');
+        if (!el) return;
+        const d = generated ? new Date(generated) : null;
+        const ok = d && !isNaN(d.getTime());
+        /* dane starsze niż ~1,5 doby = któraś synchronizacja nie doszła do skutku */
+        const stale = ok && (Date.now() - d.getTime()) > 36 * 3600 * 1000;
+        const nast = nextSync();
+        const jutro = nast.toDateString() !== new Date().toDateString();
+
+        el.className = 'lb-sync' + (stale ? ' lb-sync-stale' : '');
+        el.innerHTML = '<span class="lb-sync-dot" aria-hidden="true"></span>'
+            + (ok ? 'Zsynchronizowano ' + esc(wzgledny(d)) : 'Ranking z ostatniej synchronizacji')
+            + '<span class="lb-sync-sep">·</span>następna '
+            + (jutro ? 'jutro' : 'dziś') + ' o 12:00';
+        el.title = ok ? 'Dane pobrane ' + d.toLocaleString('pl-PL') : '';
+    }
+
+    /* Awatary vjudge siedzą na chińskim CDN-ie i czasem nie dojdą — wtedy zostaje
+       kółko z pierwszą literą nicku (img znika przez onerror). */
+    function avatarHTML(u, cls) {
+        const letter = esc((u.name || '?').trim().charAt(0).toUpperCase() || '?');
+        const img = u.avatar
+            ? '<img class="lb-avatar-img" src="' + esc(u.avatar) + '" alt="" loading="lazy"'
+              + ' referrerpolicy="no-referrer" onerror="this.remove()">'
+            : '';
+        return '<div class="' + cls + '"><span class="lb-avatar-letter">' + letter + '</span>' + img + '</div>';
+    }
+
+    function countUp(el, to) {
+        const dur = 1100;
+        let start = null, done = false;
+        el.textContent = '0';
+
+        function step(now) {
+            if (done) return;
+            if (start === null) start = now;   /* bazą jest pierwsza klatka, nie performance.now() */
+            const p = Math.min(Math.max((now - start) / dur, 0), 1);
+            el.textContent = fmt(Math.round(to * (1 - Math.pow(1 - p, 3))));
+            if (p < 1) requestAnimationFrame(step);
+            else { done = true; scheduleFit(); }
+        }
+        requestAnimationFrame(step);
+
+        /* gdyby przeglądarka wstrzymała rAF (karta w tle) — dociągnij wynik */
+        setTimeout(function () {
+            if (!done) { done = true; el.textContent = fmt(to); scheduleFit(); }
+        }, dur + 400);
+    }
+
+    /* Punktów może być 3 albo 6 cyfr — po renderze zmniejszamy czcionkę tak,
+       żeby wynik na pewno mieścił się w karcie (CSS clamp to tylko przybliżenie). */
+    function fitScores(root) {
+        if (!root) return;
+        root.querySelectorAll('.lb-score-num, .lb-stat-num').forEach(el => {
+            const box = el.closest('.lb-card, .lb-stat');
+            if (!box) return;
+            const cs = getComputedStyle(box);
+            const avail = box.clientWidth - parseFloat(cs.paddingLeft)
+                        - parseFloat(cs.paddingRight) - 2;
+            if (avail <= 0) return;
+            el.style.fontSize = '';                       /* wróć do rozmiaru z CSS */
+            const size = parseFloat(getComputedStyle(el).fontSize);
+            const w = el.getBoundingClientRect().width;
+            if (w > avail) {
+                el.style.fontSize = Math.max(13, Math.floor(size * avail / w)) + 'px';
+            }
+        });
+    }
+
+    /* Liczniki zmieniają treść w trakcie animacji — po każdym dobiegnięciu
+       do końca sprawdzamy jeszcze raz, czy wynik mieści się w kafelku. */
+    function scheduleFit() {
+        clearTimeout(LB_STATE.refitTimer);
+        LB_STATE.refitTimer = setTimeout(() => fitScores(LB_STATE.root), 60);
+    }
+
+    function placeHTML(u, rank, pool, topScore) {
+        /* pasek porównuje z liderem, procent w podpisie — z całą pulą punktów */
+        const pctAll = pool ? u.points / pool * 100 : 0;
+        const pctBar = topScore ? Math.min(100, u.points / topScore * 100) : 0;
+        const sets = u.setsTouched || Object.keys(u.perSet || {}).length;
+        const showLogin = u.login && u.login !== u.name;
+        const sparks = rank === 1
+            ? '<div class="lb-sparks" aria-hidden="true"><span class="lb-spark">✨</span>'
+              + '<span class="lb-spark">✨</span><span class="lb-spark">⭐</span>'
+              + '<span class="lb-spark">✨</span><span class="lb-spark">⭐</span></div>'
+            : '';
+        return ''
+        + '<div class="lb-place lb-place-' + rank + '">'
+        +   '<div class="lb-card">'
+        +     sparks
+        +     '<div class="lb-medal" aria-hidden="true">' + MEDALE[rank - 1] + '</div>'
+        +     '<div class="lb-avatar-wrap">'
+        +       '<div class="lb-avatar-ring" aria-hidden="true"></div>'
+        +       avatarHTML(u, 'lb-avatar-inner')
+        +     '</div>'
+        +     '<div class="lb-name">' + esc(u.name) + '</div>'
+        +     (showLogin ? '<div class="lb-login">@' + esc(u.login) + '</div>' : '')
+        +     '<div class="lb-score">'
+        +       '<span class="lb-score-num" data-count="' + u.points + '">0</span>'
+        +     '</div>'
+        +     '<div class="lb-score-word">' + punkty(u.points) + ' · ' + pctAll.toFixed(1).replace('.', ',') + '% puli</div>'
+        +     '<div class="lb-bar"><div class="lb-bar-fill" data-w="' + pctBar.toFixed(2) + '"></div></div>'
+        +     '<div class="lb-meta">' + fmt(u.solved) + ' ' + zadania(u.solved) + ' · '
+        +       sets + ' z ' + (LB_STATE.setCount || 51) + ' zestawów</div>'
+        +     (u.best ? '<div class="lb-meta">najtrudniejsze zadanie: ' + fmt(u.best) + ' pkt</div>' : '')
+        +   '</div>'
+        +   '<div class="lb-pedestal"><span class="lb-pedestal-num" aria-hidden="true">' + rank + '</span></div>'
+        + '</div>';
+    }
+
+    function rowHTML(u, rank, pool, topScore) {
+        const pct = topScore ? Math.min(100, u.points / topScore * 100) : 0;
+        const sets = u.setsTouched || Object.keys(u.perSet || {}).length;
+        const showLogin = u.login && u.login !== u.name;
+        const delay = Math.min((rank - 4) * 70, 560);
+        return ''
+        + '<div class="lb-row" style="animation-delay:' + delay + 'ms;">'
+        +   '<div class="lb-row-rank">' + rank + '.</div>'
+        +   avatarHTML(u, 'lb-row-avatar')
+        +   '<div class="lb-row-body">'
+        +     '<div class="lb-row-name">' + esc(u.name)
+        +       (showLogin ? ' <span style="font-family:var(--font-mono);font-size:10px;font-weight:400;color:var(--text-muted);">@' + esc(u.login) + '</span>' : '')
+        +     '</div>'
+        +     '<div class="lb-row-meta">' + fmt(u.solved) + ' ' + zadania(u.solved) + ' · '
+        +       sets + ' z ' + (LB_STATE.setCount || 51) + ' zestawów · '
+        +       u.attempts + ' ' + zgloszenia(u.attempts) + '</div>'
+        +   '</div>'
+        +   '<div class="lb-row-bar"><div class="lb-row-bar-fill" data-w="' + pct.toFixed(2) + '"></div></div>'
+        +   '<div class="lb-row-score">' + fmt(u.points) + ' <small>pkt</small></div>'
+        + '</div>';
+    }
+
+    const LB_STATE = { setCount: 51, resizeTimer: 0, onResize: null,
+                       refitTimer: 0, root: null };
+
+    function render(data) {
+        const body = document.getElementById('lbBody');
+        if (!body || !data) return;
+
+        const pool = data.totalPoints || 0;
+        const users = (data.users || [])
+            .filter(u => u.solved > 0)
+            .map(u => Object.assign({ points: 0 }, u))
+            .sort((a, b) => b.points - a.points || b.solved - a.solved);
+        LB_STATE.setCount = data.setCount || 51;
+
+        /* Statystyki u góry */
+        const stats = {
+            lbStatSets: data.setCount || 0,
+            lbStatProblems: data.totalProblems || 0,
+            lbStatPeople: users.length,
+            lbStatSolved: pool
+        };
+        Object.keys(stats).forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.dataset.count = stats[id];
+        });
+        const setCountEl = document.getElementById('lbSetCount');
+        if (setCountEl && data.setCount) setCountEl.textContent = data.setCount;
+
+        syncStatus(data.generated);
+
+        if (!users.length) {
+            body.innerHTML = '<div class="lb-state">Nikt jeszcze nie zaliczył żadnego zadania — '
+                           + 'możesz być pierwszy na podium. 🏆</div>';
+            return;
+        }
+
+        const top = users.slice(0, 3);
+        const rest = users.slice(3);
+
+        /* Kolejność w DOM: 2 · 1 · 3 (na mobile CSS ustawia 1 · 2 · 3) */
+        const order = [1, 0, 2].filter(i => i < top.length);
+        let html = '<div class="lb-podium" id="lbPodium">'
+                 + order.map(i => placeHTML(top[i], i + 1, pool, top[0].points)).join('')
+                 + '</div>';
+
+        if (rest.length) {
+            html += '<div class="lb-rest-label">Pozostali zawodnicy</div>'
+                  + '<div class="lb-rest">'
+                  + rest.map((u, i) => rowHTML(u, i + 4, pool, top[0].points)).join('')
+                  + '</div>';
+        }
+
+        body.innerHTML = html;
+        LB_STATE.root = document.getElementById('leaderboard') || body;
+        fitScores(LB_STATE.root);
+        if (document.fonts && document.fonts.ready) {
+            document.fonts.ready.then(() => fitScores(LB_STATE.root));
+        }
+
+        /* przy zmianie szerokości okna liczby trzeba przemierzyć od nowa */
+        clearTimeout(LB_STATE.resizeTimer);
+        window.removeEventListener('resize', LB_STATE.onResize);
+        LB_STATE.onResize = () => {
+            clearTimeout(LB_STATE.resizeTimer);
+            LB_STATE.resizeTimer = setTimeout(() => fitScores(LB_STATE.root), 150);
+        };
+        window.addEventListener('resize', LB_STATE.onResize);
+
+        /* Animacje startują, gdy podium wjedzie w kadr */
+        const podium = document.getElementById('lbPodium');
+        const fire = () => {
+            podium.classList.add('lb-in');
+            body.querySelectorAll('[data-w]').forEach(el => { el.style.width = el.dataset.w + '%'; });
+            body.querySelectorAll('.lb-score-num[data-count]').forEach(el => {
+                countUp(el, +el.dataset.count);
+            });
+            setTimeout(() => fitScores(LB_STATE.root), 1600);   /* po odliczeniu do końca */
+        };
+
+        if ('IntersectionObserver' in window) {
+            const obs = new IntersectionObserver((entries) => {
+                entries.forEach(e => {
+                    if (e.isIntersecting) { fire(); obs.unobserve(e.target); }
+                });
+            }, { threshold: 0.15 });
+            obs.observe(podium);
+
+            /* Liczniki w pasku statystyk */
+            const statsRow = document.querySelector('.lb-stats');
+            if (statsRow) {
+                const sObs = new IntersectionObserver((entries) => {
+                    entries.forEach(e => {
+                        if (!e.isIntersecting) return;
+                        e.target.querySelectorAll('.lb-stat-num[data-count]').forEach(el => {
+                            countUp(el, +el.dataset.count);
+                        });
+                        sObs.unobserve(e.target);
+                    });
+                }, { threshold: 0.3 });
+                sObs.observe(statsRow);
+            }
+        } else {
+            fire();
+            document.querySelectorAll('.lb-stat-num[data-count]').forEach(el => {
+                el.textContent = el.dataset.count;
+            });
+        }
+    }
+
+    function boot() {
+        /* Najpierw snapshot (zawsze działa), potem próba świeższego pliku JSON. */
+        if (LB_FALLBACK) render(LB_FALLBACK);
+
+        fetch('vjudge-leaderboard.json', { cache: 'no-store' })
+            .then(r => r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status)))
+            .then(fresh => {
+                if (!fresh || !Array.isArray(fresh.users)) return;
+                const a = LB_FALLBACK && LB_FALLBACK.generated;
+                if (a && fresh.generated === a) return;   // te same dane — nie przerysowuj
+                render(fresh);
+            })
+            .catch(err => {
+                if (!LB_FALLBACK) {
+                    const body = document.getElementById('lbBody');
+                    if (body) body.innerHTML = '<div class="lb-state">Nie udało się wczytać rankingu '
+                        + '(vjudge-leaderboard.json).</div>';
+                }
+                console.warn('Leaderboard: świeże dane niedostępne, używam snapshotu.', err);
+            });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', boot);
+    } else {
+        boot();
+    }
+})();
+</script>
+<!-- licznik odwiedzin -> panel kacperos.html -->
+<script type="module" src="/track.js"></script>
+</body>
+</html>

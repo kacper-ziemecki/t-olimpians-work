@@ -1,0 +1,2409 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zapisy — zajęcia przygotowujące do OI i OIJ | T-Olimpians</title>
+    <meta name="description" content="Zapisz się na zajęcia przygotowujące do Olimpiady Informatycznej i OIJ: sześć grup od podstaw C++ do poziomu laureata OI, zajęcia w weekendy oraz lekcje indywidualne 1 na 1.">
+    <link rel="canonical" href="https://t-olimpians.com/zapisy.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="T-Olimpians Team Poland">
+    <meta property="og:locale" content="pl_PL">
+    <meta property="og:url" content="https://t-olimpians.com/zapisy.html">
+    <meta property="og:title" content="Zapisy — zajęcia przygotowujące do OI i OIJ | T-Olimpians">
+    <meta property="og:description" content="Zapisz się na zajęcia przygotowujące do Olimpiady Informatycznej i OIJ: sześć grup od podstaw C++ do poziomu laureata OI, zajęcia w weekendy oraz lekcje indywidualne 1 na 1.">
+    <meta property="og:image" content="https://t-olimpians.com/img/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="./img/favicon2.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <style>
+        :root {
+            --bg-base: #0a0a0f;
+            --bg-surface: #111118;
+            --bg-card: #15151e;
+            --bg-elevated: #1c1c28;
+            --accent: #3b82f6;
+            --accent-bright: #60a5fa;
+            --accent-glow: rgba(59, 130, 246, 0.25);
+            --accent-dim: rgba(59, 130, 246, 0.12);
+            --text-primary: #f0f0f8;
+            --text-secondary: #9090aa;
+            --text-muted: #55556a;
+            --border: rgba(255,255,255,0.07);
+            --border-accent: rgba(59, 130, 246, 0.3);
+            --font-display: 'Syne', sans-serif;
+            --font-body: 'DM Sans', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+
+            /* Level colors */
+            --c-cpp:     #22d3ee;
+            --c-algo:    #a78bfa;
+            --c-oij:     #34d399;
+            --c-oi:      #f59e0b;
+            --c-laureat: #f43f5e;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.6;
+        }
+
+        /* ─── PARTICLES ─── */
+        #particles {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        /* ─── SCROLL REVEAL ─── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.visible { opacity: 1; transform: translate(0); }
+
+        /* ─── ANIMATIONS ─── */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50%       { opacity: 1;   transform: scale(1.1); }
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50%       { opacity: 0.2; }
+        }
+        @keyframes shimmer {
+            0%   { left: -60%; }
+            50%  { left: 120%; }
+            100% { left: 120%; }
+        }
+
+
+        /* ─── NAVBAR ─── */
+        .navbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 48px; height: 68px;
+            background: rgba(10,10,15,.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            transition: background .3s;
+        }
+        .navbar.scrolled { background: rgba(10,10,15,.95); box-shadow: 0 4px 32px rgba(0,0,0,.4); }
+        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .logo img:first-child { width: 38px; height: 38px; border-radius: 10px; object-fit: cover; transition: transform .3s ease, box-shadow .3s ease; }
+        .logo:hover img:first-child { transform: rotate(-5deg) scale(1.08); box-shadow: 0 0 16px var(--accent-glow); }
+        #polska-flaga { width: 22px; height: auto; border-radius: 3px; }
+        .logo-text { font-family: var(--font-display); font-weight: 700; font-size: 15px; color: var(--text-primary); letter-spacing: .01em; }
+        .navbar-right { display: flex; align-items: center; gap: 0; flex-shrink: 0; }
+        .nav-links { list-style: none; display: flex; align-items: center; gap: 4px; }
+        .nav-links a {
+            text-decoration: none; color: var(--text-secondary); font-size: 14px; font-weight: 500;
+            padding: 8px 16px; border-radius: var(--radius-sm);
+            transition: color .2s, background .2s; cursor: pointer; letter-spacing: .02em; position: relative;
+        }
+        .nav-links a:hover { color: var(--text-primary); background: var(--accent-dim); }
+        .nav-links .nav-cta a { background: var(--accent); color: white; font-weight: 600; }
+        .nav-links .nav-cta a:hover { background: var(--accent-bright); color: white; }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: 4px; left: 16px; right: 16px;
+            height: 1px; background: var(--accent-bright);
+            transform: scaleX(0); transition: transform .25s ease;
+        }
+        .nav-links a:hover::after { transform: scaleX(1); }
+        .nav-links .nav-cta a::after { display: none; }
+        .nav-links a.active-page { color: var(--accent-bright); }
+        .hamburger {
+            display: none; flex-direction: column; justify-content: center; gap: 5px;
+            background: none; border: none; cursor: pointer; padding: 6px; z-index: 110;
+        }
+        .hamburger span { display: block; width: 24px; height: 2px; background: var(--text-primary); border-radius: 2px; transition: transform .3s, opacity .3s; }
+        .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        /* ─── PAGE HERO ─── */
+        .page-hero {
+            padding: 140px 80px 80px;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+        .page-hero::after {
+            content: '';
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 700px;
+            height: 400px;
+            background: radial-gradient(ellipse, rgba(59,130,246,.09) 0%, transparent 70%);
+            pointer-events: none;
+            animation: pulse-glow 6s ease-in-out infinite;
+        }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: var(--accent-dim); border: 1px solid var(--border-accent);
+            color: var(--accent-bright); font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+            padding: 6px 14px; border-radius: 100px; letter-spacing: .08em; text-transform: uppercase;
+            margin-bottom: 28px;
+            animation: fadeInUp .6s ease both;
+        }
+        .hero-badge::before {
+            content: ''; width: 6px; height: 6px; background: var(--accent-bright); border-radius: 50%;
+            animation: blink 2s ease-in-out infinite;
+        }
+        .page-hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(36px, 5vw, 62px);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -.03em;
+            margin-bottom: 20px;
+            position: relative; z-index: 1;
+            animation: fadeInUp .6s .1s ease both;
+        }
+        .page-hero h1 span {
+            background: linear-gradient(135deg, var(--accent-bright), #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .page-hero p {
+            font-size: 16px; color: var(--text-secondary); line-height: 1.75;
+            max-width: 560px; margin: 0 auto 40px;
+            position: relative; z-index: 1;
+            animation: fadeInUp .6s .2s ease both;
+        }
+        .page-tabs {
+            display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;
+            position: relative; z-index: 1;
+            animation: fadeInUp .6s .3s ease both;
+        }
+        .tab-btn {
+            background: var(--bg-card); border: 1px solid var(--border);
+            color: var(--text-secondary); font-family: var(--font-body); font-size: 14px; font-weight: 600;
+            padding: 10px 24px; border-radius: var(--radius-sm); cursor: pointer;
+            transition: all .25s ease; letter-spacing: .01em;
+        }
+        .tab-btn:hover { border-color: var(--border-accent); color: var(--text-primary); background: var(--accent-dim); }
+        .tab-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
+
+        /* ─── MAIN ─── */
+        main { padding: 0 80px; max-width: 1280px; margin: 0 auto; }
+
+        /* ─── SECTION LABEL ─── */
+        .section-label {
+            font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+            color: var(--accent-bright); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 12px;
+        }
+
+        /* ─── SECTION HEADER ─── */
+        .section-header {
+            padding: 60px 0 0;
+            border-top: 1px solid var(--border);
+        }
+        .section-header h2 {
+            font-family: var(--font-display);
+            font-size: clamp(28px, 3.5vw, 44px);
+            font-weight: 800;
+            letter-spacing: -.03em;
+            margin-bottom: 12px;
+            line-height: 1.15;
+        }
+        .section-header h2 span {
+            background: linear-gradient(135deg, var(--accent-bright), #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .section-header p {
+            color: var(--text-secondary); font-size: 15.5px; line-height: 1.8; max-width: 680px; margin-bottom: 40px;
+        }
+        .section-header p strong { color: var(--accent-bright); font-weight: 600; }
+
+        /* ─── GROUP CARDS GRID ─── */
+        .groups-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 20px;
+            padding-bottom: 80px;
+        }
+
+        /* ─── GROUP CARD ─── */
+        .group-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: border-color .3s, transform .4s cubic-bezier(.16,1,.3,1), box-shadow .4s ease;
+            position: relative;
+            cursor: default;
+        }
+        .group-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 60px rgba(0,0,0,.5);
+        }
+        .group-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--card-color-dim, var(--accent-dim)), transparent 55%);
+            opacity: 0;
+            transition: opacity .3s;
+            border-radius: inherit;
+            pointer-events: none;
+        }
+        .group-card:hover::before { opacity: 1; }
+
+        .card-stripe {
+            height: 4px;
+            background: var(--card-color, var(--accent));
+        }
+        .card-body { padding: 28px 28px 24px; }
+
+        .card-top {
+            display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 18px;
+        }
+        .card-icon {
+            width: 48px; height: 48px; border-radius: 12px; flex-shrink: 0;
+            background: var(--card-color-dim, var(--accent-dim));
+            border: 1px solid var(--card-color-border, var(--border-accent));
+            display: flex; align-items: center; justify-content: center; font-size: 22px;
+        }
+        .card-level {
+            font-family: var(--font-mono); font-size: 10px; font-weight: 500;
+            color: var(--card-color, var(--accent-bright));
+            letter-spacing: .1em; text-transform: uppercase;
+            background: var(--card-color-dim, var(--accent-dim));
+            border: 1px solid var(--card-color-border, var(--border-accent));
+            padding: 4px 10px; border-radius: 100px;
+            white-space: nowrap;
+        }
+        .card-body h3 {
+            font-family: var(--font-display); font-size: 20px; font-weight: 700;
+            letter-spacing: -.01em; margin-bottom: 10px; color: var(--text-primary);
+        }
+        .card-body p {
+            color: var(--text-secondary); font-size: 14px; line-height: 1.7; margin-bottom: 20px;
+        }
+
+        .card-meta {
+            display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px;
+        }
+        .meta-row {
+            display: flex; align-items: center; gap: 10px;
+            font-size: 13px; color: var(--text-secondary);
+        }
+        .meta-icon {
+            width: 28px; height: 28px; border-radius: 7px; flex-shrink: 0;
+            background: var(--bg-elevated); border: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: center; font-size: 13px;
+        }
+        .meta-label { color: var(--text-muted); font-family: var(--font-mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; margin-right: 4px; }
+
+        .card-tags {
+            display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px;
+        }
+        .tag {
+            font-family: var(--font-mono); font-size: 10px; font-weight: 500;
+            color: var(--text-muted); background: var(--bg-elevated); border: 1px solid var(--border);
+            padding: 4px 10px; border-radius: 100px; letter-spacing: .04em;
+        }
+
+        .btn-enroll {
+            display: block; width: 100%; text-align: center;
+            background: var(--card-color, var(--accent));
+            color: white; border: none; padding: 13px 24px;
+            border-radius: var(--radius-sm); font-family: var(--font-body); font-size: 14px; font-weight: 600;
+            cursor: pointer; transition: filter .2s, transform .2s, box-shadow .2s;
+            letter-spacing: .01em; position: relative; overflow: hidden; text-decoration: none;
+        }
+        .btn-enroll:hover {
+            filter: brightness(1.15);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px var(--card-color-glow, var(--accent-glow));
+        }
+        .btn-enroll::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 60%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,.15), transparent);
+            transform: skewX(-20deg); transition: left .5s ease;
+        }
+        .btn-enroll:hover::before { left: 150%; }
+
+        /* ─── INFO BANNERS ─── */
+        .info-banner {
+            display: flex; align-items: flex-start; gap: 16px;
+            background: var(--bg-elevated); border: 1px solid var(--border);
+            border-left: 3px solid var(--accent);
+            border-radius: var(--radius-md); padding: 20px 24px;
+            margin-bottom: 40px;
+            font-size: 14.5px; color: var(--text-secondary); line-height: 1.7;
+        }
+        .info-banner.orange { border-left-color: var(--c-oi); }
+        .info-banner-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+        .info-banner strong { color: var(--text-primary); }
+
+        /* ─── FEATURES ROW ─── */
+        .features-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 16px;
+            margin-bottom: 60px;
+        }
+        .feat-card {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md);
+            padding: 22px 20px;
+            transition: border-color .3s, transform .4s cubic-bezier(.16,1,.3,1);
+        }
+        .feat-card:hover { border-color: var(--border-accent); transform: translateY(-4px); }
+        .feat-icon { font-size: 24px; margin-bottom: 10px; }
+        .feat-title { font-family: var(--font-display); font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+        .feat-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+
+        /* ─── INDIVIDUAL SECTION ─── */
+        .individual-wrapper {
+            padding: 60px 0 80px;
+        }
+        .individual-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: var(--radius-lg); overflow: hidden;
+            position: relative;
+        }
+        .individual-card::before {
+            content: '';
+            position: absolute; top: -50%; left: -20%;
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(59,130,246,.07) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .individual-card::after {
+            content: ''; position: absolute; top: -50%; left: -60%;
+            width: 40%; height: 200%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,.03), transparent);
+            transform: skewX(-15deg);
+            animation: shimmer 7s ease-in-out infinite;
+        }
+        .individual-inner {
+            position: relative; z-index: 1;
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 60px; align-items: center; padding: 52px 56px;
+        }
+        .individual-content h2 {
+            font-family: var(--font-display);
+            font-size: clamp(26px, 3vw, 38px); font-weight: 800; letter-spacing: -.03em;
+            margin-bottom: 16px; line-height: 1.15;
+        }
+        .individual-content h2 span {
+            background: linear-gradient(135deg, var(--accent-bright), #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .individual-content p {
+            color: var(--text-secondary); font-size: 15px; line-height: 1.8; margin-bottom: 14px;
+        }
+        .individual-content p strong { color: var(--accent-bright); font-weight: 600; }
+        .individual-list {
+            list-style: none; padding: 0;
+            display: flex; flex-direction: column; gap: 12px; margin: 20px 0 32px;
+        }
+        .individual-list li {
+            display: flex; align-items: flex-start; gap: 12px;
+            color: var(--text-secondary); font-size: 14.5px; line-height: 1.6;
+        }
+        .individual-list li::before {
+            content: ''; flex-shrink: 0; width: 18px; height: 18px; margin-top: 2px;
+            background: var(--accent-dim); border: 1px solid var(--border-accent); border-radius: 50%;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6l3 3 5-5' stroke='%2360a5fa' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: center; background-size: 12px;
+        }
+        .individual-cta-row {
+            display: flex; gap: 12px; flex-wrap: wrap;
+        }
+        .btn-primary {
+            background: var(--accent); color: white; border: none; padding: 13px 26px;
+            border-radius: var(--radius-sm); font-family: var(--font-body); font-size: 14px; font-weight: 600;
+            cursor: pointer; transition: background .2s, transform .2s, box-shadow .2s; letter-spacing: .01em;
+            position: relative; overflow: hidden; text-decoration: none; display: inline-block;
+        }
+        .btn-primary:hover { background: var(--accent-bright); transform: translateY(-2px); box-shadow: 0 8px 24px var(--accent-glow); }
+        .btn-primary::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 60%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,.15), transparent);
+            transform: skewX(-20deg); transition: left .5s ease;
+        }
+        .btn-primary:hover::before { left: 150%; }
+        .btn-ghost {
+            background: transparent; color: var(--text-secondary); border: 1px solid var(--border);
+            padding: 13px 26px; border-radius: var(--radius-sm); font-family: var(--font-body);
+            font-size: 14px; font-weight: 500; cursor: pointer;
+            transition: color .2s, border-color .2s, transform .2s; text-decoration: none; display: inline-block;
+        }
+        .btn-ghost:hover { color: var(--text-primary); border-color: var(--border-accent); transform: translateY(-2px); }
+
+        .individual-stats {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+        }
+        .ind-stat {
+            background: var(--bg-elevated); border: 1px solid var(--border);
+            border-radius: var(--radius-md); padding: 24px;
+            text-align: center;
+            transition: border-color .3s, transform .4s cubic-bezier(.16,1,.3,1);
+        }
+        .ind-stat:hover { border-color: var(--border-accent); transform: translateY(-4px); }
+        .ind-stat-num {
+            font-family: var(--font-display); font-size: 32px; font-weight: 800;
+            color: var(--accent-bright); letter-spacing: -.03em; line-height: 1; margin-bottom: 6px;
+        }
+        .ind-stat-label { font-size: 12.5px; color: var(--text-muted); line-height: 1.5; }
+
+        /* ─── FORM SECTION ─── */
+        .form-section {
+            padding: 60px 0 80px;
+            border-top: 1px solid var(--border);
+        }
+        .form-section .section-label { display: block; text-align: center; margin-bottom: 12px; }
+        .form-section > h2 {
+            font-family: var(--font-display); font-size: clamp(26px, 3.5vw, 40px);
+            font-weight: 800; letter-spacing: -.03em; text-align: center; margin-bottom: 12px;
+        }
+        .form-section > p {
+            color: var(--text-secondary); font-size: 15px; text-align: center;
+            max-width: 480px; margin: 0 auto 48px; line-height: 1.75;
+        }
+        .form-wrapper {
+            max-width: 680px; margin: 0 auto;
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: var(--radius-lg); padding: 44px 48px;
+            position: relative; overflow: hidden;
+        }
+        .form-wrapper::before {
+            content: '';
+            position: absolute; top: -60%; right: -20%;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(59,130,246,.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .form-row { position: relative; z-index: 1; margin-bottom: 22px; }
+        .form-row label {
+            display: block; font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+            color: var(--text-muted); letter-spacing: .09em; text-transform: uppercase; margin-bottom: 8px;
+        }
+        .form-row input,
+        .form-row select,
+        .form-row textarea {
+            width: 100%; background: var(--bg-elevated); border: 1px solid var(--border);
+            color: var(--text-primary); font-family: var(--font-body); font-size: 14.5px;
+            padding: 12px 16px; border-radius: var(--radius-sm);
+            transition: border-color .25s, box-shadow .25s; outline: none;
+            appearance: none;
+        }
+        .form-row input:focus,
+        .form-row select:focus,
+        .form-row textarea:focus {
+            border-color: var(--border-accent);
+            box-shadow: 0 0 0 3px rgba(59,130,246,.12);
+        }
+        .form-row textarea { resize: vertical; min-height: 110px; line-height: 1.6; }
+        .form-row select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2360a5fa' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; background-size: 12px; padding-right: 40px; cursor: pointer; }
+        .form-row select option { background: var(--bg-elevated); color: var(--text-primary); }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .form-hint { font-size: 12px; color: var(--text-muted); margin-top: 6px; }
+        .form-submit {
+            position: relative; z-index: 1;
+            margin-top: 8px; width: 100%;
+            background: var(--accent); color: white; border: none;
+            padding: 15px 24px; border-radius: var(--radius-sm);
+            font-family: var(--font-body); font-size: 15px; font-weight: 600;
+            cursor: pointer; transition: background .2s, transform .2s, box-shadow .2s;
+            letter-spacing: .01em; overflow: hidden;
+        }
+        .form-submit:hover { background: var(--accent-bright); transform: translateY(-2px); box-shadow: 0 8px 28px var(--accent-glow); }
+        .form-divider {
+            border: none; border-top: 1px solid var(--border);
+            margin: 28px 0;
+        }
+        .form-type-selector {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 28px;
+        }
+        .type-option {
+            border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px;
+            cursor: pointer; transition: border-color .25s, background .25s;
+            background: var(--bg-elevated);
+        }
+        .type-option:hover { border-color: var(--border-accent); background: var(--accent-dim); }
+        .type-option.selected { border-color: var(--accent); background: var(--accent-dim); }
+        .type-option input[type="radio"] { display: none; }
+        .type-option-label { font-family: var(--font-display); font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+        .type-option-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+        .type-option.selected .type-option-label { color: var(--accent-bright); }
+
+        /* ─── SUCCESS POPUP ─── */
+        .popup {
+            display: flex; position: fixed; z-index: 1000; inset: 0;
+            background: rgba(0,0,0,0); backdrop-filter: blur(0px);
+            -webkit-backdrop-filter: blur(0px);
+            align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden; pointer-events: none;
+            transition: opacity .45s cubic-bezier(0.16, 1, 0.3, 1),
+                        background .45s cubic-bezier(0.16, 1, 0.3, 1),
+                        backdrop-filter .45s cubic-bezier(0.16, 1, 0.3, 1),
+                        visibility 0s linear .45s;
+        }
+        .popup.active {
+            opacity: 1; visibility: visible; pointer-events: auto;
+            background: rgba(0,0,0,.7); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            transition: opacity .45s cubic-bezier(0.16, 1, 0.3, 1),
+                        background .45s cubic-bezier(0.16, 1, 0.3, 1),
+                        backdrop-filter .45s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        #popupParticles {
+            position: absolute; inset: 0; pointer-events: none; z-index: 0;
+        }
+        .popup-content {
+            background: var(--bg-elevated); border: 1px solid var(--border-accent);
+            border-radius: var(--radius-lg); padding: 44px 52px;
+            position: relative; text-align: center; max-width: 360px;
+            opacity: 0; transform: translateY(28px) scale(.92);
+            transition: opacity .5s cubic-bezier(0.16, 1, 0.3, 1) .08s,
+                        transform .5s cubic-bezier(0.16, 1, 0.3, 1) .08s;
+            box-shadow: 0 0 0 rgba(59,130,246,0);
+        }
+        .popup.active .popup-content {
+            opacity: 1; transform: translateY(0) scale(1);
+            box-shadow: 0 20px 60px rgba(0,0,0,.5), 0 0 40px var(--accent-glow);
+        }
+        .popup-content .emoji {
+            font-size: 48px; margin-bottom: 16px; display: block;
+            transform: scale(0); animation: none;
+        }
+        .popup.active .popup-content .emoji { animation: popEmoji .6s cubic-bezier(0.34, 1.56, 0.64, 1) .22s both; }
+        @keyframes popEmoji {
+            0%   { transform: scale(0) rotate(-15deg); }
+            60%  { transform: scale(1.15) rotate(6deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+        .popup-content h3 { font-family: var(--font-display); font-size: 24px; font-weight: 800; margin-bottom: 10px; }
+        .popup-content p { font-size: 15px; color: var(--text-secondary); line-height: 1.7; }
+        .close { position: absolute; top: 14px; right: 18px; font-size: 22px; cursor: pointer; color: var(--text-muted); transition: color .2s; line-height: 1; }
+        .close:hover { color: var(--text-primary); }
+
+        /* ─── FOOTER ─── */
+        footer {
+            border-top: 1px solid var(--border); padding: 32px 80px;
+            display: flex; justify-content: space-between; align-items: center;
+            color: var(--text-muted); font-size: 13px;
+        }
+        footer span { font-family: var(--font-mono); }
+
+        /* ─── DIVIDER ─── */
+        .divider { height: 1px; background: linear-gradient(to right, transparent, var(--border), transparent); margin: 0 80px; }
+
+        /* ─── RESPONSIVE ─── */
+        .nav-group-item { display: flex; align-items: center; }
+        .nav-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border-accent);
+            border-radius: var(--radius-sm);
+            padding: 8px 10px 3px;
+            margin-top: 7px;
+            background: var(--accent-dim);
+        }
+        .nav-group-label {
+            position: absolute;
+            top: -7px;
+            left: 12px;
+            background: #0a0a0f;
+            padding: 1px 7px;
+            border: 1px solid var(--border-accent);
+            border-radius: 100px;
+            font-family: var(--font-mono);
+            font-size: 9.5px;
+            font-weight: 500;
+            color: var(--accent-bright);
+            text-transform: lowercase;
+            letter-spacing: 0.06em;
+            line-height: 1.3;
+        }
+        .nav-group-links { display: flex; align-items: center; gap: 2px; }
+
+
+        @media (max-width: 900px) {
+            .navbar { padding: 0 20px; }
+            .hamburger { display: flex; }
+            .logo-text { font-size: 13px; }
+            .nav-links {
+                display: none; flex-direction: column; position: fixed;
+                top: 68px; left: 0; right: 0;
+                background: rgba(10,10,15,.98); backdrop-filter: blur(20px);
+                border-bottom: 1px solid var(--border); padding: 16px 0 24px; gap: 0; z-index: 99;
+            }
+            .nav-links.open { display: flex; }
+            .nav-links li { width: 100%; }
+            .nav-group-item { width: 100%; }
+            .nav-group {
+                flex-direction: column;
+                align-items: stretch;
+                border-radius: var(--radius-md);
+                margin: 16px 28px 6px;
+                padding: 12px 0 6px;
+                width: auto;
+            }
+            .nav-group-label { left: 16px; background: #0a0a0f; }
+            .nav-group-links { flex-direction: column; width: 100%; }
+            .nav-group-links a { width: 100%; }
+
+            .nav-links a { display: block; padding: 14px 28px; font-size: 16px; border-radius: 0; }
+            .nav-links .nav-cta { padding: 12px 20px 0; }
+            .nav-links .nav-cta a { display: block; text-align: center; border-radius: var(--radius-sm); padding: 14px; }
+            .page-hero { padding: 110px 24px 56px; }
+            main { padding: 0 24px; }
+            .groups-grid { grid-template-columns: 1fr; }
+            .individual-inner { grid-template-columns: 1fr; padding: 32px 24px; gap: 36px; }
+            .individual-stats { grid-template-columns: 1fr 1fr; }
+            .form-wrapper { padding: 28px 20px; }
+            .form-grid { grid-template-columns: 1fr; }
+            .form-type-selector { grid-template-columns: 1fr; }
+            footer { flex-direction: column; gap: 12px; padding: 24px; text-align: center; }
+            .divider { margin: 0 24px; }
+        }
+        /* ─── RANK TRACK ─── */
+        .rank-track {
+            display: flex;
+            align-items: stretch;
+            gap: 0;
+            position: relative;
+            padding: 20px 0 40px;
+            overflow-x: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--border) transparent;
+        }
+        .rank-track::-webkit-scrollbar { height: 4px; }
+        .rank-track::-webkit-scrollbar-track { background: transparent; }
+        .rank-track::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+        .rank-node {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            min-width: 140px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .rank-connector-left,
+        .rank-connector-right {
+            position: absolute;
+            top: 52px;
+            height: 2px;
+            width: 50%;
+            background: linear-gradient(to right, transparent, var(--border));
+            z-index: 0;
+        }
+        .rank-connector-left { left: 0; background: linear-gradient(to right, transparent, var(--border)); }
+        .rank-connector-right { right: 0; background: linear-gradient(to right, var(--border), transparent); }
+        .rank-node:first-child .rank-connector-left { display: none; }
+        .rank-node:last-child .rank-connector-right { display: none; }
+
+        .rank-badge {
+            position: relative;
+            z-index: 2;
+            margin-bottom: 20px;
+            transition: transform 0.35s cubic-bezier(.16,1,.3,1);
+        }
+        .rank-node:hover .rank-badge { transform: translateY(-8px) scale(1.08); }
+
+        .rank-hex {
+            width: 88px; height: 100px;
+            position: relative;
+            display: flex; align-items: center; justify-content: center;
+            filter: drop-shadow(0 4px 16px rgba(0,0,0,0.5));
+        }
+        .rank-hex svg {
+            position: absolute; inset: 0; width: 100%; height: 100%;
+        }
+        .rank-emoji {
+            font-size: 30px;
+            position: relative; z-index: 1;
+            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6));
+        }
+
+        .predator-glow-hex {
+            filter: drop-shadow(0 0 18px rgba(244,63,94,0.6)) drop-shadow(0 4px 16px rgba(0,0,0,0.5));
+            animation: pred-pulse 2.5s ease-in-out infinite;
+        }
+        @keyframes pred-pulse {
+            0%, 100% { filter: drop-shadow(0 0 12px rgba(244,63,94,0.5)) drop-shadow(0 4px 16px rgba(0,0,0,0.5)); }
+            50%       { filter: drop-shadow(0 0 28px rgba(244,63,94,0.85)) drop-shadow(0 4px 16px rgba(0,0,0,0.5)); }
+        }
+
+        .rank-info {
+            text-align: center;
+            padding: 0 8px;
+            flex: 1;
+        }
+        .rank-name {
+            font-family: var(--font-display);
+            font-size: 16px; font-weight: 800;
+            letter-spacing: 0.04em; text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        .rank-desc {
+            font-size: 11.5px; color: var(--text-muted);
+            line-height: 1.6; margin-bottom: 10px;
+        }
+        .rank-group-tag {
+            display: inline-block;
+            font-family: var(--font-mono); font-size: 9.5px; font-weight: 500;
+            color: var(--text-muted); background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            padding: 3px 10px; border-radius: 100px;
+            letter-spacing: 0.04em;
+        }
+        .rank-group-tag-elite {
+            color: #f43f5e;
+            border-color: rgba(244,63,94,0.3);
+            background: rgba(244,63,94,0.08);
+        }
+
+        .bronze-text   { color: #cd7f32; }
+        .silver-text   { color: #d0d0d0; }
+        .gold-text     { color: #ffd700; }
+        .platinum-text { color: #22d3ee; }
+        .master-text   { color: #a78bfa; }
+        .predator-text { color: #f43f5e; text-shadow: 0 0 20px rgba(244,63,94,0.6); }
+
+        /* Progress bar */
+        .rank-progress-bar-wrap { margin-top: 12px; }
+        .rank-progress-bar {
+            height: 8px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 14px;
+        }
+        .rank-progress-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 100px;
+            background: linear-gradient(90deg, #cd7f32, #d0d0d0, #ffd700, #22d3ee, #a78bfa, #f43f5e);
+            transition: width 1.8s cubic-bezier(.16,1,.3,1);
+        }
+        .rank-progress-fill.animated { width: 100%; }
+        .rank-progress-labels {
+            display: flex; justify-content: space-between;
+            font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+            letter-spacing: 0.06em; text-transform: uppercase;
+        }
+
+        @media (max-width: 900px) {
+            #rangi { display: none; }
+        }
+
+        /* ─── APEX PROGRESS CHART ─── */
+        .apex-chart-section {
+            padding: 64px 0 72px;
+        }
+        .apex-chart-label {
+            font-family: var(--font-mono);
+            font-size: 11px; font-weight: 500;
+            color: var(--accent-bright);
+            letter-spacing: .12em; text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        .apex-chart-title {
+            font-family: var(--font-display);
+            font-size: clamp(26px, 3.5vw, 42px);
+            font-weight: 800;
+            letter-spacing: -.03em;
+            margin-bottom: 10px;
+            line-height: 1.15;
+        }
+        .apex-pred-text {
+            background: linear-gradient(135deg, #fb7185, #f43f5e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .apex-chart-subtitle {
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.75;
+            max-width: 560px;
+            margin-bottom: 36px;
+        }
+        .apex-chart-wrap {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 28px 20px 12px;
+            overflow: hidden;
+            position: relative;
+        }
+        .apex-chart-wrap::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 90% 10%, rgba(244,63,94,0.07) 0%, transparent 60%),
+                        radial-gradient(ellipse at 10% 90%, rgba(205,127,50,0.05) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .apex-svg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .apex-node-pred circle:first-child {
+            animation: apex-pred-ring 2.4s ease-in-out infinite;
+        }
+        @keyframes apex-pred-ring {
+            0%, 100% { stroke-opacity: 0.9; r: 26; }
+            50%       { stroke-opacity: 1;   r: 28; }
+        }
+        .apex-chart-note {
+            margin-top: 16px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--text-muted);
+            text-align: center;
+            letter-spacing: .06em;
+        }
+        /* Animated clip reveal */
+        .apex-clip-rect {
+            transition: width 2.2s cubic-bezier(.16, 1, .3, 1);
+        }
+        .apex-clip-rect.revealed {
+            width: 900px;
+        }
+        @media (max-width: 900px) {
+            .apex-chart-section { padding: 48px 0 56px; }
+        }
+
+        /* ─── APEX FULLSCREEN BURST ─── */
+        @keyframes screen-shake {
+            0%   { transform: translate(0, 0) rotate(0deg); }
+            10%  { transform: translate(-6px, -4px) rotate(-0.4deg); }
+            20%  { transform: translate(7px, 5px) rotate(0.4deg); }
+            30%  { transform: translate(-5px, 3px) rotate(-0.3deg); }
+            40%  { transform: translate(6px, -5px) rotate(0.3deg); }
+            50%  { transform: translate(-4px, 4px) rotate(-0.2deg); }
+            60%  { transform: translate(4px, -3px) rotate(0.2deg); }
+            70%  { transform: translate(-3px, 2px) rotate(-0.1deg); }
+            80%  { transform: translate(2px, -2px) rotate(0.1deg); }
+            90%  { transform: translate(-1px, 1px) rotate(0deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
+        }
+        body.shaking {
+            animation: screen-shake 0.55s cubic-bezier(.36,.07,.19,.97) both;
+        }
+        .apex-fullscreen-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 500;
+            background: rgba(8, 8, 14, 0);
+            align-items: center;
+            justify-content: center;
+            padding: 32px;
+            cursor: pointer;
+            transition: background 0.45s ease;
+        }
+        .apex-fullscreen-overlay.active {
+            display: flex;
+            background: rgba(8, 8, 14, 0.97);
+        }
+        .apex-fullscreen-inner {
+            transform: scale(0.05);
+            opacity: 0;
+            transition:
+                transform 0.6s cubic-bezier(.16, 1, .3, 1),
+                opacity   0.25s ease;
+        }
+        .apex-fullscreen-overlay.active .apex-fullscreen-inner {
+            transform: scale(1);
+            opacity: 1;
+        }
+        .apex-fullscreen-overlay.closing .apex-fullscreen-inner {
+            transform: scale(0.05);
+            opacity: 0;
+            transition:
+                transform 0.35s cubic-bezier(.4, 0, 1, 1),
+                opacity   0.25s ease;
+        }
+        .apex-fullscreen-overlay.closing {
+            display: flex;
+            background: rgba(8, 8, 14, 0);
+            transition: background 0.35s ease;
+        }
+        .apex-fullscreen-inner {
+            width: 100%;
+            max-width: 1100px;
+            position: relative;
+        }
+        .apex-fullscreen-inner .apex-chart-wrap {
+            border-color: rgba(244,63,94,0.35);
+            box-shadow: 0 0 80px rgba(244,63,94,0.15), 0 0 40px rgba(167,139,250,0.1);
+        }
+        .apex-fullscreen-inner .apex-svg {
+            max-height: 75vh;
+        }
+        .apex-overlay-close {
+            position: absolute;
+            top: -36px;
+            right: 0;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+        .apex-overlay-title {
+            font-family: var(--font-display);
+            font-size: clamp(18px, 2.5vw, 28px);
+            font-weight: 800;
+            letter-spacing: -.02em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* ─── TABLET ─── */
+        /* poziomo: cztery zalety w jednym rzedzie zamiast 3 + 1 */
+        @media (min-width: 901px) and (max-width: 1199px) {
+            main { padding: 0 48px; }
+            .features-row { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+            .individual-inner { gap: 40px; padding: 44px 40px; }
+        }
+        /* pionowo: siatki 2 x 2 zamiast jednej dlugiej kolumny */
+        @media (min-width: 641px) and (max-width: 900px) {
+            .page-hero { padding: 120px 40px 56px; }
+            main { padding: 0 40px; }
+            .divider { margin: 0 40px; }
+            .features-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .groups-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .form-wrapper { padding: 36px 32px; }
+            .form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .form-type-selector { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+    </style>
+    <style id="tablet-nav">
+        /* ─── TABLET: nawigacja i logo (641–1299px) ───
+           < 1024px  menu pod hamburgerem jako panel po prawej,
+           1024–1299 pelne menu w wersji kompaktowej + logo w dwoch liniach. */
+        @media (min-width: 641px) {
+            .logo { flex-shrink: 0; }
+            .logo-text { white-space: nowrap; }
+        }
+
+        @media (min-width: 641px) and (max-width: 1023px) {
+            .navbar { padding: 0 28px; }
+            .logo-text { font-size: 15px; }
+            .hamburger { display: flex; }
+            .nav-pointer-bubble { display: none !important; }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: fixed;
+                top: 76px; right: 20px; left: auto;
+                width: 340px;
+                max-height: calc(100vh - 96px);
+                overflow-y: auto;
+                background: rgba(10, 10, 15, 0.98);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border: 1px solid var(--border);
+                border-radius: var(--radius-lg, 20px);
+                box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+                padding: 10px 0 16px;
+                gap: 0;
+                z-index: 99;
+            }
+            .nav-links.open { display: flex; }
+            .nav-links li { width: 100%; }
+            .nav-group-item { width: 100%; }
+            .nav-group {
+                flex: 1;
+                flex-direction: column;
+                align-items: stretch;
+                border-radius: var(--radius-md, 14px);
+                margin: 18px 16px 8px;
+                padding: 12px 0 6px;
+                width: auto;
+            }
+            .nav-group-label { left: 14px; background: #0a0a0f; }
+            .nav-group-links { flex-direction: column; align-items: stretch; width: 100%; gap: 0; }
+            .nav-group-links a { width: 100%; }
+            .focus-toggle {
+                width: 100%; justify-content: center; margin: 8px 0 0; padding: 10px 0 4px;
+                border-left: none; border-top: 1px solid var(--border);
+            }
+            .nav-links a { display: block; padding: 12px 24px; font-size: 15px; border-radius: 0; }
+            .nav-links a::after { display: none; }
+            .nav-links .nav-cta { padding: 10px 16px 0; }
+            .nav-links .nav-cta a { display: block; text-align: center; border-radius: var(--radius-sm, 8px); padding: 13px; }
+        }
+
+        @media (min-width: 1024px) and (max-width: 1299px) {
+            .navbar { padding: 0 24px; }
+            .logo { gap: 10px; }
+            .logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+            .logo-text-sub {
+                margin-top: 3px;
+                font-family: var(--font-mono);
+                font-size: 9.5px;
+                font-weight: 500;
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                color: var(--accent-bright);
+            }
+            .nav-links { gap: 2px; }
+            .nav-links a { padding: 8px 10px; font-size: 13.5px; letter-spacing: 0.01em; }
+            .nav-links a::after { left: 10px; right: 10px; }
+            .nav-group { padding: 8px 6px 3px; }
+            .nav-group-links { gap: 0; }
+            .focus-toggle { margin-left: 4px; padding-left: 8px; gap: 6px; }
+        }
+    </style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+    <a class="logo" href="index.html">
+        <img src="./img/t-olimpians-logo.jpg" alt="Logo">
+        <span class="logo-text">T-Olimpians <span class="logo-text-sub">Team Poland</span></span>
+        <img id="polska-flaga" src="./img/polska_flaga.png" alt="Flaga Polski">
+    </a>
+    <div class="navbar-right">
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html" class="nav-close">Home</a></li>
+            <li><a href="index.html#o-nas" class="nav-close">O nas</a></li>
+            <li class="nav-group-item">
+                <div class="nav-group">
+                    <span class="nav-group-label">t-olimpians net</span>
+                    <div class="nav-group-links">
+                    <a href="materialy.html" class="nav-close">C++/logika</a>
+                    <a href="net.html" class="nav-close">Algorytmy</a>
+                    <a href="zadania-OI-OIJ.html" class="nav-close">Zadania OI/OIJ</a>
+                    <a href="konkursy.html" class="nav-close">Konkursy</a>
+                    </div>
+                </div>
+            </li>
+            <li><a href="zapisy.html" class="nav-close active-page">Zapisy</a></li>
+            <li class="nav-cta"><a href="#formularz" class="nav-close">Dołącz →</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+    <div class="hero-badge">Zapisy · Grupy · Indywidualne</div>
+    <h1>Wybierz swoją <span>ścieżkę</span></h1>
+    <p>Zajęcia w weekendy — od podstaw C++ aż po poziom laureata. Dołącz do grupy lub umów się na sesję indywidualną z mentorem.</p>
+    <div class="page-tabs">
+        <button class="tab-btn active" onclick="scrollToSection('grupowe')">Zajęcia grupowe</button>
+        <button class="tab-btn" onclick="scrollToSection('indywidualne')">Zajęcia indywidualne</button>
+        <button class="tab-btn" onclick="scrollToSection('formularz')">Formularz zapisu</button>
+    </div>
+</section>
+
+<main>
+
+    <!-- ═══ GRUPOWE ═══ -->
+    <div id="grupowe">
+        <div class="section-header reveal">
+            <span class="section-label">// zajęcia grupowe</span>
+            <h2>Sześć grup — <span>jeden cel</span></h2>
+            <p>Każda sobota to nowe zagadnienia, <strong>20+ zadań konkursowych</strong> do samodzielnego rozwiązania oraz dostęp do materiałów dopasowanych ściśle pod kątem olimpiady. Między zajęciami uczniowie rywalizują w rankingu — kto szybciej i więcej rozwiąże.</p>
+        </div>
+
+        <div class="features-row">
+            <div class="feat-card reveal">
+                <div class="feat-icon">⚔️</div>
+                <div class="feat-title">Ranking & rywalizacja</div>
+                <div class="feat-desc">Po każdych zajęciach 20+ zadań z przerabianych tematów. Liczą się prędkość i ilość — widoczny ranking na żywo.</div>
+            </div>
+            <div class="feat-card reveal">
+                <div class="feat-icon">📚</div>
+                <div class="feat-title">Materiały olimpijskie</div>
+                <div class="feat-desc">Obszerne zasoby do nauki własnej — filtrowane wyłącznie pod olimpiadę, zero zbędnych tematów.</div>
+            </div>
+            <div class="feat-card reveal">
+                <div class="feat-icon">🗓️</div>
+                <div class="feat-title">Co weekend</div>
+                <div class="feat-desc">Regularne, cotygodniowe zajęcia — 1h tygodniowo. Każda grupa ma swój stały termin.</div>
+            </div>
+            <div class="feat-card reveal">
+                <div class="feat-icon">🎯</div>
+                <div class="feat-title">Ukierunkowany program</div>
+                <div class="feat-desc">Tylko tematy istotne dla OI / OIJ. Żadnego błądzenia — budujesz kompetencje krok po kroku.</div>
+            </div>
+        </div>
+
+        <div class="info-banner reveal">
+            <span class="info-banner-icon">💡</span>
+            <div>
+                <strong>Jak działają zadania między zajęciami?</strong><br>
+                Po każdych zajęciach otrzymujesz zestaw 20+ zadań z przerabianych tematów. Konkurujesz z innymi uczniami w swojej grupie — widoczny ranking pokazuje, kto rozwiązał więcej i szybciej. To motywuje do systematycznej pracy, a nie tylko biernego uczestnictwa w zajęciach.
+            </div>
+        </div>
+
+        <div class="groups-grid">
+
+            <!-- Karta 1 -->
+            <div class="group-card reveal" style="
+                --card-color: var(--c-cpp);
+                --card-color-dim: rgba(34,211,238,.12);
+                --card-color-border: rgba(34,211,238,.3);
+                --card-color-glow: rgba(34,211,238,.25);
+            ">
+                <div class="card-stripe"></div>
+                <div class="card-body">
+                    <div class="card-top">
+                        <div class="card-icon">🖥️</div>
+                        <span class="card-level">Poziom 1</span>
+                    </div>
+                    <h3>Początkujący C++</h3>
+                    <p>Solidna baza programowania w C++ — składnia, struktury danych, STL. Idealne wejście w świat algorytmiki konkursowej bez wcześniejszego doświadczenia.</p>
+                    <div class="card-meta">
+                        <div class="meta-row">
+                            <div class="meta-icon">📅</div>
+                            <span><span class="meta-label">Termin</span> Sobota &mdash; godz. <strong>9:00</strong></span>
+                        </div>
+                        <div class="meta-row">
+                            <div class="meta-icon">⏱️</div>
+                            <span><span class="meta-label">Czas</span> 60 minut / zajęcia</span>
+                        </div>
+                        <div class="meta-row">
+                            <div class="meta-icon">📋</div>
+                            <span><span class="meta-label">Wymagania</span> Brak — zaczynamy od zera</span>
+                        </div>
+                    </div>
+                    <div class="card-tags">
+                        <span class="tag">C++ basics</span>
+                        <span class="tag">STL</span>
+                        <span class="tag">Tablice</span>
+                        <span class="tag">Pętle</span>
+                        <span class="tag">Funkcje</span>
+                    </div>
+                    <a href="#formularz" class="btn-enroll" onclick="prefill('grupowe','Początkujący C++')">Dołącz do grupy →</a>
+                </div>
+            </div>
+
+            <!-- Karta 2 -->
+            <div class="group-card reveal" style="
+                --card-color: var(--c-algo);
+                --card-color-dim: rgba(167,139,250,.12);
+                --card-color-border: rgba(167,139,250,.3);
+                --card-color-glow: rgba(167,139,250,.25);
+            ">
+                <div class="card-stripe"></div>
+                <div class="card-body">
+                    <div class="card-top">
+                        <div class="card-icon">🔢</div>
+                        <span class="card-level">Poziom 2</span>
+                    </div>
+                    <h3>Algorytmy — Początkujący</h3>
+                    <p>Pierwsze algorytmy konkursowe: sortowanie, przeszukiwanie, rekurencja, podstawy złożoności obliczeniowej i myślenie algorytmiczne. Wstęp do zadań olimpijskich.</p>
+                    <div class="card-meta">
+                        <div class="meta-row">
+                            <div class="meta-icon">📅</div>
+                            <span><span class="meta-label">Termin</span> Sobota &mdash; godz. <strong>10:30</strong></span>
+                        </div>
+                        <div class="meta-row">
+                            <div class="meta-icon">⏱️</div>
+                            <span><span class="meta-label">Czas</span> 60 minut / zajęcia</span>
+                        </div>
+                        <div class="meta-row">
+                            <div class="meta-icon">📋</div>
+                            <span><span class="meta-label">Wymagania</span> Znajomość podstaw C++</span>
+                        </div>
+                    </div>
+                    <div class="card-tags">
+                        <span class="tag">Sortowanie</span>
+                        <span class="tag">BFS / DFS</span>
+                        <span class="tag">Rekurencja</span>
+                        <span class="tag">Złożoność</span>
+                    </div>
+                    <a href="#formularz" class="btn-enroll" onclick="prefill('grupowe','Algorytmy — Początkujący')">Dołącz do grupy →</a>
+                </div>
+            </div>
+
+            <!-- Karta 3 -->
+            <div class="group-card reveal" style="
+                --card-color: var(--c-oij);
+                --card-color-dim: rgba(52,211,153,.12);
+                --card-color-border: rgba(52,211,153,.3);
+                --card-color-glow: rgba(52,211,153,.25);
+            ">
+                <div class="card-stripe"></div>
+                <div class="card-body">
+                    <div class="card-top">
+                        <div class="card-icon">🏅</div>
+                        <span class="card-level">Poziom 3</span>
+                    </div>
+                    <h3>Olimpiada Informatyczna Juniorów</h3>
+                    <p>Pełne przygotowanie do OIJ — zadania z poprzednich edycji, techniki specyficzne dla juniorskiej formuły i strategia rozwiązywania w czasie konkursu.</p>
+                    <div class="card-meta">
+                        <div class="meta-row">
+                            <div class="meta-icon">📅</div>
+                            <span><span class="meta-label">Termin</span> Sobota &mdash; godz. <strong>12:00</strong></span>
+                        </div>
+                        <div class="meta-row">
+                            <div class="meta-icon">⏱️</div>
+                            <span><span class="meta-label">Czas</span> 60 minut / zajęcia</span>
+                        </div>
+                        <div class="meta-row">
+                            <div class="meta-icon">📋</div>
+                            <span><span class="meta-label">Wymagania</span> Zaliczony poziom 2 lub równoważny</span>
+                        </div>
+                    </div>
+                    <div class="card-tags">
+                        <span class="tag">OIJ</span>
+                        <span class="tag">Grafy</span>
+                        <span class="tag">DP</span>
+                        <span class="tag">Struktury danych</span>
+                    </div>
+                    <a href="#formularz" class="btn-enroll" onclick="prefill('grupowe','Olimpiada Informatyczna Juniorów')">Dołącz do grupy →</a>
+                </div>
+            </div>
+
+            <!-- Karta 3.5 -->
+            <div class="group-card reveal" style="
+                --card-color: #10b981;
+                --card-color-dim: rgba(16,185,129,.12);
+                --card-color-border: rgba(16,185,129,.3);
+                --card-color-glow: rgba(16,185,129,.25);
+            ">
+                <div class="card-stripe"></div>
+                <div class="card-body">
+                    <div class="card-top">
+                        <div class="card-icon">🥈</div>
+                        <span class="card-level">Poziom 3.5 · LAUREAT</span>
+                    </div>
+                    <h3>Olimpiada Informatyczna Juniorów — Laureat</h3>
+                    <p>Dedykowana grupa dla laureatów OIJ gotowych na kolejny krok. Zaawansowane algorytmy na styku OIJ i OI — przygotowanie do przeskoku na wyższy poziom konkursu.</p>
+                    <div class="card-meta">
+                        <div class="meta-row">
+                            <div class="meta-icon">📅</div>
+                            <span><span class="meta-label">Termin</span> Niedziela &mdash; godz. <strong>9:00</strong></span>
+                        </div>
+                        <div class="meta-row">
+                            <div class="meta-icon">⏱️</div>
+                            <span><span class="meta-label">Czas</span> 60 minut / zajęcia</span>
+                        </div>
+                        <div class="meta-row">
+                            <div class="meta-icon">📋</div>
+                            <span><span class="meta-label">Wymagania</span> Laureat OIJ — rekrutacja</span>
+                        </div>
+                    </div>
+                    <div class="card-tags">
+                        <span class="tag">OIJ Laureat</span>
+                        <span class="tag">Zaaw. DP</span>
+                        <span class="tag">Drzewa</span>
+                        <span class="tag">Grafy zaaw.</span>
+                        <span class="tag">Hashing</span>
+                    </div>
+                    <a href="#formularz" class="btn-enroll" onclick="prefill('grupowe','Olimpiada Informatyczna Juniorów Laureat')">Dołącz do grupy →</a>
+                </div>
+            </div>
+
+            <!-- Karta 4 -->
+            <div class="group-card reveal" style="
+                --card-color: var(--c-oi);
+                --card-color-dim: rgba(245,158,11,.12);
+                --card-color-border: rgba(245,158,11,.3);
+                --card-color-glow: rgba(245,158,11,.25);
+            ">
+                <div class="card-stripe"></div>
+                <div class="card-body">
+                    <div class="card-top">
+                        <div class="card-icon">🥇</div>
+                        <span class="card-level">Poziom 4</span>
+                    </div>
+                    <h3>Olimpiada Informatyczna</h3>
+                    <p>Zaawansowane algorytmy i struktury danych na poziomie OI. Intensywny trening zadań kwalifikacyjnych, finałowych i treningów na wzór zawodów.</p>
+                    <div class="card-meta">
+                        <div class="meta-row">
+                            <div class="meta-icon">📅</div>
+                            <span><span class="meta-label">Termin</span> Niedziela &mdash; godz. <strong>10:30</strong></span>
+                        </div>
+                        <div class="meta-row">
+                            <div class="meta-icon">⏱️</div>
+                            <span><span class="meta-label">Czas</span> 60 minut / zajęcia</span>
+                        </div>
+                        <div class="meta-row">
+                            <div class="meta-icon">📋</div>
+                            <span><span class="meta-label">Wymagania</span> Uczestnik OI lub równoważny poziom</span>
+                        </div>
+                    </div>
+                    <div class="card-tags">
+                        <span class="tag">OI</span>
+                        <span class="tag">Zaaw. DP</span>
+                        <span class="tag">Segment tree</span>
+                        <span class="tag">Flow</span>
+                        <span class="tag">Geometria</span>
+                    </div>
+                    <a href="#formularz" class="btn-enroll" onclick="prefill('grupowe','Olimpiada Informatyczna')">Dołącz do grupy →</a>
+                </div>
+            </div>
+
+            <!-- Karta 5 -->
+            <div class="group-card reveal" style="
+                --card-color: var(--c-laureat);
+                --card-color-dim: rgba(244,63,94,.12);
+                --card-color-border: rgba(244,63,94,.3);
+                --card-color-glow: rgba(244,63,94,.25);
+            ">
+                <div class="card-stripe"></div>
+                <div class="card-body">
+                    <div class="card-top">
+                        <div class="card-icon">🏆</div>
+                        <span class="card-level">Poziom 5 · ELITE</span>
+                    </div>
+                    <h3>Olimpiada Informatyczna — Laureat</h3>
+                    <p>Elitarna grupa dla finalistów i laureatów OI. Przygotowanie do BOI, IOI i zawodów międzynarodowych. Najwyższy poziom trudności, indywidualne podejście.</p>
+                    <div class="card-meta">
+                        <div class="meta-row">
+                            <div class="meta-icon">📅</div>
+                            <span><span class="meta-label">Termin</span> Niedziela &mdash; godz. <strong>12:00</strong></span>
+                        </div>
+                        <div class="meta-row">
+                            <div class="meta-icon">⏱️</div>
+                            <span><span class="meta-label">Czas</span> 60 minut / zajęcia</span>
+                        </div>
+                        <div class="meta-row">
+                            <div class="meta-icon">📋</div>
+                            <span><span class="meta-label">Wymagania</span> Finalista / Laureat OI — rekrutacja</span>
+                        </div>
+                    </div>
+                    <div class="card-tags">
+                        <span class="tag">BOI</span>
+                        <span class="tag">IOI</span>
+                        <span class="tag">Strings advanced</span>
+                        <span class="tag">Centroid decomp.</span>
+                        <span class="tag">Interactive</span>
+                    </div>
+                    <a href="#formularz" class="btn-enroll" onclick="prefill('grupowe','OI Laureat')">Dołącz do grupy →</a>
+                </div>
+            </div>
+
+        </div><!-- /groups-grid -->
+    </div><!-- /grupowe -->
+
+    <div class="divider"></div>
+
+    <!-- ═══ RANGI ═══ -->
+    <div id="rangi" style="padding: 60px 0 80px;">
+        <div class="reveal" style="margin-bottom: 48px;">
+            <span class="section-label">// twoja ścieżka</span>
+            <h2 style="font-family: var(--font-display); font-size: clamp(28px,3.5vw,44px); font-weight: 800; letter-spacing: -.03em; margin-bottom: 12px; line-height: 1.15;">Od zera do <span style="background: linear-gradient(135deg, #f59e0b, #f43f5e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Predatora</span></h2>
+            <p style="color: var(--text-secondary); font-size: 15.5px; line-height: 1.8; max-width: 620px;">Każdy zaczyna od Brązu. Rozwiązuj zadania, wspinaj się w rankingu i awansuj przez kolejne rangi — aż do elitarnego tytułu Predatora olimpiady.</p>
+        </div>
+
+        <!-- RANK TRACK -->
+        <div class="rank-track reveal">
+
+            <!-- Brąz -->
+            <div class="rank-node" data-rank="bronze">
+                <div class="rank-connector-left"></div>
+                <div class="rank-badge bronze">
+                    <div class="rank-hex">
+                        <svg viewBox="0 0 80 92" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M40 2L76 22V62L40 82L4 62V22L40 2Z" fill="url(#bronze-fill)" stroke="url(#bronze-stroke)" stroke-width="2"/>
+                            <defs>
+                                <linearGradient id="bronze-fill" x1="4" y1="2" x2="76" y2="82" gradientUnits="userSpaceOnUse">
+                                    <stop offset="0%" stop-color="#a0522d" stop-opacity="0.35"/>
+                                    <stop offset="100%" stop-color="#6b3a1f" stop-opacity="0.55"/>
+                                </linearGradient>
+                                <linearGradient id="bronze-stroke" x1="4" y1="2" x2="76" y2="82" gradientUnits="userSpaceOnUse">
+                                    <stop offset="0%" stop-color="#cd7f32"/>
+                                    <stop offset="100%" stop-color="#8b4513"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <span class="rank-emoji">🥉</span>
+                    </div>
+                </div>
+                <div class="rank-info">
+                    <div class="rank-name bronze-text">Brąz</div>
+                    <div class="rank-desc">Uczysz się podstaw C++ i algorytmiki. Pierwsze zadania, pierwsze punkty w rankingu.</div>
+                    <div class="rank-group-tag">Grupy: C++ / Algorytmy</div>
+                </div>
+                <div class="rank-connector-right"></div>
+            </div>
+
+            <!-- Srebro -->
+            <div class="rank-node" data-rank="silver">
+                <div class="rank-connector-left"></div>
+                <div class="rank-badge silver">
+                    <div class="rank-hex">
+                        <svg viewBox="0 0 80 92" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M40 2L76 22V62L40 82L4 62V22L40 2Z" fill="url(#silver-fill)" stroke="url(#silver-stroke)" stroke-width="2"/>
+                            <defs>
+                                <linearGradient id="silver-fill" x1="4" y1="2" x2="76" y2="82" gradientUnits="userSpaceOnUse">
+                                    <stop offset="0%" stop-color="#c0c0c0" stop-opacity="0.25"/>
+                                    <stop offset="100%" stop-color="#808080" stop-opacity="0.45"/>
+                                </linearGradient>
+                                <linearGradient id="silver-stroke" x1="4" y1="2" x2="76" y2="82" gradientUnits="userSpaceOnUse">
+                                    <stop offset="0%" stop-color="#e8e8e8"/>
+                                    <stop offset="100%" stop-color="#a0a0a0"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <span class="rank-emoji">🥈</span>
+                    </div>
+                </div>
+                <div class="rank-info">
+                    <div class="rank-name silver-text">Srebro</div>
+                    <div class="rank-desc">Opanowałeś podstawy, rozwiązujesz zadania OIJ. Regularnie punktujesz w cotygodniowym rankingu.</div>
+                    <div class="rank-group-tag">Grupy: OIJ</div>
+                </div>
+                <div class="rank-connector-right"></div>
+            </div>
+
+            <!-- Złoto -->
+            <div class="rank-node" data-rank="gold">
+                <div class="rank-connector-left"></div>
+                <div class="rank-badge gold">
+                    <div class="rank-hex">
+                        <svg viewBox="0 0 80 92" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M40 2L76 22V62L40 82L4 62V22L40 2Z" fill="url(#gold-fill)" stroke="url(#gold-stroke)" stroke-width="2"/>
+                            <defs>
+                                <linearGradient id="gold-fill" x1="4" y1="2" x2="76" y2="82" gradientUnits="userSpaceOnUse">
+                                    <stop offset="0%" stop-color="#ffd700" stop-opacity="0.3"/>
+                                    <stop offset="100%" stop-color="#b8860b" stop-opacity="0.5"/>
+                                </linearGradient>
+                                <linearGradient id="gold-stroke" x1="4" y1="2" x2="76" y2="82" gradientUnits="userSpaceOnUse">
+                                    <stop offset="0%" stop-color="#ffe066"/>
+                                    <stop offset="100%" stop-color="#d4a017"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <span class="rank-emoji">🥇</span>
+                    </div>
+                </div>
+                <div class="rank-info">
+                    <div class="rank-name gold-text">Złoto</div>
+                    <div class="rank-desc">Laureat OIJ. Przeskakujesz do wyższych grup, bierzesz udział w etapach OI.</div>
+                    <div class="rank-group-tag">Grupy: OIJ Laureat</div>
+                </div>
+                <div class="rank-connector-right"></div>
+            </div>
+
+            <!-- Platyna -->
+            <div class="rank-node" data-rank="platinum">
+                <div class="rank-connector-left"></div>
+                <div class="rank-badge platinum">
+                    <div class="rank-hex">
+                        <svg viewBox="0 0 80 92" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M40 2L76 22V62L40 82L4 62V22L40 2Z" fill="url(#plat-fill)" stroke="url(#plat-stroke)" stroke-width="2"/>
+                            <defs>
+                                <linearGradient id="plat-fill" x1="4" y1="2" x2="76" y2="82" gradientUnits="userSpaceOnUse">
+                                    <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.25"/>
+                                    <stop offset="100%" stop-color="#0891b2" stop-opacity="0.45"/>
+                                </linearGradient>
+                                <linearGradient id="plat-stroke" x1="4" y1="2" x2="76" y2="82" gradientUnits="userSpaceOnUse">
+                                    <stop offset="0%" stop-color="#67e8f9"/>
+                                    <stop offset="100%" stop-color="#06b6d4"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <span class="rank-emoji">💎</span>
+                    </div>
+                </div>
+                <div class="rank-info">
+                    <div class="rank-name platinum-text">Platyna</div>
+                    <div class="rank-desc">Uczestnik OI. Rozwiązujesz zaawansowane algorytmy — segment tree, flow, geometria.</div>
+                    <div class="rank-group-tag">Grupy: Olimpiada Informatyczna</div>
+                </div>
+                <div class="rank-connector-right"></div>
+            </div>
+
+            <!-- Master -->
+            <div class="rank-node" data-rank="master">
+                <div class="rank-connector-left"></div>
+                <div class="rank-badge master">
+                    <div class="rank-hex">
+                        <svg viewBox="0 0 80 92" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M40 2L76 22V62L40 82L4 62V22L40 2Z" fill="url(#master-fill)" stroke="url(#master-stroke)" stroke-width="2"/>
+                            <defs>
+                                <linearGradient id="master-fill" x1="4" y1="2" x2="76" y2="82" gradientUnits="userSpaceOnUse">
+                                    <stop offset="0%" stop-color="#a78bfa" stop-opacity="0.3"/>
+                                    <stop offset="100%" stop-color="#7c3aed" stop-opacity="0.5"/>
+                                </linearGradient>
+                                <linearGradient id="master-stroke" x1="4" y1="2" x2="76" y2="82" gradientUnits="userSpaceOnUse">
+                                    <stop offset="0%" stop-color="#c4b5fd"/>
+                                    <stop offset="100%" stop-color="#8b5cf6"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <span class="rank-emoji">👑</span>
+                    </div>
+                </div>
+                <div class="rank-info">
+                    <div class="rank-name master-text">Master</div>
+                    <div class="rank-desc">Finalista OI. Elitarna wiedza z HLD, centroid decomp., FFT. Jesteś w top kraju.</div>
+                    <div class="rank-group-tag">Grupy: OI Laureat</div>
+                </div>
+                <div class="rank-connector-right"></div>
+            </div>
+
+            <!-- Predator -->
+            <div class="rank-node predator-node" data-rank="predator">
+                <div class="rank-connector-left"></div>
+                <div class="rank-badge predator">
+                    <div class="rank-hex predator-glow-hex">
+                        <svg viewBox="0 0 80 92" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M40 2L76 22V62L40 82L4 62V22L40 2Z" fill="url(#pred-fill)" stroke="url(#pred-stroke)" stroke-width="2.5"/>
+                            <defs>
+                                <linearGradient id="pred-fill" x1="4" y1="2" x2="76" y2="82" gradientUnits="userSpaceOnUse">
+                                    <stop offset="0%" stop-color="#f43f5e" stop-opacity="0.4"/>
+                                    <stop offset="100%" stop-color="#9f1239" stop-opacity="0.65"/>
+                                </linearGradient>
+                                <linearGradient id="pred-stroke" x1="4" y1="2" x2="76" y2="82" gradientUnits="userSpaceOnUse">
+                                    <stop offset="0%" stop-color="#fb7185"/>
+                                    <stop offset="100%" stop-color="#f43f5e"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <span class="rank-emoji">🔱</span>
+                    </div>
+                </div>
+                <div class="rank-info">
+                    <div class="rank-name predator-text">Predator</div>
+                    <div class="rank-desc">Laureat OI. Top zawodnik gotowy na BOI i IOI. Tylko nieliczni docierają na szczyt.</div>
+                    <div class="rank-group-tag rank-group-tag-elite">🏆 Elita — IOI / BOI</div>
+                </div>
+            </div>
+
+        </div><!-- /rank-track -->
+
+        <!-- Progress bar visual -->
+        <div class="reveal rank-progress-bar-wrap">
+            <div class="rank-progress-bar">
+                <div class="rank-progress-fill"></div>
+                <div class="rank-progress-labels">
+                    <span style="color:#cd7f32">Brąz</span>
+                    <span style="color:#c0c0c0">Srebro</span>
+                    <span style="color:#ffd700">Złoto</span>
+                    <span style="color:#22d3ee">Platyna</span>
+                    <span style="color:#a78bfa">Master</span>
+                    <span style="color:#f43f5e">Predator</span>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /rangi -->
+
+    <div class="divider"></div>
+
+    <!-- ═══ INDYWIDUALNE ═══ -->
+    <div id="indywidualne" class="individual-wrapper">
+        <div class="individual-card reveal">
+            <div class="individual-inner">
+                <div class="individual-content">
+                    <span class="section-label">// zajęcia indywidualne</span>
+                    <h2>Jeden na jeden<br>z <span>mentorem</span></h2>
+                    <p>Chcesz przyspieszyć, nadrobić zaległości lub skupić się na konkretnych zagadnieniach? Zajęcia indywidualne dają pełną elastyczność — termin i tempo dopasowane do Ciebie.</p>
+                    <ul class="individual-list">
+                        <li>Termin dopasowany do Twojego kalendarza (nie tylko sobota)</li>
+                        <li>Program skrojony pod Twoje potrzeby i aktualny poziom</li>
+                        <li>Bezpośrednia praca z doświadczonym mentorem / laureatem OI</li>
+                        <li>Intensywny tryb przed zbliżającym się konkursem</li>
+                        <li>Możliwość łączenia z zajęciami grupowymi</li>
+                    </ul>
+                    <div class="individual-cta-row">
+                        <a href="#formularz" class="btn-primary" onclick="prefill('indywidualne','')">Umów sesję →</a>
+                        <a href="index.html#contact-section" class="btn-ghost">Napisz do nas</a>
+                    </div>
+                </div>
+                <div class="individual-stats">
+                    <div class="ind-stat">
+                        <div class="ind-stat-num">1:1</div>
+                        <div class="ind-stat-label">Pełna uwaga mentora tylko dla Ciebie</div>
+                    </div>
+                    <div class="ind-stat">
+                        <div class="ind-stat-num">🗓️</div>
+                        <div class="ind-stat-label">Elastyczny termin — dowolny dzień tygodnia</div>
+                    </div>
+                    <div class="ind-stat">
+                        <div class="ind-stat-num">⚡</div>
+                        <div class="ind-stat-label">Szybszy postęp dzięki indywidualnej ścieżce</div>
+                    </div>
+                    <div class="ind-stat">
+                        <div class="ind-stat-num">🎯</div>
+                        <div class="ind-stat-label">Konkretne zagadnienia — zero marnowania czasu</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- /indywidualne -->
+
+    <!-- ═══ APEX PROGRESS CHART ═══ -->
+    <div class="apex-chart-section reveal" id="apex-progress">
+        <div class="apex-chart-label">// twój progres z mentorem</div>
+        <div class="apex-chart-title">Droga na <span class="apex-pred-text">szczyt</span></div>
+        <div class="apex-chart-subtitle">Zajęcia 1:1 z mentorem przyspieszają każdy awans — widzisz postęp po każdej sesji.</div>
+        <div class="apex-chart-wrap">
+            <svg class="apex-svg" viewBox="0 0 900 360" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+                <defs>
+                    <!-- Grid lines -->
+                    <pattern id="apex-grid" width="150" height="60" patternUnits="userSpaceOnUse">
+                        <path d="M 150 0 L 0 0 0 60" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+                    </pattern>
+
+                    <!-- Gradient fill under curve -->
+                    <linearGradient id="curve-fill-grad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#f43f5e" stop-opacity="0.18"/>
+                        <stop offset="60%" stop-color="#a78bfa" stop-opacity="0.08"/>
+                        <stop offset="100%" stop-color="#cd7f32" stop-opacity="0.0"/>
+                    </linearGradient>
+
+                    <!-- Glow filter for path -->
+                    <filter id="path-glow" x="-20%" y="-40%" width="140%" height="180%">
+                        <feGaussianBlur stdDeviation="3" result="blur"/>
+                        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                    </filter>
+
+                    <!-- Predator badge glow -->
+                    <filter id="pred-node-glow" x="-60%" y="-60%" width="220%" height="220%">
+                        <feGaussianBlur stdDeviation="7" result="blur"/>
+                        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                    </filter>
+
+                    <!-- Generic node glow -->
+                    <filter id="node-glow" x="-40%" y="-40%" width="180%" height="180%">
+                        <feGaussianBlur stdDeviation="4" result="blur"/>
+                        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                    </filter>
+
+                    <!-- Gradient for line -->
+                    <linearGradient id="line-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%"   stop-color="#cd7f32"/>
+                        <stop offset="25%"  stop-color="#ffd700"/>
+                        <stop offset="55%"  stop-color="#a78bfa"/>
+                        <stop offset="100%" stop-color="#f43f5e"/>
+                    </linearGradient>
+
+                    <!-- Clip path for animated reveal -->
+                    <clipPath id="curve-clip">
+                        <rect class="apex-clip-rect" x="0" y="0" width="0" height="360"/>
+                    </clipPath>
+                </defs>
+
+                <!-- Background grid -->
+                <rect width="900" height="360" fill="url(#apex-grid)"/>
+
+                <!-- Horizontal rank threshold lines -->
+                <!-- Bronze at y=300 -->
+                <line x1="60" y1="300" x2="870" y2="300" stroke="#cd7f32" stroke-width="1" stroke-dasharray="6 5" opacity="0.25"/>
+                <!-- Gold at y=220 -->
+                <line x1="60" y1="220" x2="870" y2="220" stroke="#ffd700" stroke-width="1" stroke-dasharray="6 5" opacity="0.25"/>
+                <!-- Master at y=130 -->
+                <line x1="60" y1="130" x2="870" y2="130" stroke="#a78bfa" stroke-width="1" stroke-dasharray="6 5" opacity="0.25"/>
+                <!-- Predator at y=44 -->
+                <line x1="60" y1="44" x2="870" y2="44" stroke="#f43f5e" stroke-width="1" stroke-dasharray="6 5" opacity="0.3"/>
+
+                <!-- Rank labels on left axis -->
+                <text x="52" y="304" text-anchor="end" font-family="'JetBrains Mono',monospace" font-size="10" fill="#cd7f32" opacity="0.8">BRĄZ</text>
+                <text x="52" y="224" text-anchor="end" font-family="'JetBrains Mono',monospace" font-size="10" fill="#ffd700" opacity="0.8">ZŁOTO</text>
+                <text x="52" y="134" text-anchor="end" font-family="'JetBrains Mono',monospace" font-size="10" fill="#a78bfa" opacity="0.8">MASTER</text>
+                <text x="52" y="48"  text-anchor="end" font-family="'JetBrains Mono',monospace" font-size="10" fill="#f43f5e" opacity="0.9">PREDATOR</text>
+
+                <!-- Fill area under curve (clipped) -->
+                <g clip-path="url(#curve-clip)">
+                    <path d="M 80,300 C 160,295 200,280 260,260 C 320,240 340,228 390,220 C 450,212 470,200 530,155 C 590,110 620,100 680,80 C 730,62 770,52 840,44 L 840,360 L 80,360 Z"
+                          fill="url(#curve-fill-grad)"/>
+
+                    <!-- The main progress curve -->
+                    <path id="apex-curve"
+                          d="M 80,300 C 160,295 200,280 260,260 C 320,240 340,228 390,220 C 450,212 470,200 530,155 C 590,110 620,100 680,80 C 730,62 770,52 840,44"
+                          fill="none"
+                          stroke="url(#line-grad)"
+                          stroke-width="3"
+                          stroke-linecap="round"
+                          filter="url(#path-glow)"/>
+                </g>
+
+                <!-- ── Rank nodes ── -->
+
+                <!-- BRONZE node (x=80, y=300) -->
+                <g class="apex-node" filter="url(#node-glow)">
+                    <circle cx="80" cy="300" r="22" fill="#0a0a0f" stroke="#cd7f32" stroke-width="2" opacity="0.9"/>
+                    <circle cx="80" cy="300" r="16" fill="rgba(205,127,50,0.18)"/>
+                    <text x="80" y="304" text-anchor="middle" font-size="15">🥉</text>
+                </g>
+                <text x="80" y="335" text-anchor="middle" font-family="'Syne',sans-serif" font-size="11" font-weight="700" fill="#cd7f32" letter-spacing="1">BRĄZ</text>
+
+                <!-- GOLD node (x=390, y=220) -->
+                <g class="apex-node" filter="url(#node-glow)">
+                    <circle cx="390" cy="220" r="22" fill="#0a0a0f" stroke="#ffd700" stroke-width="2" opacity="0.9"/>
+                    <circle cx="390" cy="220" r="16" fill="rgba(255,215,0,0.15)"/>
+                    <text x="390" y="224" text-anchor="middle" font-size="15">🥇</text>
+                </g>
+                <text x="390" y="255" text-anchor="middle" font-family="'Syne',sans-serif" font-size="11" font-weight="700" fill="#ffd700" letter-spacing="1">ZŁOTO</text>
+
+                <!-- MASTER node (x=610, y=120) -->
+                <g class="apex-node" filter="url(#node-glow)">
+                    <circle cx="610" cy="120" r="22" fill="#0a0a0f" stroke="#a78bfa" stroke-width="2" opacity="0.9"/>
+                    <circle cx="610" cy="120" r="16" fill="rgba(167,139,250,0.18)"/>
+                    <text x="610" y="124" text-anchor="middle" font-size="15">👑</text>
+                </g>
+                <text x="610" y="155" text-anchor="middle" font-family="'Syne',sans-serif" font-size="11" font-weight="700" fill="#a78bfa" letter-spacing="1">MASTER</text>
+
+                <!-- PREDATOR node (x=840, y=44) -->
+                <g class="apex-node-pred" filter="url(#pred-node-glow)">
+                    <circle cx="840" cy="44" r="26" fill="#0a0a0f" stroke="#f43f5e" stroke-width="2.5"/>
+                    <circle cx="840" cy="44" r="19" fill="rgba(244,63,94,0.2)"/>
+                    <text x="840" y="49" text-anchor="middle" font-size="17">🔱</text>
+                </g>
+                <text x="840" y="85" text-anchor="middle" font-family="'Syne',sans-serif" font-size="11" font-weight="800" fill="#f43f5e" letter-spacing="1.5">PREDATOR</text>
+
+                <!-- Upward arrows between nodes to reinforce direction -->
+                <text x="235" y="258" text-anchor="middle" font-size="13" fill="rgba(255,255,255,0.25)">↗</text>
+                <text x="500" y="178" text-anchor="middle" font-size="13" fill="rgba(255,255,255,0.25)">↗</text>
+                <text x="725" y="90"  text-anchor="middle" font-size="13" fill="rgba(255,255,255,0.25)">↗</text>
+            </svg>
+        </div>
+        <div class="apex-chart-note">Każda sesja 1:1 = mierzalny skok w rankingu</div>
+    </div><!-- /apex-progress -->
+
+    <div class="divider"></div>
+
+    <!-- ═══ FORMULARZ ═══ -->
+    <section class="form-section" id="formularz">
+        <span class="section-label">// formularz zapisu</span>
+        <h2>Dołącz do T-Olimpians</h2>
+        <p>Wypełnij formularz, skontaktujemy się z Tobą w ciągu 24–48h z potwierdzeniem i szczegółami.</p>
+
+        <div class="form-wrapper reveal">
+
+            <div class="form-type-selector">
+                <label class="type-option selected" id="opt-group">
+                    <input type="radio" name="typ" value="grupowe" checked>
+                    <div class="type-option-label">👥 Zajęcia grupowe</div>
+                    <div class="type-option-desc">Cotygodniowe zajęcia w soboty, ranking, materiały</div>
+                </label>
+                <label class="type-option" id="opt-ind">
+                    <input type="radio" name="typ" value="indywidualne">
+                    <div class="type-option-label">🎯 Zajęcia indywidualne</div>
+                    <div class="type-option-desc">Elastyczny termin, mentor 1:1, własne tempo</div>
+                </label>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-row">
+                    <label>Imię i nazwisko *</label>
+                    <input type="text" id="name" placeholder="Jan Kowalski" required>
+                </div>
+                <div class="form-row">
+                    <label>Adres e-mail *</label>
+                    <input type="email" id="email" placeholder="jan@example.com" required>
+                </div>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-row">
+                    <label>Numer telefonu</label>
+                    <input type="tel" id="phone" placeholder="+48 500 000 000">
+                </div>
+                <div class="form-row">
+                    <label>Klasa / wiek</label>
+                    <input type="text" id="klasa" placeholder="np. 8 klasa, 1 LO">
+                </div>
+            </div>
+
+            <div class="form-row" id="row-group">
+                <label>Wybrana grupa *</label>
+                <select id="grupa">
+                    <option value="" disabled selected>Wybierz grupę...</option>
+                    <option value="cpp">Początkujący C++ — sob. 9:00</option>
+                    <option value="algo">Algorytmy Początkujący — sob. 10:30</option>
+                    <option value="oij">Olimpiada Informatyczna Juniorów — sob. 12:00</option>
+                    <option value="oij-laureat">Olimpiada Informatyczna Juniorów Laureat — niedz. 9:00</option>
+                    <option value="oi">Olimpiada Informatyczna — niedz. 10:30</option>
+                    <option value="laureat">OI Laureat (elite) — niedz. 12:00</option>
+                </select>
+                <p class="form-hint">Nie jesteś pewny? Opisz swój poziom w polu poniżej, a my doradzimy.</p>
+            </div>
+
+            <div class="form-row" id="row-ind" style="display:none;">
+                <label>Preferowany termin / dostępność</label>
+                <input type="text" id="avail" placeholder="np. środy po 16:00, weekendy rano">
+            </div>
+
+            <div class="form-row">
+                <label>Doświadczenie & cel</label>
+                <textarea id="info" placeholder="Opisz krótko swoje doświadczenie z programowaniem / algorytmiką i co chcesz osiągnąć (np. przejść etap szkolny OI, dostać się na finał OIJ...)."></textarea>
+            </div>
+
+            <hr class="form-divider">
+
+            <button class="form-submit" onclick="submitForm()">Wyślij zgłoszenie →</button>
+        </div>
+    </section>
+
+</main>
+
+<div class="divider"></div>
+<footer>
+    <span>T-Olimpians &copy; 2025</span>
+    <span>Built for champions 🏆</span>
+</footer>
+
+<!-- APEX FULLSCREEN OVERLAY -->
+<div class="apex-fullscreen-overlay" id="apexOverlay">
+    <div class="apex-fullscreen-inner">
+        <div class="apex-overlay-close">kliknij aby zamknąć ✕</div>
+        <div class="apex-overlay-title">Droga na <span style="background:linear-gradient(135deg,#fb7185,#f43f5e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">szczyt</span></div>
+        <div class="apex-chart-wrap">
+            <svg class="apex-svg" viewBox="0 0 900 360" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+                <defs>
+                    <pattern id="apex-grid2" width="150" height="60" patternUnits="userSpaceOnUse">
+                        <path d="M 150 0 L 0 0 0 60" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+                    </pattern>
+                    <linearGradient id="curve-fill-grad2" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#f43f5e" stop-opacity="0.22"/>
+                        <stop offset="60%" stop-color="#a78bfa" stop-opacity="0.1"/>
+                        <stop offset="100%" stop-color="#cd7f32" stop-opacity="0.0"/>
+                    </linearGradient>
+                    <filter id="path-glow2" x="-20%" y="-40%" width="140%" height="180%">
+                        <feGaussianBlur stdDeviation="4" result="blur"/>
+                        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                    </filter>
+                    <filter id="pred-node-glow2" x="-60%" y="-60%" width="220%" height="220%">
+                        <feGaussianBlur stdDeviation="9" result="blur"/>
+                        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                    </filter>
+                    <filter id="node-glow2" x="-40%" y="-40%" width="180%" height="180%">
+                        <feGaussianBlur stdDeviation="5" result="blur"/>
+                        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                    </filter>
+                    <linearGradient id="line-grad2" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%"   stop-color="#cd7f32"/>
+                        <stop offset="25%"  stop-color="#ffd700"/>
+                        <stop offset="55%"  stop-color="#a78bfa"/>
+                        <stop offset="100%" stop-color="#f43f5e"/>
+                    </linearGradient>
+                </defs>
+                <rect width="900" height="360" fill="url(#apex-grid2)"/>
+                <line x1="60" y1="300" x2="870" y2="300" stroke="#cd7f32" stroke-width="1" stroke-dasharray="6 5" opacity="0.3"/>
+                <line x1="60" y1="220" x2="870" y2="220" stroke="#ffd700" stroke-width="1" stroke-dasharray="6 5" opacity="0.3"/>
+                <line x1="60" y1="130" x2="870" y2="130" stroke="#a78bfa" stroke-width="1" stroke-dasharray="6 5" opacity="0.3"/>
+                <line x1="60" y1="44"  x2="870" y2="44"  stroke="#f43f5e" stroke-width="1" stroke-dasharray="6 5" opacity="0.35"/>
+                <text x="52" y="304" text-anchor="end" font-family="'JetBrains Mono',monospace" font-size="10" fill="#cd7f32" opacity="0.9">BRĄZ</text>
+                <text x="52" y="224" text-anchor="end" font-family="'JetBrains Mono',monospace" font-size="10" fill="#ffd700" opacity="0.9">ZŁOTO</text>
+                <text x="52" y="134" text-anchor="end" font-family="'JetBrains Mono',monospace" font-size="10" fill="#a78bfa" opacity="0.9">MASTER</text>
+                <text x="52" y="48"  text-anchor="end" font-family="'JetBrains Mono',monospace" font-size="10" fill="#f43f5e" opacity="1">PREDATOR</text>
+                <path d="M 80,300 C 160,295 200,280 260,260 C 320,240 340,228 390,220 C 450,212 470,200 530,155 C 590,110 620,100 680,80 C 730,62 770,52 840,44 L 840,360 L 80,360 Z" fill="url(#curve-fill-grad2)"/>
+                <path d="M 80,300 C 160,295 200,280 260,260 C 320,240 340,228 390,220 C 450,212 470,200 530,155 C 590,110 620,100 680,80 C 730,62 770,52 840,44" fill="none" stroke="url(#line-grad2)" stroke-width="4" stroke-linecap="round" filter="url(#path-glow2)"/>
+                <g filter="url(#node-glow2)">
+                    <circle cx="80" cy="300" r="22" fill="#0a0a0f" stroke="#cd7f32" stroke-width="2.5"/>
+                    <circle cx="80" cy="300" r="16" fill="rgba(205,127,50,0.2)"/>
+                    <text x="80" y="304" text-anchor="middle" font-size="15">🥉</text>
+                </g>
+                <text x="80" y="335" text-anchor="middle" font-family="'Syne',sans-serif" font-size="11" font-weight="700" fill="#cd7f32" letter-spacing="1">BRĄZ</text>
+                <g filter="url(#node-glow2)">
+                    <circle cx="390" cy="220" r="22" fill="#0a0a0f" stroke="#ffd700" stroke-width="2.5"/>
+                    <circle cx="390" cy="220" r="16" fill="rgba(255,215,0,0.18)"/>
+                    <text x="390" y="224" text-anchor="middle" font-size="15">🥇</text>
+                </g>
+                <text x="390" y="255" text-anchor="middle" font-family="'Syne',sans-serif" font-size="11" font-weight="700" fill="#ffd700" letter-spacing="1">ZŁOTO</text>
+                <g filter="url(#node-glow2)">
+                    <circle cx="610" cy="120" r="22" fill="#0a0a0f" stroke="#a78bfa" stroke-width="2.5"/>
+                    <circle cx="610" cy="120" r="16" fill="rgba(167,139,250,0.2)"/>
+                    <text x="610" y="124" text-anchor="middle" font-size="15">👑</text>
+                </g>
+                <text x="610" y="155" text-anchor="middle" font-family="'Syne',sans-serif" font-size="11" font-weight="700" fill="#a78bfa" letter-spacing="1">MASTER</text>
+                <g filter="url(#pred-node-glow2)">
+                    <circle cx="840" cy="44" r="28" fill="#0a0a0f" stroke="#f43f5e" stroke-width="3"/>
+                    <circle cx="840" cy="44" r="20" fill="rgba(244,63,94,0.25)"/>
+                    <text x="840" y="49" text-anchor="middle" font-size="18">🔱</text>
+                </g>
+                <text x="840" y="85" text-anchor="middle" font-family="'Syne',sans-serif" font-size="11" font-weight="800" fill="#f43f5e" letter-spacing="1.5">PREDATOR</text>
+                <text x="235" y="258" text-anchor="middle" font-size="14" fill="rgba(255,255,255,0.3)">↗</text>
+                <text x="500" y="178" text-anchor="middle" font-size="14" fill="rgba(255,255,255,0.3)">↗</text>
+                <text x="725" y="90"  text-anchor="middle" font-size="14" fill="rgba(255,255,255,0.3)">↗</text>
+            </svg>
+        </div>
+    </div>
+</div>
+
+<!-- SUCCESS POPUP -->
+<div class="popup" id="popup">
+    <canvas id="popupParticles"></canvas>
+    <div class="popup-content">
+        <span class="close" id="closeBtn">&times;</span>
+        <span class="emoji">🎉</span>
+        <h3>Zgłoszenie wysłane!</h3>
+        <p>Odezwiemy się w ciągu 24–48h na podany adres e-mail. Do zobaczenia na zajęciach!</p>
+    </div>
+</div>
+
+<script>
+/* ─── SCROLL HELPER ─── */
+function scrollToSection(id) {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+}
+
+/* ─── PREFILL FROM CARD BUTTONS ─── */
+function prefill(typ, grupa) {
+    // Switch type selector
+    document.querySelectorAll('.type-option').forEach(o => o.classList.remove('selected'));
+    if (typ === 'grupowe') {
+        document.getElementById('opt-group').classList.add('selected');
+        document.querySelector('#opt-group input').checked = true;
+        document.getElementById('row-group').style.display = '';
+        document.getElementById('row-ind').style.display = 'none';
+        // Set group value
+        const sel = document.getElementById('grupa');
+        const map = {
+            'Początkujący C++':              'cpp',
+            'Algorytmy — Początkujący':      'algo',
+            'Olimpiada Informatyczna Juniorów': 'oij',
+            'Olimpiada Informatyczna Juniorów Laureat': 'oij-laureat',
+            'Olimpiada Informatyczna':       'oi',
+            'OI Laureat':                    'laureat'
+        };
+        if (map[grupa]) sel.value = map[grupa];
+    } else {
+        document.getElementById('opt-ind').classList.add('selected');
+        document.querySelector('#opt-ind input').checked = true;
+        document.getElementById('row-group').style.display = 'none';
+        document.getElementById('row-ind').style.display = '';
+    }
+    document.getElementById('formularz').scrollIntoView({ behavior: 'smooth' });
+}
+
+/* ─── TYPE TOGGLE ─── */
+document.querySelectorAll('.type-option').forEach(opt => {
+    opt.addEventListener('click', function () {
+        document.querySelectorAll('.type-option').forEach(o => o.classList.remove('selected'));
+        this.classList.add('selected');
+        const val = this.querySelector('input').value;
+        document.getElementById('row-group').style.display = val === 'grupowe' ? '' : 'none';
+        document.getElementById('row-ind').style.display   = val === 'indywidualne' ? '' : 'none';
+    });
+});
+
+/* ─── EMAILJS: KONFIGURACJA (te same dane co w net.html) ─── */
+const EMAILJS_SERVICE_ID  = 't-olimpians-network-id';
+const EMAILJS_TEMPLATE_ID = 'network-template-id';
+const EMAILJS_PUBLIC_KEY  = 'WjX2OZI1KxIdxUUdq';
+const ZAPISY_TARGET_EMAIL = 't.olympians.poland@gmail.com';
+
+function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, ch => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[ch]));
+}
+
+/* ─── BUDOWA TREŚCI MAILA (HTML, styl jak w net.html) ─── */
+function buildZapisyEmailHtml(d) {
+    const now = new Date().toLocaleString('pl-PL', { dateStyle: 'long', timeStyle: 'short' });
+
+    const row = (label, valueHtml) => `
+        <tr>
+            <td style="padding:6px 0;vertical-align:top;width:118px;color:#9090aa;font:500 13px/1.5 'DM Sans',Arial,sans-serif;white-space:nowrap;">${label}</td>
+            <td style="padding:6px 0;vertical-align:top;color:#f0f0f8;font:400 13px/1.6 'DM Sans',Arial,sans-serif;">${valueHtml}</td>
+        </tr>`;
+
+    return `
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="#0a0a0f" style="width:100%;background-color:#0a0a0f;">
+<tr><td align="center" style="padding:32px 16px;font-family:'DM Sans',Arial,sans-serif;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="width:100%;max-width:640px;margin:0 auto;">
+
+    <tr><td style="padding-bottom:24px;text-align:center;">
+        <span style="display:inline-block;padding:6px 16px;border-radius:100px;background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.3);color:#60a5fa;font:600 11px/1.4 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;">📝 Zapisy T-Olimpians</span>
+    </td></tr>
+
+    <tr><td style="text-align:center;padding-bottom:8px;">
+        <span style="font:800 24px/1.3 'Syne',Arial,sans-serif;color:#f0f0f8;">Nowe zgłoszenie</span>
+    </td></tr>
+
+    <tr><td style="text-align:center;padding-bottom:28px;color:#9090aa;font:400 14px/1.6 'DM Sans',Arial,sans-serif;">
+        Nowe zgłoszenie na zajęcia od <b style="color:#f0f0f8;">${escapeHtml(d.name)}</b>.
+    </td></tr>
+
+    <tr><td style="padding-bottom:14px;">
+        <span style="color:#f0f0f8;font:700 14px/1 'Syne',Arial,sans-serif;letter-spacing:.02em;text-transform:uppercase;">Dane zgłoszenia</span>
+    </td></tr>
+
+    <tr><td style="padding-bottom:24px;">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="width:100%;background:#15151e;border:1px solid rgba(255,255,255,0.07);border-radius:14px;">
+            <tr><td style="padding:20px 24px;">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                    ${row('🕓 Data', now)}
+                    ${row('👤 Imię i nazwisko', `<b>${escapeHtml(d.name)}</b>`)}
+                    ${row('✉️ E-mail', `<a href="mailto:${escapeHtml(d.email)}" style="color:#60a5fa;text-decoration:none;">${escapeHtml(d.email)}</a>`)}
+                    ${row('📞 Telefon', escapeHtml(d.phone))}
+                    ${row('🏫 Klasa', escapeHtml(d.klasa))}
+                    ${row('📚 Typ zajęć', escapeHtml(d.typ === 'grupowe' ? 'Grupowe' : d.typ === 'indywidualne' ? 'Indywidualne' : d.typ))}
+                    ${d.typ === 'grupowe' ? row('👥 Grupa', escapeHtml(d.grupa)) : row('🗓️ Dostępność', escapeHtml(d.avail))}
+                    ${row('💬 Wiadomość', `<span style="white-space:pre-wrap;">${escapeHtml(d.message)}</span>`)}
+                </table>
+            </td></tr>
+        </table>
+    </td></tr>
+
+    <tr><td style="padding-top:20px;border-top:1px solid rgba(255,255,255,0.08);text-align:center;">
+        <span style="color:#55556a;font:400 12px/1.6 'DM Sans',Arial,sans-serif;">Wiadomość wygenerowana automatycznie z formularza zapisów — strona T-Olimpians.</span>
+    </td></tr>
+
+</table>
+</td></tr>
+</table>`;
+}
+
+/* ─── SUBMIT ─── */
+async function submitForm() {
+    const name  = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    if (!name || !email) { alert('Podaj imię, nazwisko i adres e-mail.'); return; }
+
+    const phone = document.getElementById('phone').value.trim();
+    const klasa = document.getElementById('klasa').value.trim();
+    const info  = document.getElementById('info').value.trim();
+    const typEl = document.querySelector('input[name="typ"]:checked');
+    const typ   = typEl ? typEl.value : '';
+    const grupaEl = document.getElementById('grupa');
+    const grupa = grupaEl ? grupaEl.options[grupaEl.selectedIndex]?.text : '';
+    const avail = document.getElementById('avail').value.trim();
+
+    const btn = document.querySelector('.form-submit');
+    btn.disabled = true;
+    btn.textContent = 'Wysyłanie…';
+
+    if (typeof emailjs === 'undefined') {
+        console.error('EmailJS SDK nie został załadowany.');
+        alert('Nie udało się wysłać zgłoszenia. Spróbuj ponownie lub napisz bezpośrednio na ' + ZAPISY_TARGET_EMAIL);
+        btn.disabled = false;
+        btn.textContent = 'Wyślij zgłoszenie →';
+        return;
+    }
+
+    const message = buildZapisyEmailHtml({ name, email, phone, klasa, typ, grupa, avail, message: info });
+    const templateParams = {
+        to_email:   ZAPISY_TARGET_EMAIL,
+        subject:    `[Zapisy T-Olimpians] Nowe zgłoszenie — ${name}`,
+        message:    message,
+        from_nick:  name
+    };
+
+    try {
+        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams, EMAILJS_PUBLIC_KEY);
+        openSuccessPopup();
+    } catch (err) {
+        console.error('EmailJS error:', err);
+        alert('Nie udało się wysłać zgłoszenia. Spróbuj ponownie lub napisz bezpośrednio na ' + ZAPISY_TARGET_EMAIL);
+    } finally {
+        btn.disabled = false;
+        btn.textContent = 'Wyślij zgłoszenie →';
+    }
+}
+document.getElementById('closeBtn').addEventListener('click', () => {
+    closeSuccessPopup();
+});
+document.getElementById('popup').addEventListener('click', e => {
+    if (e.target === document.getElementById('popup')) closeSuccessPopup();
+});
+
+/* ─── SUCCESS POPUP: OTWIERANIE / ZAMYKANIE + PARTICLES ─── */
+function closeSuccessPopup() {
+    document.getElementById('popup').classList.remove('active');
+    stopPopupParticles();
+}
+
+let popupParticlesRAF = null;
+
+function openSuccessPopup() {
+    document.getElementById('popup').classList.add('active');
+    startPopupParticles();
+}
+
+function startPopupParticles() {
+    const canvas = document.getElementById('popupParticles');
+    const popupContent = document.querySelector('.popup-content');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const popup = document.getElementById('popup');
+
+    function resizePopupCanvas() {
+        canvas.width = popup.clientWidth;
+        canvas.height = popup.clientHeight;
+    }
+    resizePopupCanvas();
+    window.addEventListener('resize', resizePopupCanvas);
+
+    const colors = ['#3b82f6', '#60a5fa', '#34d399', '#f59e0b', '#a78bfa', '#f43f5e'];
+    const particles = [];
+    const cx = canvas.width / 2;
+    const cy = canvas.height / 2;
+    const burstCount = 90;
+
+    for (let i = 0; i < burstCount; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = 2 + Math.random() * 6;
+        particles.push({
+            x: cx, y: cy,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed - 2,
+            size: 3 + Math.random() * 4,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            rotation: Math.random() * Math.PI * 2,
+            vrot: (Math.random() - .5) * .3,
+            life: 1,
+            decay: 0.006 + Math.random() * 0.01,
+            shape: Math.random() < 0.5 ? 'rect' : 'circle'
+        });
+    }
+
+    const gravity = 0.12;
+    const drag = 0.985;
+    let start = null;
+    const MAX_DURATION = 2600;
+
+    function frame(ts) {
+        if (!start) start = ts;
+        const elapsed = ts - start;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        let anyAlive = false;
+        particles.forEach(p => {
+            if (p.life <= 0) return;
+            p.vx *= drag;
+            p.vy = p.vy * drag + gravity;
+            p.x += p.vx;
+            p.y += p.vy;
+            p.rotation += p.vrot;
+            p.life -= p.decay;
+            if (p.life <= 0) return;
+            anyAlive = true;
+
+            ctx.save();
+            ctx.globalAlpha = Math.max(p.life, 0);
+            ctx.translate(p.x, p.y);
+            ctx.rotate(p.rotation);
+            ctx.fillStyle = p.color;
+            if (p.shape === 'rect') {
+                ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
+            } else {
+                ctx.beginPath();
+                ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            ctx.restore();
+        });
+
+        if (anyAlive && elapsed < MAX_DURATION) {
+            popupParticlesRAF = requestAnimationFrame(frame);
+        } else {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            window.removeEventListener('resize', resizePopupCanvas);
+        }
+    }
+    popupParticlesRAF = requestAnimationFrame(frame);
+}
+
+function stopPopupParticles() {
+    if (popupParticlesRAF) {
+        cancelAnimationFrame(popupParticlesRAF);
+        popupParticlesRAF = null;
+    }
+    const canvas = document.getElementById('popupParticles');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+}
+
+/* ─── NAVBAR ─── */
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 40));
+
+/* ─── HAMBURGER ─── */
+const hamburger = document.getElementById('hamburger');
+const navLinks  = document.getElementById('navLinks');
+hamburger.addEventListener('click', () => { navLinks.classList.toggle('open'); hamburger.classList.toggle('open'); });
+document.querySelectorAll('.nav-close').forEach(link => {
+    link.addEventListener('click', () => { navLinks.classList.remove('open'); hamburger.classList.remove('open'); });
+});
+
+/* ─── PARTICLES ─── */
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let W, H, dots = [];
+function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+resize();
+window.addEventListener('resize', () => { resize(); spawnDots(); });
+function spawnDots() {
+    dots = [];
+    const count = Math.floor((W * H) / 18000);
+    for (let i = 0; i < count; i++) {
+        dots.push({ x: Math.random()*W, y: Math.random()*H, r: Math.random()*1.4+.3, vx: (Math.random()-.5)*.3, vy: (Math.random()-.5)*.3, alpha: Math.random()*.5+.2 });
+    }
+}
+spawnDots();
+const LINK_DIST = 120;
+function drawParticles() {
+    ctx.clearRect(0,0,W,H);
+    for (let i = 0; i < dots.length; i++) {
+        const d = dots[i];
+        d.x += d.vx; d.y += d.vy;
+        if (d.x < 0) d.x = W; if (d.x > W) d.x = 0;
+        if (d.y < 0) d.y = H; if (d.y > H) d.y = 0;
+        ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, Math.PI*2);
+        ctx.fillStyle = `rgba(96,165,250,${d.alpha})`; ctx.fill();
+        for (let j = i+1; j < dots.length; j++) {
+            const d2 = dots[j]; const dx = d.x-d2.x, dy = d.y-d2.y;
+            const dist = Math.sqrt(dx*dx+dy*dy);
+            if (dist < LINK_DIST) {
+                ctx.beginPath(); ctx.moveTo(d.x,d.y); ctx.lineTo(d2.x,d2.y);
+                ctx.strokeStyle = `rgba(59,130,246,${.12*(1-dist/LINK_DIST)})`; ctx.lineWidth=.6; ctx.stroke();
+            }
+        }
+    }
+    requestAnimationFrame(drawParticles);
+}
+drawParticles();
+
+/* ─── APEX CHART ANIMATION ─── */
+const apexClipRect = document.querySelector('.apex-clip-rect');
+const apexOverlay  = document.getElementById('apexOverlay');
+const apexInner    = apexOverlay ? apexOverlay.querySelector('.apex-fullscreen-inner') : null;
+let apexBurstFired = false;
+
+function closeApexOverlay() {
+    apexOverlay.classList.remove('active');
+    apexOverlay.classList.add('closing');
+    setTimeout(() => {
+        apexOverlay.classList.remove('closing');
+        apexOverlay.style.display = 'none';
+    }, 380);
+}
+
+if (apexOverlay) {
+    apexOverlay.addEventListener('click', closeApexOverlay);
+}
+
+if (apexClipRect) {
+    const apexObs = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !apexBurstFired) {
+                apexBurstFired = true;
+
+                // 1. Draw the inline chart
+                setTimeout(() => apexClipRect.classList.add('revealed'), 300);
+
+                // 2. Shake the screen
+                setTimeout(() => {
+                    document.body.classList.add('shaking');
+                    document.body.addEventListener('animationend', () => {
+                        document.body.classList.remove('shaking');
+                    }, { once: true });
+                }, 200);
+
+                // 3. Burst fullscreen — grow from the chart's position on screen
+                setTimeout(() => {
+                    const chartWrap = document.querySelector('#apex-progress .apex-chart-wrap');
+                    if (chartWrap && apexInner) {
+                        const r = chartWrap.getBoundingClientRect();
+                        const originX = (r.left + r.width  / 2) + 'px';
+                        const originY = (r.top  + r.height / 2) + 'px';
+                        apexInner.style.transformOrigin = originX + ' ' + originY;
+                    }
+                    apexOverlay.style.display = 'flex';
+                    // Force reflow so transition fires from scale(0.05)
+                    apexOverlay.offsetHeight;
+                    apexOverlay.classList.add('active');
+                }, 420);
+
+                // 4. Auto-close after 2.4s
+                setTimeout(() => {
+                    if (apexOverlay.classList.contains('active')) {
+                        closeApexOverlay();
+                    }
+                }, 2800);
+
+                apexObs.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.4 });
+    const apexSection = document.getElementById('apex-progress');
+    if (apexSection) apexObs.observe(apexSection);
+}
+
+/* ─── RANK PROGRESS BAR ─── */
+const rankFill = document.querySelector('.rank-progress-fill');
+if (rankFill) {
+    const rankObs = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                setTimeout(() => rankFill.classList.add('animated'), 200);
+                rankObs.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+    rankObs.observe(rankFill);
+}
+
+/* ─── SCROLL REVEAL ─── */
+const revealEls = document.querySelectorAll('.reveal');
+const revealObs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const siblings = entry.target.closest('.groups-grid, .features-row, .individual-card, .form-section');
+            let delay = 0;
+            if (siblings) {
+                const all = siblings.querySelectorAll('.reveal');
+                all.forEach((el, idx) => { if (el === entry.target) delay = idx * 100; });
+            }
+            setTimeout(() => entry.target.classList.add('visible'), delay);
+            revealObs.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.1 });
+revealEls.forEach(el => revealObs.observe(el));
+</script>
+<!-- licznik odwiedzin -> panel kacperos.html -->
+<script type="module" src="/track.js"></script>
+</body>
+</html>

@@ -1,0 +1,1896 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lista zadań treningowych — T-Olimpians</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="../img/favicon2.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@400;500&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0f;
+    --panel:#111118;
+    --panel-2:#15151e;
+    --panel-3:#1c1c28;
+    --border:rgba(255,255,255,0.07);
+    --border-accent:rgba(59,130,246,0.3);
+    --text:#f0f0f8;
+    --muted:#9090aa;
+    --muted-2:#55556a;
+    --accent:#3b82f6;
+    --accent-bright:#60a5fa;
+    --accent-dim:rgba(59,130,246,0.12);
+    --accent-glow:rgba(59,130,246,0.25);
+    --amber:#F5B94D;
+    --amber-dim:#3B331E;
+    --danger:#F2665A;
+    --danger-dim:rgba(242,102,90,0.12);
+    --violet:#a78bfa;
+    --violet-dim:rgba(167,139,250,0.13);
+    --mono: "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --sans: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --display: "Syne", var(--sans);
+    --radius-md:14px;
+    --radius-sm:9px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(circle at 85% 0%, rgba(59,130,246,0.07), transparent 45%),
+      var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    min-height:100vh;
+    padding:0 20px 90px;
+    line-height:1.5;
+  }
+  .wrap{max-width:760px;margin:0 auto;}
+
+  .topbar{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+    padding:22px 0;
+    margin-bottom:26px;
+    border-bottom:1px solid var(--border);
+  }
+  .topbar img.logo-mark{
+    width:38px;height:38px;border-radius:9px;object-fit:cover;
+  }
+  .topbar .brand{
+    font-family:var(--display);
+    font-weight:800;
+    font-size:24px;
+    color:var(--text);
+    letter-spacing:0.01em;
+    text-align:center;
+  }
+  .topbar img.flag{width:22px;height:auto;border-radius:2px;}
+
+  @media (max-width:480px){
+    .topbar{gap:10px;padding:18px 0;}
+    .topbar .brand{font-size:19px;white-space:nowrap;}
+    .brand-full{display:none;}
+  }
+
+  header{margin-bottom:30px;}
+  h1{
+    font-family:var(--display);
+    font-size:30px;
+    font-weight:800;
+    margin:0 0 8px;
+    letter-spacing:-0.02em;
+    word-break:break-word;
+  }
+  .subtitle{color:var(--muted);font-size:15px;margin:0 0 10px;}
+  .counts{color:var(--muted);font-size:15px;}
+  .counts b{color:var(--accent-bright);font-weight:700;font-family:var(--display);}
+  .shared-note{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--accent-bright);
+    background:var(--accent-dim);
+    border:1px solid var(--border-accent);
+    border-radius:100px;
+    padding:5px 12px;
+    margin-top:10px;
+  }
+  .shared-note.err{color:var(--danger);background:var(--danger-dim);border-color:rgba(242,102,90,0.3);}
+
+  .card{
+    background:var(--panel-2);
+    border:1px solid var(--border);
+    border-radius:var(--radius-md);
+    padding:22px;
+    margin-bottom:22px;
+  }
+  .card h2{
+    font-family:var(--display);
+    font-size:13px;
+    font-weight:700;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin:0 0 16px;
+  }
+
+  form.add{display:flex;flex-direction:column;gap:16px;}
+  .add-row{display:flex;gap:10px;}
+  input[type="text"], input[type="url"]{
+    flex:1;
+    background:var(--panel-3);
+    border:1px solid var(--border);
+    color:var(--text);
+    padding:13px 15px;
+    border-radius:var(--radius-sm);
+    font-size:16.5px;
+    font-family:var(--sans);
+    outline:none;
+    min-width:0;
+    transition:border-color .15s ease, box-shadow .15s ease;
+  }
+  input[type="url"]{font-family:var(--mono); font-size:16px;}
+  input:focus{border-color:var(--accent-bright); box-shadow:0 0 0 3px var(--accent-dim);}
+  input::placeholder{color:var(--muted-2);}
+
+  .field-label{
+    display:block;
+    font-family:var(--mono);
+    font-size:12px;
+    font-weight:500;
+    color:var(--muted);
+    letter-spacing:.03em;
+    margin-bottom:7px;
+  }
+  .field-label .field-hint{color:var(--muted-2);}
+
+  .order-field{max-width:170px;}
+  .order-input-wrap{position:relative;}
+  .order-input-wrap .order-hash{
+    position:absolute;
+    left:14px;
+    top:50%;
+    transform:translateY(-50%);
+    color:var(--muted-2);
+    font-family:var(--mono);
+    font-size:15px;
+    pointer-events:none;
+  }
+  #orderInput{
+    width:100%;
+    background:var(--panel-3);
+    border:1px solid var(--border);
+    color:var(--text);
+    padding:13px 15px 13px 30px;
+    border-radius:var(--radius-sm);
+    font-size:15px;
+    font-family:var(--mono);
+    outline:none;
+    -moz-appearance:textfield;
+    transition:border-color .15s ease, box-shadow .15s ease;
+  }
+  #orderInput::-webkit-outer-spin-button,
+  #orderInput::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
+  #orderInput:focus{border-color:var(--accent-bright); box-shadow:0 0 0 3px var(--accent-dim);}
+
+  .type-field .field-label{margin-bottom:9px;}
+  .type-toggle{display:flex;gap:8px;}
+  .type-toggle input{display:none;}
+  .type-toggle label{
+    flex:1;
+    text-align:center;
+    font-family:var(--display);
+    font-size:14.5px;
+    font-weight:700;
+    letter-spacing:.01em;
+    padding:12px 16px;
+    border-radius:10px;
+    border:1.5px solid var(--border);
+    color:var(--muted);
+    cursor:pointer;
+    user-select:none;
+    transition:all .12s ease;
+  }
+  .type-toggle label:hover{color:var(--text); border-color:var(--border-accent);}
+  .type-toggle input:checked + label.task-label{
+    background:var(--accent-dim); color:var(--accent-bright); border-color:var(--accent);
+  }
+  .type-toggle input:checked + label.topic-label{
+    background:var(--amber-dim); color:var(--amber); border-color:var(--amber);
+  }
+
+  .add-footer{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px;}
+  .add-footer .type-field{flex:1;min-width:220px;}
+  button{
+    font-family:var(--sans);
+    font-size:16px;
+    font-weight:600;
+    border:none;
+    border-radius:var(--radius-sm);
+    padding:13px 20px;
+    cursor:pointer;
+    transition:filter .12s ease, transform .12s ease, box-shadow .15s ease;
+  }
+  button:active{transform:translateY(1px);}
+  .btn-primary{
+    background:var(--accent);
+    color:#fff;
+    padding:13px 30px;
+    border-radius:10px;
+    font-size:16px;
+    font-weight:700;
+    flex-shrink:0;
+  }
+  .btn-primary:hover{background:var(--accent-bright); transform:translateY(-1px); box-shadow:0 6px 18px var(--accent-glow);}
+  .btn-primary:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none;}
+  .add-status{font-family:var(--mono);font-size:13.5px;color:var(--muted);}
+  .add-status.err{color:var(--danger);}
+
+  @media (max-width:520px){
+    .add-footer{flex-direction:column;align-items:stretch;}
+    .btn-primary{width:100%;}
+  }
+
+  .filters{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+  .filter-btn{
+    background:transparent;
+    border:1px solid var(--border);
+    color:var(--muted);
+    font-size:13px;
+    font-family:var(--mono);
+    padding:8px 15px;
+    border-radius:100px;
+    transition:color .15s ease, border-color .15s ease, background .15s ease;
+  }
+  .filter-btn:hover{color:var(--text);}
+  .filter-btn.active{background:var(--accent-dim);color:var(--accent-bright);border-color:var(--border-accent);}
+
+  .list{display:flex;flex-direction:column;gap:9px;}
+  .empty{
+    color:var(--muted);
+    font-size:15px;
+    padding:30px 4px;
+    text-align:center;
+    border:1px dashed var(--border);
+    border-radius:var(--radius-sm);
+  }
+  .item{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    background:var(--panel-3);
+    border:1px solid var(--border);
+    border-radius:var(--radius-sm);
+    padding:13px 14px;
+    transition:border-color .15s ease;
+  }
+  .item:hover{border-color:var(--border-accent);}
+  .item.done{opacity:.5;}
+  .item.done .item-title{text-decoration:line-through;}
+
+  .checkbox{
+    appearance:none;
+    -webkit-appearance:none;
+    width:22px;
+    height:22px;
+    border-radius:7px;
+    border:1.5px solid var(--border);
+    background:var(--panel);
+    margin-top:2px;
+    cursor:pointer;
+    flex-shrink:0;
+    position:relative;
+    transition:all .12s ease;
+  }
+  .checkbox:hover{border-color:var(--border-accent);}
+  .checkbox:checked{background:var(--accent);border-color:var(--accent);}
+  .checkbox:checked::after{
+    content:"";
+    position:absolute;
+    left:7px; top:3px;
+    width:5px; height:10px;
+    border:solid #fff;
+    border-width:0 2px 2px 0;
+    transform:rotate(45deg);
+  }
+  .checkbox:disabled{opacity:.5;cursor:wait;}
+
+  .order-input{
+    width:44px;
+    flex-shrink:0;
+    background:var(--panel);
+    border:1px solid var(--border);
+    color:var(--muted);
+    font-family:var(--mono);
+    font-size:13px;
+    text-align:center;
+    border-radius:7px;
+    padding:5px 2px;
+    margin-top:1px;
+    outline:none;
+    transition:border-color .15s ease, color .15s ease;
+    -moz-appearance:textfield;
+  }
+  .order-input::-webkit-outer-spin-button,
+  .order-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
+  .order-input:focus{border-color:var(--accent-bright); color:var(--text); box-shadow:0 0 0 3px var(--accent-dim);}
+  .order-input:hover{border-color:var(--border-accent);}
+
+  .item-body{flex:1;min-width:0;}
+  .item-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .item-title{font-size:16.5px;font-weight:600;}
+  .tag{
+    font-family:var(--mono);
+    font-size:12px;
+    padding:3px 8px;
+    border-radius:5px;
+    letter-spacing:.02em;
+  }
+  .tag.zadanie{background:var(--accent-dim);color:var(--accent-bright);}
+  .tag.temat{background:var(--amber-dim);color:var(--amber);}
+  .tag.source{background:var(--panel);color:var(--muted);border:1px solid var(--border);}
+  .item-link{
+    display:block;
+    margin-top:4px;
+    font-family:var(--mono);
+    font-size:13.5px;
+    color:var(--muted);
+    text-decoration:none;
+    word-break:break-all;
+  }
+  .item-link:hover{color:var(--accent-bright);}
+
+  .btn-del{
+    background:transparent;
+    color:var(--danger);
+    border:1px solid rgba(242,102,90,0.3);
+    padding:8px 12px;
+    font-size:13.5px;
+    flex-shrink:0;
+  }
+  .btn-del:hover{background:var(--danger-dim);}
+
+  .item-status{
+    flex-shrink:0;
+    align-self:center;
+    border-collapse:collapse;
+    font-family:var(--mono);
+    font-size:11px;
+    min-width:104px;
+    border-radius:8px;
+    overflow:hidden;
+    box-shadow:0 0 0 1px var(--border);
+  }
+  .item-status th,
+  .item-status td{
+    display:table-cell;
+    padding:6px 10px;
+    text-align:center;
+    white-space:nowrap;
+  }
+  .item-status th{
+    background:var(--panel);
+    color:var(--muted-2);
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    font-size:9.5px;
+    font-weight:600;
+    border-bottom:1px solid var(--border);
+  }
+  .item-status td{
+    background:var(--panel-3);
+    color:var(--muted);
+    font-weight:500;
+  }
+  .item-status.is-done{box-shadow:0 0 0 1px rgba(59,130,246,0.3);}
+  .item-status.is-done th{color:var(--accent-bright);}
+  .item-status.is-done td{color:var(--accent-bright);}
+
+  @media (max-width:640px){
+    .item{flex-wrap:wrap;row-gap:8px;}
+    .item-body{flex:1 1 100%;order:1;}
+    .item-status{order:2;}
+    .btn-del{order:3;}
+    .item-link{overflow-wrap:anywhere;}
+  }
+
+  @media (min-width:900px){
+    .wrap{max-width:1080px;}
+    h1{font-size:34px;}
+    .card{padding:26px 30px;}
+    .item{padding:15px 16px;gap:16px;}
+    .item-title{font-size:17.5px;}
+    .item-status{min-width:130px;font-size:12px;}
+    .item-status th,.item-status td{padding:8px 14px;}
+  }
+
+  /* ═══ KOMPENDIUM: rozpoznany link + mini kurs ═══ */
+  .komp-preview{
+    display:none;align-items:flex-start;gap:12px;
+    background:var(--amber-dim);border:1px solid rgba(245,185,77,0.35);
+    border-radius:var(--radius-sm);padding:12px 14px;font-size:14px;color:var(--text);
+  }
+  .komp-preview.visible{display:flex;}
+  .komp-preview.err{background:var(--danger-dim);border-color:rgba(242,102,90,0.3);}
+  .komp-preview .kp-icon{font-size:18px;line-height:1.2;}
+  .komp-preview .kp-kind{font-family:var(--mono);font-size:11.5px;color:var(--amber);letter-spacing:.04em;text-transform:uppercase;}
+  .komp-preview.err .kp-kind{color:var(--danger);}
+  .komp-preview .kp-title{font-weight:700;font-size:15px;margin:1px 0 2px;}
+  .komp-preview .kp-meta{color:var(--muted);font-size:13px;}
+
+  .item.has-komp{flex-wrap:wrap;}
+  .komp-path{margin-top:4px;font-size:13.5px;color:var(--muted);}
+  .komp-path a{color:var(--muted);text-decoration:none;}
+  .komp-path a:hover{color:var(--accent-bright);}
+  .komp-sum{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:10px;}
+  .komp-bar{position:relative;flex:1 1 160px;max-width:300px;height:8px;border-radius:99px;background:var(--panel);border:1px solid var(--border);overflow:hidden;}
+  .komp-bar-fill{position:absolute;top:0;bottom:0;left:0;width:0;background:linear-gradient(90deg,var(--accent),#34d399);border-radius:99px;transition:width .35s ease;}
+  .komp-sum-text{font-family:var(--mono);font-size:12px;color:var(--muted);}
+  .komp-sum-text b{color:var(--text);font-weight:600;}
+  .mk-open-btn{
+    background:var(--accent-dim);color:var(--accent-bright);border:1px solid var(--border-accent);
+    font-size:13.5px;padding:7px 14px;border-radius:100px;
+  }
+  .mk-open-btn:hover{background:var(--accent);color:#fff;}
+
+  .mk{flex:1 1 100%;order:10;display:none;margin-top:4px;border-top:1px solid var(--border);padding-top:14px;min-width:0;}
+  .mk.open{display:block;}
+  .mk-note{font-size:14px;color:var(--muted);background:var(--panel);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:12px;white-space:pre-wrap;}
+  .mk-player{display:none;margin-bottom:12px;}
+  .mk-player.visible{display:block;}
+  .mk-player-frame{position:relative;width:100%;max-width:760px;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#000;border:1px solid var(--border);}
+  .mk-player-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+  .mk-player-ext{display:flex;flex-direction:column;align-items:flex-start;gap:8px;max-width:760px;padding:16px;border:1px solid var(--border);border-radius:10px;background:var(--panel);}
+  .mk-player-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;max-width:760px;margin-top:6px;font-size:13px;color:var(--muted);}
+  .mk-player-bar button{background:transparent;border:1px solid var(--border);color:var(--muted);font-size:12.5px;padding:5px 11px;border-radius:100px;flex-shrink:0;}
+  .mk-player-bar button:hover{color:var(--text);border-color:var(--border-accent);}
+
+  .mk-sec{border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--panel);margin-bottom:8px;overflow:hidden;}
+  .mk-sec.done{border-color:rgba(52,211,153,0.35);}
+  .mk-sec-head{display:flex;align-items:center;gap:10px;padding:11px 13px;cursor:pointer;user-select:none;}
+  .mk-sec-head:hover{background:rgba(255,255,255,0.02);}
+  .mk-sec-num{flex-shrink:0;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;background:var(--panel-3);border:1px solid var(--border);color:var(--muted);}
+  .mk-sec.done .mk-sec-num{background:rgba(52,211,153,.14);border-color:rgba(52,211,153,.4);color:#34d399;}
+  .mk-sec-text{flex:1;min-width:0;display:flex;flex-direction:column;}
+  .mk-sec-name{font-weight:600;font-size:15px;}
+  .mk-sec-meta{font-family:var(--mono);font-size:11.5px;color:var(--muted);}
+  .mk-sec-chev{color:var(--muted-2);font-size:11px;transition:transform .2s ease;}
+  .mk-sec.open .mk-sec-chev{transform:rotate(180deg);}
+  .mk-sec-body{display:none;padding:0 13px 13px;}
+  .mk-sec.open .mk-sec-body{display:block;}
+  .mk-sec-note{font-size:13.5px;color:var(--muted);margin-bottom:6px;}
+  .mk-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted-2);margin:12px 0 6px;}
+
+  .mk-video{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;background:var(--panel-3);border:1px solid var(--border);margin-bottom:6px;cursor:pointer;transition:border-color .15s ease,background .15s ease;}
+  .mk-video:hover{border-color:var(--border-accent);background:var(--accent-dim);}
+  .mk-video.playing{border-color:var(--accent);background:var(--accent-dim);}
+  .mk-vicon{flex-shrink:0;width:26px;height:26px;border-radius:50%;padding:0;display:flex;align-items:center;justify-content:center;font-size:10px;line-height:1;
+    background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);}
+  .mk-vicon:hover{background:var(--accent);border-color:var(--accent-bright);color:#fff;}
+  .mk-video.watched .mk-vicon{background:rgba(52,211,153,.14);border-color:rgba(52,211,153,.4);color:#34d399;font-size:12px;}
+  .mk-video.watched .mk-vicon:hover{background:rgba(242,102,90,.16);border-color:rgba(242,102,90,.5);color:var(--danger);font-size:0;}
+  .mk-video.watched .mk-vicon:hover::after{content:"✕";font-size:11px;}
+  .mk-vtext{flex:1;min-width:0;display:flex;flex-direction:column;}
+  .mk-vtitle{font-size:14px;}
+  .mk-video.watched .mk-vtitle{color:var(--muted);}
+  .mk-vsub{font-family:var(--mono);font-size:11px;color:var(--muted-2);}
+  .mk-link{display:inline-flex;align-items:center;gap:6px;margin:0 6px 6px 0;font-size:13px;color:var(--text);text-decoration:none;background:var(--panel-3);border:1px solid var(--border);border-radius:100px;padding:5px 12px;}
+  .mk-link:hover{border-color:var(--border-accent);color:var(--accent-bright);}
+
+  .mk-tasks{width:100%;border-collapse:collapse;font-size:14px;}
+  .mk-tasks td{padding:7px 8px;border-top:1px solid var(--border);vertical-align:middle;}
+  .mk-tasks tr:first-child td{border-top:none;}
+  .mk-tasks .mk-hint-row td{border-top:none;padding-top:0;}
+  .mk-tasks td.mk-c{width:1%;white-space:nowrap;text-align:center;}
+  .mk-tasks tr.done .mk-tname a,.mk-tasks tr.done .mk-tname span{color:var(--muted);text-decoration:line-through;}
+  .mk-check{width:26px;height:26px;padding:0;border-radius:7px;border:1.5px solid var(--border);background:var(--panel-3);color:transparent;font-size:14px;line-height:1;}
+  .mk-check:hover{border-color:var(--accent-bright);color:var(--muted-2);}
+  .mk-check.on{background:#10b981;border-color:#10b981;color:#fff;}
+  .mk-check.on:hover{background:var(--danger);border-color:var(--danger);}
+  .mk-tname a{color:var(--text);text-decoration:none;}
+  .mk-tname a:hover{color:var(--accent-bright);text-decoration:underline;}
+  .mk-plat,.mk-level{font-family:var(--mono);font-size:11px;padding:2px 8px;border-radius:5px;white-space:nowrap;background:var(--panel-3);color:var(--muted);border:1px solid var(--border);}
+  .mk-level.latwe{color:#34d399;border-color:rgba(52,211,153,.3);}
+  .mk-level.srednie{color:var(--amber);border-color:rgba(245,185,77,.3);}
+  .mk-level.trudne{color:var(--danger);border-color:rgba(242,102,90,.3);}
+  .mk-ibtn{width:26px;height:26px;padding:0;border-radius:7px;background:transparent;border:1px solid var(--border);color:var(--muted);font-size:12px;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;vertical-align:middle;}
+  .mk-ibtn:hover{color:var(--accent-bright);border-color:var(--border-accent);}
+  .mk-hint{display:none;font-size:13px;color:var(--muted);background:var(--panel-3);border:1px dashed var(--border);border-radius:7px;padding:8px 10px;}
+  .mk-hint.open{display:block;}
+  .mk-empty{font-size:13.5px;color:var(--muted-2);font-style:italic;padding:4px 0;}
+  .mk-foot{margin-top:10px;font-size:13px;}
+  .mk-foot a{color:var(--accent-bright);text-decoration:none;}
+  .mk-foot a:hover{text-decoration:underline;}
+  @media (max-width:640px){
+    .mk-tasks .mk-col-plat{display:none;}
+    .mk-tasks td{padding:7px 4px;}
+    .mk-sec-head{padding:10px;}
+    .mk-sec-body{padding:0 10px 10px;}
+  }
+
+  /* ═══ KURS Z PLANERA: plik .json z planera jako jeden element listy ═══ */
+  .tag.kurs{background:var(--violet-dim);color:var(--violet);}
+  /* przycisk „Kurs” obok przełącznika Zadanie / Temat — wygląda jak one, ale otwiera wybór pliku planu */
+  .type-toggle .kurs-btn{
+    flex:1;
+    text-align:center;
+    font-family:var(--display);
+    font-size:14.5px;
+    font-weight:700;
+    letter-spacing:.01em;
+    padding:12px 16px;
+    border-radius:10px;
+    border:1.5px solid var(--border);
+    background:transparent;
+    color:var(--muted);
+    user-select:none;
+    transition:all .12s ease;
+  }
+  .type-toggle .kurs-btn:hover,.type-toggle .kurs-btn:focus-visible,.type-toggle .kurs-btn.over{
+    color:var(--violet);border-color:var(--violet);background:var(--violet-dim);outline:none;transform:none;
+  }
+  .type-toggle .kurs-btn:disabled{opacity:.5;cursor:wait;}
+  @media (max-width:480px){
+    /* trzy przyciski (Kurs / Zadanie / Temat) muszą się zmieścić na wąskim telefonie */
+    .type-toggle label,.type-toggle .kurs-btn{padding:12px 6px;}
+  }
+
+  .pk-nextline{margin-top:8px;font-size:13.5px;color:var(--muted);}
+  .pk-nextline b{color:var(--text);font-weight:600;}
+  .pk{flex:1 1 100%;order:10;display:none;margin-top:4px;border-top:1px solid var(--border);padding-top:14px;min-width:0;}
+  .pk.open{display:block;}
+  .pk-steps{display:flex;flex-direction:column;}
+  .pk-step{display:flex;gap:12px;align-items:stretch;}
+  .pk-step.t{--c:var(--amber);--cd:var(--amber-dim);}
+  .pk-step.z{--c:var(--accent-bright);--cd:var(--accent-dim);}
+  .pk-rail{flex:none;width:30px;display:flex;flex-direction:column;align-items:center;}
+  .pk-num{width:30px;height:30px;border-radius:50%;flex:none;margin-top:9px;display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);font-size:12px;font-weight:500;color:var(--c);background:var(--cd);border:1.5px solid var(--c);}
+  .pk-line{flex:1;width:2px;margin-top:4px;background:var(--border);}
+  .pk-step:last-child .pk-line{background:transparent;}
+  .pk-step.done .pk-num{background:rgba(52,211,153,.14);border-color:rgba(52,211,153,.5);color:#34d399;}
+  .pk-card{flex:1;min-width:0;margin-bottom:8px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--panel);transition:border-color .15s ease, box-shadow .15s ease;}
+  .pk-step.next .pk-card{border-color:var(--c);box-shadow:0 0 0 3px var(--cd);}
+  .pk-head,.pk-row{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;}
+  .pk-head{cursor:pointer;user-select:none;border-radius:var(--radius-sm);}
+  .pk-head:hover{background:rgba(255,255,255,.02);}
+  .pk-head .mk-check,.pk-row .mk-check{flex:none;margin-top:2px;}
+  .pk-main{flex:1;min-width:0;}
+  .pk-kind{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--c);}
+  .pk-now{display:none;font-size:9.5px;font-weight:500;letter-spacing:.06em;padding:1px 8px;border-radius:100px;background:var(--c);color:#0a0a0f;}
+  .pk-step.next .pk-now{display:inline-block;}
+  .pk-title{font-weight:600;font-size:15px;line-height:1.35;word-break:break-word;margin-top:1px;}
+  .pk-title a{color:var(--text);text-decoration:none;}
+  .pk-title a:hover{color:var(--accent-bright);text-decoration:underline;}
+  .pk-step.done .pk-title,.pk-step.done .pk-title a{color:var(--muted);text-decoration:line-through;}
+  .pk-meta{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-top:2px;}
+  .pk-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;}
+  .pk-note{font-size:13.5px;color:var(--muted);margin-top:6px;}
+  .pk-body{display:none;padding:0 12px 12px;}
+  .pk-step.open .pk-body{display:block;}
+  .pk-step.open .mk-sec-chev{transform:rotate(180deg);}
+  .pk-head .mk-sec-chev{margin-top:6px;}
+  @media (max-width:640px){
+    .pk-step{gap:8px;}
+    .pk-rail{width:26px;}
+    .pk-num{width:26px;height:26px;font-size:11px;}
+    .pk-head,.pk-row{padding:9px 10px;}
+    .pk-body{padding:0 10px 10px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <img class="logo-mark" src="../img/t-olimpians-logo.jpg" alt="Logo T-Olimpians">
+    <span class="brand">T-Olimpians<span class="brand-full"> Team Poland</span></span>
+    <img class="flag" src="../img/polska_flaga.png" alt="Flaga Polski">
+  </div>
+  <header>
+    <div class="counts" id="counts"></div>
+  </header>
+
+  <section class="card">
+    <h2>Dodaj element</h2>
+    <form class="add" id="addForm">
+      <div class="add-row">
+        <input type="text" id="titleInput" placeholder="Nazwa zadania lub tematu" maxlength="120" autocomplete="off">
+      </div>
+      <div class="add-row">
+        <input type="url" id="urlInput" placeholder="https://codeforces.com/… albo link do tematu / zagadnienia z kompendium" autocomplete="off">
+      </div>
+      <div class="komp-preview" id="kompPreview" aria-live="polite"></div>
+      <div class="add-row">
+        <div class="field order-field">
+          <label class="field-label" for="orderInput">Kolejność <span class="field-hint">(opcjonalnie)</span></label>
+          <div class="order-input-wrap">
+            <span class="order-hash">#</span>
+            <input type="number" id="orderInput" placeholder="np. 1" step="1" autocomplete="off">
+          </div>
+        </div>
+      </div>
+      <div class="add-footer">
+        <div class="field type-field">
+          <label class="field-label">Typ</label>
+          <div class="type-toggle">
+            <button type="button" class="kurs-btn" id="pkBtn" title="Wczytaj plik planu (.json) z Planera olimpijczyka — kurs dostanie nazwę z pola wyżej (albo „Plan nauki”)">Kurs</button>
+            <input type="file" id="pkFile" accept=".json,application/json" hidden>
+            <input type="radio" name="itemType" id="typeZadanie" value="zadanie" checked>
+            <label class="task-label" for="typeZadanie">Zadanie</label>
+            <input type="radio" name="itemType" id="typeTemat" value="temat">
+            <label class="topic-label" for="typeTemat">Temat</label>
+          </div>
+        </div>
+        <button type="submit" class="btn-primary" id="addBtn">+ Dodaj</button>
+      </div>
+      <div class="add-status" id="addStatus"></div>
+    </form>
+  </section>
+
+  <section class="card">
+    <h2>Lista</h2>
+    <div class="filters">
+      <button class="filter-btn active" data-filter="all">Wszystkie</button>
+      <button class="filter-btn" data-filter="zadanie">Zadania</button>
+      <button class="filter-btn" data-filter="temat">Tematy</button>
+      <button class="filter-btn" data-filter="kurs">Kursy</button>
+      <button class="filter-btn" data-filter="open">Niewykonane</button>
+      <button class="filter-btn" data-filter="done">Wykonane</button>
+    </div>
+    <div class="list" id="list">
+      <div class="empty">Ładowanie…</div>
+    </div>
+  </section>
+  <section class="card">
+    <h2>Statystyka</h2>
+    <div class="type-toggle" style="margin-bottom:16px;">
+      <input type="radio" name="statsPeriod" id="periodDaily" value="daily" checked>
+      <label class="task-label" for="periodDaily">Dziennie</label>
+      <input type="radio" name="statsPeriod" id="periodWeekly" value="weekly">
+      <label class="topic-label" for="periodWeekly">Tygodniowo</label>
+    </div>
+    <div style="position:relative;height:240px;">
+      <canvas id="statsChart"></canvas>
+    </div>
+  </section>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  FieldPath,
+  deleteField
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCCq6q-GqkILS9E7xXSl65bn856IkiUaGc",
+  authDomain: "progress-app-2d372.firebaseapp.com",
+  projectId: "progress-app-2d372",
+  storageBucket: "progress-app-2d372.firebasestorage.app",
+  messagingSenderId: "40639690555",
+  appId: "1:40639690555:web:cf7b4f8d17d5dd051b691e",
+  measurementId: "G-LX80GLN87H"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const PAGE_ID = "gryglo"; // <-- zmień na inną wartość przy kopiowaniu strony
+const itemsCol = collection(db, "training_items_" + PAGE_ID);
+
+const list = document.getElementById("list");
+const counts = document.getElementById("counts");
+const addForm = document.getElementById("addForm");
+const titleInput = document.getElementById("titleInput");
+const urlInput = document.getElementById("urlInput");
+const orderInputField = document.getElementById("orderInput");
+const addBtn = document.getElementById("addBtn");
+const addStatus = document.getElementById("addStatus");
+const filterBtns = document.querySelectorAll(".filter-btn");
+
+let currentFilter = "all";
+let currentItems = [];
+let statsPeriod = "daily";
+let statsChart = null;
+
+function sourceLabel(url){
+  if(!url) return null;
+  try{
+    const host = new URL(url).hostname.replace(/^www\./, "");
+    if(host.includes("codeforces")) return "codeforces";
+    if(host.includes("leetcode")) return "leetcode";
+    if(host.includes("atcoder")) return "atcoder";
+    if(host.includes("hackerrank")) return "hackerrank";
+    if(host.includes("spoj")) return "spoj";
+    if(host.includes("codewars")) return "codewars";
+    if(host.includes("topcoder")) return "topcoder";
+    return host;
+  }catch(e){
+    return null;
+  }
+}
+
+function formatDoneAt(ts){
+  if(!ts) return null;
+  const d = new Date(ts);
+  return d.toLocaleString("pl-PL", { day:"2-digit", month:"2-digit", year:"2-digit", hour:"2-digit", minute:"2-digit" });
+}
+
+function applyFilter(items){
+  switch(currentFilter){
+    case "zadanie": return items.filter(i => i.type === "zadanie");
+    case "temat": return items.filter(i => i.type === "temat");
+    case "kurs": return items.filter(i => i.type === "kurs");
+    case "open": return items.filter(i => !i.done);
+    case "done": return items.filter(i => i.done);
+    default: return items;
+  }
+}
+
+function render(items){
+  const done = items.filter(i => i.done).length;
+  counts.innerHTML = items.length
+    ? `<b>${done}</b> / <b>${items.length}</b> wykonane`
+    : "";
+
+  const visible = applyFilter(items);
+  list.innerHTML = "";
+  if(visible.length === 0){
+    list.innerHTML = `<div class="empty">${items.length === 0 ? "Lista jest pusta. Dodaj pierwsze zadanie lub temat powyżej." : "Brak elementów pasujących do filtra."}</div>`;
+    return;
+  }
+
+  const sorted = [...visible].sort((a,b) => {
+    if(a.done !== b.done) return a.done ? 1 : -1;
+    const ao = (a.order === undefined || a.order === null || a.order === "") ? Infinity : Number(a.order);
+    const bo = (b.order === undefined || b.order === null || b.order === "") ? Infinity : Number(b.order);
+    if(ao !== bo) return ao - bo;
+    return (b.createdAt || 0) - (a.createdAt || 0);
+  });
+
+  for(const item of sorted){
+    const row = document.createElement("div");
+    row.className = "item" + (item.done ? " done" : "");
+    row.dataset.id = item.id;
+    const kref = itemKompRef(item);
+    const isKurs = item.type === "kurs";
+    if(kref || isKurs) row.classList.add("has-komp");
+
+    const orderInput = document.createElement("input");
+    orderInput.type = "number";
+    orderInput.className = "order-input";
+    orderInput.title = "Kolejność";
+    orderInput.value = (item.order === undefined || item.order === null) ? "" : item.order;
+    orderInput.addEventListener("change", () => updateOrder(item.id, orderInput.value));
+
+    const cb = document.createElement("input");
+    cb.type = "checkbox";
+    cb.className = "checkbox";
+    cb.checked = !!item.done;
+    cb.addEventListener("change", () => toggleDone(item.id, cb.checked, cb));
+
+    const body = document.createElement("div");
+    body.className = "item-body";
+
+    const top = document.createElement("div");
+    top.className = "item-top";
+    const title = document.createElement("span");
+    title.className = "item-title";
+    title.textContent = item.title;
+    const tag = document.createElement("span");
+    tag.className = "tag " + item.type;
+    tag.textContent = item.type === "temat" ? "temat" : isKurs ? "kurs" : "zadanie";
+    top.appendChild(title);
+    top.appendChild(tag);
+
+    const src = isKurs ? "z planera" : kref ? "kompendium" : sourceLabel(item.url);
+    if(src){
+      const srcTag = document.createElement("span");
+      srcTag.className = "tag source";
+      srcTag.textContent = src;
+      top.appendChild(srcTag);
+    }
+    body.appendChild(top);
+
+    if(isKurs){
+      pkDecorate(item, body, row);
+    }else if(kref){
+      kompDecorate(item, kref, body, row);
+    }else if(item.url){
+      const link = document.createElement("a");
+      link.className = "item-link";
+      link.href = item.url;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = item.url;
+      body.appendChild(link);
+    }
+
+    const status = document.createElement("table");
+    status.className = "item-status" + (item.done ? " is-done" : "");
+    const theadRow = document.createElement("tr");
+    const th = document.createElement("th");
+    th.textContent = "Ukończono";
+    theadRow.appendChild(th);
+    const tbodyRow = document.createElement("tr");
+    const td = document.createElement("td");
+    const doneAtText = item.done ? formatDoneAt(item.doneAt) : null;
+    td.textContent = doneAtText || "Nie ukończono";
+    tbodyRow.appendChild(td);
+    status.appendChild(theadRow);
+    status.appendChild(tbodyRow);
+
+    const delBtn = document.createElement("button");
+    delBtn.className = "btn-del";
+    delBtn.textContent = "Usuń";
+    delBtn.addEventListener("click", () => deleteItem(item.id));
+
+    row.appendChild(orderInput);
+    row.appendChild(cb);
+    row.appendChild(body);
+    row.appendChild(status);
+    row.appendChild(delBtn);
+    if(row._mk) row.appendChild(row._mk);
+    if(row._pk) row.appendChild(row._pk);
+    list.appendChild(row);
+    if(row._mk) kompRefresh(item);
+    if(row._pk) pkRefresh(item);
+  }
+  // świeżo wczytany kurs — przewiń do niego
+  if(pkJustAdded){
+    const r = list.querySelector(`.item[data-id="${CSS.escape(pkJustAdded)}"]`);
+    if(r){ pkJustAdded = null; r.scrollIntoView({ behavior:"smooth", block:"start" }); }
+  }
+}
+
+/* ═══ KOMPENDIUM ═══
+   Link skopiowany z kompendium (net.html) ma postać …/net#temat=<kategoria>/<temat>[/<zagadnienie>].
+   Po wklejeniu strona sama rozpoznaje temat / zagadnienie, a na liście pokazuje go jako mini kurs:
+   filmy i zadania do odhaczania (i odznaczania), jak w kursie LOGIA na stronie Konkursy.
+   Postęp trzymany jest w Firestore w polu kp elementu, więc widać go na każdym urządzeniu. */
+const KOMP_LEVELS = { latwe: "łatwe", srednie: "średnie", trudne: "trudne" };
+const KOMP_VIDEO_HOSTS = /youtube\.com|youtu\.be|vimeo\.com|dailymotion\.com/i;
+const KOMP_PLATFORMS = [
+  [/codeforces\.com/i, "Codeforces"], [/szkopul\.edu\.pl/i, "Szkopuł"], [/(main|oi|solve)\.edu\.pl|sio2/i, "OI"],
+  [/atcoder\.jp/i, "AtCoder"], [/cses\.fi/i, "CSES"], [/spoj\.com/i, "SPOJ"], [/leetcode\.com/i, "LeetCode"],
+  [/usaco\.org/i, "USACO"], [/vjudge\.net/i, "VJudge"], [/onlinejudge\.org|uhunt/i, "UVa"],
+  [/e-olymp\.com/i, "e-olymp"], [/youtube\.com|youtu\.be/i, "YouTube"], [/meetit\.pl/i, "meetIt"]
+];
+
+let kompData = null;                 // null = wczytywanie, false = błąd, tablica = dane
+const mkOpen = new Set();            // id elementów z rozwiniętym mini kursem
+const mkSecOpen = new Map();         // id -> Set otwartych zagadnień
+const mkPlayer = new Map();          // id -> { s, v } aktualnie grany film
+const mkHints = new Set();           // "id|s|t" rozwinięte wskazówki
+
+fetch("/network-data.json")
+  .then(r => { if(!r.ok) throw new Error(r.status); return r.json(); })
+  .then(d => { kompData = Array.isArray(d) ? d : false; })
+  .catch(e => { kompData = false; console.error("Nie udało się wczytać kompendium:", e); })
+  .finally(() => { lastListSig = listSig(currentItems); render(currentItems); kompUpdatePreview(); });
+
+function esc(str){
+  return String(str ?? "").replace(/[&<>"']/g, ch => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[ch]));
+}
+function plural(n, one, few, many){
+  if(n === 1) return one;
+  const d = n % 10, s = n % 100;
+  return (d >= 2 && d <= 4 && (s < 12 || s > 14)) ? few : many;
+}
+/* musi dawać to samo co tdxSlug() w net.html */
+function kSlug(str){
+  const from = "ąćęłńóśźżĄĆĘŁŃÓŚŹŻ", to = "acelnoszzACELNOSZZ";
+  let s = String(str || "").replace(/[ąćęłńóśźżĄĆĘŁŃÓŚŹŻ]/g, c => to[from.indexOf(c)]);
+  return s.normalize("NFD").replace(/[̀-ͯ]/g, "")
+          .toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+}
+
+function kParseLink(text){
+  const str = String(text || "").trim();
+  const at = str.indexOf("#temat=");
+  if(at < 0) return null;
+  let h = str.slice(at);
+  try{ h = decodeURIComponent(h); }catch(e){}
+  const m = h.match(/^#temat=([^/\s]+)\/([^/\s]+)(?:\/([^\s]+))?$/);
+  return m ? { cat: m[1], topic: m[2], sec: m[3] || null } : null;
+}
+function itemKompRef(item){
+  if(item.komp && item.komp.cat && item.komp.topic) return item.komp;
+  return kParseLink(item.url);
+}
+
+/* ─ normalizacja danych — tak samo jak w net.html (getTopicViewSections) ─ */
+function kVideos(videos){
+  if(!Array.isArray(videos)) return [];
+  return videos
+    .map(v => typeof v === "string" ? { title: "", url: v } : { title: v.title || v.label || "", url: v.url || "", author: v.author || "", duration: v.duration || "" })
+    .filter(v => v.url || v.title)
+    .map(v => ({ ...v, title: v.title || v.url }));
+}
+function kTasks(tasks){
+  if(!tasks) return [];
+  const arr = Array.isArray(tasks) ? tasks : String(tasks).split(",").map(s => s.trim()).filter(Boolean);
+  return arr.map(t => typeof t === "string"
+      ? { name: t, url: "" }
+      : { name: t.name || "", url: t.url || "", platform: t.platform || "", level: t.level || "", hint: t.hint || "", solution: t.solution || "" })
+    .filter(t => t.name);
+}
+function kLinks(links){
+  return (links || []).map(l => ({ label: l.label || "", url: l.url || "" })).filter(l => l.label || l.url);
+}
+function kSections(topic){
+  const secs = (Array.isArray(topic.sections) ? topic.sections : []).map((s, i) => ({
+    name: (s && s.name) || ("Zagadnienie " + (i + 1)),
+    note: (s && s.note) || "",
+    videos: kVideos(s && s.videos),
+    links: kLinks(s && s.links),
+    tasks: kTasks(s && s.tasks)
+  }));
+  const gen = kLinks(topic.links), genTasks = kTasks(topic.tasks);
+  const genVideos = kVideos(gen.filter(l => KOMP_VIDEO_HOSTS.test(l.url)));
+  const genLinks = gen.filter(l => !KOMP_VIDEO_HOSTS.test(l.url));
+  if(genVideos.length || genLinks.length || genTasks.length){
+    secs.push({ name: secs.length ? "Materiały ogólne" : "Materiały i zadania", note: "", videos: genVideos, links: genLinks, tasks: genTasks });
+  }
+  return secs;
+}
+
+/* ref -> { catName, topicName, note, sections, secIndex, shown[] } albo { error } */
+function kResolve(ref){
+  if(kompData === null) return { loading: true };
+  if(!kompData) return { error: "Nie udało się wczytać kompendium." };
+  const cat = kompData.find(c => kSlug(c.cat) === ref.cat);
+  if(!cat) return { error: "Nie ma już takiej kategorii w kompendium." };
+  const raw = (cat.topics || []).find(t => kSlug(typeof t === "string" ? t : t.name) === ref.topic);
+  if(!raw) return { error: "Nie ma już takiego tematu w kompendium." };
+  const topic = typeof raw === "string" ? { name: raw } : raw;
+  const sections = kSections(topic);
+  let secIndex = -1;
+  if(ref.sec){
+    secIndex = sections.findIndex(s => kSlug(s.name) === ref.sec);
+    if(secIndex < 0 && /^\d+$/.test(ref.sec)) secIndex = parseInt(ref.sec, 10) - 1;
+    if(secIndex < 0 || secIndex >= sections.length) return { error: "Nie ma już takiego zagadnienia w temacie „" + topic.name + "”." };
+  }
+  return {
+    catName: cat.cat, topicName: topic.name, note: topic.note || "",
+    sections, secIndex,
+    shown: secIndex > -1 ? [secIndex] : sections.map((_, i) => i)
+  };
+}
+function kTitle(res){
+  return res.secIndex > -1 ? res.topicName + " — " + res.sections[res.secIndex].name : res.topicName;
+}
+function kLink(ref){
+  return location.origin + "/net#temat=" + ref.cat + "/" + ref.topic + (ref.sec ? "/" + ref.sec : "");
+}
+
+function kVideoKey(sec, v){ return "v|" + sec.name + "|" + (v.title || v.url); }
+function kTaskKey(sec, t){ return "t|" + sec.name + "|" + t.name; }
+
+function kEmbedUrl(url){
+  const u = String(url || "").trim();
+  const playlist = u.match(/[?&]list=([\w-]+)/);
+  let m = u.match(/(?:youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([\w-]{6,})/i);
+  if(m){
+    const start = u.match(/[?&](?:t|start)=(\d+)/);
+    return "https://www.youtube-nocookie.com/embed/" + m[1] + "?rel=0&modestbranding=1&autoplay=1"
+      + (playlist ? "&list=" + playlist[1] : "") + (start ? "&start=" + start[1] : "");
+  }
+  if(playlist && /youtube\.com/i.test(u)) return "https://www.youtube-nocookie.com/embed/videoseries?list=" + playlist[1] + "&rel=0";
+  m = u.match(/vimeo\.com\/(?:video\/)?(\d+)/i);
+  if(m) return "https://player.vimeo.com/video/" + m[1];
+  return "";
+}
+function kPlatform(t){
+  if(t.platform) return t.platform;
+  if(!t.url) return "";
+  for(const [re, name] of KOMP_PLATFORMS) if(re.test(t.url)) return name;
+  try{ return new URL(t.url).hostname.replace(/^www\./, ""); }catch(e){ return ""; }
+}
+
+function kSecStats(sec, kp){
+  const vDone = sec.videos.filter(v => kp[kVideoKey(sec, v)]).length;
+  const tDone = sec.tasks.filter(t => kp[kTaskKey(sec, t)]).length;
+  return { vDone, vAll: sec.videos.length, tDone, tAll: sec.tasks.length };
+}
+function kStats(res, kp){
+  const out = { vDone: 0, vAll: 0, tDone: 0, tAll: 0 };
+  res.shown.forEach(i => {
+    const s = kSecStats(res.sections[i], kp);
+    out.vDone += s.vDone; out.vAll += s.vAll; out.tDone += s.tDone; out.tAll += s.tAll;
+  });
+  return out;
+}
+function kSecMeta(st){
+  const bits = [];
+  if(st.vAll) bits.push("filmy " + st.vDone + "/" + st.vAll);
+  if(st.tAll) bits.push("zadania " + st.tDone + "/" + st.tAll);
+  return bits.join(" · ") || "materiały";
+}
+
+/* Karta elementu: ścieżka w kompendium, pasek postępu, przycisk i sam mini kurs */
+function kompDecorate(item, ref, body, row){
+  const res = kResolve(ref);
+  const path = document.createElement("div");
+  path.className = "komp-path";
+  const href = item.url || kLink(ref);
+  if(res.loading){
+    path.textContent = "Wczytywanie kompendium…";
+    body.appendChild(path);
+    return;
+  }
+  if(res.error){
+    path.innerHTML = "⚠ " + esc(res.error) + ` <a href="${esc(href)}" target="_blank" rel="noopener">Otwórz link ↗</a>`;
+    body.appendChild(path);
+    return;
+  }
+  path.innerHTML = `<a href="${esc(href)}" target="_blank" rel="noopener" title="Otwórz w kompendium">${esc(res.catName)} › ${esc(res.topicName)}${res.secIndex > -1 ? " › " + esc(res.sections[res.secIndex].name) : ""} ↗</a>`;
+  body.appendChild(path);
+
+  const sum = document.createElement("div");
+  sum.className = "komp-sum";
+  const open = mkOpen.has(item.id);
+  sum.innerHTML = `
+    <button type="button" class="mk-open-btn" data-mk="toggle">${open ? "▾ Zwiń kurs" : "▸ Otwórz mini kurs"}</button>
+    <div class="komp-bar"><div class="komp-bar-fill"></div></div>
+    <span class="komp-sum-text"></span>`;
+  body.appendChild(sum);
+
+  row._mk = kBuildCourse(item, res);
+}
+
+function kBuildCourse(item, res){
+  const id = item.id;
+  const mk = document.createElement("div");
+  mk.className = "mk" + (mkOpen.has(id) ? " open" : "");
+  if(!mkSecOpen.has(id)){
+    // domyślnie: zagadnienie z linku albo pierwsze niedokończone
+    const kp = item.kp || {};
+    const first = res.shown.find(i => { const s = kSecStats(res.sections[i], kp); return s.vDone < s.vAll || s.tDone < s.tAll; });
+    mkSecOpen.set(id, new Set([first ?? res.shown[0]]));
+  }
+  const openSecs = mkSecOpen.get(id);
+  const note = res.secIndex > -1 ? "" : res.note;
+  const single = res.shown.length === 1;
+
+  mk.innerHTML = `
+    ${note ? `<div class="mk-note">💬 ${esc(note)}</div>` : ""}
+    <div class="mk-player"></div>
+    ${res.shown.length ? "" : `<div class="mk-empty">Ten temat nie ma jeszcze materiałów w kompendium.</div>`}
+    ${res.shown.map((si, n) => {
+      const s = res.sections[si];
+      const isOpen = single || openSecs.has(si);
+      return `
+      <div class="mk-sec${isOpen ? " open" : ""}" data-s="${si}">
+        <div class="mk-sec-head" data-mk="sec">
+          <span class="mk-sec-num">${n + 1}</span>
+          <span class="mk-sec-text">
+            <span class="mk-sec-name">${esc(s.name)}</span>
+            <span class="mk-sec-meta"></span>
+          </span>
+          <span class="mk-sec-chev">▼</span>
+        </div>
+        <div class="mk-sec-body">
+          ${s.note ? `<div class="mk-sec-note">${esc(s.note)}</div>` : ""}
+          ${s.videos.length ? `<div class="mk-label">Filmy — kliknij kółko, żeby oznaczyć / odznaczyć obejrzane</div>` : ""}
+          ${s.videos.map((v, vi) => {
+            const sub = [v.author, v.duration].filter(Boolean).join(" · ");
+            return `<div class="mk-video" data-mk="play" data-v="${vi}" role="button" tabindex="0">
+              <button type="button" class="mk-vicon" data-mk="watch" data-v="${vi}"></button>
+              <span class="mk-vtext"><span class="mk-vtitle">${esc(v.title)}</span>${sub ? `<span class="mk-vsub">${esc(sub)}</span>` : ""}</span>
+            </div>`;
+          }).join("")}
+          ${s.links.length ? `<div class="mk-label">Materiały</div><div>${s.links.map(l =>
+            `<a class="mk-link" href="${esc(l.url || "#")}" target="_blank" rel="noopener noreferrer">${esc(l.label || l.url)} ↗</a>`).join("")}</div>` : ""}
+          ${s.tasks.length ? `<div class="mk-label">Zadania</div>
+          <table class="mk-tasks"><tbody>${s.tasks.map((t, ti) => {
+            const plat = kPlatform(t);
+            const lvl = KOMP_LEVELS[t.level];
+            const hintOpen = mkHints.has(id + "|" + si + "|" + ti);
+            return `<tr data-t="${ti}">
+                <td class="mk-c"><button type="button" class="mk-check" data-mk="task" data-t="${ti}">✓</button></td>
+                <td class="mk-tname">${t.url ? `<a href="${esc(t.url)}" target="_blank" rel="noopener noreferrer">${esc(t.name)}</a>` : `<span>${esc(t.name)}</span>`}</td>
+                <td class="mk-c mk-col-plat">${plat ? `<span class="mk-plat">${esc(plat)}</span>` : ""}</td>
+                <td class="mk-c">${lvl ? `<span class="mk-level ${esc(t.level)}">${lvl}</span>` : ""}</td>
+                <td class="mk-c">${t.hint ? `<button type="button" class="mk-ibtn" data-mk="hint" data-t="${ti}" title="Wskazówka">?</button>` : ""}
+                    ${t.solution ? `<a class="mk-ibtn" href="${esc(t.solution)}" target="_blank" rel="noopener noreferrer" title="Rozwiązanie">▶</a>` : ""}</td>
+              </tr>
+              ${t.hint ? `<tr class="mk-hint-row"><td></td><td colspan="4"><div class="mk-hint${hintOpen ? " open" : ""}" data-hint="${ti}">💡 ${esc(t.hint)}</div></td></tr>` : ""}`;
+          }).join("")}</tbody></table>` : ""}
+          ${!s.videos.length && !s.links.length && !s.tasks.length ? `<div class="mk-empty">Brak materiałów w tym zagadnieniu.</div>` : ""}
+        </div>
+      </div>`;
+    }).join("")}
+    <div class="mk-foot"><a href="${esc(item.url || kLink(itemKompRef(item)))}" target="_blank" rel="noopener">Otwórz ${res.secIndex > -1 ? "zagadnienie" : "temat"} w kompendium ↗</a></div>`;
+  mk._res = res;
+  kRenderPlayer(id, mk);
+  return mk;
+}
+
+function kRenderPlayer(id, mk){
+  const box = mk.querySelector(".mk-player");
+  const p = mkPlayer.get(id);
+  const res = mk._res;
+  const v = p && res.sections[p.s] && res.sections[p.s].videos[p.v];
+  if(!v){ box.classList.remove("visible"); box.innerHTML = ""; return; }
+  const embed = kEmbedUrl(v.url);
+  box.innerHTML = (embed
+      ? `<div class="mk-player-frame"><iframe src="${esc(embed)}" title="${esc(v.title)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>`
+      : `<div class="mk-player-ext"><b>${esc(v.title)}</b><span class="mk-vsub">Tego materiału nie da się osadzić na stronie.</span><a class="mk-link" href="${esc(v.url)}" target="_blank" rel="noopener noreferrer">Otwórz materiał ↗</a></div>`)
+    + `<div class="mk-player-bar"><span>▶ ${esc(v.title)}</span><button type="button" data-mk="closeplayer">✕ Zamknij film</button></div>`;
+  box.classList.add("visible");
+}
+
+/* Odświeża stan (obejrzane / zrobione / liczniki) bez przebudowy DOM */
+function kompRefresh(item){
+  const row = list.querySelector(`.item[data-id="${CSS.escape(item.id)}"]`);
+  const mk = row && row._mk;
+  if(!mk || !mk._res) return;
+  const res = mk._res, kp = item.kp || {};
+  const p = mkPlayer.get(item.id);
+
+  mk.querySelectorAll(".mk-sec").forEach(secEl => {
+    const si = +secEl.dataset.s, sec = res.sections[si];
+    const st = kSecStats(sec, kp);
+    secEl.querySelector(".mk-sec-meta").textContent = kSecMeta(st);
+    secEl.classList.toggle("done", (st.vAll + st.tAll) > 0 && st.vDone === st.vAll && st.tDone === st.tAll);
+    secEl.querySelectorAll(".mk-video").forEach(el => {
+      const vi = +el.dataset.v, on = !!kp[kVideoKey(sec, sec.videos[vi])];
+      el.classList.toggle("watched", on);
+      el.classList.toggle("playing", !!p && p.s === si && p.v === vi);
+      const ic = el.querySelector(".mk-vicon");
+      ic.textContent = on ? "✓" : "▶";
+      ic.title = on ? "Obejrzane — kliknij, aby odznaczyć" : "Kliknij, aby oznaczyć jako obejrzane";
+      ic.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+    secEl.querySelectorAll("tr[data-t]").forEach(tr => {
+      const ti = +tr.dataset.t, on = !!kp[kTaskKey(sec, sec.tasks[ti])];
+      tr.classList.toggle("done", on);
+      const b = tr.querySelector(".mk-check");
+      b.classList.toggle("on", on);
+      b.title = on ? "Zrobione — kliknij, aby odznaczyć" : "Oznacz jako zrobione";
+      b.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+  });
+
+  const st = kStats(res, kp);
+  const all = st.vAll + st.tAll, done = st.vDone + st.tDone;
+  const fill = row.querySelector(".komp-bar-fill");
+  if(fill) fill.style.width = (all ? Math.round(done / all * 100) : 0) + "%";
+  const txt = row.querySelector(".komp-sum-text");
+  if(txt){
+    const bits = [];
+    if(st.vAll) bits.push(`filmy <b>${st.vDone}/${st.vAll}</b>`);
+    if(st.tAll) bits.push(`zadania <b>${st.tDone}/${st.tAll}</b>`);
+    txt.innerHTML = bits.join(" · ") || "brak filmów i zadań";
+  }
+}
+
+async function kSetProgress(id, key, on){
+  const item = currentItems.find(i => i.id === id);
+  if(!item) return;
+  const prev = item.kp || {};
+  const next = { ...prev };
+  if(on) next[key] = true; else delete next[key];
+  item.kp = next;
+  kompRefresh(item);
+  try{
+    await updateDoc(doc(itemsCol, id), new FieldPath("kp", key), on ? true : deleteField());
+  }catch(e){
+    console.error(e);
+    item.kp = prev;
+    kompRefresh(item);
+  }
+}
+
+list.addEventListener("click", (e) => {
+  const el = e.target.closest("[data-mk]");
+  if(!el || !list.contains(el)) return;
+  const row = el.closest(".item");
+  const mk = row && row._mk;
+  if(!row || !mk) return;
+  const id = row.dataset.id, res = mk._res;
+  const secEl = el.closest(".mk-sec");
+  const si = secEl ? +secEl.dataset.s : -1;
+  const sec = si > -1 ? res.sections[si] : null;
+  const act = el.dataset.mk;
+
+  if(act === "toggle"){
+    const open = !mkOpen.has(id);
+    if(open) mkOpen.add(id); else mkOpen.delete(id);
+    mk.classList.toggle("open", open);
+    el.textContent = open ? "▾ Zwiń kurs" : "▸ Otwórz mini kurs";
+    if(!open && mkPlayer.has(id)){ mkPlayer.delete(id); kRenderPlayer(id, mk); kompRefresh(currentItems.find(i => i.id === id)); }
+  }else if(act === "sec"){
+    const set = mkSecOpen.get(id);
+    const open = !secEl.classList.contains("open");
+    if(open) set.add(si); else set.delete(si);
+    secEl.classList.toggle("open", open);
+  }else if(act === "watch"){
+    e.stopPropagation();
+    const item = currentItems.find(i => i.id === id);
+    const key = kVideoKey(sec, sec.videos[+el.dataset.v]);
+    kSetProgress(id, key, !(item.kp || {})[key]);
+  }else if(act === "play"){
+    const vi = +el.dataset.v;
+    mkPlayer.set(id, { s: si, v: vi });
+    kRenderPlayer(id, mk);
+    mk.querySelector(".mk-player").scrollIntoView({ behavior: "smooth", block: "nearest" });
+    const key = kVideoKey(sec, sec.videos[vi]);
+    const item = currentItems.find(i => i.id === id);
+    if(item && !(item.kp || {})[key]) kSetProgress(id, key, true);
+    else if(item) kompRefresh(item);
+  }else if(act === "closeplayer"){
+    mkPlayer.delete(id);
+    kRenderPlayer(id, mk);
+    kompRefresh(currentItems.find(i => i.id === id));
+  }else if(act === "task"){
+    const item = currentItems.find(i => i.id === id);
+    const key = kTaskKey(sec, sec.tasks[+el.dataset.t]);
+    kSetProgress(id, key, !(item.kp || {})[key]);
+  }else if(act === "hint"){
+    const hk = id + "|" + si + "|" + el.dataset.t;
+    const box = secEl.querySelector(`.mk-hint[data-hint="${el.dataset.t}"]`);
+    const open = !mkHints.has(hk);
+    if(open) mkHints.add(hk); else mkHints.delete(hk);
+    if(box) box.classList.toggle("open", open);
+  }
+});
+list.addEventListener("keydown", (e) => {
+  if(e.key !== "Enter" && e.key !== " ") return;
+  const el = e.target;
+  if(el.classList && el.classList.contains("mk-video")){ e.preventDefault(); el.click(); }
+});
+
+/* ═══ KURS Z PLANERA ═══
+   Plik .json zapisany w Planerze olimpijczyka (planer-app/planer.html) staje się tu jednym elementem listy
+   typu „kurs”: kroki (tematy z filmami i artykułami oraz zadania) w kolejności z planera, do odhaczania.
+   Kroki siedzą w polu plan.steps, postęp w polu kp — jak w mini kursie z kompendium, tylko zamiast true
+   zapisujemy czas odhaczenia, żeby ukończone kroki kursu trafiały do statystyki. */
+const pkOpen = new Set();            // id kursów z rozwiniętym panelem
+const pkSecOpen = new Map();         // id -> Set rozwiniętych kroków
+const pkPlayer = new Map();          // id -> { s, m } aktualnie grany film
+let pkJustAdded = null;
+
+const pkSafe = u => /^https?:\/\//i.test(u || "") ? u : "";
+const pkStr = (v, n) => typeof v === "string" ? v.slice(0, n) : "";
+const pkKey = {
+  task: s => "z|" + s.id,
+  topic: s => "t|" + s.id,           // temat bez materiałów odhacza się w całości
+  mat: (s, k) => "m|" + s.id + "|" + k
+};
+const pkSteps = item => (item.plan && Array.isArray(item.plan.steps)) ? item.plan.steps : [];
+
+/* format pliku: { app: "t-olimpians-planer", items: [...] }; stara wersja planera miała dni (slot) — wtedy układamy według dni */
+function pkParsePlan(o){
+  if(!o || typeof o !== "object" || !Array.isArray(o.items)) return null;
+  let raw = o.items.slice(0, 800);
+  if(raw.some(i => i && Number.isInteger(i.slot))){
+    const day = i => i && Number.isInteger(i.slot) && i.slot >= 0 ? i.slot : 1e9;
+    raw = raw.map((i, k) => ({ i, k })).sort((a, b) => day(a.i) - day(b.i) || a.k - b.k).map(x => x.i);
+  }
+  const seen = new Set(), steps = [];
+  for(const i of raw){
+    if(!i || (i.type !== "temat" && i.type !== "zadanie")) continue;
+    let id = typeof i.id === "string" && /^[\w-]{1,40}$/.test(i.id) ? i.id : "";
+    while(!id || seen.has(id)) id = Math.random().toString(36).slice(2, 11);
+    seen.add(id);
+    const s = { id, type: i.type, title: pkStr(i.title, 200).trim() || "(bez nazwy)", url: pkSafe(pkStr(i.url, 600)), note: pkStr(i.note, 600) };
+    if(i.type === "zadanie") s.level = KOMP_LEVELS[i.level] ? i.level : "";
+    else s.materials = (Array.isArray(i.materials) ? i.materials : []).slice(0, 80)
+      .filter(m => m && typeof m === "object")
+      .map(m => ({ kind: m.kind === "film" ? "film" : "artykul", title: pkStr(m.title, 200), url: pkSafe(pkStr(m.url, 600)), meta: pkStr(m.meta, 120) }))
+      .filter(m => m.title || m.url);
+    steps.push(s);
+  }
+  return steps.length ? steps : null;
+}
+
+function pkStepDone(s, kp){
+  if(s.type === "zadanie") return !!kp[pkKey.task(s)];
+  const mats = s.materials || [];
+  return mats.length ? mats.every((m, k) => kp[pkKey.mat(s, k)]) : !!kp[pkKey.topic(s)];
+}
+/* kiedy krok został ukończony — do wykresu (najpóźniejsze odhaczenie w kroku) */
+function pkStepTime(s, kp){
+  if(!pkStepDone(s, kp)) return null;
+  const mats = s.materials || [];
+  const keys = s.type === "zadanie" ? [pkKey.task(s)] : mats.length ? mats.map((m, k) => pkKey.mat(s, k)) : [pkKey.topic(s)];
+  const t = Math.max(...keys.map(k => typeof kp[k] === "number" ? kp[k] : 0));
+  return t || null;
+}
+function pkStats(steps, kp){
+  const st = { sDone: 0, sAll: steps.length, zDone: 0, zAll: 0, mDone: 0, mAll: 0, next: -1 };
+  steps.forEach((s, i) => {
+    const done = pkStepDone(s, kp);
+    if(done) st.sDone++; else if(st.next < 0) st.next = i;
+    if(s.type === "zadanie"){ st.zAll++; if(done) st.zDone++; }
+    else (s.materials || []).forEach((m, k) => { st.mAll++; if(kp[pkKey.mat(s, k)]) st.mDone++; });
+  });
+  return st;
+}
+
+/* karta elementu: przycisk, pasek postępu, następny krok i sam panel kursu */
+function pkDecorate(item, body, row){
+  const sum = document.createElement("div");
+  sum.className = "komp-sum";
+  sum.innerHTML = `
+    <button type="button" class="mk-open-btn" data-pk="toggle">${pkOpen.has(item.id) ? "▾ Zwiń kurs" : "▸ Otwórz kurs"}</button>
+    <div class="komp-bar"><div class="komp-bar-fill"></div></div>
+    <span class="komp-sum-text"></span>`;
+  body.appendChild(sum);
+  const next = document.createElement("div");
+  next.className = "pk-nextline";
+  body.appendChild(next);
+  row._pk = pkBuild(item);
+}
+
+function pkStepHTML(s, i, open){
+  const rail = `<div class="pk-rail"><span class="pk-num">${i + 1}</span><span class="pk-line"></span></div>`;
+  if(s.type === "zadanie"){
+    const plat = s.url ? kPlatform({ url: s.url }) : "";
+    const lvl = KOMP_LEVELS[s.level];
+    return `<div class="pk-step z" data-s="${i}">${rail}
+      <div class="pk-card"><div class="pk-row">
+        <button type="button" class="mk-check" data-pk="step">✓</button>
+        <div class="pk-main">
+          <div class="pk-kind">Zadanie<span class="pk-now">teraz</span></div>
+          <div class="pk-title">${s.url ? `<a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.title)}</a>` : esc(s.title)}</div>
+          ${plat || lvl ? `<div class="pk-tags">${plat ? `<span class="mk-plat">${esc(plat)}</span>` : ""}${lvl ? `<span class="mk-level ${esc(s.level)}">${lvl}</span>` : ""}</div>` : ""}
+          ${s.note ? `<div class="pk-note">💡 ${esc(s.note)}</div>` : ""}
+        </div>
+      </div></div>
+    </div>`;
+  }
+  const mats = (s.materials || []).map((m, k) => ({ m, k }));
+  const vids = mats.filter(x => x.m.kind === "film"), arts = mats.filter(x => x.m.kind !== "film");
+  const hasBody = mats.length || s.note || s.url;
+  return `<div class="pk-step t${open && hasBody ? " open" : ""}" data-s="${i}">${rail}
+    <div class="pk-card">
+      <div class="pk-head" data-pk="sec">
+        ${mats.length ? "" : `<button type="button" class="mk-check" data-pk="step">✓</button>`}
+        <div class="pk-main"><div class="pk-kind">Temat<span class="pk-now">teraz</span></div><div class="pk-title">${esc(s.title)}</div><div class="pk-meta"></div></div>
+        ${hasBody ? `<span class="mk-sec-chev">▼</span>` : ""}
+      </div>
+      ${hasBody ? `<div class="pk-body">
+        ${s.note ? `<div class="mk-sec-note">${esc(s.note)}</div>` : ""}
+        ${vids.length ? `<div class="mk-label">Filmy — kliknij film, żeby go odtworzyć; kółko oznacza obejrzane</div>` : ""}
+        ${vids.map(({ m, k }) => `<div class="mk-video" data-pk="play" data-m="${k}" role="button" tabindex="0">
+            <button type="button" class="mk-vicon" data-pk="mat" data-m="${k}"></button>
+            <span class="mk-vtext"><span class="mk-vtitle">${esc(m.title || m.url)}</span>${m.meta ? `<span class="mk-vsub">${esc(m.meta)}</span>` : ""}</span>
+          </div>`).join("")}
+        ${arts.length ? `<div class="mk-label">Artykuły do przeczytania</div>
+          <table class="mk-tasks"><tbody>${arts.map(({ m, k }) => `<tr data-m="${k}">
+            <td class="mk-c"><button type="button" class="mk-check" data-pk="mat" data-m="${k}">✓</button></td>
+            <td class="mk-tname">${m.url ? `<a href="${esc(m.url)}" target="_blank" rel="noopener noreferrer">${esc(m.title || m.url)}</a>` : `<span>${esc(m.title)}</span>`}</td>
+          </tr>`).join("")}</tbody></table>` : ""}
+        ${s.url ? `<div class="mk-foot"><a href="${esc(s.url)}" target="_blank" rel="noopener">Otwórz temat ↗</a></div>` : ""}
+      </div>` : ""}
+    </div>
+  </div>`;
+}
+
+function pkBuild(item){
+  const id = item.id, steps = pkSteps(item);
+  const pk = document.createElement("div");
+  pk.className = "pk" + (pkOpen.has(id) ? " open" : "");
+  if(!pkSecOpen.has(id)){
+    // domyślnie rozwinięty jest następny krok do zrobienia
+    const n = pkStats(steps, item.kp || {}).next;
+    pkSecOpen.set(id, new Set(n > -1 ? [n] : []));
+  }
+  const openSet = pkSecOpen.get(id);
+  pk.innerHTML = `
+    <div class="mk-player"></div>
+    <div class="pk-steps">${steps.map((s, i) => pkStepHTML(s, i, openSet.has(i))).join("")}</div>
+    ${steps.length ? "" : `<div class="mk-empty">Ten kurs nie ma kroków.</div>`}
+    <div class="mk-foot">Kurs z <a href="../planer-app/planer.html" target="_blank" rel="noopener">Planera olimpijczyka ↗</a> · rób kroki po kolei — następny jest podświetlony</div>`;
+  pk._steps = steps;
+  pkRenderPlayer(id, pk);
+  return pk;
+}
+
+function pkRenderPlayer(id, pk){
+  const box = pk.querySelector(".mk-player");
+  const p = pkPlayer.get(id);
+  const s = p && pk._steps[p.s];
+  const m = s && (s.materials || [])[p.m];
+  if(!m){ box.classList.remove("visible"); box.innerHTML = ""; return; }
+  const embed = kEmbedUrl(m.url);
+  box.innerHTML = (embed
+      ? `<div class="mk-player-frame"><iframe src="${esc(embed)}" title="${esc(m.title)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>`
+      : `<div class="mk-player-ext"><b>${esc(m.title)}</b><span class="mk-vsub">Tego materiału nie da się osadzić na stronie.</span><a class="mk-link" href="${esc(m.url)}" target="_blank" rel="noopener noreferrer">Otwórz materiał ↗</a></div>`)
+    + `<div class="mk-player-bar"><span>▶ ${esc(m.title)}</span><button type="button" data-pk="closeplayer">✕ Zamknij film</button></div>`;
+  box.classList.add("visible");
+}
+
+/* odświeża odhaczenia, liczniki i „teraz” bez przebudowy DOM */
+function pkRefresh(item){
+  if(!item || item.type !== "kurs") return;
+  const row = list.querySelector(`.item[data-id="${CSS.escape(item.id)}"]`);
+  const pk = row && row._pk;
+  if(!pk) return;
+  const steps = pk._steps, kp = item.kp || {}, p = pkPlayer.get(item.id);
+  const st = pkStats(steps, kp);
+  pk.querySelectorAll(".pk-step").forEach(el => {
+    const i = +el.dataset.s, s = steps[i], done = pkStepDone(s, kp);
+    el.classList.toggle("done", done);
+    el.classList.toggle("next", i === st.next);
+    el.querySelector(".pk-num").textContent = done ? "✓" : String(i + 1);
+    const chk = el.querySelector('[data-pk="step"]');
+    if(chk){
+      chk.classList.toggle("on", done);
+      chk.title = done ? "Zrobione — kliknij, aby odznaczyć" : "Oznacz jako zrobione";
+      chk.setAttribute("aria-pressed", done ? "true" : "false");
+    }
+    if(s.type !== "temat") return;
+    const mats = s.materials || [];
+    const f = mats.filter(m => m.kind === "film").length, a = mats.length - f;
+    const fd = mats.filter((m, k) => m.kind === "film" && kp[pkKey.mat(s, k)]).length;
+    const ad = mats.filter((m, k) => m.kind !== "film" && kp[pkKey.mat(s, k)]).length;
+    const bits = [];
+    if(f) bits.push(`filmy ${fd}/${f}`);
+    if(a) bits.push(`artykuły ${ad}/${a}`);
+    el.querySelector(".pk-meta").textContent = bits.join(" · ") || (done ? "przerobione" : "odhacz, gdy przerobisz temat");
+    el.querySelectorAll(".mk-video").forEach(v => {
+      const k = +v.dataset.m, on = !!kp[pkKey.mat(s, k)];
+      v.classList.toggle("watched", on);
+      v.classList.toggle("playing", !!p && p.s === i && p.m === k);
+      const ic = v.querySelector(".mk-vicon");
+      ic.textContent = on ? "✓" : "▶";
+      ic.title = on ? "Obejrzane — kliknij, aby odznaczyć" : "Kliknij, aby oznaczyć jako obejrzane";
+      ic.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+    el.querySelectorAll("tr[data-m]").forEach(tr => {
+      const on = !!kp[pkKey.mat(s, +tr.dataset.m)];
+      tr.classList.toggle("done", on);
+      const b = tr.querySelector(".mk-check");
+      b.classList.toggle("on", on);
+      b.title = on ? "Przeczytane — kliknij, aby odznaczyć" : "Oznacz jako przeczytane";
+      b.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+  });
+  const fill = row.querySelector(".komp-bar-fill");
+  if(fill) fill.style.width = (st.sAll ? Math.round(st.sDone / st.sAll * 100) : 0) + "%";
+  const txt = row.querySelector(".komp-sum-text");
+  if(txt){
+    const bits = [`kroki <b>${st.sDone}/${st.sAll}</b>`];
+    if(st.zAll) bits.push(`zadania <b>${st.zDone}/${st.zAll}</b>`);
+    if(st.mAll) bits.push(`materiały <b>${st.mDone}/${st.mAll}</b>`);
+    txt.innerHTML = bits.join(" · ");
+  }
+  const nl = row.querySelector(".pk-nextline");
+  if(nl) nl.innerHTML = st.next > -1
+    ? `Następny krok: <b>${st.next + 1}. ${esc(steps[st.next].title)}</b>`
+    : (st.sAll ? "🎉 Kurs ukończony — wszystkie kroki odhaczone!" : "");
+}
+
+async function pkSetProgress(id, key, on){
+  const item = currentItems.find(i => i.id === id);
+  if(!item) return;
+  const steps = pkSteps(item);
+  const prev = item.kp || {};
+  const next = { ...prev };
+  if(on) next[key] = Date.now(); else delete next[key];
+  item.kp = next;
+  // ukończony krok → rozwiń następny, żeby od razu było widać, co dalej
+  const nBefore = pkStats(steps, prev).next, nAfter = pkStats(steps, next).next;
+  if(nAfter > nBefore && pkSecOpen.has(id)){
+    pkSecOpen.get(id).add(nAfter);
+    const row = list.querySelector(`.item[data-id="${CSS.escape(id)}"]`);
+    const el = row && row.querySelector(`.pk-step[data-s="${nAfter}"]`);
+    if(el && el.querySelector(".pk-body")) el.classList.add("open");
+  }
+  pkRefresh(item);
+  renderStats(currentItems);
+  try{
+    await updateDoc(doc(itemsCol, id), new FieldPath("kp", key), on ? next[key] : deleteField());
+  }catch(e){
+    console.error(e);
+    item.kp = prev;
+    pkRefresh(item);
+    renderStats(currentItems);
+    return;
+  }
+  // przejście przez 100% sam oznacza kurs jako wykonany (albo cofa to oznaczenie)
+  const was = steps.length > 0 && steps.every(s => pkStepDone(s, prev));
+  const now = steps.length > 0 && steps.every(s => pkStepDone(s, next));
+  if(now && !was && !item.done) toggleDone(id, true);
+  else if(!now && was && item.done) toggleDone(id, false);
+}
+
+list.addEventListener("click", (e) => {
+  const el = e.target.closest("[data-pk]");
+  if(!el || !list.contains(el)) return;
+  const row = el.closest(".item");
+  const pk = row && row._pk;
+  if(!pk) return;
+  const id = row.dataset.id;
+  const item = currentItems.find(i => i.id === id);
+  if(!item) return;
+  const stepEl = el.closest(".pk-step");
+  const si = stepEl ? +stepEl.dataset.s : -1;
+  const s = si > -1 ? pk._steps[si] : null;
+  const kp = item.kp || {};
+  const act = el.dataset.pk;
+
+  if(act === "toggle"){
+    const open = !pkOpen.has(id);
+    if(open) pkOpen.add(id); else pkOpen.delete(id);
+    pk.classList.toggle("open", open);
+    el.textContent = open ? "▾ Zwiń kurs" : "▸ Otwórz kurs";
+    if(!open && pkPlayer.has(id)){ pkPlayer.delete(id); pkRenderPlayer(id, pk); pkRefresh(item); }
+  }else if(act === "sec"){
+    if(!stepEl.querySelector(".pk-body")) return;
+    const set = pkSecOpen.get(id);
+    const open = !stepEl.classList.contains("open");
+    if(open) set.add(si); else set.delete(si);
+    stepEl.classList.toggle("open", open);
+  }else if(act === "step"){
+    e.stopPropagation();
+    const key = s.type === "zadanie" ? pkKey.task(s) : pkKey.topic(s);
+    pkSetProgress(id, key, !kp[key]);
+  }else if(act === "mat"){
+    e.stopPropagation();
+    const key = pkKey.mat(s, +el.dataset.m);
+    pkSetProgress(id, key, !kp[key]);
+  }else if(act === "play"){
+    const k = +el.dataset.m;
+    pkPlayer.set(id, { s: si, m: k });
+    pkRenderPlayer(id, pk);
+    pk.querySelector(".mk-player").scrollIntoView({ behavior: "smooth", block: "nearest" });
+    const key = pkKey.mat(s, k);
+    if(!kp[key]) pkSetProgress(id, key, true); else pkRefresh(item);
+  }else if(act === "closeplayer"){
+    pkPlayer.delete(id);
+    pkRenderPlayer(id, pk);
+    pkRefresh(item);
+  }
+});
+
+/* ─ przycisk „Kurs”: wybór pliku planu (.json) — kurs od razu trafia na listę ─
+   Nazwa kursu i kolejność biorą się z pól formularza (jak przy zwykłym dodawaniu), domyślnie „Plan nauki”. */
+const pkBtn = document.getElementById("pkBtn");
+const pkFile = document.getElementById("pkFile");
+async function pkLoadFile(f){
+  if(!f) return;
+  addStatus.classList.remove("err");
+  let steps = null;
+  try{ steps = pkParsePlan(JSON.parse(await f.text())); }catch(e){}
+  if(!steps){
+    addStatus.textContent = "To nie jest plik planu z Planera olimpijczyka (albo plan jest pusty).";
+    addStatus.classList.add("err");
+    return;
+  }
+  const title = titleInput.value.trim() || "Plan nauki";
+  const orderRaw = orderInputField.value.trim();
+  const order = orderRaw === "" ? null : Number(orderRaw);
+  pkBtn.disabled = true;
+  addStatus.textContent = "Dodawanie kursu…";
+  try{
+    const ref = await addDoc(itemsCol, {
+      title, url: "", type: "kurs",
+      plan: { source: "planer", steps },
+      kp: {}, done: false, createdAt: Date.now(), doneAt: null,
+      order: (order === null || Number.isNaN(order)) ? null : order
+    });
+    pkOpen.add(ref.id);
+    pkJustAdded = ref.id;
+    titleInput.value = "";
+    orderInputField.value = "";
+    addStatus.textContent = `Dodano kurs „${title}” — ${steps.length} ${plural(steps.length, "krok", "kroki", "kroków")}.`;
+  }catch(e){
+    console.error(e);
+    addStatus.textContent = "Nie udało się zapisać kursu.";
+    addStatus.classList.add("err");
+  }finally{
+    pkBtn.disabled = false;
+  }
+}
+pkBtn.addEventListener("click", () => pkFile.click());
+pkFile.addEventListener("change", () => { pkLoadFile(pkFile.files[0]); pkFile.value = ""; });
+// plik można też upuścić prosto na przycisk
+pkBtn.addEventListener("dragover", (e) => { e.preventDefault(); pkBtn.classList.add("over"); });
+pkBtn.addEventListener("dragleave", () => pkBtn.classList.remove("over"));
+pkBtn.addEventListener("drop", (e) => {
+  e.preventDefault();
+  pkBtn.classList.remove("over");
+  pkLoadFile(e.dataTransfer.files[0]);
+});
+
+/* ─ formularz: rozpoznawanie wklejonego linku ─ */
+const kompPreview = document.getElementById("kompPreview");
+let pendingKomp = null;
+let lastAutoTitle = "";
+let lastKompKey = "";
+
+function kompUpdatePreview(){
+  // link wklejony w pole nazwy przenosimy do pola adresu
+  if(kParseLink(titleInput.value) && !kParseLink(urlInput.value)){
+    urlInput.value = titleInput.value.trim();
+    titleInput.value = "";
+  }
+  const ref = kParseLink(urlInput.value);
+  pendingKomp = ref;
+  const refKey = ref ? ref.cat + "/" + ref.topic + "/" + (ref.sec || "") : "";
+  const isNewRef = refKey !== lastKompKey;
+  lastKompKey = refKey;
+  if(!ref){
+    kompPreview.className = "komp-preview";
+    kompPreview.innerHTML = "";
+    if(lastAutoTitle && titleInput.value === lastAutoTitle) titleInput.value = "";
+    lastAutoTitle = "";
+    return;
+  }
+  // nowy link domyślnie jako „Temat” — przełącznikiem można go zmienić na „Zadanie”
+  if(isNewRef) document.getElementById("typeTemat").checked = true;
+  const res = kResolve(ref);
+  kompPreview.className = "komp-preview visible" + (res.error ? " err" : "");
+  if(res.loading){
+    kompPreview.innerHTML = `<span class="kp-icon">📚</span><div><div class="kp-kind">Link z kompendium</div><div class="kp-meta">Wczytywanie…</div></div>`;
+    return;
+  }
+  if(res.error){
+    kompPreview.innerHTML = `<span class="kp-icon">⚠</span><div><div class="kp-kind">Link z kompendium</div><div class="kp-meta">${esc(res.error)}</div></div>`;
+    return;
+  }
+  const st = kStats(res, {});
+  const bits = [];
+  if(res.secIndex < 0) bits.push(res.sections.length + " " + plural(res.sections.length, "zagadnienie", "zagadnienia", "zagadnień"));
+  bits.push(st.vAll + " " + plural(st.vAll, "film", "filmy", "filmów"));
+  bits.push(st.tAll + " " + plural(st.tAll, "zadanie", "zadania", "zadań"));
+  kompPreview.innerHTML = `<span class="kp-icon">📚</span><div>
+      <div class="kp-kind">Rozpoznano ${res.secIndex > -1 ? "zagadnienie" : "cały temat"} z kompendium · ${esc(res.catName)}</div>
+      <div class="kp-title">${esc(kTitle(res))}</div>
+      <div class="kp-meta">${bits.join(" · ")} — na liście pojawi się jako mini kurs do odhaczania</div>
+    </div>`;
+  const auto = kTitle(res);
+  if(!titleInput.value.trim() || titleInput.value === lastAutoTitle){
+    titleInput.value = auto;
+    lastAutoTitle = auto;
+  }
+}
+urlInput.addEventListener("input", kompUpdatePreview);
+titleInput.addEventListener("input", kompUpdatePreview);
+
+// Nasłuch na żywo — każda zmiana w Firestore (dowolnego użytkownika) odświeża widok od razu
+// Zmiana samego postępu mini kursu (pole kp) nie przebudowuje listy — inaczej grający film by się przeładował
+let lastListSig = null;
+function listSig(items){
+  return JSON.stringify(items.map(i => { const { kp, ...rest } = i; return rest; }));
+}
+onSnapshot(itemsCol, (snapshot) => {
+  currentItems = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+  const sig = listSig(currentItems);
+  if(sig === lastListSig){
+    currentItems.forEach(i => { kompRefresh(i); pkRefresh(i); });
+    renderStats(currentItems);
+  }else{
+    lastListSig = sig;
+    render(currentItems);
+    renderStats(currentItems);
+  }
+}, (err) => {
+  list.innerHTML = `<div class="empty">⚠ Nie udało się połączyć z bazą — sprawdź reguły Firestore.</div>`;
+  console.error(err);
+});
+
+function computeStats(items, period){
+  const doneItems = items.filter(i => i.done && i.doneAt);
+  const now = new Date();
+  const keys = [];
+  const labels = [];
+
+  if(period === "daily"){
+    for(let i = 13; i >= 0; i--){
+      const d = new Date(now);
+      d.setHours(0,0,0,0);
+      d.setDate(d.getDate() - i);
+      keys.push(d.toISOString().slice(0,10));
+      labels.push(d.toLocaleDateString("pl-PL", { day:"2-digit", month:"2-digit" }));
+    }
+  } else {
+    const start = new Date(now);
+    start.setHours(0,0,0,0);
+    const dow = (start.getDay() + 6) % 7;
+    start.setDate(start.getDate() - dow);
+    for(let i = 9; i >= 0; i--){
+      const d = new Date(start);
+      d.setDate(d.getDate() - 7*i);
+      keys.push(d.toISOString().slice(0,10));
+      labels.push(d.toLocaleDateString("pl-PL", { day:"2-digit", month:"2-digit" }));
+    }
+  }
+
+  const zadaniaCounts = new Array(keys.length).fill(0);
+  const tematyCounts = new Array(keys.length).fill(0);
+
+  function bucket(ts){
+    const d = new Date(ts);
+    d.setHours(0,0,0,0);
+    if(period !== "daily") d.setDate(d.getDate() - (d.getDay() + 6) % 7);
+    return keys.indexOf(d.toISOString().slice(0,10));
+  }
+  for(const item of doneItems){
+    if(item.type === "kurs") continue;           // kurs liczy się krokami, nie w całości
+    const idx = bucket(item.doneAt);
+    if(idx !== -1){
+      if(item.type === "zadanie") zadaniaCounts[idx]++;
+      else tematyCounts[idx]++;
+    }
+  }
+  // kroki kursów z planera: każde zadanie i każdy temat w dniu, w którym został ukończony
+  for(const item of items){
+    if(item.type !== "kurs") continue;
+    const kp = item.kp || {};
+    for(const s of pkSteps(item)){
+      const t = pkStepTime(s, kp);
+      const idx = t ? bucket(t) : -1;
+      if(idx === -1) continue;
+      if(s.type === "zadanie") zadaniaCounts[idx]++;
+      else tematyCounts[idx]++;
+    }
+  }
+
+  return { labels, zadaniaCounts, tematyCounts };
+}
+
+function renderStats(items){
+  const canvas = document.getElementById("statsChart");
+  if(!canvas) return;
+  if(typeof Chart === "undefined"){
+    console.error("Chart.js nie załadował się — sprawdź połączenie z CDN.");
+    return;
+  }
+
+  const { labels, zadaniaCounts, tematyCounts } = computeStats(items, statsPeriod);
+
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: "Zadania",
+        data: zadaniaCounts,
+        borderColor: "#3b82f6",
+        backgroundColor: "rgba(59,130,246,0.15)",
+        tension: 0.3,
+        fill: true,
+        pointRadius: 3
+      },
+      {
+        label: "Tematy",
+        data: tematyCounts,
+        borderColor: "#F5B94D",
+        backgroundColor: "rgba(245,185,77,0.15)",
+        tension: 0.3,
+        fill: true,
+        pointRadius: 3
+      }
+    ]
+  };
+
+  if(statsChart){
+    statsChart.data = data;
+    statsChart.update();
+  } else {
+    statsChart = new Chart(canvas, {
+      type: "line",
+      data,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: { labels: { color: "#f0f0f8", font: { family: "DM Sans" } } }
+        },
+        scales: {
+          x: { ticks: { color: "#9090aa" }, grid: { color: "rgba(255,255,255,0.05)" } },
+          y: { ticks: { color: "#9090aa", precision: 0, stepSize: 1 }, grid: { color: "rgba(255,255,255,0.05)" }, beginAtZero: true }
+        }
+      }
+    });
+  }
+}
+
+document.querySelectorAll('input[name="statsPeriod"]').forEach(radio => {
+  radio.addEventListener("change", () => {
+    statsPeriod = radio.value;
+    renderStats(currentItems);
+  });
+});
+
+async function toggleDone(id, done, cbEl){
+  if(cbEl) cbEl.disabled = true;
+  try{
+    await updateDoc(doc(itemsCol, id), { done, doneAt: done ? Date.now() : null });
+  }catch(e){
+    if(cbEl) cbEl.checked = !done;
+  }finally{
+    if(cbEl) cbEl.disabled = false;
+  }
+}
+
+async function deleteItem(id){
+  try{
+    await deleteDoc(doc(itemsCol, id));
+  }catch(e){
+    console.error(e);
+  }
+}
+
+async function updateOrder(id, value){
+  const num = value === "" ? null : Number(value);
+  try{
+    await updateDoc(doc(itemsCol, id), { order: (num === null || Number.isNaN(num)) ? null : num });
+  }catch(e){
+    console.error(e);
+  }
+}
+
+addForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  addStatus.classList.remove("err");
+  const title = titleInput.value.trim();
+  let url = urlInput.value.trim();
+  const type = document.querySelector('input[name="itemType"]:checked').value;
+  const orderRaw = orderInputField.value.trim();
+  const order = orderRaw === "" ? null : Number(orderRaw);
+
+  if(!title){
+    addStatus.textContent = "Podaj nazwę zadania lub tematu.";
+    addStatus.classList.add("err");
+    return;
+  }
+  if(url && !/^https?:\/\//i.test(url)){
+    url = "https://" + url;
+  }
+
+  addBtn.disabled = true;
+  addStatus.textContent = "Dodawanie…";
+  try{
+    const data = { title, url, type, done: false, createdAt: Date.now(), doneAt: null, order: (order === null || Number.isNaN(order)) ? null : order };
+    const komp = kParseLink(url);
+    if(komp){ data.komp = komp; data.kp = {}; }
+    await addDoc(itemsCol, data);
+    titleInput.value = "";
+    urlInput.value = "";
+    orderInputField.value = "";
+    kompUpdatePreview();
+    addStatus.textContent = "Dodano.";
+  }catch(e){
+    addStatus.textContent = "Nie udało się zapisać elementu.";
+    addStatus.classList.add("err");
+  }finally{
+    addBtn.disabled = false;
+  }
+});
+
+filterBtns.forEach(btn => {
+  btn.addEventListener("click", () => {
+    filterBtns.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    currentFilter = btn.dataset.filter;
+    render(currentItems);
+  });
+});
+</script>
+<!-- licznik odwiedzin -> panel kacperos.html -->
+<script type="module" src="/track.js"></script>
+</body>
+</html>

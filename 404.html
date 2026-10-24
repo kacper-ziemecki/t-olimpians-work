@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 — Strona nie istnieje | T-Olimpians</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="./img/favicon2.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<style>
+    :root {
+        --bg-base: #0a0a0f;
+        --bg-surface: #111118;
+        --bg-card: #15151e;
+        --bg-elevated: #1c1c28;
+        --accent: #3b82f6;
+        --accent-bright: #60a5fa;
+        --accent-glow: rgba(59, 130, 246, 0.25);
+        --accent-dim: rgba(59, 130, 246, 0.12);
+        --text-primary: #f0f0f8;
+        --text-secondary: #9090aa;
+        --text-muted: #55556a;
+        --border: rgba(255,255,255,0.07);
+        --border-accent: rgba(59, 130, 246, 0.3);
+        --font-display: 'Syne', sans-serif;
+        --font-body: 'DM Sans', sans-serif;
+        --font-mono: 'JetBrains Mono', monospace;
+        --radius-sm: 8px;
+        --radius-md: 14px;
+        --radius-lg: 20px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+        background-color: var(--bg-base);
+        color: var(--text-primary);
+        font-family: var(--font-body);
+        overflow-x: hidden;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 32px;
+        position: relative;
+    }
+
+    body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 0;
+        opacity: 0.6;
+    }
+
+    .glow {
+        position: fixed;
+        top: 15%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 700px;
+        height: 700px;
+        background: radial-gradient(circle, rgba(59,130,246,0.10) 0%, transparent 70%);
+        pointer-events: none;
+        z-index: 0;
+        animation: pulse-glow 6s ease-in-out infinite;
+    }
+    @keyframes pulse-glow {
+        0%, 100% { opacity: 0.5; transform: translateX(-50%) scale(1); }
+        50% { opacity: 1; transform: translateX(-50%) scale(1.08); }
+    }
+
+    .content {
+        position: relative;
+        z-index: 1;
+        max-width: 620px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        animation: fadeInUp 0.7s ease both;
+    }
+
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(24px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        margin-bottom: 56px;
+    }
+    .logo img {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        object-fit: cover;
+    }
+    .logo-text {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 15px;
+        color: var(--text-primary);
+        letter-spacing: 0.01em;
+    }
+
+    .error-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--accent-dim);
+        border: 1px solid var(--border-accent);
+        color: var(--accent-bright);
+        font-family: var(--font-mono);
+        font-size: 11px;
+        font-weight: 500;
+        padding: 6px 14px;
+        border-radius: 100px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 28px;
+    }
+    .error-badge::before {
+        content: '';
+        width: 6px;
+        height: 6px;
+        background: var(--accent-bright);
+        border-radius: 50%;
+        box-shadow: 0 0 8px var(--accent-bright);
+    }
+
+    .error-code {
+        font-family: var(--font-display);
+        font-weight: 800;
+        font-size: clamp(72px, 14vw, 140px);
+        line-height: 1;
+        letter-spacing: -0.02em;
+        background: linear-gradient(180deg, var(--text-primary) 0%, var(--accent-bright) 120%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 20px;
+    }
+
+    h1 {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: clamp(22px, 3.2vw, 30px);
+        letter-spacing: -0.01em;
+        margin-bottom: 16px;
+        color: var(--text-primary);
+    }
+
+    p {
+        font-size: 16px;
+        color: var(--text-secondary);
+        font-weight: 300;
+        line-height: 1.7;
+        max-width: 460px;
+        margin-bottom: 40px;
+    }
+    p code {
+        font-family: var(--font-mono);
+        font-size: 13px;
+        background: var(--bg-elevated);
+        border: 1px solid var(--border);
+        padding: 2px 8px;
+        border-radius: 6px;
+        color: var(--accent-bright);
+    }
+
+    .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        justify-content: center;
+        margin-bottom: 48px;
+    }
+
+    .btn {
+        font-family: var(--font-body);
+        font-size: 14px;
+        font-weight: 500;
+        text-decoration: none;
+        padding: 13px 26px;
+        border-radius: var(--radius-sm);
+        transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+        letter-spacing: 0.01em;
+    }
+    .btn-primary {
+        background: var(--accent);
+        color: white;
+        border: 1px solid transparent;
+    }
+    .btn-primary:hover {
+        background: var(--accent-bright);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px var(--accent-glow);
+    }
+    .btn-ghost {
+        background: transparent;
+        color: var(--text-secondary);
+        border: 1px solid var(--border);
+    }
+    .btn-ghost:hover {
+        color: var(--text-primary);
+        border-color: var(--border-accent);
+        transform: translateY(-2px);
+    }
+
+    .quick-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+        border-top: 1px solid var(--border);
+        padding-top: 28px;
+        width: 100%;
+    }
+    .quick-links span {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        width: 100%;
+        margin-bottom: 12px;
+    }
+    .quick-links a {
+        font-size: 13px;
+        color: var(--text-secondary);
+        text-decoration: none;
+        padding: 6px 14px;
+        border-radius: 100px;
+        border: 1px solid var(--border);
+        transition: color 0.2s, border-color 0.2s, background 0.2s;
+    }
+    .quick-links a:hover {
+        color: var(--accent-bright);
+        border-color: var(--border-accent);
+        background: var(--accent-dim);
+    }
+
+    @media (max-width: 480px) {
+        .actions { flex-direction: column; width: 100%; }
+        .btn { width: 100%; text-align: center; }
+    }
+</style>
+</head>
+<body>
+    <div class="glow"></div>
+
+    <div class="content">
+        <a class="logo" href="/">
+            <img src="./img/t-olimpians-logo.jpg" alt="T-Olimpians logo">
+            <span class="logo-text">T-Olimpians Team Poland</span>
+        </a>
+
+        <div class="error-badge">Błąd 404</div>
+        <div class="error-code">404</div>
+        <h1>Ups, ta strona nie istnieje</h1>
+        <p>
+            Adres, który próbujesz otworzyć, nie został znaleziony — mógł zostać przeniesiony,
+            usunięty, albo po prostu wpisano go z literówką. Sprawdź adres jeszcze raz
+            <code>(np. wielkość liter i myślniki)</code> lub wróć na stronę główną.
+        </p>
+
+        <div class="actions">
+            <a class="btn btn-primary" href="/">Wróć na stronę główną</a>
+            <a class="btn btn-ghost" href="mailto:kontakt@t-olimpians.com">Zgłoś problem</a>
+        </div>
+
+        <div class="quick-links">
+            <span>Może szukasz:</span>
+            <a href="/">Strona główna</a>
+            <a href="/net.html">t-olimpians.net</a>
+            <a href="/#materialy">Materiały</a>
+            <a href="/#kontakt">Kontakt</a>
+        </div>
+    </div>
+
+<script>
+/* ─── ZGŁASZANIE BŁĘDU 404 MAILEM ─── */
+// UWAGA: aby wysyłka maili działała, uzupełnij poniższe dane z panelu EmailJS (emailjs.com) —
+// to te same dane co w net.html (ten sam Service ID / Template ID / Public Key).
+const EMAILJS_SERVICE_ID  = 't-olimpians-network-id';
+const EMAILJS_TEMPLATE_ID = 'network-template-id';
+const EMAILJS_PUBLIC_KEY  = 'WjX2OZI1KxIdxUUdq';
+const NOT_FOUND_TARGET_EMAIL = 't.olympians.poland@gmail.com';
+
+function escapeHtml404(str) {
+    return String(str).replace(/[&<>"']/g, ch => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[ch]));
+}
+
+/* Zapasowa, przybliżona lokalizacja na podstawie adresu IP — nie wymaga zgody użytkownika. */
+async function getIpLocation() {
+    try {
+        const res = await fetch('https://ipapi.co/json/');
+        if (!res.ok) return null;
+        const data = await res.json();
+        if (data.error) return null;
+        return {
+            ip: data.ip || null, city: data.city || null, region: data.region || null,
+            country: data.country_name || null, lat: data.latitude || null, lng: data.longitude || null
+        };
+    } catch (e) { return null; }
+}
+
+function buildNotFoundEmailHtml(locationInfo) {
+    const now = new Date().toLocaleString('pl-PL', { dateStyle: 'long', timeStyle: 'short' });
+    const attemptedUrl = window.location.href;
+    const referrer = document.referrer || '— brak (wejście bezpośrednie / zakładka) —';
+    const userAgent = navigator.userAgent || '—';
+
+    const row = (label, valueHtml) => `
+        <tr>
+            <td style="padding:6px 0;vertical-align:top;width:118px;color:#9090aa;font:500 13px/1.5 'DM Sans',Arial,sans-serif;white-space:nowrap;">${label}</td>
+            <td style="padding:6px 0;vertical-align:top;color:#f0f0f8;font:400 13px/1.6 'DM Sans',Arial,sans-serif;word-break:break-word;">${valueHtml}</td>
+        </tr>`;
+
+    const ipInfo = locationInfo && locationInfo.ipInfo;
+
+    const ipParts = ipInfo ? [ipInfo.city, ipInfo.region, ipInfo.country].filter(Boolean).join(', ') : '';
+    const ipHtml = ipInfo
+        ? `${escapeHtml404(ipParts || '—')}${ipInfo.ip ? ` <span style="color:#55556a;">(IP: ${escapeHtml404(ipInfo.ip)})</span>` : ''}${(ipInfo.lat && ipInfo.lng) ? ` — <a href="https://www.google.com/maps?q=${ipInfo.lat},${ipInfo.lng}" style="color:#60a5fa;text-decoration:none;">mapa</a>` : ''}`
+        : '<span style="color:#55556a;">— niedostępne —</span>';
+
+    return `
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="#0a0a0f" style="width:100%;background-color:#0a0a0f;">
+<tr><td align="center" style="padding:32px 16px;font-family:'DM Sans',Arial,sans-serif;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="width:100%;max-width:640px;margin:0 auto;">
+
+    <tr><td style="padding-bottom:24px;text-align:center;">
+        <span style="display:inline-block;padding:6px 16px;border-radius:100px;background:rgba(244,63,94,0.12);border:1px solid rgba(244,63,94,0.3);color:#f43f5e;font:600 11px/1.4 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;">🚫 T-Olimpians · Błąd 404</span>
+    </td></tr>
+
+    <tr><td style="text-align:center;padding-bottom:8px;">
+        <span style="font:800 24px/1.3 'Syne',Arial,sans-serif;color:#f0f0f8;">Ktoś trafił na stronę 404</span>
+    </td></tr>
+
+    <tr><td style="text-align:center;padding-bottom:28px;color:#9090aa;font:400 14px/1.6 'DM Sans',Arial,sans-serif;">
+        Automatyczne zgłoszenie z formularza błędu 404 — użytkownik próbował otworzyć adres, który nie istnieje.
+    </td></tr>
+
+    <tr><td style="padding-bottom:24px;">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="width:100%;background:#15151e;border:1px solid rgba(255,255,255,0.07);border-radius:14px;">
+            <tr>
+                <td style="padding:20px 24px;">
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                        ${row('🔗 Adres URL', `<b style="color:#f43f5e;">${escapeHtml404(attemptedUrl)}</b>`)}
+                        ${row('↩️ Skąd wszedł', escapeHtml404(referrer))}
+                        ${row('🕓 Data i czas', now)}
+                        ${row('📍 Lokalizacja (IP)', ipHtml)}
+                        ${row('💻 Przeglądarka', escapeHtml404(userAgent))}
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </td></tr>
+
+    <tr><td style="padding-top:8px;border-top:1px solid rgba(255,255,255,0.08);text-align:center;">
+        <span style="color:#55556a;font:400 12px/1.6 'DM Sans',Arial,sans-serif;">Wiadomość wygenerowana automatycznie ze strony 404 — T-Olimpians.</span>
+    </td></tr>
+
+</table>
+</td></tr>
+</table>`;
+}
+
+async function reportNotFoundByEmail() {
+    if (typeof emailjs === 'undefined') {
+        console.error('EmailJS SDK nie został załadowany — nie można zgłosić błędu 404.');
+        return;
+    }
+
+    // Lokalizacja tylko na podstawie adresu IP — bez pytania użytkownika o zgodę na GPS.
+    const ipInfo = await getIpLocation();
+    const locationInfo = { precise: null, ipInfo };
+
+    const templateParams = {
+        to_email: NOT_FOUND_TARGET_EMAIL,
+        subject: '[T-Olimpians] Błąd 404',
+        message: buildNotFoundEmailHtml(locationInfo),
+        from_nick: 'System (404)'
+    };
+
+    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams, EMAILJS_PUBLIC_KEY)
+        .catch((err) => {
+            console.error('Błąd wysyłki zgłoszenia 404:', err);
+        });
+}
+
+reportNotFoundByEmail();
+</script>
+<!-- licznik odwiedzin -> panel kacperos.html -->
+<script type="module" src="/track.js"></script>
+</body>
+</html>

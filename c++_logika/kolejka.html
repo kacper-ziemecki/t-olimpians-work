@@ -1,0 +1,1834 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kolejka (queue) w C++ — T-Olimpians</title>
+    <meta name="description" content="Kolejka (queue) w C++ — FIFO, push, front, pop, empty. T-Olimpians Team Poland.">
+    <link rel="canonical" href="https://t-olimpians.com/c++_logika/kolejka.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="T-Olimpians Team Poland">
+    <meta property="og:locale" content="pl_PL">
+    <meta property="og:url" content="https://t-olimpians.com/c++_logika/kolejka.html">
+    <meta property="og:title" content="Kolejka (queue) w C++ — T-Olimpians">
+    <meta property="og:description" content="Kolejka (queue) w C++ — FIFO, push, front, pop, empty. T-Olimpians Team Poland.">
+    <meta property="og:image" content="https://t-olimpians.com/img/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="../img/favicon2.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-base: #0a0a0f;
+            --bg-surface: #111118;
+            --bg-card: #15151e;
+            --bg-elevated: #1c1c28;
+            --accent: #3b82f6;
+            --accent-bright: #60a5fa;
+            --accent-glow: rgba(59, 130, 246, 0.25);
+            --accent-dim: rgba(59, 130, 246, 0.12);
+            --green: #22c55e;
+            --green-dim: rgba(34, 197, 94, 0.12);
+            --green-glow: rgba(34, 197, 94, 0.25);
+            --purple: #a78bfa;
+            --purple-dim: rgba(167, 139, 250, 0.12);
+            --orange: #fb923c;
+            --orange-dim: rgba(251, 146, 60, 0.12);
+            --text-primary: #f0f0f8;
+            --text-secondary: #9090aa;
+            --text-muted: #55556a;
+            --border: rgba(255,255,255,0.07);
+            --border-accent: rgba(59, 130, 246, 0.3);
+            --font-display: 'Syne', sans-serif;
+            --font-body: 'DM Sans', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.6;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 48px;
+            height: 68px;
+            background: rgba(10, 10, 15, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            transition: background 0.3s;
+        }
+        .navbar.scrolled {
+            background: rgba(10, 10, 15, 0.95);
+            box-shadow: 0 4px 32px rgba(0,0,0,0.4);
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        .logo img:first-child {
+            width: 38px; height: 38px;
+            border-radius: 10px;
+            object-fit: cover;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .logo:hover img:first-child {
+            transform: rotate(-5deg) scale(1.08);
+            box-shadow: 0 0 16px var(--accent-glow);
+        }
+        #polska-flaga { width: 22px; height: auto; border-radius: 3px; }
+        .logo-text {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--text-primary);
+            letter-spacing: 0.01em;
+        }
+        .nav-links {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            transition: color 0.2s, background 0.2s;
+            cursor: pointer;
+            letter-spacing: 0.02em;
+            position: relative;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 4px; left: 16px; right: 16px;
+            height: 1px;
+            background: var(--accent-bright);
+            transform: scaleX(0);
+            transition: transform 0.25s ease;
+        }
+        .nav-links a:hover::after { transform: scaleX(1); }
+        .nav-links a:hover {
+            color: var(--text-primary);
+            background: var(--accent-dim);
+        }
+        .nav-links a.active-page {
+            color: var(--accent-bright);
+        }
+        .nav-links .nav-cta a {
+            background: var(--accent);
+            color: white;
+            font-weight: 600;
+        }
+        .nav-links .nav-cta a:hover { background: var(--accent-bright); color: white; }
+        .nav-links .nav-cta a::after { display: none; }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            z-index: 110;
+        }
+        .hamburger span {
+            display: block;
+            width: 24px; height: 2px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: transform 0.3s, opacity 0.3s;
+        }
+        .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        #particles {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        .hero {
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 120px 80px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 700px; height: 500px;
+            background: radial-gradient(circle, rgba(59,130,246,0.07) 0%, transparent 70%);
+            pointer-events: none;
+            animation: pulse-glow 6s ease-in-out infinite;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.5; transform: translateX(-50%) scale(1); }
+            50% { opacity: 1; transform: translateX(-50%) scale(1.1); }
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--accent-dim);
+            border: 1px solid var(--border-accent);
+            color: var(--accent-bright);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 500;
+            padding: 6px 14px;
+            border-radius: 100px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+            animation: fadeInUp 0.6s ease both;
+        }
+        .hero-badge::before {
+            content: '';
+            width: 6px; height: 6px;
+            background: var(--accent-bright);
+            border-radius: 50%;
+            animation: blink 2s ease-in-out infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(36px, 5vw, 64px);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.7s 0.1s cubic-bezier(0.16,1,0.3,1) both;
+        }
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--accent-bright), #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero > p {
+            font-size: 16px;
+            color: var(--text-secondary);
+            line-height: 1.75;
+            max-width: 560px;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.7s 0.2s cubic-bezier(0.16,1,0.3,1) both;
+        }
+        .hero code {
+            font-family: var(--font-mono);
+            font-size: 14px;
+            background: var(--accent-dim);
+            border: 1px solid var(--border-accent);
+            color: var(--accent-bright);
+            padding: 2px 8px;
+            border-radius: 5px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.7s 0.3s cubic-bezier(0.16,1,0.3,1) both;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+            letter-spacing: 0.01em;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: inherit;
+            background: linear-gradient(135deg, var(--accent), #7c3aed);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s;
+            filter: blur(8px);
+        }
+        .btn-primary:hover::after { opacity: 0.6; }
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 60%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            transform: skewX(-20deg);
+            transition: left 0.5s ease;
+        }
+        .btn-primary:hover::before { left: 150%; }
+        .btn-primary:hover {
+            background: var(--accent-bright);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px var(--accent-glow);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            padding: 14px 28px;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.2s, border-color 0.2s, transform 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-ghost:hover {
+            color: var(--text-primary);
+            border-color: var(--border-accent);
+            transform: translateY(-2px);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.reveal-left { transform: translateX(-40px); }
+        .reveal.reveal-right { transform: translateX(40px); }
+        .reveal.visible { opacity: 1; transform: translate(0); }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--border), transparent);
+            margin: 0 80px;
+        }
+
+        .section-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--accent-bright);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        main {
+            padding: 0 80px;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .syntax-section {
+            padding: 72px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .syntax-section h2 {
+            font-family: var(--font-display);
+            font-size: clamp(26px, 3vw, 38px);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+        }
+        .syntax-section > p {
+            color: var(--text-secondary);
+            font-size: 15.5px;
+            line-height: 1.8;
+            max-width: 640px;
+            margin-bottom: 40px;
+        }
+
+        .code-block {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin: 24px 0;
+            position: relative;
+        }
+        .code-block-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 20px;
+            background: var(--bg-elevated);
+            border-bottom: 1px solid var(--border);
+        }
+        .code-block-title {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+        }
+        .code-dots { display: flex; gap: 6px; }
+        .code-dots span { width: 10px; height: 10px; border-radius: 50%; }
+        .code-dots span:nth-child(1) { background: #ff5f56; }
+        .code-dots span:nth-child(2) { background: #ffbd2e; }
+        .code-dots span:nth-child(3) { background: #27c93f; }
+        .code-block pre { padding: 24px; overflow-x: auto; margin: 0; }
+        .code-block code {
+            font-family: var(--font-mono);
+            font-size: 14px;
+            line-height: 1.8;
+            color: var(--text-primary);
+        }
+
+        /* Syntax highlighting */
+        .kw   { color: #c792ea; }
+        .tp   { color: #82aaff; }
+        .fn   { color: #82aaff; }
+        .num  { color: #f78c6c; }
+        .str  { color: #c3e88d; }
+        .cm   { color: #546e7a; font-style: italic; }
+        .op   { color: #89ddff; }
+        .var  { color: #eeffff; }
+        .inc  { color: #c3e88d; }
+        .pp   { color: #c792ea; }
+
+        .anatomy-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 48px;
+            align-items: start;
+            margin-top: 48px;
+        }
+
+        .part-cards { display: flex; flex-direction: column; gap: 14px; }
+        .part-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 18px 22px;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            transition: border-color 0.3s, transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+        .part-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--accent-dim), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .part-card:hover::before { opacity: 1; }
+        .part-card:hover {
+            border-color: var(--border-accent);
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 12px 36px var(--accent-glow);
+        }
+        .part-icon {
+            width: 36px; height: 36px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+        }
+        .part-icon.blue  { background: var(--accent-dim);   border: 1px solid var(--border-accent); }
+        .part-icon.green { background: var(--green-dim);    border: 1px solid rgba(34,197,94,0.3);  }
+        .part-icon.purp  { background: var(--purple-dim);   border: 1px solid rgba(167,139,250,0.3); }
+        .part-icon.ora   { background: var(--orange-dim);   border: 1px solid rgba(251,146,60,0.3);  }
+        .part-body { flex: 1; position: relative; z-index: 1; }
+        .part-body h4 {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+        .part-body p { font-size: 13.5px; color: var(--text-secondary); line-height: 1.6; }
+        .part-body code {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            background: var(--bg-elevated);
+            padding: 1px 6px;
+            border-radius: 4px;
+            color: var(--accent-bright);
+        }
+
+        .part-icon.cyan  { background: rgba(56,189,248,0.12); border: 1px solid rgba(56,189,248,0.3); }
+        .part-icon.pink  { background: rgba(244,114,182,0.12); border: 1px solid rgba(244,114,182,0.3); }
+
+        .syntax-section > p code {
+            font-family: var(--font-mono);
+            font-size: 12.5px;
+            background: var(--accent-dim);
+            border: 1px solid var(--border-accent);
+            color: var(--accent-bright);
+            padding: 2px 8px;
+            border-radius: 5px;
+        }
+
+        .output-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin: 16px 0 8px;
+        }
+        .output-box {
+            background: rgba(34,197,94,0.06);
+            border: 1px solid rgba(34,197,94,0.2);
+            border-radius: var(--radius-sm);
+            padding: 14px 18px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: #4ade80;
+            line-height: 1.8;
+            white-space: pre;
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 32px;
+            margin-top: 40px;
+        }
+
+        /* Tablet: dwa bloki kodu obok siebie sie nie mieszcza - jeden pod drugim */
+        @media (min-width: 901px) and (max-width: 1100px) {
+            main { padding: 0 48px; }
+            .anatomy-grid { gap: 32px; }
+            .two-col { grid-template-columns: minmax(0, 1fr); }
+        }
+
+        .tips-section {
+            padding: 80px 0;
+            border-top: 1px solid var(--border);
+        }
+        .tips-section h2 {
+            font-family: var(--font-display);
+            font-size: clamp(26px, 3vw, 38px);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 40px;
+        }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+        .tip-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 26px;
+            transition: border-color 0.3s, transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+        .tip-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--accent-dim), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            border-radius: inherit;
+        }
+        .tip-card:hover::before { opacity: 1; }
+        .tip-card:hover {
+            border-color: var(--border-accent);
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 14px 40px var(--accent-glow);
+        }
+        .tip-icon { font-size: 26px; margin-bottom: 14px; position: relative; z-index: 1; }
+        .tip-title {
+            font-family: var(--font-display);
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+        .tip-text { font-size: 13.5px; color: var(--text-secondary); line-height: 1.65; position: relative; z-index: 1; }
+        .tip-text code {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            background: var(--bg-elevated);
+            padding: 1px 6px;
+            border-radius: 4px;
+            color: var(--accent-bright);
+        }
+
+        .cta-banner {
+            margin: 0 0 80px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 56px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-banner::before {
+            content: '';
+            position: absolute;
+            top: -40%; left: 50%;
+            transform: translateX(-50%);
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(59,130,246,0.07) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .cta-banner::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -60%;
+            width: 40%; height: 200%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
+            transform: skewX(-15deg);
+            animation: shimmer 6s ease-in-out infinite;
+        }
+        @keyframes shimmer { 0% { left: -60%; } 50% { left: 120%; } 100% { left: 120%; } }
+        .cta-banner h2 {
+            font-family: var(--font-display);
+            font-size: clamp(26px, 3.5vw, 40px);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 14px;
+            position: relative;
+            z-index: 1;
+        }
+        .cta-banner p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            max-width: 480px;
+            margin: 0 auto 28px;
+            position: relative;
+            z-index: 1;
+        }
+        .cta-banner .hero-actions { animation: none; position: relative; z-index: 1; }
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 32px 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+        footer span { font-family: var(--font-mono); }
+
+        .nav-group-item { display: flex; align-items: center; }
+        .nav-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border-accent);
+            border-radius: var(--radius-sm);
+            padding: 8px 10px 3px;
+            margin-top: 7px;
+            background: var(--accent-dim);
+        }
+        .nav-group-label {
+            position: absolute;
+            top: -7px;
+            left: 12px;
+            background: #0a0a0f;
+            padding: 1px 7px;
+            border: 1px solid var(--border-accent);
+            border-radius: 100px;
+            font-family: var(--font-mono);
+            font-size: 9.5px;
+            font-weight: 500;
+            color: var(--accent-bright);
+            text-transform: lowercase;
+            letter-spacing: 0.06em;
+            line-height: 1.3;
+        }
+        .nav-group-links { display: flex; align-items: center; gap: 2px; }
+
+        @media (max-width: 900px) {
+            .navbar { padding: 0 20px; }
+            .hamburger { display: flex; }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: fixed;
+                top: 68px; left: 0; right: 0;
+                background: rgba(10, 10, 15, 0.98);
+                backdrop-filter: blur(20px);
+                border-bottom: 1px solid var(--border);
+                padding: 16px 0 24px;
+                gap: 0;
+                z-index: 99;
+            }
+            .nav-links.open { display: flex; }
+            .nav-links li { width: 100%; }
+            .nav-group-item { width: 100%; }
+            .nav-group {
+                flex-direction: column;
+                align-items: stretch;
+                border-radius: var(--radius-md);
+                margin: 16px 28px 6px;
+                padding: 12px 0 6px;
+                width: auto;
+            }
+            .nav-group-label { left: 16px; background: #0a0a0f; }
+            .nav-group-links { flex-direction: column; width: 100%; }
+            .nav-group-links a { width: 100%; }
+
+            .nav-links a { display: block; padding: 14px 28px; font-size: 16px; border-radius: 0; }
+            .nav-links .nav-cta { padding: 12px 20px 0; }
+            .nav-links .nav-cta a { display: block; text-align: center; border-radius: var(--radius-sm); }
+            .hero { padding: 100px 24px 60px; }
+            main { padding: 0 24px; }
+            .anatomy-grid { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+            .two-col { grid-template-columns: minmax(0, 1fr); }
+            footer { flex-direction: column; gap: 12px; padding: 24px; text-align: center; }
+            .divider { margin: 0 24px; }
+            .cta-banner { padding: 36px 24px; }
+        }
+
+        /* ─── Tabela metod ze złożonością ─── */
+        .metody-wrap {
+            margin-top: 32px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow-x: auto;
+            background: var(--bg-card);
+        }
+
+        table.metody {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            min-width: 520px;
+        }
+
+        table.metody th {
+            text-align: left;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border);
+            background: rgba(255,255,255,0.02);
+            white-space: nowrap;
+        }
+
+        table.metody td {
+            padding: 13px 18px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+            line-height: 1.6;
+            vertical-align: top;
+        }
+
+        table.metody tr:last-child td { border-bottom: none; }
+        table.metody tbody tr { transition: background 0.2s; }
+        table.metody tbody tr:hover { background: rgba(96,165,250,0.05); }
+
+        table.metody td:first-child { white-space: nowrap; }
+        table.metody td:last-child { white-space: nowrap; }
+
+        table.metody code {
+            font-family: var(--font-mono);
+            font-size: 12.5px;
+            color: var(--accent-bright);
+            background: var(--accent-dim);
+            border: 1px solid var(--border-accent);
+            padding: 3px 9px;
+            border-radius: 5px;
+        }
+
+        .zloz {
+            font-family: var(--font-mono);
+            font-size: 11.5px;
+            font-weight: 500;
+            padding: 3px 10px;
+            border-radius: 100px;
+            white-space: nowrap;
+            display: inline-block;
+        }
+
+        .zloz.z1    { color:#4ade80; background:rgba(74,222,128,0.1);  border:1px solid rgba(74,222,128,0.28); }
+        .zloz.zlog  { color:#60a5fa; background:rgba(96,165,250,0.1);  border:1px solid rgba(96,165,250,0.28); }
+        .zloz.znlog { color:#a78bfa; background:rgba(167,139,250,0.1); border:1px solid rgba(167,139,250,0.28); }
+        .zloz.zn    { color:#fbbf24; background:rgba(251,191,36,0.1);  border:1px solid rgba(251,191,36,0.28); }
+        .zloz.zn2   { color:#f87171; background:rgba(248,113,113,0.1); border:1px solid rgba(248,113,113,0.28); }
+        .zloz.zinny { color:var(--text-secondary); background:rgba(255,255,255,0.05); border:1px solid var(--border); }
+
+        /* ─── Przykładowe zadania ─── */
+        .zadania-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 32px;
+        }
+
+        .zadanie {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 22px 24px;
+            transition: border-color 0.3s, transform 0.35s cubic-bezier(0.16,1,0.3,1);
+        }
+
+        .zadanie:hover {
+            border-color: var(--border-accent);
+            transform: translateY(-2px);
+        }
+
+        .zadanie-gora {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .zadanie-poziom {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            border-radius: 100px;
+            flex-shrink: 0;
+        }
+
+        .poz-latwe   { color:#4ade80; background:rgba(74,222,128,0.1);  border:1px solid rgba(74,222,128,0.28); }
+        .poz-srednie { color:#fbbf24; background:rgba(251,191,36,0.1);  border:1px solid rgba(251,191,36,0.28); }
+        .poz-trudne  { color:#f87171; background:rgba(248,113,113,0.1); border:1px solid rgba(248,113,113,0.28); }
+
+        .zadanie-tytul {
+            font-family: var(--font-display);
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+        }
+
+        .zadanie-tresc {
+            color: var(--text-secondary);
+            font-size: 14.5px;
+            line-height: 1.75;
+        }
+
+        .zadanie-wsk {
+            margin-top: 12px;
+            padding: 12px 16px;
+            background: var(--bg-surface);
+            border-left: 2px solid var(--border-accent);
+            border-radius: var(--radius-sm);
+            font-size: 13.5px;
+            line-height: 1.65;
+            color: var(--text-secondary);
+        }
+
+        .zadanie-wsk strong { color: var(--accent-bright); }
+
+        .zadanie-rozw { margin-top: 16px; }
+
+        .zadanie-rozw summary {
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--accent-bright);
+            letter-spacing: 0.05em;
+            padding: 9px 16px;
+            border: 1px solid var(--border-accent);
+            border-radius: 100px;
+            display: inline-block;
+            list-style: none;
+            transition: background 0.25s, transform 0.25s;
+            user-select: none;
+        }
+
+        .zadanie-rozw summary::-webkit-details-marker { display: none; }
+        .zadanie-rozw summary::before { content: '▸ '; }
+        .zadanie-rozw[open] summary::before { content: '▾ '; }
+        .zadanie-rozw summary:hover { background: var(--accent-dim); transform: translateY(-1px); }
+        .zadanie-rozw[open] summary { margin-bottom: 16px; }
+
+        @media (max-width: 720px) {
+            .zadanie { padding: 18px 16px; }
+            table.metody { font-size: 13px; }
+            table.metody th, table.metody td { padding: 11px 13px; }
+        }
+    </style>
+    <style id="tablet-nav">
+        /* ─── TABLET: nawigacja i logo (641–1299px) ───
+           < 1024px  menu pod hamburgerem jako panel po prawej,
+           1024–1299 pelne menu w wersji kompaktowej + logo w dwoch liniach. */
+        @media (min-width: 641px) {
+            .logo { flex-shrink: 0; }
+            .logo-text { white-space: nowrap; }
+        }
+
+        @media (min-width: 641px) and (max-width: 1023px) {
+            .navbar { padding: 0 28px; }
+            .logo-text { font-size: 15px; }
+            .hamburger { display: flex; }
+            .nav-pointer-bubble { display: none !important; }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: fixed;
+                top: 76px; right: 20px; left: auto;
+                width: 340px;
+                max-height: calc(100vh - 96px);
+                overflow-y: auto;
+                background: rgba(10, 10, 15, 0.98);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border: 1px solid var(--border);
+                border-radius: var(--radius-lg, 20px);
+                box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+                padding: 10px 0 16px;
+                gap: 0;
+                z-index: 99;
+            }
+            .nav-links.open { display: flex; }
+            .nav-links li { width: 100%; }
+            .nav-group-item { width: 100%; }
+            .nav-group {
+                flex: 1;
+                flex-direction: column;
+                align-items: stretch;
+                border-radius: var(--radius-md, 14px);
+                margin: 18px 16px 8px;
+                padding: 12px 0 6px;
+                width: auto;
+            }
+            .nav-group-label { left: 14px; background: #0a0a0f; }
+            .nav-group-links { flex-direction: column; align-items: stretch; width: 100%; gap: 0; }
+            .nav-group-links a { width: 100%; }
+            .focus-toggle {
+                width: 100%; justify-content: center; margin: 8px 0 0; padding: 10px 0 4px;
+                border-left: none; border-top: 1px solid var(--border);
+            }
+            .nav-links a { display: block; padding: 12px 24px; font-size: 15px; border-radius: 0; }
+            .nav-links a::after { display: none; }
+            .nav-links .nav-cta { padding: 10px 16px 0; }
+            .nav-links .nav-cta a { display: block; text-align: center; border-radius: var(--radius-sm, 8px); padding: 13px; }
+        }
+
+        @media (min-width: 1024px) and (max-width: 1299px) {
+            .navbar { padding: 0 24px; }
+            .logo { gap: 10px; }
+            .logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+            .logo-text-sub {
+                margin-top: 3px;
+                font-family: var(--font-mono);
+                font-size: 9.5px;
+                font-weight: 500;
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                color: var(--accent-bright);
+            }
+            .nav-links { gap: 2px; }
+            .nav-links a { padding: 8px 10px; font-size: 13.5px; letter-spacing: 0.01em; }
+            .nav-links a::after { left: 10px; right: 10px; }
+            .nav-group { padding: 8px 6px 3px; }
+            .nav-group-links { gap: 0; }
+            .focus-toggle { margin-left: 4px; padding-left: 8px; gap: 6px; }
+        }
+    </style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+
+<nav class="navbar" id="navbar">
+    <a class="logo" href="../index.html">
+        <img src="../img/t-olimpians-logo.jpg" alt="Logo">
+        <span class="logo-text">T-Olimpians <span class="logo-text-sub">Team Poland</span></span>
+        <img id="polska-flaga" src="../img/polska_flaga.png" alt="Flaga Polski">
+    </a>
+
+    <ul class="nav-links" id="navLinks">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../index.html#o-nas" class="nav-close">O nas</a></li>
+        <li class="nav-group-item">
+            <div class="nav-group">
+                <span class="nav-group-label">t-olimpians net</span>
+                <div class="nav-group-links">
+                <a href="../materialy.html" class="nav-close">C++/logika</a>
+                <a href="../net.html" class="nav-close">Algorytmy</a>
+                <a href="../zadania-OI-OIJ.html" class="nav-close">Zadania OI/OIJ</a>
+                <a href="../konkursy.html" class="nav-close">Konkursy</a>
+                </div>
+            </div>
+        </li>
+        <li><a href="../zapisy.html" class="nav-close">Zapisy</a></li>
+        <li class="nav-cta"><a href="../index.html#contact-section" class="nav-close">Dołącz →</a></li>
+    </ul>
+
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+    </button>
+</nav>
+
+<section class="hero">
+    <div class="hero-badge">C++ · Kontenery STL · Kolejka</div>
+    <h1>Kolejka <span>(queue)</span> w C++</h1>
+    <p>Poznaj kontener queue — strukturę danych działającą na zasadzie FIFO (First In, First Out). Dokładnie jak kolejka w sklepie: kto pierwszy przyszedł, ten pierwszy zostanie obsłużony.</p>
+    <div class="hero-actions">
+        <button class="btn-primary" onclick="document.getElementById('podstawy').scrollIntoView({ behavior: 'smooth' });">Zacznij naukę</button>
+        <button class="btn-ghost" onclick="document.getElementById('porady').scrollIntoView({ behavior: 'smooth' });">Częste błędy</button>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<main>
+
+    <section class="syntax-section" id="podstawy">
+        <span class="section-label reveal">01 — Podstawy</span>
+        <h2 class="reveal">Czym jest kolejka?</h2>
+        <p class="reveal"><code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">queue</code> to kontener działający na zasadzie <strong style="color:var(--accent-bright)">FIFO</strong> (First In, First Out) — "kto pierwszy wszedł, ten pierwszy wyjdzie". W przeciwieństwie do <code>vector</code>, w <code>queue</code> nie można zajrzeć do środka ani wyciągnąć dowolnego elementu — dodajemy tylko na koniec, a wyciągamy tylko od przodu.</p>
+
+        <div class="reveal">
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-dots"><span></span><span></span><span></span></div>
+                    <div class="code-block-title">skladnia.cpp</div>
+                </div>
+                <pre><code><span class="pp">#include</span> <span class="inc">&lt;queue&gt;</span>
+
+<span class="tp">queue</span><span class="op">&lt;</span><span class="tp">typ</span><span class="op">&gt;</span> <span class="var">nazwa</span><span class="op">;</span>
+
+<span class="cm">// przykład:</span>
+<span class="tp">queue</span><span class="op">&lt;</span><span class="tp">string</span><span class="op">&gt;</span> <span class="var">kolejkaDoKasy</span><span class="op">;</span></code></pre>
+            </div>
+        </div>
+    </section>
+
+    <section class="syntax-section" id="typy-podstawowe">
+        <span class="section-label reveal">02 — Podstawowe operacje</span>
+        <h2 class="reveal">push, front, pop, empty, size</h2>
+        <p class="reveal">Pięć operacji wystarczy, żeby swobodnie posługiwać się kolejką. Dodajemy zawsze na koniec, a odczytujemy i usuwamy zawsze z przodu.</p>
+
+        <div class="anatomy-grid">
+            <div class="part-cards reveal reveal-left">
+                <div class="part-card">
+                    <div class="part-icon blue">➡️</div>
+                    <div class="part-body">
+                        <h4>push(x)</h4>
+                        <p>Dodaje nowy element <strong style="color:var(--text-primary)">na koniec</strong> kolejki. To on będzie obsłużony jako ostatni z aktualnie czekających.</p>
+                    </div>
+                </div>
+                <div class="part-card">
+                    <div class="part-icon green">👁️</div>
+                    <div class="part-body">
+                        <h4>front()</h4>
+                        <p>Pokazuje element na <strong style="color:var(--text-primary)">początku</strong> kolejki (ten, który będzie obsłużony jako następny), nie usuwając go.</p>
+                    </div>
+                </div>
+                <div class="part-card">
+                    <div class="part-icon purp">⬅️</div>
+                    <div class="part-body">
+                        <h4>pop()</h4>
+                        <p>Usuwa element z początku kolejki. Uwaga: <code>pop()</code> <strong style="color:var(--text-primary)">nic nie zwraca</strong> — element trzeba najpierw odczytać przez <code>front()</code>.</p>
+                    </div>
+                </div>
+                <div class="part-card">
+                    <div class="part-icon ora">🧮</div>
+                    <div class="part-body">
+                        <h4>empty() / size()</h4>
+                        <p><code>empty()</code> sprawdza, czy kolejka jest pusta (przed <code>front()</code>/<code>pop()</code> warto to zrobić), a <code>size()</code> zwraca liczbę elementów.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="reveal reveal-right">
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-dots"><span></span><span></span><span></span></div>
+                        <div class="code-block-title">kolejka_do_kasy.cpp</div>
+                    </div>
+                    <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;queue&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;string&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">queue</span><span class="op">&lt;</span><span class="tp">string</span><span class="op">&gt;</span> <span class="var">kolejkaDoKasy</span><span class="op">;</span>
+
+    <span class="var">kolejkaDoKasy</span><span class="op">.</span><span class="fn">push</span>(<span class="str">"Kacper"</span>)<span class="op">;</span>
+    <span class="var">kolejkaDoKasy</span><span class="op">.</span><span class="fn">push</span>(<span class="str">"Ania"</span>)<span class="op">;</span>
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Na poczatku: "</span> <span class="op">&lt;&lt;</span> <span class="var">kolejkaDoKasy</span><span class="op">.</span><span class="fn">front</span>()<span class="op">;</span>
+
+    <span class="var">kolejkaDoKasy</span><span class="op">.</span><span class="fn">pop</span>()<span class="op">;</span> <span class="cm">// obsluzono "Kacper"</span>
+
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+                </div>
+                <div class="output-label">▶ Wyjście programu</div>
+                <div class="output-box">Na poczatku: Kacper</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="syntax-section" id="przyklad">
+        <span class="section-label reveal">03 — Praktyczny przykład</span>
+        <h2 class="reveal">Symulacja kolejki do kasy</h2>
+        <p class="reveal">Użytkownik podaje imiona, wpisując <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">koniec</code>, gdy skończy. Program dodaje je do kolejki, a potem obsługuje w kolejności wejścia (FIFO) — dokładnie tak, jak działa prawdziwa kolejka.</p>
+
+        <div class="two-col">
+            <div class="reveal reveal-left">
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-dots"><span></span><span></span><span></span></div>
+                        <div class="code-block-title">wczytywanie.cpp</div>
+                    </div>
+                    <pre><code><span class="tp">queue</span><span class="op">&lt;</span><span class="tp">string</span><span class="op">&gt;</span> <span class="var">nowaKolejka</span><span class="op">;</span>
+<span class="tp">string</span> <span class="var">imie</span><span class="op">;</span>
+
+<span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">imie</span><span class="op">;</span>
+<span class="kw">while</span> (<span class="var">imie</span> <span class="op">!=</span> <span class="str">"koniec"</span>) {
+    <span class="var">nowaKolejka</span><span class="op">.</span><span class="fn">push</span>(<span class="var">imie</span>)<span class="op">;</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">imie</span><span class="op">;</span>
+}</code></pre>
+                </div>
+                <div class="output-label">▶ Pomysł</div>
+                <div class="output-box">Kazde imie trafia na koniec
+kolejki - dokladnie tak jak
+klient ustawiajacy sie w rzedzie.</div>
+            </div>
+            <div class="reveal reveal-right">
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-dots"><span></span><span></span><span></span></div>
+                        <div class="code-block-title">obsluga.cpp</div>
+                    </div>
+                    <pre><code><span class="tp">int</span> <span class="var">numer</span> <span class="op">=</span> <span class="num">1</span><span class="op">;</span>
+<span class="kw">while</span> (<span class="op">!</span><span class="var">nowaKolejka</span><span class="op">.</span><span class="fn">empty</span>()) {
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">numer</span> <span class="op">&lt;&lt;</span> <span class="str">". "</span>
+         <span class="op">&lt;&lt;</span> <span class="var">nowaKolejka</span><span class="op">.</span><span class="fn">front</span>()<span class="op">;</span>
+    <span class="var">nowaKolejka</span><span class="op">.</span><span class="fn">pop</span>()<span class="op">;</span>
+    <span class="var">numer</span><span class="op">++</span><span class="op">;</span>
+}</code></pre>
+                </div>
+                <div class="output-label">▶ Wyjście programu</div>
+                <div class="output-box">1. Kacper
+2. Ania
+3. Bartek</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="syntax-section" id="metody">
+        <span class="section-label reveal">04 — Ściąga</span>
+        <h2 class="reveal">Wszystko, co robi się z kolejką</h2>
+        <p class="reveal">Kolejka jest wyjątkowo skromna: <strong style="color:var(--accent-bright)">każda operacja to O(1)</strong>, ale zestaw operacji jest bardzo krótki. Widać wyłącznie oba końce — do środka nie da się zajrzeć ani niczego wyszukać.</p>
+
+                <div class="metody-wrap reveal">
+            <table class="metody">
+                <thead><tr><th>Metoda</th><th>Co robi</th><th>Uwaga</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td><code>q.push(x)</code></td>
+                        <td>Dokłada element na koniec kolejki.</td>
+                        <td>Jak stanięcie na końcu ogonka</td>
+                    </tr>
+                    <tr>
+                        <td><code>q.front()</code></td>
+                        <td>Podgląda pierwszy element — ten, który wyjdzie najwcześniej.</td>
+                        <td>Nie usuwa</td>
+                    </tr>
+                    <tr>
+                        <td><code>q.back()</code></td>
+                        <td>Podgląda ostatni dodany element.</td>
+                        <td>Rzadko potrzebne</td>
+                    </tr>
+                    <tr>
+                        <td><code>q.pop()</code></td>
+                        <td>Usuwa pierwszy element.</td>
+                        <td><strong>Nic nie zwraca</strong></td>
+                    </tr>
+                    <tr>
+                        <td><code>q.size() / q.empty()</code></td>
+                        <td>Liczba elementów i test pustości.</td>
+                        <td>Sprawdzaj przed <code>front()</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>szukanie elementu</code></td>
+                        <td>Niemożliwe — widać tylko oba końce.</td>
+                        <td>To cena za prostotę</td>
+                    </tr>
+                    <tr>
+                        <td><code>q[i]</code></td>
+                        <td>Też niemożliwe.</td>
+                        <td>Potrzebujesz tego → weź <code>deque</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>d.push_front(x) / d.pop_front()</code></td>
+                        <td><code>deque</code>: dokładanie i zdejmowanie z przodu.</td>
+                        <td>—</td>
+                    </tr>
+                    <tr>
+                        <td><code>d.push_back(x) / d.pop_back()</code></td>
+                        <td><code>deque</code>: to samo z tyłu.</td>
+                        <td>—</td>
+                    </tr>
+                    <tr>
+                        <td><code>d[i]</code></td>
+                        <td><code>deque</code> pozwala na indeksowanie.</td>
+                        <td>W przeciwieństwie do <code>queue</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p class="reveal">Dwa wiersze oznaczone jako <strong style="color:var(--text-primary)">brak</strong> to nie ograniczenie do obejścia, tylko cecha konstrukcyjna. Jeśli potrzebujesz indeksowania albo zdejmowania z obu stron — właściwym narzędziem jest <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">deque</code>, która potrafi wszystko to, co kolejka, a do tego więcej.</p>
+
+                <div class="metody-wrap reveal">
+            <table class="metody">
+                <thead><tr><th>Struktura</th><th>Zasada działania</th><th>Kiedy wybrać</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td><code>queue</code></td>
+                        <td>Pierwszy wszedł, pierwszy wychodzi — jak kolejka do kasy.</td>
+                        <td>Symulacje, obsługa zgłoszeń po kolei</td>
+                    </tr>
+                    <tr>
+                        <td><code>stack</code></td>
+                        <td>Ostatni wszedł, pierwszy wychodzi — jak stos talerzy.</td>
+                        <td>Nawiasy, cofanie akcji</td>
+                    </tr>
+                    <tr>
+                        <td><code>deque</code></td>
+                        <td>Oba końce plus indeksowanie.</td>
+                        <td>Gdy potrzebujesz dokładać z obu stron</td>
+                    </tr>
+                    <tr>
+                        <td><code>priority_queue</code></td>
+                        <td>Wychodzi element najważniejszy, nie najstarszy.</td>
+                        <td>Gdy liczy się priorytet — patrz temat Kopiec</td>
+                    </tr>
+                    <tr>
+                        <td><code>vector jako kolejka</code></td>
+                        <td><code>erase(begin())</code> przesuwa wszystko.</td>
+                        <td>Nie rób tego — jest wolne</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p class="reveal">Ostatni wiersz to częsty błąd początkujących: <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">vector</code> z <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">erase(v.begin())</code> wygląda jak kolejka, ale każde zdjęcie przesuwa wszystkie pozostałe elementy. Przy stu tysiącach operacji to <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">O(n^2)</code> zamiast <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">O(n)</code>.</p>
+    </section>
+
+    <section class="syntax-section" id="bfs">
+        <span class="section-label reveal">05 — Dla ciekawych</span>
+        <h2 class="reveal">Szukanie najkrótszej drogi</h2>
+        <p class="reveal"><strong style="color:var(--text-primary)">Tej sekcji nie musisz jeszcze rozumieć.</strong> Pokazujemy ją, żebyś wiedział, po co kolejka istnieje — bo to jej najsłynniejsze zastosowanie. Wyobraź sobie labirynt i pytanie: ile kroków dzieli wejście od wyjścia? Kolejka rozwiązuje to w zaskakująco prosty sposób: zaczynasz od pola startowego, wkładasz do kolejki wszystkich jego sąsiadów, potem sąsiadów sąsiadów — i tak dalej. Ponieważ kolejka wydaje pola w tej samej kolejności, w jakiej je wkładałeś, pola bliższe startu są zawsze sprawdzane przed dalszymi. Dzięki temu pierwsze dojście do wyjścia jest od razu tym najkrótszym.</p>
+
+        <p class="reveal">Pomysł jest prosty: odwiedzamy pola <strong style="color:var(--accent-bright)">warstwami</strong>. Najpierw wszystkie oddalone o jeden krok, potem o dwa, i tak dalej. Ponieważ kolejka oddaje elementy w kolejności wkładania, warstwy same układają się po kolei — a pierwszy moment dotarcia do pola to od razu najkrótsza droga do niego.</p>
+
+        <div class="metody-wrap reveal">
+            <table class="metody">
+                <thead><tr><th>Element</th><th>Rola</th><th>Uwaga</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td><code>Kolejka pozycji</code></td>
+                        <td>Trzyma pola czekające na odwiedzenie.</td>
+                        <td>Startowa pozycja wchodzi jako pierwsza</td>
+                    </tr>
+                    <tr>
+                        <td><code>Tablica odległości</code></td>
+                        <td><code>dist[i][j]</code> — ile kroków do tego pola.</td>
+                        <td>Wypełniona <code>-1</code> = nieodwiedzone</td>
+                    </tr>
+                    <tr>
+                        <td><code>Zdejmij z przodu</code></td>
+                        <td><code>q.front()</code>, potem <code>q.pop()</code>.</td>
+                        <td>Zawsze najbliższe pole</td>
+                    </tr>
+                    <tr>
+                        <td><code>Sprawdź sąsiadów</code></td>
+                        <td>Cztery kierunki przez tablice <code>dx</code>, <code>dy</code>.</td>
+                        <td>Osiem, gdy dozwolone skosy</td>
+                    </tr>
+                    <tr>
+                        <td><code>Oznacz przy wkładaniu</code></td>
+                        <td>Ustaw <code>dist</code> w momencie <code>push</code>.</td>
+                        <td>Nie przy zdejmowaniu — inaczej duplikaty</td>
+                    </tr>
+                    <tr>
+                        <td><code>Pierwsze dotarcie = najkrótsze</code></td>
+                        <td>BFS odwiedza pola warstwami.</td>
+                        <td>Działa tylko przy równych kosztach</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="reveal">
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-dots"><span></span><span></span><span></span></div>
+                    <div class="code-block-title">bfs_szkielet.cpp</div>
+                </div>
+                <pre><code><span class="cm">// szkielet BFS - zapamiętaj ten układ, wraca w każdym zadaniu</span>
+<span class="tp">queue</span><span class="op">&lt;</span><span class="tp">pair</span><span class="op">&lt;</span><span class="tp">int</span><span class="op">,</span> <span class="tp">int</span><span class="op">&gt;&gt;</span> <span class="var">q</span><span class="op">;</span>
+<span class="var">q</span><span class="op">.</span><span class="fn">push</span>({<span class="var">startX</span><span class="op">,</span> <span class="var">startY</span>})<span class="op">;</span>
+<span class="var">dist</span>[<span class="var">startX</span>][<span class="var">startY</span>] <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
+
+<span class="kw">while</span> (<span class="op">!</span><span class="var">q</span><span class="op">.</span><span class="fn">empty</span>()) {
+    <span class="tp">auto</span> [<span class="var">x</span><span class="op">,</span> <span class="var">y</span>] <span class="op">=</span> <span class="var">q</span><span class="op">.</span><span class="fn">front</span>()<span class="op">;</span>
+    <span class="var">q</span><span class="op">.</span><span class="fn">pop</span>()<span class="op">;</span>
+
+    <span class="kw">for</span> (<span class="tp">int</span> <span class="var">k</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span> <span class="var">k</span> <span class="op">&lt;</span> <span class="num">4</span><span class="op">;</span> <span class="var">k</span><span class="op">++</span>) {
+        <span class="tp">int</span> <span class="var">nx</span> <span class="op">=</span> <span class="var">x</span> <span class="op">+</span> <span class="var">dx</span>[<span class="var">k</span>]<span class="op">;</span>
+        <span class="tp">int</span> <span class="var">ny</span> <span class="op">=</span> <span class="var">y</span> <span class="op">+</span> <span class="var">dy</span>[<span class="var">k</span>]<span class="op">;</span>
+
+        <span class="kw">if</span> (<span class="fn">poza_plansza</span>(<span class="var">nx</span><span class="op">,</span> <span class="var">ny</span>)) <span class="kw">continue</span><span class="op">;</span>
+        <span class="kw">if</span> (<span class="fn">sciana</span>(<span class="var">nx</span><span class="op">,</span> <span class="var">ny</span>))        <span class="kw">continue</span><span class="op">;</span>
+        <span class="kw">if</span> (<span class="var">dist</span>[<span class="var">nx</span>][<span class="var">ny</span>] <span class="op">!= -</span><span class="num">1</span>)    <span class="kw">continue</span><span class="op">;</span>   <span class="cm">// już byliśmy</span>
+
+        <span class="var">dist</span>[<span class="var">nx</span>][<span class="var">ny</span>] <span class="op">=</span> <span class="var">dist</span>[<span class="var">x</span>][<span class="var">y</span>] <span class="op">+</span> <span class="num">1</span><span class="op">;</span>
+        <span class="var">q</span><span class="op">.</span><span class="fn">push</span>({<span class="var">nx</span><span class="op">,</span> <span class="var">ny</span>})<span class="op">;</span>          <span class="cm">// oznacz PRZY WKŁADANIU</span>
+    }
+}</code></pre>
+            </div>
+        </div>
+
+        <p class="reveal">Najczęstszy błąd w BFS to oznaczanie pola jako odwiedzonego dopiero przy <strong style="color:var(--text-primary)">zdejmowaniu</strong> z kolejki. Wtedy to samo pole trafia do niej wielokrotnie — zanim je zdejmiemy, sąsiedzi zdążą wrzucić je jeszcze kilka razy. Kolejka puchnie, program zwalnia, a przy większych planszach kończy się pamięć. <strong style="color:var(--accent-bright)">Oznaczaj przy wkładaniu</strong>.</p>
+
+        <p class="reveal">Warto też pamiętać o ograniczeniu: BFS daje najkrótszą drogę tylko wtedy, gdy <strong style="color:var(--text-primary)">każdy krok kosztuje tyle samo</strong>. Gdy krawędzie mają różne wagi, potrzebny jest algorytm Dijkstry — a tam zamiast zwykłej kolejki używa się kopca.</p>
+    </section>
+
+    <section class="syntax-section" id="zadania-kolejka">
+        <span class="section-label reveal">06 — Przykładowe zadania</span>
+        <h2 class="reveal">Sprawdź się na zadaniach</h2>
+        <p class="reveal">Trzy zadania: czysta symulacja na kolejce, wzorcowy BFS i przypadek, w którym zwykła kolejka nie wystarcza i trzeba sięgnąć po <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">deque</code>. Rozwiązania są zwinięte — spróbuj najpierw sam.</p>
+
+                <div class="zadania-grid">
+            <div class="zadanie reveal">
+                <div class="zadanie-gora">
+                    <span class="zadanie-poziom poz-latwe">Łatwe</span>
+                    <span class="zadanie-tytul">Kolejka do kasy</span>
+                </div>
+                <div class="zadanie-tresc">Wczytuj polecenia: <code>DODAJ imie</code> dodaje osobę na koniec kolejki, <code>OBSLUZ</code> obsługuje pierwszą osobę i wypisuje jej imię, <code>ILE</code> wypisuje liczbę czekających. Dane kończy <code>KONIEC</code>.</div>
+                <div class="zadanie-wsk"><strong>Jak to ugryźć:</strong> Zadanie na rozgrzewkę — chodzi o samą składnię. Pamiętaj, żeby przed <code>front()</code> sprawdzić <code>empty()</code>, bo ktoś może wpisać <code>OBSLUZ</code> przy pustej kolejce.</div>
+                <details class="zadanie-rozw">
+                    <summary>Pokaż rozwiązanie</summary>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-dots"><span></span><span></span><span></span></div>
+                            <div class="code-block-title">kasa.cpp</div>
+                        </div>
+                        <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;queue&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;string&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">queue</span><span class="op">&lt;</span><span class="tp">string</span><span class="op">&gt;</span> <span class="var">q</span><span class="op">;</span>
+    <span class="tp">string</span> <span class="var">polecenie</span><span class="op">;</span>
+
+    <span class="kw">while</span> (<span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">polecenie</span> <span class="op">&amp;&amp;</span> <span class="var">polecenie</span> <span class="op">!=</span> <span class="str">"KONIEC"</span>) {
+        <span class="kw">if</span> (<span class="var">polecenie</span> <span class="op">==</span> <span class="str">"DODAJ"</span>) {
+            <span class="tp">string</span> <span class="var">imie</span><span class="op">;</span>
+            <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">imie</span><span class="op">;</span>
+            <span class="var">q</span><span class="op">.</span><span class="fn">push</span>(<span class="var">imie</span>)<span class="op">;</span>
+        }
+        <span class="kw">else if</span> (<span class="var">polecenie</span> <span class="op">==</span> <span class="str">"OBSLUZ"</span>) {
+            <span class="kw">if</span> (<span class="var">q</span><span class="op">.</span><span class="fn">empty</span>()) {
+                <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"pusto\n"</span><span class="op">;</span>
+            } <span class="kw">else</span> {
+                <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">q</span><span class="op">.</span><span class="fn">front</span>() <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+                <span class="var">q</span><span class="op">.</span><span class="fn">pop</span>()<span class="op">;</span>
+            }
+        }
+        <span class="kw">else if</span> (<span class="var">polecenie</span> <span class="op">==</span> <span class="str">"ILE"</span>) {
+            <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">q</span><span class="op">.</span><span class="fn">size</span>() <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+        }
+    }
+
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+            <div class="zadanie reveal">
+                <div class="zadanie-gora">
+                    <span class="zadanie-poziom poz-latwe">Łatwe</span>
+                    <span class="zadanie-tytul">Kto wyjdzie ostatni</span>
+                </div>
+                <div class="zadanie-tresc">Wczytaj <code>n</code> imion do kolejki i wypisz je w kolejności obsługi. Na końcu podaj, kto był ostatni.</div>
+                <div class="zadanie-wsk"><strong>Jak to ugryźć:</strong> Kolejka wydaje elementy w tej samej kolejności, w jakiej je wkładałeś — czyli wynik będzie identyczny z wejściem. To nie błąd, tylko cała istota kolejki (w przeciwieństwie do stosu, który odwraca kolejność).</div>
+                <details class="zadanie-rozw">
+                    <summary>Pokaż rozwiązanie</summary>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-dots"><span></span><span></span><span></span></div>
+                            <div class="code-block-title">kolejnosc.cpp</div>
+                        </div>
+                        <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;queue&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;string&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">int</span> <span class="var">n</span><span class="op">;</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">n</span><span class="op">;</span>
+
+    <span class="tp">queue</span><span class="op">&lt;</span><span class="tp">string</span><span class="op">&gt;</span> <span class="var">q</span><span class="op">;</span>
+    <span class="kw">for</span> (<span class="tp">int</span> <span class="var">i</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span> <span class="var">i</span> <span class="op">&lt;</span> <span class="var">n</span><span class="op">;</span> <span class="var">i</span><span class="op">++</span>) {
+        <span class="tp">string</span> <span class="var">imie</span><span class="op">;</span>
+        <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">imie</span><span class="op">;</span>
+        <span class="var">q</span><span class="op">.</span><span class="fn">push</span>(<span class="var">imie</span>)<span class="op">;</span>
+    }
+
+    <span class="tp">string</span> <span class="var">ostatni</span><span class="op">;</span>
+    <span class="kw">while</span> (<span class="op">!</span><span class="var">q</span><span class="op">.</span><span class="fn">empty</span>()) {
+        <span class="var">ostatni</span> <span class="op">=</span> <span class="var">q</span><span class="op">.</span><span class="fn">front</span>()<span class="op">;</span>
+        <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">ostatni</span> <span class="op">&lt;&lt;</span> <span class="str">" "</span><span class="op">;</span>
+        <span class="var">q</span><span class="op">.</span><span class="fn">pop</span>()<span class="op">;</span>
+    }
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"\nOstatni: "</span> <span class="op">&lt;&lt;</span> <span class="var">ostatni</span><span class="op">;</span>
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+            <div class="zadanie reveal">
+                <div class="zadanie-gora">
+                    <span class="zadanie-poziom poz-latwe">Łatwe</span>
+                    <span class="zadanie-tytul">Przepustka na jazdę</span>
+                </div>
+                <div class="zadanie-tresc">Do karuzeli ustawiło się <code>n</code> dzieci, każde chce się przejechać <code>k</code> razy. Karuzela zabiera jedno dziecko na jeden przejazd, po czym wraca ono na koniec kolejki. Wypisz kolejność przejazdów.</div>
+                <div class="zadanie-wsk"><strong>Jak to ugryźć:</strong> Kolejka par <code>{imie, ile_zostalo}</code>. Po przejeździe zmniejsz licznik i — jeśli dziecko chce jeszcze jechać — wrzuć je z powrotem przez <code>push</code>. Tak modeluje się „wraca na koniec”.</div>
+                <details class="zadanie-rozw">
+                    <summary>Pokaż rozwiązanie</summary>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-dots"><span></span><span></span><span></span></div>
+                            <div class="code-block-title">karuzela.cpp</div>
+                        </div>
+                        <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;queue&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;string&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">int</span> <span class="var">n</span><span class="op">,</span> <span class="var">k</span><span class="op">;</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">n</span> <span class="op">&gt;&gt;</span> <span class="var">k</span><span class="op">;</span>
+
+    <span class="tp">queue</span><span class="op">&lt;</span><span class="tp">pair</span><span class="op">&lt;</span><span class="tp">string</span><span class="op">,</span> <span class="tp">int</span><span class="op">&gt;&gt;</span> <span class="var">q</span><span class="op">;</span>
+
+    <span class="kw">for</span> (<span class="tp">int</span> <span class="var">i</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span> <span class="var">i</span> <span class="op">&lt;</span> <span class="var">n</span><span class="op">;</span> <span class="var">i</span><span class="op">++</span>) {
+        <span class="tp">string</span> <span class="var">imie</span><span class="op">;</span>
+        <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">imie</span><span class="op">;</span>
+        <span class="var">q</span><span class="op">.</span><span class="fn">push</span>({<span class="var">imie</span><span class="op">,</span> <span class="var">k</span>})<span class="op">;</span>
+    }
+
+    <span class="kw">while</span> (<span class="op">!</span><span class="var">q</span><span class="op">.</span><span class="fn">empty</span>()) {
+        <span class="tp">auto</span> [<span class="var">imie</span><span class="op">,</span> <span class="var">zostalo</span>] <span class="op">=</span> <span class="var">q</span><span class="op">.</span><span class="fn">front</span>()<span class="op">;</span>
+        <span class="var">q</span><span class="op">.</span><span class="fn">pop</span>()<span class="op">;</span>
+
+        <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">imie</span> <span class="op">&lt;&lt;</span> <span class="str">" "</span><span class="op">;</span>
+        <span class="var">zostalo</span><span class="op">--</span><span class="op">;</span>
+
+        <span class="kw">if</span> (<span class="var">zostalo</span> <span class="op">&gt;</span> <span class="num">0</span>) <span class="var">q</span><span class="op">.</span><span class="fn">push</span>({<span class="var">imie</span><span class="op">,</span> <span class="var">zostalo</span>})<span class="op">;</span>
+    }
+
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+            <div class="zadanie reveal">
+                <div class="zadanie-gora">
+                    <span class="zadanie-poziom poz-srednie">Średnie</span>
+                    <span class="zadanie-tytul">Gorący ziemniak</span>
+                </div>
+                <div class="zadanie-tresc">W kole stoi <code>n</code> dzieci. Ziemniak przechodzi <code>k</code> razy z rąk do rąk, a potem dziecko, które go trzyma, odpada. Kto zostanie na końcu?</div>
+                <div class="zadanie-wsk"><strong>Jak to ugryźć:</strong> Kolejka idealnie modeluje krąg: zdejmij z przodu i od razu włóż z powrotem na koniec — to jest właśnie „podanie dalej”. Po <code>k</code> takich obrotach zdejmij bez wkładania z powrotem. Powtarzaj, aż zostanie jedno dziecko.</div>
+                <details class="zadanie-rozw">
+                    <summary>Pokaż rozwiązanie</summary>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-dots"><span></span><span></span><span></span></div>
+                            <div class="code-block-title">ziemniak.cpp</div>
+                        </div>
+                        <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;queue&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;string&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">int</span> <span class="var">n</span><span class="op">,</span> <span class="var">k</span><span class="op">;</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">n</span> <span class="op">&gt;&gt;</span> <span class="var">k</span><span class="op">;</span>
+
+    <span class="tp">queue</span><span class="op">&lt;</span><span class="tp">string</span><span class="op">&gt;</span> <span class="var">q</span><span class="op">;</span>
+    <span class="kw">for</span> (<span class="tp">int</span> <span class="var">i</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span> <span class="var">i</span> <span class="op">&lt;</span> <span class="var">n</span><span class="op">;</span> <span class="var">i</span><span class="op">++</span>) {
+        <span class="tp">string</span> <span class="var">imie</span><span class="op">;</span>
+        <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">imie</span><span class="op">;</span>
+        <span class="var">q</span><span class="op">.</span><span class="fn">push</span>(<span class="var">imie</span>)<span class="op">;</span>
+    }
+
+    <span class="kw">while</span> (<span class="var">q</span><span class="op">.</span><span class="fn">size</span>() <span class="op">&gt;</span> <span class="num">1</span>) {
+        <span class="cm">// k podan: z przodu na koniec</span>
+        <span class="kw">for</span> (<span class="tp">int</span> <span class="var">i</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span> <span class="var">i</span> <span class="op">&lt;</span> <span class="var">k</span><span class="op">;</span> <span class="var">i</span><span class="op">++</span>) {
+            <span class="var">q</span><span class="op">.</span><span class="fn">push</span>(<span class="var">q</span><span class="op">.</span><span class="fn">front</span>())<span class="op">;</span>
+            <span class="var">q</span><span class="op">.</span><span class="fn">pop</span>()<span class="op">;</span>
+        }
+
+        <span class="cm">// ten, kto trzyma, odpada</span>
+        <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Odpada: "</span> <span class="op">&lt;&lt;</span> <span class="var">q</span><span class="op">.</span><span class="fn">front</span>() <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+        <span class="var">q</span><span class="op">.</span><span class="fn">pop</span>()<span class="op">;</span>
+    }
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Wygral: "</span> <span class="op">&lt;&lt;</span> <span class="var">q</span><span class="op">.</span><span class="fn">front</span>()<span class="op">;</span>
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+            <div class="zadanie reveal">
+                <div class="zadanie-gora">
+                    <span class="zadanie-poziom poz-srednie">Średnie</span>
+                    <span class="zadanie-tytul">Drukarka z priorytetami</span>
+                </div>
+                <div class="zadanie-tresc">Do drukarki trafia <code>n</code> dokumentów, każdy z ważnością od 1 do 9. Drukarka bierze pierwszy dokument z kolejki, ale jeśli dalej czeka ważniejszy, odkłada go na koniec i bierze następny. Wypisz kolejność drukowania.</div>
+                <div class="zadanie-wsk"><strong>Jak to ugryźć:</strong> Kolejka par <code>{numer, waznosc}</code>. Żeby sprawdzić, czy dalej czeka ważniejszy, potrzebujesz osobnego licznika ilu dokumentów o każdej ważności jeszcze zostało — albo po prostu przejrzyj pomocniczą tablicę liczników.</div>
+                <details class="zadanie-rozw">
+                    <summary>Pokaż rozwiązanie</summary>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-dots"><span></span><span></span><span></span></div>
+                            <div class="code-block-title">drukarka.cpp</div>
+                        </div>
+                        <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;queue&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">int</span> <span class="var">n</span><span class="op">;</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">n</span><span class="op">;</span>
+
+    <span class="tp">queue</span><span class="op">&lt;</span><span class="tp">pair</span><span class="op">&lt;</span><span class="tp">int</span><span class="op">,</span> <span class="tp">int</span><span class="op">&gt;&gt;</span> <span class="var">q</span><span class="op">;</span>      <span class="cm">// {numer, waznosc}</span>
+    <span class="tp">int</span> <span class="var">ile</span>[<span class="num">10</span>] <span class="op">=</span> {}<span class="op">;</span>             <span class="cm">// ile zostalo kazdej waznosci</span>
+
+    <span class="kw">for</span> (<span class="tp">int</span> <span class="var">i</span> <span class="op">=</span> <span class="num">1</span><span class="op">;</span> <span class="var">i</span> <span class="op">&lt;=</span> <span class="var">n</span><span class="op">;</span> <span class="var">i</span><span class="op">++</span>) {
+        <span class="tp">int</span> <span class="var">w</span><span class="op">;</span>
+        <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">w</span><span class="op">;</span>
+        <span class="var">q</span><span class="op">.</span><span class="fn">push</span>({<span class="var">i</span><span class="op">,</span> <span class="var">w</span>})<span class="op">;</span>
+        <span class="var">ile</span>[<span class="var">w</span>]<span class="op">++</span><span class="op">;</span>
+    }
+
+    <span class="kw">while</span> (<span class="op">!</span><span class="var">q</span><span class="op">.</span><span class="fn">empty</span>()) {
+        <span class="tp">auto</span> [<span class="var">numer</span><span class="op">,</span> <span class="var">waznosc</span>] <span class="op">=</span> <span class="var">q</span><span class="op">.</span><span class="fn">front</span>()<span class="op">;</span>
+        <span class="var">q</span><span class="op">.</span><span class="fn">pop</span>()<span class="op">;</span>
+
+        <span class="cm">// czy dalej czeka wazniejszy?</span>
+        <span class="tp">bool</span> <span class="var">jestWazniejszy</span> <span class="op">=</span> <span class="kw">false</span><span class="op">;</span>
+        <span class="kw">for</span> (<span class="tp">int</span> <span class="var">w</span> <span class="op">=</span> <span class="var">waznosc</span> <span class="op">+</span> <span class="num">1</span><span class="op">;</span> <span class="var">w</span> <span class="op">&lt;=</span> <span class="num">9</span><span class="op">;</span> <span class="var">w</span><span class="op">++</span>) {
+            <span class="kw">if</span> (<span class="var">ile</span>[<span class="var">w</span>] <span class="op">&gt;</span> <span class="num">0</span>) <span class="var">jestWazniejszy</span> <span class="op">=</span> <span class="kw">true</span><span class="op">;</span>
+        }
+
+        <span class="kw">if</span> (<span class="var">jestWazniejszy</span>) {
+            <span class="var">q</span><span class="op">.</span><span class="fn">push</span>({<span class="var">numer</span><span class="op">,</span> <span class="var">waznosc</span>})<span class="op">;</span>   <span class="cm">// na koniec</span>
+        } <span class="kw">else</span> {
+            <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">numer</span> <span class="op">&lt;&lt;</span> <span class="str">" "</span><span class="op">;</span>
+            <span class="var">ile</span>[<span class="var">waznosc</span>]<span class="op">--</span><span class="op">;</span>
+        }
+    }
+
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+            <div class="zadanie reveal">
+                <div class="zadanie-gora">
+                    <span class="zadanie-poziom poz-trudne">Trudne</span>
+                    <span class="zadanie-tytul">Najkrótsza droga w labiryncie</span>
+                </div>
+                <div class="zadanie-tresc">Wczytaj labirynt <code>n × m</code>, w którym <code>.</code> to wolne pole, <code>#</code> to ściana, <code>S</code> to start, a <code>K</code> to koniec. Wypisz najmniejszą liczbę kroków od startu do końca albo <code>-1</code>, jeśli nie da się przejść.</div>
+                <div class="zadanie-wsk"><strong>Jak to ugryźć:</strong> To zastosowanie z sekcji piątej. Wrzuć start do kolejki z odległością 0. Potem w pętli zdejmuj pole, sprawdzaj czterech sąsiadów i wrzucaj tych, na których jeszcze nie byłeś, z odległością o jeden większą. Kolejka gwarantuje, że pola bliższe startu sprawdzisz wcześniej — więc pierwsze dojście do <code>K</code> jest tym najkrótszym.</div>
+                <details class="zadanie-rozw">
+                    <summary>Pokaż rozwiązanie</summary>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-dots"><span></span><span></span><span></span></div>
+                            <div class="code-block-title">labirynt.cpp</div>
+                        </div>
+                        <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;queue&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;vector&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;string&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">int</span> <span class="var">n</span><span class="op">,</span> <span class="var">m</span><span class="op">;</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">n</span> <span class="op">&gt;&gt;</span> <span class="var">m</span><span class="op">;</span>
+
+    <span class="tp">vector</span><span class="op">&lt;</span><span class="tp">string</span><span class="op">&gt;</span> <span class="fn">plansza</span>(<span class="var">n</span>)<span class="op">;</span>
+    <span class="kw">for</span> (<span class="tp">int</span> <span class="var">i</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span> <span class="var">i</span> <span class="op">&lt;</span> <span class="var">n</span><span class="op">;</span> <span class="var">i</span><span class="op">++</span>) <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">plansza</span>[<span class="var">i</span>]<span class="op">;</span>
+
+    <span class="tp">vector</span><span class="op">&lt;</span><span class="tp">vector</span><span class="op">&lt;</span><span class="tp">int</span><span class="op">&gt;&gt;</span> <span class="fn">odl</span>(<span class="var">n</span><span class="op">,</span> <span class="tp">vector</span><span class="op">&lt;</span><span class="tp">int</span><span class="op">&gt;</span>(<span class="var">m</span><span class="op">, -</span><span class="num">1</span>))<span class="op">;</span>
+    <span class="tp">queue</span><span class="op">&lt;</span><span class="tp">pair</span><span class="op">&lt;</span><span class="tp">int</span><span class="op">,</span><span class="tp">int</span><span class="op">&gt;&gt;</span> <span class="var">q</span><span class="op">;</span>
+
+    <span class="cm">// znajdujemy start</span>
+    <span class="kw">for</span> (<span class="tp">int</span> <span class="var">w</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span> <span class="var">w</span> <span class="op">&lt;</span> <span class="var">n</span><span class="op">;</span> <span class="var">w</span><span class="op">++</span>)
+        <span class="kw">for</span> (<span class="tp">int</span> <span class="var">k</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span> <span class="var">k</span> <span class="op">&lt;</span> <span class="var">m</span><span class="op">;</span> <span class="var">k</span><span class="op">++</span>)
+            <span class="kw">if</span> (<span class="var">plansza</span>[<span class="var">w</span>][<span class="var">k</span>] <span class="op">==</span> <span class="str">'S'</span>) {
+                <span class="var">q</span><span class="op">.</span><span class="fn">push</span>({<span class="var">w</span><span class="op">,</span> <span class="var">k</span>})<span class="op">;</span>
+                <span class="var">odl</span>[<span class="var">w</span>][<span class="var">k</span>] <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
+            }
+
+    <span class="tp">int</span> <span class="var">dw</span>[<span class="num">4</span>] <span class="op">=</span> {<span class="op">-</span><span class="num">1</span><span class="op">,</span> <span class="num">1</span><span class="op">,</span> <span class="num">0</span><span class="op">,</span> <span class="num">0</span>}<span class="op">;</span>
+    <span class="tp">int</span> <span class="var">dk</span>[<span class="num">4</span>] <span class="op">=</span> {<span class="num">0</span><span class="op">,</span> <span class="num">0</span><span class="op">, -</span><span class="num">1</span><span class="op">,</span> <span class="num">1</span>}<span class="op">;</span>
+
+    <span class="kw">while</span> (<span class="op">!</span><span class="var">q</span><span class="op">.</span><span class="fn">empty</span>()) {
+        <span class="tp">auto</span> [<span class="var">w</span><span class="op">,</span> <span class="var">k</span>] <span class="op">=</span> <span class="var">q</span><span class="op">.</span><span class="fn">front</span>()<span class="op">;</span>
+        <span class="var">q</span><span class="op">.</span><span class="fn">pop</span>()<span class="op">;</span>
+
+        <span class="kw">if</span> (<span class="var">plansza</span>[<span class="var">w</span>][<span class="var">k</span>] <span class="op">==</span> <span class="str">'K'</span>) {
+            <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">odl</span>[<span class="var">w</span>][<span class="var">k</span>]<span class="op">;</span>
+            <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+        }
+
+        <span class="kw">for</span> (<span class="tp">int</span> <span class="var">i</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span> <span class="var">i</span> <span class="op">&lt;</span> <span class="num">4</span><span class="op">;</span> <span class="var">i</span><span class="op">++</span>) {
+            <span class="tp">int</span> <span class="var">nw</span> <span class="op">=</span> <span class="var">w</span> <span class="op">+</span> <span class="var">dw</span>[<span class="var">i</span>]<span class="op">,</span> <span class="var">nk</span> <span class="op">=</span> <span class="var">k</span> <span class="op">+</span> <span class="var">dk</span>[<span class="var">i</span>]<span class="op">;</span>
+
+            <span class="kw">if</span> (<span class="var">nw</span> <span class="op">&lt;</span> <span class="num">0</span> <span class="op">||</span> <span class="var">nw</span> <span class="op">&gt;=</span> <span class="var">n</span> <span class="op">||</span> <span class="var">nk</span> <span class="op">&lt;</span> <span class="num">0</span> <span class="op">||</span> <span class="var">nk</span> <span class="op">&gt;=</span> <span class="var">m</span>) <span class="kw">continue</span><span class="op">;</span>
+            <span class="kw">if</span> (<span class="var">plansza</span>[<span class="var">nw</span>][<span class="var">nk</span>] <span class="op">==</span> <span class="str">'#'</span>) <span class="kw">continue</span><span class="op">;</span>
+            <span class="kw">if</span> (<span class="var">odl</span>[<span class="var">nw</span>][<span class="var">nk</span>] <span class="op">!= -</span><span class="num">1</span>) <span class="kw">continue</span><span class="op">;</span>       <span class="cm">// juz bylem</span>
+
+            <span class="var">odl</span>[<span class="var">nw</span>][<span class="var">nk</span>] <span class="op">=</span> <span class="var">odl</span>[<span class="var">w</span>][<span class="var">k</span>] <span class="op">+</span> <span class="num">1</span><span class="op">;</span>
+            <span class="var">q</span><span class="op">.</span><span class="fn">push</span>({<span class="var">nw</span><span class="op">,</span> <span class="var">nk</span>})<span class="op">;</span>
+        }
+    }
+
+    <span class="var">cout</span> <span class="op">&lt;&lt; -</span><span class="num">1</span><span class="op">;</span>
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<div class="divider"></div>
+
+<main>
+    <section class="tips-section" id="porady">
+        <span class="section-label reveal">07 — Porady</span>
+        <h2 class="reveal">Częste błędy i dobre praktyki</h2>
+        <div class="tips-grid">
+            <div class="tip-card reveal">
+                <div class="tip-icon">🚫</div>
+                <div class="tip-title">pop() nic nie zwraca</div>
+                <div class="tip-text"><code>pop()</code> tylko usuwa element z przodu kolejki. Jeśli chcesz poznać jego wartość, najpierw wywołaj <code>front()</code>, a dopiero potem <code>pop()</code>.</div>
+            </div>
+            <div class="tip-card reveal">
+                <div class="tip-icon">⚠️</div>
+                <div class="tip-title">Zawsze sprawdzaj empty()</div>
+                <div class="tip-text">Wywołanie <code>front()</code> lub <code>pop()</code> na pustej kolejce to zachowanie niezdefiniowane i częsta przyczyna crasha programu.</div>
+            </div>
+            <div class="tip-card reveal">
+                <div class="tip-icon">🔍</div>
+                <div class="tip-title">Brak dostępu do środka</div>
+                <div class="tip-text">Kolejki nie da się indeksować ani przeglądać pętlą <code>for</code> jak <code>vector</code>. Jedyny widoczny element to ten na początku.</div>
+            </div>
+            <div class="tip-card reveal">
+                <div class="tip-icon">➡️</div>
+                <div class="tip-title">Ta sama kolejność</div>
+                <div class="tip-text">Elementy schodzą z kolejki w <strong style="color:var(--text-primary)">takiej samej</strong> kolejności, w jakiej zostały dodane — to właśnie definicja FIFO.</div>
+            </div>
+            <div class="tip-card reveal">
+                <div class="tip-icon">🧩</div>
+                <div class="tip-title">Zastosowania</div>
+                <div class="tip-text">Kolejka świetnie sprawdza się przy symulacjach (kasy, drukarki, poczekalnie) oraz przy przeszukiwaniu grafu wszerz (BFS).</div>
+            </div>
+            <div class="tip-card reveal">
+                <div class="tip-icon">📦</div>
+                <div class="tip-title">Nagłówek &lt;queue&gt;</div>
+                <div class="tip-text">Żeby korzystać z <code>queue</code>, trzeba dołączyć nagłówek <code>&lt;queue&gt;</code> — bez niego kompilator nie rozpozna tego typu.</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="cta-banner reveal">
+        <span class="section-label" style="display:block;text-align:center;margin-bottom:12px;">08 — Idź dalej</span>
+        <h2>Gotowy na więcej?</h2>
+        <p>Dołącz do T-Olimpians i trenuj z doświadczonymi mentorami. Zbuduj bazę, która prowadzi do finałów OI.</p>
+        <div class="hero-actions">
+            <a class="btn-primary" href="../index.html#contact-section">Zapisz się teraz</a>
+            <a class="btn-ghost" href="../materialy.html">← Wróć do materiałów</a>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <span>© 2025 T-Olimpians Team Poland</span>
+    <span style="color: var(--text-muted);">
+        <a href="../index.html" style="color:var(--text-muted);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--accent-bright)'" onmouseout="this.style.color='var(--text-muted)'">Home</a>
+        &nbsp;·&nbsp;
+        <a href="../materialy.html" style="color:var(--text-muted);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--accent-bright)'" onmouseout="this.style.color='var(--text-muted)'">Materiały</a>
+        &nbsp;·&nbsp;Kolejka (queue) · C++
+    </span>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    /* ── PARTICLES ── */
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    let W, H, dots = [];
+    function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+    resize();
+    window.addEventListener('resize', () => { resize(); spawnDots(); });
+    function spawnDots() {
+        dots = [];
+        const count = Math.floor((W * H) / 18000);
+        for (let i = 0; i < count; i++) {
+            dots.push({ x: Math.random()*W, y: Math.random()*H, r: Math.random()*1.4+0.3, vx: (Math.random()-0.5)*0.3, vy: (Math.random()-0.5)*0.3, alpha: Math.random()*0.5+0.2 });
+        }
+    }
+    spawnDots();
+    const LINK_DIST = 120;
+    function drawParticles() {
+        ctx.clearRect(0, 0, W, H);
+        for (let i = 0; i < dots.length; i++) {
+            const d = dots[i];
+            d.x += d.vx; d.y += d.vy;
+            if (d.x < 0) d.x = W; if (d.x > W) d.x = 0;
+            if (d.y < 0) d.y = H; if (d.y > H) d.y = 0;
+            ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, Math.PI*2);
+            ctx.fillStyle = `rgba(96,165,250,${d.alpha})`; ctx.fill();
+            for (let j = i+1; j < dots.length; j++) {
+                const d2 = dots[j];
+                const dx = d.x-d2.x, dy = d.y-d2.y;
+                const dist = Math.sqrt(dx*dx+dy*dy);
+                if (dist < LINK_DIST) {
+                    ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d2.x, d2.y);
+                    ctx.strokeStyle = `rgba(59,130,246,${0.12*(1-dist/LINK_DIST)})`; ctx.lineWidth = 0.6; ctx.stroke();
+                }
+            }
+        }
+        requestAnimationFrame(drawParticles);
+    }
+    drawParticles();
+
+    /* ── SCROLL REVEAL ── */
+    const revealObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const parent = entry.target.closest('.part-cards, .tips-grid, .anatomy-grid');
+                let delay = 0;
+                if (parent) {
+                    const all = parent.querySelectorAll('.reveal');
+                    all.forEach((el, idx) => { if (el === entry.target) delay = idx * 100; });
+                }
+                setTimeout(() => entry.target.classList.add('visible'), delay);
+                revealObs.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+    /* ── NAVBAR SCROLL ── */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 40));
+
+    /* ── HAMBURGER ── */
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => {
+        navLinks.classList.toggle('open');
+        hamburger.classList.toggle('open');
+    });
+    document.querySelectorAll('.nav-close').forEach(a => {
+        a.addEventListener('click', () => {
+            navLinks.classList.remove('open');
+            hamburger.classList.remove('open');
+        });
+    });
+});
+</script>
+<!-- licznik odwiedzin -> panel kacperos.html -->
+<script type="module" src="/track.js"></script>
+</body>
+</html>

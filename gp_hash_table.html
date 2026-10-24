@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>gp_hash_table w C++ — szybka mapa i zbiór | T-Olimpians</title>
+<meta name="description" content="gp_hash_table z GNU pb_ds w C++: jak używać jej jako mapy i zbioru, czym różni się od map i unordered_map i dlaczego warto dodać własny hasz splitmix64.">
+<link rel="canonical" href="https://t-olimpians.com/gp_hash_table.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="T-Olimpians Team Poland">
+<meta property="og:locale" content="pl_PL">
+<meta property="og:url" content="https://t-olimpians.com/gp_hash_table.html">
+<meta property="og:title" content="gp_hash_table w C++ — szybka mapa i zbiór | T-Olimpians">
+<meta property="og:description" content="gp_hash_table z GNU pb_ds w C++: jak używać jej jako mapy i zbioru, czym różni się od map i unordered_map i dlaczego warto dodać własny hasz splitmix64.">
+<meta property="og:image" content="https://t-olimpians.com/img/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  color-scheme: dark;
+  --bg: #070a14;
+  --paper: #0f1424;
+  --paper-2: #151c31;
+  --ink: #eef1f8;
+  --muted: #8f98ae;
+  --line: #232c45;
+  --code-bg: #0b1020;
+  --accent: #e8374a;
+  --accent-soft: rgba(232, 55, 74, 0.14);
+  --probe: #f5b83d;
+  --probe-soft: rgba(245, 184, 61, 0.16);
+  --ok: #33d1b0;
+  --ok-soft: rgba(51, 209, 176, 0.15);
+  --hit: #ff5c72;
+  --display: "Syne", "Segoe UI", system-ui, sans-serif;
+  --font: "DM Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #070a14; } }
+:root[data-theme="dark"] { --bg: #070a14; }
+*, *::before, *::after { box-sizing: inherit; }
+html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 4.5rem); scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  -webkit-text-size-adjust: 100%;
+}
+#particles { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+.glow {
+  position: fixed; inset: -20vh -10vw auto auto; width: 60vw; height: 60vh; z-index: 0; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(232, 55, 74, 0.18), transparent);
+}
+
+/* nav */
+.nav {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10;
+  background: rgba(7, 10, 20, 0.78);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+.nav-in {
+  max-width: 56rem; margin: 0 auto; padding: 0.8rem 1.25rem;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+}
+.brand { font-family: var(--display); font-weight: 800; font-size: 1.1rem; color: var(--ink); text-decoration: none; letter-spacing: -0.01em; }
+.brand span { color: var(--accent); }
+.nav-links { display: flex; gap: 1.25rem; font-size: 0.95rem; }
+.nav-links a { color: var(--muted); text-decoration: none; }
+.nav-links a:hover { color: var(--ink); }
+@media (max-width: 560px) { .nav-links a:not(:last-child) { display: none; } }
+
+main {
+  position: relative; z-index: 1;
+  max-width: 56rem;
+  margin: 0 auto;
+  padding: 4rem 1.25rem 5rem;
+  counter-reset: sec;
+}
+.prose { max-width: 42rem; }
+.kicker {
+  font-family: var(--mono); font-size: 0.85rem; color: var(--accent); margin: 0 0 1rem;
+}
+h1 {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(1.6rem, 7vw, 4.2rem);
+  white-space: nowrap;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin: 0 0 1.1rem;
+  padding-bottom: 0.12em;
+  background: linear-gradient(100deg, #ffffff 30%, #ff8a97 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.lede {
+  font-size: 1.2rem;
+  line-height: 1.55;
+  color: var(--muted);
+  margin: 0 0 3rem;
+  max-width: 38rem;
+}
+h2 {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(1.7rem, 4.5vw, 2.4rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin: 5rem 0 1rem;
+  counter-increment: sec;
+}
+h2::before {
+  content: counter(sec, decimal-leading-zero) " —";
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--accent);
+  margin-bottom: 0.6rem;
+}
+h3 {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.3rem;
+  line-height: 1.25;
+  margin: 2.5rem 0 0.6rem;
+}
+h2 code, h3 code { font-size: 0.85em; }
+p { margin: 0 0 1rem; }
+strong { color: #fff; }
+a { color: var(--accent); }
+code {
+  font-family: var(--mono);
+  font-size: 0.86em;
+  background: var(--paper-2);
+  color: #ffd6db;
+  padding: 0.1em 0.35em;
+  border-radius: 5px;
+}
+pre {
+  font-family: var(--mono);
+  font-size: 0.87rem;
+  line-height: 1.6;
+  background: var(--code-bg);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  padding: 1.1rem 1.25rem;
+  margin: 0 0 1.25rem;
+  overflow-x: auto;
+  border-radius: 10px;
+  color: #dfe5f3;
+}
+pre code { background: none; padding: 0; font-size: inherit; color: inherit; }
+.c { color: #6c7690; }
+
+/* demo */
+.demo {
+  background: linear-gradient(180deg, var(--paper-2), var(--paper));
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 1.4rem;
+  box-shadow: 0 20px 60px -30px rgba(232, 55, 74, 0.45);
+}
+.demo-head {
+  display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; justify-content: space-between;
+  margin-bottom: 1.1rem;
+}
+.demo-head p { margin: 0; font-family: var(--display); font-weight: 700; font-size: 1.1rem; }
+.mode { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+.mode button {
+  font: 500 0.9rem var(--font); background: transparent; color: var(--muted);
+  border: 0; padding: 0.45rem 1rem; cursor: pointer;
+}
+.mode button[aria-pressed="true"] { background: var(--accent); color: #fff; }
+.slots { display: grid; grid-template-columns: repeat(16, minmax(0, 1fr)); gap: 5px; margin-bottom: 1.1rem; }
+.slot {
+  aspect-ratio: 1 / 1.25;
+  border: 1.5px solid var(--line);
+  border-radius: 7px;
+  background: var(--code-bg);
+  display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+  padding: 3px 0;
+  font-family: var(--mono);
+  min-width: 0;
+  transition: background-color .25s, border-color .25s, box-shadow .25s;
+}
+.slot .i { font-size: 0.62rem; color: var(--muted); }
+.slot .v { font-size: 0.75rem; font-weight: 700; overflow: hidden; max-width: 100%; }
+.slot.full { background: var(--paper-2); }
+.slot.probed { border-color: var(--probe); background: var(--probe-soft); }
+.slot.placed { border-color: var(--ok); background: var(--ok-soft); box-shadow: 0 0 14px -2px var(--ok); }
+@media (max-width: 560px) {
+  .slots { grid-template-columns: repeat(8, minmax(0, 1fr)); }
+  .slot .v { font-size: 0.8rem; }
+}
+.controls { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+.controls input {
+  font: 600 1rem var(--mono); width: 8rem; padding: 0.5rem 0.65rem;
+  border: 1px solid var(--line); border-radius: 8px; background: var(--code-bg); color: var(--ink);
+}
+.btn {
+  font: 700 0.95rem var(--font);
+  padding: 0.55rem 1.05rem; border-radius: 8px;
+  border: 1px solid var(--accent); background: var(--accent); color: #fff; cursor: pointer;
+}
+.btn:hover:not(:disabled) { filter: brightness(1.1); }
+.btn.ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+:focus-visible { outline: 2px solid var(--probe); outline-offset: 2px; }
+.log { font-family: var(--mono); font-size: 0.85rem; line-height: 1.55; margin-top: 1.1rem; min-height: 3em; }
+.log .bad { color: var(--hit); font-weight: 700; }
+.log .good { color: var(--ok); font-weight: 700; }
+.stat { font-family: var(--mono); font-size: 0.82rem; color: var(--muted); margin-top: 0.4rem; }
+
+/* tables */
+.table-wrap { overflow-x: auto; margin: 0 0 1.5rem; border: 1px solid var(--line); border-radius: 12px; background: var(--paper); }
+table { border-collapse: collapse; width: 100%; min-width: 46rem; font-size: 0.94rem; }
+th, td { text-align: left; vertical-align: top; padding: 0.65rem 0.85rem; border-bottom: 1px solid var(--line); }
+tr:last-child td { border-bottom: 0; }
+tbody tr:hover td { background: rgba(255, 255, 255, 0.02); }
+th { font-family: var(--display); font-weight: 700; background: var(--paper-2); }
+td:first-child { font-weight: 600; white-space: nowrap; }
+td code, th code { white-space: nowrap; }
+.no { color: var(--hit); font-weight: 600; }
+.same { color: var(--muted); }
+td.x { white-space: nowrap; font-family: var(--mono); font-size: 0.88rem; }
+td.x b { color: var(--ok); display: block; }
+td.x span { display: block; color: var(--muted); font-size: 0.8rem; }
+.note { font-size: 0.9rem; color: var(--muted); }
+
+.pitfalls { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.9rem; }
+.pitfalls li {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: 10px;
+  padding: 0.9rem 1.1rem;
+}
+.pitfalls strong { display: block; margin-bottom: 0.2rem; font-family: var(--display); }
+
+footer {
+  position: relative; z-index: 1;
+  border-top: 1px solid var(--line);
+  color: var(--muted); font-size: 0.9rem;
+}
+footer .f-in { max-width: 56rem; margin: 0 auto; padding: 1.5rem 1.25rem; display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; justify-content: space-between; }
+footer a { color: var(--muted); }
+
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+.reveal.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .slot { transition: none; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
+</style>
+</head>
+<body>
+<canvas id="particles" aria-hidden="true"></canvas>
+<div class="glow" aria-hidden="true"></div>
+<nav class="nav" aria-label="T-Olimpians">
+  <div class="nav-in">
+    <a class="brand" href="https://t-olimpians.com">T-Olimpians<span>.</span></a>
+    <div class="nav-links">
+      <a href="https://t-olimpians.com/materialy">C++/logika</a>
+      <a href="https://t-olimpians.com/net">Algorytmy</a>
+      <a href="https://t-olimpians.com/zapisy">Zapisy</a>
+    </div>
+  </div>
+</nav>
+<main>
+  <header>
+    <p class="kicker">t-olimpians net · C++ · struktury danych</p>
+    <h1>gp_hash_table</h1>
+    <p class="lede">Szybsza tablica haszująca z GNU pb_ds: jak jej używać jako mapy i zbioru, czym różni się od <code>unordered_map</code> i <code>unordered_set</code> i gdzie łatwo się na niej potknąć.</p>
+  </header>
+
+  <section class="demo" aria-labelledby="demo-title">
+    <div class="demo-head">
+      <p id="demo-title">Adresowanie otwarte na 16 miejscach</p>
+      <div class="mode" role="group" aria-label="Funkcja haszująca">
+        <button type="button" data-mode="id" aria-pressed="true">Domyślny hasz</button>
+        <button type="button" data-mode="sm" aria-pressed="false">splitmix64</button>
+      </div>
+    </div>
+    <div class="slots" id="slots" aria-label="Tablica 16 miejsc"></div>
+    <div class="controls">
+      <label for="key" class="sr" style="position:absolute;left:-9999px">Klucz</label>
+      <input id="key" type="number" inputmode="numeric" value="48" aria-label="Klucz do wstawienia">
+      <button class="btn" id="ins" type="button">Wstaw</button>
+      <button class="btn ghost" id="mult" type="button">Wstaw 16, 32, …, 128</button>
+      <button class="btn ghost" id="clr" type="button">Wyczyść</button>
+    </div>
+    <div class="log" id="log" aria-live="polite">Wpisz liczbę i wstaw ją. Indeks to <code>hash(x) &amp; 15</code>, a przy kolizji sprawdzane jest kolejne miejsce.</div>
+    <div class="stat" id="stat"></div>
+  </section>
+
+  <div class="prose">
+    <p style="margin-top:1.25rem">Z domyślnym haszem wielokrotności 16 lądują w jednym ciągu i każde kolejne wstawienie sprawdza coraz więcej miejsc. Po przełączeniu na splitmix64 te same liczby rozkładają się po tablicy. Przy połowie zajętych miejsc prawdziwa <code>gp_hash_table</code> podwoiłaby rozmiar, dlatego demo zatrzymuje się na 8 elementach.</p>
+
+    <h2>Przygotowanie</h2>
+    <p>Struktura jest częścią rozszerzenia GCC, więc działa na sprawdzarce OI, Codeforces i AtCoder, ale nie w MSVC.</p>
+<pre><code>#include &lt;bits/stdc++.h&gt;
+#include &lt;ext/pb_ds/assoc_container.hpp&gt;
+using namespace std;
+using namespace __gnu_pbds;</code></pre>
+
+    <h2>Jako mapa</h2>
+    <p>Drugi parametr szablonu to typ wartości, tak jak w <code>unordered_map</code>.</p>
+<pre><code>gp_hash_table&lt;int, int&gt; cnt;
+
+cnt[5]++;                        <span class="c">// operator[] działa jak zwykle</span>
+cnt.insert({7, 3});              <span class="c">// zwraca pair&lt;iterator, bool&gt;</span>
+
+auto it = cnt.find(5);
+if (it != cnt.end())
+    cout &lt;&lt; it-&gt;second &lt;&lt; '\n';  <span class="c">// 1</span>
+
+cnt.erase(7);                    <span class="c">// zwraca bool: czy coś usunięto</span>
+
+for (auto &amp;[k, v] : cnt)          <span class="c">// kolejność nieokreślona</span>
+    cout &lt;&lt; k &lt;&lt; ' ' &lt;&lt; v &lt;&lt; '\n';</code></pre>
+
+    <h2>Jako zbiór</h2>
+    <p>Zamiast typu wartości podaje się <code>null_type</code>. Znika wtedy <code>operator[]</code>, a iterator wskazuje bezpośrednio na klucz.</p>
+<pre><code>gp_hash_table&lt;int, null_type&gt; s;
+
+s.insert(5);
+s.insert(5);                     <span class="c">// duplikat, nic się nie zmienia</span>
+
+if (s.find(5) != s.end())        <span class="c">// zamiast count()</span>
+    cout &lt;&lt; "jest\n";
+
+s.erase(5);
+
+for (int x : s)
+    cout &lt;&lt; x &lt;&lt; '\n';</code></pre>
+    <p>W starszych GCC ten typ nazywał się <code>null_mapped_type</code>.</p>
+
+    <h2>Porównanie metod</h2>
+    <p>Średnia złożoność podstawowych operacji jest taka sama, czyli O(1). Różnią się dostępne metody i stała.</p>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Operacja</th><th><code>unordered_map</code> / <code>unordered_set</code></th><th><code>gp_hash_table</code></th><th>Ile razy szybciej</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>m[k]</code></td><td>Tworzy wartość domyślną, jeśli klucza nie ma. Tylko mapa.</td><td class="same">Tak samo. Tylko mapa.</td><td class="x"><b>2,5× / 4,1×</b></td></tr>
+        <tr><td><code>insert(x)</code></td><td>Zwraca <code>pair&lt;iterator, bool&gt;</code>.</td><td class="same">Tak samo.</td><td class="x"><b>2,5× / 3,8×</b><span>zbiór: 2,6× / 4,9×</span></td></tr>
+        <tr><td><code>find(k)</code>, klucz jest</td><td>Iterator albo <code>end()</code>.</td><td class="same">Tak samo.</td><td class="x"><b>1,9× / 1,9×</b><span>zbiór: 2,3× / 2,3×</span></td></tr>
+        <tr><td><code>find(k)</code>, klucza nie ma</td><td>Zwraca <code>end()</code>.</td><td class="same">Tak samo.</td><td class="x"><b>1,7× / 1,9×</b><span>zbiór: 1,9× / 1,9×</span></td></tr>
+        <tr><td><code>count(k)</code></td><td>Zwraca 0 lub 1.</td><td class="no">Brak, używaj <code>find(k) != end()</code>.</td><td class="x same">jak <code>find</code></td></tr>
+        <tr><td><code>contains(k)</code></td><td>Od C++20.</td><td class="no">Brak.</td><td class="x same">jak <code>find</code></td></tr>
+        <tr><td><code>erase(k)</code></td><td>Zwraca liczbę usuniętych (0 lub 1).</td><td>Zwraca <code>bool</code>.</td><td class="x"><b>6,8× / 9,8×</b><span>zbiór: 7,8× / 11,2×</span></td></tr>
+        <tr><td>Usuwanie warunkowe</td><td>Wolna funkcja <code>std::erase_if(m, pred)</code> od C++20.</td><td>Metoda <code>m.erase_if(pred)</code>.</td><td class="x same">nie mierzono</td></tr>
+        <tr><td><code>at(k)</code></td><td>Wyjątek, gdy klucza nie ma.</td><td class="no">Brak.</td><td class="x same">brak w gp</td></tr>
+        <tr><td><code>emplace</code>, <code>try_emplace</code></td><td>Są.</td><td class="no">Brak, używaj <code>insert</code> lub <code>[]</code>.</td><td class="x same">brak w gp</td></tr>
+        <tr><td><code>size</code>, <code>empty</code></td><td>Są, O(1).</td><td class="same">Tak samo.</td><td class="x same">bez różnicy</td></tr>
+        <tr><td><code>clear()</code></td><td>Jest.</td><td class="same">Tak samo.</td><td class="x"><b>0,75× / 2,0×</b><span>zbiór: 0,85× / 2,4×</span></td></tr>
+        <tr><td>Iterowanie</td><td>Kolejność nieokreślona.</td><td class="same">Tak samo.</td><td class="x"><b>2,4× / 7,8×</b><span>zbiór: 2,5× / 8,3×</span></td></tr>
+        <tr><td><code>reserve(n)</code>, <code>rehash</code></td><td>Są.</td><td class="no">Brak. Rozmiar startowy podaje się w konstruktorze.</td><td class="x same">brak w gp</td></tr>
+        <tr><td><code>load_factor</code>, <code>bucket_count</code></td><td>Są.</td><td class="no">Brak w domyślnej konfiguracji.</td><td class="x same">brak w gp</td></tr>
+        <tr><td>Kolizje</td><td>Lista w każdym kubełku, osobna alokacja na element.</td><td>Jedna tablica, przy kolizji sprawdzane jest kolejne miejsce.</td><td class="x same"></td></tr>
+        <tr><td>Dostępność</td><td>Każdy kompilator.</td><td>Tylko GCC.</td><td class="x same"></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="prose">
+    <p class="note">Przyspieszenie to czas <code>unordered_*</code> podzielony przez czas <code>gp_hash_table</code>, dla n = 10⁵ i n = 10⁶ losowych kluczy <code>int</code>. Pierwsza liczba dotyczy mapy <code>&lt;int, int&gt;</code>, druga linia zbioru. Obie struktury używały tego samego haszu splitmix64 i startowały bez <code>reserve</code> ani rozmiaru początkowego. Kompilacja: G++ 13.3, <code>-O3 -static -std=c++23</code> (flagi jak na OI), mediana z kilku powtórzeń na jednym rdzeniu. Na innym sprzęcie liczby będą inne, ale proporcje zwykle podobne. Wartość poniżej 1× oznacza, że <code>gp_hash_table</code> była wolniejsza.</p>
+    <p>Największa przewaga jest przy usuwaniu i iterowaniu: <code>gp_hash_table</code> przy usunięciu tylko oznacza miejsce jako wolne i przechodzi po ciągłej tablicy, a <code>unordered_map</code> zwalnia pamięć węzła i skacze po wskaźnikach. Przy większym n rośnie znaczenie pamięci podręcznej, dlatego przewaga dla 10⁶ jest wyraźniejsza.</p>
+  </div>
+
+  <div class="prose">
+    <h2>Rozmiar startowy</h2>
+    <p>Odpowiednikiem <code>reserve</code> jest piąty argument konstruktora, czyli polityka zmiany rozmiaru. Pierwsze cztery <code>{}</code> budują domyślnie hasz, porównanie, mapowanie na indeks i sondowanie.</p>
+<pre><code>gp_hash_table&lt;int, int&gt; m({}, {}, {}, {}, {1 &lt;&lt; 16});</code></pre>
+    <p>Tablica startuje od 65&nbsp;536 miejsc i powiększa się dwukrotnie, gdy zapełni się w połowie, więc taki start wystarcza na około 32&nbsp;tysiące elementów bez rehashowania. Podawaj potęgę dwójki, bo indeks liczony jest maską bitową.</p>
+
+    <h2>Własny hasz</h2>
+    <p>Mapowanie <code>hash &amp; (rozmiar − 1)</code> patrzy tylko na niskie bity, a domyślny hasz liczb całkowitych w GCC to sama liczba. Klucze o tych samych niskich bitach tworzą więc długie ciągi kolizji, co widać w demie na górze. Splitmix64 z losowym seedem miesza wszystkie bity i zapobiega celowanym atakom.</p>
+<pre><code>struct H {
+    static uint64_t sm(uint64_t x) {
+        x += 0x9e3779b97f4a7c15;
+        x = (x ^ (x &gt;&gt; 30)) * 0xbf58476d1ce4e5b9;
+        x = (x ^ (x &gt;&gt; 27)) * 0x94d049bb133111eb;
+        return x ^ (x &gt;&gt; 31);
+    }
+    size_t operator()(uint64_t x) const {
+        static const uint64_t R =
+            chrono::steady_clock::now().time_since_epoch().count();
+        return sm(x + R);
+    }
+};
+
+gp_hash_table&lt;int, int, H&gt;       m({}, {}, {}, {}, {1 &lt;&lt; 16});
+gp_hash_table&lt;int, null_type, H&gt; s({}, {}, {}, {}, {1 &lt;&lt; 16});</code></pre>
+
+    <h3>Prostsza wersja do zapamiętania</h3>
+    <p>Na OI testy są przygotowane z góry i nikt nie dobiera danych pod Twój hasz, więc pełny splitmix64 nie jest potrzebny. Wystarczą trzy kroki: XOR, mnożenie przez losową nieparzystą liczbę i znowu XOR, bez żadnych stałych do zapamiętania:</p>
+<pre><code>struct H {
+    size_t operator()(uint64_t x) const {
+        static const uint64_t C = mt19937_64(time(0))() | 1;
+        x ^= x &gt;&gt; 32;
+        x *= C;
+        return x ^ (x &gt;&gt; 32);
+    }
+};</code></pre>
+    <p><code>x *= C</code> rozprowadza bity w górę: każdy bit wpływa na wszystkie wyższe bity iloczynu. Mnożenie przez liczbę nieparzystą jest odwracalne modulo 2⁶⁴, dlatego <code>| 1</code> gwarantuje, że różne wartości dają różne iloczyny. Mnożenie nie przenosi jednak informacji w dół: dolne bity iloczynu zależą tylko od dolnych bitów tego, co mnożymy, a <code>gp_hash_table</code> wybiera miejsce właśnie po dolnych bitach. Dlatego końcowe <code>x ^ (x &gt;&gt; 32)</code> ściąga wymieszaną górną połowę na dół.</p>
+
+    <h3>Po co pierwszy XOR</h3>
+    <p>Bez linijki <code>x ^= x &gt;&gt; 32</code> hasz ma dziurę. Końcowy XOR ściąga na dół tylko bity 32–63 iloczynu. Jeśli klucze różnią się wyłącznie wysokimi bitami, np. <code>i &lt;&lt; 48</code>, to iloczyn <code>x * C</code> ma dolne 48 bitów równe zeru, więc po XOR-ze dolne 16 bitów wyniku jest zerem dla każdego klucza. Przy tablicy do 65&nbsp;536 miejsc wszystkie klucze trafiają wtedy w to samo miejsce.</p>
+    <p>Pierwszy XOR składa górną połowę klucza na dolną jeszcze przed mnożeniem. Dzięki temu wysokie bity też biorą udział w mnożeniu i rozchodzą się po całym wyniku. Ta operacja jest odwracalna, więc różne klucze nadal dają różne wartości. Czas dla 20&nbsp;tysięcy kluczy w <code>gp_hash_table</code>:</p>
+    <div class="table-wrap">
+      <table style="min-width: 22rem">
+        <thead><tr><th>Klucze</th><th>Bez pierwszego XOR</th><th>Z pierwszym XOR</th><th>splitmix64</th></tr></thead>
+        <tbody>
+          <tr><td>losowe</td><td>1,4 ms</td><td>1,4 ms</td><td>1,7 ms</td></tr>
+          <tr><td><code>i &lt;&lt; 16</code></td><td>1,0 ms</td><td>1,2 ms</td><td>1,5 ms</td></tr>
+          <tr><td><code>i &lt;&lt; 32</code></td><td>2,2 ms</td><td>1,3 ms</td><td>1,4 ms</td></tr>
+          <tr><td><code>i &lt;&lt; 44</code></td><td class="no">52,6 ms</td><td>1,2 ms</td><td>1,6 ms</td></tr>
+          <tr><td><code>i &lt;&lt; 48</code></td><td class="no">554 ms</td><td>0,9 ms</td><td>1,5 ms</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Kluczy typu <code>int</code> ten problem nie dotyczy, bo nie mają wysokich bitów. Pojawia się przy <code>long long</code> i <code>uint64_t</code>, np. przy spakowanych lub przesuniętych wartościach, a także w haszach par i wektorów, które używają tej samej funkcji. Z pierwszym XOR-em prosty hasz był dobry na wszystkich wzorcach i nawet odrobinę szybszy od splitmix64.</p>
+
+    <h3>Co robią <code>time</code> i <code>mt19937_64</code></h3>
+    <p><code>time(0)</code> z nagłówka <code>&lt;ctime&gt;</code> zwraca liczbę sekund, które upłynęły od 1 stycznia 1970 roku (czas uniksowy), np. około 1,8 miliarda. Wartość zmienia się raz na sekundę, więc dwa uruchomienia w tej samej sekundzie dostaną ten sam wynik. Służy tu tylko jako ziarno, czyli punkt startowy dla generatora.</p>
+    <p><code>mt19937_64</code> z nagłówka <code>&lt;random&gt;</code> to generator liczb pseudolosowych Mersenne Twister w wersji 64-bitowej. Z ziarna buduje wewnętrzny stan (312 liczb 64-bitowych), a każde wywołanie <code>()</code> zwraca kolejną liczbę z pełnego zakresu 64 bitów. Ten sam seed zawsze daje ten sam ciąg liczb, więc generator jest deterministyczny.</p>
+    <p>Zapis <code>mt19937_64(time(0))()</code> ma dwie pary nawiasów. Pierwsza tworzy tymczasowy generator z ziarnem <code>time(0)</code>, druga od razu wywołuje go raz i pobiera pierwszą liczbę. Generator potem znika, bo potrzebna jest tylko ta jedna wartość.</p>
+    <p>Dlaczego nie użyć <code>time(0) | 1</code> bezpośrednio jako mnożnika? Bo to liczba 31-bitowa, a mnożnik powinien mieć nieregularne bity w całym zakresie 64 bitów. Przy małym mnożniku i małych kluczach górna połowa iloczynu byłaby pusta i XOR nie miałby czego ściągać w dół. Generator zamienia małe, przewidywalne ziarno w pełną, losowo wyglądającą liczbę 64-bitową.</p>
+    <p>Słowo <code>static</code> sprawia, że <code>C</code> jest liczone tylko raz, przy pierwszym wywołaniu, a potem pozostaje stałe. To konieczne, bo hasz tego samego klucza musi być zawsze taki sam. Oba nagłówki są dołączane przez <code>&lt;bits/stdc++.h&gt;</code>.</p>
+
+    <h3>Dlaczego <code>mt19937_64</code>, a nie inny generator</h3>
+    <p>Czas losowania jednej liczby, zmierzony na 100 milionach losowań z flagami jak na OI (G++ 13.3, <code>-O3 -static -std=c++23</code>):</p>
+    <div class="table-wrap">
+      <table style="min-width: 22rem">
+        <thead><tr><th>Generator</th><th>Czas na liczbę</th><th>Bitów w wyniku</th></tr></thead>
+        <tbody>
+          <tr><td><code>mt19937</code></td><td>~1,6 ns</td><td>32</td></tr>
+          <tr><td><code>mt19937_64</code></td><td>~1,6 ns</td><td>64</td></tr>
+          <tr><td>splitmix64</td><td>~2,0 ns</td><td>64</td></tr>
+          <tr><td><code>mt19937_64</code> + <code>uniform_int_distribution</code></td><td>~2,5 ns</td><td>zadany przedział</td></tr>
+          <tr><td>xorshift64</td><td>~3,4 ns</td><td>64</td></tr>
+          <tr><td><code>rand()</code></td><td class="no">~15,8 ns</td><td>31 na Linuksie, 15 na Windowsie</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><code>mt19937_64</code> jest najszybszy z mierzonych, mimo dużego stanu, bo generuje liczby partiami. Daje od razu pełne 64 bity, jest częścią standardu i działa tak samo na każdym kompilatorze. Prostsze generatory, jak xorshift czy splitmix64, nie dają tu żadnego zysku, a różnica rzędu nanosekund i tak nigdy nie jest wąskim gardłem rozwiązania.</p>
+    <p><code>rand()</code> ma kilka wad naraz. W GCC jest około 10 razy wolniejszy, bo jest zabezpieczony blokadą dla wielu wątków. Jego zakres zależy od systemu: na sprawdzarce OI <code>RAND_MAX</code> wynosi 2³¹ − 1, ale na Windowsie z MinGW tylko 32&nbsp;767, więc np. <code>rand() % 1000000</code> lokalnie nigdy nie przekroczy 32&nbsp;767. Do tego do 64-bitowego mnożnika trzeba by sklejać kilka wywołań.</p>
+    <p>Przy okazji: do mieszania tablicy używaj <code>shuffle(v.begin(), v.end(), rng)</code>. Stare <code>random_shuffle</code> zostało usunięte w C++17, więc z flagą <code>-std=c++23</code> kod się nie skompiluje.</p>
+
+    <h3>Pary i wektory <code>uint64_t</code></h3>
+    <p>Ten sam prosty hasz z mnożeniem wystarczy też dla par i wektorów. Mieszanie (XOR, mnożenie, XOR) jest wydzielone do funkcji <code>f</code>, a przeciążenia <code>operator()</code> tylko z niej korzystają.</p>
+<pre><code>struct H {
+    static uint64_t f(uint64_t x) {
+        static const uint64_t C = mt19937_64(time(0))() | 1;
+        x ^= x &gt;&gt; 32;
+        x *= C;
+        return x ^ (x &gt;&gt; 32);
+    }
+    <span class="c">// int, long long, uint64_t</span>
+    size_t operator()(uint64_t x) const {
+        return f(x);
+    }
+    <span class="c">// pair&lt;uint64_t, uint64_t&gt;</span>
+    size_t operator()(const pair&lt;uint64_t, uint64_t&gt;&amp; p) const {
+        return f(f(p.first) + p.second);
+    }
+    <span class="c">// vector&lt;uint64_t&gt;</span>
+    size_t operator()(const vector&lt;uint64_t&gt;&amp; v) const {
+        uint64_t h = v.size();
+        for (uint64_t x : v)
+            h = f(h + x);
+        return h;
+    }
+};
+
+gp_hash_table&lt;pair&lt;uint64_t, uint64_t&gt;, int, H&gt; mp;
+gp_hash_table&lt;vector&lt;uint64_t&gt;, null_type, H&gt;   sv;</code></pre>
+    <p>Dwóch liczb 64-bitowych nie da się spakować w jedną bez straty, więc para jest haszowana w dwóch krokach: najpierw mieszany jest <code>first</code>, potem dodawany <code>second</code> i całość mieszana jeszcze raz. Wektor jest mieszany element po elemencie, a start od <code>v.size()</code> odróżnia wektory różnej długości, np. <code>{0}</code> od <code>{0, 0}</code>. W obu przypadkach kolejność ma znaczenie, więc <code>{1, 2}</code> i <code>{2, 1}</code> dają różne hasze.</p>
+    <p>Losowy mnożnik <code>C</code> jest zmienną <code>static</code> wewnątrz <code>f</code>, więc wszystkie przeciążenia korzystają z tego samego <code>C</code>. W teście z <code>gp_hash_table</code> na parach (siatka <code>i, j</code>, przesunięte <code>i &lt;&lt; 20</code> i losowe) oraz wektorach ta wersja była tak samo szybka jak splitmix64. Haszowanie wektora kosztuje O(długość) przy każdej operacji, a przy trafieniu w zajęte miejsce dochodzi jeszcze porównanie całych wektorów.</p>
+
+    <h2>Na co uważać</h2>
+    <ul class="pitfalls">
+      <li><strong>Brak <code>count</code>.</strong> Kod przepisany z <code>unordered_map</code> często się nie skompiluje właśnie przez to. Zamień na <code>find(k) != end()</code>.</li>
+      <li><strong><code>m[k]</code> przy sprawdzaniu tworzy element.</strong> Tak samo jak w zwykłej mapie: <code>if (m[k])</code> dopisuje klucz z zerem i powiększa tablicę. Do samego sprawdzania używaj <code>find</code>.</li>
+      <li><strong>Domyślny hasz a regularne dane.</strong> Na Codeforces to znany cel hacków. Na OI testy są stałe, ale klucze typu <code>i * 1024</code> potrafią spowolnić tablicę przypadkiem.</li>
+      <li><strong>Dużo usunięć.</strong> Adresowanie otwarte zostawia po usuniętych elementach znaczniki, które nadal wydłużają wyszukiwanie. Przy naprzemiennym wstawianiu i usuwaniu wielu kluczy przewaga nad <code>unordered_map</code> może zniknąć.</li>
+      <li><strong>Klucze niebędące liczbami.</strong> Dla <code>pair</code>, <code>vector</code> i innych typów bez <code>std::hash</code> trzeba podać własny hasz, dokładnie jak przy <code>unordered_map</code>.</li>
+    </ul>
+
+  </div>
+
+
+</main>
+<footer>
+  <div class="f-in">
+    <span>Kod dotyczy GCC z libstdc++ i pb_ds.</span>
+    <span>© 2026 <a href="https://t-olimpians.com">T-Olimpians Team Poland</a></span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  const N = 16, MAXLOAD = 8;
+  const M64 = (1n << 64n) - 1n;
+  let mode = "id";
+  let slots = new Array(N).fill(null);
+  let totalProbes = 0, inserted = 0;
+
+  const slotsEl = document.getElementById("slots");
+  const logEl = document.getElementById("log");
+  const statEl = document.getElementById("stat");
+  const keyEl = document.getElementById("key");
+  const insBtn = document.getElementById("ins");
+  const multBtn = document.getElementById("mult");
+
+  function sm(x) {
+    let z = (x + 0x9e3779b97f4a7c15n) & M64;
+    z = ((z ^ (z >> 30n)) * 0xbf58476d1ce4e5b9n) & M64;
+    z = ((z ^ (z >> 27n)) * 0x94d049bb133111ebn) & M64;
+    return z ^ (z >> 31n);
+  }
+  function hash(x) {
+    const u = BigInt.asUintN(64, BigInt(x));
+    return mode === "id" ? u : sm(u);
+  }
+
+  function render(probed, placed) {
+    slotsEl.innerHTML = "";
+    for (let i = 0; i < N; i++) {
+      const d = document.createElement("div");
+      d.className = "slot";
+      if (slots[i] !== null) d.classList.add("full");
+      if (probed && probed.includes(i)) d.classList.add("probed");
+      if (placed === i) d.classList.add("placed");
+      d.innerHTML = '<span class="i">' + i + '</span><span class="v">' + (slots[i] === null ? "" : slots[i]) + "</span>";
+      slotsEl.appendChild(d);
+    }
+    const full = inserted >= MAXLOAD;
+    insBtn.disabled = full;
+    multBtn.disabled = full;
+    statEl.textContent = inserted
+      ? "Elementów: " + inserted + " / " + MAXLOAD + ", sprawdzonych miejsc łącznie: " + totalProbes + ", średnio " + (totalProbes / inserted).toFixed(2) + " na wstawienie"
+      : "";
+  }
+
+  function insert(x, quiet) {
+    if (inserted >= MAXLOAD) {
+      if (!quiet) logEl.innerHTML = "Tablica jest w połowie pełna. Prawdziwa <code>gp_hash_table</code> podwoiłaby teraz rozmiar. Wyczyść, żeby spróbować jeszcze raz.";
+      return null;
+    }
+    if (slots.includes(x)) {
+      if (!quiet) logEl.innerHTML = "Klucz " + x + " już jest w tablicy, <code>insert</code> zwróciłby <code>false</code>.";
+      render();
+      return null;
+    }
+    const h = hash(x);
+    const start = Number(h & 15n);
+    let i = start, probed = [];
+    while (slots[i] !== null) { probed.push(i); i = (i + 1) % N; }
+    slots[i] = x;
+    inserted++;
+    totalProbes += probed.length + 1;
+    const hStr = mode === "id" ? h.toString() : "0x" + h.toString(16);
+    let msg = "hash(" + x + ") = " + hStr + ", &amp; 15 = " + start + ". ";
+    if (probed.length) {
+      msg += '<span class="bad">Zajęte: ' + probed.join(", ") + ".</span> ";
+    }
+    msg += '<span class="good">Trafia na miejsce ' + i + "</span> (" + (probed.length + 1) + (probed.length + 1 === 1 ? " próba" : (probed.length + 1 < 5 ? " próby" : " prób")) + ").";
+    if (!quiet) { logEl.innerHTML = msg; render(probed, i); }
+    return msg;
+  }
+
+  insBtn.addEventListener("click", function () {
+    const v = keyEl.value.trim();
+    if (v === "" || !/^-?\d+$/.test(v) || Math.abs(Number(v)) > 2147483647) {
+      logEl.innerHTML = "Wpisz liczbę całkowitą z zakresu <code>int</code>.";
+      return;
+    }
+    insert(Number(v), false);
+  });
+  keyEl.addEventListener("keydown", function (e) { if (e.key === "Enter") insBtn.click(); });
+
+  multBtn.addEventListener("click", function () {
+    let last = null;
+    for (let k = 16; k <= 128 && inserted < MAXLOAD; k += 16) {
+      if (slots.includes(k)) continue;
+      last = insert(k, true);
+    }
+    logEl.innerHTML = last
+      ? "Wstawiono wielokrotności 16. Ostatnia: " + last
+      : "Te klucze już są w tablicy albo brakuje miejsca.";
+    render();
+  });
+
+  document.getElementById("clr").addEventListener("click", function () {
+    slots = new Array(N).fill(null); inserted = 0; totalProbes = 0;
+    logEl.innerHTML = "Tablica wyczyszczona.";
+    render();
+  });
+
+  document.querySelectorAll(".mode button").forEach(function (b) {
+    b.addEventListener("click", function () {
+      mode = b.dataset.mode;
+      document.querySelectorAll(".mode button").forEach(function (o) { o.setAttribute("aria-pressed", o === b ? "true" : "false"); });
+      slots = new Array(N).fill(null); inserted = 0; totalProbes = 0;
+      logEl.innerHTML = mode === "id"
+        ? "Domyślny hasz: dla liczby całkowitej to sama liczba. Tablica wyczyszczona."
+        : "splitmix64 (tu ze stałym seedem, żeby wyniki były powtarzalne). Tablica wyczyszczona.";
+      render();
+    });
+  });
+
+  render();
+})();
+</script>
+
+<script>
+(function () {
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* scroll reveal */
+  var items = document.querySelectorAll("main > .prose > h2, main > .prose > h3, main > .prose > pre, main > .prose > .table-wrap, main > .prose > ul, main > .table-wrap, main > .demo");
+  if (!reduce && "IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+    }, { rootMargin: "0px 0px -8% 0px" });
+    items.forEach(function (el) { el.classList.add("reveal"); io.observe(el); });
+  }
+
+  /* particles */
+  var cv = document.getElementById("particles");
+  var ctx = cv.getContext && cv.getContext("2d");
+  if (!ctx) return;
+  var W, H, pts = [], dpr = Math.min(window.devicePixelRatio || 1, 2);
+  function size() {
+    W = window.innerWidth; H = window.innerHeight;
+    cv.width = W * dpr; cv.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var n = Math.round(Math.min(70, W * H / 22000));
+    pts = [];
+    for (var i = 0; i < n; i++) pts.push({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - .5) * .25, vy: (Math.random() - .5) * .25 });
+  }
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    for (var i = 0; i < pts.length; i++) {
+      var p = pts[i];
+      if (!reduce) { p.x += p.vx; p.y += p.vy; }
+      if (p.x < 0 || p.x > W) p.vx *= -1;
+      if (p.y < 0 || p.y > H) p.vy *= -1;
+      ctx.fillStyle = "rgba(255,255,255,0.35)";
+      ctx.beginPath(); ctx.arc(p.x, p.y, 1.3, 0, 6.283); ctx.fill();
+      for (var j = i + 1; j < pts.length; j++) {
+        var q = pts[j], dx = p.x - q.x, dy = p.y - q.y, d = dx * dx + dy * dy;
+        if (d < 14000) {
+          ctx.strokeStyle = "rgba(232,55,74," + (0.18 * (1 - d / 14000)).toFixed(3) + ")";
+          ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y); ctx.stroke();
+        }
+      }
+    }
+    if (!reduce) requestAnimationFrame(draw);
+  }
+  size(); draw();
+  window.addEventListener("resize", function () { size(); if (reduce) draw(); });
+})();
+</script>
+</body>
+</html>

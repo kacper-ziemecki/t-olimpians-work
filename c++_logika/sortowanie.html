@@ -1,0 +1,2525 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sortowanie w C++ — T-Olimpians</title>
+<meta name="description" content="Sortowanie w C++ od zera — jedna linijka z sort() dla vectora, stringa i tablicy, a dla ciekawych 7 klasycznych algorytmów sortowania z interaktywnymi animacjami.">
+<link rel="canonical" href="https://t-olimpians.com/c++_logika/sortowanie.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="T-Olimpians Team Poland">
+<meta property="og:locale" content="pl_PL">
+<meta property="og:url" content="https://t-olimpians.com/c++_logika/sortowanie.html">
+<meta property="og:title" content="Sortowanie w C++ — T-Olimpians">
+<meta property="og:description" content="Sortowanie w C++ od zera — jedna linijka z sort() dla vectora, stringa i tablicy, a dla ciekawych 7 klasycznych algorytmów sortowania z interaktywnymi animacjami.">
+<meta property="og:image" content="https://t-olimpians.com/img/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg-base: #0a0a0f;
+    --bg-surface: #111118;
+    --bg-card: #15151e;
+    --bg-elevated: #1c1c28;
+    --accent: #3b82f6;
+    --accent-bright: #60a5fa;
+    --accent-glow: rgba(59,130,246,0.25);
+    --accent-dim: rgba(59,130,246,0.12);
+    --text-primary: #f0f0f8;
+    --text-secondary: #9090aa;
+    --text-muted: #55556a;
+    --border: rgba(255,255,255,0.07);
+    --border-accent: rgba(59,130,246,0.3);
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+}
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0; opacity: 0.6;
+}
+
+/* ── LANGUAGE SWITCHER ── */
+.lang-switcher {
+    display: flex; align-items: center; gap: 4px; margin-right: 8px; flex-shrink: 0;
+}
+.lang-btn {
+    background: transparent; border: 1px solid var(--border); color: var(--text-muted);
+    font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+    padding: 5px 9px; border-radius: 6px; cursor: pointer;
+    letter-spacing: 0.06em; transition: color 0.2s, border-color 0.2s, background 0.2s;
+    white-space: nowrap; line-height: 1;
+}
+.lang-btn:hover { color: var(--text-primary); border-color: var(--border-accent); background: var(--accent-dim); }
+.lang-btn.active { color: var(--accent-bright); border-color: var(--border-accent); background: var(--accent-dim); }
+
+/* ── NAVBAR ── */
+.navbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 48px; height: 68px;
+    background: rgba(10,10,15,0.75);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    transition: background 0.3s;
+}
+.navbar.scrolled { background: rgba(10,10,15,0.95); box-shadow: 0 4px 32px rgba(0,0,0,0.4); }
+.logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.logo img:first-child { width: 38px; height: 38px; border-radius: 10px; object-fit: cover; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.logo:hover img:first-child { transform: rotate(-5deg) scale(1.08); box-shadow: 0 0 16px var(--accent-glow); }
+#polska-flaga { width: 22px; height: auto; border-radius: 3px; }
+.logo-text { font-family: var(--font-display); font-weight: 700; font-size: 15px; color: var(--text-primary); letter-spacing: 0.01em; }
+.navbar-right { display: flex; align-items: center; gap: 0; flex-shrink: 0; }
+.nav-links { list-style: none; display: flex; align-items: center; gap: 4px; }
+.nav-links a {
+    text-decoration: none; color: var(--text-secondary); font-size: 14px; font-weight: 500;
+    padding: 8px 16px; border-radius: var(--radius-sm);
+    transition: color 0.2s, background 0.2s; cursor: pointer; letter-spacing: 0.02em;
+    position: relative;
+}
+.nav-links a:hover { color: var(--text-primary); background: var(--accent-dim); }
+.nav-links .nav-cta a { background: var(--accent); color: white; font-weight: 600; }
+.nav-links .nav-cta a:hover { background: var(--accent-bright); color: white; }
+.nav-links a::after {
+    content: ''; position: absolute; bottom: 4px; left: 16px; right: 16px;
+    height: 1px; background: var(--accent-bright);
+    transform: scaleX(0); transition: transform 0.25s ease;
+}
+.nav-links a:hover::after { transform: scaleX(1); }
+.nav-links .nav-cta a::after { display: none; }
+
+/* ── HAMBURGER ── */
+.hamburger {
+    display: none; flex-direction: column; justify-content: center;
+    gap: 5px; background: none; border: none; cursor: pointer; padding: 6px; z-index: 110;
+}
+.hamburger span { display: block; width: 24px; height: 2px; background: var(--text-primary); border-radius: 2px; transition: transform 0.3s, opacity 0.3s; }
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ── HERO ── */
+.hero {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    flex-direction: column; text-align: center;
+    padding: 120px 80px 80px; position: relative; overflow: hidden; z-index: 1;
+}
+.hero::after {
+    content: ''; position: absolute; top: 20%; left: 50%; transform: translateX(-50%);
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(59,130,246,0.07) 0%, transparent 70%);
+    pointer-events: none; animation: pulse-glow 6s ease-in-out infinite;
+}
+@keyframes pulse-glow { 0%,100% { opacity: 0.5; transform: translateX(-50%) scale(1); } 50% { opacity: 1; transform: translateX(-50%) scale(1.1); } }
+.hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent-dim); border: 1px solid var(--border-accent);
+    color: var(--accent-bright); font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+    padding: 6px 14px; border-radius: 100px; letter-spacing: 0.08em; text-transform: uppercase;
+    margin-bottom: 28px; animation: fadeInUp 0.6s ease both;
+}
+.hero-badge::before {
+    content: ''; width: 6px; height: 6px; background: var(--accent-bright);
+    border-radius: 50%; animation: blink 2s ease-in-out infinite;
+}
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.2; } }
+.hero h1 {
+    font-family: var(--font-display); font-size: clamp(44px,7vw,80px); font-weight: 800;
+    line-height: 1.0; letter-spacing: -0.03em; color: var(--text-primary);
+    margin-bottom: 24px; animation: fadeInUp 0.6s 0.1s ease both;
+}
+.hero h1 span {
+    background: linear-gradient(135deg, var(--accent-bright), #a78bfa);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.hero-sub {
+    font-size: 16px; color: var(--text-secondary); line-height: 1.75;
+    max-width: 520px; margin-bottom: 40px; animation: fadeInUp 0.6s 0.2s ease both;
+}
+.hero-actions { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; animation: fadeInUp 0.6s 0.3s ease both; }
+.btn-primary {
+    background: var(--accent); color: white; border: none;
+    padding: 14px 28px; border-radius: var(--radius-sm);
+    font-family: var(--font-body); font-size: 15px; font-weight: 600;
+    cursor: pointer; transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    letter-spacing: 0.01em; position: relative; overflow: hidden;
+}
+.btn-primary:hover { background: var(--accent-bright); transform: translateY(-2px); box-shadow: 0 8px 24px var(--accent-glow); }
+.btn-primary::before {
+    content: ''; position: absolute; top: 0; left: -100%; width: 60%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    transform: skewX(-20deg); transition: left 0.5s ease;
+}
+.btn-primary:hover::before { left: 150%; }
+.btn-ghost {
+    background: transparent; color: var(--text-secondary);
+    border: 1px solid var(--border);
+    padding: 14px 28px; border-radius: var(--radius-sm);
+    font-family: var(--font-body); font-size: 15px; font-weight: 500;
+    cursor: pointer; transition: color 0.2s, border-color 0.2s, transform 0.2s;
+}
+.btn-ghost:hover { color: var(--text-primary); border-color: var(--border-accent); transform: translateY(-2px); }
+.hero-tags { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--border); animation: fadeInUp 0.6s 0.4s ease both; }
+.hero-tag {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm);
+    padding: 8px 16px; font-family: var(--font-mono); font-size: 12px; color: var(--text-secondary);
+}
+.hero-tag strong { color: var(--accent-bright); }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ── DIVIDER ── */
+.divider { height: 1px; background: linear-gradient(to right, transparent, var(--border), transparent); margin: 0 80px; }
+
+/* ── SECTION LABEL ── */
+.section-label { font-family: var(--font-mono); font-size: 11px; font-weight: 500; color: var(--accent-bright); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 12px; display: block; }
+
+/* ── MAIN ── */
+main { padding: 0 80px; max-width: 1280px; margin: 0 auto; }
+
+/* ── REVEAL ── */
+.reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1); }
+.reveal.reveal-left { transform: translateX(-40px); }
+.reveal.reveal-right { transform: translateX(40px); }
+.reveal.visible { opacity: 1; transform: translate(0); }
+
+/* ── SECTION BLOCKS ── */
+.section-block { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; padding: 80px 0; border-bottom: 1px solid var(--border); }
+.section-block.reverse { direction: rtl; }
+.section-block.reverse > * { direction: ltr; }
+.section-content h2 { font-family: var(--font-display); font-size: clamp(26px,3vw,38px); font-weight: 700; letter-spacing: -0.02em; color: var(--text-primary); margin-bottom: 20px; line-height: 1.2; }
+.section-content p { color: var(--text-secondary); font-size: 15px; line-height: 1.8; margin-bottom: 16px; }
+.section-content p strong { color: var(--accent-bright); font-weight: 600; }
+
+/* ── CODE BLOCK ── */
+.code-block {
+    background: var(--bg-elevated); border: 1px solid var(--border);
+    border-radius: var(--radius-md); overflow: hidden;
+    transition: border-color 0.3s; margin: 20px 0;
+}
+.code-block:hover { border-color: var(--border-accent); }
+.code-top {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 16px; border-bottom: 1px solid var(--border);
+    background: rgba(28,28,40,0.8);
+}
+.code-lang { font-family: var(--font-mono); font-size: 10px; color: var(--accent-bright); letter-spacing: 0.2em; text-transform: uppercase; }
+.code-dots { display: flex; gap: 6px; }
+.code-dots span { width: 8px; height: 8px; border-radius: 50%; }
+.code-dots span:nth-child(1) { background: #ff5f57; }
+.code-dots span:nth-child(2) { background: #febc2e; }
+.code-dots span:nth-child(3) { background: #28c840; }
+pre { padding: 18px 20px; overflow-x: auto; font-family: var(--font-mono); font-size: 13px; line-height: 1.65; color: var(--text-secondary); }
+.kw { color: #7c9fff; font-weight: 500; }
+.fn { color: #60a5fa; }
+.str { color: #a6e22e; }
+.cm { color: var(--text-muted); font-style: italic; }
+.num { color: #fd971f; }
+.tp { color: #e6db74; }
+.op { color: var(--text-secondary); }
+.inc { color: #f92672; }
+
+/* ── INFO BOX ── */
+.info-box {
+    background: var(--accent-dim); border: 1px solid var(--border-accent);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius-sm); padding: 14px 18px; margin: 16px 0;
+    font-size: 14px; color: var(--text-secondary); line-height: 1.7;
+}
+
+/* ── ITER VISUAL ── */
+.iter-visual {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius-md); padding: 28px; margin: 20px 0;
+}
+.iter-row { display: flex; align-items: flex-end; gap: 0; overflow-x: auto; margin: 20px 0; }
+.iter-cell {
+    min-width: 54px; height: 54px; display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono); font-size: 14px; font-weight: 500;
+    border: 1px solid var(--border); background: var(--bg-elevated); color: var(--text-primary);
+    transition: all 0.3s;
+}
+.iter-cell:first-child { border-radius: 8px 0 0 8px; }
+.iter-cell:last-child { border-radius: 0 8px 8px 0; }
+.iter-cell.begin { background: var(--accent-dim); border-color: var(--border-accent); color: var(--accent-bright); }
+.iter-cell.end { background: rgba(167,139,250,0.1); border-color: rgba(167,139,250,0.3); color: #a78bfa; }
+.iter-label { font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); text-align: center; margin-top: 6px; }
+
+/* ── ALGO CARDS ── */
+.algo-grid { display: flex; flex-direction: column; gap: 24px; margin-top: 32px; }
+.algo-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); overflow: hidden;
+    transition: border-color 0.3s, transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s;
+    position: relative;
+}
+.algo-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, var(--accent-dim), transparent 60%);
+    opacity: 0; transition: opacity 0.3s; border-radius: inherit; pointer-events: none;
+}
+.algo-card:hover::before { opacity: 1; }
+.algo-card:hover { border-color: var(--border-accent); transform: translateY(-4px); box-shadow: 0 16px 48px var(--accent-glow); }
+.algo-header {
+    padding: 24px 28px 20px;
+    display: flex; align-items: flex-start; gap: 20px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(135deg, rgba(59,130,246,0.06), transparent);
+}
+.algo-num {
+    font-family: var(--font-mono); font-size: 10px; color: var(--accent-bright);
+    background: var(--accent-dim); border: 1px solid var(--border-accent);
+    border-radius: 6px; padding: 4px 10px; white-space: nowrap; margin-top: 4px;
+}
+.algo-title h3 { font-family: var(--font-display); font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+.algo-subtitle { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); letter-spacing: 0.08em; }
+.complexity-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+.badge { font-family: var(--font-mono); font-size: 11px; padding: 4px 12px; border-radius: 6px; border: 1px solid; }
+.badge-best { background: rgba(34,197,94,0.08); border-color: rgba(34,197,94,0.25); color: #4ade80; }
+.badge-avg  { background: rgba(251,191,36,0.08); border-color: rgba(251,191,36,0.25); color: #fbbf24; }
+.badge-worst{ background: rgba(249,82,114,0.08); border-color: rgba(249,82,114,0.25); color: #f95272; }
+.badge-mem  { background: rgba(167,139,250,0.08); border-color: rgba(167,139,250,0.25); color: #a78bfa; }
+.algo-body { padding: 24px 28px; }
+.sub-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent-bright); margin: 20px 0 10px; display: block; }
+.sub-label:first-child { margin-top: 0; }
+.algo-body p, .algo-body li { font-size: 14px; color: var(--text-secondary); line-height: 1.8; }
+.algo-body ul { padding-left: 20px; }
+.pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 12px 0; }
+.pros, .cons { padding: 14px 16px; border-radius: var(--radius-sm); font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+.pros { background: rgba(34,197,94,0.05); border: 1px solid rgba(34,197,94,0.15); }
+.cons { background: rgba(249,82,114,0.05); border: 1px solid rgba(249,82,114,0.15); }
+.pros strong { color: #4ade80; display: block; font-size: 11px; font-family: var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
+.cons strong { color: #f95272; display: block; font-size: 11px; font-family: var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
+.use-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+.use-tag {
+    font-family: var(--font-mono); font-size: 10px; color: var(--accent-bright);
+    background: var(--accent-dim); border: 1px solid var(--border-accent);
+    border-radius: 100px; padding: 4px 12px;
+}
+
+/* ── VISUALIZER ── */
+.viz-wrap {
+    margin: 20px 0; border: 1px solid var(--border); border-radius: var(--radius-md);
+    background: var(--bg-elevated); overflow: hidden; transition: border-color 0.3s;
+}
+.viz-wrap:hover { border-color: var(--border-accent); }
+.viz-top {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 16px; border-bottom: 1px solid var(--border);
+    background: rgba(28,28,40,0.9);
+}
+.viz-title { font-family: var(--font-mono); font-size: 10px; color: var(--accent-bright); letter-spacing: 0.2em; text-transform: uppercase; }
+.viz-ctrls { display: flex; gap: 8px; align-items: center; }
+.viz-btn {
+    font-family: var(--font-mono); font-size: 10px; color: var(--text-secondary);
+    background: var(--accent-dim); border: 1px solid var(--border-accent);
+    border-radius: var(--radius-sm); padding: 5px 14px; cursor: pointer;
+    letter-spacing: 0.08em; text-transform: uppercase; transition: all 0.2s;
+}
+.viz-btn:hover { color: var(--accent-bright); }
+.viz-btn.active { color: #f95272; border-color: rgba(249,82,114,0.4); background: rgba(249,82,114,0.08); }
+.viz-speed { display: flex; align-items: center; gap: 8px; }
+.viz-speed label { font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); }
+.viz-speed input[type=range] { width: 70px; accent-color: var(--accent-bright); cursor: pointer; }
+.viz-bars {
+    padding: 24px 20px 12px;
+    display: flex; align-items: flex-end; gap: 4px;
+    min-height: 160px; position: relative;
+}
+.bar {
+    flex: 1; border-radius: 4px 4px 0 0;
+    display: flex; align-items: flex-end; justify-content: center;
+    font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+    padding-bottom: 5px; min-width: 24px;
+    transition: height 0.15s ease, background 0.15s ease, transform 0.15s ease;
+    color: rgba(255,255,255,0.55);
+}
+.bar.s-default { background: linear-gradient(to top, #0f172a, #1e3a5f); border: 1px solid rgba(59,130,246,0.2); }
+.bar.s-compare { background: linear-gradient(to top, #4c1d95, #7c3aed); border: 1px solid rgba(124,58,237,0.6); box-shadow: 0 0 12px rgba(124,58,237,0.4); transform: scaleX(1.04); z-index:2; }
+.bar.s-swap    { background: linear-gradient(to top, #7c2d12, #ea580c); border: 1px solid rgba(234,88,12,0.6); box-shadow: 0 0 14px rgba(234,88,12,0.5); transform: scaleX(1.06) scaleY(1.02); z-index:3; }
+.bar.s-pivot   { background: linear-gradient(to top, #164e63, #06b6d4); border: 1px solid rgba(6,182,212,0.6); box-shadow: 0 0 14px rgba(6,182,212,0.5); z-index:2; }
+.bar.s-sorted  { background: linear-gradient(to top, #14532d, #16a34a); border: 1px solid rgba(22,163,74,0.4); box-shadow: 0 0 8px rgba(22,163,74,0.3); }
+.bar.s-min     { background: linear-gradient(to top, #78350f, #d97706); border: 1px solid rgba(217,119,6,0.6); box-shadow: 0 0 12px rgba(217,119,6,0.4); z-index:2; }
+.bar.s-insert  { background: linear-gradient(to top, #831843, #db2777); border: 1px solid rgba(219,39,119,0.6); box-shadow: 0 0 14px rgba(219,39,119,0.5); z-index:3; }
+.bar.s-merge-l { background: linear-gradient(to top, #1e3a8a, #3b82f6); border: 1px solid rgba(59,130,246,0.4); }
+.bar.s-merge-r { background: linear-gradient(to top, #4c1d95, #8b5cf6); border: 1px solid rgba(139,92,246,0.4); }
+.bar.s-count   { background: linear-gradient(to top, #0e7490, #22d3ee); border: 1px solid rgba(34,211,238,0.5); box-shadow: 0 0 10px rgba(34,211,238,0.3); }
+.viz-info {
+    display: flex; gap: 24px; flex-wrap: wrap;
+    padding: 8px 20px 12px;
+    font-family: var(--font-mono); font-size: 10px; color: var(--text-muted);
+}
+.viz-stat { display: flex; gap: 6px; align-items: center; }
+.viz-val { color: var(--accent-bright); font-weight: 500; }
+.viz-legend {
+    display: flex; gap: 12px; flex-wrap: wrap;
+    padding: 10px 20px; border-top: 1px solid var(--border);
+}
+.leg { display: flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 9px; color: var(--text-muted); }
+.leg-dot { width: 10px; height: 10px; border-radius: 2px; }
+
+/* ── SUMMARY GRID ── */
+.summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 40px 0; }
+.summary-card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md);
+    padding: 20px; transition: border-color 0.3s, transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s;
+    position: relative; overflow: hidden;
+}
+.summary-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, var(--accent-dim), transparent 60%); opacity: 0; transition: opacity 0.3s; border-radius: inherit; }
+.summary-card:hover::before { opacity: 1; }
+.summary-card:hover { border-color: var(--border-accent); transform: translateY(-4px); box-shadow: 0 12px 32px var(--accent-glow); }
+.sc-name { font-family: var(--font-display); font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+.sc-complexity { font-family: var(--font-mono); font-size: 12px; color: var(--accent-bright); margin-bottom: 10px; }
+.sc-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+.sc-tag { font-family: var(--font-mono); font-size: 9px; padding: 3px 8px; border-radius: 4px; }
+.sc-stable { background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.2); color: #4ade80; }
+.sc-unstable { background: rgba(249,82,114,0.08); border: 1px solid rgba(249,82,114,0.2); color: #f95272; }
+.sc-o1 { background: rgba(167,139,250,0.08); border: 1px solid rgba(167,139,250,0.2); color: #a78bfa; }
+.sc-on { background: rgba(251,191,36,0.08); border: 1px solid rgba(251,191,36,0.2); color: #fbbf24; }
+.sc-on2 { background: rgba(249,82,114,0.08); border: 1px solid rgba(249,82,114,0.2); color: #f95272; }
+
+/* ── PARTICLES ── */
+#particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.4; }
+
+/* ── FOOTER ── */
+footer { border-top: 1px solid var(--border); padding: 32px 80px; display: flex; justify-content: space-between; align-items: center; color: var(--text-muted); font-size: 13px; }
+footer span { font-family: var(--font-mono); }
+
+/* ── RESPONSIVE ── */
+.nav-group-item { display: flex; align-items: center; }
+.nav-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border-accent);
+    border-radius: var(--radius-sm);
+    padding: 8px 10px 3px;
+    margin-top: 7px;
+    background: var(--accent-dim);
+}
+.nav-group-label {
+    position: absolute;
+    top: -7px;
+    left: 12px;
+    background: #0a0a0f;
+    padding: 1px 7px;
+    border: 1px solid var(--border-accent);
+    border-radius: 100px;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    font-weight: 500;
+    color: var(--accent-bright);
+    text-transform: lowercase;
+    letter-spacing: 0.06em;
+    line-height: 1.3;
+}
+.nav-group-links { display: flex; align-items: center; gap: 2px; }
+
+
+@media (max-width: 900px) {
+    .navbar { padding: 0 20px; }
+    .hamburger { display: flex; }
+    .logo-text { font-size: 13px; }
+    .nav-links {
+        display: none; flex-direction: column;
+        position: fixed; top: 68px; left: 0; right: 0;
+        background: rgba(10,10,15,0.98); backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border);
+        padding: 16px 0 24px; gap: 0; z-index: 99;
+    }
+    .nav-links.open { display: flex; }
+    .nav-links li { width: 100%; }
+    .nav-group-item { width: 100%; }
+    .nav-group {
+        flex-direction: column;
+        align-items: stretch;
+        border-radius: var(--radius-md);
+        margin: 16px 28px 6px;
+        padding: 12px 0 6px;
+        width: auto;
+    }
+    .nav-group-label { left: 16px; background: #0a0a0f; }
+    .nav-group-links { flex-direction: column; width: 100%; }
+    .nav-group-links a { width: 100%; }
+
+    .nav-links a { display: block; padding: 14px 28px; font-size: 16px; border-radius: 0; }
+    .nav-links .nav-cta { padding: 12px 20px 0; }
+    .nav-links .nav-cta a { display: block; text-align: center; border-radius: var(--radius-sm); padding: 14px; }
+    .lang-switcher { display: none; }
+    main { padding: 0 24px; }
+    .hero { padding: 100px 24px 60px; }
+    .section-block { grid-template-columns: 1fr; gap: 32px; padding: 60px 0; }
+    .section-block.reverse { direction: ltr; }
+    .divider { margin: 0 24px; }
+    footer { flex-direction: column; gap: 12px; padding: 24px; text-align: center; }
+    .pros-cons { grid-template-columns: 1fr; }
+    .viz-bars { min-height: 120px; }
+    .bar { font-size: 9px; }
+}
+
+        /* ─── Tabela metod ze złożonością ─── */
+        .metody-wrap {
+            margin-top: 32px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow-x: auto;
+            background: var(--bg-card);
+        }
+
+        table.metody {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            min-width: 520px;
+        }
+
+        table.metody th {
+            text-align: left;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border);
+            background: rgba(255,255,255,0.02);
+            white-space: nowrap;
+        }
+
+        table.metody td {
+            padding: 13px 18px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+            line-height: 1.6;
+            vertical-align: top;
+        }
+
+        table.metody tr:last-child td { border-bottom: none; }
+        table.metody tbody tr { transition: background 0.2s; }
+        table.metody tbody tr:hover { background: rgba(96,165,250,0.05); }
+
+        table.metody td:first-child { white-space: nowrap; }
+        table.metody td:last-child { white-space: nowrap; }
+
+        table.metody code {
+            font-family: var(--font-mono);
+            font-size: 12.5px;
+            color: var(--accent-bright);
+            background: var(--accent-dim);
+            border: 1px solid var(--border-accent);
+            padding: 3px 9px;
+            border-radius: 5px;
+        }
+
+        .zloz {
+            font-family: var(--font-mono);
+            font-size: 11.5px;
+            font-weight: 500;
+            padding: 3px 10px;
+            border-radius: 100px;
+            white-space: nowrap;
+            display: inline-block;
+        }
+
+        .zloz.z1    { color:#4ade80; background:rgba(74,222,128,0.1);  border:1px solid rgba(74,222,128,0.28); }
+        .zloz.zlog  { color:#60a5fa; background:rgba(96,165,250,0.1);  border:1px solid rgba(96,165,250,0.28); }
+        .zloz.znlog { color:#a78bfa; background:rgba(167,139,250,0.1); border:1px solid rgba(167,139,250,0.28); }
+        .zloz.zn    { color:#fbbf24; background:rgba(251,191,36,0.1);  border:1px solid rgba(251,191,36,0.28); }
+        .zloz.zn2   { color:#f87171; background:rgba(248,113,113,0.1); border:1px solid rgba(248,113,113,0.28); }
+        .zloz.zinny { color:var(--text-secondary); background:rgba(255,255,255,0.05); border:1px solid var(--border); }
+
+        /* ─── Przykładowe zadania ─── */
+        .zadania-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 32px;
+        }
+
+        .zadanie {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 22px 24px;
+            transition: border-color 0.3s, transform 0.35s cubic-bezier(0.16,1,0.3,1);
+        }
+
+        .zadanie:hover {
+            border-color: var(--border-accent);
+            transform: translateY(-2px);
+        }
+
+        .zadanie-gora {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .zadanie-poziom {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            border-radius: 100px;
+            flex-shrink: 0;
+        }
+
+        .poz-latwe   { color:#4ade80; background:rgba(74,222,128,0.1);  border:1px solid rgba(74,222,128,0.28); }
+        .poz-srednie { color:#fbbf24; background:rgba(251,191,36,0.1);  border:1px solid rgba(251,191,36,0.28); }
+        .poz-trudne  { color:#f87171; background:rgba(248,113,113,0.1); border:1px solid rgba(248,113,113,0.28); }
+
+        .zadanie-tytul {
+            font-family: var(--font-display);
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+        }
+
+        .zadanie-tresc {
+            color: var(--text-secondary);
+            font-size: 14.5px;
+            line-height: 1.75;
+        }
+
+        .zadanie-wsk {
+            margin-top: 12px;
+            padding: 12px 16px;
+            background: var(--bg-surface);
+            border-left: 2px solid var(--border-accent);
+            border-radius: var(--radius-sm);
+            font-size: 13.5px;
+            line-height: 1.65;
+            color: var(--text-secondary);
+        }
+
+        .zadanie-wsk strong { color: var(--accent-bright); }
+
+        .zadanie-rozw { margin-top: 16px; }
+
+        .zadanie-rozw summary {
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--accent-bright);
+            letter-spacing: 0.05em;
+            padding: 9px 16px;
+            border: 1px solid var(--border-accent);
+            border-radius: 100px;
+            display: inline-block;
+            list-style: none;
+            transition: background 0.25s, transform 0.25s;
+            user-select: none;
+        }
+
+        .zadanie-rozw summary::-webkit-details-marker { display: none; }
+        .zadanie-rozw summary::before { content: '▸ '; }
+        .zadanie-rozw[open] summary::before { content: '▾ '; }
+        .zadanie-rozw summary:hover { background: var(--accent-dim); transform: translateY(-1px); }
+        .zadanie-rozw[open] summary { margin-bottom: 16px; }
+
+        @media (max-width: 720px) {
+            .zadanie { padding: 18px 16px; }
+            table.metody { font-size: 13px; }
+            table.metody th, table.metody td { padding: 11px 13px; }
+        }
+
+        /* ── Sekcje dopisane skryptem rozszerz-sortowanie.py ──
+           Wszystko ograniczone do .rozsz, zeby nie zmienic wygladu
+           blokow kodu, ktore juz byly na stronie.                */
+        .rozsz .code-block-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--border);
+            background: rgba(28,28,40,0.6);
+        }
+
+        .rozsz .code-block-title {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--accent-bright);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .rozsz .code-block-header .code-dots { order: -1; }
+
+        .rozsz pre code {
+            font: inherit;
+            color: inherit;
+            background: none;
+            border: none;
+            padding: 0;
+        }
+
+        /* paleta tej strony: #include na rozowo, naglowek na zielono */
+        .rozsz .pp  { color: #f92672; }
+        .rozsz .inc { color: #a6e22e; }
+        .rozsz .var { color: #f8f8f2; }
+
+        .rozsz .output-label {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--text-muted);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin: 14px 0 6px;
+        }
+
+        .rozsz .output-box {
+            background: rgba(166,226,46,0.06);
+            border: 1px solid rgba(166,226,46,0.2);
+            border-radius: var(--radius-sm);
+            padding: 14px 18px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            line-height: 1.7;
+            color: #a6e22e;
+            white-space: pre-wrap;
+        }
+
+        .rozsz .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 900px) {
+            .rozsz .two-col { grid-template-columns: 1fr; }
+        }
+        /* ─── FILMY OKI ─── */
+        .wideo-sekcja {
+            margin: 0 0 12px;
+            padding: 30px 32px 32px;
+            background: linear-gradient(140deg, rgba(239,68,68,0.07), rgba(120,60,180,0.04) 55%, transparent);
+            border: 1px solid rgba(239,68,68,0.20);
+            border-radius: var(--radius-lg);
+            position: relative;
+            overflow: hidden;
+        }
+        .wideo-sekcja::before {
+            content: '';
+            position: absolute;
+            top: -80px; right: -80px;
+            width: 260px; height: 260px;
+            background: radial-gradient(circle, rgba(239,68,68,0.10) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .wideo-gora {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-bottom: 22px;
+            position: relative;
+            z-index: 1;
+        }
+        .wideo-gora-tekst { flex: 1 1 320px; min-width: 0; }
+        .wideo-etykieta {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #f87171;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        .wideo-etykieta::before {
+            content: '';
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: #ef4444;
+            box-shadow: 0 0 8px rgba(239,68,68,0.7);
+            flex-shrink: 0;
+        }
+        .wideo-sekcja h2 {
+            font-family: var(--font-display);
+            font-size: clamp(19px, 2.3vw, 25px);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        .wideo-sekcja h2 span {
+            background: linear-gradient(90deg, #f87171, #fb923c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .wideo-wstep {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.7;
+            max-width: 560px;
+        }
+        .wideo-playlisty {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            flex-shrink: 0;
+        }
+        .wideo-playlisty a {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            letter-spacing: 0.04em;
+            padding: 8px 14px;
+            border-radius: 100px;
+            border: 1px solid rgba(239,68,68,0.28);
+            background: rgba(239,68,68,0.07);
+            color: #f87171;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: background 0.2s, border-color 0.2s, color 0.2s;
+        }
+        .wideo-playlisty a:hover {
+            background: rgba(239,68,68,0.16);
+            border-color: rgba(239,68,68,0.55);
+            color: #fca5a5;
+        }
+        .wideo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(228px, 1fr));
+            gap: 14px;
+            position: relative;
+            z-index: 1;
+        }
+        .wideo-karta {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            transition: border-color 0.25s, transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s;
+        }
+        .wideo-karta:hover {
+            border-color: rgba(239,68,68,0.45);
+            transform: translateY(-4px);
+            box-shadow: 0 14px 34px rgba(239,68,68,0.15);
+        }
+        .wideo-miniatura {
+            position: relative;
+            aspect-ratio: 16 / 9;
+            background: #000;
+        }
+        .wideo-miniatura img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: opacity 0.25s;
+        }
+        .wideo-karta:hover .wideo-miniatura img { opacity: 0.72; }
+        .wideo-miniatura iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%; height: 100%;
+            border: 0;
+        }
+        .wideo-play {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+        .wideo-play span {
+            width: 48px; height: 33px;
+            border-radius: 8px;
+            background: rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.22);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            transition: background 0.25s, border-color 0.25s, transform 0.25s;
+        }
+        .wideo-karta:hover .wideo-play span {
+            background: #ef4444;
+            border-color: #ef4444;
+            transform: scale(1.12);
+        }
+        .wideo-czas {
+            position: absolute;
+            right: 7px; bottom: 7px;
+            font-family: var(--font-mono);
+            font-size: 10.5px;
+            letter-spacing: 0.02em;
+            color: #fff;
+            background: rgba(0,0,0,0.82);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        .wideo-opis { padding: 11px 13px 13px; }
+        .wideo-meta {
+            font-family: var(--font-mono);
+            font-size: 9.5px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+        .wideo-meta b {
+            color: #f87171;
+            font-weight: 600;
+        }
+        .wideo-tytul {
+            font-size: 13px;
+            line-height: 1.45;
+            color: var(--text-secondary);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            transition: color 0.2s;
+        }
+        .wideo-karta:hover .wideo-tytul { color: var(--text-primary); }
+        .wideo-zrodlo {
+            margin-top: 16px;
+            font-size: 11.5px;
+            color: var(--text-muted);
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 720px) {
+            .wideo-sekcja { padding: 22px 18px 24px; border-radius: var(--radius-md); }
+            .wideo-gora { gap: 16px; }
+            .wideo-grid { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
+            .wideo-tytul { font-size: 12.5px; }
+        }
+
+</style>
+    <style id="tablet-nav">
+        /* ─── TABLET: nawigacja i logo (641–1299px) ───
+           < 1024px  menu pod hamburgerem jako panel po prawej,
+           1024–1299 pelne menu w wersji kompaktowej + logo w dwoch liniach. */
+        @media (min-width: 641px) {
+            .logo { flex-shrink: 0; }
+            .logo-text { white-space: nowrap; }
+        }
+
+        @media (min-width: 641px) and (max-width: 1023px) {
+            .navbar { padding: 0 28px; }
+            .logo-text { font-size: 15px; }
+            .hamburger { display: flex; }
+            .nav-pointer-bubble { display: none !important; }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: fixed;
+                top: 76px; right: 20px; left: auto;
+                width: 340px;
+                max-height: calc(100vh - 96px);
+                overflow-y: auto;
+                background: rgba(10, 10, 15, 0.98);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border: 1px solid var(--border);
+                border-radius: var(--radius-lg, 20px);
+                box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+                padding: 10px 0 16px;
+                gap: 0;
+                z-index: 99;
+            }
+            .nav-links.open { display: flex; }
+            .nav-links li { width: 100%; }
+            .nav-group-item { width: 100%; }
+            .nav-group {
+                flex: 1;
+                flex-direction: column;
+                align-items: stretch;
+                border-radius: var(--radius-md, 14px);
+                margin: 18px 16px 8px;
+                padding: 12px 0 6px;
+                width: auto;
+            }
+            .nav-group-label { left: 14px; background: #0a0a0f; }
+            .nav-group-links { flex-direction: column; align-items: stretch; width: 100%; gap: 0; }
+            .nav-group-links a { width: 100%; }
+            .focus-toggle {
+                width: 100%; justify-content: center; margin: 8px 0 0; padding: 10px 0 4px;
+                border-left: none; border-top: 1px solid var(--border);
+            }
+            .nav-links a { display: block; padding: 12px 24px; font-size: 15px; border-radius: 0; }
+            .nav-links a::after { display: none; }
+            .nav-links .nav-cta { padding: 10px 16px 0; }
+            .nav-links .nav-cta a { display: block; text-align: center; border-radius: var(--radius-sm, 8px); padding: 13px; }
+        }
+
+        @media (min-width: 1024px) and (max-width: 1299px) {
+            .navbar { padding: 0 24px; }
+            .logo { gap: 10px; }
+            .logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+            .logo-text-sub {
+                margin-top: 3px;
+                font-family: var(--font-mono);
+                font-size: 9.5px;
+                font-weight: 500;
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                color: var(--accent-bright);
+            }
+            .nav-links { gap: 2px; }
+            .nav-links a { padding: 8px 10px; font-size: 13.5px; letter-spacing: 0.01em; }
+            .nav-links a::after { left: 10px; right: 10px; }
+            .nav-group { padding: 8px 6px 3px; }
+            .nav-group-links { gap: 0; }
+            .focus-toggle { margin-left: 4px; padding-left: 8px; gap: 6px; }
+        }
+    </style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+
+<!-- ── NAVBAR ── -->
+<nav class="navbar" id="navbar">
+    <a class="logo" href="../index.html">
+        <img src="../img/t-olimpians-logo.jpg" alt="Logo">
+        <span class="logo-text">T-Olimpians <span class="logo-text-sub">Team Poland</span></span>
+        <img id="polska-flaga" src="../img/polska_flaga.png" alt="Flaga Polski">
+    </a>
+
+    <div class="navbar-right">
+        <div class="lang-switcher">
+            <button class="lang-btn active" id="btnPL">PL</button>
+            <button class="lang-btn" id="btnEN">EN</button>
+        </div>
+
+        <ul class="nav-links" id="navLinks">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../index.html#o-nas">O nas</a></li>
+            <li class="nav-group-item">
+                <div class="nav-group">
+                    <span class="nav-group-label">t-olimpians net</span>
+                    <div class="nav-group-links">
+                    <a href="../materialy.html">Materiały</a>
+                    <a href="../zadania-OI-OIJ.html">Zadania OI/OIJ</a>
+                    <a href="../konkursy.html">Konkursy</a>
+                    </div>
+                </div>
+            </li>
+            <li><a href="../zapisy.html">Zapisy</a></li>
+            <li class="nav-cta"><a href="../zapisy.html">Dołącz →</a></li>
+        </ul>
+
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+    <div class="hero-badge">C++ · Sortowanie</div>
+    <h1>Sortowanie<br>w <span>C++</span></h1>
+    <p class="hero-sub">Ułożenie danych po kolei zajmuje w C++ jedną linijkę. Najpierw nauczysz się jej używać, a dopiero na końcu — jeśli będziesz ciekaw — zajrzysz pod maskę.</p>
+    <div class="hero-actions">
+        <button class="btn-primary" onclick="document.getElementById('sort-fn').scrollIntoView({behavior:'smooth'})">Zacznij naukę</button>
+        <button class="btn-ghost" onclick="document.getElementById('algorithms').scrollIntoView({behavior:'smooth'})">Zajrzyj pod maskę</button>
+    </div>
+    <div class="hero-tags">
+        <div class="hero-tag"><strong>1 linijka</strong> &nbsp;sort()</div>
+        <div class="hero-tag"><strong>7</strong> &nbsp;algorytmów dla ciekawych</div>
+        <div class="hero-tag"><strong>Animacje</strong> &nbsp;interaktywne</div>
+        <div class="hero-tag"><strong>vector / string / array</strong></div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════
+     SECTION 1 — std::sort
+════════════════════════════════════════ -->
+<main>
+
+</main>
+
+<div class="divider"></div>
+
+<main>
+
+</main>
+
+<div class="divider"></div>
+
+<main>
+    <section class="wideo-sekcja" id="filmy">
+        <div class="wideo-gora">
+            <div class="wideo-gora-tekst">
+                <div class="wideo-etykieta">Filmy z OKI</div>
+                <h2>Wolisz <span>obejrzeć</span>?</h2>
+                <p class="wideo-wstep">Olimpijskie Koło Informatyczne nagrywa swoje zajęcia i udostępnia je za darmo. Poniżej 6 odcinków o tym temacie — dobre uzupełnienie, jeśli wolisz obejrzeć niż przeczytać.</p>
+            </div>
+            <div class="wideo-playlisty">
+                <a href="https://www.youtube.com/playlist?list=PL9BlBU4U-rDPrKykeT62mK-cH_NCuIg4Q" target="_blank" rel="noopener">Programowanie OD PODSTAW &#8599;</a>
+                <a href="https://www.youtube.com/playlist?list=PL9BlBU4U-rDNF9AxZ5GTmm75TAvh76ndK" target="_blank" rel="noopener">Programowanie ZAAWANSOWANE &#8599;</a>
+            </div>
+        </div>
+        <div class="wideo-grid">
+                <a class="wideo-karta" href="https://www.youtube.com/watch?v=EEyNJfD5CUg"
+                   target="_blank" rel="noopener" onclick="return okiWideo(this, 'EEyNJfD5CUg')">
+                    <div class="wideo-miniatura">
+                        <img src="https://i.ytimg.com/vi/EEyNJfD5CUg/hqdefault.jpg" alt="" loading="lazy">
+                        <div class="wideo-play"><span>&#9654;</span></div>
+                        <div class="wideo-czas">1:13:45</div>
+                    </div>
+                    <div class="wideo-opis">
+                        <div class="wideo-meta"><b>Odc. 10</b> &middot; OD PODSTAW</div>
+                        <div class="wideo-tytul">➡️ Sort - Super Sport</div>
+                    </div>
+                </a>
+                <a class="wideo-karta" href="https://www.youtube.com/watch?v=3lV8kxGZdvM"
+                   target="_blank" rel="noopener" onclick="return okiWideo(this, '3lV8kxGZdvM')">
+                    <div class="wideo-miniatura">
+                        <img src="https://i.ytimg.com/vi/3lV8kxGZdvM/hqdefault.jpg" alt="" loading="lazy">
+                        <div class="wideo-play"><span>&#9654;</span></div>
+                        <div class="wideo-czas">1:40:13</div>
+                    </div>
+                    <div class="wideo-opis">
+                        <div class="wideo-meta"><b>Odc. 14</b> &middot; OD PODSTAW</div>
+                        <div class="wideo-tytul">🔎 Poznaj lower_bound - odkryj nieznany ląd</div>
+                    </div>
+                </a>
+                <a class="wideo-karta" href="https://www.youtube.com/watch?v=iGR7xqqF8U4"
+                   target="_blank" rel="noopener" onclick="return okiWideo(this, 'iGR7xqqF8U4')">
+                    <div class="wideo-miniatura">
+                        <img src="https://i.ytimg.com/vi/iGR7xqqF8U4/hqdefault.jpg" alt="" loading="lazy">
+                        <div class="wideo-play"><span>&#9654;</span></div>
+                        <div class="wideo-czas">1:12:22</div>
+                    </div>
+                    <div class="wideo-opis">
+                        <div class="wideo-meta"><b>Odc. 19</b> &middot; OD PODSTAW</div>
+                        <div class="wideo-tytul">🗂️ Będzie się działo - Sortuj śmiało!</div>
+                    </div>
+                </a>
+                <a class="wideo-karta" href="https://www.youtube.com/watch?v=cK4cGzig-PI"
+                   target="_blank" rel="noopener" onclick="return okiWideo(this, 'cK4cGzig-PI')">
+                    <div class="wideo-miniatura">
+                        <img src="https://i.ytimg.com/vi/cK4cGzig-PI/hqdefault.jpg" alt="" loading="lazy">
+                        <div class="wideo-play"><span>&#9654;</span></div>
+                        <div class="wideo-czas">1:06:43</div>
+                    </div>
+                    <div class="wideo-opis">
+                        <div class="wideo-meta"><b>Odc. 11</b> &middot; ZAAWANSOWANE</div>
+                        <div class="wideo-tytul">🔀 Sortowanie level hard</div>
+                    </div>
+                </a>
+                <a class="wideo-karta" href="https://www.youtube.com/watch?v=mX96X4kQH88"
+                   target="_blank" rel="noopener" onclick="return okiWideo(this, 'mX96X4kQH88')">
+                    <div class="wideo-miniatura">
+                        <img src="https://i.ytimg.com/vi/mX96X4kQH88/hqdefault.jpg" alt="" loading="lazy">
+                        <div class="wideo-play"><span>&#9654;</span></div>
+                        <div class="wideo-czas">1:08:55</div>
+                    </div>
+                    <div class="wideo-opis">
+                        <div class="wideo-meta"><b>Odc. 16</b> &middot; ZAAWANSOWANE</div>
+                        <div class="wideo-tytul">🕵️‍♂️ Tajniki wyszukiwania</div>
+                    </div>
+                </a>
+                <a class="wideo-karta" href="https://www.youtube.com/watch?v=cNqQYdmixIY"
+                   target="_blank" rel="noopener" onclick="return okiWideo(this, 'cNqQYdmixIY')">
+                    <div class="wideo-miniatura">
+                        <img src="https://i.ytimg.com/vi/cNqQYdmixIY/hqdefault.jpg" alt="" loading="lazy">
+                        <div class="wideo-play"><span>&#9654;</span></div>
+                        <div class="wideo-czas">1:09:39</div>
+                    </div>
+                    <div class="wideo-opis">
+                        <div class="wideo-meta"><b>Odc. 21</b> &middot; ZAAWANSOWANE</div>
+                        <div class="wideo-tytul">🔀Psujemy, testujemy, sortujemy!</div>
+                    </div>
+                </a>
+        </div>
+        <div class="wideo-zrodlo">Materiały Olimpijskiego Koła Informatycznego — kanał zewnętrzny. Kliknięcie odtwarza film tutaj, bez opuszczania strony.</div>
+    </section>
+
+</main>
+
+<div class="divider"></div>
+
+<main id="sort-fn">
+<div class="section-block" style="padding-top:80px">
+    <div class="section-content reveal reveal-left">
+        <span class="section-label">01 — Podstawy</span>
+        <h2>Jedna linijka<br>zamiast algorytmu</h2>
+        <p>Sortowanie to ułożenie danych po kolei — od najmniejszej do największej. Brzmi jak coś, co trzeba samemu napisać, i rzeczywiście da się to zrobić na kilkanaście sposobów. Ale w C++ <strong>nie musisz</strong>: gotowa funkcja <strong>sort</strong> robi to za Ciebie.</p>
+        <p>Potrzebujesz tylko nagłówka <code style="font-family:var(--font-mono);font-size:13px;color:var(--accent-bright);background:var(--accent-dim);padding:2px 6px;border-radius:4px">&lt;algorithm&gt;</code> i jednej linijki. Działa na wektorze, na zwykłej tablicy i na tekście — wszędzie tak samo.</p>
+        <p>Domyślnie układa <strong>rosnąco</strong>. Żeby dostać kolejność malejącą, wystarczy drobna zmiana — pokazujemy obie obok.</p>
+        <div class="info-box">💡 <strong>To naprawdę wszystko.</strong> Nie musisz wiedzieć, <em>jak</em> sortowanie działa w środku, żeby z niego korzystać — tak samo jak nie musisz znać budowy silnika, żeby prowadzić samochód. Zaglądamy tam dopiero w sekcji 03, z czystej ciekawości.</div>
+    </div>
+    <div class="reveal reveal-right" style="display:flex;flex-direction:column;gap:0">
+        <div class="code-block">
+            <div class="code-top"><span class="code-lang">Wektor</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+            <pre><span class="inc">#include</span> <span class="str">&lt;iostream&gt;</span>
+<span class="inc">#include</span> <span class="str">&lt;vector&gt;</span>
+<span class="inc">#include</span> <span class="str">&lt;algorithm&gt;</span>
+<span class="kw">using namespace</span> std<span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">vector</span><span class="op">&lt;</span><span class="tp">int</span><span class="op">&gt;</span> v <span class="op">=</span> {<span class="num">5</span><span class="op">,</span> <span class="num">2</span><span class="op">,</span> <span class="num">8</span><span class="op">,</span> <span class="num">1</span><span class="op">,</span> <span class="num">9</span><span class="op">,</span> <span class="num">3</span>}<span class="op">;</span>
+
+    <span class="cm">// rosnaco - domyslnie</span>
+    <span class="fn">sort</span>(v<span class="op">.</span><span class="fn">begin</span>()<span class="op">,</span> v<span class="op">.</span><span class="fn">end</span>())<span class="op">;</span>
+
+    <span class="kw">for</span> (<span class="tp">int</span> x <span class="op">:</span> v) cout <span class="op">&lt;&lt;</span> x <span class="op">&lt;&lt;</span> <span class="str">" "</span><span class="op">;</span>
+    <span class="cm">// 1 2 3 5 8 9</span>
+
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</pre>
+        </div>
+        <div class="code-block">
+            <div class="code-top"><span class="code-lang">Malejaco, tablica, tekst</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+            <pre><span class="cm">// malejaco - odwrotny zapis</span>
+<span class="tp">vector</span><span class="op">&lt;</span><span class="tp">int</span><span class="op">&gt;</span> v <span class="op">=</span> {<span class="num">5</span><span class="op">,</span> <span class="num">2</span><span class="op">,</span> <span class="num">8</span><span class="op">,</span> <span class="num">1</span>}<span class="op">;</span>
+<span class="fn">sort</span>(v<span class="op">.</span><span class="fn">rbegin</span>()<span class="op">,</span> v<span class="op">.</span><span class="fn">rend</span>())<span class="op">;</span>     <span class="cm">// 8 5 2 1</span>
+
+<span class="cm">// zwykla tablica - podajesz t i t+n</span>
+<span class="tp">int</span> t[<span class="num">5</span>] <span class="op">=</span> {<span class="num">7</span><span class="op">,</span> <span class="num">3</span><span class="op">,</span> <span class="num">1</span><span class="op">,</span> <span class="num">9</span><span class="op">,</span> <span class="num">4</span>}<span class="op">;</span>
+<span class="fn">sort</span>(t<span class="op">,</span> t <span class="op">+</span> <span class="num">5</span>)<span class="op">;</span>                 <span class="cm">// 1 3 4 7 9</span>
+
+<span class="cm">// tekst - litery po alfabecie</span>
+<span class="tp">string</span> s <span class="op">=</span> <span class="str">"komputer"</span><span class="op">;</span>
+<span class="fn">sort</span>(s<span class="op">.</span><span class="fn">begin</span>()<span class="op">,</span> s<span class="op">.</span><span class="fn">end</span>())<span class="op">;</span>       <span class="cm">// "ekmoprtu"</span></pre>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SECTION 2 — ITERATORY
+════════════════════════════════════════ -->
+<div class="section-block reverse" id="iterators">
+    <div class="section-content reveal reveal-right">
+        <span class="section-label">02 — begin i end</span>
+        <h2>Co znaczy<br>v.begin(), v.end()</h2>
+        <p>Zapis <strong>sort(v.begin(), v.end())</strong> wygląda dziwnie, dopóki nie wiadomo, co znaczą te dwa argumenty. Odpowiedź jest prosta: mówią one, <strong>od którego do którego miejsca</strong> sortować.</p>
+        <p><strong>begin()</strong> to pierwszy element. <strong>end()</strong> to miejsce <em>tuż za ostatnim</em> — pusta pozycja, która mówi „tutaj koniec”. Dokładnie tak samo jak w pętli <strong>for (int i = 0; i &lt; n; i++)</strong>, gdzie <strong>n</strong> to pierwszy indeks poza tablicą.</p>
+        <p>Dzięki temu możesz posortować nie tylko całość, ale i <strong>dowolny fragment</strong>. Wystarczy podać inne dwa miejsca — na przykład <strong>v.begin() + 2</strong> zamiast początku.</p>
+        <div class="info-box">💡 <strong>Skąd ta dziwna nazwa „end”?</strong> Gdyby <code style="font-family:var(--font-mono);font-size:12px;color:var(--accent-bright)">end()</code> wskazywało na ostatni element, to dla pustego wektora nie miałoby na co wskazywać. Pozycja „tuż za końcem” zawsze istnieje — nawet gdy w środku nie ma nic.</div>
+    </div>
+    <div class="reveal reveal-left">
+        <div class="iter-visual">
+            <span class="section-label" style="margin-bottom:14px">Zakres [begin, end)</span>
+            <div class="iter-row">
+                <div style="display:flex;flex-direction:column;align-items:center">
+                    <div class="iter-cell begin">5</div>
+                    <div class="iter-label">begin()</div>
+                </div>
+                <div class="iter-cell">2</div>
+                <div class="iter-cell">8</div>
+                <div class="iter-cell">1</div>
+                <div class="iter-cell">9</div>
+                <div style="display:flex;flex-direction:column;align-items:center">
+                    <div class="iter-cell end">∅</div>
+                    <div class="iter-label">end()</div>
+                </div>
+            </div>
+            <p style="font-size:13px;color:var(--text-secondary);line-height:1.7">Sortowaniu podlega wszystko <strong style="color:var(--text-primary)">od begin() do end()</strong>, ale bez samego end() — bo tam już nic nie ma.</p>
+        </div>
+        <div class="code-block">
+            <div class="code-top"><span class="code-lang">Zakres w praktyce</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+            <pre><span class="tp">vector</span><span class="op">&lt;</span><span class="tp">int</span><span class="op">&gt;</span> v <span class="op">=</span> {<span class="num">5</span><span class="op">,</span> <span class="num">2</span><span class="op">,</span> <span class="num">8</span><span class="op">,</span> <span class="num">1</span><span class="op">,</span> <span class="num">9</span>}<span class="op">;</span>
+
+<span class="cm">// calosc</span>
+<span class="fn">sort</span>(v<span class="op">.</span><span class="fn">begin</span>()<span class="op">,</span> v<span class="op">.</span><span class="fn">end</span>())<span class="op">;</span>        <span class="cm">// 1 2 5 8 9</span>
+
+<span class="cm">// tylko trzy pierwsze elementy</span>
+<span class="fn">sort</span>(v<span class="op">.</span><span class="fn">begin</span>()<span class="op">,</span> v<span class="op">.</span><span class="fn">begin</span>() <span class="op">+</span> <span class="num">3</span>)<span class="op">;</span>
+
+<span class="cm">// od trzeciego do konca</span>
+<span class="fn">sort</span>(v<span class="op">.</span><span class="fn">begin</span>() <span class="op">+</span> <span class="num">2</span><span class="op">,</span> v<span class="op">.</span><span class="fn">end</span>())<span class="op">;</span>
+
+<span class="cm">// malejaco - r jak "reverse", od tylu</span>
+<span class="fn">sort</span>(v<span class="op">.</span><span class="fn">rbegin</span>()<span class="op">,</span> v<span class="op">.</span><span class="fn">rend</span>())<span class="op">;</span>      <span class="cm">// 9 8 5 2 1</span>
+
+<span class="cm">// ile elementow miesci sie w zakresie</span>
+cout <span class="op">&lt;&lt;</span> v<span class="op">.</span><span class="fn">size</span>()<span class="op">;</span>                <span class="cm">// 5</span></pre>
+        </div>
+    </div>
+</div>
+</main>
+
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════
+     SECTION 3 — ALGORYTMY
+════════════════════════════════════════ -->
+<main id="algorithms">
+<div style="padding:80px 0 40px">
+    <span class="section-label">03 — Dla ciekawych</span>
+    <h2 style="font-family:var(--font-display);font-size:clamp(28px,4vw,44px);font-weight:800;letter-spacing:-0.02em;margin-bottom:16px">7 Algorytmów <span style="background:linear-gradient(135deg,var(--accent-bright),#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Sortujących</span></h2>
+    <p style="color:var(--text-secondary);font-size:15px;max-width:720px;line-height:1.8"><strong style="color:var(--text-primary)">Ta sekcja nie jest potrzebna do rozwiązywania zadań.</strong> Do nich wystarczy <code style="font-family:var(--font-mono);font-size:13px;color:var(--accent-bright);background:var(--accent-dim);padding:2px 6px;border-radius:4px">sort</code> z sekcji 01. Poniżej pokazujemy, co dzieje się pod maską — każdy algorytm z animacją, którą możesz uruchomić i zobaczyć, jak liczby wędrują na swoje miejsca. Obejrzyj je dla przyjemności, a po kod wracaj wtedy, gdy sam zechcesz.</p>
+</div>
+
+<div class="algo-grid">
+
+<!-- ═══ 1. BUBBLE SORT ═══ -->
+<div class="algo-card reveal">
+    <div class="algo-header">
+        <div><div class="algo-num">01</div></div>
+        <div class="algo-title">
+            <h3>Bubble Sort</h3>
+            <div class="algo-subtitle">Sortowanie Bąbelkowe</div>
+            <div class="complexity-row">
+                <span class="badge badge-best">Ω(n)</span><span class="badge badge-avg">Θ(n²)</span><span class="badge badge-worst">O(n²)</span><span class="badge badge-mem">Mem: O(1)</span>
+            </div>
+        </div>
+    </div>
+    <div class="algo-body">
+        <span class="sub-label">Animacja</span>
+        <div class="viz-wrap">
+            <div class="viz-top">
+                <span class="viz-title">Bubble Sort — wizualizacja</span>
+                <div class="viz-ctrls">
+                    <div class="viz-speed"><label>Szybkość</label><input type="range" min="1" max="10" value="5" data-viz="bubble"></div>
+                    <button class="viz-btn" data-action="reset" data-viz="bubble">Reset</button>
+                    <button class="viz-btn" data-action="play" data-viz="bubble">Uruchom</button>
+                </div>
+            </div>
+            <div class="viz-bars" id="viz-bubble"></div>
+            <div class="viz-info">
+                <span class="viz-stat">Porównania: <span class="viz-val" id="bubble-cmp">0</span></span>
+                <span class="viz-stat">Zamiany: <span class="viz-val" id="bubble-swp">0</span></span>
+                <span class="viz-stat">Status: <span class="viz-val" id="bubble-step">—</span></span>
+            </div>
+            <div class="viz-legend">
+                <div class="leg"><div class="leg-dot" style="background:#1e3a5f"></div>Domyślny</div>
+                <div class="leg"><div class="leg-dot" style="background:#7c3aed"></div>Porównywane</div>
+                <div class="leg"><div class="leg-dot" style="background:#ea580c"></div>Zamieniane</div>
+                <div class="leg"><div class="leg-dot" style="background:#16a34a"></div>Posortowany</div>
+            </div>
+        </div>
+        <span class="sub-label">Jak działa</span>
+        <p>Wielokrotnie przechodzi przez tablicę porównując sąsiednie pary. Jeśli są w złej kolejności — zamienia je. Każda pełna iteracja "bąbelkuje" największy nieposortowany element na koniec. Flaga <code style="font-family:var(--font-mono);font-size:12px;color:var(--accent-bright)">swapped</code> umożliwia wcześniejsze zakończenie gdy tablica jest już posortowana.</p>
+        <div class="code-block" style="margin:16px 0">
+            <div class="code-top"><span class="code-lang">Bubble Sort — C++</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+            <pre><span class="kw">void</span> <span class="fn">bubbleSort</span>(vector<span class="op">&lt;</span><span class="kw">int</span><span class="op">&gt;</span>&amp; arr) {
+    <span class="kw">int</span> n = arr.size();
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; n-<span class="num">1</span>; i++) {
+        <span class="kw">bool</span> swapped = <span class="kw">false</span>;
+        <span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">0</span>; j &lt; n-i-<span class="num">1</span>; j++) {
+            <span class="kw">if</span> (arr[j] > arr[j+<span class="num">1</span>]) {
+                swap(arr[j], arr[j+<span class="num">1</span>]);
+                swapped = <span class="kw">true</span>;
+            }
+        }
+        <span class="kw">if</span> (!swapped) <span class="kw">break</span>; <span class="cm">// early exit</span>
+    }
+}</pre>
+        </div>
+        <div class="pros-cons">
+            <div class="pros"><strong>✓ Mocne</strong>Prosty. Stabilny. O(n) dla posortowanych. O(1) pamięci.</div>
+            <div class="cons"><strong>✗ Słabe</strong>Wolny — O(n²). Dużo operacji swap. Brak wartości praktycznej.</div>
+        </div>
+        <span class="sub-label">Zastosowania</span>
+        <div class="use-tags"><span class="use-tag">nauka algorytmów</span><span class="use-tag">detekcja posortowania</span><span class="use-tag">n &lt; 10</span></div>
+    </div>
+</div>
+
+<!-- ═══ 2. SELECTION SORT ═══ -->
+<div class="algo-card reveal">
+    <div class="algo-header">
+        <div><div class="algo-num">02</div></div>
+        <div class="algo-title">
+            <h3>Selection Sort</h3>
+            <div class="algo-subtitle">Sortowanie przez Wybieranie</div>
+            <div class="complexity-row">
+                <span class="badge badge-worst">Ω(n²)</span><span class="badge badge-avg">Θ(n²)</span><span class="badge badge-worst">O(n²)</span><span class="badge badge-mem">Mem: O(1)</span>
+            </div>
+        </div>
+    </div>
+    <div class="algo-body">
+        <span class="sub-label">Animacja</span>
+        <div class="viz-wrap">
+            <div class="viz-top">
+                <span class="viz-title">Selection Sort — wizualizacja</span>
+                <div class="viz-ctrls">
+                    <div class="viz-speed"><label>Szybkość</label><input type="range" min="1" max="10" value="5" data-viz="selection"></div>
+                    <button class="viz-btn" data-action="reset" data-viz="selection">Reset</button>
+                    <button class="viz-btn" data-action="play" data-viz="selection">Uruchom</button>
+                </div>
+            </div>
+            <div class="viz-bars" id="viz-selection"></div>
+            <div class="viz-info">
+                <span class="viz-stat">Porównania: <span class="viz-val" id="selection-cmp">0</span></span>
+                <span class="viz-stat">Zamiany: <span class="viz-val" id="selection-swp">0</span></span>
+                <span class="viz-stat">Status: <span class="viz-val" id="selection-step">—</span></span>
+            </div>
+            <div class="viz-legend">
+                <div class="leg"><div class="leg-dot" style="background:#1e3a5f"></div>Domyślny</div>
+                <div class="leg"><div class="leg-dot" style="background:#d97706"></div>Aktualny min</div>
+                <div class="leg"><div class="leg-dot" style="background:#7c3aed"></div>Porównywany</div>
+                <div class="leg"><div class="leg-dot" style="background:#16a34a"></div>Posortowany</div>
+            </div>
+        </div>
+        <span class="sub-label">Jak działa</span>
+        <p>Dzieli tablicę na część posortowaną (lewa) i nieposortowaną (prawa). W każdej iteracji znajduje minimum w części nieposortowanej i zamienia je z jej pierwszym elementem. Zawsze dokładnie n−1 operacji swap niezależnie od danych wejściowych.</p>
+        <div class="code-block" style="margin:16px 0">
+            <div class="code-top"><span class="code-lang">Selection Sort — C++</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+            <pre><span class="kw">void</span> <span class="fn">selectionSort</span>(vector<span class="op">&lt;</span><span class="kw">int</span><span class="op">&gt;</span>&amp; arr) {
+    <span class="kw">int</span> n = arr.size();
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; n-<span class="num">1</span>; i++) {
+        <span class="kw">int</span> minIdx = i;
+        <span class="kw">for</span> (<span class="kw">int</span> j = i+<span class="num">1</span>; j &lt; n; j++)
+            <span class="kw">if</span> (arr[j] &lt; arr[minIdx]) minIdx = j;
+        <span class="kw">if</span> (minIdx != i)
+            swap(arr[i], arr[minIdx]);
+    }
+}</pre>
+        </div>
+        <div class="pros-cons">
+            <div class="pros"><strong>✓ Mocne</strong>Minimalna liczba swapów — O(n). Przydatny gdy swap jest kosztowny. O(1) pamięci.</div>
+            <div class="cons"><strong>✗ Słabe</strong>Zawsze O(n²) — brak early exit. Niestabilny. Wolny dla dużych danych.</div>
+        </div>
+        <span class="sub-label">Zastosowania</span>
+        <div class="use-tags"><span class="use-tag">pamięć flash/EEPROM</span><span class="use-tag">systemy embedded</span><span class="use-tag">koszt swap &gt;&gt; porównanie</span></div>
+    </div>
+</div>
+
+<!-- ═══ 3. INSERTION SORT ═══ -->
+<div class="algo-card reveal">
+    <div class="algo-header">
+        <div><div class="algo-num">03</div></div>
+        <div class="algo-title">
+            <h3>Insertion Sort</h3>
+            <div class="algo-subtitle">Sortowanie przez Wstawianie</div>
+            <div class="complexity-row">
+                <span class="badge badge-best">Ω(n)</span><span class="badge badge-avg">Θ(n²)</span><span class="badge badge-worst">O(n²)</span><span class="badge badge-mem">Mem: O(1)</span>
+            </div>
+        </div>
+    </div>
+    <div class="algo-body">
+        <span class="sub-label">Animacja</span>
+        <div class="viz-wrap">
+            <div class="viz-top">
+                <span class="viz-title">Insertion Sort — wizualizacja</span>
+                <div class="viz-ctrls">
+                    <div class="viz-speed"><label>Szybkość</label><input type="range" min="1" max="10" value="5" data-viz="insertion"></div>
+                    <button class="viz-btn" data-action="reset" data-viz="insertion">Reset</button>
+                    <button class="viz-btn" data-action="play" data-viz="insertion">Uruchom</button>
+                </div>
+            </div>
+            <div class="viz-bars" id="viz-insertion"></div>
+            <div class="viz-info">
+                <span class="viz-stat">Porównania: <span class="viz-val" id="insertion-cmp">0</span></span>
+                <span class="viz-stat">Zamiany: <span class="viz-val" id="insertion-swp">0</span></span>
+                <span class="viz-stat">Status: <span class="viz-val" id="insertion-step">—</span></span>
+            </div>
+            <div class="viz-legend">
+                <div class="leg"><div class="leg-dot" style="background:#1e3a5f"></div>Domyślny</div>
+                <div class="leg"><div class="leg-dot" style="background:#db2777"></div>Wstawiany</div>
+                <div class="leg"><div class="leg-dot" style="background:#7c3aed"></div>Porównywany</div>
+                <div class="leg"><div class="leg-dot" style="background:#16a34a"></div>Posortowany</div>
+            </div>
+        </div>
+        <span class="sub-label">Jak działa</span>
+        <p>Buduje posortowaną część element po elemencie — jak układanie kart w ręce. Bierze kolejny element z części nieposortowanej i "wstawia" go we właściwe miejsce, przesuwając większe elementy o jedno miejsce w prawo.</p>
+        <div class="code-block" style="margin:16px 0">
+            <div class="code-top"><span class="code-lang">Insertion Sort — C++</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+            <pre><span class="kw">void</span> <span class="fn">insertionSort</span>(vector<span class="op">&lt;</span><span class="kw">int</span><span class="op">&gt;</span>&amp; arr) {
+    <span class="kw">int</span> n = arr.size();
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt; n; i++) {
+        <span class="kw">int</span> key = arr[i], j = i-<span class="num">1</span>;
+        <span class="kw">while</span> (j >= <span class="num">0</span> &amp;&amp; arr[j] > key) {
+            arr[j+<span class="num">1</span>] = arr[j]; j--;
+        }
+        arr[j+<span class="num">1</span>] = key;
+    }
+}</pre>
+        </div>
+        <div class="pros-cons">
+            <div class="pros"><strong>✓ Mocne</strong>O(n) dla prawie posortowanych. Stabilny. O(1) pamięci. Używany wewnętrznie w std::sort!</div>
+            <div class="cons"><strong>✗ Słabe</strong>O(n²) dla odwrotnie posortowanych. Nieefektywny dla dużych n.</div>
+        </div>
+        <span class="sub-label">Zastosowania</span>
+        <div class="use-tags"><span class="use-tag">podtablica w IntroSort (n&lt;16)</span><span class="use-tag">dane strumieniowe</span><span class="use-tag">prawie posortowane dane</span></div>
+    </div>
+</div>
+
+<!-- ═══ 4. MERGE SORT ═══ -->
+<div class="algo-card reveal">
+    <div class="algo-header">
+        <div><div class="algo-num">04</div></div>
+        <div class="algo-title">
+            <h3>Merge Sort</h3>
+            <div class="algo-subtitle">Sortowanie przez Scalanie</div>
+            <div class="complexity-row">
+                <span class="badge badge-best">Ω(n log n)</span><span class="badge badge-avg">Θ(n log n)</span><span class="badge badge-best">O(n log n)</span><span class="badge badge-mem">Mem: O(n)</span>
+            </div>
+        </div>
+    </div>
+    <div class="algo-body">
+        <span class="sub-label">Animacja</span>
+        <div class="viz-wrap">
+            <div class="viz-top">
+                <span class="viz-title">Merge Sort — wizualizacja</span>
+                <div class="viz-ctrls">
+                    <div class="viz-speed"><label>Szybkość</label><input type="range" min="1" max="10" value="5" data-viz="merge"></div>
+                    <button class="viz-btn" data-action="reset" data-viz="merge">Reset</button>
+                    <button class="viz-btn" data-action="play" data-viz="merge">Uruchom</button>
+                </div>
+            </div>
+            <div class="viz-bars" id="viz-merge"></div>
+            <div class="viz-info">
+                <span class="viz-stat">Porównania: <span class="viz-val" id="merge-cmp">0</span></span>
+                <span class="viz-stat">Scalania: <span class="viz-val" id="merge-swp">0</span></span>
+                <span class="viz-stat">Status: <span class="viz-val" id="merge-step">—</span></span>
+            </div>
+            <div class="viz-legend">
+                <div class="leg"><div class="leg-dot" style="background:#1e3a5f"></div>Domyślny</div>
+                <div class="leg"><div class="leg-dot" style="background:#3b82f6"></div>Lewa połowa</div>
+                <div class="leg"><div class="leg-dot" style="background:#8b5cf6"></div>Prawa połowa</div>
+                <div class="leg"><div class="leg-dot" style="background:#16a34a"></div>Scalony</div>
+            </div>
+        </div>
+        <span class="sub-label">Jak działa</span>
+        <p>Klasyczne "dziel i zwyciężaj". Rekurencyjnie dzieli tablicę na pół aż do jednoelementowych podtablic, a następnie scala je w posortowane pary, czwórki, ósemki. Krok <em>merge</em> łączy dwie posortowane tablice w O(n). Gwarantuje O(n log n) zawsze — bez pesymistycznych przypadków.</p>
+        <div class="code-block" style="margin:16px 0">
+            <div class="code-top"><span class="code-lang">Merge Sort — C++</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+            <pre><span class="kw">void</span> <span class="fn">merge</span>(vector<span class="op">&lt;</span><span class="kw">int</span><span class="op">&gt;</span>&amp; a, <span class="kw">int</span> l, <span class="kw">int</span> m, <span class="kw">int</span> r) {
+    vector<span class="op">&lt;</span><span class="kw">int</span><span class="op">&gt;</span> L(a.begin()+l, a.begin()+m+<span class="num">1</span>);
+    vector<span class="op">&lt;</span><span class="kw">int</span><span class="op">&gt;</span> R(a.begin()+m+<span class="num">1</span>, a.begin()+r+<span class="num">1</span>);
+    <span class="kw">int</span> i=<span class="num">0</span>, j=<span class="num">0</span>, k=l;
+    <span class="kw">while</span> (i&lt;L.size() &amp;&amp; j&lt;R.size())
+        a[k++] = (L[i]&lt;=R[j]) ? L[i++] : R[j++];
+    <span class="kw">while</span> (i&lt;L.size()) a[k++]=L[i++];
+    <span class="kw">while</span> (j&lt;R.size()) a[k++]=R[j++];
+}
+<span class="kw">void</span> <span class="fn">mergeSort</span>(vector<span class="op">&lt;</span><span class="kw">int</span><span class="op">&gt;</span>&amp; a, <span class="kw">int</span> l, <span class="kw">int</span> r) {
+    <span class="kw">if</span> (l >= r) <span class="kw">return</span>;
+    <span class="kw">int</span> m = l+(r-l)/<span class="num">2</span>;
+    mergeSort(a, l, m);
+    mergeSort(a, m+<span class="num">1</span>, r);
+    merge(a, l, m, r);
+}</pre>
+        </div>
+        <div class="pros-cons">
+            <div class="pros"><strong>✓ Mocne</strong>Gwarantowane O(n log n). Stabilny. External sort. Łatwy do zrównoleglenia.</div>
+            <div class="cons"><strong>✗ Słabe</strong>O(n) dodatkowej pamięci. Wolniejszy od QuickSort w praktyce. Narzut rekurencji.</div>
+        </div>
+        <span class="sub-label">Zastosowania</span>
+        <div class="use-tags"><span class="use-tag">std::stable_sort</span><span class="use-tag">external sort (pliki)</span><span class="use-tag">linked list</span><span class="use-tag">obliczanie inwersji</span></div>
+    </div>
+</div>
+
+<!-- ═══ 5. QUICK SORT ═══ -->
+<div class="algo-card reveal">
+    <div class="algo-header">
+        <div><div class="algo-num">05</div></div>
+        <div class="algo-title">
+            <h3>Quick Sort</h3>
+            <div class="algo-subtitle">Sortowanie Szybkie</div>
+            <div class="complexity-row">
+                <span class="badge badge-best">Ω(n log n)</span><span class="badge badge-avg">Θ(n log n)</span><span class="badge badge-worst">O(n²)</span><span class="badge badge-mem">Mem: O(log n)</span>
+            </div>
+        </div>
+    </div>
+    <div class="algo-body">
+        <span class="sub-label">Animacja</span>
+        <div class="viz-wrap">
+            <div class="viz-top">
+                <span class="viz-title">Quick Sort — wizualizacja</span>
+                <div class="viz-ctrls">
+                    <div class="viz-speed"><label>Szybkość</label><input type="range" min="1" max="10" value="5" data-viz="quick"></div>
+                    <button class="viz-btn" data-action="reset" data-viz="quick">Reset</button>
+                    <button class="viz-btn" data-action="play" data-viz="quick">Uruchom</button>
+                </div>
+            </div>
+            <div class="viz-bars" id="viz-quick"></div>
+            <div class="viz-info">
+                <span class="viz-stat">Porównania: <span class="viz-val" id="quick-cmp">0</span></span>
+                <span class="viz-stat">Zamiany: <span class="viz-val" id="quick-swp">0</span></span>
+                <span class="viz-stat">Status: <span class="viz-val" id="quick-step">—</span></span>
+            </div>
+            <div class="viz-legend">
+                <div class="leg"><div class="leg-dot" style="background:#1e3a5f"></div>Domyślny</div>
+                <div class="leg"><div class="leg-dot" style="background:#06b6d4"></div>Pivot</div>
+                <div class="leg"><div class="leg-dot" style="background:#7c3aed"></div>Porównywany</div>
+                <div class="leg"><div class="leg-dot" style="background:#ea580c"></div>Zamieniany</div>
+                <div class="leg"><div class="leg-dot" style="background:#16a34a"></div>Posortowany</div>
+            </div>
+        </div>
+        <span class="sub-label">Jak działa</span>
+        <p>Wybiera element "pivot" i partycjonuje tablicę — mniejsze od pivota po lewej, większe po prawej. Rekurencyjnie sortuje obie partycje. Kluczowy jest dobry wybór pivota: losowy lub mediana-z-3 minimalizuje ryzyko O(n²).</p>
+        <div class="code-block" style="margin:16px 0">
+            <div class="code-top"><span class="code-lang">Quick Sort — Lomuto</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+            <pre><span class="kw">int</span> <span class="fn">partition</span>(vector<span class="op">&lt;</span><span class="kw">int</span><span class="op">&gt;</span>&amp; a, <span class="kw">int</span> lo, <span class="kw">int</span> hi) {
+    <span class="kw">int</span> pivot = a[hi], i = lo-<span class="num">1</span>;
+    <span class="kw">for</span> (<span class="kw">int</span> j = lo; j &lt; hi; j++)
+        <span class="kw">if</span> (a[j] &lt;= pivot) swap(a[++i], a[j]);
+    swap(a[i+<span class="num">1</span>], a[hi]);
+    <span class="kw">return</span> i+<span class="num">1</span>;
+}
+<span class="kw">void</span> <span class="fn">quickSort</span>(vector<span class="op">&lt;</span><span class="kw">int</span><span class="op">&gt;</span>&amp; a, <span class="kw">int</span> lo, <span class="kw">int</span> hi) {
+    <span class="kw">if</span> (lo &lt; hi) {
+        <span class="kw">int</span> pi = partition(a, lo, hi);
+        quickSort(a, lo, pi-<span class="num">1</span>);
+        quickSort(a, pi+<span class="num">1</span>, hi);
+    }
+}</pre>
+        </div>
+        <div class="pros-cons">
+            <div class="pros"><strong>✓ Mocne</strong>Najszybszy w praktyce. Cache-friendly. O(log n) pamięci. Dobry in-place.</div>
+            <div class="cons"><strong>✗ Słabe</strong>Pesymistycznie O(n²). Niestabilny. Wrażliwy na posortowane dane.</div>
+        </div>
+        <span class="sub-label">Zastosowania</span>
+        <div class="use-tags"><span class="use-tag">baza std::sort (IntroSort)</span><span class="use-tag">sortowanie ogólne</span><span class="use-tag">QuickSelect</span></div>
+    </div>
+</div>
+
+<!-- ═══ 6. HEAP SORT ═══ -->
+<div class="algo-card reveal">
+    <div class="algo-header">
+        <div><div class="algo-num">06</div></div>
+        <div class="algo-title">
+            <h3>Heap Sort</h3>
+            <div class="algo-subtitle">Sortowanie przez Kopcowanie</div>
+            <div class="complexity-row">
+                <span class="badge badge-best">Ω(n log n)</span><span class="badge badge-avg">Θ(n log n)</span><span class="badge badge-best">O(n log n)</span><span class="badge badge-mem">Mem: O(1)</span>
+            </div>
+        </div>
+    </div>
+    <div class="algo-body">
+        <span class="sub-label">Animacja</span>
+        <div class="viz-wrap">
+            <div class="viz-top">
+                <span class="viz-title">Heap Sort — wizualizacja</span>
+                <div class="viz-ctrls">
+                    <div class="viz-speed"><label>Szybkość</label><input type="range" min="1" max="10" value="5" data-viz="heap"></div>
+                    <button class="viz-btn" data-action="reset" data-viz="heap">Reset</button>
+                    <button class="viz-btn" data-action="play" data-viz="heap">Uruchom</button>
+                </div>
+            </div>
+            <div class="viz-bars" id="viz-heap"></div>
+            <div class="viz-info">
+                <span class="viz-stat">Porównania: <span class="viz-val" id="heap-cmp">0</span></span>
+                <span class="viz-stat">Zamiany: <span class="viz-val" id="heap-swp">0</span></span>
+                <span class="viz-stat">Status: <span class="viz-val" id="heap-step">—</span></span>
+            </div>
+            <div class="viz-legend">
+                <div class="leg"><div class="leg-dot" style="background:#1e3a5f"></div>Domyślny</div>
+                <div class="leg"><div class="leg-dot" style="background:#06b6d4"></div>Root kopca</div>
+                <div class="leg"><div class="leg-dot" style="background:#ea580c"></div>Zamieniany</div>
+                <div class="leg"><div class="leg-dot" style="background:#16a34a"></div>Posortowany</div>
+            </div>
+        </div>
+        <span class="sub-label">Jak działa</span>
+        <p>Buduje max-heap (rodzic ≥ dzieci) z tablicy. Następnie wielokrotnie usuwa korzeń (maksimum) i umieszcza go na końcu tablicy, przywracając własność kopca (heapify). Gwarantuje O(n log n) bez pesymistycznych przypadków jak QuickSort.</p>
+        <div class="code-block" style="margin:16px 0">
+            <div class="code-top"><span class="code-lang">Heap Sort — C++</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+            <pre><span class="kw">void</span> <span class="fn">heapify</span>(vector<span class="op">&lt;</span><span class="kw">int</span><span class="op">&gt;</span>&amp; a, <span class="kw">int</span> n, <span class="kw">int</span> i) {
+    <span class="kw">int</span> lg=i, l=<span class="num">2</span>*i+<span class="num">1</span>, r=<span class="num">2</span>*i+<span class="num">2</span>;
+    <span class="kw">if</span>(l&lt;n &amp;&amp; a[l]>a[lg]) lg=l;
+    <span class="kw">if</span>(r&lt;n &amp;&amp; a[r]>a[lg]) lg=r;
+    <span class="kw">if</span>(lg!=i){ swap(a[i],a[lg]); heapify(a,n,lg); }
+}
+<span class="kw">void</span> <span class="fn">heapSort</span>(vector<span class="op">&lt;</span><span class="kw">int</span><span class="op">&gt;</span>&amp; a) {
+    <span class="kw">int</span> n = a.size();
+    <span class="kw">for</span>(<span class="kw">int</span> i=n/<span class="num">2</span>-<span class="num">1</span>; i>=<span class="num">0</span>; i--) heapify(a,n,i);
+    <span class="kw">for</span>(<span class="kw">int</span> i=n-<span class="num">1</span>; i><span class="num">0</span>; i--){
+        swap(a[<span class="num">0</span>],a[i]); heapify(a,i,<span class="num">0</span>);
+    }
+}</pre>
+        </div>
+        <div class="pros-cons">
+            <div class="pros"><strong>✓ Mocne</strong>Gwarantowane O(n log n). O(1) pamięci. Fallback w IntroSort.</div>
+            <div class="cons"><strong>✗ Słabe</strong>Niestabilny. Cache-unfriendly. Wolniejszy od QuickSort w praktyce.</div>
+        </div>
+        <span class="sub-label">Zastosowania</span>
+        <div class="use-tags"><span class="use-tag">fallback w IntroSort</span><span class="use-tag">priority queue</span><span class="use-tag">k największych</span><span class="use-tag">systemy real-time</span></div>
+    </div>
+</div>
+
+<!-- ═══ 7. COUNTING + RADIX ═══ -->
+<div class="algo-card reveal">
+    <div class="algo-header">
+        <div><div class="algo-num">07</div></div>
+        <div class="algo-title">
+            <h3>Counting &amp; Radix Sort</h3>
+            <div class="algo-subtitle">Sortowanie Pozycyjne / Przez Zliczanie</div>
+            <div class="complexity-row">
+                <span class="badge badge-best">Counting: Ω(n+k)</span><span class="badge badge-avg">Radix: Θ(d·n)</span><span class="badge badge-mem">Mem: O(n+k)</span>
+            </div>
+        </div>
+    </div>
+    <div class="algo-body">
+        <span class="sub-label">Animacja — Counting Sort</span>
+        <div class="viz-wrap">
+            <div class="viz-top">
+                <span class="viz-title">Counting Sort — wizualizacja</span>
+                <div class="viz-ctrls">
+                    <div class="viz-speed"><label>Szybkość</label><input type="range" min="1" max="10" value="5" data-viz="counting"></div>
+                    <button class="viz-btn" data-action="reset" data-viz="counting">Reset</button>
+                    <button class="viz-btn" data-action="play" data-viz="counting">Uruchom</button>
+                </div>
+            </div>
+            <div class="viz-bars" id="viz-counting"></div>
+            <div class="viz-info">
+                <span class="viz-stat">Zliczone: <span class="viz-val" id="counting-cmp">0</span></span>
+                <span class="viz-stat">Umieszczone: <span class="viz-val" id="counting-swp">0</span></span>
+                <span class="viz-stat">Status: <span class="viz-val" id="counting-step">—</span></span>
+            </div>
+            <div class="viz-legend">
+                <div class="leg"><div class="leg-dot" style="background:#1e3a5f"></div>Domyślny</div>
+                <div class="leg"><div class="leg-dot" style="background:#22d3ee"></div>Zliczany</div>
+                <div class="leg"><div class="leg-dot" style="background:#16a34a"></div>Posortowany</div>
+            </div>
+        </div>
+        <span class="sub-label">Jak działa — Counting Sort</span>
+        <p>Zlicza wystąpienia każdej wartości (zakres [0, k]), buduje tablicę skumulowanych zliczeń, a następnie układa elementy <strong>bez porównań</strong>. Przełamuje barierę O(n log n) dla liczb całkowitych.</p>
+        <span class="sub-label">Jak działa — Radix Sort</span>
+        <p>Sortuje cyfra po cyfrze od najmniej znaczącej (LSD) do najbardziej (MSD), używając Counting Sort jako stabilnej procedury pomocniczej. d = liczba cyfr, k = podstawa systemu.</p>
+        <div class="code-block" style="margin:16px 0">
+            <div class="code-top"><span class="code-lang">Counting + Radix Sort</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+            <pre><span class="cm">// Counting Sort (wartości 0..k)</span>
+<span class="kw">void</span> <span class="fn">countingSort</span>(vector<span class="op">&lt;</span><span class="kw">int</span><span class="op">&gt;</span>&amp; arr, <span class="kw">int</span> k) {
+    vector<span class="op">&lt;</span><span class="kw">int</span><span class="op">&gt;</span> cnt(k+<span class="num">1</span>,<span class="num">0</span>), out(arr.size());
+    <span class="kw">for</span>(<span class="kw">int</span> x : arr) cnt[x]++;
+    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">1</span>; i&lt;=k; i++) cnt[i]+=cnt[i-<span class="num">1</span>];
+    <span class="kw">for</span>(<span class="kw">int</span> i=arr.size()-<span class="num">1</span>; i>=<span class="num">0</span>; i--)
+        out[--cnt[arr[i]]]=arr[i];
+    arr = out;
+}
+<span class="cm">// Radix Sort (LSD, baza 10)</span>
+<span class="kw">void</span> <span class="fn">radixSort</span>(vector<span class="op">&lt;</span><span class="kw">int</span><span class="op">&gt;</span>&amp; arr) {
+    <span class="kw">int</span> mx = *max_element(arr.begin(), arr.end());
+    <span class="kw">for</span>(<span class="kw">int</span> exp=<span class="num">1</span>; mx/exp><span class="num">0</span>; exp*=<span class="num">10</span>)
+        countByDigit(arr, exp); <span class="cm">// counting per cyfra</span>
+}</pre>
+        </div>
+        <div class="pros-cons">
+            <div class="pros"><strong>✓ Mocne</strong>Przełamuje O(n log n). Liniowy dla małego k. Stabilny. Świetny dla milionów int.</div>
+            <div class="cons"><strong>✗ Słabe</strong>Tylko int/string. O(n+k) pamięci. Nieefektywny gdy k >> n.</div>
+        </div>
+        <span class="sub-label">Zastosowania</span>
+        <div class="use-tags"><span class="use-tag">liczby w zakresie</span><span class="use-tag">bazy danych</span><span class="use-tag">IP adresy</span><span class="use-tag">suffix arrays</span></div>
+    </div>
+</div>
+
+</div><!-- /algo-grid -->
+
+<div class="rozsz" style="padding:80px 0 40px" id="wlasne-kryterium">
+    <span class="section-label">04 — Własne kryterium</span>
+    <h2 style="font-family:var(--font-display);font-size:clamp(28px,4vw,44px);font-weight:800;letter-spacing:-0.02em;margin-bottom:16px">Sortowanie <span style="background:linear-gradient(135deg,var(--accent-bright),#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">po swojemu</span></h2>
+    <p style="color:var(--text-secondary);font-size:15px;max-width:760px;line-height:1.8;margin-bottom:14px">Domyślnie <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">sort</code> układa rosnąco. Ale czasem chcesz inaczej: malejąco, po długości słowa, po drugiej cyfrze. Wtedy podajesz funkcji <strong style="color:var(--accent-bright)">własną regułę porównania</strong> jako trzeci argument.</p>
+    <p style="color:var(--text-secondary);font-size:15px;max-width:760px;line-height:1.8;margin-bottom:14px">Reguła to zwykła odpowiedź na pytanie: „czy <em>a</em> ma stać przed <em>b</em>?”. Zapisuje się ją najkrócej jako <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">[](int a, int b){ return a &gt; b; }</code> — ten dziwny zapis z nawiasami kwadratowymi to tzw. <strong style="color:var(--accent-bright)">lambda</strong>, czyli funkcja bez nazwy, napisana w miejscu, w którym jest potrzebna.</p>
+        <div class="metody-wrap reveal">
+            <table class="metody">
+                <thead><tr><th>Zapis</th><th>Co robi</th><th>Kiedy tego użyjesz</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td><code>sort(v.begin(), v.end())</code></td>
+                        <td>Układa rosnąco, od najmniejszego.</td>
+                        <td>Domyślny wybór</td>
+                    </tr>
+                    <tr>
+                        <td><code>sort(v.rbegin(), v.rend())</code></td>
+                        <td>Układa malejąco. Litera <code>r</code> znaczy „od tyłu”.</td>
+                        <td>Najkrótszy zapis dla malejąco</td>
+                    </tr>
+                    <tr>
+                        <td><code>sort(v.begin(), v.end(), greater&lt;int&gt;())</code></td>
+                        <td>To samo, gotowym narzędziem z <code>&lt;functional&gt;</code>.</td>
+                        <td>Gdy wolisz nazwę od skrótu</td>
+                    </tr>
+                    <tr>
+                        <td><code>sort(..., [](int a, int b){ return a &gt; b; })</code></td>
+                        <td>Własna reguła porównania.</td>
+                        <td>Gdy chcesz sortować po czymś nietypowym</td>
+                    </tr>
+                    <tr>
+                        <td><code>sortowanie par</code></td>
+                        <td>Samo: najpierw po <code>first</code>, przy remisie po <code>second</code>.</td>
+                        <td>Ranking z dwoma kryteriami</td>
+                    </tr>
+                    <tr>
+                        <td><code>sort(t, t + n)</code></td>
+                        <td>To samo na zwykłej tablicy.</td>
+                        <td>Gdy nie używasz wektora</td>
+                    </tr>
+                    <tr>
+                        <td><code>sort(s.begin(), s.end())</code></td>
+                        <td>Układa litery tekstu po alfabecie.</td>
+                        <td>Anagramy, porządkowanie liter</td>
+                    </tr>
+                    <tr>
+                        <td><code>stable_sort(...)</code></td>
+                        <td>Nie zamienia miejscami elementów równych.</td>
+                        <td>Gdy kolejność remisów ma znaczenie</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    <p style="color:var(--text-secondary);font-size:15px;max-width:760px;line-height:1.8;margin-bottom:14px">Reguła musi zwracać <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">true</code>, gdy pierwszy element ma stać <strong style="color:var(--text-primary)">przed</strong> drugim. I jedna żelazna zasada: dla elementów <strong style="color:var(--text-primary)">równych</strong> musi zwracać <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">false</code>. Napisanie <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">&lt;=</code> zamiast <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">&lt;</code> łamie tę zasadę i potrafi wysypać program — mimo że kod wygląda całkowicie poprawnie.</p>
+    <p style="color:var(--text-secondary);font-size:15px;max-width:760px;line-height:1.8;margin-bottom:14px">Jeśli sortujesz pary albo struktury, w większości przypadków <strong style="color:var(--text-primary)">nie musisz pisać reguły w ogóle</strong>. Pary porównują się same: najpierw po pierwszym polu, przy remisie po drugim. Wystarczy ułożyć pola w odpowiedniej kolejności — o czym była mowa w temacie <strong style="color:var(--text-primary)">Pair</strong>.</p>
+    <div class="info-box">💡 <strong>Zacznij od dwóch pierwszych wierszy tabeli.</strong> Rosnąco i malejąco załatwiają zdecydowaną większość zadań. Po lambdę sięgaj dopiero wtedy, gdy naprawdę potrzebujesz nietypowej kolejności.</div>
+</div>
+
+<div class="rozsz" style="padding:80px 0 40px" id="po-sortowaniu">
+    <span class="section-label">05 — Po sortowaniu</span>
+    <h2 style="font-family:var(--font-display);font-size:clamp(28px,4vw,44px);font-weight:800;letter-spacing:-0.02em;margin-bottom:16px">Co <span style="background:linear-gradient(135deg,var(--accent-bright),#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">dalej</span></h2>
+    <p style="color:var(--text-secondary);font-size:15px;max-width:760px;line-height:1.8;margin-bottom:14px">Sortowanie rzadko bywa celem samym w sobie — zwykle jest <strong style="color:var(--accent-bright)">przygotowaniem</strong>. Gdy dane leżą po kolei, nagle robi się prosto: najmniejszy jest na początku, największy na końcu, jednakowe wartości stoją obok siebie, a szukanie konkretnej liczby przestaje wymagać przeglądania wszystkiego.</p>
+        <div class="metody-wrap reveal">
+            <table class="metody">
+                <thead><tr><th>Funkcja</th><th>Co robi</th><th>Uwaga</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td><code>binary_search(b, e, x)</code></td>
+                        <td>Odpowiada <code>true</code> / <code>false</code>: czy <code>x</code> jest w danych.</td>
+                        <td>Dane muszą być posortowane</td>
+                    </tr>
+                    <tr>
+                        <td><code>lower_bound(b, e, x)</code></td>
+                        <td>Znajduje pierwsze miejsce, gdzie stoi <code>x</code> (albo gdzie by stał).</td>
+                        <td>Zwraca miejsce, nie wartość</td>
+                    </tr>
+                    <tr>
+                        <td><code>upper_bound(b, e, x)</code></td>
+                        <td>Znajduje pierwsze miejsce <strong>za</strong> wszystkimi <code>x</code>.</td>
+                        <td>—</td>
+                    </tr>
+                    <tr>
+                        <td><code>upper − lower</code></td>
+                        <td>Ile razy <code>x</code> występuje w danych.</td>
+                        <td>Różnica dwóch powyższych</td>
+                    </tr>
+                    <tr>
+                        <td><code>unique(b, e)</code></td>
+                        <td>Zbija powtórzenia stojące obok siebie.</td>
+                        <td>Najpierw posortuj!</td>
+                    </tr>
+                    <tr>
+                        <td><code>v.erase(unique(...), v.end())</code></td>
+                        <td>Naprawdę usuwa duplikaty z wektora.</td>
+                        <td>Samo <code>unique</code> nie skraca wektora</td>
+                    </tr>
+                    <tr>
+                        <td><code>min_element / max_element</code></td>
+                        <td>Najmniejszy i największy element.</td>
+                        <td>Sortowanie nie jest do tego potrzebne</td>
+                    </tr>
+                    <tr>
+                        <td><code>is_sorted(b, e)</code></td>
+                        <td>Sprawdza, czy dane są już ułożone.</td>
+                        <td>Przydaje się przy testowaniu</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    <p style="color:var(--text-secondary);font-size:15px;max-width:760px;line-height:1.8;margin-bottom:14px">Dwie pierwsze funkcje robią prawie to samo, ale zwracają co innego. <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">binary_search</code> odpowiada tylko „jest albo nie ma”. <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">lower_bound</code> mówi, <strong style="color:var(--text-primary)">gdzie</strong> ta wartość siedzi — a jeśli jej nie ma, to gdzie by stała. Obie wymagają <strong style="color:var(--text-primary)">posortowanych danych</strong>; na nieposortowanych dadzą bzdurną odpowiedź bez żadnego ostrzeżenia.</p>
+    <p style="color:var(--text-secondary);font-size:15px;max-width:760px;line-height:1.8;margin-bottom:14px">Uwaga na <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">unique</code>: ta funkcja zbija tylko powtórzenia, które <strong style="color:var(--text-primary)">stoją obok siebie</strong>. Bez wcześniejszego posortowania nie zadziała tak, jak oczekujesz. Sama też nie skraca wektora — dlatego zawsze łączy się ją z <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">erase</code> w jednej linijce.</p>
+</div>
+
+<div class="rozsz" style="padding:80px 0 40px" id="zadania">
+    <span class="section-label">06 — Zadania</span>
+    <h2 style="font-family:var(--font-display);font-size:clamp(28px,4vw,44px);font-weight:800;letter-spacing:-0.02em;margin-bottom:16px">Sprawdź się na <span style="background:linear-gradient(135deg,var(--accent-bright),#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">zadaniach</span></h2>
+    <p style="color:var(--text-secondary);font-size:15px;max-width:760px;line-height:1.8;margin-bottom:14px">Sześć zadań od najprostszego. Pierwsze trzy sprawdzają, czy umiesz użyć <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">sort</code>; dalsze łączą sortowanie z własną regułą i z tym, co można zrobić z już ułożonymi danymi. Rozwiązania są schowane — <strong style="color:var(--text-primary)">najpierw spróbuj sam</strong>.</p>
+        <div class="zadania-grid">
+            <div class="zadanie reveal">
+                <div class="zadanie-gora">
+                    <span class="zadanie-poziom poz-latwe">Łatwe</span>
+                    <span class="zadanie-tytul">Posortuj i wypisz</span>
+                </div>
+                <div class="zadanie-tresc">Wczytaj <code>n</code> liczb, posortuj je rosnąco i wypisz. Potem wypisz je jeszcze raz — malejąco.</div>
+                <div class="zadanie-wsk"><strong>Jak to ugryźć:</strong> Dwie linijki: <code>sort(v.begin(), v.end())</code> i <code>sort(v.rbegin(), v.rend())</code>. Nic więcej nie trzeba.</div>
+                <details class="zadanie-rozw">
+                    <summary>Pokaż rozwiązanie</summary>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-dots"><span></span><span></span><span></span></div>
+                            <div class="code-block-title">posortuj.cpp</div>
+                        </div>
+                        <pre>&lt;code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;vector&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;algorithm&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">int</span> <span class="var">n</span><span class="op">;</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">n</span><span class="op">;</span>
+
+    <span class="tp">vector</span><span class="op">&lt;</span><span class="tp">int</span><span class="op">&gt;</span> <span class="fn">v</span>(<span class="var">n</span>)<span class="op">;</span>
+    <span class="kw">for</span> (<span class="tp">int</span> <span class="var">i</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span> <span class="var">i</span> <span class="op">&lt;</span> <span class="var">n</span><span class="op">;</span> <span class="var">i</span><span class="op">++</span>) <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">v</span>[<span class="var">i</span>]<span class="op">;</span>
+
+    <span class="fn">sort</span>(<span class="var">v</span><span class="op">.</span><span class="fn">begin</span>()<span class="op">,</span> <span class="var">v</span><span class="op">.</span><span class="fn">end</span>())<span class="op">;</span>
+    <span class="kw">for</span> (<span class="tp">int</span> <span class="var">x</span> <span class="op">:</span> <span class="var">v</span>) <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">x</span> <span class="op">&lt;&lt;</span> <span class="str">" "</span><span class="op">;</span>
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+
+    <span class="fn">sort</span>(<span class="var">v</span><span class="op">.</span><span class="fn">rbegin</span>()<span class="op">,</span> <span class="var">v</span><span class="op">.</span><span class="fn">rend</span>())<span class="op">;</span>
+    <span class="kw">for</span> (<span class="tp">int</span> <span class="var">x</span> <span class="op">:</span> <span class="var">v</span>) <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">x</span> <span class="op">&lt;&lt;</span> <span class="str">" "</span><span class="op">;</span>
+
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}&lt;/code></pre>
+                    </div>
+                </details>
+            </div>
+            <div class="zadanie reveal">
+                <div class="zadanie-gora">
+                    <span class="zadanie-poziom poz-latwe">Łatwe</span>
+                    <span class="zadanie-tytul">Trzeci największy</span>
+                </div>
+                <div class="zadanie-tresc">Wczytaj <code>n</code> liczb i wypisz trzecią co do wielkości. Załóż, że <code>n</code> jest co najmniej 3.</div>
+                <div class="zadanie-wsk"><strong>Jak to ugryźć:</strong> Po posortowaniu rosnąco największy jest ostatni — czyli <code>v[n-1]</code>. Trzeci największy to po prostu <code>v[n-3]</code>. Żadnych pętli szukających.</div>
+                <details class="zadanie-rozw">
+                    <summary>Pokaż rozwiązanie</summary>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-dots"><span></span><span></span><span></span></div>
+                            <div class="code-block-title">trzeci.cpp</div>
+                        </div>
+                        <pre>&lt;code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;vector&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;algorithm&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">int</span> <span class="var">n</span><span class="op">;</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">n</span><span class="op">;</span>
+
+    <span class="tp">vector</span><span class="op">&lt;</span><span class="tp">int</span><span class="op">&gt;</span> <span class="fn">v</span>(<span class="var">n</span>)<span class="op">;</span>
+    <span class="kw">for</span> (<span class="tp">int</span> <span class="var">i</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span> <span class="var">i</span> <span class="op">&lt;</span> <span class="var">n</span><span class="op">;</span> <span class="var">i</span><span class="op">++</span>) <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">v</span>[<span class="var">i</span>]<span class="op">;</span>
+
+    <span class="fn">sort</span>(<span class="var">v</span><span class="op">.</span><span class="fn">begin</span>()<span class="op">,</span> <span class="var">v</span><span class="op">.</span><span class="fn">end</span>())<span class="op">;</span>
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">v</span>[<span class="var">n</span> <span class="op">-</span> <span class="num">3</span>]<span class="op">;</span>
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}&lt;/code></pre>
+                    </div>
+                </details>
+            </div>
+            <div class="zadanie reveal">
+                <div class="zadanie-gora">
+                    <span class="zadanie-poziom poz-latwe">Łatwe</span>
+                    <span class="zadanie-tytul">Litery po alfabecie</span>
+                </div>
+                <div class="zadanie-tresc">Wczytaj słowo i wypisz jego litery ułożone alfabetycznie. Dla <code>komputer</code> odpowiedzią jest <code>ekmoprtu</code>.</div>
+                <div class="zadanie-wsk"><strong>Jak to ugryźć:</strong> Tekst zachowuje się jak wektor znaków, więc <code>sort(s.begin(), s.end())</code> działa dokładnie tak samo jak na liczbach.</div>
+                <details class="zadanie-rozw">
+                    <summary>Pokaż rozwiązanie</summary>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-dots"><span></span><span></span><span></span></div>
+                            <div class="code-block-title">litery.cpp</div>
+                        </div>
+                        <pre>&lt;code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;string&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;algorithm&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">string</span> <span class="var">s</span><span class="op">;</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">s</span><span class="op">;</span>
+
+    <span class="fn">sort</span>(<span class="var">s</span><span class="op">.</span><span class="fn">begin</span>()<span class="op">,</span> <span class="var">s</span><span class="op">.</span><span class="fn">end</span>())<span class="op">;</span>
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">s</span><span class="op">;</span>
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}&lt;/code></pre>
+                    </div>
+                </details>
+            </div>
+            <div class="zadanie reveal">
+                <div class="zadanie-gora">
+                    <span class="zadanie-poziom poz-srednie">Średnie</span>
+                    <span class="zadanie-tytul">Ranking po dwóch kryteriach</span>
+                </div>
+                <div class="zadanie-tresc">Wczytaj <code>n</code> zawodników (imię i punkty). Wypisz ich malejąco po punktach, a przy remisie alfabetycznie po imieniu.</div>
+                <div class="zadanie-wsk"><strong>Jak to ugryźć:</strong> Dwa kryteria idące w przeciwne strony, więc samo porównanie par nie wystarczy. Napisz własną regułę: najpierw porównaj punkty malejąco, a gdy są równe — imiona rosnąco.</div>
+                <details class="zadanie-rozw">
+                    <summary>Pokaż rozwiązanie</summary>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-dots"><span></span><span></span><span></span></div>
+                            <div class="code-block-title">ranking.cpp</div>
+                        </div>
+                        <pre>&lt;code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;vector&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;algorithm&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;string&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="kw">struct</span> <span class="var">Zawodnik</span> {
+    <span class="tp">string</span> <span class="var">imie</span><span class="op">;</span>
+    <span class="tp">int</span> <span class="var">punkty</span><span class="op">;</span>
+}<span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">int</span> <span class="var">n</span><span class="op">;</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">n</span><span class="op">;</span>
+
+    <span class="tp">vector</span><span class="op">&lt;</span><span class="var">Zawodnik</span><span class="op">&gt;</span> <span class="fn">v</span>(<span class="var">n</span>)<span class="op">;</span>
+    <span class="kw">for</span> (<span class="tp">int</span> <span class="var">i</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span> <span class="var">i</span> <span class="op">&lt;</span> <span class="var">n</span><span class="op">;</span> <span class="var">i</span><span class="op">++</span>) {
+        <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">v</span>[<span class="var">i</span>]<span class="op">.</span><span class="var">imie</span> <span class="op">&gt;&gt;</span> <span class="var">v</span>[<span class="var">i</span>]<span class="op">.</span><span class="var">punkty</span><span class="op">;</span>
+    }
+
+    <span class="fn">sort</span>(<span class="var">v</span><span class="op">.</span><span class="fn">begin</span>()<span class="op">,</span> <span class="var">v</span><span class="op">.</span><span class="fn">end</span>()<span class="op">,</span> [](<span class="var">Zawodnik a</span><span class="op">,</span> <span class="var">Zawodnik b</span>) {
+        <span class="kw">if</span> (<span class="var">a</span><span class="op">.</span><span class="var">punkty</span> <span class="op">!=</span> <span class="var">b</span><span class="op">.</span><span class="var">punkty</span>) {
+            <span class="kw">return</span> <span class="var">a</span><span class="op">.</span><span class="var">punkty</span> <span class="op">&gt;</span> <span class="var">b</span><span class="op">.</span><span class="var">punkty</span><span class="op">;</span>    <span class="cm">// wiecej punktow wyzej</span>
+        }
+        <span class="kw">return</span> <span class="var">a</span><span class="op">.</span><span class="var">imie</span> <span class="op">&lt;</span> <span class="var">b</span><span class="op">.</span><span class="var">imie</span><span class="op">;</span>            <span class="cm">// remis - alfabetycznie</span>
+    })<span class="op">;</span>
+
+    <span class="kw">for</span> (<span class="tp">auto</span> <span class="var">z</span> <span class="op">:</span> <span class="var">v</span>) {
+        <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">z</span><span class="op">.</span><span class="var">imie</span> <span class="op">&lt;&lt;</span> <span class="str">" "</span> <span class="op">&lt;&lt;</span> <span class="var">z</span><span class="op">.</span><span class="var">punkty</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+    }
+
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}&lt;/code></pre>
+                    </div>
+                </details>
+            </div>
+            <div class="zadanie reveal">
+                <div class="zadanie-gora">
+                    <span class="zadanie-poziom poz-srednie">Średnie</span>
+                    <span class="zadanie-tytul">Usuń duplikaty</span>
+                </div>
+                <div class="zadanie-tresc">Wczytaj <code>n</code> liczb i wypisz je posortowane rosnąco, bez powtórzeń. Na końcu podaj, ile zostało różnych wartości.</div>
+                <div class="zadanie-wsk"><strong>Jak to ugryźć:</strong> Najpierw <code>sort</code>, żeby jednakowe liczby stanęły obok siebie. Potem <code>v.erase(unique(v.begin(), v.end()), v.end())</code> — <code>unique</code> zbija sąsiednie powtórzenia, a <code>erase</code> naprawdę je usuwa.</div>
+                <details class="zadanie-rozw">
+                    <summary>Pokaż rozwiązanie</summary>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-dots"><span></span><span></span><span></span></div>
+                            <div class="code-block-title">duplikaty.cpp</div>
+                        </div>
+                        <pre>&lt;code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;vector&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;algorithm&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">int</span> <span class="var">n</span><span class="op">;</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">n</span><span class="op">;</span>
+
+    <span class="tp">vector</span><span class="op">&lt;</span><span class="tp">int</span><span class="op">&gt;</span> <span class="fn">v</span>(<span class="var">n</span>)<span class="op">;</span>
+    <span class="kw">for</span> (<span class="tp">int</span> <span class="var">i</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span> <span class="var">i</span> <span class="op">&lt;</span> <span class="var">n</span><span class="op">;</span> <span class="var">i</span><span class="op">++</span>) <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">v</span>[<span class="var">i</span>]<span class="op">;</span>
+
+    <span class="fn">sort</span>(<span class="var">v</span><span class="op">.</span><span class="fn">begin</span>()<span class="op">,</span> <span class="var">v</span><span class="op">.</span><span class="fn">end</span>())<span class="op">;</span>
+    <span class="var">v</span><span class="op">.</span><span class="fn">erase</span>(<span class="fn">unique</span>(<span class="var">v</span><span class="op">.</span><span class="fn">begin</span>()<span class="op">,</span> <span class="var">v</span><span class="op">.</span><span class="fn">end</span>())<span class="op">,</span> <span class="var">v</span><span class="op">.</span><span class="fn">end</span>())<span class="op">;</span>
+
+    <span class="kw">for</span> (<span class="tp">int</span> <span class="var">x</span> <span class="op">:</span> <span class="var">v</span>) <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">x</span> <span class="op">&lt;&lt;</span> <span class="str">" "</span><span class="op">;</span>
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"\nRoznych: "</span> <span class="op">&lt;&lt;</span> <span class="var">v</span><span class="op">.</span><span class="fn">size</span>()<span class="op">;</span>
+
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}&lt;/code></pre>
+                    </div>
+                </details>
+            </div>
+            <div class="zadanie reveal">
+                <div class="zadanie-gora">
+                    <span class="zadanie-poziom poz-trudne">Trudne</span>
+                    <span class="zadanie-tytul">Ile razy występuje wartość</span>
+                </div>
+                <div class="zadanie-tresc">Wczytaj <code>n</code> liczb, a potem <code>q</code> zapytań. Dla każdego zapytania podaj, ile razy dana wartość występuje wśród wczytanych liczb.</div>
+                <div class="zadanie-wsk"><strong>Jak to ugryźć:</strong> Posortuj dane raz, na starcie. Wtedy jednakowe wartości stoją obok siebie, a ich liczbę daje różnica <code>upper_bound - lower_bound</code>. Przechodzenie całej tablicy przy każdym zapytaniu byłoby znacznie wolniejsze.</div>
+                <details class="zadanie-rozw">
+                    <summary>Pokaż rozwiązanie</summary>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-dots"><span></span><span></span><span></span></div>
+                            <div class="code-block-title">wystapienia.cpp</div>
+                        </div>
+                        <pre>&lt;code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;vector&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;algorithm&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">int</span> <span class="var">n</span><span class="op">;</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">n</span><span class="op">;</span>
+
+    <span class="tp">vector</span><span class="op">&lt;</span><span class="tp">int</span><span class="op">&gt;</span> <span class="fn">v</span>(<span class="var">n</span>)<span class="op">;</span>
+    <span class="kw">for</span> (<span class="tp">int</span> <span class="var">i</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span> <span class="var">i</span> <span class="op">&lt;</span> <span class="var">n</span><span class="op">;</span> <span class="var">i</span><span class="op">++</span>) <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">v</span>[<span class="var">i</span>]<span class="op">;</span>
+
+    <span class="fn">sort</span>(<span class="var">v</span><span class="op">.</span><span class="fn">begin</span>()<span class="op">,</span> <span class="var">v</span><span class="op">.</span><span class="fn">end</span>())<span class="op">;</span>       <span class="cm">// raz, na starcie</span>
+
+    <span class="tp">int</span> <span class="var">q</span><span class="op">;</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">q</span><span class="op">;</span>
+
+    <span class="kw">while</span> (<span class="var">q</span><span class="op">--</span>) {
+        <span class="tp">int</span> <span class="var">x</span><span class="op">;</span>
+        <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">x</span><span class="op">;</span>
+
+        <span class="tp">int</span> <span class="var">ile</span> <span class="op">=</span> <span class="fn">upper_bound</span>(<span class="var">v</span><span class="op">.</span><span class="fn">begin</span>()<span class="op">,</span> <span class="var">v</span><span class="op">.</span><span class="fn">end</span>()<span class="op">,</span> <span class="var">x</span>)
+                <span class="op">-</span> <span class="fn">lower_bound</span>(<span class="var">v</span><span class="op">.</span><span class="fn">begin</span>()<span class="op">,</span> <span class="var">v</span><span class="op">.</span><span class="fn">end</span>()<span class="op">,</span> <span class="var">x</span>)<span class="op">;</span>
+
+        <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">ile</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+    }
+
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}&lt;/code></pre>
+                    </div>
+                </details>
+            </div>
+        </div>
+</div>
+
+<!-- SUMMARY -->
+<div style="padding:60px 0 80px">
+    <span class="section-label">Podsumowanie</span>
+    <h2 style="font-family:var(--font-display);font-size:clamp(26px,3vw,36px);font-weight:700;letter-spacing:-0.02em;margin-bottom:32px">Szybkie <span style="background:linear-gradient(135deg,var(--accent-bright),#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Porównanie</span></h2>
+    <div class="summary-grid">
+        <div class="summary-card reveal"><div class="sc-name">Bubble Sort</div><div class="sc-complexity">O(n²)</div><div class="sc-badges"><span class="sc-tag sc-stable">Stabilny</span><span class="sc-tag sc-o1">O(1) mem</span></div></div>
+        <div class="summary-card reveal"><div class="sc-name">Selection Sort</div><div class="sc-complexity">O(n²)</div><div class="sc-badges"><span class="sc-tag sc-unstable">Niestabilny</span><span class="sc-tag sc-o1">O(1) mem</span></div></div>
+        <div class="summary-card reveal"><div class="sc-name">Insertion Sort</div><div class="sc-complexity">O(n²) / O(n)*</div><div class="sc-badges"><span class="sc-tag sc-stable">Stabilny</span><span class="sc-tag sc-o1">O(1) mem</span></div></div>
+        <div class="summary-card reveal"><div class="sc-name">Merge Sort</div><div class="sc-complexity">O(n log n)</div><div class="sc-badges"><span class="sc-tag sc-stable">Stabilny</span><span class="sc-tag sc-on">O(n) mem</span></div></div>
+        <div class="summary-card reveal"><div class="sc-name">Quick Sort</div><div class="sc-complexity">O(n log n)*</div><div class="sc-badges"><span class="sc-tag sc-unstable">Niestabilny</span><span class="sc-tag sc-o1">O(log n)</span></div></div>
+        <div class="summary-card reveal"><div class="sc-name">Heap Sort</div><div class="sc-complexity">O(n log n)</div><div class="sc-badges"><span class="sc-tag sc-unstable">Niestabilny</span><span class="sc-tag sc-o1">O(1) mem</span></div></div>
+        <div class="summary-card reveal"><div class="sc-name">Counting Sort</div><div class="sc-complexity">O(n + k)</div><div class="sc-badges"><span class="sc-tag sc-stable">Stabilny</span><span class="sc-tag sc-on">O(k) mem</span></div></div>
+        <div class="summary-card reveal"><div class="sc-name">Radix Sort</div><div class="sc-complexity">O(d · n)</div><div class="sc-badges"><span class="sc-tag sc-stable">Stabilny</span><span class="sc-tag sc-on">O(n+k)</span></div></div>
+    </div>
+    <div class="info-box" style="margin-top:8px">* std::sort = <strong>IntroSort</strong> — QuickSort + HeapSort + InsertionSort. Gwarantuje O(n log n) we wszystkich przypadkach.</div>
+</div>
+</main>
+
+<div class="divider"></div>
+<footer>
+    <span>© 2025 C++ Sorting Guide</span>
+    <span style="color:var(--text-muted)">Built for champions 🏆</span>
+</footer>
+
+<script>
+/* ════════════════════════════════════════
+   PARTICLES
+════════════════════════════════════════ */
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let W, H, dots = [];
+function resize(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+resize();
+window.addEventListener('resize', () => { resize(); spawnDots(); });
+function spawnDots(){
+    dots = [];
+    const count = Math.floor((W * H) / 18000);
+    for(let i = 0; i < count; i++)
+        dots.push({ x:Math.random()*W, y:Math.random()*H, r:Math.random()*1.4+0.3, vx:(Math.random()-0.5)*0.3, vy:(Math.random()-0.5)*0.3, alpha:Math.random()*0.5+0.2 });
+}
+spawnDots();
+function drawParticles(){
+    ctx.clearRect(0,0,W,H);
+    for(let i = 0; i < dots.length; i++){
+        const d = dots[i];
+        d.x += d.vx; d.y += d.vy;
+        if(d.x < 0) d.x = W; if(d.x > W) d.x = 0;
+        if(d.y < 0) d.y = H; if(d.y > H) d.y = 0;
+        ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, Math.PI*2);
+        ctx.fillStyle = `rgba(96,165,250,${d.alpha})`; ctx.fill();
+        for(let j = i+1; j < dots.length; j++){
+            const d2 = dots[j];
+            const dx = d.x-d2.x, dy = d.y-d2.y, dist = Math.sqrt(dx*dx+dy*dy);
+            if(dist < 120){
+                ctx.beginPath(); ctx.moveTo(d.x,d.y); ctx.lineTo(d2.x,d2.y);
+                ctx.strokeStyle = `rgba(59,130,246,${0.12*(1-dist/120)})`; ctx.lineWidth = 0.6; ctx.stroke();
+            }
+        }
+    }
+    requestAnimationFrame(drawParticles);
+}
+drawParticles();
+
+/* ════════════════════════════════════════
+   NAVBAR SCROLL
+════════════════════════════════════════ */
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 40));
+
+/* ════════════════════════════════════════
+   HAMBURGER
+════════════════════════════════════════ */
+const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('navLinks');
+hamburger.addEventListener('click', function() {
+    navLinks.classList.toggle('open');
+    hamburger.classList.toggle('open');
+});
+navLinks.querySelectorAll('a').forEach(function(link) {
+    link.addEventListener('click', function() {
+        navLinks.classList.remove('open');
+        hamburger.classList.remove('open');
+    });
+});
+
+/* ════════════════════════════════════════
+   LANG SWITCHER
+════════════════════════════════════════ */
+document.getElementById('btnPL').addEventListener('click', function() {
+    document.getElementById('btnPL').classList.add('active');
+    document.getElementById('btnEN').classList.remove('active');
+});
+document.getElementById('btnEN').addEventListener('click', function() {
+    document.getElementById('btnEN').classList.add('active');
+    document.getElementById('btnPL').classList.remove('active');
+});
+
+/* ════════════════════════════════════════
+   SCROLL REVEAL
+════════════════════════════════════════ */
+const revObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+        if(e.isIntersecting){
+            const siblings = e.target.closest('.algo-grid, .summary-grid, .section-block');
+            let delay = 0;
+            if(siblings){ const all = siblings.querySelectorAll('.reveal'); all.forEach((el,idx) => { if(el===e.target) delay = idx*80; }); }
+            setTimeout(() => e.target.classList.add('visible'), delay);
+            revObs.unobserve(e.target);
+        }
+    });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
+
+/* ════════════════════════════════════════
+   VISUALIZER ENGINE
+════════════════════════════════════════ */
+const VIZ_DATA = {
+    bubble:    [64,34,25,12,22,11,90,45,78,33,57,81],
+    selection: [64,34,25,12,22,11,90,45,78,33,57,81],
+    insertion: [64,34,25,12,22,11,90,45,78,33,57,81],
+    merge:     [38,27,43,3,9,82,10,56,71,14,65,48],
+    quick:     [38,27,43,3,9,82,10,56,71,14,65,48],
+    heap:      [38,27,43,3,9,82,10,56,71,14,65,48],
+    counting:  [4,2,7,1,5,8,3,6,2,7,1,5]
+};
+const vizState = {};
+const delay = ms => new Promise(r => setTimeout(r, ms));
+
+function getSpeed(id){
+    const sl = document.querySelector(`input[data-viz="${id}"]`);
+    return Math.round(550 - (sl ? parseInt(sl.value) : 5) * 50);
+}
+function setStat(id, key, val){
+    const el = document.getElementById(`${id}-${key}`);
+    if(el) el.textContent = val;
+}
+function initBars(id){
+    const arr = [...VIZ_DATA[id]], container = document.getElementById(`viz-${id}`);
+    if(!container) return;
+    container.innerHTML = '';
+    const mx = Math.max(...arr), maxH = 120;
+    arr.forEach((v, i) => {
+        const b = document.createElement('div');
+        b.className = 'bar s-default';
+        b.id = `b-${id}-${i}`;
+        b.style.height = `${Math.max(16, Math.round((v/mx)*maxH))}px`;
+        b.textContent = v;
+        container.appendChild(b);
+    });
+    setStat(id,'cmp',0); setStat(id,'swp',0); setStat(id,'step','—');
+}
+function barClass(id, i, cls){
+    const b = document.getElementById(`b-${id}-${i}`);
+    if(b) b.className = `bar ${cls}`;
+}
+function updateBar(id, arr, i){
+    const b = document.getElementById(`b-${id}-${i}`);
+    if(!b) return;
+    const mx = Math.max(...VIZ_DATA[id]), maxH = 120;
+    b.style.height = `${Math.max(16, Math.round((arr[i]/mx)*maxH))}px`;
+    b.textContent = arr[i];
+}
+function swapVisual(id, arr, i, j){
+    [arr[i],arr[j]] = [arr[j],arr[i]];
+    updateBar(id,arr,i); updateBar(id,arr,j);
+}
+
+/* ── Bubble ── */
+async function runBubble(){
+    const id='bubble', arr=[...VIZ_DATA[id]], n=arr.length;
+    let cmps=0, swps=0;
+    const sorted=[];
+    for(let i=0;i<n-1;i++){
+        if(!vizState[id]) return;
+        let swapped=false;
+        for(let j=0;j<n-i-1;j++){
+            if(!vizState[id]) return;
+            barClass(id,j,'bar s-compare'); barClass(id,j+1,'bar s-compare');
+            setStat(id,'step',`Runda ${i+1}: [${j}] vs [${j+1}]`);
+            cmps++; setStat(id,'cmp',cmps);
+            await delay(getSpeed(id));
+            if(arr[j]>arr[j+1]){
+                barClass(id,j,'bar s-swap'); barClass(id,j+1,'bar s-swap');
+                await delay(getSpeed(id)*0.5);
+                swapVisual(id,arr,j,j+1);
+                swps++; setStat(id,'swp',swps); swapped=true;
+            }
+            if(!sorted.includes(j)) barClass(id,j,'bar s-default');
+            if(!sorted.includes(j+1)) barClass(id,j+1,'bar s-default');
+        }
+        sorted.push(n-1-i); barClass(id,n-1-i,'bar s-sorted');
+        if(!swapped) break;
+    }
+    barClass(id,0,'bar s-sorted');
+    setStat(id,'step','Posortowano! ✓');
+    finishViz(id);
+}
+
+/* ── Selection ── */
+async function runSelection(){
+    const id='selection', arr=[...VIZ_DATA[id]], n=arr.length;
+    let cmps=0, swps=0;
+    for(let i=0;i<n-1;i++){
+        if(!vizState[id]) return;
+        let minIdx=i; barClass(id,i,'bar s-min');
+        setStat(id,'step',`Szukam min od [${i}]`);
+        for(let j=i+1;j<n;j++){
+            if(!vizState[id]) return;
+            barClass(id,j,'bar s-compare');
+            cmps++; setStat(id,'cmp',cmps);
+            await delay(getSpeed(id)*0.65);
+            if(arr[j]<arr[minIdx]){
+                if(minIdx!==i) barClass(id,minIdx,'bar s-default');
+                minIdx=j; barClass(id,j,'bar s-min');
+            } else { barClass(id,j,'bar s-default'); }
+        }
+        if(minIdx!==i){
+            barClass(id,i,'bar s-swap'); barClass(id,minIdx,'bar s-swap');
+            await delay(getSpeed(id));
+            swapVisual(id,arr,i,minIdx);
+            swps++; setStat(id,'swp',swps);
+            if(minIdx!==i) barClass(id,minIdx,'bar s-default');
+        }
+        barClass(id,i,'bar s-sorted');
+        await delay(getSpeed(id)*0.3);
+    }
+    barClass(id,n-1,'bar s-sorted');
+    setStat(id,'step','Posortowano! ✓');
+    finishViz(id);
+}
+
+/* ── Insertion ── */
+async function runInsertion(){
+    const id='insertion', arr=[...VIZ_DATA[id]], n=arr.length;
+    let cmps=0, swps=0;
+    barClass(id,0,'bar s-sorted');
+    for(let i=1;i<n;i++){
+        if(!vizState[id]) return;
+        barClass(id,i,'bar s-insert');
+        setStat(id,'step',`Wstawiam [${i}]=${arr[i]}`);
+        const key=arr[i]; let j=i-1;
+        while(j>=0 && arr[j]>key){
+            if(!vizState[id]) return;
+            barClass(id,j,'bar s-compare');
+            cmps++; setStat(id,'cmp',cmps);
+            await delay(getSpeed(id));
+            arr[j+1]=arr[j]; updateBar(id,arr,j+1);
+            swps++; setStat(id,'swp',swps);
+            barClass(id,j+1,'bar s-default');
+            barClass(id,j,'bar s-insert');
+            j--;
+        }
+        arr[j+1]=key; updateBar(id,arr,j+1);
+        for(let k=0;k<=i;k++) barClass(id,k,'bar s-sorted');
+        await delay(getSpeed(id)*0.4);
+    }
+    setStat(id,'step','Posortowano! ✓');
+    finishViz(id);
+}
+
+/* ── Merge ── */
+async function runMerge(){
+    const id='merge', arr=[...VIZ_DATA[id]];
+    let cmps=0, merges=0;
+    async function doMerge(a,l,m,r){
+        if(!vizState[id]) return;
+        for(let x=l;x<=m;x++) barClass(id,x,'bar s-merge-l');
+        for(let x=m+1;x<=r;x++) barClass(id,x,'bar s-merge-r');
+        setStat(id,'step',`Scalam [${l}..${m}] + [${m+1}..${r}]`);
+        await delay(getSpeed(id));
+        const L=a.slice(l,m+1), R=a.slice(m+1,r+1);
+        let i=0,j=0,k=l;
+        while(i<L.length&&j<R.length){
+            if(!vizState[id]) return;
+            cmps++; setStat(id,'cmp',cmps);
+            a[k]=(L[i]<=R[j])?L[i++]:R[j++];
+            updateBar(id,a,k); barClass(id,k,'bar s-sorted');
+            merges++; setStat(id,'swp',merges);
+            await delay(getSpeed(id)*0.45); k++;
+        }
+        while(i<L.length){ a[k]=L[i++]; updateBar(id,a,k); barClass(id,k,'bar s-sorted'); k++; await delay(getSpeed(id)*0.25); }
+        while(j<R.length){ a[k]=R[j++]; updateBar(id,a,k); barClass(id,k,'bar s-sorted'); k++; await delay(getSpeed(id)*0.25); }
+    }
+    async function ms(a,l,r){
+        if(!vizState[id]||l>=r) return;
+        const m=Math.floor((l+r)/2);
+        await ms(a,l,m); await ms(a,m+1,r); await doMerge(a,l,m,r);
+    }
+    await ms(arr,0,arr.length-1);
+    if(vizState[id]){ for(let i=0;i<arr.length;i++) barClass(id,i,'bar s-sorted'); setStat(id,'step','Posortowano! ✓'); }
+    finishViz(id);
+}
+
+/* ── Quick ── */
+async function runQuick(){
+    const id='quick', arr=[...VIZ_DATA[id]];
+    let cmps=0, swps=0; const sortedSet=new Set();
+    async function partition(a,lo,hi){
+        if(!vizState[id]) return lo;
+        barClass(id,hi,'bar s-pivot');
+        setStat(id,'step',`Pivot=${a[hi]} na [${hi}]`);
+        const pivot=a[hi]; let i=lo-1;
+        for(let j=lo;j<hi;j++){
+            if(!vizState[id]) return lo;
+            if(!sortedSet.has(j)) barClass(id,j,'bar s-compare');
+            cmps++; setStat(id,'cmp',cmps);
+            await delay(getSpeed(id)*0.55);
+            if(a[j]<=pivot){
+                i++;
+                if(i!==j){ barClass(id,i,'bar s-swap'); barClass(id,j,'bar s-swap'); await delay(getSpeed(id)*0.4); swapVisual(id,a,i,j); swps++; setStat(id,'swp',swps); }
+                if(!sortedSet.has(i)) barClass(id,i,'bar s-default');
+            }
+            if(!sortedSet.has(j)) barClass(id,j,'bar s-default');
+        }
+        barClass(id,i+1,'bar s-swap'); barClass(id,hi,'bar s-swap');
+        await delay(getSpeed(id)*0.4); swapVisual(id,a,i+1,hi); swps++; setStat(id,'swp',swps);
+        sortedSet.add(i+1); barClass(id,i+1,'bar s-sorted');
+        if(!sortedSet.has(hi)) barClass(id,hi,'bar s-default');
+        return i+1;
+    }
+    async function qs(a,lo,hi){
+        if(!vizState[id]||lo>=hi) return;
+        const pi=await partition(a,lo,hi);
+        await qs(a,lo,pi-1); await qs(a,pi+1,hi);
+    }
+    await qs(arr,0,arr.length-1);
+    if(vizState[id]){ for(let i=0;i<arr.length;i++) barClass(id,i,'bar s-sorted'); setStat(id,'step','Posortowano! ✓'); }
+    finishViz(id);
+}
+
+/* ── Heap ── */
+async function runHeap(){
+    const id='heap', arr=[...VIZ_DATA[id]], n=arr.length;
+    let cmps=0, swps=0; let sortedFrom=n;
+    async function heapify(a,sz,i){
+        if(!vizState[id]) return;
+        let lg=i, l=2*i+1, r=2*i+2;
+        if(l<sz){ cmps++; setStat(id,'cmp',cmps); if(a[l]>a[lg]) lg=l; }
+        if(r<sz){ cmps++; setStat(id,'cmp',cmps); if(a[r]>a[lg]) lg=r; }
+        if(lg!==i){
+            barClass(id,i,'bar s-swap'); barClass(id,lg,'bar s-swap');
+            await delay(getSpeed(id)*0.65);
+            swapVisual(id,a,i,lg); swps++; setStat(id,'swp',swps);
+            if(i<sortedFrom) barClass(id,i,'bar s-default');
+            if(lg<sortedFrom) barClass(id,lg,'bar s-default');
+            await heapify(a,sz,lg);
+        }
+    }
+    setStat(id,'step','Budowanie max-heap...');
+    for(let i=Math.floor(n/2)-1;i>=0;i--){ if(!vizState[id]) return; await heapify(arr,n,i); await delay(getSpeed(id)*0.25); }
+    for(let i=n-1;i>0;i--){
+        if(!vizState[id]) return;
+        setStat(id,'step',`Root ${arr[0]} → pozycja [${i}]`);
+        barClass(id,0,'bar s-pivot'); barClass(id,i,'bar s-swap');
+        await delay(getSpeed(id));
+        swapVisual(id,arr,0,i); swps++; setStat(id,'swp',swps);
+        sortedFrom=i; barClass(id,i,'bar s-sorted'); barClass(id,0,'bar s-default');
+        await heapify(arr,i,0); await delay(getSpeed(id)*0.25);
+    }
+    barClass(id,0,'bar s-sorted');
+    setStat(id,'step','Posortowano! ✓');
+    finishViz(id);
+}
+
+/* ── Counting ── */
+async function runCounting(){
+    const id='counting', arr=[...VIZ_DATA[id]], n=arr.length;
+    let counted=0, placed=0;
+    const k=Math.max(...arr);
+    setStat(id,'step','Zliczanie wystąpień...');
+    const cnt=new Array(k+1).fill(0);
+    for(let i=0;i<n;i++){
+        if(!vizState[id]) return;
+        barClass(id,i,'bar s-count');
+        await delay(getSpeed(id)*0.65);
+        cnt[arr[i]]++; counted++; setStat(id,'cmp',counted);
+        barClass(id,i,'bar s-default');
+    }
+    setStat(id,'step','Budowanie skumulowanych...');
+    for(let i=1;i<=k;i++) cnt[i]+=cnt[i-1];
+    await delay(getSpeed(id));
+    setStat(id,'step','Układanie elementów...');
+    const out=new Array(n);
+    for(let i=n-1;i>=0;i--){ if(!vizState[id]) return; out[--cnt[arr[i]]]=arr[i]; placed++; setStat(id,'swp',placed); }
+    const mx=Math.max(...VIZ_DATA[id]), maxH=120;
+    for(let i=0;i<n;i++){
+        if(!vizState[id]) return;
+        const b=document.getElementById(`b-${id}-${i}`);
+        if(b){ b.style.height=`${Math.max(16,Math.round((out[i]/mx)*maxH))}px`; b.textContent=out[i]; }
+        barClass(id,i,'bar s-count');
+        await delay(getSpeed(id)*0.4);
+        barClass(id,i,'bar s-sorted');
+    }
+    setStat(id,'step','Posortowano! ✓');
+    finishViz(id);
+}
+
+function finishViz(id){
+    vizState[id]=false;
+    const btn=document.querySelector(`[data-action="play"][data-viz="${id}"]`);
+    if(btn){ btn.textContent='Uruchom'; btn.classList.remove('active'); }
+}
+
+const runners={bubble:runBubble, selection:runSelection, insertion:runInsertion, merge:runMerge, quick:runQuick, heap:runHeap, counting:runCounting};
+Object.keys(VIZ_DATA).forEach(id => initBars(id));
+
+document.addEventListener('click', async e => {
+    const btn=e.target.closest('[data-action]');
+    if(!btn) return;
+    const id=btn.dataset.viz, action=btn.dataset.action;
+    if(action==='reset'){
+        vizState[id]=false; await delay(80); initBars(id);
+        const pb=document.querySelector(`[data-action="play"][data-viz="${id}"]`);
+        if(pb){ pb.textContent='Uruchom'; pb.classList.remove('active'); }
+    }
+    if(action==='play'){
+        if(vizState[id]){ vizState[id]=false; btn.textContent='Uruchom'; btn.classList.remove('active'); }
+        else {
+            initBars(id); await delay(60);
+            vizState[id]=true; btn.textContent='Pauza'; btn.classList.add('active');
+            runners[id]();
+        }
+    }
+});
+</script>
+<script>
+/* Filmy OKI: klikniecie podmienia miniature na odtwarzacz w tym samym miejscu.
+   Bez JavaScriptu karta zostaje zwyklym linkiem do YouTube. */
+function okiWideo(el, id) {
+    var m = el.querySelector('.wideo-miniatura');
+    if (!m) return true;
+    m.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + id +
+        '?autoplay=1&rel=0" title="Film OKI" allow="accelerometer; autoplay; ' +
+        'clipboard-write; encrypted-media; gyroscope; picture-in-picture" ' +
+        'allowfullscreen></iframe>';
+    el.removeAttribute('href');
+    el.removeAttribute('target');
+    return false;
+}
+</script>
+<!-- licznik odwiedzin -> panel kacperos.html -->
+<script type="module" src="/track.js"></script>
+</body>
+</html>

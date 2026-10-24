@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>kacperos — statystyki T-Olimpians</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg-base:#0a0a0f; --bg-surface:#111118; --bg-card:#15151e; --bg-elevated:#1c1c28;
+  --border:rgba(255,255,255,.07); --border-accent:rgba(59,130,246,.3);
+  --text-primary:#f0f0f8; --text-secondary:#9090aa; --text-muted:#55556a;
+  --accent:#3b82f6; --accent-bright:#60a5fa; --accent-dim:rgba(59,130,246,.12); --accent-glow:rgba(59,130,246,.25);
+  --radius-sm:8px; --radius-md:14px; --radius-lg:20px;
+  --font-body:'DM Sans',sans-serif; --font-display:'Syne',sans-serif; --font-mono:'JetBrains Mono',monospace;
+
+  /* Paleta serii — sloty 1-3, zwalidowane na tle #15151e:
+     CVD ΔE 9.4 (cel ≥8) · widzenie normalne ΔE 24.0 (próg ≥15) · kontrast ≥4.67:1 */
+  --series-1:#3b82f6; --series-2:#d95926; --series-3:#199e70;
+  --good:#199e70;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg-base);color:var(--text-primary);font-family:var(--font-body);font-weight:300;
+     -webkit-font-smoothing:antialiased;min-height:100vh}
+.wrap{max-width:1240px;margin:0 auto;padding-block:28px;padding-left:20px;padding-right:20px}
+
+/* ---------- bramka ---------- */
+#gate{position:fixed;inset:0;background:var(--bg-base);display:grid;place-items:center;z-index:100;padding:20px}
+#gate .box{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);
+           padding:34px 30px;max-width:380px;width:100%;text-align:center}
+#gate h1{font-family:var(--font-display);font-size:1.3rem;font-weight:700;margin-bottom:6px}
+#gate p{color:var(--text-muted);font-size:.85rem;margin-bottom:20px}
+#gate input{width:100%;background:var(--bg-base);border:1px solid var(--border);border-radius:var(--radius-sm);
+            padding:12px 14px;color:var(--text-primary);font-family:var(--font-mono);font-size:.9rem;text-align:center}
+#gate input:focus{outline:none;border-color:var(--border-accent)}
+#gate button{width:100%;margin-top:12px;background:var(--accent);border:0;border-radius:var(--radius-sm);
+             padding:12px;color:#fff;font-family:var(--font-body);font-weight:500;font-size:.9rem;cursor:pointer}
+#gate .err{color:var(--series-2);font-size:.8rem;margin-top:10px;min-height:1em}
+
+/* ---------- nagłówek ---------- */
+header{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end;justify-content:space-between;margin-bottom:24px}
+.brand{font-family:var(--font-display);font-size:1.75rem;font-weight:800;letter-spacing:-.02em}
+.brand span{color:var(--accent)}
+.sub{color:var(--text-muted);font-size:.82rem;margin-top:3px;display:flex;align-items:center;gap:7px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--good);box-shadow:0 0 0 0 rgba(25,158,112,.6);
+     animation:pulse 2.2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 7px rgba(25,158,112,0)}100%{box-shadow:0 0 0 0 rgba(25,158,112,0)}}
+@media (prefers-reduced-motion:reduce){.dot{animation:none}}
+.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.filters{display:flex;gap:6px;flex-wrap:wrap}
+.filters button{background:var(--bg-card);border:1px solid var(--border);color:var(--text-secondary);
+  padding:8px 15px;border-radius:999px;font-family:var(--font-body);font-size:.82rem;cursor:pointer;transition:.15s}
+.filters button:hover{color:var(--text-primary);border-color:var(--border-accent)}
+.filters button[aria-pressed="true"]{background:var(--accent-dim);border-color:var(--border-accent);color:var(--accent-bright)}
+.badge{display:inline-block;margin-left:9px;padding:3px 9px;border-radius:999px;font-size:.68rem;
+  letter-spacing:.06em;text-transform:uppercase;background:var(--accent-dim);color:var(--accent-bright);
+  border:1px solid var(--border-accent);vertical-align:middle}
+
+/* ---------- kafelki ---------- */
+/* 6 kafelków: 6 w rzędzie na dużym ekranie, potem 3+3 i 2+2+2 —
+   nigdy jeden osierocony kafelek w drugim rzędzie. */
+.kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:22px}
+@media(max-width:1080px){.kpis{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:600px){.kpis{grid-template-columns:repeat(2,1fr)}}
+.kpi{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:17px 18px}
+.kpi.live{border-color:var(--border-accent);background:linear-gradient(160deg,var(--accent-dim),var(--bg-card))}
+.kpi .label{color:var(--text-muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.09em;margin-bottom:9px}
+.kpi .val{font-family:var(--font-display);font-size:2rem;font-weight:700;line-height:1;letter-spacing:-.02em;white-space:nowrap}
+.kpi .val.split{font-size:1.55rem}
+.kpi .val .slash{color:var(--text-muted);font-weight:400;padding:0 2px}
+.kpi .note{color:var(--text-muted);font-size:.74rem;margin-top:6px}
+
+/* ---------- karty ---------- */
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;margin-bottom:18px}
+.card h2{font-family:var(--font-display);font-size:1.02rem;font-weight:600;margin-bottom:3px}
+.card .hint{color:var(--text-muted);font-size:.76rem;margin-bottom:16px}
+.card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.linkbtn{background:none;border:1px solid var(--border);color:var(--text-secondary);border-radius:var(--radius-sm);
+  padding:5px 11px;font-family:var(--font-body);font-size:.75rem;cursor:pointer;white-space:nowrap}
+.linkbtn:hover{color:var(--text-primary);border-color:var(--border-accent)}
+.linkbtn:disabled{opacity:.55;cursor:default}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:820px){.cols{grid-template-columns:1fr}}
+.search{background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-sm);
+  padding:7px 11px;color:var(--text-primary);font-family:var(--font-body);font-size:.8rem;min-width:190px}
+.search:focus{outline:none;border-color:var(--border-accent)}
+.search::placeholder{color:var(--text-muted)}
+
+/* ---------- wykres ---------- */
+.chart-scroll{overflow-x:auto}
+svg.chart{display:block;width:100%;min-width:320px;max-width:100%;height:auto;overflow:visible}
+.grid-line{stroke:rgba(255,255,255,.055);stroke-width:1}
+.axis-txt{fill:var(--text-muted);font-family:var(--font-mono);font-size:9px}
+.bar{fill:var(--series-1);transition:fill .12s}
+.bar.on{fill:var(--accent-bright)}
+.bar-hit{fill:transparent;cursor:pointer}
+.bar-hit:focus{outline:none}
+.bar-hit:focus-visible{outline:2px solid var(--accent-bright);outline-offset:-2px}
+
+/* ---------- tabele ---------- */
+table{width:100%;border-collapse:collapse;font-size:.84rem}
+th{text-align:left;color:var(--text-muted);font-weight:400;font-size:.71rem;text-transform:uppercase;
+   letter-spacing:.07em;padding:0 10px 9px 0;border-bottom:1px solid var(--border)}
+td{padding:10px 10px 10px 0;border-bottom:1px solid rgba(255,255,255,.035);vertical-align:middle}
+tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right;padding-right:0;font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+.path{font-family:var(--font-mono);font-size:.78rem;color:var(--text-primary);word-break:break-all}
+.meter{height:5px;border-radius:3px;background:var(--series-1);min-width:3px;margin-top:5px}
+.tag{display:inline-block;padding:2px 8px;border-radius:999px;font-size:.7rem;background:var(--bg-elevated);
+     color:var(--text-secondary);border:1px solid var(--border);white-space:nowrap}
+.vid{font-family:var(--font-mono);font-size:.78rem;color:var(--accent-bright)}
+tr.click{cursor:pointer}
+tr.click:hover td{background:rgba(59,130,246,.055)}
+.empty{color:var(--text-muted);font-size:.84rem;padding:22px 0;text-align:center}
+
+/* ---------- na żywo ---------- */
+.live-list{display:flex;flex-direction:column;gap:9px}
+.live-row{display:flex;align-items:center;gap:11px;background:var(--bg-surface);border:1px solid var(--border);
+          border-radius:var(--radius-sm);padding:11px 13px;flex-wrap:wrap}
+.live-row .dot{flex:none}
+
+/* ---------- urządzenia ---------- */
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:13px}
+.legend span{display:flex;align-items:center;gap:7px;font-size:.79rem;color:var(--text-secondary)}
+.swatch{width:11px;height:11px;border-radius:3px;flex:none}
+.stack{display:flex;height:13px;border-radius:4px;overflow:hidden;gap:2px;background:var(--bg-surface)}
+.stack i{display:block;height:100%}
+
+/* ---------- modal ---------- */
+.modal{position:fixed;inset:0;background:rgba(5,5,9,.82);z-index:90;display:grid;place-items:center;padding:16px}
+.modal[hidden]{display:none}
+.modal .inner{background:var(--bg-card);border:1px solid var(--border-accent);border-radius:var(--radius-lg);
+  max-width:700px;width:100%;max-height:86vh;overflow-y:auto;padding:24px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:11px;margin:16px 0 20px}
+.fact{background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:11px 12px}
+.fact .k{color:var(--text-muted);font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px}
+.fact .v{font-size:.9rem;font-family:var(--font-mono)}
+.journey{border-left:2px solid var(--border);padding-left:16px;margin-left:5px;display:flex;flex-direction:column;gap:14px}
+.step{position:relative}
+.step::before{content:"";position:absolute;left:-21px;top:5px;width:8px;height:8px;border-radius:50%;
+  background:var(--accent);border:2px solid var(--bg-card)}
+.step .t{color:var(--text-muted);font-size:.72rem;font-family:var(--font-mono);margin-bottom:2px}
+
+/* ---------- podpowiedź ---------- */
+#tip{position:fixed;pointer-events:none;background:var(--bg-elevated);border:1px solid var(--border-accent);
+  border-radius:var(--radius-sm);padding:8px 11px;font-size:.78rem;z-index:80;opacity:0;transition:opacity .1s;
+  box-shadow:0 8px 26px rgba(0,0,0,.5);white-space:nowrap}
+#tip.on{opacity:1}
+#tip b{font-family:var(--font-display);font-size:.95rem;display:block}
+
+footer{color:var(--text-muted);font-size:.76rem;text-align:center;padding:26px 0 12px;
+       display:flex;flex-direction:column;gap:10px;align-items:center}
+</style>
+</head>
+<body>
+
+<!-- Bramka. To zapora przed przypadkowym gościem, NIE zabezpieczenie —
+     kod strony jest publiczny. Prawdziwa ochrona to reguły Firestore. -->
+<div id="gate">
+  <div class="box">
+    <h1>kacper<span style="color:var(--accent)">os</span></h1>
+    <p>Panel statystyk T-Olimpians</p>
+    <input id="pw" type="password" placeholder="hasło" autocomplete="current-password">
+    <button id="go">Wejdź</button>
+    <div class="err" id="gerr"></div>
+  </div>
+</div>
+
+<div class="wrap" id="app" style="display:none">
+
+  <header>
+    <div>
+      <div class="brand">kacper<span>os</span><span class="badge" id="demo-badge" hidden>dane przykładowe</span></div>
+      <div class="sub"><span class="dot"></span><span id="status">łączenie z bazą…</span></div>
+    </div>
+    <div class="toolbar">
+      <div class="filters" role="group" aria-label="Zakres czasu">
+        <button data-range="1"  aria-pressed="true">Dziś</button>
+        <button data-range="7"  aria-pressed="false">7 dni</button>
+        <button data-range="30" aria-pressed="false">30 dni</button>
+      </div>
+      <button class="linkbtn" id="export">Pobierz CSV</button>
+    </div>
+  </header>
+
+  <div class="kpis">
+    <div class="kpi live"><div class="label">Teraz na stronie</div><div class="val" id="k-live">–</div><div class="note">aktywni w ost. 2 min</div></div>
+    <div class="kpi"><div class="label">Odsłony</div><div class="val" id="k-views">–</div><div class="note" id="k-views-n"></div></div>
+    <div class="kpi"><div class="label">Unikalne osoby</div><div class="val" id="k-uniq">–</div><div class="note" id="k-uniq-n"></div></div>
+    <div class="kpi"><div class="label">Nowi / wracający</div><div class="val split" id="k-new">–</div><div class="note">pierwszy raz / już tu byli</div></div>
+    <div class="kpi"><div class="label">Średni czas</div><div class="val" id="k-time">–</div><div class="note">na jednej stronie</div></div>
+    <div class="kpi"><div class="label">Stron na osobę</div><div class="val" id="k-ppv">–</div><div class="note">głębokość wizyty</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div><h2 id="chart-title">Odsłony dzień po dniu</h2><div class="hint" id="chart-hint">Najedź na słupek (albo dojedź do niego Tabem), żeby zobaczyć dokładne liczby.</div></div>
+      <button class="linkbtn" id="toggle-table">Pokaż tabelę</button>
+    </div>
+    <div class="chart-scroll"><svg class="chart" id="chart" viewBox="0 0 760 210" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Odsłony w czasie"></svg></div>
+    <div id="chart-table" hidden style="margin-top:14px"></div>
+  </div>
+
+  <div class="cols">
+    <div class="card">
+      <h2>Najczęściej otwierane strony</h2>
+      <div class="hint">Które podstrony realnie ktoś czyta.</div>
+      <div id="pages"></div>
+    </div>
+    <div class="card">
+      <h2>Skąd przychodzą</h2>
+      <div class="hint">Źródło ruchu wg odsyłacza.</div>
+      <div id="sources"></div>
+      <h2 style="margin-top:22px">Urządzenia</h2>
+      <div class="hint">Podział odsłon wg sprzętu.</div>
+      <div id="devices"></div>
+    </div>
+  </div>
+
+  <div class="cols">
+    <div class="card">
+      <h2>Strony wejścia</h2>
+      <div class="hint">Od której strony ludzie zaczynają wizytę.</div>
+      <div id="entry"></div>
+    </div>
+    <div class="card">
+      <h2>Miasta</h2>
+      <div class="hint">Przybliżona lokalizacja — miasto i kraj, bez adresów IP.</div>
+      <div id="places"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Kto jest na stronie w tej chwili</h2>
+    <div class="hint">Aktualizuje się na żywo, bez odświeżania.</div>
+    <div id="live"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div><h2>Odwiedzający</h2><div class="hint">Kliknij wiersz, żeby zobaczyć całą ścieżkę tej osoby po stronie.</div></div>
+      <input class="search" id="q" type="search" placeholder="szukaj: nick, miasto, strona…" aria-label="Szukaj wśród odwiedzających">
+    </div>
+    <div id="visitors"></div>
+  </div>
+
+  <footer>
+    <div id="foot">—</div>
+    <button class="linkbtn" id="ignore-me">Nie licz moich wizyt w tej przeglądarce</button>
+  </footer>
+</div>
+
+<div class="modal" id="modal" hidden><div class="inner" id="modal-inner"></div></div>
+<div id="tip"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, query, where, orderBy, limit, onSnapshot }
+  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+/* ===== ZMIEŃ TO HASŁO ===== */
+const HASLO = "olimpiada2026";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCCq6q-GqkILS9E7xXSl65bn856IkiUaGc",
+  authDomain: "progress-app-2d372.firebaseapp.com",
+  projectId: "progress-app-2d372",
+  storageBucket: "progress-app-2d372.firebasestorage.app",
+  messagingSenderId: "40639690555",
+  appId: "1:40639690555:web:cf7b4f8d17d5dd051b691e"
+};
+
+const $ = (s) => document.querySelector(s);
+const DAY      = 86_400_000;
+const LIVE_MS  = 120_000;      // "teraz na stronie" = sygnał z ostatnich 2 minut
+const WINDOW_MS = 35 * 60_000; // ile wstecz pyta nasłuch "na żywo"
+
+/* ?demo=1 — panel z danymi przykładowymi (do oglądania układu, bez bazy). */
+const DEMO = /[?&]demo=1/.test(location.search);
+
+let HITS = [], LIVE = [], RANGE = 1, QUERY = "";
+let unsubRange = null, unsubLive = null, DB = null, dayMark = today0();
+
+/* ---------- bramka ---------- */
+function unlock() { $("#gate")?.remove(); $("#app").style.display = ""; boot(); }
+$("#go")?.addEventListener("click", tryPw);
+$("#pw")?.addEventListener("keydown", e => { if (e.key === "Enter") tryPw(); });
+function tryPw() {
+  if ($("#pw").value === HASLO) { sessionStorage.setItem("kcs_ok", "1"); unlock(); }
+  else { $("#gerr").textContent = "Nieprawidłowe hasło."; $("#pw").value = ""; }
+}
+
+/* ---------- formatowanie ---------- */
+const nf = new Intl.NumberFormat("pl-PL");
+const num = (n) => nf.format(n);
+const pad = (n) => String(n).padStart(2, "0");
+function today0() { return new Date().setHours(0, 0, 0, 0); }
+
+function secs(s) {
+  s = Math.round(s || 0);
+  if (s < 60) return s + " s";
+  const m = Math.floor(s / 60);
+  return m < 60 ? `${m} min ${pad(s % 60)} s` : `${Math.floor(m / 60)} h ${pad(m % 60)} min`;
+}
+/** Krótszy wariant na kafelek — "2:04 min" zamiast "2 min 04 s". */
+function secsShort(s) {
+  s = Math.round(s || 0);
+  if (s < 60) return s + " s";
+  const m = Math.floor(s / 60);
+  return m < 60 ? `${m}:${pad(s % 60)} min` : `${Math.floor(m / 60)}:${pad(m % 60)} h`;
+}
+function when(ts) {
+  const d = new Date(ts), diff = Date.now() - ts;
+  if (diff < 60_000) return "przed chwilą";
+  if (diff < 3_600_000) return `${Math.floor(diff / 60_000)} min temu`;
+  const today = new Date().toDateString() === d.toDateString();
+  return today ? `dziś ${pad(d.getHours())}:${pad(d.getMinutes())}`
+               : `${pad(d.getDate())}.${pad(d.getMonth() + 1)} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, c =>
+  ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+const odsl = (n) => n === 1 ? "odsłona" : (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20)) ? "odsłony" : "odsłon";
+const osob = (n) => n === 1 ? "osoba" : (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20)) ? "osoby" : "osób";
+
+/** Ładna etykieta osoby: nick jeśli znany, inaczej skrót identyfikatora. */
+const who = (h) => h.user ? h.user : "Gość " + String(h.vid || "").replace(/^v_/, "").slice(0, 6);
+const place = (h) => [h.city, h.country].filter(Boolean).join(", ");
+/** Kiedy ta osoba była tu pierwszy raz — z trackera, a jak brak, to z tej odsłony. */
+const firstOf = (h) => h.vfirst || h.ts;
+
+/* ---------- start ---------- */
+function boot() {
+  if (DEMO) {
+    $("#demo-badge").hidden = false;
+    HITS = demoHits();
+    LIVE = HITS;
+  } else {
+    try { DB = getFirestore(initializeApp(firebaseConfig, "kacperos-dash")); }
+    catch (e) { $("#status").textContent = "błąd połączenia z bazą"; console.error(e); return; }
+    listenRange();
+    listenLive();
+    // Okno "na żywo" jest ruchome, więc co jakiś czas pytamy od nowa —
+    // inaczej zapytanie z każdą godziną obejmowałoby coraz więcej dokumentów.
+    setInterval(listenLive, 5 * 60_000);
+  }
+
+  document.querySelectorAll(".filters button").forEach(b => {
+    b.addEventListener("click", () => {
+      RANGE = +b.dataset.range;
+      document.querySelectorAll(".filters button").forEach(x =>
+        x.setAttribute("aria-pressed", String(x === b)));
+      if (!DEMO) listenRange();
+      render();
+    });
+  });
+
+  $("#toggle-table").addEventListener("click", () => {
+    const t = $("#chart-table"), open = !t.hidden;
+    t.hidden = open;
+    $("#toggle-table").textContent = open ? "Pokaż tabelę" : "Ukryj tabelę";
+  });
+
+  $("#q").addEventListener("input", e => {
+    QUERY = e.target.value.trim().toLowerCase();
+    drawVisitors(rangeRows());
+  });
+
+  $("#export").addEventListener("click", exportCsv);
+
+  paintIgnore();
+  $("#ignore-me").addEventListener("click", () => {
+    if (localStorage.getItem("kcs_ignore") === "1") localStorage.removeItem("kcs_ignore");
+    else localStorage.setItem("kcs_ignore", "1");
+    paintIgnore();
+  });
+
+  $("#modal").addEventListener("click", e => { if (e.target.id === "modal") $("#modal").hidden = true; });
+  addEventListener("keydown", e => { if (e.key === "Escape") { $("#modal").hidden = true; hideTip(); } });
+
+  render();
+  setInterval(() => {
+    // Po północy "Dziś" znaczy już co innego — trzeba dociągnąć nowy dzień.
+    if (RANGE === 1 && today0() !== dayMark) { dayMark = today0(); if (!DEMO) listenRange(); }
+    render();
+  }, 20_000);
+}
+
+/* ---------- nasłuchy Firestore ---------- */
+
+/** Zakres liczymy po stronie bazy: "Dziś" to kilkadziesiąt dokumentów,
+    a nie 5000 jak przy ciągnięciu całego miesiąca przy każdym wejściu. */
+function listenRange() {
+  if (!DB) return;
+  unsubRange?.();
+  const q = query(
+    collection(DB, "analytics_hits"),
+    where("ts", ">=", rangeFrom()),
+    orderBy("ts", "desc"),
+    limit(5000)
+  );
+  unsubRange = onSnapshot(q,
+    (snap) => { HITS = snap.docs.map(d => d.data()); render(); },
+    (err) => {
+      $("#status").textContent = err.code === "permission-denied"
+        ? "brak dostępu do danych — sprawdź reguły Firestore dla analytics_hits"
+        : "problem z pobraniem danych — szczegóły w konsoli";
+      console.error(err);
+    }
+  );
+}
+
+function listenLive() {
+  if (!DB) return;
+  unsubLive?.();
+  const q = query(
+    collection(DB, "analytics_hits"),
+    where("ts", ">=", Date.now() - WINDOW_MS),
+    orderBy("ts", "desc"),
+    limit(300)
+  );
+  unsubLive = onSnapshot(q,
+    (snap) => { LIVE = snap.docs.map(d => d.data()); render(); },
+    (err) => console.error(err)
+  );
+}
+
+function rangeFrom() { return RANGE === 1 ? today0() : Date.now() - RANGE * DAY; }
+function rangeRows() { const f = rangeFrom(); return HITS.filter(h => h.ts >= f); }
+
+/* ---------- grupowanie ---------- */
+function tally(rows, keyFn) {
+  const m = new Map();
+  for (const r of rows) {
+    const k = keyFn(r);
+    if (k === null || k === undefined || k === "") continue;
+    if (!m.has(k)) m.set(k, []);
+    m.get(k).push(r);
+  }
+  return [...m.entries()].sort((a, b) => b[1].length - a[1].length);
+}
+
+/* ---------- render ---------- */
+function render() {
+  const from   = rangeFrom();
+  const rows   = rangeRows();
+  const active = LIVE.filter(h => (h.last || h.ts) > Date.now() - LIVE_MS);
+  const uniq   = new Set(rows.map(h => h.vid)).size;
+  const avgDur = rows.length ? rows.reduce((s, h) => s + (h.dur || 0), 0) / rows.length : 0;
+
+  // Nowy = pierwszy raz w tym zakresie; wracający = był tu już wcześniej.
+  const first = new Map();
+  for (const h of rows) {
+    const f = firstOf(h);
+    if (!first.has(h.vid) || f < first.get(h.vid)) first.set(h.vid, f);
+  }
+  const nowi = [...first.values()].filter(f => f >= from).length;
+
+  $("#status").textContent = DEMO
+    ? "tryb demo — dane wymyślone na potrzeby podglądu"
+    : (HITS.length ? `na żywo · ${num(rows.length)} ${odsl(rows.length)} ${okres()}`
+                   : "połączono — czekam na pierwsze odsłony");
+
+  $("#k-live").textContent  = num(new Set(active.map(h => h.vid)).size);
+  $("#k-views").textContent = num(rows.length);
+  $("#k-uniq").textContent  = num(uniq);
+  $("#k-new").innerHTML     = uniq ? `${num(nowi)}<span class="slash">/</span>${num(uniq - nowi)}` : "–";
+  $("#k-time").textContent  = rows.length ? secsShort(avgDur) : "–";
+  $("#k-ppv").textContent   = uniq ? (rows.length / uniq).toFixed(1).replace(".", ",") : "–";
+  $("#k-views-n").textContent = okres();
+  $("#k-uniq-n").textContent  = okres();
+
+  $("#chart-title").textContent = RANGE === 1 ? "Odsłony godzina po godzinie" : "Odsłony dzień po dniu";
+
+  drawChart(rows);
+  drawPages(rows);
+  drawEntry(rows);
+  drawSources(rows);
+  drawDevices(rows);
+  drawPlaces(rows);
+  drawLive(active);
+  drawVisitors(rows);
+
+  $("#foot").textContent = DEMO
+    ? "Tryb demo — żadne z tych liczb nie są prawdziwe."
+    : `Dane z Firestore · kolekcja analytics_hits · odświeżono ${when(Date.now())}`;
+}
+const okres = () => RANGE === 1 ? "dzisiaj" : `w ${RANGE} dni`;
+
+/* ---------- wykres słupkowy (jedna seria → bez legendy) ---------- */
+
+/** Kubełki: godziny dzisiejszego dnia albo kolejne doby.
+    Liczone na obiektach Date, żeby zmiana czasu nie przesunęła słupków. */
+function chartBuckets(rows) {
+  const out = [];
+  if (RANGE === 1) {
+    for (let i = 0; i < 24; i++) {
+      const a = new Date(); a.setHours(i, 0, 0, 0);
+      const b = new Date(); b.setHours(i + 1, 0, 0, 0);
+      out.push({ a: a.getTime(), b: b.getTime(), tick: i % 3 === 0 ? pad(i) : null,
+                 label: `${pad(i)}:00–${pad((i + 1) % 24)}:00` });
+    }
+  } else {
+    for (let i = 0; i < RANGE; i++) {
+      const a = new Date(); a.setHours(0, 0, 0, 0); a.setDate(a.getDate() - (RANGE - 1) + i);
+      const b = new Date(a); b.setDate(b.getDate() + 1);
+      const lbl = `${pad(a.getDate())}.${pad(a.getMonth() + 1)}`;
+      out.push({ a: a.getTime(), b: b.getTime(), tick: lbl, label: lbl, full: `${lbl}.${a.getFullYear()}` });
+    }
+  }
+  for (const k of out) {
+    const hs = rows.filter(h => h.ts >= k.a && h.ts < k.b);
+    k.views = hs.length;
+    k.people = new Set(hs.map(h => h.vid)).size;
+  }
+  if (RANGE > 1) {                      // przy 30 dniach podpisujemy co którąś dobę
+    const every = Math.ceil(out.length / 12);
+    out.forEach((k, i) => { if (i % every !== 0) k.tick = null; });
+  }
+  return out;
+}
+
+/** Krok osi, żeby podpisy wychodziły okrągłe (0·2·4·6), a nie 0·1·3·4. */
+function niceStep(max) {
+  const raw = Math.max(1, max / 3);
+  const mag = Math.pow(10, Math.floor(Math.log10(raw)));
+  for (const m of [1, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10]) {
+    if (m * mag >= raw) return Math.ceil(m * mag);
+  }
+  return Math.ceil(raw);
+}
+
+function drawChart(rows) {
+  hideTip();          // odświeżenie zjada stare słupki — podpowiedź nie może po nich zostać
+  const ks = chartBuckets(rows);
+  const W = 760, H = 210, L = 34, R = 8, T = 12, B = 26;
+  const iw = W - L - R, ih = H - T - B;
+  const unit = niceStep(Math.max(1, ...ks.map(k => k.views)));
+  const max  = unit * 3;
+  const step = iw / ks.length;
+  const bw = Math.max(3, Math.min(step - 2, 24));   // cienki słupek, 2px przerwy
+
+  let s = "";
+  for (let g = 0; g <= 3; g++) {
+    const y = T + ih - (ih * g / 3);
+    s += `<line class="grid-line" x1="${L}" y1="${y}" x2="${W - R}" y2="${y}"/>`
+       + `<text class="axis-txt" x="${L - 7}" y="${y + 3}" text-anchor="end">${unit * g}</text>`;
+  }
+
+  // Najpierw wszystkie słupki, potem wszystkie pola trafień — dzięki temu
+  // przezroczyste pola leżą na wierzchu i łapią mysz na całej wysokości.
+  ks.forEach((k, i) => {
+    if (!k.views) return;
+    const h = k.views / max * ih;
+    const x = L + i * step + (step - bw) / 2;
+    const y = T + ih - h;
+    const r = Math.min(4, bw / 2, h);               // 4px zaokrąglone zakończenie
+    s += `<path class="bar" data-i="${i}" d="M${x},${T + ih} V${y + r} a${r},${r} 0 0 1 ${r},-${r} h${bw - 2 * r} a${r},${r} 0 0 1 ${r},${r} V${T + ih} Z"/>`;
+  });
+
+  ks.forEach((k, i) => {
+    const aria = `${k.label}: ${k.views} ${odsl(k.views)}, ${k.people} ${osob(k.people)}`;
+    s += `<rect class="bar-hit" x="${L + i * step}" y="${T}" width="${step}" height="${ih}"
+            data-i="${i}" tabindex="0" role="img" aria-label="${esc(aria)}"/>`;
+    if (k.tick) s += `<text class="axis-txt" x="${L + i * step + step / 2}" y="${H - 9}" text-anchor="middle">${k.tick}</text>`;
+  });
+
+  const svg = $("#chart");
+  svg.innerHTML = s;
+  svg.querySelectorAll(".bar-hit").forEach(el => {
+    const k   = ks[+el.dataset.i];
+    const bar = svg.querySelector(`.bar[data-i="${el.dataset.i}"]`);
+    const html = `<b>${k.views} ${odsl(k.views)}</b>${k.people} ${osob(k.people)} · ${esc(k.label)}`;
+    const on  = (ev) => { bar?.classList.add("on"); showTip(ev, html, el); };
+    const off = () => { bar?.classList.remove("on"); hideTip(); };
+    el.addEventListener("pointermove", on);
+    el.addEventListener("pointerdown", on);      // dotyk
+    el.addEventListener("focus", on);
+    el.addEventListener("pointerleave", off);
+    el.addEventListener("blur", off);
+  });
+
+  // tabela zastępcza (dostępność)
+  $("#chart-table").innerHTML =
+    `<table><thead><tr><th>${RANGE === 1 ? "Godzina" : "Dzień"}</th><th class="num">Odsłony</th><th class="num">Osoby</th></tr></thead><tbody>`
+    + ks.slice().reverse().map(k =>
+        `<tr><td>${esc(k.full || k.label)}</td><td class="num">${k.views}</td><td class="num">${k.people}</td></tr>`
+      ).join("") + `</tbody></table>`;
+}
+
+/* ---------- top strony ---------- */
+function drawPages(rows) {
+  const g = tally(rows, h => h.path || "/");
+  if (!g.length) return $("#pages").innerHTML = `<div class="empty">Brak danych w tym zakresie.</div>`;
+  const max = g[0][1].length;
+  $("#pages").innerHTML = `<table><thead><tr><th>Strona</th><th class="num">Odsłony</th><th class="num">Osoby</th><th class="num">Śr. czas</th></tr></thead><tbody>`
+    + g.slice(0, 14).map(([path, hs]) => {
+        const people = new Set(hs.map(h => h.vid)).size;
+        const avg = hs.reduce((s, h) => s + (h.dur || 0), 0) / hs.length;
+        return `<tr><td><div class="path">${esc(path)}</div>
+                  <div class="meter" style="width:${hs.length / max * 100}%"></div></td>
+                <td class="num">${hs.length}</td><td class="num">${people}</td><td class="num">${secs(avg)}</td></tr>`;
+      }).join("") + `</tbody></table>`;
+}
+
+/* ---------- strony wejścia ---------- */
+function drawEntry(rows) {
+  const starts = rows.filter(h => h.entry);
+  if (!starts.length) return $("#entry").innerHTML =
+    `<div class="empty">Jeszcze nie mam tych danych — pojawią się po pierwszych wizytach.</div>`;
+  const g = tally(starts, h => h.path || "/");
+  const max = g[0][1].length;
+  $("#entry").innerHTML = `<table><thead><tr><th>Strona</th><th class="num">Wejścia</th><th class="num">Udział</th></tr></thead><tbody>`
+    + g.slice(0, 10).map(([path, hs]) =>
+        `<tr><td><div class="path">${esc(path)}</div>
+           <div class="meter" style="width:${hs.length / max * 100}%"></div></td>
+         <td class="num">${hs.length}</td>
+         <td class="num">${Math.round(hs.length / starts.length * 100)}%</td></tr>`
+      ).join("") + `</tbody></table>`;
+}
+
+/* ---------- źródła ---------- */
+function drawSources(rows) {
+  const g = tally(rows, h => h.refType || "bezpośrednie");
+  if (!g.length) return $("#sources").innerHTML = `<div class="empty">Brak danych.</div>`;
+  const max = g[0][1].length;
+  $("#sources").innerHTML = `<table><tbody>` + g.map(([t, hs]) => {
+    const hosts = [...new Set(hs.map(h => h.ref).filter(Boolean))].slice(0, 3).join(", ");
+    return `<tr><td><span class="tag">${esc(t)}</span>
+              ${hosts ? `<div style="color:var(--text-muted);font-size:.74rem;margin-top:4px">${esc(hosts)}</div>` : ""}
+              <div class="meter" style="width:${hs.length / max * 100}%"></div></td>
+            <td class="num">${hs.length}</td></tr>`;
+  }).join("") + `</tbody></table>`;
+}
+
+/* ---------- urządzenia (3 kategorie → legenda + etykiety) ---------- */
+function drawDevices(rows) {
+  const order = ["desktop", "mobile", "tablet"];
+  const label = { desktop: "Komputer", mobile: "Telefon", tablet: "Tablet" };
+  const colors = ["var(--series-1)", "var(--series-2)", "var(--series-3)"];
+  const counts = order.map(k => rows.filter(h => h.dev === k).length);
+  const total = counts.reduce((a, b) => a + b, 0);
+  if (!total) return $("#devices").innerHTML = `<div class="empty">Brak danych.</div>`;
+  $("#devices").innerHTML =
+    `<div class="legend">` + order.map((k, i) =>
+      `<span><i class="swatch" style="background:${colors[i]}"></i>${label[k]} — <b style="font-weight:500">${Math.round(counts[i] / total * 100)}%</b>
+        <span style="color:var(--text-muted)">(${counts[i]})</span></span>`).join("") + `</div>`
+    + `<div class="stack">` + order.map((k, i) =>
+      counts[i] ? `<i style="width:${counts[i] / total * 100}%;background:${colors[i]}"></i>` : "").join("") + `</div>`;
+}
+
+/* ---------- miasta ---------- */
+function drawPlaces(rows) {
+  const g = tally(rows, h => place(h) || "nieznane");
+  if (!g.length) return $("#places").innerHTML = `<div class="empty">Brak danych.</div>`;
+  const max = g[0][1].length;
+  $("#places").innerHTML = `<table><thead><tr><th>Miejsce</th><th class="num">Odsłony</th><th class="num">Osoby</th></tr></thead><tbody>`
+    + g.slice(0, 12).map(([name, hs]) =>
+        `<tr><td>${esc(name)}<div class="meter" style="width:${hs.length / max * 100}%"></div></td>
+         <td class="num">${hs.length}</td>
+         <td class="num">${new Set(hs.map(h => h.vid)).size}</td></tr>`
+      ).join("") + `</tbody></table>`;
+}
+
+/* ---------- na żywo ---------- */
+function drawLive(active) {
+  if (!active.length) return $("#live").innerHTML = `<div class="empty">Nikogo nie ma w tej chwili na stronie.</div>`;
+  const byVid = new Map();
+  for (const h of active) {
+    const cur = byVid.get(h.vid);
+    if (!cur || (h.last || h.ts) > (cur.last || cur.ts)) byVid.set(h.vid, h);
+  }
+  $("#live").innerHTML = `<div class="live-list">` + [...byVid.values()]
+    .sort((a, b) => (b.last || b.ts) - (a.last || a.ts))
+    .map(h => `<div class="live-row">
+        <span class="dot"></span>
+        <span class="vid">${esc(who(h))}</span>
+        <span class="path" style="flex:1;min-width:140px">${esc(h.path || "/")}</span>
+        <span class="tag">${esc(h.dev || "?")}</span>
+        ${place(h) ? `<span class="tag">${esc(place(h))}</span>` : ""}
+        <span class="tag">${secs(h.dur)}</span>
+      </div>`).join("") + `</div>`;
+}
+
+/* ---------- odwiedzający + ścieżka ---------- */
+function drawVisitors(rows) {
+  let g = tally(rows, h => h.vid);
+  if (QUERY) {
+    g = g.filter(([vid, hs]) => hs.some(h =>
+      [who(h), vid, h.path, h.title, place(h), h.dev, h.br, h.os, h.refType, h.ref]
+        .some(v => String(v ?? "").toLowerCase().includes(QUERY))));
+  }
+  if (!g.length) return $("#visitors").innerHTML =
+    `<div class="empty">${QUERY ? "Nikt nie pasuje do tego wyszukiwania." : "Brak danych w tym zakresie."}</div>`;
+
+  $("#visitors").innerHTML = `<table><thead><tr><th>Osoba</th><th>Urządzenie</th><th>Skąd</th>
+      <th class="num">Stron</th><th class="num">Czas</th><th class="num">Ostatnio</th></tr></thead><tbody>`
+    + g.slice(0, 40).map(([vid, hs]) => {
+        const last = hs.reduce((a, b) => (b.ts > a.ts ? b : a));
+        const time = hs.reduce((s, h) => s + (h.dur || 0), 0);
+        const nowy = firstOf(last) >= rangeFrom();
+        return `<tr class="click" data-vid="${esc(vid)}">
+          <td><span class="vid">${esc(who(last))}</span>
+              <span class="tag" style="margin-left:7px">${nowy ? "nowy" : "wraca"}</span></td>
+          <td><span class="tag">${esc(last.dev || "?")} · ${esc(last.br || "?")}</span></td>
+          <td>${place(last) ? esc(place(last)) : '<span style="color:var(--text-muted)">—</span>'}</td>
+          <td class="num">${hs.length}</td><td class="num">${secs(time)}</td>
+          <td class="num" style="color:var(--text-secondary)">${when(last.ts)}</td></tr>`;
+      }).join("") + `</tbody></table>`
+    + (g.length > 40 ? `<div class="hint" style="margin:12px 0 0">Pokazuję 40 z ${g.length} osób — zawęź wyszukiwaniem.</div>` : "");
+
+  $("#visitors").querySelectorAll("tr.click").forEach(tr =>
+    tr.addEventListener("click", () => openVisitor(tr.dataset.vid)));
+}
+
+function openVisitor(vid) {
+  const hs = HITS.filter(h => h.vid === vid).sort((a, b) => a.ts - b.ts);
+  if (!hs.length) return;
+  const last = hs[hs.length - 1];
+  const total = hs.reduce((s, h) => s + (h.dur || 0), 0);
+  const fact = (k, v) => `<div class="fact"><div class="k">${k}</div><div class="v">${esc(v || "—")}</div></div>`;
+
+  $("#modal-inner").innerHTML = `
+    <div class="card-head">
+      <div><h2 style="font-size:1.2rem">${esc(who(last))}</h2>
+      <div class="hint" style="margin-bottom:0">${esc(vid)}</div></div>
+      <button class="linkbtn" id="mclose">Zamknij</button>
+    </div>
+    <div class="facts">
+      ${fact("Urządzenie", last.dev)}${fact("Przeglądarka", last.br)}${fact("System", last.os)}
+      ${fact("Ekran", last.scr)}${fact("Język", last.lang)}${fact("Lokalizacja", place(last))}
+      ${fact("Odsłon", hs.length)}${fact("Łączny czas", secs(total))}
+      ${fact("Pierwszy raz tutaj", when(firstOf(hs[0])))}${fact("Ostatnia wizyta", when(last.ts))}
+      ${fact("Weszedł przez", last.refType)}${fact("Odsyłacz", last.ref)}
+    </div>
+    <h2 style="font-size:.95rem;margin-bottom:4px">Ścieżka po stronie</h2>
+    <div class="hint">Odsłony z wybranego zakresu (${okres()}), od najnowszej.</div>
+    <div class="journey">` + hs.slice().reverse().map(h => `
+      <div class="step">
+        <div class="t">${when(h.ts)} · ${secs(h.dur)}</div>
+        <div class="path">${esc(h.path || "/")}</div>
+        <div style="color:var(--text-muted);font-size:.75rem">${esc(h.title || "")}</div>
+      </div>`).join("") + `</div>`;
+
+  $("#modal").hidden = false;
+  $("#mclose").addEventListener("click", () => $("#modal").hidden = true);
+}
+
+/* ---------- eksport ---------- */
+function exportCsv() {
+  const rows = rangeRows();
+  if (!rows.length) return;
+  const head = ["data", "godzina", "osoba", "vid", "strona", "tytul", "czas_s", "wejscie",
+                "urzadzenie", "przegladarka", "system", "ekran", "jezyk", "miasto", "kraj", "zrodlo", "odsylacz"];
+  // Apostrof przed =,+,-,@ — inaczej Excel potraktowałby ścieżkę jak formułę.
+  const cell = (v) => {
+    const s = String(v ?? "");
+    return `"${(/^[=+\-@]/.test(s) ? "'" + s : s).replace(/"/g, '""')}"`;
+  };
+  const body = rows.slice().sort((a, b) => a.ts - b.ts).map(h => {
+    const d = new Date(h.ts);
+    return [
+      `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`,
+      `${pad(d.getHours())}:${pad(d.getMinutes())}`,
+      h.user || "", h.vid || "", h.path || "", h.title || "", h.dur || 0, h.entry ? "tak" : "nie",
+      h.dev || "", h.br || "", h.os || "", h.scr || "", h.lang || "", h.city || "", h.country || "",
+      h.refType || "", h.ref || ""
+    ].map(cell).join(";");
+  });
+
+  const csv = "﻿" + [head.map(cell).join(";"), ...body].join("\r\n");
+  const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
+  const a = document.createElement("a");
+  const d = new Date();
+  a.href = url;
+  a.download = `kacperos-${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}-${RANGE}d.csv`;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+/* ---------- wykluczenie własnych wizyt ---------- */
+function paintIgnore() {
+  const off = localStorage.getItem("kcs_ignore") === "1";
+  $("#ignore-me").textContent = off
+    ? "✓ Twoje wizyty nie są liczone — kliknij, żeby znowu liczyć"
+    : "Nie licz moich wizyt w tej przeglądarce";
+}
+
+/* ---------- podpowiedź ---------- */
+function showTip(ev, html, el) {
+  const t = $("#tip");
+  t.innerHTML = html; t.classList.add("on");
+  // Przy dotyku i klawiaturze nie ma kursora — wtedy celujemy w sam słupek.
+  const r = el?.getBoundingClientRect();
+  const px = ev.clientX || (r ? r.left + r.width / 2 : innerWidth / 2);
+  const py = ev.clientY || (r ? r.top + 24 : 120);
+  const w = t.offsetWidth, x = Math.min(px + 14, innerWidth - w - 10);
+  t.style.left = Math.max(8, x) + "px";
+  t.style.top  = Math.max(8, py - t.offsetHeight - 12) + "px";
+}
+function hideTip() { $("#tip").classList.remove("on"); }
+
+/* ---------- dane przykładowe (?demo=1) ---------- */
+function demoHits() {
+  const paths = [["/", "T-Olimpians"], ["/materialy", "Materiały"], ["/cennik", "Cennik"],
+    ["/zapisy", "Zapisy"], ["/c++_logika/rekurencja", "Rekurencja"], ["/c++_logika/for-loop", "Pętla for"],
+    ["/zadania-oi-oij", "Zadania OI/OIJ"], ["/c++_logika/vector", "Vector"], ["/c++_logika/kopiec", "Kopiec"]];
+  const devs = [["desktop", "Chrome", "Windows", "1920x1080"], ["mobile", "Safari", "iOS", "390x844"],
+    ["mobile", "Chrome", "Android", "412x915"], ["tablet", "Safari", "iOS", "820x1180"],
+    ["desktop", "Firefox", "Linux", "1440x900"]];
+  const cities = [["Warszawa", "PL"], ["Kraków", "PL"], ["Gdańsk", "PL"], ["Wrocław", "PL"], ["", ""], ["Poznań", "PL"]];
+  const refs = [["", "bezpośrednie"], ["google.com", "wyszukiwarka"], ["facebook.com", "social"],
+    ["tiktok.com", "social"], ["youtube.com", "social"], ["discord.com", "odsyłacz"]];
+  const nick = { 4: "Antek_K", 5: "Zosia_W", 7: "Michał_P", 12: "Kuba_S" };
+  const N = 26, out = [];
+  const vids = [...Array(N)].map((_, i) => "v_" + (i + 11).toString(16).padStart(2, "0") + "c4d" + i);
+  const stali = [...Array(N).keys()].filter(i => i % 4 !== 0);   // bywalcy
+  const pick = (a) => a[Math.floor(Math.random() * a.length)];
+
+  for (let d = 29; d >= 0; d--) {
+    const dzien = new Date(); dzien.setHours(0, 0, 0, 0); dzien.setDate(dzien.getDate() - d);
+    const start = dzien.getTime();
+    const okno = d === 0 ? Math.max(3_600_000, Date.now() - start) : DAY;   // dziś tylko do teraz
+    const weekend = dzien.getDay() === 0 || dzien.getDay() === 6;
+    const n = Math.round((weekend ? 6 : 14) * (0.5 + Math.random()) * (1 + (29 - d) / 34));
+    for (let k = 0; k < n; k++) {
+      // Nowe osoby wchodzą do gry dopiero dziś — inaczej każdy byłby "wracający".
+      const vi = d === 0 ? Math.floor(Math.random() * N) : pick(stali);
+      const dv = devs[vi % devs.length], ct = cities[vi % cities.length];
+      const rf = pick(refs), p = pick(paths);
+      const ts = start + Math.floor(Math.random() * okno);
+      const dur = Math.round(Math.random() * Math.random() * 420) + 4;
+      out.push({ vid: vids[vi], sid: "s_" + vi + "_" + d, user: nick[vi] || null,
+        entry: k % 3 === 0, path: p[0], title: p[1], ref: rf[0], refType: rf[1],
+        ts, last: ts + dur * 1000, dur,
+        dev: dv[0], br: dv[1], os: dv[2], scr: dv[3], lang: "pl-PL", city: ct[0], country: ct[1] });
+    }
+  }
+  for (let i = 0; i < 3; i++) {   // kilka osób "teraz na stronie"
+    const dv = devs[i], p = paths[i + 1], ct = cities[i], ts = Date.now() - (20 + i * 15) * 1000;
+    out.push({ vid: vids[i], sid: "s_live" + i, user: nick[i] || null,
+      entry: i === 0, path: p[0], title: p[1], ref: "google.com", refType: "wyszukiwarka",
+      ts, last: Date.now() - i * 4000, dur: 20 + i * 15,
+      dev: dv[0], br: dv[1], os: dv[2], scr: dv[3], lang: "pl-PL", city: ct[0], country: ct[1] });
+  }
+
+  // "pierwszy raz tutaj" musi się zgadzać z tym, co widać w danych
+  const first = new Map();
+  for (const h of out) if (!first.has(h.vid) || h.ts < first.get(h.vid)) first.set(h.vid, h.ts);
+  for (const h of out) h.vfirst = first.get(h.vid);
+
+  return out.sort((a, b) => b.ts - a.ts);
+}
+
+/* Na samym końcu: dopiero tu wszystkie stałe wyżej są już zainicjalizowane,
+   więc wcześniejsze wywołanie unlock() wysypywałoby moduł. */
+if (DEMO || sessionStorage.getItem("kcs_ok") === "1") unlock();
+else $("#pw")?.focus();
+</script>
+</body>
+</html>

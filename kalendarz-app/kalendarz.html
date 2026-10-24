@@ -1,0 +1,3458 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Kalendarz lekcji — T-Olimpians</title>
+    <meta name="robots" content="noindex">
+    <meta name="description" content="Kalendarz lekcji T-Olimpians Team Poland. Zobacz wolne terminy i umów lekcję 20, 45 lub 60 minut — jednorazowo albo co tydzień.">
+    <link rel="icon" href="../img/favicon2.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="theme-color" content="#0a0a0f">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Kalendarz">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-base: #0a0a0f;
+            --bg-surface: #111118;
+            --bg-card: #15151e;
+            --bg-elevated: #1c1c28;
+            --accent: #3b82f6;
+            --accent-bright: #60a5fa;
+            --accent-glow: rgba(59, 130, 246, 0.25);
+            --accent-dim: rgba(59, 130, 246, 0.12);
+            --violet: #a78bfa;
+            --text-primary: #f0f0f8;
+            --text-secondary: #9090aa;
+            --text-muted: #5f5f78;
+            --border: rgba(255,255,255,0.08);
+            --border-accent: rgba(59, 130, 246, 0.3);
+            --font-display: 'Syne', sans-serif;
+            --font-body: 'DM Sans', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --ok: #34d399;
+            --err: #f43f5e;
+            --now: #ea4335;
+            --grid: rgba(255,255,255,0.075);
+            --grid-half: rgba(255,255,255,0.035);
+            --gutter: 58px;
+            --hour-h: 56px;
+            --days: 7;
+            --hours: 11;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { overflow-x: hidden; overflow-x: clip; width: 100%; max-width: 100vw; }
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            overflow-x: clip;   /* clip nie tworzy kontenera przewijania — dzięki temu działa sticky */
+            width: 100%;
+            max-width: 100vw;
+            line-height: 1.5;
+            min-height: 100vh;
+            position: relative;
+        }
+        button { font-family: inherit; }
+        [hidden] { display: none !important; }
+        .only-mobile { display: none; }
+
+        /* ─── TŁO ─── */
+        .orb {
+            position: fixed; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 0;
+            opacity: .3; animation: orbFloat 20s ease-in-out infinite;
+        }
+        .orb-1 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(59,130,246,.35), transparent 70%); top: -10%; left: -10%; }
+        .orb-2 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(167,139,250,.25), transparent 70%); bottom: 10%; right: -5%; animation-delay: -7s; animation-duration: 25s; }
+        .orb-3 { width: 300px; height: 300px; background: radial-gradient(circle, rgba(52,211,153,.15), transparent 70%); top: 40%; left: 50%; animation-delay: -14s; animation-duration: 22s; }
+        @keyframes orbFloat {
+            0%,100%{transform:translate(0,0) scale(1);}
+            33%{transform:translate(30px,-40px) scale(1.08);}
+            66%{transform:translate(-20px,20px) scale(.95);}
+        }
+        body::before {
+            content: ''; position: fixed; inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none; z-index: 0; opacity: 0.6;
+        }
+        #particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.35; }
+        @keyframes pulse-glow { 0%,100%{opacity:.5;transform:scale(1);} 50%{opacity:1;transform:scale(1.1);} }
+        @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:.25;} }
+        @keyframes fadeInUp { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
+        @keyframes fadeInScale { from{opacity:0;transform:scale(.94);} to{opacity:1;transform:scale(1);} }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ─── NAVBAR ─── */
+        .navbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 48px; height: 68px;
+            background: rgba(10,10,15,.6); backdrop-filter: blur(24px) saturate(1.2);
+            -webkit-backdrop-filter: blur(24px) saturate(1.2);
+            border-bottom: 1px solid rgba(255,255,255,.06); transition: all .35s ease;
+        }
+        .navbar.scrolled { background: rgba(10,10,15,.9); box-shadow: 0 8px 32px rgba(0,0,0,.5); }
+        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; transition: transform .3s ease; }
+        .logo:hover { transform: scale(1.02); }
+        .navbar-right { display: flex; align-items: center; gap: 14px; }
+        /* Znaczki OI / OIJ — ten sam wygląd co w trybie focus na reszcie strony */
+        .logo-focus-group { display: flex; align-items: center; gap: 10px; }
+        .focus-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            height: 38px; padding: 0 13px 0 7px; border-radius: 100px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+            border: 1px solid var(--border);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+            font-family: var(--font-display); font-weight: 800; font-size: 14px;
+            letter-spacing: 0.04em; color: var(--text-primary); line-height: 1;
+        }
+        .focus-badge img.focus-mark {
+            width: auto; height: 26px; object-fit: contain;
+            filter: drop-shadow(0 0 6px rgba(255,255,255,0.08));
+        }
+        .focus-badge-oij img.focus-mark { height: 27px; }
+        .focus-sep { width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); }
+        .logo img:first-child { width: 38px; height: 38px; border-radius: 10px; object-fit: cover; }
+        #polska-flaga { width: 22px; height: auto; border-radius: 3px; }
+        .logo-text { font-family: var(--font-display); font-weight: 700; font-size: 15px; color: var(--text-primary); letter-spacing: .01em; }
+
+        /* ─── HERO ─── */
+        .page-hero { padding: 100px 24px 22px; position: relative; text-align: center; }
+        .page-hero::after {
+            content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+            width: 700px; max-width: 100%; height: 280px;
+            background: radial-gradient(ellipse, rgba(59,130,246,.12) 0%, transparent 65%);
+            pointer-events: none; animation: pulse-glow 6s ease-in-out infinite;
+        }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: linear-gradient(135deg, rgba(59,130,246,.12), rgba(167,139,250,.08));
+            border: 1px solid rgba(59,130,246,.2); color: var(--accent-bright);
+            font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+            padding: 5px 14px; border-radius: 100px; letter-spacing: .08em; text-transform: uppercase;
+            margin-bottom: 14px; animation: fadeInUp .6s ease both;
+        }
+        .hero-badge::before {
+            content: ''; width: 6px; height: 6px; background: var(--accent-bright); border-radius: 50%;
+            animation: blink 2s ease-in-out infinite; box-shadow: 0 0 8px var(--accent-bright);
+        }
+        .page-hero h1 {
+            font-family: var(--font-display); font-size: clamp(28px, 3.6vw, 42px); font-weight: 800;
+            line-height: 1.1; letter-spacing: -.03em; margin-bottom: 8px;
+            position: relative; z-index: 1; animation: fadeInUp .6s .08s ease both;
+        }
+        .page-hero h1 span {
+            background: linear-gradient(135deg, #60a5fa, #a78bfa, #c084fc); background-size: 200% 200%;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            animation: gradientShift 5s ease infinite;
+        }
+        @keyframes gradientShift { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+        .hero-sub {
+            color: var(--text-secondary); font-size: 15px; max-width: 680px; margin: 0 auto;
+            position: relative; z-index: 1; animation: fadeInUp .6s .15s ease both;
+        }
+
+        /* ─── KARTA KALENDARZA ─── */
+        main { position: relative; z-index: 1; padding: 0 20px 56px; }
+        .cal-shell {
+            max-width: 1720px; margin: 0 auto;
+            background: linear-gradient(180deg, rgba(21,21,30,.97), rgba(15,15,22,.97));
+            border: 1px solid rgba(255,255,255,.06); border-radius: var(--radius-lg);
+            padding: 16px 16px 14px;
+            box-shadow: 0 24px 64px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.04);
+            animation: fadeInUp .6s .2s ease backwards;   /* bez „both”: pozostały transform psułby position:fixed w środku */
+        }
+
+        /* toolbar */
+        .toolbar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .tb-nav, .tb-right { display: flex; align-items: center; gap: 8px; }
+        .tb-right { margin-left: auto; flex-wrap: wrap; justify-content: flex-end; }
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+            height: 38px; padding: 0 14px; border-radius: 10px;
+            border: 1px solid var(--border); background: rgba(28,28,40,.85); color: var(--text-primary);
+            font: 500 14px var(--font-body); cursor: pointer; transition: all .2s ease;
+            white-space: nowrap; text-decoration: none; user-select: none;
+        }
+        .btn:hover:not(:disabled) { border-color: rgba(59,130,246,.45); background: rgba(59,130,246,.12); }
+        .btn:active:not(:disabled) { transform: scale(.97); }
+        .btn:disabled { opacity: .45; cursor: not-allowed; }
+        .btn:focus-visible { outline: 2px solid var(--accent-bright); outline-offset: 2px; }
+        .btn.icon { width: 38px; padding: 0; font-size: 18px; }
+        .btn.primary {
+            background: linear-gradient(135deg, #3b82f6, #6366f1); border-color: transparent; color: #fff; font-weight: 600;
+            box-shadow: 0 6px 20px rgba(59,130,246,.3);
+        }
+        .btn.primary:hover:not(:disabled) { background: linear-gradient(135deg, #4b8ff7, #7376f3); box-shadow: 0 10px 28px rgba(59,130,246,.45); }
+        .btn.danger { background: rgba(244,63,94,.12); border-color: rgba(244,63,94,.35); color: #fda4af; }
+        .btn.danger:hover:not(:disabled) { background: rgba(244,63,94,.2); border-color: rgba(244,63,94,.6); }
+        .btn.violet { background: rgba(167,139,250,.14); border-color: rgba(167,139,250,.4); color: #ddd6fe; }
+        .btn.violet:hover:not(:disabled) { background: rgba(167,139,250,.24); border-color: rgba(167,139,250,.7); }
+        .btn.ghost { background: transparent; }
+        .btn.sm { height: 32px; padding: 0 11px; font-size: 13px; border-radius: 8px; }
+        .btn .badge {
+            background: var(--err); color: #fff; font: 700 11px var(--font-body);
+            border-radius: 100px; padding: 0 6px; line-height: 18px; min-width: 18px;
+        }
+        .btn .spin-sm {
+            width: 14px; height: 14px; border: 2px solid rgba(255,255,255,.3); border-top-color: #fff;
+            border-radius: 50%; animation: spin .7s linear infinite;
+        }
+        .range-label {
+            font: 700 20px var(--font-display); letter-spacing: -.01em; margin-left: 6px; white-space: nowrap;
+        }
+        .seg {
+            display: inline-flex; padding: 3px; gap: 2px; background: rgba(28,28,40,.85);
+            border: 1px solid var(--border); border-radius: 10px;
+        }
+        .seg button {
+            height: 30px; padding: 0 12px; border: 0; border-radius: 7px; background: transparent;
+            color: var(--text-secondary); font: 500 13px var(--font-body); cursor: pointer; transition: all .2s;
+        }
+        .seg button:hover { color: var(--text-primary); }
+        .seg button.active { background: rgba(59,130,246,.2); color: var(--accent-bright); }
+        .sync {
+            display: inline-flex; align-items: center; gap: 7px; font: 11px var(--font-mono);
+            color: var(--text-muted); padding: 0 4px; white-space: nowrap;
+        }
+        .sync-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 8px var(--ok); flex-shrink: 0; }
+        .sync.busy .sync-dot { background: var(--accent-bright); box-shadow: 0 0 8px var(--accent-bright); animation: blink 1s infinite; }
+        .sync.err { color: #fda4af; }
+        .sync.err .sync-dot { background: var(--err); box-shadow: 0 0 8px var(--err); }
+        .tv-clock { display: none; font: 600 22px var(--font-mono); color: var(--text-primary); margin-right: 6px; }
+
+        /* legenda: kto ma lekcje */
+        .legend { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin: 14px 0 12px; min-height: 30px; }
+        .legend-label {
+            font: 500 11px var(--font-mono); text-transform: uppercase; letter-spacing: .08em;
+            color: var(--text-muted); margin-right: 4px; white-space: nowrap;
+        }
+        .chip {
+            display: inline-flex; align-items: center; gap: 7px; height: 30px; padding: 0 11px 0 9px;
+            border-radius: 100px; border: 1px solid var(--border); background: rgba(28,28,40,.75);
+            color: var(--text-primary); font: 500 12.5px var(--font-body); cursor: pointer;
+            transition: all .2s; white-space: nowrap; flex-shrink: 0;
+        }
+        .chip .dot { width: 10px; height: 10px; border-radius: 50%; background: linear-gradient(135deg, #3b82f6, #6366f1); flex-shrink: 0; }
+        .chip .meta { font: 11px var(--font-mono); color: var(--text-muted); }
+        .chip:hover { border-color: rgba(255,255,255,.2); }
+        .chip.active { border-color: rgba(96,165,250,.8); background: rgba(59,130,246,.16); box-shadow: inset 0 0 0 1px rgba(96,165,250,.8); }
+        .chip.you { border-color: rgba(255,255,255,.28); }
+        .legend-total { margin-left: auto; font: 11.5px var(--font-mono); color: var(--text-secondary); white-space: nowrap; }
+        .legend-empty { font-size: 13px; color: var(--text-muted); }
+
+        .app-banner {
+            display: flex; align-items: center; gap: 12px; padding: 10px 10px 10px 12px; border-radius: 12px; margin-top: 12px;
+            background: linear-gradient(135deg, rgba(59,130,246,.16), rgba(99,102,241,.12)); border: 1px solid rgba(96,165,250,.35);
+            font-size: 13.5px; animation: fadeInScale .25s ease;
+        }
+        .app-banner .ab-icon { width: 38px; height: 38px; border-radius: 10px; flex-shrink: 0; }
+        .app-banner .ab-main { flex: 1; min-width: 0; line-height: 1.35; }
+        .app-banner small { display: block; color: var(--text-secondary); font-size: 12px; }
+        .ios-share { display: inline-block; padding: 0 5px; border: 1px solid var(--border); border-radius: 5px; font-size: 12px; }
+        .popup-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 24px; }
+        .popup-actions .booking-popup-close { margin-top: 0; }
+        .code-input { font: 700 24px var(--font-mono) !important; letter-spacing: .35em; text-align: center; }
+        .help-steps { margin: 4px 0 0 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+        .help-steps li { margin-bottom: 6px; }
+        .help-steps b, .help-steps code { color: var(--text-primary); }
+        .help-steps code { font: 500 13px var(--font-mono); background: rgba(255,255,255,.06); padding: 1px 6px; border-radius: 5px; }
+
+        /* ─── SIATKA ─── */
+        .cal {
+            position: relative; border: 1px solid var(--grid); border-radius: 14px; overflow: hidden; overflow: clip;
+            background: rgba(10,10,16,.65);
+        }
+        .cal.loading::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; z-index: 20;
+            background: linear-gradient(90deg, transparent, var(--accent-bright), transparent);
+            background-size: 40% 100%; background-repeat: no-repeat; animation: loadbar 1.1s linear infinite;
+        }
+        @keyframes loadbar { from { background-position: -40% 0; } to { background-position: 140% 0; } }
+        .cal-head {
+            display: grid; grid-template-columns: var(--gutter) minmax(0,1fr);
+            background: rgba(17,17,24,.96); border-bottom: 1px solid var(--grid);
+        }
+        .tz-label {
+            font: 10px var(--font-mono); color: var(--text-muted); align-self: end; text-align: right;
+            padding: 0 8px 8px 0; letter-spacing: .04em;
+        }
+        .days-head { display: grid; grid-template-columns: repeat(var(--days), minmax(0,1fr)); }
+        .dh {
+            padding: 9px 4px 7px; text-align: center; border-left: 1px solid var(--grid);
+            cursor: pointer; user-select: none; min-width: 0;
+        }
+        .dh:hover .dh-num { background: rgba(255,255,255,.07); }
+        .dh-name {
+            font: 500 11px var(--font-mono); text-transform: uppercase; letter-spacing: .08em; color: var(--text-secondary);
+        }
+        .dh-num {
+            display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px;
+            margin-top: 1px; border-radius: 50%; font: 600 22px var(--font-display); color: var(--text-primary);
+            transition: background .2s;
+        }
+        .dh.today .dh-name { color: var(--accent-bright); }
+        .dh.today .dh-num { background: var(--accent); color: #fff; box-shadow: 0 4px 14px rgba(59,130,246,.45); }
+        .dh.past .dh-num, .dh.past .dh-name { opacity: .5; }
+        .dh-sum { font: 10.5px var(--font-mono); color: var(--text-muted); height: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .dh-sum b { color: var(--text-secondary); font-weight: 500; }
+
+        .allday {
+            display: grid; grid-template-columns: var(--gutter) minmax(0,1fr);
+            border-bottom: 1px solid var(--grid); background: rgba(17,17,24,.85);
+        }
+        .ad-label { font: 10px var(--font-mono); color: var(--text-muted); text-align: right; padding: 7px 8px 0 0; }
+        .allday-cols { display: grid; grid-template-columns: repeat(var(--days), minmax(0,1fr)); }
+        .ad-cell { border-left: 1px solid var(--grid); padding: 3px; display: flex; flex-direction: column; gap: 3px; min-height: 28px; min-width: 0; }
+        .ad-ev {
+            font-size: 11.5px; padding: 3px 7px; border-radius: 5px; cursor: pointer;
+            background: repeating-linear-gradient(135deg, #2d2d3a 0 6px, #272732 6px 12px);
+            color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            border: 1px solid rgba(255,255,255,.06);
+        }
+
+        .cal-body {
+            position: relative; overflow-y: auto; overflow-x: hidden; height: 620px;
+            scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.15) transparent;
+        }
+        .cal-grid {
+            position: relative; display: grid; grid-template-columns: var(--gutter) minmax(0,1fr);
+            padding: 10px 0 12px;
+        }
+        .gutter { position: relative; height: calc(var(--hours) * var(--hour-h)); }
+        .hl {
+            position: absolute; right: 8px; transform: translateY(-50%);
+            font: 11px var(--font-mono); color: var(--text-muted); white-space: nowrap;
+        }
+        .cols {
+            position: relative; display: grid; grid-template-columns: repeat(var(--days), minmax(0,1fr));
+            height: calc(var(--hours) * var(--hour-h));
+            border-bottom: 1px solid var(--grid);
+            background-image:
+                repeating-linear-gradient(to bottom, var(--grid) 0 1px, transparent 1px var(--hour-h)),
+                repeating-linear-gradient(to bottom, transparent 0 calc(var(--hour-h) / 2), var(--grid-half) calc(var(--hour-h) / 2) calc(var(--hour-h) / 2 + 1px), transparent calc(var(--hour-h) / 2 + 1px) var(--hour-h));
+        }
+        .col { position: relative; border-left: 1px solid var(--grid); min-width: 0; }
+        .col.today { background: rgba(59,130,246,.045); }
+        .shade {
+            position: absolute; left: 0; right: 0; pointer-events: none;
+            background: repeating-linear-gradient(135deg, rgba(255,255,255,.028) 0 5px, transparent 5px 11px);
+        }
+        .shade.past { background: rgba(0,0,0,.26); }
+        .dh-sum .lim { color: var(--text-secondary); }
+        .dh-sum .lim-full { color: #fda4af; }
+        .av-limit {
+            display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 13px; color: #fcd34d; margin-top: 6px;
+            padding: 6px 10px; border-radius: 10px; background: rgba(251,191,36,.08); border: 1px solid rgba(251,191,36,.28);
+        }
+        .av-sum .nolim { color: var(--text-muted); font-weight: 400; }
+        .av-limit select { width: auto; padding: 6px 30px 6px 10px; font-size: 13px; }
+        .col-closed {
+            position: absolute; top: 10px; left: 0; right: 0; text-align: center; pointer-events: none;
+            font: 500 10.5px var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--text-muted);
+        }
+
+        /* edytor godzin dostępności */
+        .av-days { display: flex; flex-direction: column; gap: 8px; }
+        .av-row {
+            display: grid; grid-template-columns: 160px 1fr; gap: 12px; align-items: start;
+            padding: 10px 12px; border: 1px solid var(--border); border-radius: 12px; background: rgba(255,255,255,.025);
+        }
+        .av-row.off { background: transparent; }
+        .av-row .switch { padding-top: 6px; }
+        .av-day { font-weight: 600; }
+        .av-ranges { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; min-width: 0; }
+        .av-range { display: flex; align-items: center; gap: 6px; }
+        .av-range input[type="time"] { width: 118px; padding: 7px 9px; }
+        .av-range span { color: var(--text-muted); }
+        .av-closed { color: var(--text-muted); font-size: 13px; padding-top: 8px; }
+        .av-links { display: flex; flex-wrap: wrap; gap: 4px 18px; padding: 2px 0; }
+        .av-links .link-btn { font-size: 13px; }
+        .av-links .av-copy { color: var(--text-secondary); }
+        .av-sum { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; font-size: 13px; margin-bottom: 12px; }
+        .av-sum span { color: var(--text-muted); font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; padding-top: 1px; }
+        .av-sum b { font-weight: 500; }
+        .av-sum b.off { color: var(--text-muted); font-weight: 400; }
+
+        .ev {
+            position: absolute; padding: 4px 7px; border-radius: 7px;
+            background: linear-gradient(135deg, #3b82f6, #6366f1); color: #fff;
+            font-size: 12px; line-height: 1.25; overflow: hidden; cursor: pointer; z-index: 2;
+            border: 1px solid rgba(0,0,0,.3); box-shadow: 0 1px 3px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.15);
+            transition: box-shadow .15s ease, opacity .2s ease, filter .2s ease;
+            display: flex; flex-direction: column; gap: 1px; user-select: none; -webkit-user-select: none;
+        }
+        .ev:hover { z-index: 5; box-shadow: 0 8px 22px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.15); filter: brightness(1.08); }
+        .ev:focus-visible { outline: 2px solid #fff; outline-offset: 1px; z-index: 5; }
+        .ev-name { font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .ev-time { font: 500 10.5px var(--font-mono); opacity: .88; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .ev-topic { font-size: 11px; opacity: .8; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+        .ev.short { flex-direction: row; align-items: center; gap: 6px; padding: 0 6px; }
+        .ev.short .ev-time { flex-shrink: 0; }
+        .ev .you {
+            font: 700 9px var(--font-mono); font-style: normal; letter-spacing: .06em; text-transform: uppercase;
+            background: rgba(255,255,255,.9); color: #111; border-radius: 4px; padding: 0 4px; margin-left: 5px; vertical-align: 1px;
+        }
+        .ev .paid-mark {
+            font: 800 9px var(--font-mono); font-style: normal; background: #34d399; color: #052e1f;
+            border-radius: 4px; padding: 0 4px; margin-left: 5px; vertical-align: 1px;
+        }
+        .ev.mine { box-shadow: 0 0 0 2px #fff, 0 4px 16px rgba(0,0,0,.45); z-index: 3; }
+        .ev.past { opacity: .5; }
+        .ev.busy {
+            background: repeating-linear-gradient(135deg, #2b2b37 0 6px, #25252f 6px 12px);
+            color: var(--text-secondary); border: 1px solid rgba(255,255,255,.07); box-shadow: none; cursor: default;
+        }
+        .ev.busy.admin { cursor: pointer; }
+        .ev.busy:hover { filter: none; }
+        .ev.dim { opacity: .18; }
+        .ev.flash { animation: evFlash 1.8s ease; }
+        @keyframes evFlash {
+            0% { box-shadow: 0 0 0 0 rgba(255,255,255,.9); transform: scale(1.04); }
+            40% { box-shadow: 0 0 0 6px rgba(96,165,250,.35); transform: scale(1); }
+            100% { box-shadow: 0 1px 3px rgba(0,0,0,.35); }
+        }
+        .ev.dragging { opacity: .35; }
+        body.dragging-ev, body.dragging-ev * { cursor: grabbing !important; }
+
+        .slot-ghost {
+            position: absolute; left: 2px; right: 3px; border-radius: 7px; z-index: 4; pointer-events: none;
+            border: 2px dashed rgba(96,165,250,.9); background: rgba(59,130,246,.16); color: #bfdbfe;
+            font: 600 11.5px var(--font-mono); padding: 3px 7px; overflow: hidden; white-space: nowrap;
+        }
+        .slot-ghost.bad { border-color: rgba(244,63,94,.9); background: rgba(244,63,94,.14); color: #fecdd3; }
+        .slot-ghost.drag { border-style: solid; box-shadow: 0 10px 30px rgba(0,0,0,.45); }
+
+        .now-line {
+            position: absolute; left: -1px; right: 0; height: 2px; background: var(--now); z-index: 7;
+            pointer-events: none; box-shadow: 0 0 8px rgba(234,67,53,.55);
+        }
+        .now-line::before {
+            content: ''; position: absolute; left: -6px; top: -5px; width: 12px; height: 12px;
+            border-radius: 50%; background: var(--now);
+        }
+        .grid-msg {
+            position: absolute; inset: 0; display: flex; flex-direction: column; gap: 12px;
+            align-items: center; justify-content: center; text-align: center; padding: 24px;
+            color: var(--text-secondary); font-size: 14px; z-index: 8; background: rgba(10,10,16,.7);
+        }
+        .grid-msg b { color: #fda4af; }
+
+        .cal-foot {
+            display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 10px; font-size: 12px; color: var(--text-muted);
+        }
+        .cal-foot span { display: inline-flex; align-items: center; gap: 6px; }
+        .kbd {
+            font: 500 10.5px var(--font-mono); padding: 1px 5px; border-radius: 4px;
+            border: 1px solid var(--border); color: var(--text-secondary);
+        }
+        .sw-busy { width: 14px; height: 10px; border-radius: 3px; background: repeating-linear-gradient(135deg, #3a3a48 0 3px, #2a2a35 3px 6px); }
+        .sw-free { width: 14px; height: 10px; border-radius: 3px; border: 1.5px dashed rgba(96,165,250,.9); }
+
+        /* ─── POPOVER ─── */
+        .popover {
+            position: fixed; z-index: 800; width: 360px; max-width: calc(100vw - 24px);
+            background: linear-gradient(180deg, rgba(31,31,45,.99), rgba(22,22,32,.99));
+            border: 1px solid rgba(255,255,255,.1); border-radius: 16px;
+            box-shadow: 0 24px 60px rgba(0,0,0,.6); padding: 14px 16px 16px; animation: fadeInScale .16s ease;
+        }
+        /* nagłówek: pasek koloru, nazwa, etykiety, przyciski ↗ × */
+        .pop-head { display: flex; align-items: flex-start; gap: 12px; }
+        .pop-bar { width: 4px; align-self: stretch; min-height: 24px; border-radius: 4px; background: var(--c); flex-shrink: 0; }
+        .pop-head-main { flex: 1; min-width: 0; padding-top: 2px; }
+        .pop-title { font: 700 18px var(--font-display); line-height: 1.25; word-break: break-word; letter-spacing: -.01em; }
+        .pop-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+        .pop-chip {
+            font: 600 10px var(--font-mono); letter-spacing: .06em; text-transform: uppercase; white-space: nowrap;
+            padding: 3px 8px; border-radius: 6px; color: var(--text-secondary);
+            background: rgba(255,255,255,.06); border: 1px solid var(--border);
+        }
+        .pop-chip.you { background: rgba(255,255,255,.92); color: #111; border-color: transparent; }
+        .pop-head-btns { display: flex; gap: 2px; margin: -4px -8px 0 0; flex-shrink: 0; }
+        .pop-head-btns .x-btn { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; }
+        .pop-head-btns .x-btn.ext { font-size: 15px; }
+
+        /* termin */
+        .pop-when { margin-top: 14px; padding: 11px 14px; border-radius: 12px; background: rgba(255,255,255,.035); border: 1px solid var(--border); }
+        .pop-date { font: 500 10.5px var(--font-mono); text-transform: uppercase; letter-spacing: .09em; color: var(--text-muted); }
+        .pop-time { font: 700 21px var(--font-display); margin-top: 2px; letter-spacing: -.01em; line-height: 1.25; }
+        .pop-time small { font: 500 13px var(--font-body); color: var(--text-secondary); margin-left: 4px; letter-spacing: 0; }
+
+        /* płatność */
+        .pop-pay {
+            display: flex; align-items: center; gap: 12px; margin-top: 12px; padding: 11px 12px 11px 14px; border-radius: 12px;
+            background: rgba(59,130,246,.07); border: 1px solid rgba(59,130,246,.22);
+        }
+        .pop-pay.paid { background: rgba(52,211,153,.07); border-color: rgba(52,211,153,.26); }
+        .pop-pay-main { flex: 1; min-width: 0; }
+        .pop-pay-l { font: 500 10.5px var(--font-mono); text-transform: uppercase; letter-spacing: .09em; color: var(--text-muted); }
+        .pop-pay-v { font-weight: 700; font-size: 15px; margin-top: 1px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .pop-pay-v .st { font: 600 10px var(--font-mono); text-transform: uppercase; letter-spacing: .06em; padding: 2px 7px; border-radius: 5px; }
+        .pop-pay-v .st.no { color: #fcd34d; background: rgba(251,191,36,.12); }
+        .pop-pay-v .st.ok { color: #6ee7b7; background: rgba(52,211,153,.14); }
+        .pop-pay-sub { font-size: 12px; color: var(--text-secondary); margin-top: 3px; }
+        .pop-pay-sub .link-btn { font-size: 12px; }
+        .pop-pay .btn { flex-shrink: 0; }
+
+        /* akcje: równe kafelki */
+        .pop-grid { display: grid; gap: 8px; margin-top: 12px; }
+        .pop-act {
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; height: 60px; padding: 0 6px;
+            border-radius: 12px; border: 1px solid var(--border); background: rgba(255,255,255,.03); color: var(--text-primary);
+            font: 600 12px var(--font-body); cursor: pointer; text-decoration: none; transition: background .15s, border-color .15s;
+        }
+        .pop-act .ai { font-size: 16px; line-height: 1; }
+        .pop-act:hover { background: rgba(255,255,255,.07); border-color: rgba(255,255,255,.18); }
+        .pop-act:focus-visible { outline: 2px solid var(--accent-bright); outline-offset: 2px; }
+        .pop-act.violet { color: #ddd6fe; }
+        .pop-act.violet:hover { background: rgba(167,139,250,.12); border-color: rgba(167,139,250,.55); }
+        .pop-act.danger { color: #fda4af; }
+        .pop-act.danger:hover { background: rgba(244,63,94,.12); border-color: rgba(244,63,94,.55); }
+        .pop-grid.one .pop-act { flex-direction: row; height: 44px; font-size: 13px; gap: 8px; }
+        .pop-foot { margin-top: 12px; font-size: 12.5px; color: var(--text-muted); line-height: 1.5; }
+        .pop-foot .link-btn { font-size: 12.5px; }
+        .x-btn {
+            width: 32px; height: 32px; border-radius: 50%; border: 0; background: transparent; flex-shrink: 0;
+            color: var(--text-secondary); font-size: 20px; line-height: 1; cursor: pointer; transition: all .2s;
+        }
+        .x-btn:hover { background: rgba(255,255,255,.08); color: #fff; }
+        /* kontakt i temat */
+        .pop-info { margin-top: 10px; display: flex; flex-direction: column; }
+        .pop-row { display: flex; align-items: center; gap: 10px; font-size: 13.5px; color: var(--text-secondary); padding: 3px 0; line-height: 1.45; min-width: 0; }
+        .pop-row.top { align-items: flex-start; }
+        .pop-row .i {
+            width: 26px; height: 26px; border-radius: 8px; background: rgba(255,255,255,.05); flex-shrink: 0;
+            display: inline-flex; align-items: center; justify-content: center; font-size: 12px; color: var(--text-secondary);
+        }
+        .pop-row a { color: var(--text-primary); text-decoration: none; overflow-wrap: anywhere; }
+        .pop-row a:hover { color: var(--accent-bright); text-decoration: underline; }
+        .pop-row .topic { white-space: pre-wrap; color: var(--text-primary); padding-top: 3px; overflow-wrap: anywhere; }
+        .pop-note {
+            margin-top: 12px; font-size: 12.5px; color: #ddd6fe; padding: 8px 10px; border-radius: 9px;
+            background: rgba(167,139,250,.12); border: 1px solid rgba(167,139,250,.3);
+        }
+        .popover.sheet {
+            left: 0 !important; right: 0; bottom: 0; top: auto !important; width: auto; max-width: none;
+            border-radius: 18px 18px 0 0; padding-bottom: calc(18px + env(safe-area-inset-bottom));
+        }
+
+        /* ─── MODAL ─── */
+        .overlay {
+            position: fixed; inset: 0; z-index: 900; display: flex; align-items: center; justify-content: center;
+            padding: 20px; background: rgba(6,6,12,.62); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            opacity: 0; transition: opacity .2s ease;
+        }
+        .overlay.open { opacity: 1; }
+        .modal-card {
+            width: 100%; max-width: 520px; max-height: calc(100vh - 40px); overflow-y: auto;
+            background: linear-gradient(180deg, rgba(26,26,38,.99), rgba(18,18,27,.99));
+            border: 1px solid rgba(255,255,255,.08); border-radius: 18px;
+            box-shadow: 0 30px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(59,130,246,.08);
+            transform: translateY(12px) scale(.98); transition: transform .28s cubic-bezier(.34,1.56,.64,1);
+        }
+        .overlay.open .modal-card { transform: none; }
+        .modal-card.wide { max-width: 620px; }
+        .modal-head { display: flex; align-items: center; gap: 12px; padding: 18px 20px 4px; }
+        .modal-head h3 { font: 700 19px var(--font-display); flex: 1; letter-spacing: -.01em; }
+        .modal-body { padding: 10px 20px 20px; }
+        .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+        .modal-lead { font-size: 14px; color: var(--text-secondary); margin-bottom: 14px; line-height: 1.55; }
+        .modal-lead b { color: var(--text-primary); }
+
+        /* ─── płatność za lekcję ─── */
+        .pay-sum {
+            display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 14px;
+            background: rgba(59,130,246,.08); border: 1px solid rgba(59,130,246,.25);
+        }
+        .pay-what { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+        .pay-what b { font-size: 15px; }
+        .pay-what span { font-size: 13px; color: var(--text-secondary); }
+        .pay-amt { font: 700 22px var(--font-display); white-space: nowrap; }
+        .pay-amt.loading { opacity: .4; }
+        .pay-done {
+            margin-top: 14px; padding: 12px 14px; border-radius: 12px; font-size: 14px; font-weight: 600;
+            background: rgba(52,211,153,.1); border: 1px solid rgba(52,211,153,.35); color: #6ee7b7;
+        }
+        .pay-card { width: 100%; height: 48px; margin-top: 16px; font-size: 15px; }
+        .pay-or { display: flex; align-items: center; gap: 12px; margin: 18px 0 4px; font-size: 12px; color: var(--text-muted); }
+        .pay-or::before, .pay-or::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+        .pay-h { font: 500 11px var(--font-mono); text-transform: uppercase; letter-spacing: .09em; color: var(--text-muted); margin: 18px 0 8px; }
+        .pay-f { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--border); }
+        .pay-f:last-child { border-bottom: 0; }
+        .pay-f .pay-l { font-size: 12px; color: var(--text-secondary); width: 92px; flex-shrink: 0; }
+        .pay-f .pay-v { flex: 1; min-width: 0; font: 500 14px var(--font-mono); overflow-wrap: anywhere; }
+        .pay-f .btn { flex-shrink: 0; }
+        .pay-qr { display: flex; align-items: center; gap: 16px; margin-top: 16px; }
+        .pay-qr-img { width: 132px; height: 132px; flex-shrink: 0; border-radius: 10px; overflow: hidden; background: #fff; }
+        .pay-qr-img svg { display: block; width: 100%; height: 100%; }
+        .pay-qr p, .pay-note { font-size: 12.5px; color: var(--text-secondary); line-height: 1.55; }
+        .pay-note { margin-top: 14px; }
+        .pay-qr p b, .pay-note b { color: var(--text-primary); }
+        .paid-txt { color: #6ee7b7; font-weight: 600; }
+
+        .f { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; min-width: 0; }
+        .f-lab, .f > span { font-size: 12.5px; color: var(--text-secondary); }
+        .f-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        input[type="text"], input[type="email"], input[type="tel"], input[type="password"],
+        input[type="date"], input[type="time"], select, textarea {
+            width: 100%; background: rgba(28,28,40,.85); border: 1px solid var(--border);
+            border-radius: 10px; padding: 11px 12px; color: var(--text-primary);
+            font: 14px var(--font-body); outline: none; transition: border-color .2s, box-shadow .2s, background .2s;
+            color-scheme: dark; min-width: 0;
+        }
+        select { cursor: pointer; }
+        input:focus, textarea:focus, select:focus {
+            border-color: rgba(59,130,246,.55); box-shadow: 0 0 0 3px rgba(59,130,246,.12); background: rgba(28,28,40,.95);
+        }
+        textarea { resize: vertical; min-height: 70px; }
+        input.input-error, textarea.input-error {
+            border-color: var(--err); background: rgba(244,63,94,.08);
+            box-shadow: 0 0 0 3px rgba(244,63,94,.12); animation: shakeError .4s ease;
+        }
+        @keyframes shakeError {
+            0%, 100% { transform: translateX(0); } 20% { transform: translateX(-6px); }
+            40% { transform: translateX(5px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(3px); }
+        }
+        .field-error-msg { font-size: 12px; color: var(--err); display: none; }
+        .field-error-msg.visible { display: block; }
+
+        .dur-chips { display: flex; gap: 8px; }
+        .dur-chips button {
+            flex: 1; height: 44px; border-radius: 10px; border: 1px solid var(--border);
+            background: rgba(28,28,40,.85); color: var(--text-primary); font: 600 14px var(--font-mono);
+            cursor: pointer; transition: all .2s;
+        }
+        .dur-chips button:hover { border-color: rgba(59,130,246,.45); }
+        .dur-chips button.active {
+            background: linear-gradient(135deg, #3b82f6, #6366f1); border-color: transparent; color: #fff;
+            box-shadow: 0 4px 16px rgba(59,130,246,.35);
+        }
+        .avail {
+            font-size: 13px; padding: 10px 12px; border-radius: 10px; margin-bottom: 14px; line-height: 1.45;
+            background: rgba(255,255,255,.03); border: 1px solid var(--border); color: var(--text-secondary);
+        }
+        .avail.ok { color: #6ee7b7; border-color: rgba(52,211,153,.3); background: rgba(52,211,153,.07); }
+        .avail.bad { color: #fda4af; border-color: rgba(244,63,94,.3); background: rgba(244,63,94,.07); }
+        .avail.warn { color: #fcd34d; border-color: rgba(251,191,36,.35); background: rgba(251,191,36,.07); }
+        .force-row { display: flex; gap: 10px; align-items: flex-start; font-size: 13.5px; color: #fcd34d; margin: -6px 0 14px; cursor: pointer; }
+        .force-row input { accent-color: #f59e0b; margin-top: 3px; width: 16px; height: 16px; flex-shrink: 0; }
+        .ev.saving {
+            background-image: repeating-linear-gradient(135deg, rgba(255,255,255,.18) 0 7px, transparent 7px 14px), linear-gradient(135deg, #3b82f6, #6366f1);
+            background-size: 20px 20px, auto; animation: savingStripes .8s linear infinite; cursor: progress;
+        }
+        @keyframes savingStripes { to { background-position: 20px 0, 0 0; } }
+
+        .repeat {
+            padding: 12px 14px; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 14px;
+            background: rgba(255,255,255,.02);
+        }
+        .repeat-opts { margin-top: 12px; display: flex; flex-direction: column; gap: 8px; }
+        .repeat-sum { font-size: 12.5px; color: var(--accent-bright); }
+        .switch { display: flex; align-items: center; gap: 11px; cursor: pointer; font-size: 14px; user-select: none; position: relative; }
+        .switch input { position: absolute; opacity: 0; pointer-events: none; }
+        .switch .sw {
+            width: 38px; height: 22px; border-radius: 100px; background: rgba(255,255,255,.14);
+            position: relative; transition: background .2s; flex-shrink: 0;
+        }
+        .switch .sw::after {
+            content: ''; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px;
+            border-radius: 50%; background: #fff; transition: transform .2s;
+        }
+        .switch input:checked + .sw { background: var(--accent); }
+        .switch input:checked + .sw::after { transform: translateX(16px); }
+        .switch input:focus-visible + .sw { outline: 2px solid var(--accent-bright); outline-offset: 2px; }
+        .switch small { display: block; font-size: 12px; color: var(--text-muted); }
+
+        .radio-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+        .radio {
+            display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border: 1px solid var(--border);
+            border-radius: 10px; cursor: pointer; font-size: 14px; transition: all .2s;
+        }
+        .radio:has(input:checked) { border-color: rgba(59,130,246,.55); background: rgba(59,130,246,.09); }
+        .radio input { accent-color: var(--accent); margin-top: 3px; }
+        .radio small { display: block; color: var(--text-muted); font-size: 12px; }
+        .form-err {
+            color: #fda4af; font-size: 13px; margin-top: 12px; padding: 9px 12px; border-radius: 9px;
+            background: rgba(244,63,94,.08); border: 1px solid rgba(244,63,94,.3);
+        }
+        .note-muted { font-size: 12px; color: var(--text-muted); line-height: 1.5; margin-top: 10px; }
+        .conflict-list { margin: 10px 0 0 18px; font: 13px var(--font-mono); color: #fda4af; columns: 2; }
+        .as-who {
+            display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; margin-bottom: 14px;
+            background: rgba(52,211,153,.06); border: 1px solid rgba(52,211,153,.25); font-size: 13.5px;
+        }
+        .as-who .grow { flex: 1; min-width: 0; }
+        .link-btn { background: none; border: 0; color: var(--accent-bright); font: inherit; font-size: 13px; cursor: pointer; padding: 0; }
+        .link-btn:hover { text-decoration: underline; }
+
+        /* ─── SZUFLADA (Moje lekcje / panel) ─── */
+        .drawer { position: fixed; inset: 0; z-index: 850; }
+        .drawer-bg { position: absolute; inset: 0; background: rgba(6,6,12,.5); opacity: 0; transition: opacity .25s; }
+        .drawer-panel {
+            position: absolute; top: 0; right: 0; bottom: 0; width: min(440px, 100vw); overflow-y: auto;
+            background: linear-gradient(180deg, #17171f, #111118); border-left: 1px solid var(--border);
+            box-shadow: -20px 0 60px rgba(0,0,0,.5); transform: translateX(100%);
+            transition: transform .3s cubic-bezier(.4,0,.2,1); padding: 20px 20px calc(24px + env(safe-area-inset-bottom));
+        }
+        .drawer.open .drawer-bg { opacity: 1; }
+        .drawer.open .drawer-panel { transform: none; }
+        .dr-top { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+        .dr-top h3 { font: 700 20px var(--font-display); flex: 1; }
+        .avatar {
+            width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, #3b82f6, #6366f1); color: #fff;
+            display: flex; align-items: center; justify-content: center; font: 700 18px var(--font-display); flex-shrink: 0;
+        }
+        .dr-sub { font-size: 13px; color: var(--text-secondary); word-break: break-all; }
+        .dr-sec h4 {
+            font: 500 11px var(--font-mono); text-transform: uppercase; letter-spacing: .09em; color: var(--text-muted);
+            margin: 24px 0 10px; display: flex; align-items: center; gap: 8px;
+        }
+        .dr-sec h4 .cnt { color: var(--text-secondary); }
+        .dr-text { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+        .li {
+            display: flex; gap: 12px; align-items: center; padding: 10px 12px; border: 1px solid var(--border);
+            border-radius: 12px; background: rgba(255,255,255,.025); margin-bottom: 8px; border-left: 3px solid rgba(96,165,250,.8);
+        }
+        .date-badge { width: 42px; text-align: center; flex-shrink: 0; line-height: 1.1; }
+        .date-badge .dn { font: 500 10px var(--font-mono); text-transform: uppercase; color: var(--accent-bright); letter-spacing: .06em; }
+        .date-badge .dd { font: 700 20px var(--font-display); }
+        .li-main { flex: 1; min-width: 0; }
+        .li-title { font-weight: 600; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .li-sub { font-size: 12.5px; color: var(--text-secondary); }
+        .li-actions { display: flex; gap: 6px; flex-shrink: 0; }
+        .li-actions.full { width: 100%; justify-content: flex-end; margin-top: 4px; }
+        .price-in { display: flex; align-items: center; gap: 6px; flex-shrink: 0; font-size: 12.5px; color: var(--text-secondary); }
+        .price-in input { width: 84px; padding: 7px 9px; border-radius: 8px; text-align: right; }
+        .price-in input.saving { opacity: .55; }
+        .dr-students .li-sub { overflow-wrap: anywhere; }
+        .ibtn {
+            width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border); background: rgba(28,28,40,.85);
+            color: var(--text-secondary); cursor: pointer; font-size: 14px; display: inline-flex; align-items: center; justify-content: center;
+            transition: all .2s;
+        }
+        .ibtn:hover { color: #fff; border-color: rgba(59,130,246,.45); background: rgba(59,130,246,.12); }
+        .ibtn.danger:hover { border-color: rgba(244,63,94,.6); background: rgba(244,63,94,.15); }
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+        .stats.four { grid-template-columns: repeat(2, 1fr); }
+        .stat { padding: 12px; border-radius: 12px; background: rgba(255,255,255,.03); border: 1px solid var(--border); }
+        .stat b { display: block; font: 700 19px var(--font-display); white-space: nowrap; }
+        .stat span { font-size: 11.5px; color: var(--text-muted); }
+        .dr-foot { margin-top: 26px; display: flex; flex-wrap: wrap; gap: 8px; }
+        details.dr-more summary { cursor: pointer; font-size: 13px; color: var(--accent-bright); margin: 6px 0 10px; }
+
+        /* ─── TOASTY ─── */
+        .toasts {
+            position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 1100;
+            display: flex; flex-direction: column; gap: 8px; align-items: center; pointer-events: none;
+            width: max-content; max-width: 92vw;
+        }
+        .toast {
+            background: rgba(30,30,44,.97); border: 1px solid rgba(255,255,255,.12); color: var(--text-primary);
+            padding: 11px 16px; border-radius: 12px; font-size: 14px; box-shadow: 0 12px 32px rgba(0,0,0,.5);
+            opacity: 0; transform: translateY(10px); transition: all .25s ease; max-width: 92vw;
+        }
+        .toast.in { opacity: 1; transform: none; }
+        .toast.ok { border-color: rgba(52,211,153,.45); }
+        .toast.err { border-color: rgba(244,63,94,.5); }
+
+        /* ─── POPUP STATUSU (rezerwacja) ─── */
+        #bookingPopup {
+            position: fixed; inset: 0; background: rgba(10,10,15,.7); backdrop-filter: blur(12px) saturate(1.2);
+            display: flex; align-items: center; justify-content: center; z-index: 1000;
+            opacity: 0; pointer-events: none; transition: opacity .35s ease; padding: 20px;
+        }
+        #bookingPopup.visible { opacity: 1; pointer-events: auto; }
+        .booking-popup-inner {
+            background: linear-gradient(180deg, rgba(24,24,36,.98), rgba(17,17,26,.98));
+            border: 1px solid rgba(255,255,255,.08); border-radius: var(--radius-lg);
+            padding: 40px 34px; max-width: 420px; width: 100%; text-align: center;
+            box-shadow: 0 32px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(59,130,246,.1);
+            transform: scale(.9) translateY(10px); opacity: 0; transition: all .45s cubic-bezier(.34,1.56,.64,1);
+            position: relative; overflow: hidden;
+        }
+        #bookingPopup.visible .booking-popup-inner { transform: scale(1) translateY(0); opacity: 1; }
+        .booking-popup-inner::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-bright), transparent); opacity: .6;
+        }
+        .booking-popup-icon { margin-bottom: 18px; height: 56px; display: flex; align-items: center; justify-content: center; }
+        .spinner-ring {
+            width: 40px; height: 40px; border: 3px solid rgba(255,255,255,.08);
+            border-top-color: var(--accent-bright); border-radius: 50%; animation: spin .8s linear infinite;
+        }
+        .checkmark-circle { width: 56px; height: 56px; position: relative; }
+        .checkmark-circle svg { width: 100%; height: 100%; }
+        .checkmark-circle .circle-bg { fill: none; stroke: rgba(52,211,153,.15); stroke-width: 3; }
+        .checkmark-circle .circle {
+            fill: none; stroke: #34d399; stroke-width: 3; stroke-linecap: round;
+            stroke-dasharray: 166; stroke-dashoffset: 166; animation: strokeCircle .6s cubic-bezier(.65,0,.45,1) forwards;
+        }
+        .checkmark-circle .check {
+            fill: none; stroke: #34d399; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round;
+            stroke-dasharray: 48; stroke-dashoffset: 48; animation: strokeCheck .4s .5s cubic-bezier(.65,0,.45,1) forwards;
+        }
+        @keyframes strokeCircle { to { stroke-dashoffset: 0; } }
+        @keyframes strokeCheck { to { stroke-dashoffset: 0; } }
+        .booking-popup-title { font-family: var(--font-display); font-size: 20px; font-weight: 700; margin-bottom: 10px; }
+        .booking-popup-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.65; }
+        .booking-popup-close { margin-top: 24px; }
+        .confetti-piece { position: absolute; width: 8px; height: 8px; border-radius: 2px; top: 50%; left: 50%; opacity: 0; pointer-events: none; }
+        @keyframes confettiFall {
+            0% { transform: translate(0,0) rotate(0deg); opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) rotate(var(--rot)); opacity: 0; }
+        }
+
+        footer {
+            text-align: center; padding: 28px 20px; color: var(--text-muted); font-size: 13px;
+            position: relative; z-index: 1; display: flex; flex-direction: column; gap: 4px; align-items: center;
+        }
+        footer .link-btn { color: var(--text-muted); font-size: 12px; }
+
+        /* ─── TRYB EKRANU (TV / duży monitor) ─── */
+        body.tv .navbar, body.tv .page-hero, body.tv footer, body.tv .orb, body.tv #particles, body.tv .cal-foot { display: none; }
+        body.tv main { padding: 10px; }
+        body.tv .cal-shell { max-width: none; padding: 12px 14px; border-radius: 14px; animation: none; }
+        body.tv .legend { margin: 10px 0 8px; }
+        body.tv .ev { font-size: 13.5px; }
+        body.tv .ev-time { font-size: 11.5px; }
+        body.tv .tv-clock { display: inline-block; }
+
+        /* ─── MAŁE EKRANY ─── */
+        @media (max-width: 900px) {
+            .navbar { padding: 0 18px; }
+            .range-label { font-size: 17px; }
+        }
+        @media (max-width: 700px) {
+            /* Telefon: bez nagłówka strony i ramki wokół kalendarza — cała szerokość i wysokość dla siatki. */
+            :root { --gutter: 40px; }
+            .navbar { padding: 0 14px; height: 54px; justify-content: center; }
+            .logo { gap: 8px; }
+            .logo img:first-child { width: 30px; height: 30px; }
+            .logo-text { font-size: 13px; white-space: nowrap; }
+            #polska-flaga { width: 18px; }
+            .navbar-right { display: none; }
+            .page-hero { display: none; }
+            main { padding: 62px 6px 40px; }
+            .cal-shell { padding: 0; border: 0; border-radius: 0; background: none; }
+            /* pasek: 1. rząd „24 – 26 października · Dziś ‹ ›”, 2. rząd widok + Moje lekcje */
+            .toolbar { gap: 8px; padding: 0 2px; }
+            .tb-nav { width: 100%; gap: 6px; }
+            .range-label { order: -1; font-size: 16px; margin: 0 auto 0 2px; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+            .tb-right { margin-left: 0; width: 100%; justify-content: space-between; gap: 6px; flex-wrap: nowrap; }
+            .sync { display: none; }
+            .seg { flex: 1; }
+            .seg button { flex: 1; padding: 0 6px; }
+            .tb-nav .btn { height: 34px; padding: 0 11px; }
+            .tb-nav .btn.icon { width: 34px; padding: 0; }
+            .tb-right .btn { height: 38px; }
+            .btn .lbl { display: none; }
+            #tvBtn { display: none; }
+            #newBtn {
+                position: fixed; right: 16px; bottom: calc(18px + env(safe-area-inset-bottom)); z-index: 60;
+                width: 58px; height: 58px; padding: 0; border-radius: 18px; font-size: 26px;
+                box-shadow: 0 10px 30px rgba(59,130,246,.55);
+            }
+            .toasts { bottom: calc(90px + env(safe-area-inset-bottom)); }
+            .legend { display: none; }
+            .app-banner { margin: 10px 0 0; padding: 7px 6px 7px 10px; gap: 10px; }
+            .app-banner .ab-icon { width: 28px; height: 28px; border-radius: 8px; }
+            .app-banner small { display: none; }
+            .app-banner .btn { height: 32px; }
+            .cal { margin-top: 10px; border-radius: 12px; }
+            .cal-head { position: sticky; top: 54px; z-index: 9; }
+            .cal-body { overflow: visible; }
+            .tz-label { visibility: hidden; }
+            .dh { padding: 7px 2px 5px; }
+            .dh-name { font-size: 10px; letter-spacing: .04em; }
+            .dh-num { width: 32px; height: 32px; font-size: 17px; }
+            .dh-sum { display: none; }
+            .hl { font-size: 10px; right: 5px; }
+            .ev { font-size: 11.5px; padding: 3px 5px; border-radius: 6px; line-height: 1.2; }
+            .ev:not(.short) .ev-name {
+                white-space: normal; overflow: hidden;
+                display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+            }
+            .ev-time { font-size: 9.5px; }
+            .ev-dur, .ev .you, .ev.short .ev-time, .ev-topic { display: none; }
+            .ev.mine { box-shadow: 0 0 0 2px #fff, 0 4px 14px rgba(0,0,0,.45); }
+            .f-row2 { grid-template-columns: 1fr; gap: 0; }
+            .f-row2.dt { grid-template-columns: 1fr 1fr; gap: 10px; }
+            .modal-head { padding: 16px 16px 2px; }
+            .modal-head::before {
+                content: ''; position: absolute; left: 50%; top: 7px; transform: translateX(-50%);
+                width: 38px; height: 4px; border-radius: 4px; background: rgba(255,255,255,.18);
+            }
+            .modal-card { position: relative; }
+            .modal-body { padding: 8px 16px 0; }
+            .modal-body > :last-child:not(.modal-actions), .modal-body form > :last-child:not(.modal-actions) { padding-bottom: calc(16px + env(safe-area-inset-bottom)); }
+            .modal-actions {
+                position: sticky; bottom: 0; z-index: 2; margin: 16px -16px 0; padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+                background: linear-gradient(180deg, rgba(18,18,27,.9), #12121b 40%); border-top: 1px solid var(--border); flex-wrap: nowrap;
+            }
+            .modal-actions .btn { flex: 1; height: 46px; font-size: 15px; }
+            .dur-chips button { height: 48px; }
+            .popover.sheet { padding-top: 22px; }
+            .popover.sheet::before {
+                content: ''; position: absolute; left: 50%; top: 8px; transform: translateX(-50%);
+                width: 38px; height: 4px; border-radius: 4px; background: rgba(255,255,255,.18);
+            }
+            .popover.sheet .pop-act { height: 64px; font-size: 12.5px; }
+            .popover.sheet .pop-grid.one .pop-act { height: 46px; }
+            .popover.sheet .pop-pay .btn { height: 40px; }
+            .drawer-panel { padding: 18px 16px calc(24px + env(safe-area-inset-bottom)); }
+            .li-actions .ibtn { width: 36px; height: 36px; }
+            .av-row { grid-template-columns: 1fr; gap: 8px; }
+            .av-row .switch { padding-top: 0; }
+            .av-range input[type="time"] { width: 128px; }
+            footer { padding-bottom: 90px; }
+            .overlay { align-items: flex-end; padding: 0; }
+            .modal-card { max-width: none !important; border-radius: 18px 18px 0 0; max-height: 92vh; }
+            input[type="text"], input[type="email"], input[type="tel"], input[type="password"],
+            input[type="date"], input[type="time"], select, textarea { font-size: 16px; }
+            .conflict-list { columns: 1; }
+            .cal-foot { display: none; }
+            .booking-popup-inner { padding: 30px 22px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+        }
+    </style>
+    <style id="tablet-nav">
+        /* ─── TABLET: nawigacja i logo (641–1299px) ───
+           < 1024px  menu pod hamburgerem jako panel po prawej,
+           1024–1299 pelne menu w wersji kompaktowej + logo w dwoch liniach. */
+        @media (min-width: 641px) {
+            .logo { flex-shrink: 0; }
+            .logo-text { white-space: nowrap; }
+        }
+
+        @media (min-width: 641px) and (max-width: 1023px) {
+            .navbar { padding: 0 28px; }
+            .logo-text { font-size: 15px; }
+            .hamburger { display: flex; }
+            .nav-pointer-bubble { display: none !important; }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: fixed;
+                top: 76px; right: 20px; left: auto;
+                width: 340px;
+                max-height: calc(100vh - 96px);
+                overflow-y: auto;
+                background: rgba(10, 10, 15, 0.98);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border: 1px solid var(--border);
+                border-radius: var(--radius-lg, 20px);
+                box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+                padding: 10px 0 16px;
+                gap: 0;
+                z-index: 99;
+            }
+            .nav-links.open { display: flex; }
+            .nav-links li { width: 100%; }
+            .nav-group-item { width: 100%; }
+            .nav-group {
+                flex: 1;
+                flex-direction: column;
+                align-items: stretch;
+                border-radius: var(--radius-md, 14px);
+                margin: 18px 16px 8px;
+                padding: 12px 0 6px;
+                width: auto;
+            }
+            .nav-group-label { left: 14px; background: #0a0a0f; }
+            .nav-group-links { flex-direction: column; align-items: stretch; width: 100%; gap: 0; }
+            .nav-group-links a { width: 100%; }
+            .focus-toggle {
+                width: 100%; justify-content: center; margin: 8px 0 0; padding: 10px 0 4px;
+                border-left: none; border-top: 1px solid var(--border);
+            }
+            .nav-links a { display: block; padding: 12px 24px; font-size: 15px; border-radius: 0; }
+            .nav-links a::after { display: none; }
+            .nav-links .nav-cta { padding: 10px 16px 0; }
+            .nav-links .nav-cta a { display: block; text-align: center; border-radius: var(--radius-sm, 8px); padding: 13px; }
+        }
+
+        @media (min-width: 1024px) and (max-width: 1299px) {
+            .navbar { padding: 0 24px; }
+            .logo { gap: 10px; }
+            .logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+            .logo-text-sub {
+                margin-top: 3px;
+                font-family: var(--font-mono);
+                font-size: 9.5px;
+                font-weight: 500;
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                color: var(--accent-bright);
+            }
+            .nav-links { gap: 2px; }
+            .nav-links a { padding: 8px 10px; font-size: 13.5px; letter-spacing: 0.01em; }
+            .nav-links a::after { left: 10px; right: 10px; }
+            .nav-group { padding: 8px 6px 3px; }
+            .nav-group-links { gap: 0; }
+            .focus-toggle { margin-left: 4px; padding-left: 8px; gap: 6px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+<canvas id="particles"></canvas>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+    <a class="logo" href="../index.html">
+        <img src="../img/t-olimpians-logo.jpg" alt="Logo">
+        <span class="logo-text">T-Olimpians <span class="logo-text-sub">Team Poland</span></span>
+        <img id="polska-flaga" src="../img/polska_flaga.png" alt="Flaga Polski">
+    </a>
+    <div class="navbar-right">
+        <span class="logo-focus-group" aria-label="Olimpiada Informatyczna i Olimpiada Informatyczna Juniorów">
+            <span class="focus-badge"><img class="focus-mark" src="../img/logo-oi-mark.png" alt="" decoding="async">OI</span>
+            <span class="focus-sep" aria-hidden="true"></span>
+            <span class="focus-badge focus-badge-oij"><img class="focus-mark" src="../img/logo-oij-mark.png" alt="" decoding="async">OIJ</span>
+        </span>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="page-hero">
+    <div class="hero-badge">Spotkania/lekcje indywidualne</div>
+    <h1>Kalendarz <span>lekcji</span></h1>
+    <p class="hero-sub"><span class="only-desktop">Kliknij wolne miejsce w kalendarzu, aby umówić lekcję na 20, 45 lub 60 minut — jednorazowo albo co tydzień.</span><span class="only-mobile">Dotknij wolnego miejsca w kalendarzu albo przycisku „+”, aby umówić lekcję.</span></p>
+</section>
+
+<main>
+    <div class="cal-shell" id="calShell">
+
+        <div class="toolbar">
+            <div class="tb-nav">
+                <button class="btn" id="todayBtn" title="Dziś (T)">Dziś</button>
+                <button class="btn icon" id="prevBtn" aria-label="Wstecz" title="Wstecz (←)">‹</button>
+                <button class="btn icon" id="nextBtn" aria-label="Dalej" title="Dalej (→)">›</button>
+                <h2 class="range-label" id="rangeLabel" aria-live="polite"></h2>
+            </div>
+            <div class="tb-right">
+                <span class="tv-clock" id="tvClock"></span>
+                <span class="sync busy" id="sync" title="Synchronizacja z Kalendarzem Google"><span class="sync-dot"></span><span id="syncText">Łączenie…</span></span>
+                <div class="seg" id="viewSeg" role="group" aria-label="Widok">
+                    <button type="button" data-v="1" title="Dzień (D)">Dzień</button>
+                    <button type="button" data-v="3" title="3 dni (X)">3 dni</button>
+                    <button type="button" data-v="7" title="Tydzień (W)">Tydzień</button>
+                </div>
+                <button class="btn" id="mineBtn" title="Moje lekcje"><span aria-hidden="true">👤</span><span class="lbl" id="mineLbl">Moje lekcje</span></button>
+                <button class="btn icon" id="tvBtn" aria-label="Tryb pełnoekranowy" title="Pełny ekran (F)">⛶</button>
+                <button class="btn primary" id="newBtn" title="Nowa lekcja (C)"><span aria-hidden="true">＋</span><span class="lbl" id="newLbl">Umów lekcję</span></button>
+            </div>
+        </div>
+
+        <div class="legend" id="legend"></div>
+        <div class="app-banner" id="appBanner" hidden></div>
+
+        <div class="cal loading" id="cal">
+            <div class="cal-head">
+                <div class="tz-label">GMT+1/2</div>
+                <div class="days-head" id="daysHead"></div>
+            </div>
+            <div class="allday" id="allDay" hidden>
+                <div class="ad-label">cały dzień</div>
+                <div class="allday-cols" id="allDayCols"></div>
+            </div>
+            <div class="cal-body" id="calBody">
+                <div class="cal-grid">
+                    <div class="gutter" id="gutter"></div>
+                    <div class="cols" id="cols"></div>
+                </div>
+                <div class="grid-msg" id="gridMsg" hidden></div>
+            </div>
+        </div>
+
+        <div class="cal-foot">
+            <span><i class="sw-free"></i> kliknij wolne miejsce, aby umówić lekcję</span>
+            <span><i class="sw-busy"></i> termin zajęty</span>
+            <span>swoją lekcję możesz przeciągnąć myszką na inny termin</span>
+            <span><span class="kbd">←</span> <span class="kbd">→</span> tydzień · <span class="kbd">T</span> dziś · <span class="kbd">F</span> pełny ekran</span>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <span>© 2025 T-Olimpians</span>
+    <span>t.olympians.poland@gmail.com</span>
+    <button class="link-btn" id="adminLink" type="button">Panel nauczyciela</button>
+</footer>
+
+<!-- POPOVER LEKCJI -->
+<div class="popover" id="popover" hidden role="dialog" aria-modal="false"></div>
+
+<!-- MODAL -->
+<div class="overlay" id="modal" hidden>
+    <div class="modal-card" id="modalCard" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-head">
+            <h3 id="modalTitle"></h3>
+            <button class="x-btn" type="button" data-close aria-label="Zamknij">×</button>
+        </div>
+        <div class="modal-body" id="modalBody"></div>
+    </div>
+</div>
+
+<!-- SZUFLADA -->
+<div class="drawer" id="drawer" hidden>
+    <div class="drawer-bg" data-close-drawer></div>
+    <aside class="drawer-panel" id="drawerPanel" role="dialog" aria-modal="true" aria-label="Moje lekcje"></aside>
+</div>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<!-- POPUP STATUSU -->
+<div id="bookingPopup" role="alert" aria-live="polite">
+    <div class="booking-popup-inner" id="popupInner">
+        <div class="booking-popup-icon" id="bookingPopupIcon"></div>
+        <div class="booking-popup-title" id="bookingPopupTitle"></div>
+        <div class="booking-popup-desc" id="bookingPopupDesc"></div>
+        <div class="popup-actions">
+            <button class="btn booking-popup-close" id="bookingPopupClose" style="display:none;">Zamknij</button>
+        </div>
+    </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   KONFIGURACJA
+   Backend: apps-script/Code.gs (instrukcja: apps-script/INSTRUKCJA.md).
+   Godziny, długości lekcji itd. ustawia backend — tu są tylko
+   wartości startowe, zanim przyjdzie pierwsza odpowiedź.
+   ═══════════════════════════════════════════════════════════════ */
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzMdGzTedpOeK7qNCOSWSLKc3iSd3GzWNPTfE8WUXzO2K0-ILqThn7mnUUhzu09t0fG/exec';
+
+const POLL_MS = 15000;           // co ile odświeżać kalendarz, gdy karta jest widoczna
+const TZ = 'Europe/Warsaw';
+const DEFAULT_CFG = {
+    dayStart: '10:00', dayEnd: '21:00', durations: [20, 45, 60], slotStep: 5,
+    minNoticeMin: 30, maxDaysAhead: 60, seriesWeeks: [4, 8, 12, 16, 0], maxSeriesWeeks: 40,
+    publicNames: 'short', allDayBlocks: true, limits: {},
+    pay: { account: '36109016230000000151997290', recipient: 'T-Olimpians', card: false }
+};
+const LS_KEYS = {
+    token: 'tol_kal_token', admin: 'tol_kal_admin', view: 'tol_kal_view',
+    dur: 'tol_kal_dur', contact: 'tolimpians_booking_contact', cache: 'tol_kal_cache_v1',
+    push: 'tol_kal_push', pushSync: 'tol_kal_push_sync', pushDev: 'tol_kal_push_dev', appBanner: 'tol_kal_app_banner', pwaHint: 'tol_kal_pwa_hint'
+};
+// Wszystkie lekcje mają jeden kolor strony (ten sam gradient co przyciski); tu kolor bazowy do ramek i kropek.
+const LESSON_COLOR = '#3b82f6';
+
+/* ═══ POMOCNICZE ═══ */
+const $ = (sel, root = document) => root.querySelector(sel);
+const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+const pad = (n) => String(n).padStart(2, '0');
+const esc = (s) => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const cap = (s) => s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
+
+const store = {
+    get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set(k, v) { try { if (v == null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) { /* tryb prywatny */ } }
+};
+
+// Daty trzymamy jako napisy "YYYY-MM-DD" (czas warszawski), godziny jako minuty od północy.
+function dparse(s) { const [y, m, d] = s.split('-').map(Number); return new Date(Date.UTC(y, m - 1, d)); }
+function dstr(dt) { return dt.toISOString().slice(0, 10); }
+function addDays(s, n) { const d = dparse(s); d.setUTCDate(d.getUTCDate() + n); return dstr(d); }
+function weekday(s) { return dparse(s).getUTCDay(); }
+function mondayOf(s) { return addDays(s, -((weekday(s) + 6) % 7)); }
+function diffDays(a, b) { return Math.round((dparse(b) - dparse(a)) / 864e5); }
+function toMin(t) { const [h, m] = t.split(':').map(Number); return h * 60 + m; }
+function fromMin(m) { m = Math.max(0, Math.min(1440, m)); return pad(Math.floor(m / 60)) + ':' + pad(m % 60); }
+const nowFmt = new Intl.DateTimeFormat('en-CA', { timeZone: TZ, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
+function nowWaw() {
+    const p = {};
+    nowFmt.formatToParts(new Date()).forEach((x) => { p[x.type] = x.value; });
+    return { date: `${p.year}-${p.month}-${p.day}`, min: (Number(p.hour) % 24) * 60 + Number(p.minute) };
+}
+function nowIso() { const n = nowWaw(); return n.date + 'T' + fromMin(n.min); }
+
+const DAY_HEAD = ['Nd', 'Pon', 'Wt', 'Śr', 'Czw', 'Pt', 'Sob'];
+const DAY_SHORT = ['nd', 'pn', 'wt', 'śr', 'cz', 'pt', 'sb'];
+const DAY_LONG = ['niedziela', 'poniedziałek', 'wtorek', 'środa', 'czwartek', 'piątek', 'sobota'];
+const DAY_EVERY = ['co niedzielę', 'co poniedziałek', 'co wtorek', 'co środę', 'co czwartek', 'co piątek', 'co sobotę'];
+const DAY_PLURAL_W = ['w niedziele', 'w poniedziałki', 'we wtorki', 'w środy', 'w czwartki', 'w piątki', 'w soboty'];
+const WEEK_ORDER = [1, 2, 3, 4, 5, 6, 0];
+const MONTH_GEN = ['stycznia', 'lutego', 'marca', 'kwietnia', 'maja', 'czerwca', 'lipca', 'sierpnia', 'września', 'października', 'listopada', 'grudnia'];
+const MONTH_SHORT = ['sty', 'lut', 'mar', 'kwi', 'maj', 'cze', 'lip', 'sie', 'wrz', 'paź', 'lis', 'gru'];
+
+function fmtLong(s) { const d = dparse(s); return `${DAY_LONG[d.getUTCDay()]}, ${d.getUTCDate()} ${MONTH_GEN[d.getUTCMonth()]}`; }
+function fmtShort(s) { const d = dparse(s); return `${DAY_SHORT[d.getUTCDay()]} ${d.getUTCDate()}.${pad(d.getUTCMonth() + 1)}`; }
+function plural(n, one, few, many) {
+    if (n === 1) return one;
+    const n10 = n % 10, n100 = n % 100;
+    return n10 >= 2 && n10 <= 4 && !(n100 >= 12 && n100 <= 14) ? few : many;
+}
+const lessonsWord = (n) => `${n} ${plural(n, 'lekcja', 'lekcje', 'lekcji')}`;
+function hoursLabel(min) {
+    const h = Math.floor(min / 60), m = min % 60;
+    return h && m ? `${h} h ${m} min` : h ? `${h} h` : `${m} min`;
+}
+
+/* ═══ STAN ═══ */
+const S = {
+    cfg: { ...DEFAULT_CFG },
+    role: 'public', me: null, students: [], notifyTo: '',
+    token: store.get(LS_KEYS.token), adminToken: store.get(LS_KEYS.admin),
+    view: initialView(), anchor: nowWaw().date,
+    events: [], rangeKey: '', sig: '', loaded: false, rangeLoading: true,
+    seq: 0, lastSync: 0, cache: new Map(),
+    focusKey: null, drag: null, dragCand: null, pendingData: null, pendingOps: 0, win: null,
+    popId: null, flash: new Set(), selfUntil: 0, suppressClickUntil: 0, pushChecked: null,
+    h0: 10, h1: 21, hourH: 56,
+    dur: Number(store.get(LS_KEYS.dur)) || 60
+};
+function initialView() {
+    const v = Number(store.get(LS_KEYS.view));
+    if ([1, 3, 7].includes(v)) return v;
+    return window.innerWidth < 700 ? 3 : 7;
+}
+
+/* ═══ DOM ═══ */
+const navbar = $('#navbar');
+const calEl = $('#cal');
+const calBody = $('#calBody');
+const gutterEl = $('#gutter');
+const colsEl = $('#cols');
+const daysHead = $('#daysHead');
+const allDayEl = $('#allDay');
+const allDayCols = $('#allDayCols');
+const legendEl = $('#legend');
+const gridMsg = $('#gridMsg');
+const popEl = $('#popover');
+const modalEl = $('#modal');
+const modalCard = $('#modalCard');
+const modalTitle = $('#modalTitle');
+const modalBody = $('#modalBody');
+const drawerEl = $('#drawer');
+const drawerPanel = $('#drawerPanel');
+
+window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 40));
+
+/* ═══ BACKEND ═══ */
+async function api(action, data = {}, timeoutMs = 60000) {
+    const body = { action, ...data };
+    if (S.token && !('token' in data)) body.token = S.token;
+    if (S.adminToken) body.adminToken = S.adminToken;
+    const dev = store.get(LS_KEYS.pushDev);            // to urządzenie nie dostanie powiadomienia o własnej zmianie
+    if (dev && action !== 'week') body.dev = dev;
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), timeoutMs);
+    let res;
+    try {
+        res = await fetch(APPS_SCRIPT_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(body),
+            signal: ctrl.signal
+        });
+    } catch (e) {
+        throw new Error(e.name === 'AbortError' ? 'Serwer nie odpowiada — spróbuj ponownie.' : 'Brak połączenia z serwerem.');
+    } finally {
+        clearTimeout(timer);
+    }
+    let json;
+    try { json = await res.json(); } catch (e) { throw new Error('Serwer zwrócił nieprawidłową odpowiedź (' + res.status + ').'); }
+    // Google czasem odbija odpowiedź z powrotem na /exec jako GET — wtedy dostajemy „ping” zamiast wyniku.
+    if (json.ok && json.service === 'kalendarz-lekcji') {
+        if (action === 'week' && !data._retried) return api(action, { ...data, _retried: true }, timeoutMs);
+        const err = new Error(action === 'week'
+            ? 'Serwer Google chwilowo nie odpowiada — ponawiam.'
+            : 'Nie dostaliśmy potwierdzenia z serwera. Odśwież kalendarz i sprawdź, czy zmiana się zapisała.');
+        err.code = 'BOUNCED';
+        if (action !== 'week') setTimeout(() => refresh(), 500);
+        throw err;
+    }
+    if (!json.ok) {
+        const err = new Error(json.error || 'Wystąpił błąd.');
+        err.code = json.code;
+        err.data = json;
+        throw err;
+    }
+    return json;
+}
+
+function clearDataCache() { S.cache.clear(); store.set(LS_KEYS.cache, null); }
+function setToken(t) { if ((t || null) !== S.token) clearDataCache(); S.token = t || null; store.set(LS_KEYS.token, S.token); }
+function setAdmin(t) { if ((t || null) !== S.adminToken) clearDataCache(); S.adminToken = t || null; store.set(LS_KEYS.admin, S.adminToken); }
+const identity = () => (S.adminToken || '').slice(0, 12) + '|' + (S.token || '').slice(0, 12);
+
+/* Szybkość: pobieramy od razu 4 tygodnie (poprzedni, bieżący, 2 następne), więc przełączanie tygodni
+   nie czeka na serwer, a ostatni widok trzymamy w przeglądarce, żeby strona pokazała się natychmiast. */
+function windowFor(R) {
+    const m = mondayOf(R.from);
+    const from = addDays(m, -7);
+    let to = addDays(m, 21);
+    if (R.to > to) to = R.to;
+    return { from, to, key: from + '|' + to };
+}
+function cachedFor(R) {
+    let best = null;
+    S.cache.forEach((v) => { if (v.from <= R.from && R.to <= v.to && (!best || v.at > best.at)) best = v; });
+    return best;
+}
+function persistWindow(W, data) {
+    try { localStorage.setItem(LS_KEYS.cache, JSON.stringify({ id: identity(), from: W.from, to: W.to, savedAt: Date.now(), data })); } catch (e) { /* brak miejsca / tryb prywatny */ }
+}
+function restoreWindow() {
+    try {
+        const c = JSON.parse(store.get(LS_KEYS.cache) || 'null');
+        if (!c || c.id !== identity() || Date.now() - c.savedAt > 7 * 864e5 || !c.data || !c.data.ok) return;
+        S.cache.set(c.from + '|' + c.to, { from: c.from, to: c.to, data: c.data, at: 0 });   // at: 0 = do odświeżenia
+    } catch (e) { /* uszkodzony wpis — pomiń */ }
+}
+
+/* ═══ ZAKRES I DANE ═══ */
+function currentRange() {
+    const from = S.view === 7 ? mondayOf(S.anchor) : S.anchor;
+    const days = [];
+    for (let i = 0; i < S.view; i++) days.push(addDays(from, i));
+    return { from, to: addDays(from, S.view), days, key: from + '|' + addDays(from, S.view) };
+}
+
+function normEvent(e) {
+    const x = { ...e };
+    if (x.allDay) { x.date = x.s; x.endDate = x.e; return x; }
+    x.date = x.s.slice(0, 10);
+    x.start = x.s.slice(11, 16);
+    x.endDate = x.e.slice(0, 10);
+    x.end = x.e.slice(11, 16);
+    x.startMin = toMin(x.start);
+    x.endMin = toMin(x.end);
+    if (!x.duration) x.duration = diffDays(x.date, x.endDate) * 1440 + x.endMin - x.startMin;
+    return x;
+}
+const byId = (id) => S.events.find((e) => e.id === id) || (S.me && S.me.upcoming.find((e) => e.id === id)) || null;
+const isStarted = (e) => e.s <= nowIso();
+const isOver = (e) => (e.allDay ? e.e <= nowWaw().date : e.e <= nowIso());
+const colorOf = () => LESSON_COLOR;
+const canEdit = (e) => e.kind === 'lesson' && !!e.canEdit && (S.role === 'admin' || !isStarted(e));
+
+async function refresh() {
+    const W = windowFor(currentRange());
+    const seq = ++S.seq;
+    setSync('busy');
+    calEl.classList.toggle('loading', S.rangeLoading);
+    try {
+        const data = await api('week', { from: W.from, to: W.to }, 45000);
+        if (seq !== S.seq) return;
+        S.cache.set(W.key, { from: W.from, to: W.to, data, at: Date.now() });
+        persistWindow(W, data);
+        if (S.drag || S.dragCand || S.pendingOps) { S.pendingData = { data, win: W }; return; }
+        applyData(data, W);
+        setSync('ok');
+        if (S.pushChecked !== identity()) { S.pushChecked = identity(); ensurePush(); }   // przy otwarciu i po każdym zalogowaniu
+    } catch (err) {
+        if (seq !== S.seq) return;
+        console.error(err);
+        setSync('err', err.message);
+        if (!S.loaded || S.rangeLoading) showGridMsg(err.message);
+    } finally {
+        if (seq === S.seq) calEl.classList.remove('loading');
+    }
+}
+
+function applyData(data, win) {
+    const key = win.from + '|' + win.to;
+    if (data.tokenInvalid) setToken(null);
+    if (data.adminInvalid) setAdmin(null);
+    S.cfg = { ...DEFAULT_CFG, ...(data.config || {}) };
+    S.role = data.role || 'public';
+    S.notifyTo = data.notifyTo || '';
+    S.students = data.students || [];
+    S.me = data.me ? { ...data.me, upcoming: (data.me.upcoming || []).map(normEvent) } : null;
+
+    const events = (data.events || []).map(normEvent);
+    const sig = JSON.stringify([S.role, data.events, data.me, data.config]);
+    const sameRange = key === S.rangeKey && !S.rangeLoading;
+    S.rangeLoading = false;
+    hideGridMsg();
+    if (sameRange && sig === S.sig) { S.loaded = true; return; }
+
+    if (sameRange && S.loaded) {
+        const sigOf = (e) => e.s + '|' + e.e + '|' + (e.name || e.title || '');
+        const prev = new Map(S.events.map((e) => [e.id, sigOf(e)]));
+        const R = currentRange();
+        const visible = (e) => e && e.date >= R.from && e.date < R.to;
+        const prevById = new Map(S.events.map((e) => [e.id, e]));
+        const changed = events.filter((e) => prev.get(e.id) !== sigOf(e) && (visible(e) || visible(prevById.get(e.id))));
+        const removed = [...prev.keys()].filter((id) => !events.some((e) => e.id === id) && visible(prevById.get(id)));
+        if (changed.length || removed.length) {
+            changed.forEach((e) => S.flash.add(e.id));
+            setTimeout(() => { S.flash.clear(); $$('.ev.flash').forEach((el) => el.classList.remove('flash')); }, 2000);
+            if (Date.now() > S.selfUntil) {
+                const parts = [];
+                const added = changed.filter((e) => !prev.has(e.id)).length;
+                if (added) parts.push(`${added} ${plural(added, 'nowa', 'nowe', 'nowych')}`);
+                if (changed.length - added) parts.push(`${changed.length - added} ${plural(changed.length - added, 'zmieniona', 'zmienione', 'zmienionych')}`);
+                if (removed.length) parts.push(`${removed.length} ${plural(removed.length, 'usunięta', 'usunięte', 'usuniętych')}`);
+                toast('🔄 Kalendarz zaktualizowany: ' + parts.join(', '));
+            }
+        }
+    }
+    S.events = events;
+    S.sig = sig;
+    S.rangeKey = key;
+    S.win = { from: win.from, to: win.to };
+    S.loaded = true;
+    render();
+    if (!drawerEl.hidden) renderDrawer();
+    if (S.popId && !popEl.hidden) {
+        const ev = byId(S.popId);
+        const anchor = ev && colsEl.querySelector(`.ev[data-id="${CSS.escape(ev.id)}"]`);
+        if (ev && anchor) openPopover(ev, anchor); else closePopover();
+    }
+}
+
+function setSync(state, msg) {
+    const el = $('#sync');
+    el.className = 'sync ' + state;
+    if (state === 'ok') {
+        S.lastSync = Date.now();
+        const n = nowWaw();
+        $('#syncText').textContent = 'Na żywo · ' + fromMin(n.min);
+        el.title = 'Zsynchronizowano z Kalendarzem Google o ' + fromMin(n.min) + '. Odświeżanie co ' + POLL_MS / 1000 + ' s.';
+    } else if (state === 'busy') {
+        if (!S.lastSync) $('#syncText').textContent = S.loaded ? 'Odświeżam…' : 'Łączenie…';
+    } else {
+        $('#syncText').textContent = 'Offline — ponawiam';
+        el.title = msg || '';
+    }
+}
+
+/* ═══ RENDER ═══ */
+function render() {
+    const R = currentRange();
+    const days = R.days.map((d) => ({ date: d, items: layoutDay(slicesFor(d)), allDay: allDayFor(d) }));
+    computeHours(days);
+    renderToolbar(R);
+    renderLegend(R);
+    renderHead(days);
+    renderAllDay(days);
+    sizeCalendar();
+    renderBody(days);
+    updateNowLine();
+}
+
+function slicesFor(date) {
+    const out = [];
+    S.events.forEach((e) => {
+        if (e.allDay || e.date > date || e.endDate < date) return;
+        const a = e.date === date ? e.startMin : 0;
+        const b = e.endDate === date ? e.endMin : 1440;
+        if (b > a) out.push({ ev: e, a, b });
+    });
+    return out;
+}
+function allDayFor(date) { return S.events.filter((e) => e.allDay && e.s <= date && date < e.e); }
+
+// Nachodzące na siebie wydarzenia układamy obok siebie, jak w Kalendarzu Google.
+function layoutDay(items) {
+    items.sort((x, y) => x.a - y.a || (y.b - y.a) - (x.b - x.a));
+    const out = [];
+    let cluster = [];
+    let clusterEnd = -1;
+    const flush = () => {
+        const cols = [];
+        cluster.forEach((it) => {
+            let c = cols.findIndex((end) => end <= it.a);
+            if (c < 0) { c = cols.length; cols.push(0); }
+            cols[c] = it.b;
+            it.col = c;
+        });
+        cluster.forEach((it) => { it.cols = cols.length; out.push(it); });
+        cluster = [];
+    };
+    items.forEach((it) => {
+        if (cluster.length && it.a >= clusterEnd) { flush(); clusterEnd = -1; }
+        cluster.push(it);
+        clusterEnd = Math.max(clusterEnd, it.b);
+    });
+    if (cluster.length) flush();
+    return out;
+}
+
+// Godziny dostępności danego dnia jako [[od, do], …] w minutach (starszy backend: jeden przedział dla wszystkich dni).
+function rangesFor(date) {
+    const av = S.cfg.availability;
+    const list = av ? (av[weekday(date)] || []) : [[S.cfg.dayStart, S.cfg.dayEnd]];
+    return list.map((r) => [toMin(r[0]), toMin(r[1])]).sort((x, y) => x[0] - y[0]);
+}
+const rangesText = (date) => rangesFor(date).map((r) => fromMin(r[0]) + '–' + fromMin(r[1])).join(', ');
+// Dzienny limit minut lekcji (ustawiany w panelu) i ile lekcji już jest tego dnia.
+function limitFor(date) {
+    const v = (S.cfg.limits || {})[weekday(date)];
+    return v ? Number(v) : null;
+}
+function dayLoad(date, excludeId) {
+    return S.events.reduce((sum, e) => sum + (e.kind === 'lesson' && !e.allDay && e.date === date && e.id !== excludeId ? (e.duration || 0) : 0), 0);
+}
+const minDuration = () => Math.min.apply(null, S.cfg.durations);
+
+function computeHours(days) {
+    let a = Infinity;
+    let b = -Infinity;
+    days.forEach((d) => rangesFor(d.date).forEach((r) => { a = Math.min(a, r[0]); b = Math.max(b, r[1]); }));
+    if (!isFinite(a)) { a = toMin(S.cfg.dayStart); b = toMin(S.cfg.dayEnd); }
+    days.forEach((d) => d.items.forEach((it) => { a = Math.min(a, it.a); b = Math.max(b, it.b); }));
+    if (S.drag && S.drag.target) { a = Math.min(a, S.drag.target.start); }
+    S.h0 = Math.max(0, Math.floor(a / 60));
+    S.h1 = Math.min(24, Math.max(S.h0 + 1, Math.ceil(b / 60)));
+}
+
+function renderToolbar(R) {
+    $('#rangeLabel').textContent = rangeLabel(R);
+    $$('#viewSeg button').forEach((b) => b.classList.toggle('active', Number(b.dataset.v) === S.view));
+    const today = nowWaw().date;
+    $('#todayBtn').disabled = today >= R.from && today < R.to;
+    $('#newLbl').textContent = S.role === 'admin' ? 'Dodaj lekcję' : 'Umów lekcję';
+    const lbl = $('#mineLbl');
+    if (S.role === 'admin') lbl.textContent = 'Panel';
+    else if (S.me) lbl.textContent = S.me.name ? S.me.name.split(/\s+/)[0] : 'Moje lekcje';
+    else lbl.textContent = 'Moje lekcje';
+}
+
+function rangeLabel(R) {
+    const a = dparse(R.from);
+    const b = dparse(addDays(R.to, -1));
+    const ya = a.getUTCFullYear();
+    const yb = b.getUTCFullYear();
+    // na telefonie pomijamy bieżący rok, żeby etykieta się mieściła
+    const y = ya === yb && yb === dparse(nowWaw().date).getUTCFullYear() && window.innerWidth < 700 ? '' : ' ' + yb;
+    if (S.view === 1) return cap(`${DAY_LONG[a.getUTCDay()]}, ${a.getUTCDate()} ${MONTH_GEN[a.getUTCMonth()]}${y}`);
+    if (a.getUTCMonth() === b.getUTCMonth()) return `${a.getUTCDate()} – ${b.getUTCDate()} ${MONTH_GEN[b.getUTCMonth()]}${y}`;
+    if (ya === yb) return `${a.getUTCDate()} ${MONTH_SHORT[a.getUTCMonth()]} – ${b.getUTCDate()} ${MONTH_SHORT[b.getUTCMonth()]}${y}`;
+    return `${a.getUTCDate()} ${MONTH_SHORT[a.getUTCMonth()]} ${ya} – ${b.getUTCDate()} ${MONTH_SHORT[b.getUTCMonth()]} ${yb}`;
+}
+
+function renderLegend(R) {
+    const lessons = S.events.filter((e) => e.kind === 'lesson' && e.date >= R.from && e.date < R.to);
+    if (!S.loaded) { legendEl.innerHTML = ''; return; }
+    if (!lessons.length) {
+        legendEl.innerHTML = `<span class="legend-empty">${S.rangeLoading ? '' : 'Brak lekcji w tym ' + (S.view === 1 ? 'dniu' : S.view === 7 ? 'tygodniu' : 'okresie') + ' — wszystkie godziny są wolne.'}</span>`;
+        return;
+    }
+    const groups = new Map();
+    lessons.forEach((e) => {
+        const g = groups.get(e.key) || { key: e.key, name: e.name, count: 0, min: 0, mine: false };
+        g.count++;
+        g.min += e.duration;
+        g.mine = g.mine || !!e.mine;
+        groups.set(e.key, g);
+    });
+    const list = [...groups.values()].sort((x, y) => (y.mine - x.mine) || x.name.localeCompare(y.name, 'pl'));
+    const hidden = S.cfg.publicNames === 'hidden' && S.role !== 'admin';
+    const total = lessons.reduce((s, e) => s + e.duration, 0);
+    let html = `<span class="legend-label">${S.role === 'admin' ? 'Uczniowie' : 'Kto ma lekcje'}</span>`;
+    list.forEach((g) => {
+        if (hidden && !g.mine) return;
+        html += `<button type="button" class="chip${S.focusKey === g.key ? ' active' : ''}${g.mine ? ' you' : ''}" data-key="${esc(g.key)}" title="Pokaż tylko lekcje: ${esc(g.name)}">
+            <span class="dot"></span>${esc(g.mine ? g.name + ' (Ty)' : g.name)}<span class="meta">${g.count}× · ${hoursLabel(g.min)}</span></button>`;
+    });
+    html += `<span class="legend-total">${lessonsWord(lessons.length)} · ${hoursLabel(total)}</span>`;
+    legendEl.innerHTML = html;
+}
+
+function renderHead(days) {
+    calEl.style.setProperty('--days', days.length);
+    const today = nowWaw().date;
+    daysHead.innerHTML = days.map((d) => {
+        const dt = dparse(d.date);
+        const n = d.items.filter((it) => it.ev.kind === 'lesson' && it.ev.date === d.date).length;
+        let sum = n ? '<b>' + lessonsWord(n) + '</b>' : '';
+        const lim = limitFor(d.date);
+        if (lim !== null && rangesFor(d.date).length && d.date >= today) {
+            const used = dayLoad(d.date);
+            const left = lim - used;
+            const tag = S.role === 'admin' ? `${hoursLabel(used)} / ${hoursLabel(lim)}` : (left < minDuration() ? 'pełny' : 'zostało ' + hoursLabel(left));
+            sum += (sum ? ' · ' : '') + `<span class="${left < minDuration() ? 'lim-full' : 'lim'}" title="Limit lekcji tego dnia: ${hoursLabel(lim)}">${tag}</span>`;
+        }
+        const cls = ['dh'];
+        if (d.date === today) cls.push('today');
+        if (d.date < today) cls.push('past');
+        return `<div class="${cls.join(' ')}" data-date="${d.date}" title="${cap(fmtLong(d.date))}">
+            <div class="dh-name">${DAY_HEAD[dt.getUTCDay()]}</div>
+            <div class="dh-num">${dt.getUTCDate()}</div>
+            <div class="dh-sum">${sum}</div></div>`;
+    }).join('');
+}
+
+function renderAllDay(days) {
+    const any = days.some((d) => d.allDay.length);
+    allDayEl.hidden = !any;
+    if (!any) return;
+    allDayCols.innerHTML = days.map((d) => `<div class="ad-cell">${d.allDay.map((e) => {
+        return `<div class="ad-ev" data-id="${esc(e.id)}" title="${esc(e.title)}">${esc(e.title)}</div>`;
+    }).join('')}</div>`).join('');
+}
+
+// Wysokość godziny dobieramy tak, żeby cały dzień zmieścił się na ekranie:
+// duży monitor — bez przewijania strony; laptop — po przewinięciu do kalendarza; telefon — strona przewija się normalnie.
+function sizeCalendar() {
+    const hours = S.h1 - S.h0;
+    const pads = 22;
+    const tv = document.body.classList.contains('tv');
+    const small = window.innerWidth < 700;
+    const bodyRect = calBody.getBoundingClientRect();
+    const fit = (avail) => Math.floor((avail - pads) / hours);
+    let hourH;
+    let avail;
+    if (small) {
+        hourH = 58;
+        avail = Infinity;
+    } else if (tv) {
+        avail = window.innerHeight - bodyRect.top - 14;
+        hourH = Math.max(30, Math.min(160, fit(avail)));
+    } else {
+        const initialAvail = window.innerHeight - (bodyRect.top + window.scrollY) - 18;
+        const above = bodyRect.top - $('#calShell').getBoundingClientRect().top;
+        const scrolledAvail = window.innerHeight - 68 - 14 - above - 16;
+        avail = fit(initialAvail) >= 56 ? initialAvail : scrolledAvail;
+        hourH = Math.max(48, Math.min(110, fit(avail)));
+        avail = Math.max(400, avail);
+    }
+    S.hourH = hourH;
+    calEl.style.setProperty('--hour-h', hourH + 'px');
+    calEl.style.setProperty('--hours', hours);
+    calBody.style.height = Math.min(avail, hours * hourH + pads) + 'px';
+}
+
+const yOf = (min) => (min - S.h0 * 60) / 60 * S.hourH;
+
+function renderBody(days) {
+    let g = '';
+    for (let h = S.h0; h < S.h1; h++) g += `<div class="hl" style="top:${yOf(h * 60)}px">${pad(h)}:00</div>`;
+    gutterEl.innerHTML = g;
+    const now = nowWaw();
+    const full = (S.h1 - S.h0) * S.hourH;
+    const shade = (x, y) => (y > x ? `<div class="shade" style="top:${yOf(x)}px;height:${yOf(y) - yOf(x)}px"></div>` : '');
+    colsEl.innerHTML = days.map((d) => {
+        const ranges = rangesFor(d.date);
+        let html = `<div class="col${d.date === now.date ? ' today' : ''}${ranges.length ? '' : ' closed'}" data-date="${d.date}">`;
+        let cur = S.h0 * 60;
+        ranges.forEach((r) => { html += shade(cur, Math.min(r[0], S.h1 * 60)); cur = Math.max(cur, r[1]); });
+        html += shade(cur, S.h1 * 60);
+        if (!ranges.length) html += '<div class="col-closed">brak terminów</div>';
+        else if (S.role !== 'admin' && limitFor(d.date) !== null && d.date >= now.date && !S.rangeLoading
+            && dayLoad(d.date) + minDuration() > limitFor(d.date)) {
+            html += '<div class="shade" style="top:0;bottom:0"></div><div class="col-closed">dzień pełny</div>';
+        }
+        if (d.date < now.date) html += `<div class="shade past" style="top:0;bottom:0"></div>`;
+        else if (d.date === now.date && now.min > S.h0 * 60) html += `<div class="shade past" style="top:0;height:${Math.min(full, yOf(now.min))}px"></div>`;
+        d.items.forEach((it) => { html += evHtml(it); });
+        return html + '</div>';
+    }).join('');
+}
+
+function evHtml(it) {
+    const e = it.ev;
+    const top = yOf(it.a);
+    const h = Math.max(yOf(it.b) - top - 2, 15);
+    const cls = ['ev', e.kind];
+    if (e.mine) cls.push('mine');
+    if (isOver(e)) cls.push('past');
+    if (h < 36) cls.push('short');
+    if (S.flash.has(e.id)) cls.push('flash');
+    if (S.focusKey && e.key !== S.focusKey) cls.push('dim');
+    if (e.saving) cls.push('saving');
+    if (e.kind === 'busy' && S.role === 'admin') cls.push('admin');
+    const style = `top:${top}px;height:${h}px;left:calc(${(it.col / it.cols) * 100}% + 2px);width:calc(${100 / it.cols}% - 5px)`;
+
+    const name = e.kind === 'lesson' ? e.name : e.title;
+    const you = (e.mine ? '<i class="you">Ty</i>' : '') + (e.kind === 'lesson' && e.paid ? '<i class="paid-mark" title="Opłacona">✓</i>' : '');
+    let inner;
+    if (h < 36) {
+        inner = `<span class="ev-name">${esc(name)}${you}</span><span class="ev-time">${e.start}${e.recurring ? ' ↻' : ''}</span>`;
+    } else {
+        inner = `<span class="ev-name">${esc(name)}${you}</span>
+            <span class="ev-time">${e.start}–${e.end}${e.kind === 'lesson' ? '<span class="ev-dur"> · ' + e.duration + ' min</span>' : ''}${e.recurring ? ' · ↻' : ''}</span>`;
+        if (e.topic && h > 64) inner += `<span class="ev-topic">${esc(e.topic)}</span>`;
+    }
+    const label = `${name}, ${fmtLong(e.date)}, ${e.start}–${e.end}`;
+    const focusable = e.kind === 'lesson' || S.role === 'admin';
+    return `<div class="${cls.join(' ')}" style="${style}" data-id="${esc(e.id)}"${focusable ? ' role="button" tabindex="0"' : ''} aria-label="${esc(label)}">${inner}</div>`;
+}
+
+function updateNowLine() {
+    $$('.now-line').forEach((el) => el.remove());
+    const n = nowWaw();
+    const col = colsEl.querySelector(`.col[data-date="${n.date}"]`);
+    if (!col || n.min < S.h0 * 60 || n.min > S.h1 * 60) return;
+    const line = document.createElement('div');
+    line.className = 'now-line';
+    line.style.top = yOf(n.min) + 'px';
+    col.appendChild(line);
+    $('#tvClock').textContent = fromMin(n.min);
+}
+
+function showGridMsg(msg) {
+    gridMsg.hidden = false;
+    gridMsg.innerHTML = `<div><b>Nie udało się pobrać kalendarza.</b></div><div>${esc(msg)}</div><button class="btn sm" type="button" data-act="retry">Spróbuj ponownie</button>`;
+}
+function hideGridMsg() { gridMsg.hidden = true; }
+
+function scrollToRelevant() {
+    if (calBody.scrollHeight <= calBody.clientHeight + 4) return;
+    const R = currentRange();
+    const n = nowWaw();
+    let target = S.h0 * 60;
+    if (n.date >= R.from && n.date < R.to) target = Math.max(target, n.min - 60);
+    calBody.scrollTop = Math.max(0, yOf(target) - 8);
+}
+
+/* ═══ SPRAWDZANIE TERMINÓW (lokalnie — backend sprawdza ostatecznie) ═══ */
+function inLoaded(date) {
+    return !S.rangeLoading && !!S.win && date >= S.win.from && date < S.win.to;
+}
+function checkSlot(date, a, dur, excludeId) {
+    const b = a + dur;
+    const cfg = S.cfg;
+    const admin = S.role === 'admin';
+    const n = nowWaw();
+    if (!date || isNaN(a)) return { ok: false, reason: 'invalid' };
+    const ranges = rangesFor(date);
+    const inside = ranges.some((r) => r[0] <= a && b <= r[1]);
+    const outside = admin && !inside;
+    if (!admin) {
+        if (!inside) return { ok: false, reason: ranges.length ? 'hours' : 'closed', date };
+        if (date < n.date || (date === n.date && a < n.min + cfg.minNoticeMin)) return { ok: false, reason: 'past' };
+        if (diffDays(n.date, date) > cfg.maxDaysAhead) return { ok: false, reason: 'far' };
+        if (a % cfg.slotStep) return { ok: false, reason: 'step' };
+    } else if (b > 1440) {
+        return { ok: false, reason: 'late', date };
+    }
+    if (!inLoaded(date)) return { ok: true, unknown: true, outside };
+    if (cfg.allDayBlocks) {
+        const ad = allDayFor(date).find((e) => e.id !== excludeId);
+        if (ad) return { ok: false, reason: 'busy', hit: { ev: ad, a: 0, b: 1440 } };
+    }
+    const hit = slicesFor(date).find((s) => s.ev.id !== excludeId && s.a < b && a < s.b);
+    if (hit) return { ok: false, reason: 'busy', hit };
+    const lim = limitFor(date);
+    if (lim !== null) {
+        const used = dayLoad(date, excludeId);
+        if (used + dur > lim) {
+            const info = { date, lim, left: Math.max(0, lim - used) };
+            if (!admin) return { ok: false, reason: used + minDuration() > lim ? 'full' : 'limit', ...info };
+            return { ok: true, outside, overLimit: info };
+        }
+    }
+    return { ok: true, outside };
+}
+function reasonText(chk) {
+    const cfg = S.cfg;
+    switch (chk.reason) {
+        case 'hours': return `${cap(DAY_PLURAL_W[weekday(chk.date)])} lekcje są dostępne w godz. ${rangesText(chk.date)}.`;
+        case 'closed': return `${cap(DAY_PLURAL_W[weekday(chk.date)])} nie ma terminów na lekcje.`;
+        case 'late': return 'Lekcja musi skończyć się tego samego dnia.';
+        case 'adminOutside': return 'To poza Twoimi godzinami dostępności. Lekcję poza godzinami dodasz przyciskiem „Dodaj lekcję”.';
+        case 'full': return `${cap(DAY_PLURAL_W[weekday(chk.date)])} można mieć najwyżej ${hoursLabel(chk.lim)} lekcji dziennie — ten dzień jest już pełny.`;
+        case 'limit': return `${cap(DAY_PLURAL_W[weekday(chk.date)])} można mieć najwyżej ${hoursLabel(chk.lim)} lekcji dziennie — zostało ${hoursLabel(chk.left)}. Wybierz krótszą lekcję albo inny dzień.`;
+        case 'adminLimit': return 'Ten dzień ma już wykorzystany limit lekcji. Lekcję ponad limit dodasz przyciskiem „Dodaj lekcję”.';
+        case 'past': return 'Ten termin już minął albo jest zbyt blisko.';
+        case 'far': return `Można rezerwować najwyżej ${cfg.maxDaysAhead} dni do przodu.`;
+        case 'step': return `Godzina musi być wielokrotnością ${cfg.slotStep} minut.`;
+        case 'busy': {
+            const e = chk.hit.ev;
+            const who = e.kind === 'lesson' ? 'lekcja: ' + e.name : (e.title || 'zajęte');
+            return `W tym czasie jest już ${who}${e.allDay ? ' (cały dzień)' : ` (${e.start}–${e.end})`}.`;
+        }
+        default: return 'Wybierz datę i godzinę.';
+    }
+}
+// Kliknięcie w siatkę: przyciągamy do kwadransa, a jeśli tuż przed nami kończy się lekcja — zaczynamy zaraz po niej.
+function suggestStart(date, rawMin, dur) {
+    const start = Math.floor(rawMin / 15) * 15;
+    let chk = checkSlot(date, start, dur);
+    let pick = chk.ok ? start : null;
+    if (!chk.ok && chk.reason === 'busy' && chk.hit.b > start && chk.hit.b < start + 15) {
+        const c2 = checkSlot(date, chk.hit.b, dur);
+        if (c2.ok) { pick = chk.hit.b; chk = c2; }
+    }
+    if (pick === null) return { ok: false, chk };
+    if (chk.outside) return { ok: false, chk: { reason: 'adminOutside', date } };
+    if (chk.overLimit) return { ok: false, chk: { reason: 'adminLimit', date } };
+    return { ok: true, start: pick };
+}
+function freeStarts(date, dur, excludeId, extra) {
+    if (!date) return [];
+    const cands = [];
+    rangesFor(date).forEach(([x, y]) => {
+        for (let m = x; m + dur <= y; m += 15) cands.push(m);
+        slicesFor(date).forEach((sl) => { if (sl.b >= x && sl.b + dur <= y) cands.push(sl.b); });   // zaraz po innej lekcji
+    });
+    if (extra) cands.push(toMin(extra));
+    return [...new Set(cands)].sort((a, b) => a - b).filter((m) => checkSlot(date, m, dur, excludeId).ok);
+}
+function findNextFree(dur) {
+    const R = currentRange();
+    const n = nowWaw();
+    for (const d of R.days) {
+        if (d < n.date) continue;
+        for (const r of rangesFor(d)) {
+            for (let m = r[0]; m + dur <= r[1]; m += 15) {
+                const c = checkSlot(d, m, dur);
+                if (c.ok && !c.unknown) return { date: d, time: fromMin(m) };
+            }
+        }
+    }
+    const d = n.date > R.from ? n.date : R.from;
+    return { date: d, time: '' };
+}
+
+/* ═══ INTERAKCJE Z SIATKĄ ═══ */
+let ghostEl = null;
+function ghost() {
+    if (!ghostEl) { ghostEl = document.createElement('div'); ghostEl.className = 'slot-ghost'; }
+    return ghostEl;
+}
+function showGhost(col, start, dur, text, mode) {
+    const g = ghost();
+    g.className = 'slot-ghost' + (mode ? ' ' + mode : '');
+    g.style.top = yOf(start) + 'px';
+    g.style.height = Math.max(yOf(start + dur) - yOf(start) - 2, 15) + 'px';
+    g.textContent = text;
+    if (g.parentNode !== col) col.appendChild(g);
+}
+function hideGhost() { if (ghostEl && ghostEl.parentNode) ghostEl.remove(); }
+function minFromY(col, clientY) { return S.h0 * 60 + (clientY - col.getBoundingClientRect().top) / S.hourH * 60; }
+function colAt(x) {
+    return $$('.col', colsEl).find((c) => { const r = c.getBoundingClientRect(); return x >= r.left && x < r.right; }) || null;
+}
+
+colsEl.addEventListener('pointermove', (e) => {
+    if (S.drag || S.dragCand || e.pointerType !== 'mouse') return;
+    if (e.target.closest('.ev')) { hideGhost(); return; }
+    const col = e.target.closest('.col');
+    if (!col) { hideGhost(); return; }
+    const sug = suggestStart(col.dataset.date, minFromY(col, e.clientY), S.dur);
+    if (!sug.ok) { hideGhost(); col.style.cursor = 'default'; return; }
+    col.style.cursor = 'pointer';
+    showGhost(col, sug.start, S.dur, `+ ${fromMin(sug.start)}–${fromMin(sug.start + S.dur)}`);
+});
+colsEl.addEventListener('pointerleave', hideGhost);
+
+colsEl.addEventListener('click', (e) => {
+    if (Date.now() < S.suppressClickUntil) return;
+    const evEl = e.target.closest('.ev');
+    if (evEl) { onEventActivate(evEl); return; }
+    const col = e.target.closest('.col');
+    if (!col || !S.loaded) return;
+    const sug = suggestStart(col.dataset.date, minFromY(col, e.clientY), S.dur);
+    if (!sug.ok) { toast(reasonText(sug.chk), 'err'); return; }
+    hideGhost();
+    openLessonModal('book', null, { date: col.dataset.date, time: fromMin(sug.start) });
+});
+colsEl.addEventListener('keydown', (e) => {
+    const evEl = e.target.closest('.ev');
+    if (evEl && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); onEventActivate(evEl); }
+});
+allDayCols.addEventListener('click', (e) => {
+    const el = e.target.closest('.ad-ev');
+    const ev = el && byId(el.dataset.id);
+    if (ev) openPopover(ev, el);
+});
+daysHead.addEventListener('click', (e) => {
+    const dh = e.target.closest('.dh');
+    if (!dh) return;
+    S.anchor = dh.dataset.date;
+    setView(S.view === 1 ? (window.innerWidth < 700 ? 3 : 7) : 1);
+});
+
+function onEventActivate(evEl) {
+    const ev = byId(evEl.dataset.id);
+    if (!ev) return;
+    if (ev.kind === 'busy' && S.role !== 'admin') { toast('Ten termin jest zajęty.'); return; }
+    openPopover(ev, evEl);
+}
+
+/* ─── przeciąganie (mysz) ─── */
+colsEl.addEventListener('pointerdown', (e) => {
+    if (e.button !== 0 || e.pointerType === 'touch') return;
+    const evEl = e.target.closest('.ev');
+    if (!evEl) return;
+    const ev = byId(evEl.dataset.id);
+    if (!ev || !canEdit(ev) || ev.date !== ev.endDate) return;
+    const r = evEl.getBoundingClientRect();
+    S.dragCand = { ev, evEl, x0: e.clientX, y0: e.clientY, offsetMin: (e.clientY - r.top) / S.hourH * 60 };
+    window.addEventListener('pointermove', onDragMove);
+    window.addEventListener('pointerup', onDragEnd);
+    window.addEventListener('pointercancel', onDragEnd);
+    window.addEventListener('blur', onDragEnd);
+});
+
+function onDragMove(e) {
+    const c = S.dragCand;
+    if (!c) return;
+    if (!S.drag) {
+        if (Math.hypot(e.clientX - c.x0, e.clientY - c.y0) < 6) return;
+        S.drag = { ...c, target: null };
+        c.evEl.classList.add('dragging');
+        document.body.classList.add('dragging-ev');
+        hideGhost();
+        closePopover();
+    }
+    const d = S.drag;
+    const col = colAt(e.clientX) || (d.target && colsEl.querySelector(`.col[data-date="${d.target.date}"]`));
+    if (!col) return;
+    const dur = d.ev.duration;
+    let start = Math.round((minFromY(col, e.clientY) - d.offsetMin) / 5) * 5;
+    start = Math.max(S.h0 * 60, Math.min(S.h1 * 60 - dur, start));
+    const date = col.dataset.date;
+    const chk = checkSlot(date, start, dur, d.ev.id);
+    let mode = 'drag';
+    let text = `${fromMin(start)}–${fromMin(start + dur)}`;
+    if (!chk.ok) {
+        mode = 'drag bad';
+        text += ' · ' + (chk.reason === 'busy' ? 'zajęte' : chk.reason === 'hours' ? 'poza godzinami'
+            : chk.reason === 'full' || chk.reason === 'limit' ? 'limit dnia' : 'niedostępne');
+    }
+    d.target = { date, start, ok: chk.ok, chk };
+    showGhost(col, start, dur, text, mode);
+    const br = calBody.getBoundingClientRect();
+    if (e.clientY < br.top + 30) calBody.scrollTop -= 12;
+    else if (e.clientY > br.bottom - 30) calBody.scrollTop += 12;
+}
+
+function onDragEnd(e) {
+    window.removeEventListener('pointermove', onDragMove);
+    window.removeEventListener('pointerup', onDragEnd);
+    window.removeEventListener('pointercancel', onDragEnd);
+    window.removeEventListener('blur', onDragEnd);
+    const cancelled = e && e.type !== 'pointerup';
+    const d = S.drag;
+    S.dragCand = null;
+    S.drag = null;
+    document.body.classList.remove('dragging-ev');
+    if (d) {
+        S.suppressClickUntil = Date.now() + 350;
+        d.evEl.classList.remove('dragging');
+        hideGhost();
+        const t = d.target;
+        if (t && !cancelled) {
+            const same = t.date === d.ev.date && fromMin(t.start) === d.ev.start;
+            if (t.ok && !same) openLessonModal('edit', d.ev, { date: t.date, time: fromMin(t.start), fromDrag: true });
+            else if (!t.ok) toast(reasonText(t.chk), 'err');
+        }
+    }
+    if (S.pendingData && !S.pendingOps) { const p = S.pendingData; S.pendingData = null; applyData(p.data, p.win); setSync('ok'); }
+}
+
+/* ═══ POPOVER ═══ */
+function openPopover(ev, anchorEl) {
+    S.popId = ev.id;
+    popEl.innerHTML = popoverHtml(ev);
+    popEl.hidden = false;
+    popEl.classList.toggle('sheet', window.innerWidth < 640);
+    if (window.innerWidth >= 640) {
+        const r = anchorEl.getBoundingClientRect();
+        const pw = popEl.offsetWidth;
+        const ph = popEl.offsetHeight;
+        let left = r.right + 10;
+        if (left + pw > window.innerWidth - 12) left = r.left - pw - 10;
+        if (left < 12) left = Math.max(12, Math.min(window.innerWidth - pw - 12, r.left));
+        const top = Math.max(12, Math.min(r.top, window.innerHeight - ph - 12));
+        popEl.style.left = left + 'px';
+        popEl.style.top = top + 'px';
+    } else {
+        popEl.style.left = '';
+        popEl.style.top = '';
+    }
+}
+function closePopover() { popEl.hidden = true; S.popId = null; }
+
+const fmtPhone = (p) => { const n = p.replace(/\s+/g, ''); return /^\d{9}$/.test(n) ? n.replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3') : p; };
+
+// Popover lekcji: nagłówek (nazwa + etykiety), termin, kontakt, płatność, równe kafelki akcji.
+function popoverHtml(ev) {
+    const lesson = ev.kind === 'lesson';
+    const admin = S.role === 'admin';
+    const [y, m, d] = ev.date.split('-').map(Number);
+    const gcal = `https://calendar.google.com/calendar/r/day/${y}/${m}/${d}`;
+    const chips = [];
+    if (lesson) {
+        if (ev.mine) chips.push('<span class="pop-chip you">Twoja</span>');
+        if (ev.recurring) chips.push('<span class="pop-chip">↻ co tydzień</span>');
+        if (isOver(ev)) chips.push('<span class="pop-chip">Odbyła się</span>');
+        else if (isStarted(ev)) chips.push('<span class="pop-chip">Trwa</span>');
+    }
+    let h = `<div class="pop-head"><span class="pop-bar" style="--c:${lesson ? LESSON_COLOR : '#5b5b6b'}"></span>
+        <div class="pop-head-main"><div class="pop-title">${esc(lesson ? ev.name : ev.title)}</div>
+            ${chips.length ? `<div class="pop-chips">${chips.join('')}</div>` : ''}</div>
+        <div class="pop-head-btns">${admin ? `<a class="x-btn ext" href="${gcal}" target="_blank" rel="noopener" title="Otwórz w Google Calendar" aria-label="Otwórz w Google Calendar">↗</a>` : ''}
+            <button class="x-btn" type="button" data-act="close" aria-label="Zamknij">×</button></div></div>`;
+    const dateLabel = fmtLong(ev.date) + (ev.allDay && ev.e > addDays(ev.s, 1) ? ' – ' + fmtLong(addDays(ev.e, -1)) : '');
+    const timeLabel = ev.allDay ? 'Cały dzień' : `${ev.start}–${ev.end}${lesson ? `<small>· ${ev.duration} min</small>` : ''}`;
+    h += `<div class="pop-when"><div class="pop-date">${dateLabel}</div><div class="pop-time">${timeLabel}</div></div>`;
+
+    if (!lesson) {
+        return h + (admin
+            ? `<div class="pop-foot">Wydarzenie z Twojego Kalendarza Google — uczniowie widzą je jako „Zajęte”.</div>
+                <div class="pop-grid one"><a class="pop-act" href="${gcal}" target="_blank" rel="noopener"><span class="ai">↗</span>Otwórz w Google Calendar</a></div>`
+            : '<div class="pop-foot">Ten termin jest zajęty.</div>');
+    }
+
+    const info = [];
+    if (ev.email) info.push(`<div class="pop-row"><span class="i">✉</span><a href="mailto:${esc(ev.email)}">${esc(ev.email)}</a></div>`);
+    if (ev.phone) info.push(`<div class="pop-row"><span class="i">☎</span><a href="tel:${esc(ev.phone.replace(/\s+/g, ''))}">${esc(fmtPhone(ev.phone))}</a></div>`);
+    if (ev.topic) info.push(`<div class="pop-row top"><span class="i">💬</span><span class="topic">${esc(ev.topic)}</span></div>`);
+    if (info.length) h += `<div class="pop-info">${info.join('')}</div>`;
+
+    // płatność: status (+ cena i ręczne oznaczanie dla nauczyciela), przycisk „Zapłać” dla każdego
+    const price = admin ? priceOf(ev.key) : null;
+    const amount = price !== null ? `<span>${fmtPrice(price)}</span>` : '';
+    if (ev.paid) {
+        const via = admin && ev.paidVia ? (ev.paidVia === 'card' ? 'karta / BLIK (Stripe) · ' : 'oznaczona ręcznie · ') : '';
+        h += `<div class="pop-pay paid"><div class="pop-pay-main"><div class="pop-pay-l">Płatność</div>
+            <div class="pop-pay-v">${amount}<span class="st ok">✓ Opłacona</span></div>
+            ${admin ? `<div class="pop-pay-sub">${via}<button class="link-btn" type="button" data-act="paid-off">Cofnij</button></div>` : ''}</div></div>`;
+    } else {
+        h += `<div class="pop-pay"><div class="pop-pay-main"><div class="pop-pay-l">Płatność</div>
+            <div class="pop-pay-v">${amount}<span class="st no">Nieopłacona</span></div>
+            ${admin ? '<div class="pop-pay-sub"><button class="link-btn" type="button" data-act="paid-on">✓ Oznacz jako opłaconą</button></div>' : ''}</div>
+            <button class="btn sm primary" type="button" data-act="pay">💳 Zapłać</button></div>`;
+    }
+
+    if (canEdit(ev)) {
+        h += `<div class="pop-grid" style="grid-template-columns:repeat(2,1fr)">
+            <button class="pop-act" type="button" data-act="edit"><span class="ai">⇄</span>Zamień termin</button>
+            <button class="pop-act danger" type="button" data-act="cancel"><span class="ai">✕</span>Odwołaj</button></div>`;
+    } else if (S.role === 'public' && !isStarted(ev)) {
+        h += '<div class="pop-foot">To Twoja lekcja? Zaloguj się w <button class="link-btn" type="button" data-act="mine">Moje lekcje →</button>, żeby zamienić termin albo ją odwołać.</div>';
+    }
+    return h;
+}
+
+popEl.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-act]');
+    if (!b) return;
+    const ev = byId(S.popId);
+    const act = b.dataset.act;
+    if (act === 'close') { closePopover(); return; }
+    if (!ev) { closePopover(); return; }
+    closePopover();
+    if (act === 'edit') openLessonModal('edit', ev, {});
+    else if (act === 'cancel') openCancelModal(ev);
+    else if (act === 'mine') openDrawer();
+    else if (act === 'pay') openPayModal(ev);
+    else if (act === 'paid-on' || act === 'paid-off') setLessonPaid(ev, act === 'paid-on');
+});
+document.addEventListener('pointerdown', (e) => {
+    if (popEl.hidden) return;
+    if (popEl.contains(e.target) || e.target.closest('.ev') || e.target.closest('.ad-ev') || e.target.closest('.li')) return;
+    closePopover();
+});
+calBody.addEventListener('scroll', () => { if (!popEl.hidden && !popEl.classList.contains('sheet')) closePopover(); }, { passive: true });
+
+/* ═══ PŁATNOŚĆ ZA LEKCJĘ ═══
+   Zapłacić może każdy (np. rodzic): przelew z kodem QR dla aplikacji banku albo karta / BLIK / Google Pay
+   przez Stripe (gdy nauczyciel go włączy). Kwotę podaje serwer — z ceny ucznia ustawionej w panelu. */
+const QR_LIB = 'https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js';
+let qrLibP = null;
+function loadQrLib() {
+    if (!qrLibP) qrLibP = new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = QR_LIB;
+        s.onload = () => (window.qrcode ? resolve(window.qrcode) : reject(new Error('QR')));
+        s.onerror = () => { qrLibP = null; reject(new Error('QR')); };
+        document.head.appendChild(s);
+    });
+    return qrLibP;
+}
+const fmtAccount = (a) => a.replace(/(\d{2})(\d{4})(\d{4})(\d{4})(\d{4})(\d{4})(\d{4})/, '$1 $2 $3 $4 $5 $6 $7');
+const fmtAmount = (n) => n.toFixed(2).replace('.', ',');
+// kod QR wg rekomendacji ZBP („Płatności → Skanuj kod QR” w polskich bankach): bez polskich znaków, tytuł do 32 znaków
+const asciiPl = (s) => String(s || '').replace(/ł/g, 'l').replace(/Ł/g, 'L').normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .replace(/[^\x20-\x7e]/g, '').replace(/\|/g, ' ').trim();
+function payTitleOf(name, date, start) {
+    const [y, m, d] = date.split('-');
+    return (name ? name + ' ' : '') + `${d}.${m}.${y} ${start}`;
+}
+function bankQrText(d) {
+    const when = payTitleOf('', d.date, d.start);
+    const name = asciiPl(d.name).slice(0, 32 - when.length - 1).trim();
+    return ['', 'PL', d.account, String(Math.round(d.price * 100)).padStart(6, '0'),
+        asciiPl(d.recipient).slice(0, 20), (name ? name + ' ' : '') + when, '', '', ''].join('|');
+}
+async function copyText(text) {
+    try { await navigator.clipboard.writeText(text); return true; } catch (e) { /* starsze przeglądarki */ }
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0';
+    document.body.appendChild(ta);
+    ta.select();
+    let ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) { /* trudno */ }
+    ta.remove();
+    return ok;
+}
+
+function payHtml(d) {
+    const loading = d.loading;
+    const field = (label, shown, copy) => `<div class="pay-f"><span class="pay-l">${label}</span><span class="pay-v">${esc(shown)}</span>
+        <button class="btn sm ghost" type="button" data-copy="${esc(copy)}">Kopiuj</button></div>`;
+    let h = `<div class="pay-sum"><div class="pay-what"><b>${esc(d.name || 'Lekcja')}</b>
+            <span>${cap(fmtLong(d.date))} · ${d.start}–${d.end} · ${d.duration} min</span></div>
+        <div class="pay-amt${loading ? ' loading' : ''}">${loading ? '…' : d.price !== null ? fmtPrice(d.price) : '—'}</div></div>`;
+    if (d.paid) return h + '<div class="pay-done">✓ Ta lekcja jest już opłacona — dziękujemy!</div>';
+    if (!loading && d.price === null) {
+        h += '<p class="pay-note">Cena tej lekcji nie jest jeszcze ustawiona — kwotę ustal z nauczycielem. Dane do przelewu są poniżej.</p>';
+    }
+    if (loading ? d.cardMaybe : d.card) {
+        h += `<button class="btn primary pay-card" type="button" data-pay="card"${loading ? ' disabled' : ''}>💳 Zapłać kartą · BLIK · Google Pay</button>
+            <div class="pay-or">albo zwykłym przelewem</div>`;
+    }
+    h += `<div class="pay-h">Przelew na konto</div>
+        ${field('Odbiorca', d.recipient, d.recipient)}
+        ${field('Numer konta', fmtAccount(d.account), d.account)}
+        ${field('Tytuł', d.title, d.title)}
+        ${!loading && d.price !== null ? field('Kwota', fmtAmount(d.price) + ' zł', fmtAmount(d.price)) : ''}`;
+    if (!loading && d.price !== null && d.price > 0 && d.price < 10000) {
+        h += `<div class="pay-qr"><div class="pay-qr-img" id="payQr" aria-label="Kod QR do przelewu"></div>
+            <p>Zeskanuj w aplikacji banku: <b>Płatności → Skanuj kod QR</b> (albo „Zrób zdjęcie faktury”). Numer konta, kwota i tytuł uzupełnią się same.</p></div>`;
+    }
+    h += '<p class="pay-note">Przelew zwykle dochodzi w ciągu dnia roboczego — wtedy nauczyciel oznaczy lekcję jako <b>opłaconą</b>.</p>';
+    return h;
+}
+
+async function openPayModal(ev) {
+    const pay = { ...DEFAULT_CFG.pay, ...(S.cfg.pay || {}) };
+    let d = {
+        id: ev.id, name: ev.name === 'Zajęte' ? '' : ev.name, date: ev.date, start: ev.start, end: ev.end, duration: ev.duration,
+        paid: !!ev.paid, price: null, card: false, cardMaybe: pay.card, account: pay.account, recipient: pay.recipient, loading: true
+    };
+    d.title = payTitleOf(d.name, d.date, d.start);
+    openModal('Zapłać za lekcję', `<div id="payBox">${payHtml(d)}</div>`);
+    const box = $('#payBox');
+    box.addEventListener('click', async (e) => {
+        const cp = e.target.closest('[data-copy]');
+        if (cp) {
+            const ok = await copyText(cp.dataset.copy);
+            cp.textContent = ok ? '✓ Skopiowano' : 'Zaznacz i skopiuj';
+            setTimeout(() => { cp.textContent = 'Kopiuj'; }, 1800);
+            return;
+        }
+        const card = e.target.closest('[data-pay="card"]');
+        if (card) {
+            setBtnBusy(card, true, 'Przechodzę do płatności…');
+            try {
+                const res = await api('payCard', { id: d.id });
+                location.href = res.url;
+            } catch (err) {
+                setBtnBusy(card, false);
+                showFormErr(err.message);
+            }
+        }
+    });
+    try {
+        const info = await api('payInfo', { id: ev.id });
+        const s = normEvent({ s: info.s, e: info.e, duration: info.duration });
+        d = { ...d, ...info, date: s.date, start: s.start, end: s.end, loading: false };
+    } catch (err) {
+        if (!/Nieznana akcja/.test(err.message)) {
+            if ($('#payBox') !== box) return;
+            box.innerHTML = payHtml({ ...d, loading: false, cardMaybe: false });
+            showFormErr(err.code === 'GONE' ? err.message : 'Nie udało się pobrać kwoty (' + err.message + '). Dane do przelewu są poniżej.');
+            return;
+        }
+        d = { ...d, loading: false, card: false };          // stary backend: przelew bez kwoty
+    }
+    if ($('#payBox') !== box) return;                    // okno już zamknięte
+    box.innerHTML = payHtml(d);
+    const qrEl = $('#payQr');
+    if (qrEl) {
+        loadQrLib().then((qrcode) => {
+            const qr = qrcode(0, 'M');
+            qr.addData(bankQrText(d));
+            qr.make();
+            qrEl.innerHTML = qr.createSvgTag(4, 2);
+        }).catch(() => { const w = qrEl.closest('.pay-qr'); if (w) w.remove(); });
+    }
+}
+
+/** Panel nauczyciela: przelew doszedł / gotówka → „opłacona” (albo cofnięcie). */
+function setLessonPaid(ev, paid) {
+    runOptimistic({
+        apply: () => {
+            const e = S.events.find((x) => x.id === ev.id);
+            if (e) { e.paid = paid; e.paidVia = paid ? 'manual' : ''; e.saving = true; }
+        },
+        request: () => api('setPaid', { id: ev.id, paid }).catch((err) => {
+            if (/Nieznana akcja/.test(err.message)) err.message = 'Backend nie zna jeszcze płatności — wdróż nową wersję Code.gs (Zarządzaj wdrożeniami → Nowa wersja).';
+            throw err;
+        }),
+        done: () => toast(paid ? `✓ ${ev.name}: lekcja opłacona` : `Cofnięto „opłacona”: ${ev.name}`, 'ok'),
+        failTitle: 'Nie udało się zmienić statusu płatności'
+    });
+}
+
+/** Powrót ze Stripe (?platnosc=cs_…): serwer sprawdza płatność u operatora i oznacza lekcję. */
+async function confirmCardPayment(session) {
+    toast('Sprawdzam płatność…', 'info', 2500);
+    try {
+        const res = await api('payConfirm', { session });
+        if (res.paid) {
+            const l = res.lesson && normEvent(res.lesson);
+            showPopup('success', l ? `Lekcja ${fmtShort(l.date)} o ${l.start} jest opłacona.` : 'Płatność przyjęta.', 'Dziękujemy za płatność!');
+            S.sig = '';
+            refresh();
+        } else {
+            showPopup('error', 'Operator nie potwierdził jeszcze płatności. Jeśli pieniądze zeszły z konta, lekcja oznaczy się jako opłacona automatycznie (najpóźniej następnego dnia).', 'Płatność w toku');
+        }
+    } catch (err) {
+        showPopup('error', err.message, 'Nie udało się sprawdzić płatności');
+    }
+}
+
+/* ═══ MODAL ═══ */
+let modalOnClose = null;
+let modalRaf = 0;
+function openModal(title, html, { wide = false, onClose = null } = {}) {
+    closePopover();
+    modalTitle.textContent = title;
+    modalBody.innerHTML = html;
+    modalCard.classList.toggle('wide', wide);
+    modalOnClose = onClose;
+    modalEl.hidden = false;
+    cancelAnimationFrame(modalRaf);
+    modalRaf = requestAnimationFrame(() => modalEl.classList.add('open'));
+    const first = modalBody.querySelector('input:not([type="hidden"]):not([type="radio"]):not([type="checkbox"]), select, textarea, button.primary');
+    if (first && window.innerWidth >= 700) setTimeout(() => first.focus(), 60);
+}
+function closeModal() {
+    if (modalEl.hidden) return;
+    cancelAnimationFrame(modalRaf);
+    modalEl.classList.remove('open');
+    setTimeout(() => { modalEl.hidden = true; modalBody.innerHTML = ''; }, 180);
+    const fn = modalOnClose;
+    modalOnClose = null;
+    if (fn) fn();
+}
+modalEl.addEventListener('click', (e) => {
+    if (e.target === modalEl || e.target.closest('[data-close]')) closeModal();
+});
+function setBtnBusy(btn, busy, label) {
+    if (!btn) return;
+    if (busy) {
+        btn.dataset.label = btn.innerHTML;
+        btn.innerHTML = `<span class="spin-sm"></span>${esc(label || 'Chwila…')}`;
+        btn.disabled = true;
+    } else {
+        if (btn.dataset.label) btn.innerHTML = btn.dataset.label;
+        btn.disabled = false;
+    }
+}
+function showFormErr(msg) {
+    let el = modalBody.querySelector('.form-err');
+    if (!el) {
+        el = document.createElement('div');
+        el.className = 'form-err';
+        const actions = modalBody.querySelector('.modal-actions');
+        actions.parentNode.insertBefore(el, actions);
+    }
+    el.textContent = msg;
+}
+
+/* ─── nowa lekcja / zmiana terminu ─── */
+function loadContact() {
+    try { return JSON.parse(store.get(LS_KEYS.contact) || '{}') || {}; } catch (e) { return {}; }
+}
+function saveContact(c) { store.set(LS_KEYS.contact, JSON.stringify(c)); }
+const isValidEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+function weeksLabel(w) { return w ? `przez ${w} ${plural(w, 'tydzień', 'tygodnie', 'tygodni')}` : 'do odwołania'; }
+
+function openLessonModal(mode, ev, preset) {
+    const edit = mode === 'edit';
+    const admin = S.role === 'admin';
+    const cfg = S.cfg;
+    const n = nowWaw();
+    const st = {
+        date: preset.date || (ev && ev.date) || '',
+        time: preset.time || (ev && ev.start) || '',
+        dur: (ev && ev.duration) || S.dur,
+        weekly: false,
+        weeks: cfg.seriesWeeks.includes(12) ? 12 : cfg.seriesWeeks[0]
+    };
+    if (!cfg.durations.includes(st.dur)) st.dur = cfg.durations[cfg.durations.length - 1];
+    if (!st.date) { const f = findNextFree(st.dur); st.date = f.date; st.time = st.time || f.time; }
+
+    const contact = loadContact();
+    const me = S.me;
+    const prefill = {
+        name: (me && me.name) || contact.name || '',
+        email: (me && me.email) || contact.email || '',
+        phone: contact.phone || ''
+    };
+    const asMe = !admin && me && me.email;
+
+    const dateAttrs = admin ? '' : `min="${n.date}" max="${addDays(n.date, cfg.maxDaysAhead)}"`;
+    let html = `<form id="lessonForm" novalidate>`;
+    if (edit) {
+        html += `<p class="modal-lead"><b>${esc(ev.name)}</b> · teraz: ${fmtShort(ev.date)} ${ev.start}–${ev.end} (${ev.duration} min)</p>`;
+    }
+    html += `<div class="f-row2 dt">
+            <label class="f"><span>Data</span><input type="date" id="fDate" required value="${st.date}" ${dateAttrs}></label>
+            <label class="f"><span>Godzina</span>${admin
+                ? `<input type="time" id="fTime" required step="300" value="${st.time}">`
+                : '<select id="fTime" required></select>'}</label>
+        </div>
+        <div class="f"><span class="f-lab">Długość lekcji</span>
+            <div class="dur-chips" id="fDur">${cfg.durations.map((d) => `<button type="button" data-d="${d}" class="${d === st.dur ? 'active' : ''}">${d} min</button>`).join('')}</div>
+        </div>
+        <div class="avail" id="fAvail"></div>
+        ${admin ? '<label class="force-row" id="fForceWrap" hidden><input type="checkbox" id="fForce"><span>Tak, dodaj mimo to</span></label>' : ''}`;
+    if (!edit) {
+        html += `<div class="repeat">
+            <label class="switch"><input type="checkbox" id="fWeekly"><span class="sw"></span>
+                <span>Powtarzaj co tydzień<small>ten sam dzień i godzina, np. stała lekcja w każdy wtorek</small></span></label>
+            <div class="repeat-opts" id="fRepeatOpts" hidden>
+                <select id="fWeeks">${cfg.seriesWeeks.map((w) => `<option value="${w}"${w === st.weeks ? ' selected' : ''}>${weeksLabel(w)}</option>`).join('')}</select>
+                <div class="repeat-sum" id="fRepeatSum"></div>
+            </div>
+        </div>`;
+        if (asMe) {
+            html += `<div class="as-who" id="asWho"><span>👤</span><div class="grow">Rezerwujesz jako <b>${esc(me.name || me.email)}</b><div class="dr-sub">${esc(me.email)}</div></div>
+                <button type="button" class="link-btn" id="asWhoChange">inna osoba</button></div>`;
+        }
+        html += `<div id="fPerson"${asMe ? ' hidden' : ''}>
+            <div class="f-row2">
+                <label class="f"><span>${admin ? 'Uczeń (imię i nazwisko / nick)' : 'Imię i nazwisko / nick'}</span>
+                    <input type="text" id="fName" maxlength="80" autocomplete="name" ${admin ? 'list="studentsList"' : ''} value="${esc(admin ? '' : prefill.name)}">
+                    <span class="field-error-msg" id="fNameErr">Podaj imię i nazwisko lub nick.</span></label>
+                <label class="f"><span>Adres email${admin ? ' (opcjonalnie)' : ''}</span>
+                    <input type="email" id="fEmail" maxlength="120" autocomplete="email" value="${esc(admin ? '' : prefill.email)}">
+                    <span class="field-error-msg" id="fEmailErr">Podaj prawidłowy adres email.</span></label>
+            </div>
+            <label class="f"><span>Telefon (opcjonalnie)</span><input type="tel" id="fPhone" maxlength="30" autocomplete="tel" value="${esc(admin ? '' : prefill.phone)}"></label>
+        </div>
+        <label class="f"><span>Temat / czego dotyczy lekcja (opcjonalnie)</span>
+            <textarea id="fTopic" maxlength="600" placeholder="Np. przygotowanie do etapu okręgowego OI, pomoc z konkretnym działem algorytmiki…"></textarea></label>`;
+        if (admin) {
+            html += `<datalist id="studentsList">${S.students.map((s) => `<option value="${esc(s.name)}">${esc(s.email)}</option>`).join('')}</datalist>`;
+        }
+    } else if (ev.recurring) {
+        html += `<div class="f-lab" style="margin-bottom:8px">Ta lekcja jest cykliczna — co zmienić?</div>
+            <div class="radio-list">
+                <label class="radio"><input type="radio" name="fScope" value="one" checked><span>Tylko tę lekcję</span></label>
+                <label class="radio"><input type="radio" name="fScope" value="following"><span>Tę i wszystkie następne<small>nowy dzień tygodnia i godzina obowiązują od teraz co tydzień</small></span></label>
+            </div>`;
+    }
+    html += `<div class="modal-actions">
+            <button type="button" class="btn ghost" data-close>Anuluj</button>
+            <button type="submit" class="btn primary" id="fSubmit">${edit ? 'Zapisz zmianę' : 'Zarezerwuj'}</button>
+        </div>
+        ${!edit && !admin ? '<p class="note-muted">Po rezerwacji dostaniesz maila z potwierdzeniem, zaproszenie do Kalendarza Google i link „Moje lekcje” do zarządzania rezerwacjami.</p>' : ''}
+        ${edit ? '<p class="note-muted">Nauczyciel i uczeń dostaną maila o zmianie.</p>' : ''}
+    </form>
+    <div id="conflictStep" hidden></div>`;
+
+    openModal(edit ? (preset.fromDrag ? 'Przenieść lekcję?' : 'Zamień termin lekcji') : (admin ? 'Dodaj lekcję' : 'Umów lekcję'), html);
+
+    const form = $('#lessonForm');
+    const fDate = $('#fDate');
+    const fTime = $('#fTime');
+    const fAvail = $('#fAvail');
+    const fSubmit = $('#fSubmit');
+    const fForce = $('#fForce');
+    const excludeId = edit ? ev.id : null;
+
+    // Uczeń: lista tylko wolnych godzin w jego godzinach dostępności — nie da się wybrać zajętej ani „zamkniętej”.
+    function fillTimes() {
+        if (admin) return;
+        st.date = fDate.value;
+        const list = freeStarts(st.date, st.dur, excludeId, st.time);
+        const cur = st.time ? toMin(st.time) : -1;
+        fTime.innerHTML = list.length
+            ? list.map((m) => `<option value="${fromMin(m)}">${fromMin(m)} – ${fromMin(m + st.dur)}</option>`).join('')
+            : '<option value="">— brak wolnych godzin —</option>';
+        const pick = list.includes(cur) ? cur : (list.find((m) => m >= cur) ?? list[list.length - 1]);
+        fTime.value = pick === undefined ? '' : fromMin(pick);
+    }
+
+    function update() {
+        st.date = fDate.value;
+        st.time = fTime.value;
+        $$('#fDur button').forEach((b) => b.classList.toggle('active', Number(b.dataset.d) === st.dur));
+        const dayRanges = st.date ? rangesFor(st.date) : [];
+        let ok = false;
+        let outside = false;
+        if (!st.date) {
+            fAvail.className = 'avail';
+            fAvail.textContent = 'Wybierz datę.';
+        } else if (!st.time) {
+            const probe = checkSlot(st.date, dayRanges.length ? dayRanges[0][0] : 0, st.dur, excludeId);
+            const lim = limitFor(st.date);
+            const used = dayLoad(st.date, excludeId);
+            fAvail.className = 'avail bad';
+            fAvail.textContent = '✕ ' + (admin ? 'Wybierz godzinę.'
+                : lim !== null && inLoaded(st.date) && used + st.dur > lim
+                    ? reasonText({ reason: used + minDuration() > lim ? 'full' : 'limit', date: st.date, lim, left: Math.max(0, lim - used) })
+                : !probe.ok && probe.reason !== 'busy' ? reasonText(probe)
+                : `Tego dnia nie ma już wolnych terminów na ${st.dur} min — wybierz inny dzień albo krótszą lekcję.`);
+        } else {
+            const a = toMin(st.time);
+            const chk = checkSlot(st.date, a, st.dur, edit ? ev.id : null);
+            const whenTxt = `${cap(fmtLong(st.date))}, ${st.time}–${fromMin(a + st.dur)}`;
+            if (chk.ok && (chk.outside || chk.overLimit)) {
+                outside = true;
+                fAvail.className = 'avail warn';
+                fAvail.textContent = '⚠ ' + whenTxt + ' — ' + (chk.outside ? 'poza godzinami dostępności'
+                    : `ponad dzienny limit lekcji (${hoursLabel(chk.overLimit.lim)}, zostało ${hoursLabel(chk.overLimit.left)})`) + '. Uczniowie nie mogą tak zarezerwować.';
+                ok = !!(fForce && fForce.checked);
+            }
+            else if (chk.ok && !chk.unknown) { fAvail.className = 'avail ok'; fAvail.textContent = '✓ Wolny termin · ' + whenTxt; ok = true; }
+            else if (chk.ok) { fAvail.className = 'avail'; fAvail.textContent = 'ℹ ' + whenTxt + ' — dostępność sprawdzimy przy zapisie.'; ok = true; }
+            else { fAvail.className = 'avail bad'; fAvail.textContent = '✕ ' + reasonText(chk); }
+        }
+        if (fForce) $('#fForceWrap').hidden = !outside;
+        fSubmit.disabled = !ok;
+        const sum = $('#fRepeatSum');
+        if (sum && st.date && st.time) {
+            const wd = weekday(st.date);
+            const w = st.weeks;
+            sum.textContent = w
+                ? `${lessonsWord(w)} · ${DAY_EVERY[wd]} o ${st.time} · ostatnia ${fmtShort(addDays(st.date, 7 * (w - 1)))}`
+                : `${cap(DAY_EVERY[wd])} o ${st.time}, bez daty końca — kolejne tygodnie dopisują się same.`;
+        }
+    }
+    // Safari na iPhonie/iPadzie nie zawsze wysyła „input” — słuchamy też „change”.
+    const onDate = () => { fillTimes(); update(); };
+    fDate.addEventListener('input', onDate);
+    fDate.addEventListener('change', onDate);
+    fTime.addEventListener('input', update);
+    fTime.addEventListener('change', update);
+    if (fForce) fForce.addEventListener('change', update);
+    $('#fDur').addEventListener('click', (e) => {
+        const b = e.target.closest('button[data-d]');
+        if (!b) return;
+        st.dur = Number(b.dataset.d);
+        fillTimes();
+        update();
+    });
+    const fWeekly = $('#fWeekly');
+    if (fWeekly) {
+        fWeekly.addEventListener('change', () => { st.weekly = fWeekly.checked; $('#fRepeatOpts').hidden = !st.weekly; update(); });
+        $('#fWeeks').addEventListener('change', (e) => { st.weeks = Number(e.target.value); update(); });
+    }
+    const change = $('#asWhoChange');
+    if (change) change.addEventListener('click', () => { $('#asWho').hidden = true; $('#fPerson').hidden = false; $('#fName').focus(); });
+    if (admin && !edit) {
+        $('#fName').addEventListener('change', () => {
+            const s = S.students.find((x) => x.name.toLowerCase() === $('#fName').value.trim().toLowerCase());
+            if (s) { $('#fEmail').value = s.email; $('#fPhone').value = s.phone || ''; }
+        });
+    }
+    fillTimes();
+    update();
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        update();
+        if (fSubmit.disabled) return;
+        // ostatnie sprawdzenie tuż przed zapisem (np. gdy przeglądarka nie zgłosiła zmiany godziny)
+        const chk = st.time ? checkSlot(st.date, toMin(st.time), st.dur, excludeId) : { ok: false, reason: 'invalid' };
+        if (!chk.ok) { showFormErr(reasonText(chk)); return; }
+        if ((chk.outside || chk.overLimit) && !(fForce && fForce.checked)) { showFormErr('Zaznacz „Tak, dodaj mimo to”.'); return; }
+        if (edit) { submitMove(ev, st); return; }
+        const person = {
+            name: $('#fName').value.trim(),
+            email: $('#fEmail').value.trim(),
+            phone: $('#fPhone').value.trim()
+        };
+        const nameOk = !!person.name;
+        const emailOk = admin ? (!person.email || isValidEmail(person.email)) : isValidEmail(person.email);
+        if (!nameOk || !emailOk) {
+            $('#fPerson').hidden = false;
+            if ($('#asWho')) $('#asWho').hidden = true;
+        }
+        fieldErr($('#fName'), $('#fNameErr'), !nameOk);
+        fieldErr($('#fEmail'), $('#fEmailErr'), !emailOk);
+        if (!nameOk || !emailOk) return;
+        const payload = {
+            date: st.date, time: st.time, duration: st.dur, ...person,
+            topic: $('#fTopic').value.trim(),
+            repeat: st.weekly ? { weekly: true, weeks: st.weeks } : null
+        };
+        await submitBook(payload, fSubmit);
+    });
+}
+
+function fieldErr(input, msgEl, show) {
+    if (!input) return;
+    input.classList.remove('input-error');
+    if (show) { void input.offsetWidth; input.classList.add('input-error'); }
+    if (msgEl) msgEl.classList.toggle('visible', show);
+}
+
+function createdEvents(res) {
+    return (res.created || []).map(normEvent).map((e) => (S.role === 'admin' ? { ...e, mine: false, canEdit: true } : e));
+}
+function afterBooked(res, payload, series) {
+    if (S.role !== 'admin') saveContact({ name: payload.name, email: payload.email, phone: payload.phone });
+    if (res.token) setToken(res.token);
+    S.dur = payload.duration;
+    store.set(LS_KEYS.dur, String(S.dur));
+    const created = res.created || [];
+    const first = created[0] ? normEvent(created[0]) : null;
+    let desc = '';
+    if (series && first) {
+        desc = `${lessonsWord(created.length)} · ${DAY_EVERY[weekday(first.date)]} o ${first.start} (${payload.duration} min), od ${fmtShort(first.date)}.`;
+        if (res.skipped && res.skipped.length) desc += ` Pominięte zajęte: ${res.skipped.map(fmtShort).join(', ')}.`;
+    } else if (first) {
+        desc = `${cap(fmtLong(first.date))}, ${first.start}–${first.end} (${payload.duration} min).`;
+    }
+    if (payload.email) desc += S.role === 'admin' ? ` Uczeń dostanie maila na ${payload.email}.` : ` Potwierdzenie wysłaliśmy na ${payload.email}.`;
+    showPopup('success', desc, S.role === 'admin' ? 'Lekcja dodana!' : (series ? 'Lekcje zarezerwowane!' : 'Termin zarezerwowany!'));
+}
+
+async function submitBook(payload, btn, skipConflicts = false) {
+    const series = payload.repeat && payload.repeat.weekly;
+    if (!series) {
+        closeModal();
+        const temp = normEvent({
+            id: 'tmp-' + Date.now(), kind: 'lesson', s: payload.date + 'T' + payload.time,
+            e: isoAt(payload.date, toMin(payload.time) + payload.duration), duration: payload.duration,
+            name: payload.name, mine: S.role !== 'admin', key: 'tmp', saving: true
+        });
+        runOptimistic({
+            apply: () => { S.events.push(temp); },
+            request: () => api('book', payload),
+            pending: 'Rezerwuję termin…',
+            done: (res) => {
+                S.events = S.events.filter((e) => e.id !== temp.id).concat(createdEvents(res));
+                render();
+                afterBooked(res, payload, false);
+            },
+            failTitle: 'Nie udało się zarezerwować'
+        });
+        return;
+    }
+    setBtnBusy(btn, true, 'Rezerwuję serię…');
+    try {
+        const res = await api('book', { ...payload, skipConflicts });
+        S.selfUntil = Date.now() + 15000;
+        S.cache.clear();
+        closeModal();
+        S.events = S.events.concat(createdEvents(res));
+        render();
+        afterBooked(res, payload, true);
+        const first = res.created && res.created[0] ? normEvent(res.created[0]) : null;
+        if (first) {
+            const R = currentRange();
+            if (first.date < R.from || first.date >= R.to) { S.anchor = first.date; onRangeChange(); return; }
+        }
+        refresh();
+    } catch (err) {
+        setBtnBusy(btn, false);
+        if (err.code === 'CONFLICTS') { showConflictStep(err.data, payload); return; }
+        showFormErr(err.message);
+        if (err.code === 'CONFLICT') refresh();
+    }
+}
+
+function showConflictStep(data, payload) {
+    const form = $('#lessonForm');
+    const box = $('#conflictStep');
+    const free = data.total - data.conflicts.length;
+    form.hidden = true;
+    box.hidden = false;
+    box.innerHTML = `<p class="modal-lead"><b>${data.conflicts.length} z ${data.total}</b> terminów tej serii jest zajętych${data.limitNote ? ' albo przekracza dzienny limit' : ''}:</p>
+        ${data.limitNote ? `<p class="note-muted" style="margin:-6px 0 8px">${esc(data.limitNote)}</p>` : ''}
+        <ul class="conflict-list">${data.conflicts.map((d) => `<li>${fmtShort(d)} ${payload.time}</li>`).join('')}</ul>
+        <p class="modal-lead" style="margin-top:14px">Zarezerwować pozostałe <b>${lessonsWord(free)}</b>? Zajęte tygodnie zostaną pominięte.</p>
+        <div class="modal-actions">
+            <button type="button" class="btn ghost" id="cBack">Wróć</button>
+            <button type="button" class="btn primary" id="cGo">Zarezerwuj ${lessonsWord(free)}</button>
+        </div>`;
+    $('#cBack').onclick = () => { box.hidden = true; form.hidden = false; };
+    $('#cGo').onclick = () => submitBook(payload, $('#cGo'), true);
+}
+
+async function submitMove(ev, st) {
+    const scopeEl = modalBody.querySelector('input[name="fScope"]:checked');
+    const scope = scopeEl ? scopeEl.value : 'one';
+    closeModal();
+    runOptimistic({
+        apply: () => {
+            const i = S.events.findIndex((x) => x.id === ev.id);
+            if (i >= 0) {
+                S.events[i] = normEvent({ ...S.events[i], s: st.date + 'T' + st.time, e: isoAt(st.date, toMin(st.time) + st.dur), duration: st.dur });
+                S.events[i].saving = true;
+            }
+        },
+        request: () => api('move', { id: ev.id, date: st.date, time: st.time, duration: st.dur, scope }),
+        pending: 'Zapisuję nowy termin…',
+        done: (res) => toast(res.moved > 1 ? `✓ Zmieniono termin ${lessonsWord(res.moved)}` : '✓ Zmieniono termin lekcji', 'ok'),
+        failTitle: 'Nie udało się zmienić terminu'
+    });
+    const R = currentRange();
+    if (st.date < R.from || st.date >= R.to) { S.anchor = st.date; onRangeChange(); }
+}
+
+// Zmiana pokazuje się od razu (pasiasty blok = zapisuję), a serwer potwierdza w tle. Błąd cofa zmianę.
+async function runOptimistic({ apply, request, pending, done, failTitle }) {
+    const snapshot = { events: S.events.map((e) => ({ ...e })), cfg: S.cfg };
+    S.pendingOps++;
+    S.selfUntil = Date.now() + 60000;
+    apply();
+    render();
+    if (pending) toast(pending, 'info', 2500);
+    setSync('busy');
+    try {
+        const res = await request();
+        S.events.forEach((e) => { e.saving = false; });   // serwer potwierdził — zdejmujemy paski od razu
+        render();
+        S.cache.clear();
+        if (done) done(res);
+        return res;
+    } catch (err) {
+        S.events = snapshot.events;
+        S.cfg = snapshot.cfg;
+        render();
+        showPopup('error', err.message, failTitle);
+        return null;
+    } finally {
+        S.pendingOps--;
+        S.pendingData = null;
+        if (!S.pendingOps) { S.sig = ''; S.selfUntil = Date.now() + 15000; refresh(); }
+    }
+}
+function isoAt(date, min) { return min >= 1440 ? addDays(date, 1) + 'T' + fromMin(min - 1440) : date + 'T' + fromMin(min); }
+
+/* ─── odwołanie ─── */
+function openCancelModal(ev) {
+    const html = `<p class="modal-lead"><b>${esc(ev.name)}</b> · ${cap(fmtLong(ev.date))}, ${ev.start}–${ev.end} (${ev.duration} min)</p>
+        ${ev.recurring ? `<div class="radio-list">
+            <label class="radio"><input type="radio" name="cScope" value="one" checked><span>Tylko tę lekcję</span></label>
+            <label class="radio"><input type="radio" name="cScope" value="following"><span>Tę i wszystkie następne<small>kończy lekcje cykliczne od tego dnia</small></span></label>
+        </div>` : ''}
+        <p class="note-muted">${S.role === 'admin' ? 'Uczeń dostanie maila o odwołaniu.' : 'Nauczyciel dostanie maila o odwołaniu, a termin zwolni się dla innych.'}</p>
+        <div class="modal-actions">
+            <button type="button" class="btn ghost" data-close>Nie, zostaw</button>
+            <button type="button" class="btn danger" id="cOk">Odwołaj lekcję</button>
+        </div>`;
+    openModal('Odwołać lekcję?', html);
+    $('#cOk').onclick = () => {
+        const scopeEl = modalBody.querySelector('input[name="cScope"]:checked');
+        const scope = scopeEl ? scopeEl.value : 'one';
+        closeModal();
+        runOptimistic({
+            apply: () => {
+                S.events = S.events.filter((x) => !(x.id === ev.id
+                    || (scope === 'following' && ev.seriesId && x.seriesId === ev.seriesId && x.date >= ev.date)));
+            },
+            request: () => api('cancel', { id: ev.id, scope }),
+            pending: 'Odwołuję lekcję…',
+            done: (res) => toast(res.cancelled > 1 ? `✓ Odwołano ${lessonsWord(res.cancelled)}` : '✓ Lekcja odwołana', 'ok'),
+            failTitle: 'Nie udało się odwołać lekcji'
+        });
+    };
+}
+
+/* ─── godziny dostępności (nauczyciel) ─── */
+function currentAvailability() {
+    const out = {};
+    for (let d = 0; d < 7; d++) {
+        const list = S.cfg.availability ? (S.cfg.availability[d] || []) : [[S.cfg.dayStart, S.cfg.dayEnd]];
+        out[d] = list.map((r) => [r[0], r[1]]);
+    }
+    return out;
+}
+function currentLimits() {
+    const out = {};
+    for (let d = 0; d < 7; d++) { const v = (S.cfg.limits || {})[d]; out[d] = v ? Number(v) : null; }
+    return out;
+}
+const LIMIT_OPTIONS = [15, 20, 30, 40, 45, 60, 75, 80, 90, 105, 120, 135, 150, 165, 180, 210, 240, 270, 300, 330, 360, 420, 480, 540, 600];
+function availabilitySummaryHtml() {
+    const av = currentAvailability();
+    const lim = currentLimits();
+    return `<div class="av-sum">${WEEK_ORDER.map((d) => `<span>${DAY_SHORT[d]}</span>${av[d].length
+        ? `<b>${av[d].map((r) => r[0] + '–' + r[1]).join(', ')} · ${lim[d] ? `⏱ max ${hoursLabel(lim[d])}` : '<span class="nolim">bez limitu</span>'}</b>` : '<b class="off">brak lekcji</b>'}`).join('')}</div>`;
+}
+
+function openAvailabilityEditor() {
+    const av = currentAvailability();
+    const lim = currentLimits();
+    const lastUsed = () => {
+        for (const d of WEEK_ORDER) if (av[d].length) return av[d].map((r) => [r[0], r[1]]);
+        return [[S.cfg.dayStart, S.cfg.dayEnd]];
+    };
+    const rowHtml = (d) => {
+        const on = av[d].length > 0;
+        return `<div class="av-row${on ? '' : ' off'}" data-d="${d}">
+            <label class="switch"><input type="checkbox" data-av="toggle"${on ? ' checked' : ''}><span class="sw"></span><span class="av-day">${cap(DAY_LONG[d])}</span></label>
+            <div class="av-ranges">${on
+                ? av[d].map((r, i) => `<div class="av-range" data-i="${i}">
+                    <input type="time" step="300" value="${r[0]}" data-k="0" aria-label="Od">
+                    <span>–</span>
+                    <input type="time" step="300" value="${r[1]}" data-k="1" aria-label="Do">
+                    <button type="button" class="ibtn danger" data-av="del" title="Usuń przedział">✕</button></div>`).join('')
+                  + `<label class="av-limit">⏱ Limit lekcji na dzień:
+                        <select data-av="limit">
+                            <option value="">bez limitu</option>
+                            ${LIMIT_OPTIONS.map((m) => `<option value="${m}"${lim[d] === m ? ' selected' : ''}>${hoursLabel(m)}</option>`).join('')}
+                            ${lim[d] && !LIMIT_OPTIONS.includes(lim[d]) ? `<option value="${lim[d]}" selected>${hoursLabel(lim[d])}</option>` : ''}
+                        </select></label>`
+                  + `<div class="av-links"><button type="button" class="link-btn" data-av="add">+ dodaj przedział</button>
+                     <button type="button" class="link-btn av-copy" data-av="copy">kopiuj te godziny do wszystkich dni</button></div>`
+                : '<span class="av-closed">brak lekcji tego dnia</span>'}</div>
+        </div>`;
+    };
+    openModal('Godziny i limity lekcji', `
+        <p class="modal-lead">Ustaw, w jakich godzinach uczniowie mogą rezerwować lekcje — osobno dla każdego dnia. Możesz dodać kilka przedziałów w jednym dniu i <b>limit lekcji na dzień</b> (np. w poniedziałki najwyżej 1 h). Ty w panelu możesz dodawać lekcje o dowolnej porze i ponad limit.</p>
+        <div class="av-days" id="avDays"></div>
+        <p class="note-muted">Istniejące lekcje zostają bez zmian. Jednorazowy wyjątek (np. wolny dzień) ustawisz, dodając wydarzenie w Google Calendar — ten czas od razu będzie zajęty.</p>
+        <div class="modal-actions">
+            <button type="button" class="btn ghost" data-close>Anuluj</button>
+            <button type="button" class="btn primary" id="avSave">Zapisz godziny</button>
+        </div>`, { wide: true });
+    const box = $('#avDays');
+    const draw = () => { box.innerHTML = WEEK_ORDER.map(rowHtml).join(''); };
+    draw();
+    box.addEventListener('change', (e) => {
+        const row = e.target.closest('.av-row');
+        if (!row) return;
+        const d = Number(row.dataset.d);
+        if (e.target.dataset.av === 'toggle') {
+            av[d] = e.target.checked ? lastUsed() : [];
+            if (!e.target.checked) lim[d] = null;
+            draw();
+        } else if (e.target.dataset.av === 'limit') {
+            lim[d] = e.target.value ? Number(e.target.value) : null;
+        } else if (e.target.dataset.k) {
+            const i = Number(e.target.closest('.av-range').dataset.i);
+            av[d][i][Number(e.target.dataset.k)] = e.target.value;
+        }
+    });
+    box.addEventListener('click', (e) => {
+        const b = e.target.closest('button[data-av]');
+        if (!b) return;
+        const d = Number(b.closest('.av-row').dataset.d);
+        if (b.dataset.av === 'add') {
+            const last = av[d][av[d].length - 1];
+            const from = last ? Math.min(toMin(last[1]) + 60, 22 * 60) : 17 * 60;
+            av[d].push([fromMin(from), fromMin(Math.min(from + 120, 23 * 60 + 55))]);
+        } else if (b.dataset.av === 'del') {
+            av[d].splice(Number(b.closest('.av-range').dataset.i), 1);
+        } else if (b.dataset.av === 'copy') {
+            for (let x = 0; x < 7; x++) if (x !== d) { av[x] = av[d].map((r) => [r[0], r[1]]); lim[x] = lim[d]; }
+            toast(`Skopiowano godziny: ${DAY_LONG[d]} → wszystkie dni`);
+        }
+        draw();
+    });
+    $('#avSave').onclick = async () => {
+        for (const d of WEEK_ORDER) {
+            const list = av[d].map((r) => [r[0], r[1]]).sort((x, y) => toMin(x[0]) - toMin(y[0]));
+            for (let i = 0; i < list.length; i++) {
+                const [a, b] = list[i];
+                if (!a || !b) { showFormErr(`${cap(DAY_LONG[d])}: uzupełnij godziny.`); return; }
+                if (toMin(a) >= toMin(b)) { showFormErr(`${cap(DAY_LONG[d])}: ${a}–${b} — początek musi być przed końcem.`); return; }
+                if (toMin(a) % S.cfg.slotStep || toMin(b) % S.cfg.slotStep) { showFormErr(`${cap(DAY_LONG[d])}: godziny muszą być co ${S.cfg.slotStep} minut.`); return; }
+                if (i && toMin(a) < toMin(list[i - 1][1])) { showFormErr(`${cap(DAY_LONG[d])}: przedziały nachodzą na siebie.`); return; }
+            }
+            av[d] = list;
+            if (!list.length) lim[d] = null;
+        }
+        closeModal();
+        const res = await runOptimistic({
+            apply: () => { S.cfg = { ...S.cfg, availability: av, limits: lim }; },
+            request: () => api('setAvailability', { days: av, limits: lim }).catch((err) => {
+                if (/Nieznana akcja/.test(err.message)) err.message = 'Backend nie zna jeszcze tej funkcji — wdróż nową wersję Code.gs (Zarządzaj wdrożeniami → Nowa wersja).';
+                throw err;
+            }),
+            pending: 'Zapisuję godziny…',
+            done: () => toast('✓ Godziny dostępności zapisane — uczniowie widzą je od razu', 'ok', 4500),
+            failTitle: 'Nie udało się zapisać godzin'
+        });
+        if (res && !drawerEl.hidden) renderDrawer();
+    };
+}
+
+/* ─── logowanie nauczyciela ─── */
+function openAdminLogin() {
+    if (S.role === 'admin') { openDrawer(); return; }
+    openModal('Panel nauczyciela', `<form id="admForm">
+        <p class="modal-lead">Po zalogowaniu widzisz pełne dane uczniów, możesz dodawać lekcje dowolnym osobom, zmieniać ich terminy i odwoływać je.</p>
+        <label class="f"><span>Hasło</span><input type="password" id="admPw" autocomplete="current-password" required></label>
+        <div class="modal-actions"><button type="button" class="btn ghost" data-close>Anuluj</button><button type="submit" class="btn primary" id="admOk">Zaloguj</button></div>
+    </form>`);
+    $('#admForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = $('#admOk');
+        setBtnBusy(btn, true, 'Sprawdzam…');
+        try {
+            const res = await api('adminLogin', { password: $('#admPw').value });
+            setAdmin(res.adminToken);
+            closeModal();
+            toast('✓ Panel nauczyciela włączony', 'ok');
+            S.sig = '';
+            refresh();
+        } catch (err) {
+            setBtnBusy(btn, false);
+            showFormErr(err.message);
+        }
+    });
+}
+
+/* ═══ SZUFLADA: MOJE LEKCJE / PANEL ═══ */
+function openDrawer() {
+    closePopover();
+    renderDrawer();
+    drawerEl.hidden = false;
+    requestAnimationFrame(() => drawerEl.classList.add('open'));
+}
+function closeDrawer() {
+    drawerEl.classList.remove('open');
+    setTimeout(() => { drawerEl.hidden = true; }, 260);
+}
+
+function lessonLi(e, actions) {
+    const d = dparse(e.date);
+    return `<div class="li" data-id="${esc(e.id)}">
+        <div class="date-badge"><div class="dn">${DAY_SHORT[d.getUTCDay()]}</div><div class="dd">${d.getUTCDate()}</div></div>
+        <div class="li-main"><div class="li-title">${e.start}–${e.end} · ${e.duration} min${e.recurring ? ' · ↻' : ''}${e.paid ? ' · <span class="paid-txt">✓ opłacona</span>' : ''}</div>
+            <div class="li-sub">${esc(e.mine || S.role !== 'admin' ? MONTH_GEN[d.getUTCMonth()] + ' ' + d.getUTCFullYear() : e.name)}</div></div>
+        <div class="li-actions">${actions}</div></div>`;
+}
+
+const fmtPrice = (n) => n.toLocaleString('pl-PL', { maximumFractionDigits: 2 }) + ' zł';
+const priceVal = (p) => (typeof p === 'number' ? String(p).replace('.', ',') : '');
+function priceOf(key) {
+    const s = key && S.students.find((x) => x.key === key);
+    return s && typeof s.price === 'number' ? s.price : null;
+}
+async function savePrice(input) {
+    const s = S.students.find((x) => x.email === input.dataset.price);
+    if (!s) return;
+    const prev = typeof s.price === 'number' ? s.price : null;
+    const raw = input.value.replace(/\s/g, '').replace(',', '.');
+    const price = raw === '' ? null : Math.round(Number(raw) * 100) / 100;
+    if (price !== null && !(price >= 0 && price <= 100000)) {
+        fieldErr(input, null, true);
+        toast('Nieprawidłowa cena — wpisz kwotę w zł, np. 120 albo 99,50', 'err', 4500);
+        input.value = priceVal(prev);
+        return;
+    }
+    if (price === prev) return;
+    input.classList.add('saving');
+    // runOptimistic wstrzymuje odświeżanie w trakcie zapisu, więc stara cena z serwera nie nadpisze nowej
+    const res = await runOptimistic({
+        apply: () => { s.price = price; },
+        request: () => api('setPrice', { email: s.email, price }).catch((err) => {
+            if (/Nieznana akcja/.test(err.message)) err.message = 'Backend nie zna jeszcze cen — wdróż nową wersję Code.gs (Zarządzaj wdrożeniami → Nowa wersja).';
+            throw err;
+        }),
+        done: () => toast(price === null ? `Usunięto cenę: ${s.name}` : `✓ ${s.name}: ${fmtPrice(price)} za lekcję`, 'ok'),
+        failTitle: 'Nie udało się zapisać ceny'
+    });
+    if (!res) { s.price = prev; input.value = priceVal(prev); }
+    input.classList.remove('saving');
+    if (!drawerEl.hidden) renderDrawer();
+}
+
+function renderDrawer() {
+    // nie przerywaj wpisywania ceny odświeżeniem kalendarza
+    const act = document.activeElement;
+    if (act && act.matches('[data-price]') && drawerPanel.contains(act)) return;
+    let h = '';
+    if (S.role === 'admin') {
+        const R = currentRange();
+        const lessons = S.events.filter((e) => e.kind === 'lesson' && e.date >= R.from && e.date < R.to);
+        const total = lessons.reduce((s, e) => s + e.duration, 0);
+        const groups = new Map();
+        lessons.forEach((e) => {
+            const g = groups.get(e.key) || { name: e.name, email: e.email, phone: e.phone, count: 0, min: 0, paid: 0, price: priceOf(e.key) };
+            g.count++;
+            g.min += e.duration;
+            if (e.paid) g.paid++;
+            groups.set(e.key, g);
+        });
+        const earned = [...groups.values()].reduce((s, g) => s + (g.price === null ? 0 : g.price * g.count), 0);
+        const allOpen = !!drawerPanel.querySelector('details.dr-students[open]');
+        h += `<div class="dr-top"><h3>Panel nauczyciela</h3><button class="x-btn" type="button" data-close-drawer aria-label="Zamknij">×</button></div>
+            <div class="dr-sub">Maile o zmianach idą na: <b>${esc(S.notifyTo || '—')}</b></div>
+            <div class="dr-sec"><h4>${esc(rangeLabel(R))}</h4>
+            <div class="stats${earned ? ' four' : ''}"><div class="stat"><b>${lessons.length}</b><span>${plural(lessons.length, 'lekcja', 'lekcje', 'lekcji')}</span></div>
+            <div class="stat"><b>${hoursLabel(total)}</b><span>łącznie</span></div>
+            <div class="stat"><b>${groups.size}</b><span>${plural(groups.size, 'uczeń', 'uczniów', 'uczniów')}</span></div>
+            ${earned ? `<div class="stat"><b>${fmtPrice(earned)}</b><span>za lekcje</span></div>` : ''}</div></div>`;
+        h += `<div class="dr-sec"><h4>Godziny i limity lekcji</h4>${availabilitySummaryHtml()}
+            <button class="btn sm primary" type="button" data-dr="avail">🕒 Zmień godziny i limity</button></div>`;
+        h += `<div class="dr-sec"><h4>Uczniowie w tym widoku</h4>${groups.size ? [...groups.values()].sort((a, b) => b.min - a.min).map((g) => `
+            <div class="li"><div class="li-main"><div class="li-title">${esc(g.name)}</div>
+            <div class="li-sub">${lessonsWord(g.count)} · ${hoursLabel(g.min)}${g.price !== null ? ' · ' + fmtPrice(g.price) + '/lekcja = <b>' + fmtPrice(g.price * g.count) + '</b>' : ''} · opłacone ${g.paid}/${g.count}${g.email ? ' · ' + esc(g.email) : ''}${g.phone ? ' · ' + esc(g.phone) : ''}</div></div></div>`).join('')
+            : '<p class="dr-text">Brak lekcji w tym widoku.</p>'}</div>`;
+        if (S.students.length) {
+            h += `<div class="dr-sec"><details class="dr-more dr-students"${allOpen ? ' open' : ''}><summary>Wszyscy uczniowie i ceny (${S.students.length})</summary>
+                ${S.students.map((s) => `<div class="li"><div class="li-main"><div class="li-title">${esc(s.name)}</div>
+                <div class="li-sub"><a href="mailto:${esc(s.email)}" style="color:inherit">${esc(s.email)}</a>${s.phone ? ' · ' + esc(s.phone) : ''}</div></div>
+                <label class="price-in" title="Cena za lekcję — widzisz ją tylko Ty"><input type="text" inputmode="decimal" maxlength="9" autocomplete="off" placeholder="—" aria-label="Cena za lekcję: ${esc(s.name)}"
+                    data-price="${esc(s.email)}" value="${priceVal(s.price)}"> zł</label></div>`).join('')}
+            </details></div>`;
+        }
+        h += appSectionHtml();
+        h += `<div class="dr-foot"><button class="btn primary" type="button" data-dr="new">＋ Dodaj lekcję</button>
+            <button class="btn" type="button" data-dr="tv">⛶ Tryb ekranu</button>
+            <button class="btn ghost" type="button" data-dr="logout-admin">Wyloguj panel</button></div>`;
+    } else if (S.me) {
+        const me = S.me;
+        h += `<div class="dr-top"><div class="avatar">${esc((me.name || me.email).charAt(0).toUpperCase())}</div>
+            <div style="flex:1;min-width:0"><h3 style="font:700 19px var(--font-display)">${esc(me.name || 'Moje lekcje')}</h3><div class="dr-sub">${esc(me.email)}</div></div>
+            <button class="x-btn" type="button" data-close-drawer aria-label="Zamknij">×</button></div>`;
+        h += `<div class="dr-sec"><h4>Nadchodzące lekcje <span class="cnt">${me.upcoming.length}</span></h4>`;
+        if (me.upcoming.length) {
+            h += me.upcoming.map((e) => lessonLi(e, `
+                <button class="ibtn" type="button" title="Pokaż w kalendarzu" data-li="show">👁</button>
+                ${e.paid ? '' : '<button class="ibtn" type="button" title="Zapłać za lekcję" data-li="pay">💳</button>'}
+                ${canEdit(e) ? `<button class="ibtn" type="button" title="Zamień termin" data-li="edit">⇄</button>
+                <button class="ibtn danger" type="button" title="Odwołaj" data-li="cancel">✕</button>` : ''}`)).join('');
+        } else {
+            h += '<p class="dr-text">Nie masz zaplanowanych lekcji. Kliknij wolne miejsce w kalendarzu, aby umówić lekcję.</p>';
+        }
+        h += '</div>' + appSectionHtml();
+        h += `<div class="dr-foot"><button class="btn primary" type="button" data-dr="new">＋ Umów lekcję</button>
+            <button class="btn ghost" type="button" data-dr="logout">Wyloguj z tego urządzenia</button></div>`;
+    } else {
+        h += `<div class="dr-top"><h3>Moje lekcje</h3><button class="x-btn" type="button" data-close-drawer aria-label="Zamknij">×</button></div>
+            <p class="dr-text">Tu zobaczysz swoje lekcje, zamienisz ich termin, odwołasz je albo za nie zapłacisz.</p>
+            <p class="dr-text" style="margin-top:10px">Pierwsza rezerwacja na tym urządzeniu loguje automatycznie. Na innym urządzeniu albo w zainstalowanej aplikacji zaloguj się <b>kodem z maila</b>:</p>
+            <form id="linkForm" style="margin-top:16px">
+                <label class="f"><span>Twój adres email (ten z rezerwacji)</span><input type="email" id="linkEmail" required autocomplete="email" value="${esc(loadContact().email || '')}"></label>
+                <button class="btn primary" type="submit" id="linkBtn" style="width:100%">Wyślij mi kod</button>
+            </form>
+            <form id="codeForm" style="margin-top:14px" hidden>
+                <label class="f"><span>Kod z maila (6 cyfr, ważny 30 min)</span><input type="text" id="codeInput" class="code-input" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="••••••"></label>
+                <button class="btn primary" type="submit" id="codeBtn" style="width:100%">Zaloguj</button>
+            </form>
+            <button class="link-btn" type="button" id="haveCode" style="margin-top:10px">Mam już kod z maila</button>
+            ${appSectionHtml()}
+            <div class="dr-foot" style="margin-top:34px"><button class="btn ghost sm" type="button" data-dr="admin">🔒 Panel nauczyciela</button></div>`;
+    }
+    drawerPanel.innerHTML = h;
+    const lf = $('#linkForm');
+    if (lf) {
+        lf.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = $('#linkEmail').value.trim();
+            if (!isValidEmail(email)) { fieldErr($('#linkEmail'), null, true); return; }
+            const btn = $('#linkBtn');
+            setBtnBusy(btn, true, 'Wysyłam…');
+            try {
+                await api('sendLink', { email });
+                btn.innerHTML = '✓ Sprawdź skrzynkę';
+                toast('Jeśli masz u nas rezerwację, kod i link są już w drodze na ' + email, 'ok', 5000);
+                $('#codeForm').hidden = false;
+                $('#haveCode').hidden = true;
+                $('#codeInput').focus();
+            } catch (err) {
+                setBtnBusy(btn, false);
+                toast(err.message, 'err');
+            }
+        });
+        $('#haveCode').addEventListener('click', () => { $('#codeForm').hidden = false; $('#haveCode').hidden = true; $('#codeInput').focus(); });
+        $('#codeForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = $('#linkEmail').value.trim();
+            const code = $('#codeInput').value.replace(/\D/g, '');
+            if (!isValidEmail(email)) { fieldErr($('#linkEmail'), null, true); return; }
+            if (code.length !== 6) { fieldErr($('#codeInput'), null, true); return; }
+            const btn = $('#codeBtn');
+            setBtnBusy(btn, true, 'Loguję…');
+            try {
+                const res = await api('loginCode', { email, code });
+                setToken(res.token);
+                saveContact({ ...loadContact(), email });
+                S.sig = '';
+                toast('✓ Zalogowano — widzisz swoje lekcje', 'ok');
+                await refresh();
+                renderDrawer();
+            } catch (err) {
+                setBtnBusy(btn, false);
+                fieldErr($('#codeInput'), null, true);
+                toast(err.message, 'err');
+            }
+        });
+    }
+}
+
+drawerEl.addEventListener('change', (e) => {
+    if (e.target.matches('[data-price]')) savePrice(e.target);
+});
+drawerEl.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && e.target.matches('[data-price]')) { e.preventDefault(); e.target.blur(); }
+});
+drawerEl.addEventListener('click', (e) => {
+    if (e.target.closest('[data-close-drawer]')) { closeDrawer(); return; }
+    const dr = e.target.closest('[data-dr]');
+    if (dr) {
+        const a = dr.dataset.dr;
+        if (a === 'new') { closeDrawer(); openLessonModal('book', null, {}); }
+        else if (a === 'tv') { closeDrawer(); toggleTv(true); }
+        else if (a === 'avail') { closeDrawer(); openAvailabilityEditor(); }
+        else if (a === 'install') promptInstall();
+        else if (a === 'admin') { closeDrawer(); openAdminLogin(); }
+        else if (a === 'logout') { setToken(null); S.me = null; closeDrawer(); toast('Wylogowano z tego urządzenia'); afterLogout(); }
+        else if (a === 'logout-admin') { setAdmin(null); closeDrawer(); toast('Panel nauczyciela wyłączony'); afterLogout(); }
+        return;
+    }
+    const li = e.target.closest('[data-li]');
+    if (li) {
+        const ev = byId(li.closest('.li').dataset.id);
+        if (!ev) return;
+        const a = li.dataset.li;
+        closeDrawer();
+        if (a === 'show') { S.anchor = ev.date; S.flash.add(ev.id); onRangeChange(); setTimeout(() => { S.flash.clear(); }, 2000); }
+        else if (a === 'edit') openLessonModal('edit', ev, {});
+        else if (a === 'cancel') openCancelModal(ev);
+        else if (a === 'pay') openPayModal(ev);
+    }
+});
+
+/* ═══ TOASTY I POPUP ═══ */
+function toast(msg, kind = 'info', ms = 3600) {
+    const el = document.createElement('div');
+    el.className = 'toast ' + kind;
+    el.textContent = msg;
+    $('#toasts').appendChild(el);
+    requestAnimationFrame(() => el.classList.add('in'));
+    setTimeout(() => { el.classList.remove('in'); setTimeout(() => el.remove(), 300); }, ms);
+}
+
+const bookingPopup = $('#bookingPopup');
+const popupInner = $('#popupInner');
+function spawnConfetti() {
+    const colors = ['#60a5fa', '#34d399', '#a78bfa', '#f472b6', '#fbbf24'];
+    for (let i = 0; i < 24; i++) {
+        const piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.setProperty('--tx', (Math.random() - 0.5) * 300 + 'px');
+        piece.style.setProperty('--ty', (Math.random() * 200 + 50) + 'px');
+        piece.style.setProperty('--rot', (Math.random() * 720 - 360) + 'deg');
+        piece.style.animation = `confettiFall ${0.8 + Math.random() * 0.7}s ease-out forwards`;
+        popupInner.appendChild(piece);
+        setTimeout(() => piece.remove(), 2000);
+    }
+}
+function showPopup(state, desc, title) {
+    bookingPopup.classList.add('visible');
+    const icon = $('#bookingPopupIcon');
+    const close = $('#bookingPopupClose');
+    if (state === 'success') {
+        icon.innerHTML = `<div class="checkmark-circle"><svg viewBox="0 0 52 52">
+            <circle class="circle-bg" cx="26" cy="26" r="24"/><circle class="circle" cx="26" cy="26" r="24"/>
+            <path class="check" d="M14 27 L22 35 L38 16"/></svg></div>`;
+        $('#bookingPopupTitle').textContent = title || 'Gotowe!';
+        $('#bookingPopupDesc').textContent = desc || '';
+        close.style.display = 'inline-flex';
+        setTimeout(spawnConfetti, 300);
+        setTimeout(() => close.focus(), 50);
+    } else {
+        icon.innerHTML = '<div style="font-size:40px;color:var(--err);font-weight:700;">✕</div>';
+        $('#bookingPopupTitle').textContent = title || 'Coś poszło nie tak';
+        $('#bookingPopupDesc').textContent = desc || 'Spróbuj ponownie za chwilę.';
+        close.style.display = 'inline-flex';
+    }
+}
+$('#bookingPopupClose').addEventListener('click', () => bookingPopup.classList.remove('visible'));
+bookingPopup.addEventListener('click', (e) => { if (e.target === bookingPopup) bookingPopup.classList.remove('visible'); });
+
+/* ═══ APLIKACJA NA TELEFON (PWA) I POWIADOMIENIA ═══ */
+const PUSH_OK = 'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window;
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+const isStandalone = () => window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+let installPromptEvt = null;
+let swReg = null;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();                      // własny przycisk „Zainstaluj” zamiast paska przeglądarki
+    installPromptEvt = e;
+    renderAppBanner();
+    if (!drawerEl.hidden) renderDrawer();
+});
+window.addEventListener('appinstalled', () => {
+    installPromptEvt = null;
+    renderAppBanner();
+    toast('✓ Aplikacja zainstalowana — znajdziesz ją na ekranie telefonu', 'ok', 5000);
+});
+
+function registerSW() {
+    if (!('serviceWorker' in navigator)) return;
+    navigator.serviceWorker.register('sw.js?api=' + encodeURIComponent(APPS_SCRIPT_URL))
+        .then((reg) => { swReg = reg; })
+        .catch((e) => console.warn('Service worker:', e));
+    navigator.serviceWorker.addEventListener('message', (e) => {
+        const m = e.data || {};
+        if (m.type === 'refresh') refresh();
+        else if (m.type === 'open' && m.url) openDeepLink(new URL(m.url));
+    });
+}
+function openDeepLink(u) {
+    const p = u.searchParams;
+    const d = p.get('data');
+    if (d && /^\d{4}-\d{2}-\d{2}$/.test(d)) { S.anchor = d; onRangeChange(); } else refresh();
+}
+
+async function promptInstall() {
+    if (!installPromptEvt) return;
+    installPromptEvt.prompt();
+    const choice = await installPromptEvt.userChoice.catch(() => null);
+    installPromptEvt = null;
+    renderAppBanner();
+    if (choice && choice.outcome === 'accepted') toast('Instaluję aplikację…', 'ok');
+}
+
+function renderAppBanner() {
+    const el = $('#appBanner');
+    const touch = window.matchMedia('(pointer: coarse)').matches;
+    const show = !isStandalone() && store.get(LS_KEYS.appBanner) !== '1' && (!!installPromptEvt || touch);
+    const was = !el.hidden;
+    el.hidden = !show;
+    if (show) {
+        el.innerHTML = `<img class="ab-icon" src="icons/icon-192.png" alt="">
+            <div class="ab-main"><b>Kalendarz jako aplikacja</b><small>Szybki dostęp z ekranu telefonu i powiadomienia, gdy ktoś zmieni Twoją lekcję.</small></div>
+            <button class="btn sm primary" type="button" data-ab="go">${installPromptEvt ? 'Zainstaluj' : 'Jak?'}</button>
+            <button class="x-btn" type="button" data-ab="x" aria-label="Ukryj">×</button>`;
+    }
+    if (was !== show && S.loaded) render();
+}
+$('#appBanner').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-ab]');
+    if (!b) return;
+    if (b.dataset.ab === 'x') { store.set(LS_KEYS.appBanner, '1'); renderAppBanner(); return; }
+    if (installPromptEvt) promptInstall();
+    else { openDrawer(); setTimeout(() => { const sec = $('#appSec'); if (sec) sec.scrollIntoView({ behavior: 'smooth' }); }, 350); }
+});
+
+function urlB64ToBytes(b64) {
+    const pad = '='.repeat((4 - (b64.length % 4)) % 4);
+    const raw = atob((b64 + pad).replace(/-/g, '+').replace(/_/g, '/'));
+    return Uint8Array.from(raw, (c) => c.charCodeAt(0));
+}
+function sameKey(buf, bytes) {
+    const a = new Uint8Array(buf);
+    return a.length === bytes.length && a.every((v, i) => v === bytes[i]);
+}
+async function currentPushSub() {
+    if (!PUSH_OK) return null;
+    const reg = swReg || await navigator.serviceWorker.ready;
+    return reg.pushManager.getSubscription();
+}
+/* Powiadomienia włączają się same w zainstalowanej aplikacji, gdy ktoś jest zalogowany (uczeń albo nauczyciel) —
+   bez przycisków. Jedyne, czego nie da się pominąć, to systemowe okienko „Zezwolić na powiadomienia?”:
+   Chrome pozwala pokazać je od razu, Safari i Firefox — dopiero po stuknięciu, więc wtedy pytamy przy pierwszym stuknięciu. */
+const canAutoPush = () => PUSH_OK && isStandalone() && S.role !== 'public' && !!(S.token || S.adminToken) && !!S.cfg.vapidPublicKey;
+let pushBusy = false;
+let pushAsked = false;
+
+async function ensurePush() {
+    if (!canAutoPush() || pushBusy || Notification.permission === 'denied') return;
+    if (Notification.permission !== 'granted') { askPushPermission(); return; }
+    pushBusy = true;
+    try {
+        const reg = swReg || await navigator.serviceWorker.ready;
+        const key = urlB64ToBytes(S.cfg.vapidPublicKey);
+        let sub = await reg.pushManager.getSubscription();
+        if (sub && sub.options && sub.options.applicationServerKey && !sameKey(sub.options.applicationServerKey, key)) {
+            await sub.unsubscribe();
+            sub = null;
+        }
+        if (!sub) sub = await subscribePush(reg, key);
+        // serwer dostaje subskrypcję, gdy jest nowa, gdy zmieniło się logowanie albo raz dziennie (przeglądarka mogła ją odnowić)
+        const mark = identity() + '|' + sub.endpoint;
+        if (store.get(LS_KEYS.push) !== mark || store.get(LS_KEYS.pushSync) !== nowWaw().date || !store.get(LS_KEYS.pushDev)) {
+            const res = await api('pushSubscribe', { subscription: sub.toJSON() });
+            store.set(LS_KEYS.pushDev, res.id || null);
+            store.set(LS_KEYS.push, mark);
+            store.set(LS_KEYS.pushSync, nowWaw().date);
+        }
+    } catch (e) {
+        console.warn('Powiadomienia:', e);              // spróbujemy przy następnym otwarciu aplikacji
+    } finally {
+        pushBusy = false;
+    }
+}
+function askPushPermission() {
+    if (pushAsked) return;
+    pushAsked = true;
+    const ask = () => Notification.requestPermission().then((p) => { if (p === 'granted') ensurePush(); }).catch(() => {});
+    if (!isIOS && !/Firefox\//.test(navigator.userAgent)) { ask(); return; }
+    const onTap = () => {
+        document.removeEventListener('click', onTap, true);
+        document.removeEventListener('touchend', onTap, true);
+        if (Notification.permission === 'default') ask();     // musi paść od razu w reakcji na stuknięcie
+    };
+    document.addEventListener('click', onTap, true);
+    document.addEventListener('touchend', onTap, true);
+}
+// „Registration failed – push service error” bywa chwilowe — próbujemy jeszcze raz.
+async function subscribePush(reg, key) {
+    try {
+        return await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: key });
+    } catch (err) {
+        if (!err || err.name !== 'AbortError') throw err;
+        await new Promise((r) => setTimeout(r, 1500));
+        return reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: key });
+    }
+}
+// Po wylogowaniu: gdy na urządzeniu nie zostało żadne logowanie, serwer zapomina ten telefon.
+// (Gdy zostało drugie — np. uczeń po wyjściu z panelu — ensurePush przepisze subskrypcję na nie.)
+function afterLogout() {
+    S.sig = '';
+    if (!S.token && !S.adminToken) {
+        store.set(LS_KEYS.push, null);
+        store.set(LS_KEYS.pushDev, null);
+        currentPushSub().then((sub) => sub && api('pushUnsubscribe', { subscription: { endpoint: sub.endpoint } })).catch(() => {});
+    }
+    refresh();
+}
+
+function appSectionHtml() {
+    let h = '<div class="dr-sec" id="appSec"><h4>Aplikacja na telefon</h4>';
+    if (isStandalone()) h += '<p class="dr-text">✓ Korzystasz z zainstalowanej aplikacji — powiadomienia o zmianach lekcji przychodzą same.</p>';
+    else if (installPromptEvt) h += '<p class="dr-text">Dodaj kalendarz do ekranu telefonu — otworzy się jak zwykła aplikacja i będzie wysyłać powiadomienia o zmianach lekcji.</p><div class="dr-foot" style="margin-top:10px"><button class="btn sm primary" type="button" data-dr="install">📲 Zainstaluj aplikację</button></div>';
+    else if (isIOS) h += '<p class="dr-text">W <b>Safari</b> stuknij <b>Udostępnij</b> <span class="ios-share" aria-hidden="true">⎙</span> na dole ekranu, a potem <b>„Do ekranu początkowego”</b>. Kalendarz otworzy się jak zwykła aplikacja — zaloguj się w niej kodem z maila, a powiadomienia włączą się same.</p>';
+    else h += '<p class="dr-text">W menu przeglądarki (<b>⋮</b>) wybierz <b>„Zainstaluj aplikację”</b> albo <b>„Dodaj do ekranu głównego”</b> — w aplikacji powiadomienia o zmianach lekcji włączą się same.</p>';
+    return h + '</div>';
+}
+
+/* ═══ NAWIGACJA I WIDOKI ═══ */
+function onRangeChange() {
+    closePopover();
+    hideGhost();
+    const R = currentRange();
+    const hit = cachedFor(R);
+    if (hit) {
+        S.rangeLoading = false;
+        applyData(hit.data, hit);
+        render();
+    } else {
+        S.rangeLoading = true;
+        S.events = [];
+        S.win = null;
+        S.rangeKey = '';
+        S.sig = '';
+        render();
+    }
+    scrollToRelevant();
+    const W = windowFor(R);
+    const fresh = S.cache.get(W.key);
+    if (!fresh || Date.now() - fresh.at > 10000) refresh();
+}
+function go(delta) {
+    const base = S.view === 7 ? mondayOf(S.anchor) : S.anchor;
+    S.anchor = addDays(base, delta * S.view);
+    onRangeChange();
+}
+function goToday() { S.anchor = nowWaw().date; onRangeChange(); }
+function setView(v) {
+    S.view = v;
+    store.set(LS_KEYS.view, String(v));
+    onRangeChange();
+}
+
+$('#prevBtn').addEventListener('click', () => go(-1));
+$('#nextBtn').addEventListener('click', () => go(1));
+$('#todayBtn').addEventListener('click', goToday);
+$('#viewSeg').addEventListener('click', (e) => { const b = e.target.closest('button[data-v]'); if (b) setView(Number(b.dataset.v)); });
+$('#newBtn').addEventListener('click', () => openLessonModal('book', null, {}));
+$('#mineBtn').addEventListener('click', openDrawer);
+$('#tvBtn').addEventListener('click', () => toggleTv());
+$('#adminLink').addEventListener('click', openAdminLogin);
+legendEl.addEventListener('click', (e) => {
+    const chip = e.target.closest('.chip');
+    if (!chip) return;
+    S.focusKey = S.focusKey === chip.dataset.key ? null : chip.dataset.key;
+    render();
+});
+gridMsg.addEventListener('click', (e) => { if (e.target.closest('[data-act="retry"]')) { hideGridMsg(); refresh(); } });
+
+function toggleTv(force) {
+    const on = typeof force === 'boolean' ? force : !document.body.classList.contains('tv');
+    document.body.classList.toggle('tv', on);
+    if (on && document.documentElement.requestFullscreen && !document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => { /* bez pełnego ekranu też działa */ });
+    } else if (!on && document.fullscreenElement) {
+        document.exitFullscreen().catch(() => {});
+    }
+    window.scrollTo(0, 0);
+    render();
+}
+document.addEventListener('fullscreenchange', () => {
+    if (!document.fullscreenElement && document.body.classList.contains('tv')) { document.body.classList.remove('tv'); render(); }
+});
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        if (!modalEl.hidden) { closeModal(); return; }
+        if (bookingPopup.classList.contains('visible')) { bookingPopup.classList.remove('visible'); return; }
+        if (!popEl.hidden) { closePopover(); return; }
+        if (!drawerEl.hidden) { closeDrawer(); return; }
+        if (S.focusKey) { S.focusKey = null; render(); }
+        return;
+    }
+    const tag = (e.target.tagName || '').toLowerCase();
+    if (['input', 'textarea', 'select'].includes(tag) || e.target.isContentEditable) return;
+    if (e.ctrlKey || e.metaKey || e.altKey || !modalEl.hidden || !drawerEl.hidden) return;
+    const k = e.key.toLowerCase();
+    if (e.key === 'ArrowLeft' || k === 'p' || k === 'k') go(-1);
+    else if (e.key === 'ArrowRight' || k === 'n' || k === 'j') go(1);
+    else if (k === 't') goToday();
+    else if (k === 'w') setView(7);
+    else if (k === 'd') setView(1);
+    else if (k === 'x') setView(3);
+    else if (k === 'f') toggleTv();
+    else if (k === 'c') openLessonModal('book', null, {});
+    else return;
+    e.preventDefault();
+});
+
+// Przesuwanie palcem w bok = następny / poprzedni zakres.
+(() => {
+    let sx = 0, sy = 0, st = 0;
+    calBody.addEventListener('touchstart', (e) => { const t = e.touches[0]; sx = t.clientX; sy = t.clientY; st = Date.now(); }, { passive: true });
+    calBody.addEventListener('touchend', (e) => {
+        const t = e.changedTouches[0];
+        const dx = t.clientX - sx;
+        const dy = t.clientY - sy;
+        if (Date.now() - st < 700 && Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy) * 2) {
+            S.suppressClickUntil = Date.now() + 400;
+            go(dx < 0 ? 1 : -1);
+        }
+    }, { passive: true });
+})();
+
+let resizeT = null;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeT);
+    resizeT = setTimeout(() => { closePopover(); render(); }, 120);
+});
+
+/* ═══ SYNCHRONIZACJA ═══ */
+setInterval(() => {
+    if (document.hidden || S.drag || S.dragCand || S.pendingOps) return;
+    refresh();
+}, POLL_MS);
+document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && Date.now() - S.lastSync > 5000) refresh();
+});
+window.addEventListener('online', () => refresh());
+let lastDay = nowWaw().date;
+setInterval(() => {
+    const n = nowWaw();
+    if (n.date !== lastDay) {
+        const R = currentRange();
+        const wasToday = lastDay >= R.from && lastDay < R.to;
+        lastDay = n.date;
+        if (wasToday && document.body.classList.contains('tv')) { goToday(); return; }
+        render();
+        return;
+    }
+    if (!S.drag) updateNowLine();
+}, 30000);
+
+/* ─── PARTICLES ─── */
+(function () {
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    let W, H, dots = [];
+    function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+    function spawnDots() {
+        dots = [];
+        const count = Math.floor((W * H) / 22000);
+        for (let i = 0; i < count; i++) {
+            dots.push({ x: Math.random() * W, y: Math.random() * H, r: Math.random() * 1.4 + 0.3,
+                vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3, alpha: Math.random() * 0.5 + 0.2 });
+        }
+    }
+    resize();
+    spawnDots();
+    window.addEventListener('resize', () => { resize(); spawnDots(); });
+    const LINK_DIST = 120;
+    function draw() {
+        requestAnimationFrame(draw);
+        if (document.body.classList.contains('tv')) return;
+        ctx.clearRect(0, 0, W, H);
+        for (let i = 0; i < dots.length; i++) {
+            const d = dots[i];
+            d.x += d.vx; d.y += d.vy;
+            if (d.x < 0) d.x = W; if (d.x > W) d.x = 0;
+            if (d.y < 0) d.y = H; if (d.y > H) d.y = 0;
+            ctx.beginPath();
+            ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(96,165,250,${d.alpha})`;
+            ctx.fill();
+            for (let j = i + 1; j < dots.length; j++) {
+                const d2 = dots[j];
+                const dx = d.x - d2.x, dy = d.y - d2.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < LINK_DIST) {
+                    ctx.beginPath();
+                    ctx.moveTo(d.x, d.y);
+                    ctx.lineTo(d2.x, d2.y);
+                    ctx.strokeStyle = `rgba(59,130,246,${0.12 * (1 - dist / LINK_DIST)})`;
+                    ctx.lineWidth = 0.6;
+                    ctx.stroke();
+                }
+            }
+        }
+    }
+    draw();
+})();
+
+/* ═══ START ═══ */
+(function start() {
+    const params = new URLSearchParams(location.search);
+    let welcome = null;
+    if (params.get('moje')) {
+        setToken(params.get('moje'));
+        welcome = '✓ Zalogowano — widzisz swoje lekcje';
+    }
+    const data = params.get('data');
+    if (data && /^\d{4}-\d{2}-\d{2}$/.test(data)) S.anchor = data;
+    const widok = params.get('widok');
+    if (widok === 'dzien') S.view = 1; else if (widok === '3') S.view = 3; else if (widok === 'tydzien') S.view = 7;
+    if (params.has('tv')) document.body.classList.add('tv');
+    const oldSwapLink = params.has('zamiana');          // link z maila ze starszej wersji (zamiany są wyłączone)
+    const wantAdmin = params.has('kacperos');
+    const paySession = params.get('platnosc');
+    ['moje', 'zamiana', 't', 'kacperos', 'platnosc'].forEach((k) => params.delete(k));
+    const qs = params.toString();
+    history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '') + location.hash);
+
+    restoreWindow();
+    renderAppBanner();
+    onRangeChange();
+    registerSW();
+    if (isStandalone() && !S.token && !S.adminToken && !store.get(LS_KEYS.pwaHint)) {
+        store.set(LS_KEYS.pwaHint, '1');
+        setTimeout(() => toast('Zaloguj się w „Moje lekcje” kodem z maila, żeby widzieć swoje lekcje i dostawać powiadomienia o zmianach.', 'info', 7000), 1200);
+    }
+    if (welcome) toast(welcome, 'ok');
+    if (paySession) confirmCardPayment(paySession);
+    else if (oldSwapLink) toast('Zamiana lekcji z inną osobą nie jest już dostępna — termin swojej lekcji zmienisz w „Moje lekcje”.', 'info', 7000);
+    else if (wantAdmin) openAdminLogin();
+})();
+</script>
+<!-- licznik odwiedzin -> panel kacperos.html -->
+<script type="module" src="/track.js"></script>
+</body>
+</html>

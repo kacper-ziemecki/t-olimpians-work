@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>T-Olimpians — SP10</title>
+<meta name="robots" content="noindex">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #0a0a0f; }
+  #iw {
+    width: 100%; aspect-ratio: 16/9;
+    background: #0a0a0f;
+    position: relative; overflow: hidden;
+    font-family: 'Syne', 'Segoe UI', sans-serif;
+    border-radius: 12px;
+  }
+  canvas#bg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .vignette { position: absolute; inset: 0; z-index: 7; background: radial-gradient(ellipse at center, transparent 38%, rgba(0,0,0,.72) 100%); pointer-events: none; }
+  .scanline { position: absolute; inset: 0; z-index: 6; background: repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.035) 2px,rgba(0,0,0,.035) 4px); pointer-events: none; }
+
+  .center { position: absolute; inset: 0; z-index: 10; }
+  .slide {
+    position: absolute; inset: 0; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; text-align: center;
+    padding: clamp(20px,4vw,48px);
+    opacity: 0; filter: blur(14px); transform: translateY(16px) scale(.98);
+    transition: opacity .9s cubic-bezier(0.16,1,0.3,1), filter .9s cubic-bezier(0.16,1,0.3,1), transform .9s cubic-bezier(0.16,1,0.3,1);
+    pointer-events: none;
+  }
+  .slide.active {
+    opacity: 1; filter: blur(0); transform: translateY(0) scale(1);
+    pointer-events: auto;
+  }
+
+  .badge {
+    display: flex; align-items: center; gap: 8px;
+    background: rgba(59,130,246,.1); border: 1px solid rgba(59,130,246,.28);
+    color: #3b82f6;
+    font-size: clamp(9px,1.1vw,12px); font-family: 'JetBrains Mono', monospace;
+    letter-spacing: .14em; text-transform: uppercase;
+    padding: 6px 16px; border-radius: 100px;
+    margin-bottom: clamp(14px,2.6vw,26px);
+  }
+  .bdot { width: 6px; height: 6px; border-radius: 50%; background: #3b82f6; box-shadow: 0 0 8px #3b82f6; display:inline-block; }
+
+  .name-main {
+    font-size: clamp(24px,4.6vw,54px); font-weight: 800;
+    letter-spacing: -0.03em; line-height: 1.08;
+    background: linear-gradient(135deg,#f0f0f8,#3b82f6);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    max-width: 90%;
+  }
+  .name-sub {
+    font-size: clamp(10px,1.4vw,16px); color: #9090aa;
+    letter-spacing: .07em; text-transform: uppercase; font-weight: 600;
+    margin-top: clamp(8px,1.4vw,14px);
+  }
+
+  .tagline {
+    font-size: clamp(11px,1.5vw,17px); color: #b8b8cc;
+    text-align: center; max-width: min(72%,760px); line-height: 1.75;
+    margin-top: clamp(18px,3vw,30px);
+  }
+  .tagline b { color: #f0f0f8; font-weight: 700; }
+
+  .stats-row {
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: clamp(16px,3vw,40px);
+    margin-top: clamp(20px,3.4vw,34px);
+  }
+  .stat { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .stat-n {
+    font-size: clamp(16px,2.6vw,28px); font-weight: 800; color: #3b82f6;
+    letter-spacing: -0.02em; line-height: 1;
+  }
+  .stat-l { font-size: clamp(8px,1vw,11.5px); color: #9090aa; letter-spacing: .05em; text-transform: uppercase; }
+
+  .divider-line {
+    width: min(60%,420px); height: 1px;
+    background: linear-gradient(90deg,transparent,rgba(59,130,246,.35),transparent);
+    margin-top: clamp(18px,3vw,30px);
+  }
+
+  .pills {
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: clamp(7px,1.3vw,14px);
+    margin-top: clamp(16px,2.6vw,26px);
+    max-width: 86%;
+  }
+  .pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(8px,1vw,11.5px);
+    color: #3b82f6;
+    background: rgba(59,130,246,.09);
+    border: 1px solid rgba(59,130,246,.24);
+    padding: 5px 13px; border-radius: 100px;
+    letter-spacing: .03em; white-space: nowrap;
+  }
+
+  .footnote {
+    position: absolute; bottom: clamp(16px,3vw,26px); left: 0; right: 0;
+    text-align: center; z-index: 12;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(7px,.85vw,10px);
+    color: rgba(96,165,250,.35); letter-spacing: .08em;
+  }
+
+  .adv-list {
+    display: flex; flex-direction: column;
+    gap: clamp(10px,1.6vw,16px);
+    max-width: min(78%,780px);
+    margin-top: clamp(18px,2.6vw,28px);
+    text-align: left;
+  }
+  .adv-item {
+    display: flex; align-items: flex-start; gap: clamp(10px,1.6vw,16px);
+    background: rgba(59,130,246,.06); border: 1px solid rgba(59,130,246,.2);
+    border-radius: 12px;
+    padding: clamp(10px,1.6vw,16px) clamp(12px,2vw,20px);
+  }
+  .adv-num {
+    flex: none;
+    width: clamp(22px,2.6vw,30px); height: clamp(22px,2.6vw,30px);
+    border-radius: 50%;
+    background: rgba(59,130,246,.14); border: 1px solid rgba(59,130,246,.35);
+    color: #3b82f6; font-family: 'JetBrains Mono', monospace; font-weight: 700;
+    font-size: clamp(10px,1.2vw,13px);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .adv-text {
+    font-size: clamp(10px,1.3vw,14.5px); color: #d0d0e0; line-height: 1.5;
+  }
+  .adv-text b { color: #f0f0f8; font-weight: 700; }
+  .adv-summary {
+    font-size: clamp(10px,1.3vw,14.5px); color: #b8b8cc;
+    max-width: min(78%,780px); line-height: 1.7;
+    margin-top: clamp(14px,2.2vw,22px);
+    font-style: italic;
+  }
+  .adv-summary b { color: #3b82f6; font-weight: 700; font-style: normal; }
+
+  .bio-layout {
+    display: flex; align-items: flex-start; justify-content: center;
+    gap: clamp(24px,4.5vw,56px);
+    max-width: min(94%,940px);
+    margin-top: clamp(16px,2.6vw,26px);
+    text-align: left;
+  }
+  .bio-text {
+    flex: 1 1 380px; max-width: 440px;
+  }
+  .bio-text .tagline {
+    text-align: left; max-width: 100%; margin-top: 0;
+  }
+  .timeline {
+    flex: 1 1 300px; max-width: 340px;
+    position: relative;
+    padding-left: clamp(20px,2.6vw,28px);
+  }
+  .timeline::before {
+    content: ''; position: absolute; left: 9px; top: 5px; bottom: 5px; width: 2px;
+    background: linear-gradient(180deg, rgba(59,130,246,.7), rgba(59,130,246,.35) 60%, rgba(59,130,246,.05));
+  }
+  .tl-item {
+    position: relative;
+    padding-bottom: clamp(13px,2vw,20px);
+  }
+  .tl-item:last-child { padding-bottom: 0; }
+  .tl-dot {
+    position: absolute; left: clamp(-20px,-2.6vw,-18px); top: 2px;
+    width: 12px; height: 12px; border-radius: 50%;
+    background: #3b82f6; box-shadow: 0 0 9px rgba(59,130,246,.75);
+    border: 2px solid #0a0a0f;
+  }
+  .tl-item:last-child .tl-dot {
+    background: #f0f0f8; box-shadow: 0 0 10px rgba(240,240,248,.7);
+  }
+  .tl-text {
+    font-size: clamp(9.5px,1.15vw,13px); color: #d0d0e0; line-height: 1.45;
+  }
+  .tl-text b { color: #3b82f6; font-weight: 700; }
+  .tl-item:last-child .tl-text b { color: #f0f0f8; }
+
+  .sec-grid {
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: clamp(10px,1.6vw,18px);
+    max-width: min(92%,900px);
+    margin-top: clamp(16px,2.4vw,26px);
+  }
+  .sec-card {
+    flex: 1 1 240px; max-width: 280px;
+    display: flex; flex-direction: column; gap: 6px;
+    text-align: left;
+    background: rgba(59,130,246,.06); border: 1px solid rgba(59,130,246,.2);
+    border-radius: 12px;
+    padding: clamp(12px,1.8vw,18px);
+  }
+  .sec-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(8px,.95vw,10.5px);
+    color: #3b82f6; letter-spacing: .04em;
+  }
+  .sec-title {
+    font-size: clamp(11px,1.4vw,15px); font-weight: 700; color: #f0f0f8;
+    line-height: 1.3;
+  }
+  .sec-text {
+    font-size: clamp(9px,1.15vw,12.5px); color: #b8b8cc; line-height: 1.55;
+  }
+  .sec-text b { color: #d0d0e0; }
+
+  .note-box {
+    max-width: min(84%,820px);
+    margin-top: clamp(14px,2.2vw,24px);
+    font-size: clamp(9px,1.2vw,13.5px); color: #b8b8cc; line-height: 1.7;
+    background: rgba(59,130,246,.05); border: 1px solid rgba(59,130,246,.16);
+    border-radius: 10px;
+    padding: clamp(10px,1.6vw,16px) clamp(12px,2vw,20px);
+  }
+  .note-box b { color: #3b82f6; font-weight: 700; }
+
+  .ach-stats-row {
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: clamp(10px,1.8vw,20px);
+    max-width: min(92%,880px);
+    margin-top: clamp(18px,2.8vw,30px);
+  }
+  .ach-stat-card {
+    flex: 1 1 190px; max-width: 220px;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    text-align: center;
+    background: rgba(59,130,246,.06); border: 1px solid rgba(59,130,246,.2);
+    border-radius: 14px;
+    padding: clamp(16px,2.4vw,26px) clamp(10px,1.6vw,16px);
+  }
+  .ach-stat-n {
+    font-size: clamp(28px,4.4vw,48px); font-weight: 800;
+    background: linear-gradient(135deg,#f0f0f8,#3b82f6);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    letter-spacing: -0.02em; line-height: 1;
+  }
+  .ach-stat-l {
+    font-size: clamp(9px,1.1vw,12.5px); color: #b8b8cc; font-weight: 600;
+    letter-spacing: .02em; line-height: 1.4; margin-top: 4px;
+  }
+
+  .ach-medal-row {
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: clamp(10px,1.8vw,20px);
+    max-width: min(92%,880px);
+    margin-top: clamp(12px,1.8vw,18px);
+  }
+  .ach-medal-card {
+    flex: 1 1 320px; max-width: 400px;
+    display: flex; align-items: center; gap: clamp(12px,1.8vw,18px);
+    text-align: left;
+    background: rgba(59,130,246,.05); border: 1px solid rgba(59,130,246,.16);
+    border-radius: 14px;
+    padding: clamp(12px,1.8vw,18px) clamp(14px,2vw,20px);
+  }
+  .ach-medal-icon {
+    flex: none;
+    width: clamp(38px,4.6vw,52px); height: clamp(38px,4.6vw,52px);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: clamp(18px,2.4vw,26px);
+  }
+  .ach-medal-icon.gold {
+    background: radial-gradient(circle at 35% 30%, rgba(255,215,120,.35), rgba(255,190,60,.08));
+    border: 1px solid rgba(255,200,80,.4);
+  }
+  .ach-medal-icon.silver {
+    background: radial-gradient(circle at 35% 30%, rgba(220,224,235,.32), rgba(180,190,210,.08));
+    border: 1px solid rgba(200,208,222,.4);
+  }
+  .ach-medal-title {
+    font-size: clamp(10px,1.3vw,14.5px); font-weight: 700; color: #f0f0f8; line-height: 1.3;
+  }
+  .ach-medal-sub {
+    font-size: clamp(9px,1.05vw,12px); color: #9090aa; margin-top: 2px;
+  }
+
+  .bar-chart {
+    width: min(94%,900px);
+    margin-top: clamp(16px,2.4vw,26px);
+    display: flex; flex-direction: column;
+    gap: clamp(6px,.9vw,9px);
+  }
+  .bar-row {
+    display: flex; align-items: center;
+    gap: clamp(8px,1.2vw,14px);
+  }
+  .bar-city {
+    flex: 0 0 clamp(84px,12.5vw,148px);
+    text-align: right;
+    font-size: clamp(9px,1.02vw,12.5px); color: #d0d0e0; font-weight: 600;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .bar-track {
+    flex: 1; height: clamp(13px,1.7vw,19px);
+    background: transparent; border: none;
+    border-radius: 6px; overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%; border-radius: 6px;
+    background: linear-gradient(90deg, rgba(59,130,246,.5), #3b82f6);
+  }
+  .bar-val {
+    flex: 0 0 clamp(58px,6.6vw,84px);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(8px,.98vw,11.5px); color: #9090aa; white-space: nowrap;
+  }
+  .bar-row.other .bar-city { color: #9090aa; font-style: italic; }
+  .bar-row.other .bar-fill { background: linear-gradient(90deg, rgba(144,144,170,.32), rgba(144,144,170,.58)); }
+  .bar-row.highlight {
+    background: rgba(251,191,36,.1);
+    border: 1px solid rgba(251,191,36,.4);
+    border-radius: 6px;
+    padding: 2px 6px;
+    margin: 0 -6px;
+  }
+  .bar-row.highlight .bar-city { color: #fbbf24; font-weight: 800; }
+  .bar-row.highlight .bar-track { background: transparent; border: none; }
+  .bar-row.highlight .bar-fill { background: linear-gradient(90deg, rgba(251,191,36,.55), #fbbf24); }
+  .bar-row.highlight .bar-val { color: #fbbf24; font-weight: 700; }
+  .bar-chart-wrap {
+    width: min(90%,640px);
+    max-height: clamp(220px,42vh,420px);
+    overflow-y: auto;
+    margin-top: clamp(12px,2vw,22px);
+    padding-right: 6px;
+  }
+  .bar-chart-wrap::-webkit-scrollbar { width: 6px; }
+  .bar-chart-wrap::-webkit-scrollbar-track { background: rgba(59,130,246,.06); border-radius: 6px; }
+  .bar-chart-wrap::-webkit-scrollbar-thumb { background: rgba(59,130,246,.4); border-radius: 6px; }
+  .bar-chart-wrap .bar-chart {
+    width: 100%; margin-top: 0;
+    gap: clamp(5px,.8vw,9px);
+  }
+  .bar-note {
+    max-width: min(90%,820px);
+    margin-top: clamp(12px,1.8vw,18px);
+    font-size: clamp(8px,1vw,11px); color: #7a7a92; line-height: 1.7;
+  }
+
+  /* nav controls */
+  .nav {
+    position: absolute; bottom: clamp(14px,2.6vw,22px); right: clamp(14px,2.6vw,22px);
+    z-index: 20; display: flex; align-items: center; gap: 10px;
+  }
+  .nav-btn {
+    width: 34px; height: 34px; border-radius: 50%;
+    background: rgba(59,130,246,.1); border: 1px solid rgba(59,130,246,.3);
+    color: #3b82f6; font-family: 'JetBrains Mono', monospace; font-size: 15px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; user-select: none; transition: background .2s, transform .2s;
+  }
+  .nav-btn:hover { background: rgba(59,130,246,.22); transform: translateY(-1px); }
+  .dots { display: flex; gap: 6px; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(59,130,246,.25); transition: background .3s, transform .3s; cursor: pointer; }
+  .dot.active { background: #3b82f6; transform: scale(1.4); }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div id="iw" tabindex="0">
+  <canvas id="bg"></canvas>
+  <div class="scanline"></div>
+  <div class="vignette"></div>
+
+  <div class="center">
+
+    <div class="slide active" id="slide1">
+      <div class="badge"><span class="bdot"></span>SZKOŁA PODSTAWOWA NR 10 · GORZÓW WLKP.</div>
+      <div class="name-main">Nowe możliwości rozwoju<br>w województwie lubuskim</div>
+      <div class="name-sub">T-Olimpians Team Poland</div>
+      <p class="tagline">Olimpiady informatyczne, realne wsparcie merytoryczne i konkretna droga do wymarzonego liceum, technikum lub studiów — <b>bliżej, niż mogłoby się wydawać</b>.</p>
+      <div class="divider-line"></div>
+      <div class="pills">
+        <span class="pill">OIJ</span>
+        <span class="pill">OI</span>
+        <span class="pill">BOI</span>
+        <span class="pill">IOI</span>
+      </div>
+    </div>
+
+    <div class="slide" id="slideCities">
+      <div class="badge"><span class="bdot"></span>STATYSTYKI OIJ</div>
+      <div class="name-main">Skąd pochodzą uczestnicy?</div>
+      <div class="name-sub">Olimpiada Informatyczna · miejscowości uczestników</div>
+      <div class="bar-chart-wrap">
+        <div class="bar-chart">
+          <div class="bar-row"><span class="bar-city">Warszawa</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><span class="bar-val">42 · 32,56%</span></div>
+          <div class="bar-row"><span class="bar-city">Wrocław</span><div class="bar-track"><div class="bar-fill" style="width:42.9%"></div></div><span class="bar-val">18 · 13,95%</span></div>
+          <div class="bar-row"><span class="bar-city">Kraków</span><div class="bar-track"><div class="bar-fill" style="width:40.5%"></div></div><span class="bar-val">17 · 13,18%</span></div>
+          <div class="bar-row"><span class="bar-city">Gdynia</span><div class="bar-track"><div class="bar-fill" style="width:31%"></div></div><span class="bar-val">13 · 10,08%</span></div>
+          <div class="bar-row"><span class="bar-city">Poznań</span><div class="bar-track"><div class="bar-fill" style="width:11.9%"></div></div><span class="bar-val">5 · 3,88%</span></div>
+          <div class="bar-row"><span class="bar-city">Łódź</span><div class="bar-track"><div class="bar-fill" style="width:7.1%"></div></div><span class="bar-val">3 · 2,33%</span></div>
+          <div class="bar-row"><span class="bar-city">Białystok</span><div class="bar-track"><div class="bar-fill" style="width:7.1%"></div></div><span class="bar-val">3 · 2,33%</span></div>
+          <div class="bar-row"><span class="bar-city">Szczecin</span><div class="bar-track"><div class="bar-fill" style="width:4.8%"></div></div><span class="bar-val">2 · 1,55%</span></div>
+          <div class="bar-row"><span class="bar-city">Tarnów</span><div class="bar-track"><div class="bar-fill" style="width:4.8%"></div></div><span class="bar-val">2 · 1,55%</span></div>
+          <div class="bar-row"><span class="bar-city">Płock</span><div class="bar-track"><div class="bar-fill" style="width:4.8%"></div></div><span class="bar-val">2 · 1,55%</span></div>
+          <div class="bar-row"><span class="bar-city">Świdnica</span><div class="bar-track"><div class="bar-fill" style="width:2.4%"></div></div><span class="bar-val">1 · 0,78%</span></div>
+          <div class="bar-row"><span class="bar-city">Piotrków Trybunalski</span><div class="bar-track"><div class="bar-fill" style="width:2.4%"></div></div><span class="bar-val">1 · 0,78%</span></div>
+          <div class="bar-row"><span class="bar-city">Gliwice</span><div class="bar-track"><div class="bar-fill" style="width:2.4%"></div></div><span class="bar-val">1 · 0,78%</span></div>
+          <div class="bar-row"><span class="bar-city">Katowice</span><div class="bar-track"><div class="bar-fill" style="width:2.4%"></div></div><span class="bar-val">1 · 0,78%</span></div>
+          <div class="bar-row"><span class="bar-city">Zielona Góra</span><div class="bar-track"><div class="bar-fill" style="width:2.4%"></div></div><span class="bar-val">1 · 0,78%</span></div>
+          <div class="bar-row"><span class="bar-city">Lublin</span><div class="bar-track"><div class="bar-fill" style="width:2.4%"></div></div><span class="bar-val">1 · 0,78%</span></div>
+          <div class="bar-row"><span class="bar-city">Siemiatycze</span><div class="bar-track"><div class="bar-fill" style="width:2.4%"></div></div><span class="bar-val">1 · 0,78%</span></div>
+          <div class="bar-row"><span class="bar-city">Sosnowiec</span><div class="bar-track"><div class="bar-fill" style="width:2.4%"></div></div><span class="bar-val">1 · 0,78%</span></div>
+          <div class="bar-row"><span class="bar-city">Piaseczno</span><div class="bar-track"><div class="bar-fill" style="width:2.4%"></div></div><span class="bar-val">1 · 0,78%</span></div>
+          <div class="bar-row"><span class="bar-city">Bydgoszcz</span><div class="bar-track"><div class="bar-fill" style="width:2.4%"></div></div><span class="bar-val">1 · 0,78%</span></div>
+          <div class="bar-row"><span class="bar-city">Rzeszów</span><div class="bar-track"><div class="bar-fill" style="width:2.4%"></div></div><span class="bar-val">1 · 0,78%</span></div>
+          <div class="bar-row highlight"><span class="bar-city">Gorzów Wlkp.</span><div class="bar-track"><div class="bar-fill" style="width:2.4%"></div></div><span class="bar-val">1 · 0,78%</span></div>
+          <div class="bar-row"><span class="bar-city">Zabrze</span><div class="bar-track"><div class="bar-fill" style="width:2.4%"></div></div><span class="bar-val">1 · 0,78%</span></div>
+          <div class="bar-row"><span class="bar-city">Kleszczów</span><div class="bar-track"><div class="bar-fill" style="width:2.4%"></div></div><span class="bar-val">1 · 0,78%</span></div>
+          <div class="bar-row"><span class="bar-city">Wałbrzych</span><div class="bar-track"><div class="bar-fill" style="width:2.4%"></div></div><span class="bar-val">1 · 0,78%</span></div>
+          <div class="bar-row"><span class="bar-city">Chorzów</span><div class="bar-track"><div class="bar-fill" style="width:2.4%"></div></div><span class="bar-val">1 · 0,78%</span></div>
+          <div class="bar-row"><span class="bar-city">Rybnik</span><div class="bar-track"><div class="bar-fill" style="width:2.4%"></div></div><span class="bar-val">1 · 0,78%</span></div>
+          <div class="bar-row"><span class="bar-city">Toruń</span><div class="bar-track"><div class="bar-fill" style="width:2.4%"></div></div><span class="bar-val">1 · 0,78%</span></div>
+          <div class="bar-row"><span class="bar-city">Biała Podlaska</span><div class="bar-track"><div class="bar-fill" style="width:2.4%"></div></div><span class="bar-val">1 · 0,78%</span></div>
+          <div class="bar-row"><span class="bar-city">Elbląg</span><div class="bar-track"><div class="bar-fill" style="width:2.4%"></div></div><span class="bar-val">1 · 0,78%</span></div>
+          <div class="bar-row"><span class="bar-city">Radom</span><div class="bar-track"><div class="bar-fill" style="width:2.4%"></div></div><span class="bar-val">1 · 0,78%</span></div>
+          <div class="bar-row"><span class="bar-city">Konin</span><div class="bar-track"><div class="bar-fill" style="width:2.4%"></div></div><span class="bar-val">1 · 0,78%</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide" id="slide2">
+      <div class="badge"><span class="bdot"></span>TROCHĘ O MNIE</div>
+      <div class="name-main">Kacper Ziemecki</div>
+      <div class="name-sub">Absolwent tej szkoły · Twórca T-Olimpians Team Poland</div>
+      <div class="bio-layout">
+        <div class="bio-text">
+          <p class="tagline">Jestem absolwentem tej podstawówki. Od 6 klasy fascynowałem się programowaniem, a w 7 i 8 klasie wystartowałem w Olimpiadzie Informatycznej Juniorów — bez lekcji przygotowawczych i materiałów dostępnych w regionie, wszystkiego szukałem sam, po godzinach, w internecie.<br><br>
+          W liceum kontynuowałem tę pasję w Olimpiadzie Informatycznej, a po trzech latach poszukiwań dobrych materiałów zdobyłem tytuł finalisty — co dało mi wolny wybór dowolnych studiów.<br><br>
+          Z tego doświadczenia narodził się <b>T-Olimpians</b> — żeby uczniowie szkół podstawowych nie musieli szukać tego wszystkiego sami.</p>
+        </div>
+        <div class="timeline">
+          <div class="tl-item"><span class="tl-dot"></span><span class="tl-text"><b>Pasja do komputerów</b> — start przygody z programowaniem</span></div>
+          <div class="tl-item"><span class="tl-dot"></span><span class="tl-text"><b>51. miejsce w Polsce</b> — Olimpiada Informatyczna Juniorów</span></div>
+          <div class="tl-item"><span class="tl-dot"></span><span class="tl-text"><b>Dostanie się do I LO</b> w Gorzowie Wlkp.</span></div>
+          <div class="tl-item"><span class="tl-dot"></span><span class="tl-text"><b>Finalista OI</b> — 103. miejsce w Polsce</span></div>
+          <div class="tl-item"><span class="tl-dot"></span><span class="tl-text"><b>Stypendium 12 tys. zł</b> za sukces w Olimpiadzie Informatycznej — pozwoliło utrzymać się na studiach</span></div>
+          <div class="tl-item"><span class="tl-dot"></span><span class="tl-text">Dostanie się na <b>AI na Politechnice Poznańskiej</b></span></div>
+          <div class="tl-item"><span class="tl-dot"></span><span class="tl-text">Reprezentacja Polski na finale <b>Mistrzostw Polski (AMPPZ)</b> oraz finale <b>Mistrzostw Europy Środkowej (CERC)</b></span></div>
+          <div class="tl-item"><span class="tl-dot"></span><span class="tl-text">Stworzenie platformy <b>T-Olimpians</b></span></div>
+        </div>
+      </div>
+      <div class="divider-line"></div>
+      <div class="pills">
+        <span class="pill">OIJ</span>
+        <span class="pill">OI</span>
+        <span class="pill">AI · Politechnika Poznańska</span>
+        <span class="pill">T-Olimpians</span>
+      </div>
+    </div>
+
+    <div class="slide" id="slide3">
+      <div class="badge"><span class="bdot"></span>ZALETY OLIMPIADY</div>
+      <div class="name-main">Dlaczego warto spróbować?</div>
+      <div class="adv-list">
+        <div class="adv-item">
+          <div class="adv-num">1</div>
+          <div class="adv-text"><b>100% punktów w rekrutacji do liceów i techników</b> dla finalisty — niezależnie od wyniku egzaminu ósmoklasisty.</div>
+        </div>
+        <div class="adv-item">
+          <div class="adv-num">2</div>
+          <div class="adv-text"><b>Wielokrotne podejścia</b> — jeśli tytułu nie uda się zdobyć w jednym roku, można spróbować ponownie w kolejnym.</div>
+        </div>
+        <div class="adv-item">
+          <div class="adv-num">3</div>
+          <div class="adv-text"><b>Wysokie stypendia OI</b>, które znacznie ułatwiają życie studenckie.</div>
+        </div>
+        <div class="adv-item">
+          <div class="adv-num">4</div>
+          <div class="adv-text"><b>100% punktów w rekrutacji na studia</b> dla finalisty OI — niezależnie od wyniku matury.</div>
+        </div>
+      </div>
+      <p class="adv-summary">Podsumowując: olimpiada daje uczniom zainteresowanym komputerami możliwość rozwoju w kierunku ich pasji — bez presji bycia doskonałym w kilkunastu dziedzinach naraz (matematyka, polski, angielski...). Wystarczy ukierunkować się w <b>jedną</b> stronę, by zyskać liczne stypendia i dostęp do wymarzonych kierunków.</p>
+      <div class="divider-line"></div>
+      <div class="pills">
+        <span class="pill">Rekrutacja LO/technikum</span>
+        <span class="pill">Rekrutacja studia</span>
+        <span class="pill">Stypendia OI</span>
+      </div>
+    </div>
+
+    <div class="slide" id="slide4a">
+      <div class="badge"><span class="bdot"></span>DOTYCHCZASOWE OSIĄGNIĘCIA UCZNIÓW</div>
+      <div class="name-main">Efekty naszej pracy</div>
+      <div class="ach-stats-row">
+        <div class="ach-stat-card"><span class="ach-stat-n">5</span><span class="ach-stat-l">Laureatów<br>Olimpiady Informatycznej Juniorów</span></div>
+        <div class="ach-stat-card"><span class="ach-stat-n">7</span><span class="ach-stat-l">Finalistów<br>Olimpiady Informatycznej</span></div>
+        <div class="ach-stat-card"><span class="ach-stat-n">11</span><span class="ach-stat-l">Finalistów<br>Olimpiady Informatycznej Juniorów</span></div>
+      </div>
+      <div class="ach-medal-row">
+        <div class="ach-medal-card">
+          <div class="ach-medal-icon gold">🥇</div>
+          <div>
+            <div class="ach-medal-title">Złoty medalista</div>
+            <div class="ach-medal-sub">Konkurs Mistrz Programowania</div>
+          </div>
+        </div>
+        <div class="ach-medal-card">
+          <div class="ach-medal-icon silver">🥈</div>
+          <div>
+            <div class="ach-medal-title">Srebrny medalista</div>
+            <div class="ach-medal-sub">Konkurs Giganci Programowania</div>
+          </div>
+        </div>
+      </div>
+      <div class="divider-line"></div>
+      <div class="pills">
+        <span class="pill">OI</span>
+        <span class="pill">OIJ</span>
+        <span class="pill">Mistrz Programowania</span>
+        <span class="pill">Giganci Programowania</span>
+      </div>
+    </div>
+
+    <div class="slide" id="slide4">
+      <div class="badge"><span class="bdot"></span>JAK ZACZĄĆ</div>
+      <div class="name-main">Platforma T-Olimpians</div>
+      <p class="tagline">Materiały od zera — nauka C++ i budowania logiki — aż po treści dla finalistów i laureatów OIJ/OI. Wszystko dostępne <b>za darmo</b> na t-olimpians.com, w ramach kompendium <b>t-olimpians/net</b>: zestawienia najlepszych zadań, tutoriali i filmów z platform takich jak Codeforces, USACO Guide, Szkopuł, OKI, Uva, CodeChef, Uhunt i wielu innych.</p>
+      <div class="sec-grid">
+        <div class="sec-card">
+          <span class="sec-tag">t-olimpians/net</span>
+          <span class="sec-title">Kompendium OIJ i OI</span>
+          <span class="sec-text"><b>6 książek</b>, <b>14 platform</b> i ponad <b>120 tematów</b> ułożonych w spójną ścieżkę nauki.</span>
+        </div>
+        <div class="sec-card">
+          <span class="sec-tag">t-olimpians/zadania-oi-oij</span>
+          <span class="sec-title">Zbiór zadań olimpijskich</span>
+          <span class="sec-text"><b>422 zadania</b> o dobranych poziomach trudności i uporządkowanej kolejności — krok po kroku.</span>
+        </div>
+        <div class="sec-card">
+          <span class="sec-tag">t-olimpians/materialy</span>
+          <span class="sec-title">C++ dla początkujących</span>
+          <span class="sec-text">Ponad <b>1000 zadań</b> i <b>25+ tematów</b> z C++ dla osób zaczynających przygodę z OI/OIJ.</span>
+        </div>
+      </div>
+      <div class="note-box">Zajęcia dla początkujących w OIJ (<b>od zera</b>) odbywają się w <b>soboty o 18:00</b>, w grupach. Między zajęciami uczniowie rywalizują w symulacjach OIJ i mini konkursach oraz otrzymują zadania do przećwiczenia teorii z zajęć. Dostępne są też <b>zajęcia indywidualne</b>.</div>
+      <div class="divider-line"></div>
+      <div class="pills">
+        <span class="pill">t-olimpians.com</span>
+        <span class="pill">Grupy · Soboty 18:00</span>
+        <span class="pill">Zajęcia indywidualne</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footnote">T-OLIMPIANS TEAM POLAND</div>
+
+  <div class="nav">
+    <div class="nav-btn" id="prevBtn">‹</div>
+    <div class="dots">
+      <div class="dot active" data-i="0"></div>
+      <div class="dot" data-i="1"></div>
+      <div class="dot" data-i="2"></div>
+      <div class="dot" data-i="3"></div>
+      <div class="dot" data-i="4"></div>
+      <div class="dot" data-i="5"></div>
+    </div>
+    <div class="nav-btn" id="nextBtn">›</div>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  const iw = document.getElementById('iw');
+  const canvas = document.getElementById('bg');
+  const ctx = canvas.getContext('2d');
+  let W, H, t = 0;
+
+  function resize(){
+    W = iw.clientWidth; H = iw.clientHeight;
+    canvas.width = W * devicePixelRatio;
+    canvas.height = H * devicePixelRatio;
+    canvas.style.width = W + 'px';
+    canvas.style.height = H + 'px';
+    ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const dots = [];
+  for (let i = 0; i < 55; i++){
+    dots.push({
+      x: Math.random()*1000, y: Math.random()*1000,
+      vx: (Math.random()-.5)*.25, vy: (Math.random()-.5)*.25,
+      r: Math.random()*1.4+.5, a: Math.random()*.5+.2
+    });
+  }
+
+  const shapes = [
+    {type:'ring', xr:.15, yr:.2, r:.09, color:'rgba(59,130,246,0.12)', sw:1, speed:.05, phase:0, drift:.02},
+    {type:'ring', xr:.85, yr:.75, r:.12, color:'rgba(59,130,246,0.1)', sw:1, speed:.04, phase:2, drift:.015},
+    {type:'hex', xr:.9, yr:.15, r:.06, color:'rgba(96,165,250,0.14)', sw:1, speed:.06, phase:1, drift:.01},
+    {type:'dashedRing', xr:.1, yr:.85, r:.1, color:'rgba(59,130,246,0.16)', sw:1, dash:[6,8], speed:.08, phase:.5, drift:.01}
+  ];
+
+  function hex6(cx,cy,r,rot){
+    ctx.beginPath();
+    for(let i=0;i<6;i++){
+      const a=rot+i*Math.PI/3;
+      const px=cx+r*Math.cos(a), py=cy+r*Math.sin(a);
+      i===0?ctx.moveTo(px,py):ctx.lineTo(px,py);
+    }
+    ctx.closePath();
+  }
+
+  function drawShape(s,time){
+    const baseX = s.xr*W, baseY = s.yr*H;
+    const ox = Math.sin(time*s.speed*.7+s.phase)*W*s.drift;
+    const oy = Math.cos(time*s.speed*.5+s.phase+1)*H*s.drift;
+    const cx = baseX+ox, cy = baseY+oy;
+    const rot = time*s.speed+s.phase;
+    ctx.save();
+    ctx.strokeStyle = s.color; ctx.fillStyle = s.color; ctx.lineWidth = s.sw;
+    switch(s.type){
+      case 'ring': {
+        const rPx = s.r*Math.min(W,H);
+        ctx.beginPath(); ctx.arc(cx,cy,rPx,0,Math.PI*2); ctx.stroke(); break;
+      }
+      case 'dashedRing': {
+        const rPx = s.r*Math.min(W,H);
+        ctx.setLineDash(s.dash);
+        ctx.translate(cx,cy); ctx.rotate(rot);
+        ctx.beginPath(); ctx.arc(0,0,rPx,0,Math.PI*2); ctx.stroke();
+        ctx.setLineDash([]); break;
+      }
+      case 'hex': {
+        const rPx = s.r*Math.min(W,H);
+        hex6(cx,cy,rPx,rot); ctx.stroke(); break;
+      }
+    }
+    ctx.restore();
+  }
+
+  const LINK = 80, LINK_SQ = LINK*LINK;
+  function drawParticles(){
+    for (let i=0;i<dots.length;i++){
+      const d = dots[i];
+      d.x += d.vx; d.y += d.vy;
+      if (d.x<0) d.x=W; if (d.x>W) d.x=0;
+      if (d.y<0) d.y=H; if (d.y>H) d.y=0;
+      ctx.beginPath(); ctx.arc(d.x,d.y,d.r,0,Math.PI*2);
+      ctx.fillStyle = `rgba(96,165,250,${d.a})`; ctx.fill();
+      for (let j=i+1;j<dots.length;j++){
+        const d2 = dots[j];
+        const dx=d.x-d2.x, dy=d.y-d2.y, distSq=dx*dx+dy*dy;
+        if (distSq<LINK_SQ){
+          const dist=Math.sqrt(distSq);
+          ctx.beginPath(); ctx.moveTo(d.x,d.y); ctx.lineTo(d2.x,d2.y);
+          ctx.strokeStyle = `rgba(59,130,246,${.09*(1-dist/LINK)})`; ctx.lineWidth=.5; ctx.stroke();
+        }
+      }
+    }
+  }
+
+  function draw(){
+    t += 1/60;
+    ctx.clearRect(0,0,W,H);
+    for (const s of shapes) drawShape(s,t);
+    drawParticles();
+    requestAnimationFrame(draw);
+  }
+  draw();
+
+  /* ---- slide navigation ---- */
+  const slides = [document.getElementById('slide1'), document.getElementById('slide3'), document.getElementById('slide4a'), document.getElementById('slide4'), document.getElementById('slideCities'), document.getElementById('slide2')];
+  const dotEls = document.querySelectorAll('.dot');
+  let current = 0;
+
+  function goTo(i){
+    if (i<0) i=0;
+    if (i>slides.length-1) i=slides.length-1;
+    slides[current].classList.remove('active');
+    dotEls[current].classList.remove('active');
+    current = i;
+    slides[current].classList.add('active');
+    dotEls[current].classList.add('active');
+  }
+
+  document.getElementById('nextBtn').addEventListener('click', ()=>goTo(current+1));
+  document.getElementById('prevBtn').addEventListener('click', ()=>goTo(current-1));
+  dotEls.forEach(d => d.addEventListener('click', ()=>goTo(parseInt(d.dataset.i))));
+
+  iw.addEventListener('keydown', (e)=>{
+    if (e.key === 'ArrowRight') goTo(current+1);
+    if (e.key === 'ArrowLeft') goTo(current-1);
+  });
+  iw.focus();
+})();
+</script>
+
+<!-- licznik odwiedzin -> panel kacperos.html -->
+<script type="module" src="/track.js"></script>
+</body>
+</html>

@@ -1,0 +1,2189 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typy zmiennych w C++ — T-Olimpians</title>
+    <meta name="description" content="Typy zmiennych w C++ — int, float, char, string, const i auto. T-Olimpians Team Poland.">
+    <link rel="canonical" href="https://t-olimpians.com/c++_logika/typy-zmiennych.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="T-Olimpians Team Poland">
+    <meta property="og:locale" content="pl_PL">
+    <meta property="og:url" content="https://t-olimpians.com/c++_logika/typy-zmiennych.html">
+    <meta property="og:title" content="Typy zmiennych w C++ — T-Olimpians">
+    <meta property="og:description" content="Typy zmiennych w C++ — int, float, char, string, const i auto. T-Olimpians Team Poland.">
+    <meta property="og:image" content="https://t-olimpians.com/img/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="../img/favicon2.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-base: #0a0a0f;
+            --bg-surface: #111118;
+            --bg-card: #15151e;
+            --bg-elevated: #1c1c28;
+            --accent: #3b82f6;
+            --accent-bright: #60a5fa;
+            --accent-glow: rgba(59, 130, 246, 0.25);
+            --accent-dim: rgba(59, 130, 246, 0.12);
+            --green: #22c55e;
+            --green-dim: rgba(34, 197, 94, 0.12);
+            --green-glow: rgba(34, 197, 94, 0.25);
+            --purple: #a78bfa;
+            --purple-dim: rgba(167, 139, 250, 0.12);
+            --orange: #fb923c;
+            --orange-dim: rgba(251, 146, 60, 0.12);
+            --text-primary: #f0f0f8;
+            --text-secondary: #9090aa;
+            --text-muted: #55556a;
+            --border: rgba(255,255,255,0.07);
+            --border-accent: rgba(59, 130, 246, 0.3);
+            --font-display: 'Syne', sans-serif;
+            --font-body: 'DM Sans', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.6;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 48px;
+            height: 68px;
+            background: rgba(10, 10, 15, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            transition: background 0.3s;
+        }
+        .navbar.scrolled {
+            background: rgba(10, 10, 15, 0.95);
+            box-shadow: 0 4px 32px rgba(0,0,0,0.4);
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        .logo img:first-child {
+            width: 38px; height: 38px;
+            border-radius: 10px;
+            object-fit: cover;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .logo:hover img:first-child {
+            transform: rotate(-5deg) scale(1.08);
+            box-shadow: 0 0 16px var(--accent-glow);
+        }
+        #polska-flaga { width: 22px; height: auto; border-radius: 3px; }
+        .logo-text {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--text-primary);
+            letter-spacing: 0.01em;
+        }
+        .nav-links {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            transition: color 0.2s, background 0.2s;
+            cursor: pointer;
+            letter-spacing: 0.02em;
+            position: relative;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 4px; left: 16px; right: 16px;
+            height: 1px;
+            background: var(--accent-bright);
+            transform: scaleX(0);
+            transition: transform 0.25s ease;
+        }
+        .nav-links a:hover::after { transform: scaleX(1); }
+        .nav-links a:hover {
+            color: var(--text-primary);
+            background: var(--accent-dim);
+        }
+        .nav-links a.active-page {
+            color: var(--accent-bright);
+        }
+        .nav-links .nav-cta a {
+            background: var(--accent);
+            color: white;
+            font-weight: 600;
+        }
+        .nav-links .nav-cta a:hover { background: var(--accent-bright); color: white; }
+        .nav-links .nav-cta a::after { display: none; }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            z-index: 110;
+        }
+        .hamburger span {
+            display: block;
+            width: 24px; height: 2px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: transform 0.3s, opacity 0.3s;
+        }
+        .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        #particles {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        .hero {
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 120px 80px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 700px; height: 500px;
+            background: radial-gradient(circle, rgba(59,130,246,0.07) 0%, transparent 70%);
+            pointer-events: none;
+            animation: pulse-glow 6s ease-in-out infinite;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.5; transform: translateX(-50%) scale(1); }
+            50% { opacity: 1; transform: translateX(-50%) scale(1.1); }
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--accent-dim);
+            border: 1px solid var(--border-accent);
+            color: var(--accent-bright);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 500;
+            padding: 6px 14px;
+            border-radius: 100px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+            animation: fadeInUp 0.6s ease both;
+        }
+        .hero-badge::before {
+            content: '';
+            width: 6px; height: 6px;
+            background: var(--accent-bright);
+            border-radius: 50%;
+            animation: blink 2s ease-in-out infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(36px, 5vw, 64px);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.7s 0.1s cubic-bezier(0.16,1,0.3,1) both;
+        }
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--accent-bright), #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero > p {
+            font-size: 16px;
+            color: var(--text-secondary);
+            line-height: 1.75;
+            max-width: 560px;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.7s 0.2s cubic-bezier(0.16,1,0.3,1) both;
+        }
+        .hero code {
+            font-family: var(--font-mono);
+            font-size: 14px;
+            background: var(--accent-dim);
+            border: 1px solid var(--border-accent);
+            color: var(--accent-bright);
+            padding: 2px 8px;
+            border-radius: 5px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.7s 0.3s cubic-bezier(0.16,1,0.3,1) both;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+            letter-spacing: 0.01em;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: inherit;
+            background: linear-gradient(135deg, var(--accent), #7c3aed);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s;
+            filter: blur(8px);
+        }
+        .btn-primary:hover::after { opacity: 0.6; }
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 60%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            transform: skewX(-20deg);
+            transition: left 0.5s ease;
+        }
+        .btn-primary:hover::before { left: 150%; }
+        .btn-primary:hover {
+            background: var(--accent-bright);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px var(--accent-glow);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            padding: 14px 28px;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.2s, border-color 0.2s, transform 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-ghost:hover {
+            color: var(--text-primary);
+            border-color: var(--border-accent);
+            transform: translateY(-2px);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.reveal-left { transform: translateX(-40px); }
+        .reveal.reveal-right { transform: translateX(40px); }
+        .reveal.visible { opacity: 1; transform: translate(0); }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--border), transparent);
+            margin: 0 80px;
+        }
+
+        .section-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--accent-bright);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        main {
+            padding: 0 80px;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .syntax-section {
+            padding: 72px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .syntax-section h2 {
+            font-family: var(--font-display);
+            font-size: clamp(26px, 3vw, 38px);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+        }
+        .syntax-section > p {
+            color: var(--text-secondary);
+            font-size: 15.5px;
+            line-height: 1.8;
+            max-width: 640px;
+            margin-bottom: 40px;
+        }
+
+        .code-block {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin: 24px 0;
+            position: relative;
+        }
+        .code-block-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 20px;
+            background: var(--bg-elevated);
+            border-bottom: 1px solid var(--border);
+        }
+        .code-block-title {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+        }
+        .code-dots { display: flex; gap: 6px; }
+        .code-dots span { width: 10px; height: 10px; border-radius: 50%; }
+        .code-dots span:nth-child(1) { background: #ff5f56; }
+        .code-dots span:nth-child(2) { background: #ffbd2e; }
+        .code-dots span:nth-child(3) { background: #27c93f; }
+        .code-block pre { padding: 24px; overflow-x: auto; margin: 0; }
+        .code-block code {
+            font-family: var(--font-mono);
+            font-size: 14px;
+            line-height: 1.8;
+            color: var(--text-primary);
+        }
+
+        /* Syntax highlighting */
+        .kw   { color: #c792ea; }
+        .tp   { color: #82aaff; }
+        .fn   { color: #82aaff; }
+        .num  { color: #f78c6c; }
+        .str  { color: #c3e88d; }
+        .cm   { color: #546e7a; font-style: italic; }
+        .op   { color: #89ddff; }
+        .var  { color: #eeffff; }
+        .inc  { color: #c3e88d; }
+        .pp   { color: #c792ea; }
+
+        .anatomy-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 48px;
+            align-items: start;
+            margin-top: 48px;
+        }
+
+        .part-cards { display: flex; flex-direction: column; gap: 14px; }
+        .part-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 18px 22px;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            transition: border-color 0.3s, transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+        .part-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--accent-dim), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .part-card:hover::before { opacity: 1; }
+        .part-card:hover {
+            border-color: var(--border-accent);
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 12px 36px var(--accent-glow);
+        }
+        .part-icon {
+            width: 36px; height: 36px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+        }
+        .part-icon.blue  { background: var(--accent-dim);   border: 1px solid var(--border-accent); }
+        .part-icon.green { background: var(--green-dim);    border: 1px solid rgba(34,197,94,0.3);  }
+        .part-icon.purp  { background: var(--purple-dim);   border: 1px solid rgba(167,139,250,0.3); }
+        .part-icon.ora   { background: var(--orange-dim);   border: 1px solid rgba(251,146,60,0.3);  }
+        .part-body { flex: 1; position: relative; z-index: 1; }
+        .part-body h4 {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+        .part-body p { font-size: 13.5px; color: var(--text-secondary); line-height: 1.6; }
+        .part-body code {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            background: var(--bg-elevated);
+            padding: 1px 6px;
+            border-radius: 4px;
+            color: var(--accent-bright);
+        }
+
+        .part-icon.cyan  { background: rgba(56,189,248,0.12); border: 1px solid rgba(56,189,248,0.3); }
+
+        .syntax-section > p code {
+            font-family: var(--font-mono);
+            font-size: 12.5px;
+            background: var(--accent-dim);
+            border: 1px solid var(--border-accent);
+            color: var(--accent-bright);
+            padding: 2px 8px;
+            border-radius: 5px;
+        }
+
+        /* ─── FILMY OKI ─── */
+        .wideo-sekcja {
+            margin: 0 0 12px;
+            padding: 30px 32px 32px;
+            background: linear-gradient(140deg, rgba(239,68,68,0.07), rgba(120,60,180,0.04) 55%, transparent);
+            border: 1px solid rgba(239,68,68,0.20);
+            border-radius: var(--radius-lg);
+            position: relative;
+            overflow: hidden;
+        }
+        .wideo-sekcja::before {
+            content: '';
+            position: absolute;
+            top: -80px; right: -80px;
+            width: 260px; height: 260px;
+            background: radial-gradient(circle, rgba(239,68,68,0.10) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .wideo-gora {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-bottom: 22px;
+            position: relative;
+            z-index: 1;
+        }
+        .wideo-gora-tekst { flex: 1 1 320px; min-width: 0; }
+        .wideo-etykieta {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #f87171;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        .wideo-etykieta::before {
+            content: '';
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: #ef4444;
+            box-shadow: 0 0 8px rgba(239,68,68,0.7);
+            flex-shrink: 0;
+        }
+        .wideo-sekcja h2 {
+            font-family: var(--font-display);
+            font-size: clamp(19px, 2.3vw, 25px);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        .wideo-sekcja h2 span {
+            background: linear-gradient(90deg, #f87171, #fb923c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .wideo-wstep {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.7;
+            max-width: 560px;
+        }
+        .wideo-playlisty {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            flex-shrink: 0;
+        }
+        .wideo-playlisty a {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            letter-spacing: 0.04em;
+            padding: 8px 14px;
+            border-radius: 100px;
+            border: 1px solid rgba(239,68,68,0.28);
+            background: rgba(239,68,68,0.07);
+            color: #f87171;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: background 0.2s, border-color 0.2s, color 0.2s;
+        }
+        .wideo-playlisty a:hover {
+            background: rgba(239,68,68,0.16);
+            border-color: rgba(239,68,68,0.55);
+            color: #fca5a5;
+        }
+        .wideo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(228px, 1fr));
+            gap: 14px;
+            position: relative;
+            z-index: 1;
+        }
+        .wideo-karta {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            transition: border-color 0.25s, transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s;
+        }
+        .wideo-karta:hover {
+            border-color: rgba(239,68,68,0.45);
+            transform: translateY(-4px);
+            box-shadow: 0 14px 34px rgba(239,68,68,0.15);
+        }
+        .wideo-miniatura {
+            position: relative;
+            aspect-ratio: 16 / 9;
+            background: #000;
+        }
+        .wideo-miniatura img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: opacity 0.25s;
+        }
+        .wideo-karta:hover .wideo-miniatura img { opacity: 0.72; }
+        .wideo-miniatura iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%; height: 100%;
+            border: 0;
+        }
+        .wideo-play {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+        .wideo-play span {
+            width: 48px; height: 33px;
+            border-radius: 8px;
+            background: rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.22);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            transition: background 0.25s, border-color 0.25s, transform 0.25s;
+        }
+        .wideo-karta:hover .wideo-play span {
+            background: #ef4444;
+            border-color: #ef4444;
+            transform: scale(1.12);
+        }
+        .wideo-czas {
+            position: absolute;
+            right: 7px; bottom: 7px;
+            font-family: var(--font-mono);
+            font-size: 10.5px;
+            letter-spacing: 0.02em;
+            color: #fff;
+            background: rgba(0,0,0,0.82);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        .wideo-opis { padding: 11px 13px 13px; }
+        .wideo-meta {
+            font-family: var(--font-mono);
+            font-size: 9.5px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+        .wideo-meta b {
+            color: #f87171;
+            font-weight: 600;
+        }
+        .wideo-tytul {
+            font-size: 13px;
+            line-height: 1.45;
+            color: var(--text-secondary);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            transition: color 0.2s;
+        }
+        .wideo-karta:hover .wideo-tytul { color: var(--text-primary); }
+        .wideo-zrodlo {
+            margin-top: 16px;
+            font-size: 11.5px;
+            color: var(--text-muted);
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 720px) {
+            .wideo-sekcja { padding: 22px 18px 24px; border-radius: var(--radius-md); }
+            .wideo-gora { gap: 16px; }
+            .wideo-grid { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
+            .wideo-tytul { font-size: 12.5px; }
+        }
+
+        .output-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin: 16px 0 8px;
+        }
+        .output-box {
+            background: rgba(34,197,94,0.06);
+            border: 1px solid rgba(34,197,94,0.2);
+            border-radius: var(--radius-sm);
+            padding: 14px 18px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: #4ade80;
+            line-height: 1.8;
+            white-space: pre;
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 32px;
+            margin-top: 40px;
+        }
+
+        /* Tablet: dwa bloki kodu obok siebie sie nie mieszcza - jeden pod drugim */
+        @media (min-width: 901px) and (max-width: 1100px) {
+            main { padding: 0 48px; }
+            .anatomy-grid { gap: 32px; }
+            .two-col { grid-template-columns: minmax(0, 1fr); }
+        }
+
+        .tips-section {
+            padding: 80px 0;
+            border-top: 1px solid var(--border);
+        }
+        .tips-section h2 {
+            font-family: var(--font-display);
+            font-size: clamp(26px, 3vw, 38px);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 40px;
+        }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+        .tip-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 26px;
+            transition: border-color 0.3s, transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+        .tip-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--accent-dim), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            border-radius: inherit;
+        }
+        .tip-card:hover::before { opacity: 1; }
+        .tip-card:hover {
+            border-color: var(--border-accent);
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 14px 40px var(--accent-glow);
+        }
+        .tip-icon { font-size: 26px; margin-bottom: 14px; position: relative; z-index: 1; }
+        .tip-title {
+            font-family: var(--font-display);
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+        .tip-text { font-size: 13.5px; color: var(--text-secondary); line-height: 1.65; position: relative; z-index: 1; }
+        .tip-text code {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            background: var(--bg-elevated);
+            padding: 1px 6px;
+            border-radius: 4px;
+            color: var(--accent-bright);
+        }
+
+        .cta-banner {
+            margin: 0 0 80px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 56px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-banner::before {
+            content: '';
+            position: absolute;
+            top: -40%; left: 50%;
+            transform: translateX(-50%);
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(59,130,246,0.07) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .cta-banner::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -60%;
+            width: 40%; height: 200%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
+            transform: skewX(-15deg);
+            animation: shimmer 6s ease-in-out infinite;
+        }
+        @keyframes shimmer { 0% { left: -60%; } 50% { left: 120%; } 100% { left: 120%; } }
+        .cta-banner h2 {
+            font-family: var(--font-display);
+            font-size: clamp(26px, 3.5vw, 40px);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 14px;
+            position: relative;
+            z-index: 1;
+        }
+        .cta-banner p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            max-width: 480px;
+            margin: 0 auto 28px;
+            position: relative;
+            z-index: 1;
+        }
+        .cta-banner .hero-actions { animation: none; position: relative; z-index: 1; }
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 32px 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+        footer span { font-family: var(--font-mono); }
+
+        .nav-group-item { display: flex; align-items: center; }
+        .nav-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border-accent);
+            border-radius: var(--radius-sm);
+            padding: 8px 10px 3px;
+            margin-top: 7px;
+            background: var(--accent-dim);
+        }
+        .nav-group-label {
+            position: absolute;
+            top: -7px;
+            left: 12px;
+            background: #0a0a0f;
+            padding: 1px 7px;
+            border: 1px solid var(--border-accent);
+            border-radius: 100px;
+            font-family: var(--font-mono);
+            font-size: 9.5px;
+            font-weight: 500;
+            color: var(--accent-bright);
+            text-transform: lowercase;
+            letter-spacing: 0.06em;
+            line-height: 1.3;
+        }
+        .nav-group-links { display: flex; align-items: center; gap: 2px; }
+
+        @media (max-width: 900px) {
+            .navbar { padding: 0 20px; }
+            .hamburger { display: flex; }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: fixed;
+                top: 68px; left: 0; right: 0;
+                background: rgba(10, 10, 15, 0.98);
+                backdrop-filter: blur(20px);
+                border-bottom: 1px solid var(--border);
+                padding: 16px 0 24px;
+                gap: 0;
+                z-index: 99;
+            }
+            .nav-links.open { display: flex; }
+            .nav-links li { width: 100%; }
+            .nav-group-item { width: 100%; }
+            .nav-group {
+                flex-direction: column;
+                align-items: stretch;
+                border-radius: var(--radius-md);
+                margin: 16px 28px 6px;
+                padding: 12px 0 6px;
+                width: auto;
+            }
+            .nav-group-label { left: 16px; background: #0a0a0f; }
+            .nav-group-links { flex-direction: column; width: 100%; }
+            .nav-group-links a { width: 100%; }
+
+            .nav-links a { display: block; padding: 14px 28px; font-size: 16px; border-radius: 0; }
+            .nav-links .nav-cta { padding: 12px 20px 0; }
+            .nav-links .nav-cta a { display: block; text-align: center; border-radius: var(--radius-sm); }
+            .hero { padding: 100px 24px 60px; }
+            main { padding: 0 24px; }
+            .anatomy-grid { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+            .two-col { grid-template-columns: minmax(0, 1fr); }
+            footer { flex-direction: column; gap: 12px; padding: 24px; text-align: center; }
+            .divider { margin: 0 24px; }
+            .cta-banner { padding: 36px 24px; }
+        }
+
+        /* ─── Tabela metod ze złożonością ─── */
+        .metody-wrap {
+            margin-top: 32px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow-x: auto;
+            background: var(--bg-card);
+        }
+
+        table.metody {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            min-width: 520px;
+        }
+
+        table.metody th {
+            text-align: left;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border);
+            background: rgba(255,255,255,0.02);
+            white-space: nowrap;
+        }
+
+        table.metody td {
+            padding: 13px 18px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+            line-height: 1.6;
+            vertical-align: top;
+        }
+
+        table.metody tr:last-child td { border-bottom: none; }
+        table.metody tbody tr { transition: background 0.2s; }
+        table.metody tbody tr:hover { background: rgba(96,165,250,0.05); }
+
+        table.metody td:first-child { white-space: nowrap; }
+        table.metody td:last-child { white-space: nowrap; }
+
+        table.metody code {
+            font-family: var(--font-mono);
+            font-size: 12.5px;
+            color: var(--accent-bright);
+            background: var(--accent-dim);
+            border: 1px solid var(--border-accent);
+            padding: 3px 9px;
+            border-radius: 5px;
+        }
+
+        .zloz {
+            font-family: var(--font-mono);
+            font-size: 11.5px;
+            font-weight: 500;
+            padding: 3px 10px;
+            border-radius: 100px;
+            white-space: nowrap;
+            display: inline-block;
+        }
+
+        .zloz.z1    { color:#4ade80; background:rgba(74,222,128,0.1);  border:1px solid rgba(74,222,128,0.28); }
+        .zloz.zlog  { color:#60a5fa; background:rgba(96,165,250,0.1);  border:1px solid rgba(96,165,250,0.28); }
+        .zloz.znlog { color:#a78bfa; background:rgba(167,139,250,0.1); border:1px solid rgba(167,139,250,0.28); }
+        .zloz.zn    { color:#fbbf24; background:rgba(251,191,36,0.1);  border:1px solid rgba(251,191,36,0.28); }
+        .zloz.zn2   { color:#f87171; background:rgba(248,113,113,0.1); border:1px solid rgba(248,113,113,0.28); }
+        .zloz.zinny { color:var(--text-secondary); background:rgba(255,255,255,0.05); border:1px solid var(--border); }
+
+        /* ─── Przykładowe zadania ─── */
+        .zadania-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 32px;
+        }
+
+        .zadanie {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 22px 24px;
+            transition: border-color 0.3s, transform 0.35s cubic-bezier(0.16,1,0.3,1);
+        }
+
+        .zadanie:hover {
+            border-color: var(--border-accent);
+            transform: translateY(-2px);
+        }
+
+        .zadanie-gora {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .zadanie-poziom {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            border-radius: 100px;
+            flex-shrink: 0;
+        }
+
+        .poz-latwe   { color:#4ade80; background:rgba(74,222,128,0.1);  border:1px solid rgba(74,222,128,0.28); }
+        .poz-srednie { color:#fbbf24; background:rgba(251,191,36,0.1);  border:1px solid rgba(251,191,36,0.28); }
+        .poz-trudne  { color:#f87171; background:rgba(248,113,113,0.1); border:1px solid rgba(248,113,113,0.28); }
+
+        .zadanie-tytul {
+            font-family: var(--font-display);
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+        }
+
+        .zadanie-tresc {
+            color: var(--text-secondary);
+            font-size: 14.5px;
+            line-height: 1.75;
+        }
+
+        .zadanie-wsk {
+            margin-top: 12px;
+            padding: 12px 16px;
+            background: var(--bg-surface);
+            border-left: 2px solid var(--border-accent);
+            border-radius: var(--radius-sm);
+            font-size: 13.5px;
+            line-height: 1.65;
+            color: var(--text-secondary);
+        }
+
+        .zadanie-wsk strong { color: var(--accent-bright); }
+
+        .zadanie-rozw { margin-top: 16px; }
+
+        .zadanie-rozw summary {
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--accent-bright);
+            letter-spacing: 0.05em;
+            padding: 9px 16px;
+            border: 1px solid var(--border-accent);
+            border-radius: 100px;
+            display: inline-block;
+            list-style: none;
+            transition: background 0.25s, transform 0.25s;
+            user-select: none;
+        }
+
+        .zadanie-rozw summary::-webkit-details-marker { display: none; }
+        .zadanie-rozw summary::before { content: '▸ '; }
+        .zadanie-rozw[open] summary::before { content: '▾ '; }
+        .zadanie-rozw summary:hover { background: var(--accent-dim); transform: translateY(-1px); }
+        .zadanie-rozw[open] summary { margin-bottom: 16px; }
+
+        @media (max-width: 720px) {
+            .zadanie { padding: 18px 16px; }
+            table.metody { font-size: 13px; }
+            table.metody th, table.metody td { padding: 11px 13px; }
+        }
+    </style>
+    <style id="tablet-nav">
+        /* ─── TABLET: nawigacja i logo (641–1299px) ───
+           < 1024px  menu pod hamburgerem jako panel po prawej,
+           1024–1299 pelne menu w wersji kompaktowej + logo w dwoch liniach. */
+        @media (min-width: 641px) {
+            .logo { flex-shrink: 0; }
+            .logo-text { white-space: nowrap; }
+        }
+
+        @media (min-width: 641px) and (max-width: 1023px) {
+            .navbar { padding: 0 28px; }
+            .logo-text { font-size: 15px; }
+            .hamburger { display: flex; }
+            .nav-pointer-bubble { display: none !important; }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: fixed;
+                top: 76px; right: 20px; left: auto;
+                width: 340px;
+                max-height: calc(100vh - 96px);
+                overflow-y: auto;
+                background: rgba(10, 10, 15, 0.98);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border: 1px solid var(--border);
+                border-radius: var(--radius-lg, 20px);
+                box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+                padding: 10px 0 16px;
+                gap: 0;
+                z-index: 99;
+            }
+            .nav-links.open { display: flex; }
+            .nav-links li { width: 100%; }
+            .nav-group-item { width: 100%; }
+            .nav-group {
+                flex: 1;
+                flex-direction: column;
+                align-items: stretch;
+                border-radius: var(--radius-md, 14px);
+                margin: 18px 16px 8px;
+                padding: 12px 0 6px;
+                width: auto;
+            }
+            .nav-group-label { left: 14px; background: #0a0a0f; }
+            .nav-group-links { flex-direction: column; align-items: stretch; width: 100%; gap: 0; }
+            .nav-group-links a { width: 100%; }
+            .focus-toggle {
+                width: 100%; justify-content: center; margin: 8px 0 0; padding: 10px 0 4px;
+                border-left: none; border-top: 1px solid var(--border);
+            }
+            .nav-links a { display: block; padding: 12px 24px; font-size: 15px; border-radius: 0; }
+            .nav-links a::after { display: none; }
+            .nav-links .nav-cta { padding: 10px 16px 0; }
+            .nav-links .nav-cta a { display: block; text-align: center; border-radius: var(--radius-sm, 8px); padding: 13px; }
+        }
+
+        @media (min-width: 1024px) and (max-width: 1299px) {
+            .navbar { padding: 0 24px; }
+            .logo { gap: 10px; }
+            .logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+            .logo-text-sub {
+                margin-top: 3px;
+                font-family: var(--font-mono);
+                font-size: 9.5px;
+                font-weight: 500;
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                color: var(--accent-bright);
+            }
+            .nav-links { gap: 2px; }
+            .nav-links a { padding: 8px 10px; font-size: 13.5px; letter-spacing: 0.01em; }
+            .nav-links a::after { left: 10px; right: 10px; }
+            .nav-group { padding: 8px 6px 3px; }
+            .nav-group-links { gap: 0; }
+            .focus-toggle { margin-left: 4px; padding-left: 8px; gap: 6px; }
+        }
+    </style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+
+<nav class="navbar" id="navbar">
+    <a class="logo" href="../index.html">
+        <img src="../img/t-olimpians-logo.jpg" alt="Logo">
+        <span class="logo-text">T-Olimpians <span class="logo-text-sub">Team Poland</span></span>
+        <img id="polska-flaga" src="../img/polska_flaga.png" alt="Flaga Polski">
+    </a>
+
+    <ul class="nav-links" id="navLinks">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../index.html#o-nas" class="nav-close">O nas</a></li>
+        <li class="nav-group-item">
+            <div class="nav-group">
+                <span class="nav-group-label">t-olimpians net</span>
+                <div class="nav-group-links">
+                <a href="../materialy.html" class="nav-close">C++/logika</a>
+                <a href="../net.html" class="nav-close">Algorytmy</a>
+                <a href="../zadania-OI-OIJ.html" class="nav-close">Zadania OI/OIJ</a>
+                <a href="../konkursy.html" class="nav-close">Konkursy</a>
+                </div>
+            </div>
+        </li>
+        <li><a href="../zapisy.html" class="nav-close">Zapisy</a></li>
+        <li class="nav-cta"><a href="../index.html#contact-section" class="nav-close">Dołącz →</a></li>
+    </ul>
+
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+    </button>
+</nav>
+
+<section class="hero">
+    <div class="hero-badge">C++ · Podstawy · Zmienne</div>
+    <h1>Typy <span>zmiennych</span> w C++</h1>
+    <p>Poznaj podstawowe typy danych w C++ — int, float, char, string i bool — oraz słowa kluczowe const i auto. To pierwszy krok: bez zmiennych nie napiszesz żadnego programu.</p>
+    <div class="hero-actions">
+        <button class="btn-primary" onclick="document.getElementById('podstawy').scrollIntoView({ behavior: 'smooth' });">Zacznij naukę</button>
+        <button class="btn-ghost" onclick="document.getElementById('porady').scrollIntoView({ behavior: 'smooth' });">Częste błędy</button>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<main>
+
+    <section class="wideo-sekcja reveal" id="filmy">
+        <div class="wideo-gora">
+            <div class="wideo-gora-tekst">
+                <div class="wideo-etykieta">Filmy z OKI</div>
+                <h2>Wolisz <span>obejrzeć</span>?</h2>
+                <p class="wideo-wstep">Olimpijskie Koło Informatyczne nagrywa swoje zajęcia i udostępnia je za darmo. Poniżej 3 odcinki o tym temacie — dobre uzupełnienie, jeśli wolisz obejrzeć niż przeczytać.</p>
+            </div>
+            <div class="wideo-playlisty">
+                <a href="https://www.youtube.com/playlist?list=PL9BlBU4U-rDPrKykeT62mK-cH_NCuIg4Q" target="_blank" rel="noopener">Programowanie OD PODSTAW &#8599;</a>
+            </div>
+        </div>
+        <div class="wideo-grid">
+                <a class="wideo-karta" href="https://www.youtube.com/watch?v=PqS5Az-ZiPs"
+                   target="_blank" rel="noopener" onclick="return okiWideo(this, 'PqS5Az-ZiPs')">
+                    <div class="wideo-miniatura">
+                        <img src="https://i.ytimg.com/vi/PqS5Az-ZiPs/hqdefault.jpg" alt="" loading="lazy">
+                        <div class="wideo-play"><span>&#9654;</span></div>
+                        <div class="wideo-czas">1:23:49</div>
+                    </div>
+                    <div class="wideo-opis">
+                        <div class="wideo-meta"><b>Odc. 2</b> &middot; OD PODSTAW</div>
+                        <div class="wideo-tytul">📦 Szufladki magiczne - Zmienne logiczne</div>
+                    </div>
+                </a>
+                <a class="wideo-karta" href="https://www.youtube.com/watch?v=Qo43wQgD1T0"
+                   target="_blank" rel="noopener" onclick="return okiWideo(this, 'Qo43wQgD1T0')">
+                    <div class="wideo-miniatura">
+                        <img src="https://i.ytimg.com/vi/Qo43wQgD1T0/hqdefault.jpg" alt="" loading="lazy">
+                        <div class="wideo-play"><span>&#9654;</span></div>
+                        <div class="wideo-czas">1:20:53</div>
+                    </div>
+                    <div class="wideo-opis">
+                        <div class="wideo-meta"><b>Odc. 4</b> &middot; OD PODSTAW</div>
+                        <div class="wideo-tytul">✨ Czar char - Znaki</div>
+                    </div>
+                </a>
+                <a class="wideo-karta" href="https://www.youtube.com/watch?v=yhYWC81r6Ns"
+                   target="_blank" rel="noopener" onclick="return okiWideo(this, 'yhYWC81r6Ns')">
+                    <div class="wideo-miniatura">
+                        <img src="https://i.ytimg.com/vi/yhYWC81r6Ns/hqdefault.jpg" alt="" loading="lazy">
+                        <div class="wideo-play"><span>&#9654;</span></div>
+                        <div class="wideo-czas">1:06:51</div>
+                    </div>
+                    <div class="wideo-opis">
+                        <div class="wideo-meta"><b>Odc. 22</b> &middot; OD PODSTAW</div>
+                        <div class="wideo-tytul">🚀 Double misja czyli liczby z przecinkiem</div>
+                    </div>
+                </a>
+        </div>
+        <div class="wideo-zrodlo">Materiały Olimpijskiego Koła Informatycznego — kanał zewnętrzny. Kliknięcie odtwarza film tutaj, bez opuszczania strony.</div>
+    </section>
+
+    <section class="syntax-section" id="podstawy">
+        <span class="section-label reveal">01 — Podstawy</span>
+        <h2 class="reveal">Czym jest zmienna?</h2>
+        <p class="reveal">Zmienna to <strong style="color:var(--accent-bright)">pudełko na dane</strong>, które program trzyma w pamięci komputera. Wkładasz do niego jedną rzecz — liczbę, znak albo tekst — i podpisujesz ją nazwą, żeby móc później po nią sięgnąć. Bez zmiennych komputer zapominałby wszystko, co przed chwilą policzył.</p>
+        <p class="reveal">Każde takie pudełko opisują trzy rzeczy:</p>
+
+        <div class="anatomy-grid">
+            <div class="part-cards reveal reveal-left">
+                <div class="part-card">
+                    <div class="part-icon blue">🏷️</div>
+                    <div class="part-body">
+                        <h4>typ</h4>
+                        <p>Mówi, <strong style="color:var(--text-primary)">co</strong> wolno włożyć do pudełka: liczbę całkowitą, ułamek, pojedynczy znak czy tekst. Typ podajesz raz — przy tworzeniu zmiennej — i później już się nie zmienia.</p>
+                    </div>
+                </div>
+                <div class="part-card">
+                    <div class="part-icon green">📛</div>
+                    <div class="part-body">
+                        <h4>nazwa</h4>
+                        <p>Tak wołasz swoje pudełko w kodzie. Wymyślasz ją sam — bez spacji i bez polskich znaków, np. <code>wiek</code>, <code>imie</code>, <code>liczbaPunktow</code>.</p>
+                    </div>
+                </div>
+                <div class="part-card">
+                    <div class="part-icon purp">📦</div>
+                    <div class="part-body">
+                        <h4>wartość</h4>
+                        <p>To, co siedzi w pudełku w tej chwili. Możesz ją wypisać na ekran i w każdej chwili podmienić na inną.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="reveal reveal-right">
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-dots"><span></span><span></span><span></span></div>
+                        <div class="code-block-title">zmienna.cpp</div>
+                    </div>
+                    <pre><code><span class="tp">typ</span> <span class="var">nazwa</span> <span class="op">=</span> <span class="num">wartość</span><span class="op">;</span>
+
+<span class="cm">// tworzymy pudełko o nazwie wiek</span>
+<span class="tp">int</span> <span class="var">wiek</span> <span class="op">=</span> <span class="num">17</span><span class="op">;</span>
+<span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">wiek</span><span class="op">;</span>   <span class="cm">// wypisze 17</span>
+
+<span class="cm">// podmieniamy zawartość — typ zostaje</span>
+<span class="var">wiek</span> <span class="op">=</span> <span class="num">18</span><span class="op">;</span>
+<span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">wiek</span><span class="op">;</span>   <span class="cm">// wypisze 18</span></code></pre>
+                </div>
+                <div class="output-label">▶ Zapamiętaj</div>
+                <div class="output-box">Typ piszesz tylko raz — przy
+tworzeniu zmiennej. Potem
+wystarczy sama nazwa.</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="syntax-section" id="typy-podstawowe">
+        <span class="section-label reveal">02 — Typy podstawowe</span>
+        <h2 class="reveal">int, float, char, string i bool</h2>
+        <p class="reveal">Tych pięć typów wystarczy na pierwsze kilkadziesiąt programów. Zanim utworzysz zmienną, zadaj sobie jedno pytanie: co chcę w niej trzymać — liczbę całkowitą, liczbę z przecinkiem, pojedynczy znak, tekst czy odpowiedź „tak/nie”?</p>
+
+        <div class="anatomy-grid">
+            <div class="part-cards reveal reveal-left">
+                <div class="part-card">
+                    <div class="part-icon blue">🔢</div>
+                    <div class="part-body">
+                        <h4>int</h4>
+                        <p>Liczby całkowite, czyli bez przecinka: <code>0</code>, <code>17</code>, <code>-5</code>. Pułapka: <code>7 / 2</code> daje <code>3</code>, bo w <code>int</code> nie zmieści się połówka — reszta po prostu znika.</p>
+                    </div>
+                </div>
+                <div class="part-card">
+                    <div class="part-icon green">🌊</div>
+                    <div class="part-body">
+                        <h4>float</h4>
+                        <p>Liczby z przecinkiem, np. <code>4.75f</code>. W C++ piszemy kropkę zamiast przecinka, a na końcu dodajemy literkę <code>f</code>. Tutaj <code>7 / 2.0</code> daje już <code>3.5</code>.</p>
+                    </div>
+                </div>
+                <div class="part-card">
+                    <div class="part-icon purp">🔤</div>
+                    <div class="part-body">
+                        <h4>char</h4>
+                        <p>Dokładnie <strong style="color:var(--text-primary)">jeden</strong> znak, zawsze w apostrofach: <code>&#39;a&#39;</code>, <code>&#39;7&#39;</code>, <code>&#39;!&#39;</code>. Uwaga: <code>&#39;7&#39;</code> to narysowana cyfra, a nie liczba 7, którą da się dodawać.</p>
+                    </div>
+                </div>
+                <div class="part-card">
+                    <div class="part-icon ora">📝</div>
+                    <div class="part-body">
+                        <h4>string</h4>
+                        <p>Cały tekst, w cudzysłowie: <code>"Kacper"</code>. Na górze pliku dopisz <code>#include &lt;string&gt;</code>. Teksty skleja się plusem, a <code>.length()</code> mówi, ile mają znaków.</p>
+                    </div>
+                </div>
+                <div class="part-card">
+                    <div class="part-icon cyan">✅</div>
+                    <div class="part-body">
+                        <h4>bool</h4>
+                        <p>Odpowiedź „tak/nie” — mieści tylko dwie wartości: <code>true</code> (prawda) i <code>false</code> (fałsz). Poświęcamy mu całą następną sekcję.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="reveal reveal-right">
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-dots"><span></span><span></span><span></span></div>
+                        <div class="code-block-title">typy_podstawowe.cpp</div>
+                    </div>
+                    <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;string&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">int</span>    <span class="var">wiek</span>    <span class="op">=</span> <span class="num">17</span><span class="op">;</span>
+    <span class="tp">float</span>  <span class="var">srednia</span> <span class="op">=</span> <span class="num">4.75f</span><span class="op">;</span>
+    <span class="tp">char</span>   <span class="var">ocena</span>   <span class="op">=</span> <span class="str">&#39;A&#39;</span><span class="op">;</span>
+    <span class="tp">string</span> <span class="var">imie</span>    <span class="op">=</span> <span class="str">"Kacper"</span><span class="op">;</span>
+    <span class="tp">bool</span>   <span class="var">zdany</span>   <span class="op">=</span> <span class="kw">true</span><span class="op">;</span>
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">imie</span> <span class="op">&lt;&lt;</span> <span class="str">" ma "</span> <span class="op">&lt;&lt;</span> <span class="var">wiek</span> <span class="op">&lt;&lt;</span> <span class="str">" lat\n"</span><span class="op">;</span>
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Srednia: "</span> <span class="op">&lt;&lt;</span> <span class="var">srednia</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Ocena:   "</span> <span class="op">&lt;&lt;</span> <span class="var">ocena</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Zdany:   "</span> <span class="op">&lt;&lt;</span> <span class="var">zdany</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+                </div>
+                <div class="output-label">▶ Wyjście programu</div>
+                <div class="output-box">Kacper ma 17 lat
+Srednia: 4.75
+Ocena:   A
+Zdany:   1</div>
+            </div>
+        </div>
+
+        <p class="reveal">Spójrz na ostatnią linijkę wyjścia: <code>bool</code> wypisał się jako <code>1</code>, a nie jako <code>true</code>. Dlaczego tak jest i co z tym zrobić — od razu w następnej sekcji.</p>
+    </section>
+
+    <section class="syntax-section" id="bool">
+        <span class="section-label reveal">03 — Typ bool</span>
+        <h2 class="reveal">bool, czyli prawda albo fałsz</h2>
+        <p class="reveal">Poprzednie typy trzymały liczby i tekst. <code>bool</code> jest od nich wszystkich prostszy: mieści tylko <strong style="color:var(--accent-bright)">dwie</strong> wartości — <code>true</code> (prawda) i <code>false</code> (fałsz). Nazwa pochodzi od nazwiska matematyka George’a Boole’a, ale w praktyce chodzi o coś bardzo zwyczajnego: o zapamiętanie odpowiedzi na pytanie „tak czy nie”. Czy gracz wygrał? Czy hasło się zgadza? Czy liczba jest większa od stu?</p>
+        <p class="reveal">Najważniejsze jest to, że <strong style="color:var(--text-primary)">wartość typu bool powstaje sama</strong>, gdy coś porównujesz. Zapis <code>wiek &gt;= 18</code> to nie jest pytanie bez odpowiedzi — to gotowe <code>true</code> albo <code>false</code>, które możesz od razu włożyć do zmiennej.</p>
+
+        <div class="two-col">
+            <div class="reveal reveal-left">
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-dots"><span></span><span></span><span></span></div>
+                        <div class="code-block-title">bool.cpp</div>
+                    </div>
+                    <pre><code><span class="tp">bool</span> <span class="var">zdany</span> <span class="op">=</span> <span class="kw">true</span><span class="op">;</span>
+<span class="tp">bool</span> <span class="var">pada</span>  <span class="op">=</span> <span class="kw">false</span><span class="op">;</span>
+
+<span class="cm">// porównanie samo daje true albo false</span>
+<span class="tp">int</span> <span class="var">wiek</span> <span class="op">=</span> <span class="num">17</span><span class="op">;</span>
+<span class="tp">bool</span> <span class="var">pelnoletni</span> <span class="op">=</span> (<span class="var">wiek</span> <span class="op">&gt;=</span> <span class="num">18</span>)<span class="op">;</span>
+
+<span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">zdany</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+<span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">pelnoletni</span><span class="op">;</span></code></pre>
+                </div>
+                <div class="output-label">▶ Wyjście programu</div>
+                <div class="output-box">1
+0</div>
+            </div>
+            <div class="reveal reveal-right">
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-dots"><span></span><span></span><span></span></div>
+                        <div class="code-block-title">boolalpha.cpp</div>
+                    </div>
+                    <pre><code><span class="cm">// C++ wypisuje bool jako liczbę:</span>
+<span class="cm">// true to 1, a false to 0</span>
+<span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="kw">true</span> <span class="op">&lt;&lt;</span> <span class="str">" "</span> <span class="op">&lt;&lt;</span> <span class="kw">false</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+
+<span class="cm">// boolalpha każe pisać słowami</span>
+<span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">boolalpha</span><span class="op">;</span>
+<span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="kw">true</span> <span class="op">&lt;&lt;</span> <span class="str">" "</span> <span class="op">&lt;&lt;</span> <span class="kw">false</span><span class="op">;</span></code></pre>
+                </div>
+                <div class="output-label">▶ Wyjście programu</div>
+                <div class="output-box">1 0
+true false</div>
+            </div>
+        </div>
+
+        <p class="reveal">Pod spodem <code>bool</code> jest po prostu liczbą: <code>true</code> to <code>1</code>, a <code>false</code> to <code>0</code>. Dlatego <code>cout</code> domyślnie wypisuje cyfry, a nie słowa — i dlatego <code>bool</code> zajmuje w pamięci zaledwie jeden bajt.</p>
+        <p class="reveal">Wartości <code>true</code> i <code>false</code> najczęściej powstają z porównań, a potem można je jeszcze łączyć ze sobą. To cała lista zapisów, których będziesz potrzebować:</p>
+
+        <div class="metody-wrap reveal">
+            <table class="metody">
+                <thead><tr><th>Zapis</th><th>Czyta się</th><th>Daje <code>true</code>, gdy…</th><th>Przykład</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td><code>a == b</code></td>
+                        <td>a równe b</td>
+                        <td>obie wartości są takie same</td>
+                        <td><code>3 == 3</code> → <code>true</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>a != b</code></td>
+                        <td>a różne od b</td>
+                        <td>wartości się różnią</td>
+                        <td><code>3 != 5</code> → <code>true</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>a &lt; b</code></td>
+                        <td>a mniejsze od b</td>
+                        <td>a jest mniejsze (jest też <code>&gt;</code>)</td>
+                        <td><code>2 &lt; 5</code> → <code>true</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>a &gt;= b</code></td>
+                        <td>a większe lub równe b</td>
+                        <td>a nie jest mniejsze (jest też <code>&lt;=</code>)</td>
+                        <td><code>5 &gt;= 5</code> → <code>true</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>!x</code></td>
+                        <td>nie x</td>
+                        <td><code>x</code> jest <code>false</code> — odwraca odpowiedź</td>
+                        <td><code>!false</code> → <code>true</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>x &amp;&amp; y</code></td>
+                        <td>x oraz y</td>
+                        <td><strong style="color:var(--text-primary)">oba</strong> są <code>true</code></td>
+                        <td><code>true &amp;&amp; false</code> → <code>false</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>x || y</code></td>
+                        <td>x lub y</td>
+                        <td><strong style="color:var(--text-primary)">przynajmniej jeden</strong> jest <code>true</code></td>
+                        <td><code>true || false</code> → <code>true</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p class="reveal">Po co to wszystko? <code>bool</code> jest paliwem dla instrukcji <code>if</code>, którą poznasz w temacie <strong style="color:var(--text-primary)">If / Else</strong> — to ona pozwala programowi podjąć decyzję. Na razie wystarczy, że zobaczysz, jak to wygląda w praktyce:</p>
+
+        <div class="reveal">
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-dots"><span></span><span></span><span></span></div>
+                    <div class="code-block-title">decyzja.cpp</div>
+                </div>
+                <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">int</span> <span class="var">punkty</span> <span class="op">=</span> <span class="num">85</span><span class="op">;</span>
+
+    <span class="cm">// zmienna bool przechowuje odpowiedź na pytanie</span>
+    <span class="cm">// "czy punktów jest co najmniej 50?"</span>
+    <span class="tp">bool</span> <span class="var">zaliczone</span> <span class="op">=</span> (<span class="var">punkty</span> <span class="op">&gt;=</span> <span class="num">50</span>)<span class="op">;</span>
+
+    <span class="kw">if</span> (<span class="var">zaliczone</span>) {
+        <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Zaliczone!"</span><span class="op">;</span>
+    } <span class="kw">else</span> {
+        <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Poprawka..."</span><span class="op">;</span>
+    }
+
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+            </div>
+            <div class="output-label">▶ Wyjście programu</div>
+            <div class="output-box">Zaliczone!</div>
+        </div>
+
+        <p class="reveal">I jeszcze jedna pułapka, na której potyka się prawie każdy na początku: <code>=</code> to <strong style="color:var(--text-primary)">nie to samo</strong> co <code>==</code>. Pojedyncze <code>=</code> wkłada wartość do zmiennej, a podwójne <code>==</code> sprawdza, czy dwie rzeczy są równe. W porównaniach zawsze piszemy <code>==</code>.</p>
+    </section>
+
+    <section class="syntax-section" id="const-auto">
+        <span class="section-label reveal">04 — const i auto</span>
+        <h2 class="reveal">Stałe wartości i typ odgadywany przez komputer</h2>
+        <p class="reveal"><code>const</code> zamyka pudełko na klucz: wartość ustawiasz raz, przy tworzeniu zmiennej, i od tej pory nikt — nawet ty przez pomyłkę — jej nie podmieni. <code>auto</code> działa odwrotnie: nie podajesz typu, tylko każesz komputerowi samemu go rozpoznać po tym, co stoi po prawej stronie znaku <code>=</code>.</p>
+
+        <div class="two-col">
+            <div class="reveal reveal-left">
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-dots"><span></span><span></span><span></span></div>
+                        <div class="code-block-title">const.cpp</div>
+                    </div>
+                    <pre><code><span class="kw">const</span> <span class="tp">int</span> <span class="var">maksGraczy</span> <span class="op">=</span> <span class="num">4</span><span class="op">;</span>
+<span class="kw">const</span> <span class="tp">float</span> <span class="var">PI</span> <span class="op">=</span> <span class="num">3.14159f</span><span class="op">;</span>
+
+<span class="cm">// maksGraczy = 5;  // BŁĄD kompilacji!</span></code></pre>
+                </div>
+                <div class="output-label">▶ Kiedy używać</div>
+                <div class="output-box">Stałe matematyczne, ustawienia,
+limity — wartości, które nie
+powinny się zmienić.</div>
+            </div>
+            <div class="reveal reveal-right">
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-dots"><span></span><span></span><span></span></div>
+                        <div class="code-block-title">auto.cpp</div>
+                    </div>
+                    <pre><code><span class="kw">auto</span> <span class="var">liczba</span> <span class="op">=</span> <span class="num">10</span><span class="op">;</span>        <span class="cm">// int</span>
+<span class="kw">auto</span> <span class="var">ulamek</span> <span class="op">=</span> <span class="num">2.5f</span><span class="op">;</span>     <span class="cm">// float</span>
+<span class="kw">auto</span> <span class="var">znak</span>   <span class="op">=</span> <span class="str">'x'</span><span class="op">;</span>       <span class="cm">// char</span></code></pre>
+                </div>
+                <div class="output-label">▶ Kiedy używać</div>
+                <div class="output-box">Gdy typ jest oczywisty lub długi.
+Na początek warto pisać typy
+wprost — łatwiej się uczyć.</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="syntax-section" id="zakresy">
+        <span class="section-label reveal">05 — Zakresy typów</span>
+        <h2 class="reveal">Ile bajtów i jakie wartości mieści każdy typ</h2>
+        <p class="reveal">Każdy typ zajmuje z góry ustaloną liczbę bajtów, a więc ma też swój <strong style="color:var(--accent-bright)">limit</strong>. Gdy go przekroczysz, program nie zgłosi żadnego błędu — po prostu wypisze bzdurę, często liczbę ujemną. Całej tabeli nie musisz znać na pamięć; na start zapamiętaj dwa wiersze: <code>int</code> i <code>double</code>.</p>
+
+        <div class="metody-wrap reveal">
+            <table class="metody">
+                <thead><tr><th>Typ</th><th>Rozmiar</th><th>Zakres</th><th>Kiedy używać</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td><code>bool</code></td>
+                        <td>1 bajt</td>
+                        <td><code>false</code> / <code>true</code></td>
+                        <td>Odpowiedź „tak/nie”: <code>true</code> albo <code>false</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>char</code></td>
+                        <td>1 bajt</td>
+                        <td>-128 … 127</td>
+                        <td>Jeden znak: litera, cyfra albo przecinek</td>
+                    </tr>
+                    <tr>
+                        <td><code>short</code></td>
+                        <td>2 bajty</td>
+                        <td>-32 768 … 32 767</td>
+                        <td>Prawie nigdy — <code>int</code> jest wygodniejszy</td>
+                    </tr>
+                    <tr>
+                        <td><code>int</code></td>
+                        <td>4 bajty</td>
+                        <td>-2 147 483 648 … 2 147 483 647</td>
+                        <td>Twój domyślny typ na liczby całkowite</td>
+                    </tr>
+                    <tr>
+                        <td><code>unsigned int</code></td>
+                        <td>4 bajty</td>
+                        <td>0 … 4 294 967 295</td>
+                        <td>Tylko liczby nieujemne — na start omijaj</td>
+                    </tr>
+                    <tr>
+                        <td><code>long long</code></td>
+                        <td>8 bajtów</td>
+                        <td>-9,22·10^18 … 9,22·10^18</td>
+                        <td>Gdy liczba przekracza 2 miliardy</td>
+                    </tr>
+                    <tr>
+                        <td><code>unsigned long long</code></td>
+                        <td>8 bajtów</td>
+                        <td>0 … 1,84·10^19</td>
+                        <td>Bardzo duże liczby nieujemne — rzadko potrzebny</td>
+                    </tr>
+                    <tr>
+                        <td><code>float</code></td>
+                        <td>4 bajty</td>
+                        <td>~7 cyfr znaczących</td>
+                        <td>Mało dokładny — lepiej weź <code>double</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>double</code></td>
+                        <td>8 bajtów</td>
+                        <td>~15–16 cyfr znaczących</td>
+                        <td>Twój domyślny typ na liczby z przecinkiem</td>
+                    </tr>
+                    <tr>
+                        <td><code>long double</code></td>
+                        <td>16 bajtów</td>
+                        <td>~18–19 cyfr znaczących</td>
+                        <td>Gdy <code>double</code> nie wystarcza — rzadkość</td>
+                    </tr>
+                    <tr>
+                        <td><code>string</code></td>
+                        <td>zmienny</td>
+                        <td>dowolna długość tekstu</td>
+                        <td>Tekst: imię, słowo albo całe zdanie</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p class="reveal">Zapamiętaj dwie liczby: <code>int</code> kończy się w okolicach <strong style="color:var(--text-primary)">2 miliardów</strong>, a <code>long long</code> dopiero w okolicach <strong style="color:var(--text-primary)">9 trylionów (czyli 9 z osiemnastoma zerami)</strong>. Jeśli wynik może przekroczyć 2 miliardy — na przykład mnożysz przez siebie dwie duże liczby — od razu weź <code>long long</code>. Nic na tym nie tracisz.</p>
+    </section>
+
+    <section class="syntax-section" id="konwersje">
+        <span class="section-label reveal">06 — Konwersje i rzutowanie</span>
+        <h2 class="reveal">Co się dzieje, gdy typy się mieszają</h2>
+        <p class="reveal">Gdy w jednym działaniu spotkają się dwa różne typy, C++ po cichu zamienia jeden na drugi. Czasem to wygodne, a czasem właśnie tu gubi się ułamek. <strong style="color:var(--accent-bright)">Rzutowanie</strong> to sposób, żeby zrobić to świadomie: wstawiasz nazwę typu w nawiasie przed wartością, np. <code>(double)a</code>, i mówisz komputerowi „potraktuj to jak liczbę z przecinkiem”. Poniżej wszystkie przypadki, które naprawdę spotkasz na początku.</p>
+
+        <div class="metody-wrap reveal">
+            <table class="metody">
+                <thead><tr><th>Konwersja</th><th>Co się dzieje</th><th>Przykład</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td><code>int → double</code></td>
+                        <td>Automatyczna, bezstratna.</td>
+                        <td><code>double x = 5;</code> daje 5.0</td>
+                    </tr>
+                    <tr>
+                        <td><code>double → int</code></td>
+                        <td>Ucina część ułamkową, <strong style="color:var(--text-primary)">nie zaokrągla</strong>.</td>
+                        <td><code>(int)2.9</code> daje 2</td>
+                    </tr>
+                    <tr>
+                        <td><code>int / int</code></td>
+                        <td>Dzielenie całkowite — ułamek przepada.</td>
+                        <td><code>7 / 2</code> daje 3</td>
+                    </tr>
+                    <tr>
+                        <td><code>(double)a / b</code></td>
+                        <td>Wystarczy rzutować jedną z dwóch liczb.</td>
+                        <td><code>(double)7 / 2</code> daje 3.5</td>
+                    </tr>
+                    <tr>
+                        <td><code>int → long long</code></td>
+                        <td>Dzieje się <strong style="color:var(--text-primary)">dopiero po</strong> obliczeniu — za późno.</td>
+                        <td><code>long long x = a * b;</code> może już przepełnić</td>
+                    </tr>
+                    <tr>
+                        <td><code>1LL * a * b</code></td>
+                        <td>Zmusza C++ do liczenia od razu na <code>long long</code>.</td>
+                        <td>Działa nawet dla bardzo dużych <code>a</code> i <code>b</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>char → int</code></td>
+                        <td>Daje numer znaku w tablicy ASCII.</td>
+                        <td><code>'a'</code> to 97, <code>c - '0'</code> to cyfra</td>
+                    </tr>
+                    <tr>
+                        <td><code>string → int</code></td>
+                        <td><code>stoi(s)</code>, dla większych <code>stoll(s)</code>.</td>
+                        <td><code>stoi("42")</code> daje 42</td>
+                    </tr>
+                    <tr>
+                        <td><code>int → string</code></td>
+                        <td><code>to_string(x)</code>.</td>
+                        <td><code>to_string(42)</code> daje "42"</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="reveal">
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-dots"><span></span><span></span><span></span></div>
+                    <div class="code-block-title">pulapki.cpp</div>
+                </div>
+                <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="cm">// 1. dzielenie całkowite tam, gdzie chcieliśmy ułamek</span>
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="num">7</span> <span class="op">/</span> <span class="num">2</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>              <span class="cm">// 3   - nie 3.5</span>
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="num">7</span> <span class="op">/</span> <span class="num">2.0</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>            <span class="cm">// 3.5 - jeden składnik jako double</span>
+
+    <span class="cm">// 2. przepełnienie PRZED przypisaniem</span>
+    <span class="tp">int</span> <span class="var">a</span> <span class="op">=</span> <span class="num">100000</span><span class="op">,</span> <span class="var">b</span> <span class="op">=</span> <span class="num">100000</span><span class="op">;</span>
+    <span class="tp">long long</span> <span class="var">zle</span> <span class="op">=</span> <span class="var">a</span> <span class="op">*</span> <span class="var">b</span><span class="op">;</span>               <span class="cm">// liczone na int -&gt; przepełnienie</span>
+    <span class="tp">long long</span> <span class="var">dobrze</span> <span class="op">=</span> <span class="num">1LL</span> <span class="op">*</span> <span class="var">a</span> <span class="op">*</span> <span class="var">b</span><span class="op">;</span>      <span class="cm">// liczone na long long</span>
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">zle</span> <span class="op">&lt;&lt;</span> <span class="str">" "</span> <span class="op">&lt;&lt;</span> <span class="var">dobrze</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+
+    <span class="cm">// 3. unsigned i odejmowanie</span>
+    <span class="tp">unsigned int</span> <span class="var">u</span> <span class="op">=</span> <span class="num">3</span><span class="op">;</span>
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">u</span> <span class="op">-</span> <span class="num">5</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>               <span class="cm">// ogromna liczba, nie -2</span>
+
+    <span class="cm">// 4. char to liczba</span>
+    <span class="tp">char</span> <span class="var">c</span> <span class="op">=</span> <span class="str">'a'</span><span class="op">;</span>
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">c</span> <span class="op">&lt;&lt;</span> <span class="str">" "</span> <span class="op">&lt;&lt;</span> (<span class="tp">int</span>)<span class="var">c</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>  <span class="cm">// a 97</span>
+
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+            </div>
+            <div class="output-label">▶ Wyjście programu</div>
+            <div class="output-box">3
+3.5
+1410065408 10000000000
+4294967294
+a 97</div>
+        </div>
+
+        <p class="reveal">Trzeci przypadek zaskakuje najczęściej: odejmowanie na <code>unsigned</code> nigdy nie da wyniku ujemnego — zamiast tego przeskakuje na drugi koniec zakresu i wychodzi ogromna liczba. Dlatego <strong style="color:var(--text-primary)">na początku trzymaj się zwykłego int i long long</strong>, a <code>unsigned</code> zostaw sobie na później.</p>
+    </section>
+
+    <section class="syntax-section" id="zadania">
+        <span class="section-label reveal">07 — Przykładowe zadania</span>
+        <h2 class="reveal">Sprawdź się na zadaniach</h2>
+        <p class="reveal">Sześć zadań od najprostszego. Pierwsze trzy sprawdzają, czy umiesz tworzyć zmienne i nie gubić ułamków; trzy kolejne — czy dobierasz typ <strong style="color:var(--text-primary)">zanim</strong> zaczniesz liczyć. Rozwiązania są schowane, więc najpierw spróbuj sam.</p>
+
+        <div class="zadania-grid">
+            <div class="zadanie reveal">
+                <div class="zadanie-gora">
+                    <span class="zadanie-poziom poz-latwe">Łatwe</span>
+                    <span class="zadanie-tytul">Wizytówka</span>
+                </div>
+                <div class="zadanie-tresc">Utwórz po jednej zmiennej każdego z pięciu poznanych typów (<code>int</code>, <code>double</code>, <code>char</code>, <code>string</code>, <code>bool</code>), wpisz do nich cokolwiek i wypisz wszystko na ekran.</div>
+                <div class="zadanie-wsk"><strong>Jak to ugryźć:</strong> To zadanie na rozgrzewkę — sprawdza, czy pamiętasz składnię zapisu wartości: tekst w cudzysłowie, znak w apostrofach, ułamek z kropką, <code>bool</code> jako <code>true</code> albo <code>false</code>.</div>
+                <details class="zadanie-rozw">
+                    <summary>Pokaż rozwiązanie</summary>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-dots"><span></span><span></span><span></span></div>
+                            <div class="code-block-title">wizytowka.cpp</div>
+                        </div>
+                        <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;string&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">int</span>    <span class="var">wiek</span>    <span class="op">=</span> <span class="num">14</span><span class="op">;</span>
+    <span class="tp">double</span> <span class="var">wzrost</span>  <span class="op">=</span> <span class="num">1.62</span><span class="op">;</span>
+    <span class="tp">char</span>   <span class="var">inicjal</span> <span class="op">=</span> <span class="str">'K'</span><span class="op">;</span>
+    <span class="tp">string</span> <span class="var">miasto</span>  <span class="op">=</span> <span class="str">"Krakow"</span><span class="op">;</span>
+    <span class="tp">bool</span>   <span class="var">uczen</span>   <span class="op">=</span> <span class="kw">true</span><span class="op">;</span>
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Wiek:    "</span> <span class="op">&lt;&lt;</span> <span class="var">wiek</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Wzrost:  "</span> <span class="op">&lt;&lt;</span> <span class="var">wzrost</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Inicjal: "</span> <span class="op">&lt;&lt;</span> <span class="var">inicjal</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Miasto:  "</span> <span class="op">&lt;&lt;</span> <span class="var">miasto</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Uczen:   "</span> <span class="op">&lt;&lt;</span> <span class="var">boolalpha</span> <span class="op">&lt;&lt;</span> <span class="var">uczen</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+            <div class="zadanie reveal">
+                <div class="zadanie-gora">
+                    <span class="zadanie-poziom poz-latwe">Łatwe</span>
+                    <span class="zadanie-tytul">Zamiana zawartości</span>
+                </div>
+                <div class="zadanie-tresc">Utwórz dwie zmienne <code>a</code> i <code>b</code> z różnymi wartościami, a potem zamień ich zawartość miejscami i wypisz wynik.</div>
+                <div class="zadanie-wsk"><strong>Jak to ugryźć:</strong> Nie da się zrobić <code>a = b; b = a;</code> — po pierwszej linijce stara wartość <code>a</code> już nie istnieje. Potrzebujesz trzeciej zmiennej, która przechowa ją na chwilę. Dokładnie tak, jak przy przelewaniu wody między dwoma szklankami.</div>
+                <details class="zadanie-rozw">
+                    <summary>Pokaż rozwiązanie</summary>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-dots"><span></span><span></span><span></span></div>
+                            <div class="code-block-title">zamiana.cpp</div>
+                        </div>
+                        <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">int</span> <span class="var">a</span> <span class="op">=</span> <span class="num">3</span><span class="op">;</span>
+    <span class="tp">int</span> <span class="var">b</span> <span class="op">=</span> <span class="num">8</span><span class="op">;</span>
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Przed: a="</span> <span class="op">&lt;&lt;</span> <span class="var">a</span> <span class="op">&lt;&lt;</span> <span class="str">" b="</span> <span class="op">&lt;&lt;</span> <span class="var">b</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+
+    <span class="tp">int</span> <span class="var">pomocnicza</span> <span class="op">=</span> <span class="var">a</span><span class="op">;</span>    <span class="cm">// odkladamy a na bok</span>
+    <span class="var">a</span> <span class="op">=</span> <span class="var">b</span><span class="op">;</span>                 <span class="cm">// do a wchodzi b</span>
+    <span class="var">b</span> <span class="op">=</span> <span class="var">pomocnicza</span><span class="op">;</span>        <span class="cm">// do b wraca stare a</span>
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Po:    a="</span> <span class="op">&lt;&lt;</span> <span class="var">a</span> <span class="op">&lt;&lt;</span> <span class="str">" b="</span> <span class="op">&lt;&lt;</span> <span class="var">b</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+            <div class="zadanie reveal">
+                <div class="zadanie-gora">
+                    <span class="zadanie-poziom poz-latwe">Łatwe</span>
+                    <span class="zadanie-tytul">Średnia z trzech ocen</span>
+                </div>
+                <div class="zadanie-tresc">Wczytaj trzy oceny (liczby całkowite) i wypisz ich średnią z dokładnością do dwóch miejsc po przecinku.</div>
+                <div class="zadanie-wsk"><strong>Jak to ugryźć:</strong> Pułapka jest w dzieleniu: <code>(a + b + c) / 3</code> na samych <code>int</code> obetnie ułamek. Rzutuj sumę na <code>double</code> albo podziel przez <code>3.0</code>. Dwa miejsca po przecinku daje <code>cout &lt;&lt; fixed &lt;&lt; setprecision(2);</code>.</div>
+                <details class="zadanie-rozw">
+                    <summary>Pokaż rozwiązanie</summary>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-dots"><span></span><span></span><span></span></div>
+                            <div class="code-block-title">srednia_ocen.cpp</div>
+                        </div>
+                        <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;iomanip&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">int</span> <span class="var">a</span><span class="op">,</span> <span class="var">b</span><span class="op">,</span> <span class="var">c</span><span class="op">;</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">a</span> <span class="op">&gt;&gt;</span> <span class="var">b</span> <span class="op">&gt;&gt;</span> <span class="var">c</span><span class="op">;</span>
+
+    <span class="cm">// dzielenie przez 3.0, a nie przez 3</span>
+    <span class="tp">double</span> <span class="var">srednia</span> <span class="op">=</span> (<span class="var">a</span> <span class="op">+</span> <span class="var">b</span> <span class="op">+</span> <span class="var">c</span>) <span class="op">/</span> <span class="num">3.0</span><span class="op">;</span>
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">fixed</span> <span class="op">&lt;&lt;</span> <span class="fn">setprecision</span>(<span class="num">2</span>)<span class="op">;</span>
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">srednia</span><span class="op">;</span>
+
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+            <div class="zadanie reveal">
+                <div class="zadanie-gora">
+                    <span class="zadanie-poziom poz-srednie">Średnie</span>
+                    <span class="zadanie-tytul">Który typ wybrać</span>
+                </div>
+                <div class="zadanie-tresc">Wczytaj dwie liczby całkowite <code>a</code> i <code>b</code> (każda do miliarda) i wypisz ich iloczyn oraz iloraz z dokładnością do trzech miejsc po przecinku.</div>
+                <div class="zadanie-wsk"><strong>Jak to ugryźć:</strong> Miliard razy miliard to liczba z 19 cyframi, a <code>int</code> kończy się na 2 miliardach — potrzebujesz <code>long long</code>. Przy dzieleniu rzutuj na <code>double</code>, inaczej ułamek się zgubi.</div>
+                <details class="zadanie-rozw">
+                    <summary>Pokaż rozwiązanie</summary>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-dots"><span></span><span></span><span></span></div>
+                            <div class="code-block-title">typy_wybor.cpp</div>
+                        </div>
+                        <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;iomanip&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">long long</span> <span class="var">a</span><span class="op">,</span> <span class="var">b</span><span class="op">;</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">a</span> <span class="op">&gt;&gt;</span> <span class="var">b</span><span class="op">;</span>
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">a</span> <span class="op">*</span> <span class="var">b</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>              <span class="cm">// miesci sie w long long</span>
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">fixed</span> <span class="op">&lt;&lt;</span> <span class="fn">setprecision</span>(<span class="num">3</span>)<span class="op">;</span>
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> (<span class="tp">double</span>)<span class="var">a</span> <span class="op">/</span> <span class="var">b</span><span class="op">;</span>              <span class="cm">// rzutowanie przed dzieleniem</span>
+
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+            <div class="zadanie reveal">
+                <div class="zadanie-gora">
+                    <span class="zadanie-poziom poz-srednie">Średnie</span>
+                    <span class="zadanie-tytul">Sprawdź, czy suma się zmieści</span>
+                </div>
+                <div class="zadanie-tresc">Wczytaj dwie liczby typu <code>int</code> i sprawdź, czy ich suma zmieści się w <code>int</code>. Wypisz sumę albo słowo <code>ZA DUZO</code>.</div>
+                <div class="zadanie-wsk"><strong>Jak to ugryźć:</strong> Nie dodawaj najpierw i nie sprawdzaj potem — po przekroczeniu limitu <code>int</code> wynik jest już nie do odratowania. Policz sumę od razu na <code>long long</code> i dopiero ją porównaj z <code>INT_MAX</code> i <code>INT_MIN</code> z nagłówka <code>&lt;climits&gt;</code>.</div>
+                <details class="zadanie-rozw">
+                    <summary>Pokaż rozwiązanie</summary>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-dots"><span></span><span></span><span></span></div>
+                            <div class="code-block-title">przepelnienie.cpp</div>
+                        </div>
+                        <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;climits&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">int</span> <span class="var">a</span><span class="op">,</span> <span class="var">b</span><span class="op">;</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">a</span> <span class="op">&gt;&gt;</span> <span class="var">b</span><span class="op">;</span>
+
+    <span class="cm">// liczymy na szerszym typie, potem sprawdzamy zakres</span>
+    <span class="tp">long long</span> <span class="var">suma</span> <span class="op">=</span> (<span class="tp">long long</span>)<span class="var">a</span> <span class="op">+</span> <span class="var">b</span><span class="op">;</span>
+
+    <span class="kw">if</span> (<span class="var">suma</span> <span class="op">&gt;</span> <span class="var">INT_MAX</span> <span class="op">||</span> <span class="var">suma</span> <span class="op">&lt;</span> <span class="var">INT_MIN</span>) {
+        <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"ZA DUZO"</span><span class="op">;</span>
+    } <span class="kw">else</span> {
+        <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">suma</span><span class="op">;</span>
+    }
+
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+            <div class="zadanie reveal">
+                <div class="zadanie-gora">
+                    <span class="zadanie-poziom poz-trudne">Trudne</span>
+                    <span class="zadanie-tytul">Porównywanie ułamków</span>
+                </div>
+                <div class="zadanie-tresc">Wczytaj cztery liczby całkowite <code>a b c d</code> i sprawdź, czy ułamek <code>a/b</code> jest równy <code>c/d</code>. Liczby sięgają miliarda.</div>
+                <div class="zadanie-wsk"><strong>Jak to ugryźć:</strong> Kuszące jest policzenie <code>(double)a/b == (double)c/d</code>, ale porównywanie <code>double</code> operatorem <code>==</code> zawodzi — ułamki są trzymane w przybliżeniu. Pomnóż na krzyż: <code>a*d == c*b</code>, na <code>long long</code>, bo iloczyn bywa ogromny.</div>
+                <details class="zadanie-rozw">
+                    <summary>Pokaż rozwiązanie</summary>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-dots"><span></span><span></span><span></span></div>
+                            <div class="code-block-title">ulamki.cpp</div>
+                        </div>
+                        <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">long long</span> <span class="var">a</span><span class="op">,</span> <span class="var">b</span><span class="op">,</span> <span class="var">c</span><span class="op">,</span> <span class="var">d</span><span class="op">;</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">a</span> <span class="op">&gt;&gt;</span> <span class="var">b</span> <span class="op">&gt;&gt;</span> <span class="var">c</span> <span class="op">&gt;&gt;</span> <span class="var">d</span><span class="op">;</span>
+
+    <span class="cm">// mnozenie na krzyz zamiast dzielenia -</span>
+    <span class="cm">// zadnych bledow zaokraglen</span>
+    <span class="kw">if</span> (<span class="var">a</span> <span class="op">*</span> <span class="var">d</span> <span class="op">==</span> <span class="var">c</span> <span class="op">*</span> <span class="var">b</span>) {
+        <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"ROWNE"</span><span class="op">;</span>
+    } <span class="kw">else</span> {
+        <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"ROZNE"</span><span class="op">;</span>
+    }
+
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<div class="divider"></div>
+
+<main>
+    <section class="tips-section" id="porady">
+        <span class="section-label reveal">08 — Porady</span>
+        <h2 class="reveal">Częste błędy i dobre praktyki</h2>
+        <div class="tips-grid">
+            <div class="tip-card reveal">
+                <div class="tip-icon">➗</div>
+                <div class="tip-title">Dzielenie int / int</div>
+                <div class="tip-text">Dzielenie dwóch <code>int</code> zawsze obcina część ułamkową: <code>7 / 2</code> to <code>3</code>. Żeby dostać <code>3.5</code>, jedna z liczb musi mieć przecinek: <code>7 / 2.0</code>.</div>
+            </div>
+            <div class="tip-card reveal">
+                <div class="tip-icon">🔤</div>
+                <div class="tip-title">char vs string</div>
+                <div class="tip-text"><code>char</code> to pojedynczy znak w apostrofach: <code>'a'</code>. <code>string</code> to napis w cudzysłowach: <code>"a"</code>. Pomylenie ich to częsty błąd kompilacji.</div>
+            </div>
+            <div class="tip-card reveal">
+                <div class="tip-icon">✅</div>
+                <div class="tip-title">bool wypisuje się jako 1 i 0</div>
+                <div class="tip-text"><code>cout</code> pokazuje <code>true</code> jako <code>1</code>, a <code>false</code> jako <code>0</code>. Żeby zobaczyć słowa, dopisz wcześniej <code>cout &lt;&lt; boolalpha;</code>.</div>
+            </div>
+            <div class="tip-card reveal">
+                <div class="tip-icon">⚖️</div>
+                <div class="tip-title">= to nie jest ==</div>
+                <div class="tip-text">Pojedyncze <code>=</code> wkłada wartość do zmiennej, a podwójne <code>==</code> sprawdza, czy dwie rzeczy są równe. W porównaniach zawsze piszemy <code>==</code>.</div>
+            </div>
+            <div class="tip-card reveal">
+                <div class="tip-icon">🎯</div>
+                <div class="tip-title">Precyzja float</div>
+                <div class="tip-text"><code>float</code> zapamiętuje tylko 6-7 pierwszych cyfr liczby, więc przy dłuższych ułamkach zaczyna kłamać. Na co dzień używaj <code>double</code> — jest dokładniejszy i nie trzeba dopisywać <code>f</code>.</div>
+            </div>
+            <div class="tip-card reveal">
+                <div class="tip-icon">🔒</div>
+                <div class="tip-title">const chroni przed błędami</div>
+                <div class="tip-text">Oznaczanie wartości, które nie powinny się zmieniać, jako <code>const</code> pozwala kompilatorowi wychwycić przypadkowe nadpisanie już na etapie kompilacji.</div>
+            </div>
+            <div class="tip-card reveal">
+                <div class="tip-icon">🤖</div>
+                <div class="tip-title">auto nie jest osobnym typem</div>
+                <div class="tip-text"><code>auto</code> to tylko skrót — kompilator i tak zamienia go na konkretny typ (int, float, string...) już podczas kompilacji.</div>
+            </div>
+            <div class="tip-card reveal">
+                <div class="tip-icon">📏</div>
+                <div class="tip-title">sizeof()</div>
+                <div class="tip-text">Funkcja <code>sizeof(typ)</code> pokazuje, ile bajtów zajmuje dany typ w pamięci — przydatne przy analizie zużycia pamięci przez program.</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="cta-banner reveal">
+        <span class="section-label" style="display:block;text-align:center;margin-bottom:12px;">09 — Idź dalej</span>
+        <h2>Gotowy na więcej?</h2>
+        <p>Dołącz do T-Olimpians i trenuj z doświadczonymi mentorami. Zbuduj bazę, która prowadzi do finałów OI.</p>
+        <div class="hero-actions">
+            <a class="btn-primary" href="../index.html#contact-section">Zapisz się teraz</a>
+            <a class="btn-ghost" href="../materialy.html">← Wróć do materiałów</a>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <span>© 2025 T-Olimpians Team Poland</span>
+    <span style="color: var(--text-muted);">
+        <a href="../index.html" style="color:var(--text-muted);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--accent-bright)'" onmouseout="this.style.color='var(--text-muted)'">Home</a>
+        &nbsp;·&nbsp;
+        <a href="../materialy.html" style="color:var(--text-muted);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--accent-bright)'" onmouseout="this.style.color='var(--text-muted)'">Materiały</a>
+        &nbsp;·&nbsp;Typy zmiennych · C++
+    </span>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    /* ── PARTICLES ── */
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    let W, H, dots = [];
+    function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+    resize();
+    window.addEventListener('resize', () => { resize(); spawnDots(); });
+    function spawnDots() {
+        dots = [];
+        const count = Math.floor((W * H) / 18000);
+        for (let i = 0; i < count; i++) {
+            dots.push({ x: Math.random()*W, y: Math.random()*H, r: Math.random()*1.4+0.3, vx: (Math.random()-0.5)*0.3, vy: (Math.random()-0.5)*0.3, alpha: Math.random()*0.5+0.2 });
+        }
+    }
+    spawnDots();
+    const LINK_DIST = 120;
+    function drawParticles() {
+        ctx.clearRect(0, 0, W, H);
+        for (let i = 0; i < dots.length; i++) {
+            const d = dots[i];
+            d.x += d.vx; d.y += d.vy;
+            if (d.x < 0) d.x = W; if (d.x > W) d.x = 0;
+            if (d.y < 0) d.y = H; if (d.y > H) d.y = 0;
+            ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, Math.PI*2);
+            ctx.fillStyle = `rgba(96,165,250,${d.alpha})`; ctx.fill();
+            for (let j = i+1; j < dots.length; j++) {
+                const d2 = dots[j];
+                const dx = d.x-d2.x, dy = d.y-d2.y;
+                const dist = Math.sqrt(dx*dx+dy*dy);
+                if (dist < LINK_DIST) {
+                    ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d2.x, d2.y);
+                    ctx.strokeStyle = `rgba(59,130,246,${0.12*(1-dist/LINK_DIST)})`; ctx.lineWidth = 0.6; ctx.stroke();
+                }
+            }
+        }
+        requestAnimationFrame(drawParticles);
+    }
+    drawParticles();
+
+    /* ── SCROLL REVEAL ── */
+    const revealObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const parent = entry.target.closest('.part-cards, .tips-grid, .anatomy-grid');
+                let delay = 0;
+                if (parent) {
+                    const all = parent.querySelectorAll('.reveal');
+                    all.forEach((el, idx) => { if (el === entry.target) delay = idx * 100; });
+                }
+                setTimeout(() => entry.target.classList.add('visible'), delay);
+                revealObs.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+    /* ── NAVBAR SCROLL ── */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 40));
+
+    /* ── HAMBURGER ── */
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => {
+        navLinks.classList.toggle('open');
+        hamburger.classList.toggle('open');
+    });
+    document.querySelectorAll('.nav-close').forEach(a => {
+        a.addEventListener('click', () => {
+            navLinks.classList.remove('open');
+            hamburger.classList.remove('open');
+        });
+    });
+});
+</script>
+<script>
+/* Filmy OKI: klikniecie podmienia miniature na odtwarzacz w tym samym miejscu.
+   Bez JavaScriptu karta zostaje zwyklym linkiem do YouTube. */
+function okiWideo(el, id) {
+    var m = el.querySelector('.wideo-miniatura');
+    if (!m) return true;
+    m.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + id +
+        '?autoplay=1&rel=0" title="Film OKI" allow="accelerometer; autoplay; ' +
+        'clipboard-write; encrypted-media; gyroscope; picture-in-picture" ' +
+        'allowfullscreen></iframe>';
+    el.removeAttribute('href');
+    el.removeAttribute('target');
+    return false;
+}
+</script>
+<!-- licznik odwiedzin -> panel kacperos.html -->
+<script type="module" src="/track.js"></script>
+</body>
+</html>

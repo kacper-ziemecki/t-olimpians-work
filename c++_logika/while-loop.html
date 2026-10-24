@@ -1,0 +1,1997 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pętla while w C++ — T-Olimpians</title>
+    <meta name="description" content="Pętla while i do-while w C++ od zera — warunek, licznik, break, continue. T-Olimpians Team Poland.">
+    <link rel="canonical" href="https://t-olimpians.com/c++_logika/while-loop.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="T-Olimpians Team Poland">
+    <meta property="og:locale" content="pl_PL">
+    <meta property="og:url" content="https://t-olimpians.com/c++_logika/while-loop.html">
+    <meta property="og:title" content="Pętla while w C++ — T-Olimpians">
+    <meta property="og:description" content="Pętla while i do-while w C++ od zera — warunek, licznik, break, continue. T-Olimpians Team Poland.">
+    <meta property="og:image" content="https://t-olimpians.com/img/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="../img/favicon2.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-base: #0a0a0f;
+            --bg-surface: #111118;
+            --bg-card: #15151e;
+            --bg-elevated: #1c1c28;
+            --accent: #3b82f6;
+            --accent-bright: #60a5fa;
+            --accent-glow: rgba(59, 130, 246, 0.25);
+            --accent-dim: rgba(59, 130, 246, 0.12);
+            --green: #22c55e;
+            --green-dim: rgba(34, 197, 94, 0.12);
+            --green-glow: rgba(34, 197, 94, 0.25);
+            --purple: #a78bfa;
+            --purple-dim: rgba(167, 139, 250, 0.12);
+            --orange: #fb923c;
+            --orange-dim: rgba(251, 146, 60, 0.12);
+            --text-primary: #f0f0f8;
+            --text-secondary: #9090aa;
+            --text-muted: #55556a;
+            --border: rgba(255,255,255,0.07);
+            --border-accent: rgba(59, 130, 246, 0.3);
+            --font-display: 'Syne', sans-serif;
+            --font-body: 'DM Sans', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.6;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 48px;
+            height: 68px;
+            background: rgba(10, 10, 15, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            transition: background 0.3s;
+        }
+        .navbar.scrolled {
+            background: rgba(10, 10, 15, 0.95);
+            box-shadow: 0 4px 32px rgba(0,0,0,0.4);
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        .logo img:first-child {
+            width: 38px; height: 38px;
+            border-radius: 10px;
+            object-fit: cover;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .logo:hover img:first-child {
+            transform: rotate(-5deg) scale(1.08);
+            box-shadow: 0 0 16px var(--accent-glow);
+        }
+        #polska-flaga { width: 22px; height: auto; border-radius: 3px; }
+        .logo-text {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--text-primary);
+            letter-spacing: 0.01em;
+        }
+        .nav-links {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            transition: color 0.2s, background 0.2s;
+            cursor: pointer;
+            letter-spacing: 0.02em;
+            position: relative;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 4px; left: 16px; right: 16px;
+            height: 1px;
+            background: var(--accent-bright);
+            transform: scaleX(0);
+            transition: transform 0.25s ease;
+        }
+        .nav-links a:hover::after { transform: scaleX(1); }
+        .nav-links a:hover {
+            color: var(--text-primary);
+            background: var(--accent-dim);
+        }
+        .nav-links a.active-page {
+            color: var(--accent-bright);
+        }
+        .nav-links .nav-cta a {
+            background: var(--accent);
+            color: white;
+            font-weight: 600;
+        }
+        .nav-links .nav-cta a:hover { background: var(--accent-bright); color: white; }
+        .nav-links .nav-cta a::after { display: none; }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            z-index: 110;
+        }
+        .hamburger span {
+            display: block;
+            width: 24px; height: 2px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: transform 0.3s, opacity 0.3s;
+        }
+        .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        #particles {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        .hero {
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 120px 80px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 700px; height: 500px;
+            background: radial-gradient(circle, rgba(59,130,246,0.07) 0%, transparent 70%);
+            pointer-events: none;
+            animation: pulse-glow 6s ease-in-out infinite;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.5; transform: translateX(-50%) scale(1); }
+            50% { opacity: 1; transform: translateX(-50%) scale(1.1); }
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--accent-dim);
+            border: 1px solid var(--border-accent);
+            color: var(--accent-bright);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 500;
+            padding: 6px 14px;
+            border-radius: 100px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+            animation: fadeInUp 0.6s ease both;
+        }
+        .hero-badge::before {
+            content: '';
+            width: 6px; height: 6px;
+            background: var(--accent-bright);
+            border-radius: 50%;
+            animation: blink 2s ease-in-out infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(36px, 5vw, 64px);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.7s 0.1s cubic-bezier(0.16,1,0.3,1) both;
+        }
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--accent-bright), #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero > p {
+            font-size: 16px;
+            color: var(--text-secondary);
+            line-height: 1.75;
+            max-width: 560px;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.7s 0.2s cubic-bezier(0.16,1,0.3,1) both;
+        }
+        .hero code {
+            font-family: var(--font-mono);
+            font-size: 14px;
+            background: var(--accent-dim);
+            border: 1px solid var(--border-accent);
+            color: var(--accent-bright);
+            padding: 2px 8px;
+            border-radius: 5px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.7s 0.3s cubic-bezier(0.16,1,0.3,1) both;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+            letter-spacing: 0.01em;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: inherit;
+            background: linear-gradient(135deg, var(--accent), #7c3aed);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s;
+            filter: blur(8px);
+        }
+        .btn-primary:hover::after { opacity: 0.6; }
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 60%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            transform: skewX(-20deg);
+            transition: left 0.5s ease;
+        }
+        .btn-primary:hover::before { left: 150%; }
+        .btn-primary:hover {
+            background: var(--accent-bright);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px var(--accent-glow);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            padding: 14px 28px;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.2s, border-color 0.2s, transform 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-ghost:hover {
+            color: var(--text-primary);
+            border-color: var(--border-accent);
+            transform: translateY(-2px);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.reveal-left { transform: translateX(-40px); }
+        .reveal.reveal-right { transform: translateX(40px); }
+        .reveal.visible { opacity: 1; transform: translate(0); }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--border), transparent);
+            margin: 0 80px;
+        }
+
+        .section-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--accent-bright);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        main {
+            padding: 0 80px;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .syntax-section {
+            padding: 72px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .syntax-section h2 {
+            font-family: var(--font-display);
+            font-size: clamp(26px, 3vw, 38px);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+        }
+        .syntax-section > p {
+            color: var(--text-secondary);
+            font-size: 15.5px;
+            line-height: 1.8;
+            max-width: 640px;
+            margin-bottom: 40px;
+        }
+
+        .code-block {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin: 24px 0;
+            position: relative;
+        }
+        .code-block-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 20px;
+            background: var(--bg-elevated);
+            border-bottom: 1px solid var(--border);
+        }
+        .code-block-title {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+        }
+        .code-dots { display: flex; gap: 6px; }
+        .code-dots span { width: 10px; height: 10px; border-radius: 50%; }
+        .code-dots span:nth-child(1) { background: #ff5f56; }
+        .code-dots span:nth-child(2) { background: #ffbd2e; }
+        .code-dots span:nth-child(3) { background: #27c93f; }
+        .code-block pre { padding: 24px; overflow-x: auto; margin: 0; }
+        .code-block code {
+            font-family: var(--font-mono);
+            font-size: 14px;
+            line-height: 1.8;
+            color: var(--text-primary);
+        }
+
+        /* Syntax highlighting */
+        .kw   { color: #c792ea; }
+        .tp   { color: #82aaff; }
+        .fn   { color: #82aaff; }
+        .num  { color: #f78c6c; }
+        .str  { color: #c3e88d; }
+        .cm   { color: #546e7a; font-style: italic; }
+        .op   { color: #89ddff; }
+        .var  { color: #eeffff; }
+        .inc  { color: #c3e88d; }
+        .pp   { color: #c792ea; }
+
+        .anatomy-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 48px;
+            align-items: start;
+            margin-top: 48px;
+        }
+
+        .part-cards { display: flex; flex-direction: column; gap: 14px; }
+        .part-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 18px 22px;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            transition: border-color 0.3s, transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+        .part-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--accent-dim), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .part-card:hover::before { opacity: 1; }
+        .part-card:hover {
+            border-color: var(--border-accent);
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 12px 36px var(--accent-glow);
+        }
+        .part-icon {
+            width: 36px; height: 36px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+        }
+        .part-icon.blue  { background: var(--accent-dim);   border: 1px solid var(--border-accent); }
+        .part-icon.green { background: var(--green-dim);    border: 1px solid rgba(34,197,94,0.3);  }
+        .part-icon.purp  { background: var(--purple-dim);   border: 1px solid rgba(167,139,250,0.3); }
+        .part-icon.ora   { background: var(--orange-dim);   border: 1px solid rgba(251,146,60,0.3);  }
+        .part-body { flex: 1; position: relative; z-index: 1; }
+        .part-body h4 {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+        .part-body p { font-size: 13.5px; color: var(--text-secondary); line-height: 1.6; }
+        .part-body code {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            background: var(--bg-elevated);
+            padding: 1px 6px;
+            border-radius: 4px;
+            color: var(--accent-bright);
+        }
+
+        .part-icon.cyan  { background: rgba(56,189,248,0.12); border: 1px solid rgba(56,189,248,0.3); }
+        .part-icon.pink  { background: rgba(244,114,182,0.12); border: 1px solid rgba(244,114,182,0.3); }
+
+        .syntax-section > p code {
+            font-family: var(--font-mono);
+            font-size: 12.5px;
+            background: var(--accent-dim);
+            border: 1px solid var(--border-accent);
+            color: var(--accent-bright);
+            padding: 2px 8px;
+            border-radius: 5px;
+        }
+
+        /* ─── FILMY OKI ─── */
+        .wideo-sekcja {
+            margin: 0 0 12px;
+            padding: 30px 32px 32px;
+            background: linear-gradient(140deg, rgba(239,68,68,0.07), rgba(120,60,180,0.04) 55%, transparent);
+            border: 1px solid rgba(239,68,68,0.20);
+            border-radius: var(--radius-lg);
+            position: relative;
+            overflow: hidden;
+        }
+        .wideo-sekcja::before {
+            content: '';
+            position: absolute;
+            top: -80px; right: -80px;
+            width: 260px; height: 260px;
+            background: radial-gradient(circle, rgba(239,68,68,0.10) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .wideo-gora {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-bottom: 22px;
+            position: relative;
+            z-index: 1;
+        }
+        .wideo-gora-tekst { flex: 1 1 320px; min-width: 0; }
+        .wideo-etykieta {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #f87171;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        .wideo-etykieta::before {
+            content: '';
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: #ef4444;
+            box-shadow: 0 0 8px rgba(239,68,68,0.7);
+            flex-shrink: 0;
+        }
+        .wideo-sekcja h2 {
+            font-family: var(--font-display);
+            font-size: clamp(19px, 2.3vw, 25px);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        .wideo-sekcja h2 span {
+            background: linear-gradient(90deg, #f87171, #fb923c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .wideo-wstep {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.7;
+            max-width: 560px;
+        }
+        .wideo-playlisty {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            flex-shrink: 0;
+        }
+        .wideo-playlisty a {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            letter-spacing: 0.04em;
+            padding: 8px 14px;
+            border-radius: 100px;
+            border: 1px solid rgba(239,68,68,0.28);
+            background: rgba(239,68,68,0.07);
+            color: #f87171;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: background 0.2s, border-color 0.2s, color 0.2s;
+        }
+        .wideo-playlisty a:hover {
+            background: rgba(239,68,68,0.16);
+            border-color: rgba(239,68,68,0.55);
+            color: #fca5a5;
+        }
+        .wideo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(228px, 1fr));
+            gap: 14px;
+            position: relative;
+            z-index: 1;
+        }
+        .wideo-karta {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            transition: border-color 0.25s, transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s;
+        }
+        .wideo-karta:hover {
+            border-color: rgba(239,68,68,0.45);
+            transform: translateY(-4px);
+            box-shadow: 0 14px 34px rgba(239,68,68,0.15);
+        }
+        .wideo-miniatura {
+            position: relative;
+            aspect-ratio: 16 / 9;
+            background: #000;
+        }
+        .wideo-miniatura img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: opacity 0.25s;
+        }
+        .wideo-karta:hover .wideo-miniatura img { opacity: 0.72; }
+        .wideo-miniatura iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%; height: 100%;
+            border: 0;
+        }
+        .wideo-play {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+        .wideo-play span {
+            width: 48px; height: 33px;
+            border-radius: 8px;
+            background: rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.22);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            transition: background 0.25s, border-color 0.25s, transform 0.25s;
+        }
+        .wideo-karta:hover .wideo-play span {
+            background: #ef4444;
+            border-color: #ef4444;
+            transform: scale(1.12);
+        }
+        .wideo-czas {
+            position: absolute;
+            right: 7px; bottom: 7px;
+            font-family: var(--font-mono);
+            font-size: 10.5px;
+            letter-spacing: 0.02em;
+            color: #fff;
+            background: rgba(0,0,0,0.82);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        .wideo-opis { padding: 11px 13px 13px; }
+        .wideo-meta {
+            font-family: var(--font-mono);
+            font-size: 9.5px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+        .wideo-meta b {
+            color: #f87171;
+            font-weight: 600;
+        }
+        .wideo-tytul {
+            font-size: 13px;
+            line-height: 1.45;
+            color: var(--text-secondary);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            transition: color 0.2s;
+        }
+        .wideo-karta:hover .wideo-tytul { color: var(--text-primary); }
+        .wideo-zrodlo {
+            margin-top: 16px;
+            font-size: 11.5px;
+            color: var(--text-muted);
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 720px) {
+            .wideo-sekcja { padding: 22px 18px 24px; border-radius: var(--radius-md); }
+            .wideo-gora { gap: 16px; }
+            .wideo-grid { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
+            .wideo-tytul { font-size: 12.5px; }
+        }
+
+        .output-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin: 16px 0 8px;
+        }
+        .output-box {
+            background: rgba(34,197,94,0.06);
+            border: 1px solid rgba(34,197,94,0.2);
+            border-radius: var(--radius-sm);
+            padding: 14px 18px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: #4ade80;
+            line-height: 1.8;
+            white-space: pre;
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 32px;
+            margin-top: 40px;
+        }
+
+        /* Tablet: dwa bloki kodu obok siebie sie nie mieszcza - jeden pod drugim */
+        @media (min-width: 901px) and (max-width: 1100px) {
+            main { padding: 0 48px; }
+            .anatomy-grid { gap: 32px; }
+            .two-col { grid-template-columns: minmax(0, 1fr); }
+        }
+
+        .tips-section {
+            padding: 80px 0;
+            border-top: 1px solid var(--border);
+        }
+        .tips-section h2 {
+            font-family: var(--font-display);
+            font-size: clamp(26px, 3vw, 38px);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 40px;
+        }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+        .tip-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 26px;
+            transition: border-color 0.3s, transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+        .tip-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--accent-dim), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            border-radius: inherit;
+        }
+        .tip-card:hover::before { opacity: 1; }
+        .tip-card:hover {
+            border-color: var(--border-accent);
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 14px 40px var(--accent-glow);
+        }
+        .tip-icon { font-size: 26px; margin-bottom: 14px; position: relative; z-index: 1; }
+        .tip-title {
+            font-family: var(--font-display);
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+        .tip-text { font-size: 13.5px; color: var(--text-secondary); line-height: 1.65; position: relative; z-index: 1; }
+        .tip-text code {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            background: var(--bg-elevated);
+            padding: 1px 6px;
+            border-radius: 4px;
+            color: var(--accent-bright);
+        }
+
+        .cta-banner {
+            margin: 0 0 80px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 56px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-banner::before {
+            content: '';
+            position: absolute;
+            top: -40%; left: 50%;
+            transform: translateX(-50%);
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(59,130,246,0.07) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .cta-banner::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -60%;
+            width: 40%; height: 200%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
+            transform: skewX(-15deg);
+            animation: shimmer 6s ease-in-out infinite;
+        }
+        @keyframes shimmer { 0% { left: -60%; } 50% { left: 120%; } 100% { left: 120%; } }
+        .cta-banner h2 {
+            font-family: var(--font-display);
+            font-size: clamp(26px, 3.5vw, 40px);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 14px;
+            position: relative;
+            z-index: 1;
+        }
+        .cta-banner p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            max-width: 480px;
+            margin: 0 auto 28px;
+            position: relative;
+            z-index: 1;
+        }
+        .cta-banner .hero-actions { animation: none; position: relative; z-index: 1; }
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 32px 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+        footer span { font-family: var(--font-mono); }
+
+        .nav-group-item { display: flex; align-items: center; }
+        .nav-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border-accent);
+            border-radius: var(--radius-sm);
+            padding: 8px 10px 3px;
+            margin-top: 7px;
+            background: var(--accent-dim);
+        }
+        .nav-group-label {
+            position: absolute;
+            top: -7px;
+            left: 12px;
+            background: #0a0a0f;
+            padding: 1px 7px;
+            border: 1px solid var(--border-accent);
+            border-radius: 100px;
+            font-family: var(--font-mono);
+            font-size: 9.5px;
+            font-weight: 500;
+            color: var(--accent-bright);
+            text-transform: lowercase;
+            letter-spacing: 0.06em;
+            line-height: 1.3;
+        }
+        .nav-group-links { display: flex; align-items: center; gap: 2px; }
+
+        @media (max-width: 900px) {
+            .navbar { padding: 0 20px; }
+            .hamburger { display: flex; }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: fixed;
+                top: 68px; left: 0; right: 0;
+                background: rgba(10, 10, 15, 0.98);
+                backdrop-filter: blur(20px);
+                border-bottom: 1px solid var(--border);
+                padding: 16px 0 24px;
+                gap: 0;
+                z-index: 99;
+            }
+            .nav-links.open { display: flex; }
+            .nav-links li { width: 100%; }
+            .nav-group-item { width: 100%; }
+            .nav-group {
+                flex-direction: column;
+                align-items: stretch;
+                border-radius: var(--radius-md);
+                margin: 16px 28px 6px;
+                padding: 12px 0 6px;
+                width: auto;
+            }
+            .nav-group-label { left: 16px; background: #0a0a0f; }
+            .nav-group-links { flex-direction: column; width: 100%; }
+            .nav-group-links a { width: 100%; }
+
+            .nav-links a { display: block; padding: 14px 28px; font-size: 16px; border-radius: 0; }
+            .nav-links .nav-cta { padding: 12px 20px 0; }
+            .nav-links .nav-cta a { display: block; text-align: center; border-radius: var(--radius-sm); }
+            .hero { padding: 100px 24px 60px; }
+            main { padding: 0 24px; }
+            .anatomy-grid { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+            .two-col { grid-template-columns: minmax(0, 1fr); }
+            footer { flex-direction: column; gap: 12px; padding: 24px; text-align: center; }
+            .divider { margin: 0 24px; }
+            .cta-banner { padding: 36px 24px; }
+        }
+
+        /* ─── Tabela metod ze złożonością ─── */
+        .metody-wrap {
+            margin-top: 32px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow-x: auto;
+            background: var(--bg-card);
+        }
+
+        table.metody {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            min-width: 520px;
+        }
+
+        table.metody th {
+            text-align: left;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border);
+            background: rgba(255,255,255,0.02);
+            white-space: nowrap;
+        }
+
+        table.metody td {
+            padding: 13px 18px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+            line-height: 1.6;
+            vertical-align: top;
+        }
+
+        table.metody tr:last-child td { border-bottom: none; }
+        table.metody tbody tr { transition: background 0.2s; }
+        table.metody tbody tr:hover { background: rgba(96,165,250,0.05); }
+
+        table.metody td:first-child { white-space: nowrap; }
+        table.metody td:last-child { white-space: nowrap; }
+
+        table.metody code {
+            font-family: var(--font-mono);
+            font-size: 12.5px;
+            color: var(--accent-bright);
+            background: var(--accent-dim);
+            border: 1px solid var(--border-accent);
+            padding: 3px 9px;
+            border-radius: 5px;
+        }
+
+        .zloz {
+            font-family: var(--font-mono);
+            font-size: 11.5px;
+            font-weight: 500;
+            padding: 3px 10px;
+            border-radius: 100px;
+            white-space: nowrap;
+            display: inline-block;
+        }
+
+        .zloz.z1    { color:#4ade80; background:rgba(74,222,128,0.1);  border:1px solid rgba(74,222,128,0.28); }
+        .zloz.zlog  { color:#60a5fa; background:rgba(96,165,250,0.1);  border:1px solid rgba(96,165,250,0.28); }
+        .zloz.znlog { color:#a78bfa; background:rgba(167,139,250,0.1); border:1px solid rgba(167,139,250,0.28); }
+        .zloz.zn    { color:#fbbf24; background:rgba(251,191,36,0.1);  border:1px solid rgba(251,191,36,0.28); }
+        .zloz.zn2   { color:#f87171; background:rgba(248,113,113,0.1); border:1px solid rgba(248,113,113,0.28); }
+        .zloz.zinny { color:var(--text-secondary); background:rgba(255,255,255,0.05); border:1px solid var(--border); }
+
+        /* ─── Przykładowe zadania ─── */
+        .zadania-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 32px;
+        }
+
+        .zadanie {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 22px 24px;
+            transition: border-color 0.3s, transform 0.35s cubic-bezier(0.16,1,0.3,1);
+        }
+
+        .zadanie:hover {
+            border-color: var(--border-accent);
+            transform: translateY(-2px);
+        }
+
+        .zadanie-gora {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .zadanie-poziom {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            border-radius: 100px;
+            flex-shrink: 0;
+        }
+
+        .poz-latwe   { color:#4ade80; background:rgba(74,222,128,0.1);  border:1px solid rgba(74,222,128,0.28); }
+        .poz-srednie { color:#fbbf24; background:rgba(251,191,36,0.1);  border:1px solid rgba(251,191,36,0.28); }
+        .poz-trudne  { color:#f87171; background:rgba(248,113,113,0.1); border:1px solid rgba(248,113,113,0.28); }
+
+        .zadanie-tytul {
+            font-family: var(--font-display);
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+        }
+
+        .zadanie-tresc {
+            color: var(--text-secondary);
+            font-size: 14.5px;
+            line-height: 1.75;
+        }
+
+        .zadanie-wsk {
+            margin-top: 12px;
+            padding: 12px 16px;
+            background: var(--bg-surface);
+            border-left: 2px solid var(--border-accent);
+            border-radius: var(--radius-sm);
+            font-size: 13.5px;
+            line-height: 1.65;
+            color: var(--text-secondary);
+        }
+
+        .zadanie-wsk strong { color: var(--accent-bright); }
+
+        .zadanie-rozw { margin-top: 16px; }
+
+        .zadanie-rozw summary {
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--accent-bright);
+            letter-spacing: 0.05em;
+            padding: 9px 16px;
+            border: 1px solid var(--border-accent);
+            border-radius: 100px;
+            display: inline-block;
+            list-style: none;
+            transition: background 0.25s, transform 0.25s;
+            user-select: none;
+        }
+
+        .zadanie-rozw summary::-webkit-details-marker { display: none; }
+        .zadanie-rozw summary::before { content: '▸ '; }
+        .zadanie-rozw[open] summary::before { content: '▾ '; }
+        .zadanie-rozw summary:hover { background: var(--accent-dim); transform: translateY(-1px); }
+        .zadanie-rozw[open] summary { margin-bottom: 16px; }
+
+        @media (max-width: 720px) {
+            .zadanie { padding: 18px 16px; }
+            table.metody { font-size: 13px; }
+            table.metody th, table.metody td { padding: 11px 13px; }
+        }
+    </style>
+    <style id="tablet-nav">
+        /* ─── TABLET: nawigacja i logo (641–1299px) ───
+           < 1024px  menu pod hamburgerem jako panel po prawej,
+           1024–1299 pelne menu w wersji kompaktowej + logo w dwoch liniach. */
+        @media (min-width: 641px) {
+            .logo { flex-shrink: 0; }
+            .logo-text { white-space: nowrap; }
+        }
+
+        @media (min-width: 641px) and (max-width: 1023px) {
+            .navbar { padding: 0 28px; }
+            .logo-text { font-size: 15px; }
+            .hamburger { display: flex; }
+            .nav-pointer-bubble { display: none !important; }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: fixed;
+                top: 76px; right: 20px; left: auto;
+                width: 340px;
+                max-height: calc(100vh - 96px);
+                overflow-y: auto;
+                background: rgba(10, 10, 15, 0.98);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border: 1px solid var(--border);
+                border-radius: var(--radius-lg, 20px);
+                box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+                padding: 10px 0 16px;
+                gap: 0;
+                z-index: 99;
+            }
+            .nav-links.open { display: flex; }
+            .nav-links li { width: 100%; }
+            .nav-group-item { width: 100%; }
+            .nav-group {
+                flex: 1;
+                flex-direction: column;
+                align-items: stretch;
+                border-radius: var(--radius-md, 14px);
+                margin: 18px 16px 8px;
+                padding: 12px 0 6px;
+                width: auto;
+            }
+            .nav-group-label { left: 14px; background: #0a0a0f; }
+            .nav-group-links { flex-direction: column; align-items: stretch; width: 100%; gap: 0; }
+            .nav-group-links a { width: 100%; }
+            .focus-toggle {
+                width: 100%; justify-content: center; margin: 8px 0 0; padding: 10px 0 4px;
+                border-left: none; border-top: 1px solid var(--border);
+            }
+            .nav-links a { display: block; padding: 12px 24px; font-size: 15px; border-radius: 0; }
+            .nav-links a::after { display: none; }
+            .nav-links .nav-cta { padding: 10px 16px 0; }
+            .nav-links .nav-cta a { display: block; text-align: center; border-radius: var(--radius-sm, 8px); padding: 13px; }
+        }
+
+        @media (min-width: 1024px) and (max-width: 1299px) {
+            .navbar { padding: 0 24px; }
+            .logo { gap: 10px; }
+            .logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+            .logo-text-sub {
+                margin-top: 3px;
+                font-family: var(--font-mono);
+                font-size: 9.5px;
+                font-weight: 500;
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                color: var(--accent-bright);
+            }
+            .nav-links { gap: 2px; }
+            .nav-links a { padding: 8px 10px; font-size: 13.5px; letter-spacing: 0.01em; }
+            .nav-links a::after { left: 10px; right: 10px; }
+            .nav-group { padding: 8px 6px 3px; }
+            .nav-group-links { gap: 0; }
+            .focus-toggle { margin-left: 4px; padding-left: 8px; gap: 6px; }
+        }
+    </style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+
+<nav class="navbar" id="navbar">
+    <a class="logo" href="../index.html">
+        <img src="../img/t-olimpians-logo.jpg" alt="Logo">
+        <span class="logo-text">T-Olimpians <span class="logo-text-sub">Team Poland</span></span>
+        <img id="polska-flaga" src="../img/polska_flaga.png" alt="Flaga Polski">
+    </a>
+
+    <ul class="nav-links" id="navLinks">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../index.html#o-nas" class="nav-close">O nas</a></li>
+        <li class="nav-group-item">
+            <div class="nav-group">
+                <span class="nav-group-label">t-olimpians net</span>
+                <div class="nav-group-links">
+                <a href="../materialy.html" class="nav-close">C++/logika</a>
+                <a href="../net.html" class="nav-close">Algorytmy</a>
+                <a href="../zadania-OI-OIJ.html" class="nav-close">Zadania OI/OIJ</a>
+                <a href="../konkursy.html" class="nav-close">Konkursy</a>
+                </div>
+            </div>
+        </li>
+        <li><a href="../zapisy.html" class="nav-close">Zapisy</a></li>
+        <li class="nav-cta"><a href="../index.html#contact-section" class="nav-close">Dołącz →</a></li>
+    </ul>
+
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+    </button>
+</nav>
+
+<section class="hero">
+    <div class="hero-badge">C++ · Pętle · while</div>
+    <h1>Pętla <span>while</span> w C++</h1>
+    <p>Komputer nie nudzi się powtarzaniem. <em>while</em> pozwala mu wykonać ten sam kod setki razy — tak długo, jak warunek jest prawdziwy.</p>
+    <div class="hero-actions">
+        <button class="btn-primary" onclick="document.getElementById('podstawy').scrollIntoView({ behavior: 'smooth' });">Zacznij naukę</button>
+        <button class="btn-ghost" onclick="document.getElementById('porady').scrollIntoView({ behavior: 'smooth' });">Częste błędy</button>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<main>
+
+    <section class="wideo-sekcja reveal" id="filmy">
+        <div class="wideo-gora">
+            <div class="wideo-gora-tekst">
+                <div class="wideo-etykieta">Filmy z OKI</div>
+                <h2>Wolisz <span>obejrzeć</span>?</h2>
+                <p class="wideo-wstep">Olimpijskie Koło Informatyczne nagrywa swoje zajęcia i udostępnia je za darmo. Poniżej 2 odcinki o tym temacie — dobre uzupełnienie, jeśli wolisz obejrzeć niż przeczytać.</p>
+            </div>
+            <div class="wideo-playlisty">
+                <a href="https://www.youtube.com/playlist?list=PL9BlBU4U-rDPrKykeT62mK-cH_NCuIg4Q" target="_blank" rel="noopener">Programowanie OD PODSTAW &#8599;</a>
+                <a href="https://www.youtube.com/playlist?list=PL9BlBU4U-rDNF9AxZ5GTmm75TAvh76ndK" target="_blank" rel="noopener">Programowanie ZAAWANSOWANE &#8599;</a>
+            </div>
+        </div>
+        <div class="wideo-grid">
+                <a class="wideo-karta" href="https://www.youtube.com/watch?v=g4kAHb56Y2U"
+                   target="_blank" rel="noopener" onclick="return okiWideo(this, 'g4kAHb56Y2U')">
+                    <div class="wideo-miniatura">
+                        <img src="https://i.ytimg.com/vi/g4kAHb56Y2U/hqdefault.jpg" alt="" loading="lazy">
+                        <div class="wideo-play"><span>&#9654;</span></div>
+                        <div class="wideo-czas">1:13:24</div>
+                    </div>
+                    <div class="wideo-opis">
+                        <div class="wideo-meta"><b>Odc. 5</b> &middot; OD PODSTAW</div>
+                        <div class="wideo-tytul">🔁 Pętla WHILE szaleje, świat się śmieje!</div>
+                    </div>
+                </a>
+                <a class="wideo-karta" href="https://www.youtube.com/watch?v=emL_Qdnt-ho"
+                   target="_blank" rel="noopener" onclick="return okiWideo(this, 'emL_Qdnt-ho')">
+                    <div class="wideo-miniatura">
+                        <img src="https://i.ytimg.com/vi/emL_Qdnt-ho/hqdefault.jpg" alt="" loading="lazy">
+                        <div class="wideo-play"><span>&#9654;</span></div>
+                        <div class="wideo-czas">1:07:35</div>
+                    </div>
+                    <div class="wideo-opis">
+                        <div class="wideo-meta"><b>Odc. 5</b> &middot; ZAAWANSOWANE</div>
+                        <div class="wideo-tytul">♾️ Nieskończona pętla</div>
+                    </div>
+                </a>
+        </div>
+        <div class="wideo-zrodlo">Materiały Olimpijskiego Koła Informatycznego — kanał zewnętrzny. Kliknięcie odtwarza film tutaj, bez opuszczania strony.</div>
+    </section>
+
+    <section class="syntax-section" id="podstawy">
+        <span class="section-label reveal">01 — Podstawy</span>
+        <h2 class="reveal">Po co komu pętla?</h2>
+        <p class="reveal">Wyobraź sobie, że chcesz wypisać liczby od 1 do 100. Da się to zrobić setką linijek <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">cout</code> — tylko po co, skoro komputer potrafi powtarzać? <strong style="color:var(--accent-bright)">Pętla</strong> to instrukcja, która mówi: „wykonaj ten kawałek kodu jeszcze raz, i jeszcze raz, dopóki…”.</p>
+
+        <p class="reveal">Pętla <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">while</code> sprawdza warunek <strong style="color:var(--accent-bright)">przed</strong> każdym obrotem. Prawda → wykonuje kod w klamrach i wraca do sprawdzenia. Fałsz → kończy pętlę i program leci dalej. Warunek budujesz dokładnie tak samo jak w <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">if</code>.</p>
+
+        <div class="two-col">
+            <div class="reveal reveal-left">
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-dots"><span></span><span></span><span></span></div>
+                        <div class="code-block-title">bez_petli.cpp</div>
+                    </div>
+                    <pre><code><span class="cm">// tak sie NIE robi</span>
+<span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="num">1</span> <span class="op">&lt;&lt;</span> <span class="str">" "</span><span class="op">;</span>
+<span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="num">2</span> <span class="op">&lt;&lt;</span> <span class="str">" "</span><span class="op">;</span>
+<span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="num">3</span> <span class="op">&lt;&lt;</span> <span class="str">" "</span><span class="op">;</span>
+<span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="num">4</span> <span class="op">&lt;&lt;</span> <span class="str">" "</span><span class="op">;</span>
+<span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="num">5</span> <span class="op">&lt;&lt;</span> <span class="str">" "</span><span class="op">;</span>
+
+<span class="cm">// ...i tak jeszcze 95 razy</span></code></pre>
+                </div>
+                <div class="output-label">▶ Wyjście programu</div>
+                <div class="output-box">1 2 3 4 5</div>
+            </div>
+            <div class="reveal reveal-right">
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-dots"><span></span><span></span><span></span></div>
+                        <div class="code-block-title">z_petla.cpp</div>
+                    </div>
+                    <pre><code><span class="cm">// to samo w trzech linijkach</span>
+<span class="tp">int</span> <span class="var">i</span> <span class="op">=</span> <span class="num">1</span><span class="op">;</span>
+
+<span class="kw">while</span> (<span class="var">i</span> <span class="op">&lt;=</span> <span class="num">5</span>) {
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">i</span> <span class="op">&lt;&lt;</span> <span class="str">" "</span><span class="op">;</span>
+    <span class="var">i</span><span class="op">++</span><span class="op">;</span>              <span class="cm">// i rosnie o 1</span>
+}</code></pre>
+                </div>
+                <div class="output-label">▶ Wyjście programu</div>
+                <div class="output-box">1 2 3 4 5</div>
+            </div>
+        </div>
+
+        <p class="reveal">Prześledź drugi program palcem po linijkach. <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">i</code> startuje z jedynką. Warunek <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">i &lt;= 5</code> jest prawdziwy, więc program wypisuje 1 i zwiększa <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">i</code> do dwójki. Sprawdza warunek jeszcze raz — nadal prawda — wypisuje 2… Przy <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">i</code> równym 6 warunek staje się fałszywy i pętla się kończy. Kod wykonał się <strong style="color:var(--text-primary)">pięć razy</strong>.</p>
+    </section>
+
+    <section class="syntax-section" id="budowa">
+        <span class="section-label reveal">02 — Budowa pętli</span>
+        <h2 class="reveal">Trzy rzeczy, bez których pętla się zepsuje</h2>
+        <p class="reveal">Każda działająca pętla <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">while</code> ma te same trzy elementy. Zapomnienie o którymkolwiek kończy się albo pętlą, która kręci się w nieskończoność, albo taką, która nie wykona się ani razu.</p>
+
+        <div class="anatomy-grid">
+            <div class="part-cards reveal reveal-left">
+                <div class="part-card">
+                    <div class="part-icon blue">1️⃣</div>
+                    <div class="part-body">
+                        <h4>Start przed pętlą</h4>
+                        <p>Zmienna z warunku musi istnieć i mieć wartość <strong style="color:var(--text-primary)">zanim</strong> zaczniesz pętlę. <code>int i = 1;</code> — to jest ten start.</p>
+                    </div>
+                </div>
+                <div class="part-card">
+                    <div class="part-icon green">2️⃣</div>
+                    <div class="part-body">
+                        <h4>Warunek w nawiasie</h4>
+                        <p>Zwykłe porównanie, jak w <code>if</code>. Dopóki jest prawdziwe, pętla się kręci.</p>
+                    </div>
+                </div>
+                <div class="part-card">
+                    <div class="part-icon purp">3️⃣</div>
+                    <div class="part-body">
+                        <h4>Zmiana w środku</h4>
+                        <p>Coś w ciele pętli musi <strong style="color:var(--text-primary)">przybliżać warunek do fałszu</strong> — najczęściej <code>i++</code>. Bez tego program zawiśnie.</p>
+                    </div>
+                </div>
+                <div class="part-card">
+                    <div class="part-icon ora">🚨</div>
+                    <div class="part-body">
+                        <h4>Pętla nieskończona</h4>
+                        <p>Gdy program „wisi” i nic nie wypisuje, w 9 na 10 przypadków zapomniałeś o punkcie trzecim. Przerwij go klawiszami Ctrl + C.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="reveal reveal-right">
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-dots"><span></span><span></span><span></span></div>
+                        <div class="code-block-title">odliczanie.cpp</div>
+                    </div>
+                    <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">int</span> <span class="var">i</span> <span class="op">=</span> <span class="num">5</span><span class="op">;</span>              <span class="cm">// 1. start</span>
+
+    <span class="kw">while</span> (<span class="var">i</span> <span class="op">&gt;</span> <span class="num">0</span>) {         <span class="cm">// 2. warunek</span>
+        <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">i</span> <span class="op">&lt;&lt;</span> <span class="str">" "</span><span class="op">;</span>
+        <span class="var">i</span><span class="op">--</span><span class="op">;</span>                <span class="cm">// 3. zmiana</span>
+    }
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"\nStart!"</span><span class="op">;</span>
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+                </div>
+                <div class="output-label">▶ Wyjście programu</div>
+                <div class="output-box">5 4 3 2 1
+Start!</div>
+            </div>
+        </div>
+
+        <p class="reveal">Zapis <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">i++</code> to skrót od <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">i = i + 1</code>, a <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">i--</code> od <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">i = i - 1</code>. Zobaczysz je w niemal każdej pętli, jaką napiszesz.</p>
+    </section>
+
+    <section class="syntax-section" id="licznik-suma">
+        <span class="section-label reveal">03 — Licznik i suma</span>
+        <h2 class="reveal">Dwa wzorce, które zobaczysz wszędzie</h2>
+        <p class="reveal">Większość pętli, jakie napiszesz na początku, robi jedną z dwóch rzeczy: <strong style="color:var(--accent-bright)">liczy</strong>, ile razy coś zaszło, albo <strong style="color:var(--accent-bright)">sumuje</strong> kolejne wartości. Oba wzorce wyglądają tak samo: zmienna ustawiona na zero przed pętlą i zmieniana w środku.</p>
+
+        <div class="two-col">
+            <div class="reveal reveal-left">
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-dots"><span></span><span></span><span></span></div>
+                        <div class="code-block-title">licznik.cpp</div>
+                    </div>
+                    <pre><code><span class="cm">// ile liczb podal uzytkownik?</span>
+<span class="tp">int</span> <span class="var">ile</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span>              <span class="cm">// licznik startuje od 0</span>
+<span class="tp">int</span> <span class="var">x</span><span class="op">;</span>
+
+<span class="kw">while</span> (<span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">x</span>) {
+    <span class="var">ile</span><span class="op">++</span><span class="op">;</span>                <span class="cm">// +1 za kazda liczbe</span>
+}
+
+<span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Podales "</span> <span class="op">&lt;&lt;</span> <span class="var">ile</span> <span class="op">&lt;&lt;</span> <span class="str">" liczb"</span><span class="op">;</span></code></pre>
+                </div>
+                <div class="output-label">▶ Wyjście programu</div>
+                <div class="output-box">Wejście:
+4 8 15 16
+
+Podales 4 liczb</div>
+            </div>
+            <div class="reveal reveal-right">
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-dots"><span></span><span></span><span></span></div>
+                        <div class="code-block-title">suma.cpp</div>
+                    </div>
+                    <pre><code><span class="cm">// ile to razem?</span>
+<span class="tp">int</span> <span class="var">suma</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span>             <span class="cm">// suma startuje od 0</span>
+<span class="tp">int</span> <span class="var">x</span><span class="op">;</span>
+
+<span class="kw">while</span> (<span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">x</span>) {
+    <span class="var">suma</span> <span class="op">+=</span> <span class="var">x</span><span class="op">;</span>            <span class="cm">// dokladamy wartosc</span>
+}
+
+<span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Razem: "</span> <span class="op">&lt;&lt;</span> <span class="var">suma</span><span class="op">;</span></code></pre>
+                </div>
+                <div class="output-label">▶ Wyjście programu</div>
+                <div class="output-box">Wejście:
+4 8 15 16
+
+Razem: 43</div>
+            </div>
+        </div>
+
+        <p class="reveal">Zapis <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">suma += x</code> to skrót od <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">suma = suma + x</code>. Najważniejsze jest ustawienie zmiennej na zero <strong style="color:var(--text-primary)">przed</strong> pętlą — gdybyś tego nie zrobił, dokładałbyś do losowej wartości, która akurat leżała w pamięci.</p>
+
+        <p class="reveal">Warunek <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">while (cin &gt;&gt; x)</code> czyta się jako „dopóki udaje się wczytać kolejną liczbę”. Pętla zatrzyma się sama, gdy dane się skończą — nie musisz z góry wiedzieć, ile ich będzie.</p>
+
+        <div class="reveal">
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-dots"><span></span><span></span><span></span></div>
+                    <div class="code-block-title">licznik_i_suma.cpp</div>
+                </div>
+                <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">int</span> <span class="var">ile</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
+    <span class="tp">int</span> <span class="var">suma</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
+    <span class="tp">int</span> <span class="var">x</span><span class="op">;</span>
+
+    <span class="kw">while</span> (<span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">x</span>) {
+        <span class="var">ile</span><span class="op">++</span><span class="op">;</span>
+        <span class="var">suma</span> <span class="op">+=</span> <span class="var">x</span><span class="op">;</span>
+    }
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Liczb:   "</span> <span class="op">&lt;&lt;</span> <span class="var">ile</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Suma:    "</span> <span class="op">&lt;&lt;</span> <span class="var">suma</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Srednia: "</span> <span class="op">&lt;&lt;</span> (<span class="tp">double</span>)<span class="var">suma</span> <span class="op">/</span> <span class="var">ile</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+            </div>
+            <div class="output-label">▶ Wyjście programu</div>
+            <div class="output-box">Wejście:
+4 8 15 16
+
+Liczb:   4
+Suma:    43
+Srednia: 10.75</div>
+        </div>
+    </section>
+
+    <section class="syntax-section" id="do-while">
+        <span class="section-label reveal">04 — do-while, break i continue</span>
+        <h2 class="reveal">Trzy przydatne warianty</h2>
+        <p class="reveal">Wariant <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">do-while</code> sprawdza warunek <strong style="color:var(--accent-bright)">po</strong> wykonaniu ciała, więc kod w klamrach wykona się <strong style="color:var(--text-primary)">co najmniej raz</strong>. Idealny do pytania użytkownika: najpierw pytasz, a dopiero potem sprawdzasz, czy odpowiedź ma sens.</p>
+
+        <div class="two-col">
+            <div class="reveal reveal-left">
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-dots"><span></span><span></span><span></span></div>
+                        <div class="code-block-title">do_while.cpp</div>
+                    </div>
+                    <pre><code><span class="tp">int</span> <span class="var">liczba</span><span class="op">;</span>
+
+<span class="kw">do</span> {
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Podaj liczbe 1-10: "</span><span class="op">;</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">liczba</span><span class="op">;</span>
+} <span class="kw">while</span> (<span class="var">liczba</span> <span class="op">&lt;</span> <span class="num">1</span> <span class="op">||</span> <span class="var">liczba</span> <span class="op">&gt;</span> <span class="num">10</span>)<span class="op">;</span>
+
+<span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Dziekuje!"</span><span class="op">;</span></code></pre>
+                </div>
+                <div class="output-label">▶ Wyjście programu</div>
+                <div class="output-box">Podaj liczbe 1-10: 42
+Podaj liczbe 1-10: 7
+Dziekuje!</div>
+            </div>
+            <div class="reveal reveal-right">
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-dots"><span></span><span></span><span></span></div>
+                        <div class="code-block-title">break_continue.cpp</div>
+                    </div>
+                    <pre><code><span class="tp">int</span> <span class="var">x</span><span class="op">;</span>
+
+<span class="kw">while</span> (<span class="kw">true</span>) {           <span class="cm">// niby w nieskonczonosc</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">x</span><span class="op">;</span>
+
+    <span class="kw">if</span> (<span class="var">x</span> <span class="op">==</span> <span class="num">0</span>) <span class="kw">break</span><span class="op">;</span>       <span class="cm">// 0 konczy petle</span>
+    <span class="kw">if</span> (<span class="var">x</span> <span class="op">&lt;</span> <span class="num">0</span>) <span class="kw">continue</span><span class="op">;</span>     <span class="cm">// ujemne pomijamy</span>
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">x</span> <span class="op">*</span> <span class="var">x</span> <span class="op">&lt;&lt;</span> <span class="str">" "</span><span class="op">;</span>
+}</code></pre>
+                </div>
+                <div class="output-label">▶ Wyjście programu</div>
+                <div class="output-box">Wejście: 3 -5 4 0
+
+9 16</div>
+            </div>
+        </div>
+
+        <p class="reveal"><code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">break</code> przerywa pętlę <strong style="color:var(--text-primary)">natychmiast</strong> i wyskakuje poza nią. <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">continue</code> pomija resztę bieżącego obrotu i wraca na górę, do sprawdzenia warunku. Zapis <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">while (true)</code> tworzy pętlę bez końca, którą musisz przerwać <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">break</code>-iem ze środka.</p>
+
+        <p class="reveal"><strong style="color:var(--text-primary)">Uwaga na jedną pułapkę</strong>: w pętli <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">while</code> instrukcja <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">continue</code> wraca na górę <strong style="color:var(--accent-bright)">bez</strong> zwiększania licznika. Jeśli zwiększasz go na końcu ciała, <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">continue</code> ten krok pominie i program zawiśnie. Zwiększaj licznik przed <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">continue</code> albo użyj pętli <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">for</code>, która robi to sama.</p>
+    </section>
+
+    <section class="syntax-section" id="metody">
+        <span class="section-label reveal">05 — Typowe wzorce</span>
+        <h2 class="reveal">Gotowe pętle do przepisania</h2>
+        <p class="reveal">Prawie każda pętla, jaką napiszesz na początku, jest jedną z poniższych. Nie ucz się ich na pamięć — po prostu wracaj tu, gdy nie wiesz, od czego zacząć.</p>
+
+        <div class="metody-wrap reveal">
+            <table class="metody">
+                <thead><tr><th>Wzorzec</th><th>Co robi</th><th>Kiedy tego użyjesz</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td><code>int i = 0; while (i &lt; n)</code></td>
+                        <td>Wykonuje kod dokładnie <code>n</code> razy.</td>
+                        <td>Powtórz coś ustaloną liczbę razy</td>
+                    </tr>
+                    <tr>
+                        <td><code>while (i &gt; 0) i--</code></td>
+                        <td>Odlicza w dół, aż dojdzie do zera.</td>
+                        <td>Odliczanie, wypisywanie od końca</td>
+                    </tr>
+                    <tr>
+                        <td><code>while (cin &gt;&gt; x)</code></td>
+                        <td>Czyta dane, dopóki jakieś są. Kończy się sama.</td>
+                        <td>Nie wiesz, ile będzie liczb</td>
+                    </tr>
+                    <tr>
+                        <td><code>while (x != 0)</code></td>
+                        <td>Kręci się, aż użytkownik poda umówioną wartość.</td>
+                        <td>Menu, wczytywanie do znaku końca</td>
+                    </tr>
+                    <tr>
+                        <td><code>while (n &gt; 0) { n % 10; n /= 10; }</code></td>
+                        <td>Odcina liczbę cyfra po cyfrze, od prawej.</td>
+                        <td>Suma cyfr, odwracanie liczby</td>
+                    </tr>
+                    <tr>
+                        <td><code>while (true) { ... break; }</code></td>
+                        <td>Kręci się bez końca, dopóki coś jej nie przerwie.</td>
+                        <td>Gdy warunek wyjścia jest w środku</td>
+                    </tr>
+                    <tr>
+                        <td><code>do { ... } while (w)</code></td>
+                        <td>To samo co <code>while</code>, ale ciało wykona się raz na pewno.</td>
+                        <td>Pytanie użytkownika i sprawdzenie odpowiedzi</td>
+                    </tr>
+                    <tr>
+                        <td><code>pętla w pętli</code></td>
+                        <td>Zagnieżdżone <code>while</code> — każdy obrót zewnętrznej uruchamia całą wewnętrzną.</td>
+                        <td>Tabelki, wiersze i kolumny</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p class="reveal">Zwróć uwagę na przedostatni wiersz: <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">do-while</code> różni się od zwykłego <code style="font-family:var(--font-mono);background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">while</code> jedną rzeczą — sprawdza warunek dopiero na końcu, więc ciało wykona się <strong style="color:var(--text-primary)">co najmniej raz</strong>. To dokładnie to, czego chcesz, gdy prosisz użytkownika o dane.</p>
+    </section>
+
+    <section class="syntax-section" id="zadania">
+        <span class="section-label reveal">06 — Przykładowe zadania</span>
+        <h2 class="reveal">Sprawdź się na zadaniach</h2>
+        <p class="reveal">Sześć zadań ułożonych od najprostszego. Pierwsze trzy to czyste ćwiczenie z licznika, kolejne łączą pętlę z warunkiem. Rozwiązania są schowane — <strong style="color:var(--text-primary)">zajrzyj do nich dopiero po własnej próbie</strong>.</p>
+
+        <div class="zadania-grid">
+            <div class="zadanie reveal">
+                <div class="zadanie-gora">
+                    <span class="zadanie-poziom poz-latwe">Łatwe</span>
+                    <span class="zadanie-tytul">Odliczanie</span>
+                </div>
+                <div class="zadanie-tresc">Wczytaj liczbę <code>n</code> i wypisz wszystkie liczby od <code>n</code> w dół do 1, oddzielone spacjami. Na końcu dopisz <code>Start!</code></div>
+                <div class="zadanie-wsk"><strong>Jak to ugryźć:</strong> Zmienna startuje od <code>n</code>, warunek to <code>n &gt; 0</code>, a w ciele pętli zmniejszaj ją przez <code>n--</code>.</div>
+                <details class="zadanie-rozw">
+                    <summary>Pokaż rozwiązanie</summary>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-dots"><span></span><span></span><span></span></div>
+                            <div class="code-block-title">odliczanie.cpp</div>
+                        </div>
+                        <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">int</span> <span class="var">n</span><span class="op">;</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">n</span><span class="op">;</span>
+
+    <span class="kw">while</span> (<span class="var">n</span> <span class="op">&gt;</span> <span class="num">0</span>) {
+        <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">n</span> <span class="op">&lt;&lt;</span> <span class="str">" "</span><span class="op">;</span>
+        <span class="var">n</span><span class="op">--</span><span class="op">;</span>
+    }
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"\nStart!"</span><span class="op">;</span>
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+            <div class="zadanie reveal">
+                <div class="zadanie-gora">
+                    <span class="zadanie-poziom poz-latwe">Łatwe</span>
+                    <span class="zadanie-tytul">Suma od 1 do n</span>
+                </div>
+                <div class="zadanie-tresc">Wczytaj <code>n</code> i policz sumę wszystkich liczb od 1 do <code>n</code>. Dla <code>n = 5</code> odpowiedzią jest 15.</div>
+                <div class="zadanie-wsk"><strong>Jak to ugryźć:</strong> Dwie zmienne: licznik <code>i</code> startujący od 1 i <code>suma</code> startująca od 0. W ciele pętli dokładaj <code>suma += i</code> i zwiększaj <code>i</code>.</div>
+                <details class="zadanie-rozw">
+                    <summary>Pokaż rozwiązanie</summary>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-dots"><span></span><span></span><span></span></div>
+                            <div class="code-block-title">suma_do_n.cpp</div>
+                        </div>
+                        <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">int</span> <span class="var">n</span><span class="op">;</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">n</span><span class="op">;</span>
+
+    <span class="tp">int</span> <span class="var">suma</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
+    <span class="tp">int</span> <span class="var">i</span> <span class="op">=</span> <span class="num">1</span><span class="op">;</span>
+
+    <span class="kw">while</span> (<span class="var">i</span> <span class="op">&lt;=</span> <span class="var">n</span>) {
+        <span class="var">suma</span> <span class="op">+=</span> <span class="var">i</span><span class="op">;</span>
+        <span class="var">i</span><span class="op">++</span><span class="op">;</span>
+    }
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">suma</span><span class="op">;</span>
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+            <div class="zadanie reveal">
+                <div class="zadanie-gora">
+                    <span class="zadanie-poziom poz-latwe">Łatwe</span>
+                    <span class="zadanie-tytul">Ile liczb dodatnich</span>
+                </div>
+                <div class="zadanie-tresc">Wczytuj liczby aż do końca danych i policz, ile z nich było dodatnich, a ile ujemnych. Zera pomijaj.</div>
+                <div class="zadanie-wsk"><strong>Jak to ugryźć:</strong> Dwa liczniki ustawione na zero przed pętlą i <code>if</code> w środku, który decyduje, który z nich zwiększyć. Pętla <code>while (cin &gt;&gt; x)</code> zatrzyma się sama.</div>
+                <details class="zadanie-rozw">
+                    <summary>Pokaż rozwiązanie</summary>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-dots"><span></span><span></span><span></span></div>
+                            <div class="code-block-title">dodatnie_ujemne.cpp</div>
+                        </div>
+                        <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">int</span> <span class="var">dodatnie</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
+    <span class="tp">int</span> <span class="var">ujemne</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
+    <span class="tp">int</span> <span class="var">x</span><span class="op">;</span>
+
+    <span class="kw">while</span> (<span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">x</span>) {
+        <span class="kw">if</span> (<span class="var">x</span> <span class="op">&gt;</span> <span class="num">0</span>) <span class="var">dodatnie</span><span class="op">++</span><span class="op">;</span>
+        <span class="kw">else if</span> (<span class="var">x</span> <span class="op">&lt;</span> <span class="num">0</span>) <span class="var">ujemne</span><span class="op">++</span><span class="op">;</span>
+        <span class="cm">// zero pomijamy</span>
+    }
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Dodatnie: "</span> <span class="op">&lt;&lt;</span> <span class="var">dodatnie</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Ujemne:   "</span> <span class="op">&lt;&lt;</span> <span class="var">ujemne</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+            <div class="zadanie reveal">
+                <div class="zadanie-gora">
+                    <span class="zadanie-poziom poz-srednie">Średnie</span>
+                    <span class="zadanie-tytul">Suma cyfr liczby</span>
+                </div>
+                <div class="zadanie-tresc">Wczytaj liczbę naturalną <code>n</code> i wypisz sumę jej cyfr. Dla 4821 odpowiedzią jest 15.</div>
+                <div class="zadanie-wsk"><strong>Jak to ugryźć:</strong> Ostatnią cyfrę daje <code>n % 10</code>, a <code>n /= 10</code> ją obcina. Powtarzaj oba kroki, dopóki <code>n</code> jest większe od zera. Weź <code>long long</code>, żeby zmieściły się też duże liczby.</div>
+                <details class="zadanie-rozw">
+                    <summary>Pokaż rozwiązanie</summary>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-dots"><span></span><span></span><span></span></div>
+                            <div class="code-block-title">suma_cyfr.cpp</div>
+                        </div>
+                        <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">long long</span> <span class="var">n</span><span class="op">;</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">n</span><span class="op">;</span>
+
+    <span class="tp">int</span> <span class="var">suma</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
+    <span class="kw">while</span> (<span class="var">n</span> <span class="op">&gt;</span> <span class="num">0</span>) {
+        <span class="var">suma</span> <span class="op">+=</span> <span class="var">n</span> <span class="op">%</span> <span class="num">10</span><span class="op">;</span>    <span class="cm">// ostatnia cyfra</span>
+        <span class="var">n</span> <span class="op">/=</span> <span class="num">10</span><span class="op">;</span>           <span class="cm">// obcinamy ja</span>
+    }
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">suma</span><span class="op">;</span>
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+            <div class="zadanie reveal">
+                <div class="zadanie-gora">
+                    <span class="zadanie-poziom poz-srednie">Średnie</span>
+                    <span class="zadanie-tytul">Odwrócenie liczby</span>
+                </div>
+                <div class="zadanie-tresc">Wypisz liczbę <code>n</code> zapisaną od tyłu. Dla 1234 odpowiedzią jest 4321.</div>
+                <div class="zadanie-wsk"><strong>Jak to ugryźć:</strong> Buduj wynik cyfra po cyfrze: <code>odwrocona = odwrocona * 10 + n % 10</code>. Mnożenie przez 10 robi miejsce na nową cyfrę z końca.</div>
+                <details class="zadanie-rozw">
+                    <summary>Pokaż rozwiązanie</summary>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-dots"><span></span><span></span><span></span></div>
+                            <div class="code-block-title">odwroc.cpp</div>
+                        </div>
+                        <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">long long</span> <span class="var">n</span><span class="op">;</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">n</span><span class="op">;</span>
+
+    <span class="tp">long long</span> <span class="var">odwrocona</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
+    <span class="kw">while</span> (<span class="var">n</span> <span class="op">&gt;</span> <span class="num">0</span>) {
+        <span class="var">odwrocona</span> <span class="op">=</span> <span class="var">odwrocona</span> <span class="op">*</span> <span class="num">10</span> <span class="op">+</span> <span class="var">n</span> <span class="op">%</span> <span class="num">10</span><span class="op">;</span>
+        <span class="var">n</span> <span class="op">/=</span> <span class="num">10</span><span class="op">;</span>
+    }
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">odwrocona</span><span class="op">;</span>
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+            <div class="zadanie reveal">
+                <div class="zadanie-gora">
+                    <span class="zadanie-poziom poz-trudne">Trudne</span>
+                    <span class="zadanie-tytul">Zgadywanka</span>
+                </div>
+                <div class="zadanie-tresc">Program myśli o liczbie 42. Pytaj użytkownika o kolejne strzały tak długo, aż trafi. Po każdym błędnym podpowiedz <code>za malo</code> albo <code>za duzo</code>, a na koniec napisz, za którym razem zgadł.</div>
+                <div class="zadanie-wsk"><strong>Jak to ugryźć:</strong> Tu pasuje <code>do-while</code>: najpierw musisz zapytać, dopiero potem sprawdzić odpowiedź. Licznik prób zwiększaj w każdym obrocie.</div>
+                <details class="zadanie-rozw">
+                    <summary>Pokaż rozwiązanie</summary>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-dots"><span></span><span></span><span></span></div>
+                            <div class="code-block-title">zgadywanka.cpp</div>
+                        </div>
+                        <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="kw">const</span> <span class="tp">int</span> <span class="var">SEKRET</span> <span class="op">=</span> <span class="num">42</span><span class="op">;</span>
+    <span class="tp">int</span> <span class="var">strzal</span><span class="op">;</span>
+    <span class="tp">int</span> <span class="var">proby</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
+
+    <span class="kw">do</span> {
+        <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Zgadnij liczbe: "</span><span class="op">;</span>
+        <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">strzal</span><span class="op">;</span>
+        <span class="var">proby</span><span class="op">++</span><span class="op">;</span>
+
+        <span class="kw">if</span> (<span class="var">strzal</span> <span class="op">&lt;</span> <span class="var">SEKRET</span>) <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"za malo\n"</span><span class="op">;</span>
+        <span class="kw">else if</span> (<span class="var">strzal</span> <span class="op">&gt;</span> <span class="var">SEKRET</span>) <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"za duzo\n"</span><span class="op">;</span>
+
+    } <span class="kw">while</span> (<span class="var">strzal</span> <span class="op">!=</span> <span class="var">SEKRET</span>)<span class="op">;</span>
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Trafione za "</span> <span class="op">&lt;&lt;</span> <span class="var">proby</span> <span class="op">&lt;&lt;</span> <span class="str">" razem!"</span><span class="op">;</span>
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <section class="tips-section" id="porady">
+        <span class="section-label reveal">07 — Porady</span>
+        <h2 class="reveal">Częste błędy i dobre praktyki</h2>
+        <div class="tips-grid">
+                <div class="tip-card reveal">
+                    <div class="tip-icon">♾️</div>
+                    <div class="tip-title">Program „wisi”</div>
+                    <div class="tip-text">Najczęstszy błąd: zapomniana zmiana zmiennej w ciele pętli. Jeśli program nic nie wypisuje i nie kończy się, sprawdź, czy warunek ma w ogóle szansę stać się fałszywy. Ctrl + C przerywa.</div>
+                </div>
+                <div class="tip-card reveal">
+                    <div class="tip-icon">🚫</div>
+                    <div class="tip-title">Średnik po while</div>
+                    <div class="tip-text"><code>while (i &lt; n);</code> — ten średnik tworzy pustą pętlę, która zawiesza program. Kompilator nie zgłosi błędu, więc szuka się tego godzinami.</div>
+                </div>
+                <div class="tip-card reveal">
+                    <div class="tip-icon">🔢</div>
+                    <div class="tip-title">Zmienna przed pętlą</div>
+                    <div class="tip-text">Zmienna z warunku musi istnieć i mieć wartość <strong style="color:var(--text-primary)">przed</strong> pętlą. Niezainicjalizowany <code>int</code> ma w środku losowe śmieci.</div>
+                </div>
+                <div class="tip-card reveal">
+                    <div class="tip-icon">⏭️</div>
+                    <div class="tip-title">continue a licznik</div>
+                    <div class="tip-text">W <code>while</code> instrukcja <code>continue</code> <strong style="color:var(--text-primary)">nie zwiększa</strong> licznika automatycznie — łatwo o zawieszenie programu.</div>
+                </div>
+                <div class="tip-card reveal">
+                    <div class="tip-icon">📥</div>
+                    <div class="tip-title">while (cin >> x)</div>
+                    <div class="tip-text">Czytanie do końca danych zapisujemy jako <code>while (cin &gt;&gt; x)</code>. Pętla kończy się sama, gdy danych zabraknie.</div>
+                </div>
+                <div class="tip-card reveal">
+                    <div class="tip-icon">🔁</div>
+                    <div class="tip-title">while czy for?</div>
+                    <div class="tip-text">Znasz z góry liczbę powtórzeń — bierz <code>for</code>. Kręcisz „aż do skutku” — bierz <code>while</code>. Obie robią to samo, chodzi tylko o czytelność.</div>
+                </div>
+        </div>
+    </section>
+
+</main>
+
+<div class="divider"></div>
+
+<main>
+
+    <div class="cta-banner reveal">
+        <span class="section-label" style="display:block;text-align:center;margin-bottom:12px;">08 — Idź dalej</span>
+        <h2>Gotowy na więcej?</h2>
+        <p>Dołącz do T-Olimpians i trenuj z doświadczonymi mentorami. Zbuduj bazę, która prowadzi do finałów OI.</p>
+        <div class="hero-actions">
+            <a class="btn-primary" href="../index.html#contact-section">Zapisz się teraz</a>
+            <a class="btn-ghost" href="../materialy.html">← Wróć do materiałów</a>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <span>© 2025 T-Olimpians Team Poland</span>
+    <span style="color: var(--text-muted);">
+        <a href="../index.html" style="color:var(--text-muted);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--accent-bright)'" onmouseout="this.style.color='var(--text-muted)'">Home</a>
+        &nbsp;·&nbsp;
+        <a href="../materialy.html" style="color:var(--text-muted);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--accent-bright)'" onmouseout="this.style.color='var(--text-muted)'">Materiały</a>
+        &nbsp;·&nbsp;Stos (stack) · C++
+    </span>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    /* ── PARTICLES ── */
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    let W, H, dots = [];
+    function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+    resize();
+    window.addEventListener('resize', () => { resize(); spawnDots(); });
+    function spawnDots() {
+        dots = [];
+        const count = Math.floor((W * H) / 18000);
+        for (let i = 0; i < count; i++) {
+            dots.push({ x: Math.random()*W, y: Math.random()*H, r: Math.random()*1.4+0.3, vx: (Math.random()-0.5)*0.3, vy: (Math.random()-0.5)*0.3, alpha: Math.random()*0.5+0.2 });
+        }
+    }
+    spawnDots();
+    const LINK_DIST = 120;
+    function drawParticles() {
+        ctx.clearRect(0, 0, W, H);
+        for (let i = 0; i < dots.length; i++) {
+            const d = dots[i];
+            d.x += d.vx; d.y += d.vy;
+            if (d.x < 0) d.x = W; if (d.x > W) d.x = 0;
+            if (d.y < 0) d.y = H; if (d.y > H) d.y = 0;
+            ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, Math.PI*2);
+            ctx.fillStyle = `rgba(96,165,250,${d.alpha})`; ctx.fill();
+            for (let j = i+1; j < dots.length; j++) {
+                const d2 = dots[j];
+                const dx = d.x-d2.x, dy = d.y-d2.y;
+                const dist = Math.sqrt(dx*dx+dy*dy);
+                if (dist < LINK_DIST) {
+                    ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d2.x, d2.y);
+                    ctx.strokeStyle = `rgba(59,130,246,${0.12*(1-dist/LINK_DIST)})`; ctx.lineWidth = 0.6; ctx.stroke();
+                }
+            }
+        }
+        requestAnimationFrame(drawParticles);
+    }
+    drawParticles();
+
+    /* ── SCROLL REVEAL ── */
+    const revealObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const parent = entry.target.closest('.part-cards, .tips-grid, .anatomy-grid');
+                let delay = 0;
+                if (parent) {
+                    const all = parent.querySelectorAll('.reveal');
+                    all.forEach((el, idx) => { if (el === entry.target) delay = idx * 100; });
+                }
+                setTimeout(() => entry.target.classList.add('visible'), delay);
+                revealObs.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+    /* ── NAVBAR SCROLL ── */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 40));
+
+    /* ── HAMBURGER ── */
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => {
+        navLinks.classList.toggle('open');
+        hamburger.classList.toggle('open');
+    });
+    document.querySelectorAll('.nav-close').forEach(a => {
+        a.addEventListener('click', () => {
+            navLinks.classList.remove('open');
+            hamburger.classList.remove('open');
+        });
+    });
+});
+</script>
+<script>
+/* Filmy OKI: klikniecie podmienia miniature na odtwarzacz w tym samym miejscu.
+   Bez JavaScriptu karta zostaje zwyklym linkiem do YouTube. */
+function okiWideo(el, id) {
+    var m = el.querySelector('.wideo-miniatura');
+    if (!m) return true;
+    m.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + id +
+        '?autoplay=1&rel=0" title="Film OKI" allow="accelerometer; autoplay; ' +
+        'clipboard-write; encrypted-media; gyroscope; picture-in-picture" ' +
+        'allowfullscreen></iframe>';
+    el.removeAttribute('href');
+    el.removeAttribute('target');
+    return false;
+}
+</script>
+<!-- licznik odwiedzin -> panel kacperos.html -->
+<script type="module" src="/track.js"></script>
+</body>
+</html>

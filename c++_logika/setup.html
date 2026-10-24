@@ -1,0 +1,2193 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Środowisko C++ do Olimpiady Informatycznej — setup | T-Olimpians</title>
+    <meta name="description" content="Jak zainstalować kompilator C++ i Sublime Text na Windows lub Ubuntu i przygotować środowisko do Olimpiady Informatycznej — krok po kroku, z filmami.">
+    <link rel="canonical" href="https://t-olimpians.com/c++_logika/setup.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="T-Olimpians Team Poland">
+    <meta property="og:locale" content="pl_PL">
+    <meta property="og:url" content="https://t-olimpians.com/c++_logika/setup.html">
+    <meta property="og:title" content="Środowisko C++ do Olimpiady Informatycznej — setup | T-Olimpians">
+    <meta property="og:description" content="Jak zainstalować kompilator C++ i Sublime Text na Windows lub Ubuntu i przygotować środowisko do Olimpiady Informatycznej — krok po kroku, z filmami.">
+    <meta property="og:image" content="https://t-olimpians.com/img/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="../img/favicon2.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-base: #0a0a0f;
+            --bg-surface: #111118;
+            --bg-card: #15151e;
+            --bg-elevated: #1c1c28;
+            --accent: #3b82f6;
+            --accent-bright: #60a5fa;
+            --accent-glow: rgba(59, 130, 246, 0.25);
+            --accent-dim: rgba(59, 130, 246, 0.12);
+            --green: #22c55e;
+            --green-dim: rgba(34, 197, 94, 0.12);
+            --green-glow: rgba(34, 197, 94, 0.25);
+            --purple: #a78bfa;
+            --purple-dim: rgba(167, 139, 250, 0.12);
+            --orange: #fb923c;
+            --orange-dim: rgba(251, 146, 60, 0.12);
+            --text-primary: #f0f0f8;
+            --text-secondary: #9090aa;
+            --text-muted: #55556a;
+            --border: rgba(255,255,255,0.07);
+            --border-accent: rgba(59, 130, 246, 0.3);
+            --font-display: 'Syne', sans-serif;
+            --font-body: 'DM Sans', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.6;
+        }
+
+        /* ─── NAVBAR ─── */
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 48px;
+            height: 68px;
+            background: rgba(10, 10, 15, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            transition: background 0.3s;
+        }
+        .navbar.scrolled {
+            background: rgba(10, 10, 15, 0.95);
+            box-shadow: 0 4px 32px rgba(0,0,0,0.4);
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        .logo img:first-child {
+            width: 38px; height: 38px;
+            border-radius: 10px;
+            object-fit: cover;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .logo:hover img:first-child {
+            transform: rotate(-5deg) scale(1.08);
+            box-shadow: 0 0 16px var(--accent-glow);
+        }
+        #polska-flaga { width: 22px; height: auto; border-radius: 3px; }
+        .logo-text {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--text-primary);
+            letter-spacing: 0.01em;
+        }
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            flex-shrink: 0;
+        }
+        .nav-links {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            transition: color 0.2s, background 0.2s;
+            cursor: pointer;
+            letter-spacing: 0.02em;
+            position: relative;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 4px; left: 16px; right: 16px;
+            height: 1px;
+            background: var(--accent-bright);
+            transform: scaleX(0);
+            transition: transform 0.25s ease;
+        }
+        .nav-links a:hover::after { transform: scaleX(1); }
+        .nav-links a:hover {
+            color: var(--text-primary);
+            background: var(--accent-dim);
+        }
+        .nav-links a.active-page { color: var(--accent-bright); }
+        .nav-links .nav-cta a {
+            background: var(--accent);
+            color: white;
+            font-weight: 600;
+        }
+        .nav-links .nav-cta a:hover { background: var(--accent-bright); color: white; }
+        .nav-links .nav-cta a::after { display: none; }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            z-index: 110;
+        }
+        .hamburger span {
+            display: block;
+            width: 24px; height: 2px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: transform 0.3s, opacity 0.3s;
+        }
+        .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        /* ─── PARTICLES ─── */
+        #particles {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        /* ─── PAGE HEADER ─── */
+        .page-header {
+            min-height: 52vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 120px 80px 72px;
+            position: relative;
+            overflow: hidden;
+        }
+        .page-header::after {
+            content: '';
+            position: absolute;
+            top: 10%; left: 50%;
+            transform: translateX(-50%);
+            width: 700px; height: 500px;
+            background: radial-gradient(circle, rgba(59,130,246,0.07) 0%, transparent 70%);
+            pointer-events: none;
+            animation: pulse-glow 6s ease-in-out infinite;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.5; transform: translateX(-50%) scale(1); }
+            50% { opacity: 1; transform: translateX(-50%) scale(1.1); }
+        }
+        .page-header-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--accent-dim);
+            border: 1px solid var(--border-accent);
+            color: var(--accent-bright);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 500;
+            padding: 6px 14px;
+            border-radius: 100px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+            animation: fadeInUp 0.6s ease both;
+            position: relative; z-index: 1;
+        }
+        .page-header-badge::before {
+            content: '';
+            width: 6px; height: 6px;
+            background: var(--accent-bright);
+            border-radius: 50%;
+            animation: blink 2s ease-in-out infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+        .page-header h1 {
+            font-family: var(--font-display);
+            font-size: clamp(36px, 5vw, 64px);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            color: var(--text-primary);
+            margin-bottom: 22px;
+            position: relative; z-index: 1;
+            animation: fadeInUp 0.7s 0.1s cubic-bezier(0.16,1,0.3,1) both;
+        }
+        .page-header h1 span {
+            background: linear-gradient(135deg, var(--accent-bright), #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .page-header > p {
+            font-size: 16px;
+            color: var(--text-secondary);
+            line-height: 1.75;
+            max-width: 560px;
+            margin-bottom: 40px;
+            position: relative; z-index: 1;
+            animation: fadeInUp 0.7s 0.2s cubic-bezier(0.16,1,0.3,1) both;
+        }
+        .page-header-actions {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            justify-content: center;
+            position: relative; z-index: 1;
+            animation: fadeInUp 0.7s 0.3s cubic-bezier(0.16,1,0.3,1) both;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ─── BUTTONS ─── */
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+            letter-spacing: 0.01em;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: inherit;
+            background: linear-gradient(135deg, var(--accent), #7c3aed);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s;
+            filter: blur(8px);
+        }
+        .btn-primary:hover::after { opacity: 0.6; }
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 60%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            transform: skewX(-20deg);
+            transition: left 0.5s ease;
+        }
+        .btn-primary:hover::before { left: 150%; }
+        .btn-primary:hover {
+            background: var(--accent-bright);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px var(--accent-glow);
+        }
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            padding: 14px 28px;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.2s, border-color 0.2s, transform 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-ghost:hover {
+            color: var(--text-primary);
+            border-color: var(--border-accent);
+            transform: translateY(-2px);
+        }
+
+        /* ─── REVEAL ─── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1),
+                        transform 0.7s cubic-bezier(0.16,1,0.3,1);
+        }
+        .reveal.reveal-left  { transform: translateX(-40px); }
+        .reveal.reveal-right { transform: translateX(40px); }
+        .reveal.visible { opacity: 1; transform: translate(0); }
+
+        /* ─── LAYOUT ─── */
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--border), transparent);
+            margin: 0 80px;
+        }
+        .section-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--accent-bright);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            display: block;
+        }
+        main {
+            padding: 0 80px;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        /* ─── TUTORIAL SECTION ─── */
+        .tutorial-section {
+            padding: 80px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .tutorial-section:last-of-type { border-bottom: none; }
+        .tutorial-section h2 {
+            font-family: var(--font-display);
+            font-size: clamp(26px, 3vw, 38px);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+        }
+        .tutorial-section > p {
+            color: var(--text-secondary);
+            font-size: 15.5px;
+            line-height: 1.8;
+            max-width: 640px;
+            margin-bottom: 40px;
+        }
+
+        /* ─── WHY CARDS ─── */
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            margin-bottom: 56px;
+        }
+        .why-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 26px;
+            transition: border-color 0.3s, transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+        .why-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--accent-dim), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            border-radius: inherit;
+        }
+        .why-card:hover::before { opacity: 1; }
+        .why-card:hover {
+            border-color: var(--border-accent);
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 14px 40px var(--accent-glow);
+        }
+        .why-icon { font-size: 26px; margin-bottom: 14px; position: relative; z-index: 1; }
+        .why-title {
+            font-family: var(--font-display);
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            position: relative; z-index: 1;
+        }
+        .why-text {
+            font-size: 13.5px;
+            color: var(--text-secondary);
+            line-height: 1.65;
+            position: relative; z-index: 1;
+        }
+        .why-card.green-accent::before { background: linear-gradient(135deg, var(--green-dim), transparent 60%); }
+        .why-card.green-accent:hover { border-color: rgba(34,197,94,0.35); box-shadow: 0 14px 40px var(--green-glow); }
+        .why-card.purple-accent::before { background: linear-gradient(135deg, var(--purple-dim), transparent 60%); }
+        .why-card.purple-accent:hover { border-color: rgba(167,139,250,0.35); box-shadow: 0 14px 40px rgba(167,139,250,0.2); }
+        .why-card.orange-accent::before { background: linear-gradient(135deg, var(--orange-dim), transparent 60%); }
+        .why-card.orange-accent:hover { border-color: rgba(251,146,60,0.35); box-shadow: 0 14px 40px rgba(251,146,60,0.2); }
+
+        /* ─── PATH SELECTOR (tor wyboru) ─── */
+        .path-hint-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--font-mono);
+            font-size: 12.5px;
+            color: var(--text-muted);
+            letter-spacing: 0.03em;
+            margin-bottom: 22px;
+        }
+        .path-hint-emoji {
+            display: inline-block;
+            animation: pathBounce 1.6s ease-in-out infinite;
+        }
+        @keyframes pathBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+        .path-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 22px;
+            margin-bottom: 8px;
+        }
+        .path-card {
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-top: 4px solid transparent;
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            text-align: left;
+            font-family: var(--font-body);
+            color: inherit;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            opacity: 0.82;
+            filter: saturate(0.8);
+            transition: opacity 0.35s, filter 0.35s, border-color 0.35s,
+                        transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s;
+        }
+        .path-card:hover, .path-card.active { opacity: 1; filter: saturate(1); }
+        .path-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 0.4s;
+            border-radius: inherit;
+            background-size: 220% 220%;
+        }
+        .path-card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 55%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.10), transparent);
+            transform: skewX(-20deg);
+            transition: left 0.6s ease;
+            z-index: 0;
+        }
+        .path-card:hover::after { left: 160%; }
+        .path-card:hover::before { opacity: 1; }
+        .path-card:hover { transform: translateY(-5px); box-shadow: 0 16px 44px rgba(0,0,0,0.35); }
+
+        /* Tor 1 — Windows (niebieski) */
+        .path-card[data-track="beginner"] { border-top-color: rgba(59,130,246,0.5); }
+        .path-card[data-track="beginner"]::before {
+            background-image:
+                radial-gradient(circle at 25% 15%, rgba(59,130,246,0.30), transparent 55%),
+                linear-gradient(120deg, rgba(59,130,246,0.18), rgba(96,165,250,0.06), rgba(59,130,246,0.18));
+        }
+        .path-card[data-track="beginner"] .path-title { color: var(--accent-bright); }
+        .path-card[data-track="beginner"].active {
+            border-color: #3b82f6;
+            border-top-color: #3b82f6;
+            animation: pathPulseBlue 2.6s ease-in-out infinite;
+        }
+        .path-card[data-track="beginner"].active::before { opacity: 1; animation: gradientShift 6s ease infinite; }
+        .path-card[data-track="beginner"] .status-dot.on { background: #3b82f6; border-color: #3b82f6; box-shadow: 0 0 10px rgba(59,130,246,0.6); }
+        .path-card[data-track="beginner"].active .status-label { color: var(--accent-bright); }
+
+        /* Tor 2 — Ubuntu (pomarańczowy) */
+        .path-card[data-track="advanced"] { border-top-color: rgba(251,146,60,0.5); }
+        .path-card[data-track="advanced"]::before {
+            background-image:
+                radial-gradient(circle at 25% 15%, rgba(251,146,60,0.30), transparent 55%),
+                linear-gradient(120deg, rgba(251,146,60,0.18), rgba(233,84,32,0.08), rgba(251,146,60,0.18));
+        }
+        .path-card[data-track="advanced"] .path-title { color: var(--orange); }
+        .path-card[data-track="advanced"].active {
+            border-color: var(--orange);
+            border-top-color: var(--orange);
+            animation: pathPulseOrange 2.6s ease-in-out infinite;
+        }
+        .path-card[data-track="advanced"].active::before { opacity: 1; animation: gradientShift 6s ease infinite; }
+        .path-card[data-track="advanced"] .status-dot.on { background: var(--orange); border-color: var(--orange); box-shadow: 0 0 10px rgba(251,146,60,0.6); }
+        .path-card[data-track="advanced"].active .status-label { color: var(--orange); }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        @keyframes pathPulseBlue {
+            0%, 100% { box-shadow: 0 16px 40px rgba(59,130,246,0.30); }
+            50% { box-shadow: 0 22px 58px rgba(59,130,246,0.5); }
+        }
+        @keyframes pathPulseOrange {
+            0%, 100% { box-shadow: 0 16px 40px rgba(251,146,60,0.30); }
+            50% { box-shadow: 0 22px 58px rgba(251,146,60,0.5); }
+        }
+
+        .path-status {
+            position: absolute;
+            top: 22px; right: 22px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            z-index: 2;
+        }
+        .status-dot {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            background: transparent;
+            transition: all 0.3s;
+        }
+        .status-label {
+            font-family: var(--font-mono);
+            font-size: 10.5px;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            transition: color 0.3s;
+        }
+        .path-icon {
+            font-size: 32px;
+            margin-bottom: 16px;
+            position: relative; z-index: 1;
+            display: inline-block;
+            transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        .path-card:hover .path-icon { transform: scale(1.18) rotate(-6deg); }
+        .path-card.active .path-icon { transform: scale(1.1); }
+        .path-title {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            position: relative; z-index: 1;
+        }
+        .path-sub {
+            font-family: var(--font-display);
+            font-size: 19px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            position: relative; z-index: 1;
+        }
+        .path-desc {
+            font-size: 13.5px;
+            color: var(--text-secondary);
+            line-height: 1.65;
+            position: relative; z-index: 1;
+        }
+
+        /* ─── MOTYW UBUNTU (gdy wybrany tor Zaawansowany) ─── */
+        #instalacja.tor-ubuntu {
+            --accent: #E95420;
+            --accent-bright: #FF7A45;
+            --accent-glow: rgba(233, 84, 32, 0.28);
+            --accent-dim: rgba(233, 84, 32, 0.13);
+            --border-accent: rgba(233, 84, 32, 0.35);
+        }
+
+        /* ─── TRACK TABS + PANELS ─── */
+        .track-tabs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 44px;
+        }
+        .track-tab {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 12px 22px;
+            border-radius: 999px;
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.2s, border-color 0.2s, background 0.2s, transform 0.2s;
+        }
+        .track-tab:hover { color: var(--text-primary); transform: translateY(-1px); }
+        .track-tab.active {
+            background: var(--accent-dim);
+            border-color: var(--border-accent);
+            color: var(--accent-bright);
+        }
+        .track-panel { display: none; }
+        .track-panel.active { display: block; }
+        .sub-block { margin-bottom: 60px; }
+        .sub-block:last-child { margin-bottom: 0; }
+        .sub-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .sub-block h3 {
+            font-family: var(--font-display);
+            font-size: 21px;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            margin-bottom: 12px;
+        }
+
+        /* ─── VIDEO PLAYER ─── */
+        .video-container {
+            margin: 40px 0;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            position: relative;
+        }
+        .video-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px 24px;
+            background: var(--bg-elevated);
+            border-bottom: 1px solid var(--border);
+        }
+        .video-dots { display: flex; gap: 6px; }
+        .video-dots span {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+        }
+        .video-dots span:nth-child(1) { background: #ff5f56; }
+        .video-dots span:nth-child(2) { background: #ffbd2e; }
+        .video-dots span:nth-child(3) { background: #27c93f; }
+        .video-title {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+        }
+        .video-badge {
+            margin-left: auto;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 100px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            background: rgba(34,197,94,0.15);
+            color: #4ade80;
+            border: 1px solid rgba(34,197,94,0.3);
+        }
+        .video-container video {
+            width: 100%;
+            display: block;
+            aspect-ratio: 16 / 9;
+            max-height: 540px;
+            object-fit: cover;
+            object-position: center;
+            background: #000;
+        }
+        .video-caption {
+            padding: 14px 24px;
+            font-size: 13px;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            letter-spacing: 0.02em;
+        }
+
+        /* ─── STEPS ─── */
+        .steps-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin: 40px 0;
+        }
+        .step-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 24px 28px;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            transition: border-color 0.3s, transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+        .step-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--accent-dim), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .step-card:hover::before { opacity: 1; }
+        .step-card:hover {
+            border-color: var(--border-accent);
+            transform: translateY(-3px) scale(1.005);
+            box-shadow: 0 10px 32px var(--accent-glow);
+        }
+        .step-num {
+            font-family: var(--font-mono);
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--accent);
+            opacity: 0.5;
+            min-width: 36px;
+            line-height: 1;
+            padding-top: 2px;
+            flex-shrink: 0;
+            position: relative; z-index: 1;
+        }
+        .step-body { flex: 1; position: relative; z-index: 1; }
+        .step-title {
+            font-family: var(--font-display);
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+        .step-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+        .step-desc code {
+            font-family: var(--font-mono);
+            font-size: 12.5px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            padding: 1px 7px;
+            border-radius: 5px;
+            color: var(--accent-bright);
+        }
+        .step-desc strong { color: var(--text-primary); }
+
+        .two-col-setup {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 36px;
+            align-items: start;
+            margin-top: 32px;
+        }
+        @media (max-width: 900px) {
+            .two-col-setup { grid-template-columns: 1fr; gap: 24px; }
+        }
+
+        /* ─── CODE BLOCK ─── */
+        .code-block {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin: 20px 0;
+            position: relative;
+        }
+        .code-block-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 20px;
+            background: var(--bg-elevated);
+            border-bottom: 1px solid var(--border);
+        }
+        .code-block-title {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+        }
+        .code-dots { display: flex; gap: 6px; }
+        .code-dots span { width: 10px; height: 10px; border-radius: 50%; }
+        .code-dots span:nth-child(1) { background: #ff5f56; }
+        .code-dots span:nth-child(2) { background: #ffbd2e; }
+        .code-dots span:nth-child(3) { background: #27c93f; }
+        .code-block pre { padding: 24px; overflow-x: auto; margin: 0; }
+        .code-block code {
+            font-family: var(--font-mono);
+            font-size: 14px;
+            line-height: 1.8;
+            color: var(--text-primary);
+        }
+        .kw   { color: #c792ea; }
+        .tp   { color: #82aaff; }
+        .num  { color: #f78c6c; }
+        .fn   { color: #82aaff; }
+        .var  { color: #eeffff; }
+        .op   { color: #89ddff; }
+        .pp   { color: #c792ea; }
+        .inc  { color: #c3e88d; }
+
+        .output-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin: 16px 0 8px;
+        }
+        .output-box {
+            background: rgba(34,197,94,0.06);
+            border: 1px solid rgba(34,197,94,0.2);
+            border-radius: var(--radius-sm);
+            padding: 14px 18px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: #4ade80;
+            line-height: 1.8;
+            white-space: pre;
+        }
+
+        .cmd { color: #c3e88d; }
+        .flag { color: #82aaff; }
+        .cm  { color: #546e7a; font-style: italic; }
+        .str { color: #f78c6c; }
+
+        /* ─── SETUP HIGHLIGHT (gradient callout) ─── */
+        .setup-highlight {
+            max-width: 620px;
+            margin: 28px auto 0;
+            padding: 1.5px;
+            border-radius: calc(var(--radius-lg) + 1.5px);
+            background: linear-gradient(115deg, var(--accent-bright), #a78bfa, #34d399, var(--accent-bright));
+            background-size: 300% 300%;
+            animation: setupGradientShift 8s ease infinite;
+        }
+        @keyframes setupGradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .setup-highlight-inner {
+            position: relative;
+            overflow: hidden;
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 22px 26px;
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+        }
+        .setup-highlight-inner::before {
+            content: "";
+            position: absolute;
+            inset: -40%;
+            background: radial-gradient(circle at center, rgba(96,165,250,0.16), rgba(167,139,250,0.1) 45%, transparent 70%);
+            animation: setupGlowDrift 10s ease-in-out infinite;
+            pointer-events: none;
+        }
+        @keyframes setupGlowDrift {
+            0%, 100% { transform: translate(-8%, -6%) scale(1); }
+            50% { transform: translate(8%, 6%) scale(1.15); }
+        }
+        .setup-highlight-icon {
+            position: relative;
+            z-index: 1;
+            font-size: 20px;
+            flex-shrink: 0;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(96,165,250,0.18), rgba(167,139,250,0.18));
+            border: 1px solid var(--border-accent);
+        }
+        .setup-highlight-text {
+            position: relative;
+            z-index: 1;
+            font-size: 13.5px;
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+        .setup-highlight-text strong {
+            background: linear-gradient(115deg, var(--accent-bright), #a78bfa, #34d399, var(--accent-bright));
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: setupGradientShift 8s ease infinite;
+        }
+
+        /* ─── CRITICAL HIGHLIGHT (animowane ostrzeżenie) ─── */
+        .critical-highlight {
+            max-width: 640px;
+            margin: 28px auto 0;
+            padding: 2px;
+            border-radius: calc(var(--radius-lg) + 2px);
+            background: linear-gradient(115deg, #fb923c, #f87171, #fbbf24, #fb923c);
+            background-size: 300% 300%;
+            animation: criticalGradientShift 6s ease infinite, criticalPulse 2.4s ease-in-out infinite;
+        }
+        @keyframes criticalGradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes criticalPulse {
+            0%, 100% { box-shadow: 0 0 0px rgba(251,146,60,0); }
+            50% { box-shadow: 0 0 30px rgba(251,146,60,0.45); }
+        }
+        .critical-highlight-inner {
+            position: relative;
+            overflow: hidden;
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 22px 26px;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+        .critical-highlight-inner::before {
+            content: "";
+            position: absolute;
+            inset: -40%;
+            background: radial-gradient(circle at center, rgba(251,146,60,0.2), rgba(248,113,113,0.12) 45%, transparent 70%);
+            animation: setupGlowDrift 8s ease-in-out infinite;
+            pointer-events: none;
+        }
+        .critical-highlight-icon {
+            position: relative;
+            z-index: 1;
+            font-size: 22px;
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(251,146,60,0.22), rgba(248,113,113,0.22));
+            border: 1px solid rgba(251,146,60,0.4);
+            animation: criticalIconPulse 2.4s ease-in-out infinite;
+        }
+        @keyframes criticalIconPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.14); }
+        }
+        .critical-highlight-text {
+            position: relative;
+            z-index: 1;
+            font-size: 14px;
+            line-height: 1.75;
+            color: var(--text-secondary);
+        }
+        .critical-highlight-text strong {
+            display: inline-block;
+            margin-bottom: 2px;
+            font-size: 15px;
+            background: linear-gradient(115deg, #fb923c, #f87171, #fbbf24, #fb923c);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: criticalGradientShift 6s ease infinite;
+        }
+
+        /* ─── INFO BOX ─── */
+        .info-box {
+            border-radius: var(--radius-md);
+            padding: 18px 22px;
+            font-size: 14px;
+            line-height: 1.7;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            margin: 20px 0;
+        }
+        .info-box.blue {
+            background: var(--accent-dim);
+            border: 1px solid var(--border-accent);
+            color: var(--accent-bright);
+        }
+        .info-box.green {
+            background: var(--green-dim);
+            border: 1px solid rgba(34,197,94,0.3);
+            color: #4ade80;
+        }
+        .info-box.purple {
+            background: var(--purple-dim);
+            border: 1px solid rgba(167,139,250,0.3);
+            color: #a78bfa;
+        }
+        .info-box.orange {
+            background: var(--orange-dim);
+            border: 1px solid rgba(251,146,60,0.3);
+            color: #fb923c;
+        }
+        .info-box .info-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+        .info-box .info-text { flex: 1; }
+        .info-box .info-text strong { color: inherit; }
+        .info-box .info-text code {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            background: rgba(0,0,0,0.2);
+            padding: 1px 6px;
+            border-radius: 4px;
+        }
+
+        /* ─── SUBLIME FEATURES ─── */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 14px;
+            margin: 36px 0;
+        }
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 22px;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.3s, transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s;
+        }
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--accent-dim), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .feature-card:hover::before { opacity: 1; }
+        .feature-card:hover {
+            border-color: var(--border-accent);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 36px var(--accent-glow);
+        }
+        .feature-icon {
+            width: 36px; height: 36px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            margin-bottom: 14px;
+            position: relative; z-index: 1;
+        }
+        .feature-icon.blue  { background: var(--accent-dim);  border: 1px solid var(--border-accent); }
+        .feature-icon.green { background: var(--green-dim);   border: 1px solid rgba(34,197,94,0.3); }
+        .feature-icon.purp  { background: var(--purple-dim);  border: 1px solid rgba(167,139,250,0.3); }
+        .feature-icon.ora   { background: var(--orange-dim);  border: 1px solid rgba(251,146,60,0.3); }
+        .feature-title {
+            font-family: var(--font-display);
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+            position: relative; z-index: 1;
+        }
+        .feature-text {
+            font-size: 13.5px;
+            color: var(--text-secondary);
+            line-height: 1.65;
+            position: relative; z-index: 1;
+        }
+        .feature-text code {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            background: var(--bg-elevated);
+            padding: 1px 6px;
+            border-radius: 4px;
+            color: var(--accent-bright);
+        }
+
+        /* ─── CTA BANNER ─── */
+        .cta-banner {
+            margin: 0 0 80px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 56px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-banner::before {
+            content: '';
+            position: absolute;
+            top: -40%; left: 50%;
+            transform: translateX(-50%);
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(59,130,246,0.07) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .cta-banner::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -60%;
+            width: 40%; height: 200%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
+            transform: skewX(-15deg);
+            animation: shimmer 6s ease-in-out infinite;
+        }
+        @keyframes shimmer { 0% { left: -60%; } 50% { left: 120%; } 100% { left: 120%; } }
+        .cta-banner h2 {
+            font-family: var(--font-display);
+            font-size: clamp(26px, 3.5vw, 40px);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 14px;
+            position: relative; z-index: 1;
+        }
+        .cta-banner p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            max-width: 480px;
+            margin: 0 auto 28px;
+            position: relative; z-index: 1;
+        }
+        .cta-actions {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            justify-content: center;
+            position: relative; z-index: 1;
+        }
+        .hero-actions {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            justify-content: center;
+            position: relative; z-index: 1;
+        }
+
+        /* ─── FOOTER ─── */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 32px 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+        footer span { font-family: var(--font-mono); }
+        footer a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        footer a:hover { color: var(--accent-bright); }
+
+        /* ─── RESPONSIVE ─── */
+        .nav-group-item { display: flex; align-items: center; }
+        .nav-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border-accent);
+            border-radius: var(--radius-sm);
+            padding: 8px 10px 3px;
+            margin-top: 7px;
+            background: var(--accent-dim);
+        }
+        .nav-group-label {
+            position: absolute;
+            top: -7px;
+            left: 12px;
+            background: #0a0a0f;
+            padding: 1px 7px;
+            border: 1px solid var(--border-accent);
+            border-radius: 100px;
+            font-family: var(--font-mono);
+            font-size: 9.5px;
+            font-weight: 500;
+            color: var(--accent-bright);
+            text-transform: lowercase;
+            letter-spacing: 0.06em;
+            line-height: 1.3;
+        }
+        .nav-group-links { display: flex; align-items: center; gap: 2px; }
+
+
+        @media (max-width: 900px) {
+            .navbar { padding: 0 20px; }
+            .hamburger { display: flex; }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: fixed;
+                top: 68px; left: 0; right: 0;
+                background: rgba(10, 10, 15, 0.98);
+                backdrop-filter: blur(20px);
+                border-bottom: 1px solid var(--border);
+                padding: 16px 0 24px;
+                gap: 0;
+                z-index: 99;
+            }
+            .nav-links.open { display: flex; }
+            .nav-links li { width: 100%; }
+            .nav-group-item { width: 100%; }
+            .nav-group {
+                flex-direction: column;
+                align-items: stretch;
+                border-radius: var(--radius-md);
+                margin: 16px 28px 6px;
+                padding: 12px 0 6px;
+                width: auto;
+            }
+            .nav-group-label { left: 16px; background: #0a0a0f; }
+            .nav-group-links { flex-direction: column; width: 100%; }
+            .nav-group-links a { width: 100%; }
+
+            .nav-links a { display: block; padding: 14px 28px; font-size: 16px; border-radius: 0; }
+            .nav-links .nav-cta { padding: 12px 20px 0; }
+            .nav-links .nav-cta a { display: block; text-align: center; border-radius: var(--radius-sm); padding: 14px; }
+            .page-header { padding: 100px 24px 60px; }
+            main { padding: 0 24px; }
+            .divider { margin: 0 24px; }
+            .why-grid { grid-template-columns: 1fr; }
+            .features-grid { grid-template-columns: 1fr; }
+            .cta-banner { padding: 36px 24px; }
+            footer { flex-direction: column; gap: 12px; padding: 24px; text-align: center; }
+        }
+    </style>
+    <style id="tablet-nav">
+        /* ─── TABLET: nawigacja i logo (641–1299px) ───
+           < 1024px  menu pod hamburgerem jako panel po prawej,
+           1024–1299 pelne menu w wersji kompaktowej + logo w dwoch liniach. */
+        @media (min-width: 641px) {
+            .logo { flex-shrink: 0; }
+            .logo-text { white-space: nowrap; }
+        }
+
+        @media (min-width: 641px) and (max-width: 1023px) {
+            .navbar { padding: 0 28px; }
+            .logo-text { font-size: 15px; }
+            .hamburger { display: flex; }
+            .nav-pointer-bubble { display: none !important; }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: fixed;
+                top: 76px; right: 20px; left: auto;
+                width: 340px;
+                max-height: calc(100vh - 96px);
+                overflow-y: auto;
+                background: rgba(10, 10, 15, 0.98);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border: 1px solid var(--border);
+                border-radius: var(--radius-lg, 20px);
+                box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+                padding: 10px 0 16px;
+                gap: 0;
+                z-index: 99;
+            }
+            .nav-links.open { display: flex; }
+            .nav-links li { width: 100%; }
+            .nav-group-item { width: 100%; }
+            .nav-group {
+                flex: 1;
+                flex-direction: column;
+                align-items: stretch;
+                border-radius: var(--radius-md, 14px);
+                margin: 18px 16px 8px;
+                padding: 12px 0 6px;
+                width: auto;
+            }
+            .nav-group-label { left: 14px; background: #0a0a0f; }
+            .nav-group-links { flex-direction: column; align-items: stretch; width: 100%; gap: 0; }
+            .nav-group-links a { width: 100%; }
+            .focus-toggle {
+                width: 100%; justify-content: center; margin: 8px 0 0; padding: 10px 0 4px;
+                border-left: none; border-top: 1px solid var(--border);
+            }
+            .nav-links a { display: block; padding: 12px 24px; font-size: 15px; border-radius: 0; }
+            .nav-links a::after { display: none; }
+            .nav-links .nav-cta { padding: 10px 16px 0; }
+            .nav-links .nav-cta a { display: block; text-align: center; border-radius: var(--radius-sm, 8px); padding: 13px; }
+        }
+
+        @media (min-width: 1024px) and (max-width: 1299px) {
+            .navbar { padding: 0 24px; }
+            .logo { gap: 10px; }
+            .logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+            .logo-text-sub {
+                margin-top: 3px;
+                font-family: var(--font-mono);
+                font-size: 9.5px;
+                font-weight: 500;
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                color: var(--accent-bright);
+            }
+            .nav-links { gap: 2px; }
+            .nav-links a { padding: 8px 10px; font-size: 13.5px; letter-spacing: 0.01em; }
+            .nav-links a::after { left: 10px; right: 10px; }
+            .nav-group { padding: 8px 6px 3px; }
+            .nav-group-links { gap: 0; }
+            .focus-toggle { margin-left: 4px; padding-left: 8px; gap: 6px; }
+        }
+    </style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+    <a class="logo" href="../index.html">
+        <img src="../img/t-olimpians-logo.jpg" alt="Logo">
+        <span class="logo-text">T-Olimpians <span class="logo-text-sub">Team Poland</span></span>
+        <img id="polska-flaga" src="../img/polska_flaga.png" alt="Flaga Polski">
+    </a>
+    <div class="navbar-right">
+        <ul class="nav-links" id="navLinks">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../index.html#o-nas" class="nav-close">O nas</a></li>
+            <li class="nav-group-item">
+                <div class="nav-group">
+                    <span class="nav-group-label">t-olimpians net</span>
+                    <div class="nav-group-links">
+                    <a href="../materialy.html" class="nav-close">C++/logika</a>
+                    <a href="../net.html" class="nav-close">Algorytmy</a>
+                    <a href="../zadania-OI-OIJ.html" class="nav-close">Zadania OI/OIJ</a>
+                    <a href="../konkursy.html" class="nav-close">Konkursy</a>
+                    </div>
+                </div>
+            </li>
+            <li><a href="../zapisy.html" class="nav-close">Zapisy</a></li>
+            <li class="nav-cta"><a href="../zapisy.html" class="nav-close">Dołącz →</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+    <div class="page-header-badge">Krok 00 — Zanim zaczniesz</div>
+    <h1>Przygotuj <span>środowisko</span></h1>
+    <p>Dwie ścieżki, jeden cel: szybki, niezawodny edytor + kompilator C++. Windows + Sublime Text dla początkujących albo Ubuntu + Sublime Text dla zaawansowanych — wybierz tę, która pasuje do Ciebie.</p>
+    <div class="page-header-actions">
+        <a class="btn-primary" href="#platformy">Platformy do treningu</a>
+        <a class="btn-ghost" href="#tor-wyboru">Wybierz swoją ścieżkę</a>
+    </div>
+</div>
+
+<div class="setup-highlight reveal">
+    <div class="setup-highlight-inner">
+        <div class="setup-highlight-icon">🚀</div>
+        <div class="setup-highlight-text"><strong>Ten setup naprawdę się opłaca.</strong><br>Niezależnie od tego, czy przygotowujesz się do olimpiady z nami w T-Olimpians, uczysz się samodzielnie, czy korzystasz z innego kursu — solidne środowisko do pisania i kompilowania C++ znacznie przyspiesza naukę. Zamiast walczyć z konfiguracją, klikaniem w ciężkie IDE czy szukaniem błędów w ustawieniach, od razu skupiasz się na tym, co faktycznie liczy się na zawodach: algorytmach i rozwiązywaniu zadań.</div>
+    </div>
+</div>
+
+<div class="divider"></div>
+
+<main>
+
+    <!-- ══════════ PLATFORMY ══════════ -->
+
+    <section class="tutorial-section" id="platformy">
+        <span class="section-label reveal">00 — Platformy do praktyki i nauki</span>
+        <h2 class="reveal">Zbuduj swój <span style="background:linear-gradient(135deg,var(--accent-bright),#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">warsztat treningowy</span></h2>
+        <p class="reveal">Zanim zainstalujesz cokolwiek, potrzebujesz miejsc, w których będziesz rozwiązywać zadania. Stwórz w przeglądarce folder zakładek o nazwie <code>OI</code> (skrót od Olimpiada Informatyczna) i dodaj do niego poniższe platformy — będziesz z nich korzystać niemal codziennie.</p>
+
+        <div class="info-box blue reveal">
+            <span class="info-icon">🔖</span>
+            <div class="info-text"><strong>Jak stworzyć folder zakładek:</strong> Otwórz menedżer zakładek w przeglądarce (np. <code>Ctrl+Shift+O</code> w Chrome), kliknij ikonę <strong>trzech kropek</strong> w prawym górnym rogu, wybierz <strong>Dodaj folder</strong>, nazwij go <code>OI</code>, a następnie zapisz w nim zakładki do stron poniżej. <em>Instrukcja dotyczy Google Chrome — w Edge, Operze czy Firefoksie kroki mogą wyglądać inaczej.</em></div>
+        </div>
+
+        <div class="steps-list">
+            <div class="step-card reveal">
+                <div class="step-num">01</div>
+                <div class="step-body">
+                    <div class="step-title"><a href="https://codeforces.com/" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;border-bottom:1px dashed var(--border-accent);">Codeforces</a></div>
+                    <div class="step-desc">Najpopularniejszy serwis z rundami competitive programming, systemem rankingowym i ogromnym archiwum zadań.</div>
+                </div>
+            </div>
+            <div class="step-card reveal">
+                <div class="step-num">02</div>
+                <div class="step-body">
+                    <div class="step-title"><a href="https://www.codechef.com/" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;border-bottom:1px dashed var(--border-accent);">CodeChef</a></div>
+                    <div class="step-desc">Comiesięczne konkursy (Long Challenge, Cook-off, Lunchtime) i duży zbiór zadań wraz z edytorialami.</div>
+                </div>
+            </div>
+            <div class="step-card reveal">
+                <div class="step-num">03</div>
+                <div class="step-body">
+                    <div class="step-title"><a href="https://leetcode.com/contest/" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;border-bottom:1px dashed var(--border-accent);">LeetCode — Contest</a></div>
+                    <div class="step-desc">Cotygodniowe i dwutygodniowe rundy — dobre na trening zadań o umiarkowanej trudności pod presją czasu.</div>
+                </div>
+            </div>
+            <div class="step-card reveal">
+                <div class="step-num">04</div>
+                <div class="step-body">
+                    <div class="step-title"><a href="https://cses.fi/problemset/" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;border-bottom:1px dashed var(--border-accent);">CSES Problem Set</a></div>
+                    <div class="step-desc">Zbiór ok. 300 klasycznych zadań algorytmicznych uporządkowanych tematycznie — podstawa, którą trzeba przejść.</div>
+                </div>
+            </div>
+            <div class="step-card reveal">
+                <div class="step-num">05</div>
+                <div class="step-body">
+                    <div class="step-title"><a href="https://uhunt.onlinejudge.org/" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;border-bottom:1px dashed var(--border-accent);">uHunt</a></div>
+                    <div class="step-desc">Nakładka na UVa Online Judge — pokazuje statystyki i ułatwia śledzenie postępów w klasycznych zadaniach.</div>
+                </div>
+            </div>
+            <div class="step-card reveal">
+                <div class="step-num">06</div>
+                <div class="step-body">
+                    <div class="step-title"><a href="https://szkopul.edu.pl/" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;border-bottom:1px dashed var(--border-accent);">Szkopuł</a></div>
+                    <div class="step-desc">Oficjalne archiwum zadań z polskich olimpiad (OI, PA, BOI) — testy w warunkach identycznych z zawodami.</div>
+                </div>
+            </div>
+            <div class="step-card reveal">
+                <div class="step-num">07</div>
+                <div class="step-body">
+                    <div class="step-title"><a href="https://vjudge.net/" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;border-bottom:1px dashed var(--border-accent);">VJudge</a></div>
+                    <div class="step-desc">Agregator zadań z wielu judge'ów w jednym miejscu — pozwala też tworzyć własne kontesty treningowe.</div>
+                </div>
+            </div>
+            <div class="step-card reveal">
+                <div class="step-num">08</div>
+                <div class="step-body">
+                    <div class="step-title"><a href="https://usaco.guide/" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;border-bottom:1px dashed var(--border-accent);">USACO Guide</a></div>
+                    <div class="step-desc">Uporządkowana ścieżka nauki algorytmów od podstaw do poziomu Platinum, z zadaniami do każdej sekcji.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="critical-highlight reveal">
+            <div class="critical-highlight-inner">
+                <div class="critical-highlight-icon">⚠️</div>
+                <div class="critical-highlight-text"><strong>Najnudniejsza część, ale konieczna</strong><br>Załóż konto na każdej z powyższych platform. Bez kont nie zapiszesz postępów, ratingu ani nie oddasz rozwiązań na kontestach — to jednorazowy koszt kilkunastu minut, który się zwróci już przy pierwszym treningu.</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider" style="margin:0;"></div>
+
+    <!-- ══════════ ZESZYT A4 ══════════ -->
+    <section class="tutorial-section" id="zeszyt">
+        <span class="section-label reveal">01 — Zanim usiądziesz do kodu</span>
+        <h2 class="reveal">Kup sobie porządny <span style="background:linear-gradient(135deg,var(--accent-bright),#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">duży zeszyt A4</span></h2>
+        <p class="reveal">Nie każde zadanie zaczyna się od razu w edytorze. Zanim napiszesz linijkę kodu, większość dobrej roboty dzieje się na papierze — dlatego oprócz środowiska programistycznego potrzebujesz też porządnego, dużego zeszytu w formacie <strong>A4</strong>.</p>
+
+        <div class="why-grid">
+            <div class="why-card reveal">
+                <div class="why-icon">📐</div>
+                <div class="why-title">Rozwiązania w teorii</div>
+                <div class="why-text">Przed kodowaniem rozpisujesz pomysł na rozwiązanie — jaki algorytm zastosować, jaka będzie złożoność, jak przechowywać dane. To najważniejszy etap, który decyduje, czy zadanie w ogóle da się rozwiązać w limicie czasowym.</div>
+            </div>
+            <div class="why-card green-accent reveal">
+                <div class="why-icon">➗</div>
+                <div class="why-title">Wzory matematyczne</div>
+                <div class="why-text">Wiele zadań olimpijskich wymaga wyprowadzenia wzoru, przekształceń algebraicznych czy analizy kombinatorycznej — dużo wygodniej robi się to ręcznie niż w edytorze tekstu.</div>
+            </div>
+            <div class="why-card purple-accent reveal">
+                <div class="why-icon">📊</div>
+                <div class="why-title">Rozkład danych</div>
+                <div class="why-text">Rysowanie przykładowych danych wejściowych, grafów, drzew czy tablic pomaga zrozumieć strukturę problemu, zanim zaczniesz pisać kod — łatwiej zauważyć zależności na kartce niż w głowie.</div>
+            </div>
+            <div class="why-card orange-accent reveal">
+                <div class="why-icon">🧩</div>
+                <div class="why-title">Edge case'y</div>
+                <div class="why-text">Wypisywanie skrajnych przypadków (puste dane, jeden element, duplikaty, przepełnienia) na papierze pozwala złapać błędy, zanim jeszcze zdążysz je zakodować.</div>
+            </div>
+        </div>
+
+        <div class="info-box blue reveal">
+            <span class="info-icon">📝</span>
+            <div class="info-text"><strong>Dlaczego koniecznie A4, a nie mniejszy format?</strong> Na samej olimpiadzie (OI, BOI, IOI) uczestnicy dostają do brudnopisu właśnie kartki A4 — trenując na tym samym formacie od początku, przyzwyczajasz się do ilości miejsca, jaką realnie będziesz mieć na zawodach, zamiast walczyć z ciasnym notesem.</div>
+        </div>
+    </section>
+
+    <div class="divider" style="margin:0;"></div>
+
+    <!-- ══════════ DLACZEGO ══════════ -->
+    <section class="tutorial-section">
+        <span class="section-label reveal">02 — Dlaczego ten setup?</span>
+        <h2 class="reveal">Środowisko jak na <span style="background:linear-gradient(135deg,var(--accent-bright),#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">olimpiadzie</span></h2>
+        <p class="reveal">Na OI, BOI i IOI masz do dyspozycji terminale Linuxowe i prosty edytor — dlatego Ubuntu + Sublime Text najlepiej odwzorowuje warunki zawodów. Ale jeśli dopiero zaczynasz, nie musisz od razu zmieniać systemu — możesz spokojnie wystartować na Windowsie z tym samym edytorem i przesiąść się na Linuksa, gdy poczujesz się pewniej.</p>
+
+        <div class="why-grid">
+            <div class="why-card reveal">
+                <div class="why-icon">🐧</div>
+                <div class="why-title">Ubuntu = warunki olimpijskie</div>
+                <div class="why-text">Olimpiada Informatyczna odbywa się na systemach Linux. Trenując na Ubuntu, uczysz się środowiska, które zastaniesz w dniu zawodów — bez niespodzianek z kodowaniem plików czy ścieżkami.</div>
+            </div>
+            <div class="why-card green-accent reveal">
+                <div class="why-icon">⚡</div>
+                <div class="why-title">Skrypty bash do testowania</div>
+                <div class="why-text">Na Linuxie możesz jednym skryptem bash porównać output swojego programu z wzorcem dla setek testów. To sposób, w jaki zawodnicy sprawdzają rozwiązania przed submitem.</div>
+            </div>
+            <div class="why-card purple-accent reveal">
+                <div class="why-icon">🚀</div>
+                <div class="why-title">Sublime Text — niezawodny</div>
+                <div class="why-text">Sublime Text 4 uruchamia się w ułamku sekundy, nigdy nie crashuje i ma wszystko czego potrzebujesz. Żadnego Visual Studio, żadnych wtyczek do konfiguracji — po prostu działa. Działa identycznie na Windowsie i Ubuntu.</div>
+            </div>
+            <div class="why-card orange-accent reveal">
+                <div class="why-icon">🎯</div>
+                <div class="why-title">Skupienie na algorytmach</div>
+                <div class="why-text">Ciężkie IDE odwracają uwagę. Prosty edytor + terminal to wszystko, czego potrzeba do rozwiązywania zadań. Mniej konfiguracji, więcej algorytmów.</div>
+            </div>
+        </div>
+
+        <div class="info-box blue reveal">
+            <span class="info-icon">💡</span>
+            <div class="info-text"><strong>Nie masz jeszcze pewności?</strong> Zacznij na Windowsie (tor Początkujący) — kluczowe jest szlifowanie C++ i algorytmów, a nie system operacyjny. Do Ubuntu wrócisz, gdy poczujesz się gotowy na pełną symulację zawodów.</div>
+        </div>
+    </section>
+
+    <div class="divider" style="margin:0;"></div>
+
+    <!-- ══════════ WYBÓR ŚCIEŻKI ══════════ -->
+    <section class="tutorial-section" id="tor-wyboru">
+        <span class="section-label reveal">03 — Wybierz swoją ścieżkę</span>
+        <h2 class="reveal">Windows czy <span style="background:linear-gradient(135deg,var(--accent-bright),#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Ubuntu</span>?</h2>
+        <p class="reveal">Obie ścieżki prowadzą do tego samego celu — działającego edytora i kompilatora C++. Wybierz tę, która pasuje do Twojego poziomu; instrukcje poniżej dopasują się automatycznie.</p>
+
+        <div class="path-hint-row reveal">
+            <span class="path-hint-emoji">👇</span> Kliknij kartę, aby wybrać swoją ścieżkę
+        </div>
+
+        <div class="path-selector">
+            <button class="path-card active reveal" data-track="beginner" type="button">
+                <div class="path-status">
+                    <span class="status-dot on"></span>
+                    <span class="status-label">Aktywny tor</span>
+                </div>
+                <div class="path-icon">🪟</div>
+                <div class="path-title">Tor 1 — Początkujący</div>
+                <div class="path-sub">Windows + Sublime Text</div>
+                <div class="path-desc">Zostajesz na systemie, który już znasz i masz zainstalowany. Instalujesz tylko edytor i lekki kompilator — zero dual-boota, zero ryzyka dla danych.</div>
+            </button>
+            <button class="path-card reveal" data-track="advanced" type="button">
+                <div class="path-status">
+                    <span class="status-dot"></span>
+                    <span class="status-label">Wybierz ten tor</span>
+                </div>
+                <div class="path-icon">🐧</div>
+                <div class="path-title">Tor 2 — Zaawansowany</div>
+                <div class="path-sub">Ubuntu + Sublime Text</div>
+                <div class="path-desc">Odwzorowujesz warunki olimpijskie 1:1 — Linux, terminal, skrypty bash do masowego testowania rozwiązań.</div>
+            </button>
+        </div>
+    </section>
+
+    <div class="divider" style="margin:0;"></div>
+
+    <!-- ══════════ INSTALACJA (2 TORY) ══════════ -->
+    <section class="tutorial-section" id="instalacja">
+        <span class="section-label reveal">04 — Instalacja środowiska</span>
+        <h2 class="reveal">Skonfiguruj <span style="background:linear-gradient(135deg,var(--accent-bright),#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">edytor i kompilator</span></h2>
+        <p class="reveal">Poniższe zakładki pokazują ten sam zestaw kroków dla obu torów. Możesz przełączać się między nimi w dowolnym momencie.</p>
+
+        <!-- ─── PANEL: POCZĄTKUJĄCY (WINDOWS) ─── -->
+        <div class="track-panel active" data-track="beginner" id="track-beginner">
+
+            <div class="info-box blue reveal">
+                <span class="info-icon">ℹ️</span>
+                <div class="info-text"><strong>Twój Windows jest już gotowy.</strong> Nie musisz nic instalować w samym systemie — potrzebujesz tylko edytora i kompilatora C++.</div>
+            </div>
+
+            <div class="sub-block">
+                <span class="sub-label">Krok 1 z 3</span>
+                <h3>Instalacja Sublime Text 4</h3>
+                <p style="color:var(--text-secondary);font-size:14.5px;line-height:1.75;max-width:640px;margin-bottom:24px;"><strong>Sublime Text</strong> to lekki edytor tekstu i kodu — w przygotowaniach do olimpiady będzie Twoim głównym narzędziem do pisania rozwiązań w C++. Otworzysz w nim plik <code>.cpp</code>, napiszesz kod z podświetlaną składnią, a następnie jednym skrótem klawiszowym skompilujesz go i uruchomisz w terminalu, żeby zobaczyć wynik. Będziesz z niego korzystać przy każdym zadaniu — od pierwszego "Hello World" po najtrudniejsze problemy na zawodach.</p>
+
+                <!-- VIDEO SUBLIME TEXT -->
+                <div class="video-container reveal">
+                    <div class="video-header">
+                        <div class="video-dots"><span></span><span></span><span></span></div>
+                        <div class="video-title">how_to_install_sublime_on_windows.mp4</div>
+                        <div class="video-badge">▶ Tutorial</div>
+                    </div>
+                    <video controls preload="metadata" poster="../img/video_thumbnail.png">
+                        <source src="../video/how_to_install_sublime_on_windows.mp4" type="video/mp4">
+                        Twoja przeglądarka nie obsługuje wideo HTML5.
+                    </video>
+                    <div class="video-caption">// Krok po kroku: instalacja Sublime Text 4 na Windowsie</div>
+                </div>
+
+                <div class="steps-list">
+                    <div class="step-card reveal">
+                        <div class="step-num">01</div>
+                        <div class="step-body">
+                            <div class="step-title">Pobierz instalator</div>
+                            <div class="step-desc">Wejdź na <code>sublimetext.com/download</code> i pobierz wersję <strong>Windows 64 bit</strong> (plik <code>.exe</code>).</div>
+                        </div>
+                    </div>
+                    <div class="step-card reveal">
+                        <div class="step-num">02</div>
+                        <div class="step-body">
+                            <div class="step-title">Uruchom instalator</div>
+                            <div class="step-desc">Kliknij dwukrotnie pobrany plik <code>.exe</code> i przejdź przez kreator: <strong>Next → Next → Install → Finish</strong>. Domyślne ustawienia są w porządku.</div>
+                        </div>
+                    </div>
+                    <div class="step-card reveal">
+                        <div class="step-num">03</div>
+                        <div class="step-body">
+                            <div class="step-title">Uruchom Sublime Text</div>
+                            <div class="step-desc">Znajdź go w Menu Start i przypnij do paska zadań — będziesz z niego korzystać codziennie.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sub-block">
+                <span class="sub-label">Krok 2 z 3</span>
+                <h3>Kompilator C++ (MinGW)</h3>
+                <p style="color:var(--text-secondary);font-size:14.5px;line-height:1.75;max-width:640px;margin-bottom:24px;">Sublime Text sam w sobie nie kompiluje kodu — to tylko edytor tekstu, nie rozumie on C++. Żeby zamienić napisany kod na program, który da się uruchomić, potrzebujesz <strong>kompilatora</strong> — programu, który tłumaczy kod źródłowy na instrukcje zrozumiałe dla komputera. Standardem w świecie C++ jest <strong>GCC</strong>, ale ono samo jest zbudowane pod Linuxa, więc na Windowsie użyjemy <strong>MinGW</strong> — jego portu, który dodaje polecenie <code>g++</code> do systemu. To właśnie <code>g++</code> Sublime Text będzie wywoływać w tle za każdym razem, gdy naciśniesz skrót do kompilacji.</p>
+
+                <!-- VIDEO MINGW -->
+                <div class="video-container reveal">
+                    <div class="video-header">
+                        <div class="video-dots"><span></span><span></span><span></span></div>
+                        <div class="video-title">how_install_and_setup_mingw.mp4</div>
+                        <div class="video-badge">▶ Tutorial</div>
+                    </div>
+                    <video controls preload="metadata" poster="../img/video_thumbnail.png">
+                        <source src="../video/how_install_and_setup_mingw.mp4" type="video/mp4">
+                        Twoja przeglądarka nie obsługuje wideo HTML5.
+                    </video>
+                    <div class="video-caption">// Krok po kroku: instalacja MinGW i dodanie kompilatora g++ do zmiennej PATH w Windows</div>
+                </div>
+
+                <div class="steps-list">
+                    <div class="step-card reveal">
+                        <div class="step-num">01</div>
+                        <div class="step-body">
+                            <div class="step-title">Pobierz instalator MinGW</div>
+                            <div class="step-desc">Wejdź na <code>sourceforge.net/projects/mingw/</code>, kliknij <strong>Download</strong> i pobierz plik <code>mingw-get-setup.exe</code>.</div>
+                        </div>
+                    </div>
+                    <div class="step-card reveal">
+                        <div class="step-num">02</div>
+                        <div class="step-body">
+                            <div class="step-title">Uruchom instalator</div>
+                            <div class="step-desc">Uruchom <code>mingw-get-setup.exe</code> → <strong>Install</strong> → zaakceptuj domyślną ścieżkę <code>C:\MinGW</code> → <strong>Continue</strong>. Otworzy się MinGW Installation Manager.</div>
+                        </div>
+                    </div>
+                    <div class="step-card reveal">
+                        <div class="step-num">03</div>
+                        <div class="step-body">
+                            <div class="step-title">Zaznacz pakiety kompilatora C++</div>
+                            <div class="step-desc">Na liście zaznacz (kliknij prawym → <strong>Mark for Installation</strong>) pakiety <code>mingw32-base</code> oraz <code>mingw32-gcc-g++</code>.</div>
+                        </div>
+                    </div>
+                    <div class="step-card reveal">
+                        <div class="step-num">04</div>
+                        <div class="step-body">
+                            <div class="step-title">Zainstaluj</div>
+                            <div class="step-desc">Menu <strong>Installation → Apply Changes → Apply</strong>. Poczekaj aż pobierze i zainstaluje pakiety, następnie zamknij instalator.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sub-block">
+                <span class="sub-label">Krok 3 z 3</span>
+                <h3>Dodaj kompilator do zmiennej PATH</h3>
+                <p style="color:var(--text-secondary);font-size:14.5px;line-height:1.75;max-width:640px;margin-bottom:24px;"><strong>PATH</strong> to lista folderów, w których Windows szuka programów, gdy wpisujesz ich nazwę w terminalu — bez podawania pełnej ścieżki do pliku. Plik <code>g++.exe</code> leży w <code>C:\MinGW\bin</code>, ale Windows domyślnie o tym folderze nie wie. Jeśli go tam nie dodamy, po wpisaniu <code>g++</code> w terminalu (albo po kliknięciu skrótu kompilacji w Sublime Text) dostaniesz błąd w stylu <code>"g++" nie jest rozpoznawany jako polecenie wewnętrzne</code>. Dodanie folderu <code>bin</code> do zmiennej PATH sprawia, że komenda <code>g++</code> działa z dowolnego miejsca w systemie — a właśnie na tym mechanizmie opiera się kompilacja kodu w Sublime Text. Cały ten proces widać też na filmie w sekcji <strong>„Kompilator C++ (MinGW)"</strong> powyżej.</p>
+                <div class="steps-list">
+                    <div class="step-card reveal">
+                        <div class="step-num">01</div>
+                        <div class="step-body">
+                            <div class="step-title">Otwórz zmienne środowiskowe</div>
+                            <div class="step-desc">Wpisz w Menu Start <strong>„Edytuj zmienne środowiskowe"</strong> i otwórz ten wynik wyszukiwania.</div>
+                        </div>
+                    </div>
+                    <div class="step-card reveal">
+                        <div class="step-num">02</div>
+                        <div class="step-body">
+                            <div class="step-title">Wejdź w Zmienne środowiskowe</div>
+                            <div class="step-desc">Kliknij przycisk <strong>Zmienne środowiskowe…</strong> na dole okna. W sekcji <strong>Zmienne użytkownika</strong> zaznacz wiersz <code>Path</code> i kliknij <strong>Edytuj</strong>.</div>
+                        </div>
+                    </div>
+                    <div class="step-card reveal">
+                        <div class="step-num">03</div>
+                        <div class="step-body">
+                            <div class="step-title">Dodaj folder bin MinGW</div>
+                            <div class="step-desc">Kliknij <strong>Nowa</strong> i wklej <code>C:\MinGW\bin</code>, a następnie zatwierdź <strong>OK</strong> na wszystkich otwartych oknach.</div>
+                        </div>
+                    </div>
+                    <div class="step-card reveal">
+                        <div class="step-num">04</div>
+                        <div class="step-body">
+                            <div class="step-title">Sprawdź instalację</div>
+                            <div class="step-desc">Otwórz <strong>nowe</strong> okno <code>cmd</code> (ważne: nowe, żeby złapało zmianę PATH) i wpisz poniższą komendę:</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="code-block reveal">
+                    <div class="code-block-header">
+                        <div class="code-dots"><span></span><span></span><span></span></div>
+                        <div class="code-block-title">cmd — weryfikacja kompilatora</div>
+                    </div>
+                    <pre><code><span class="cm">:: powinno wypisać wersję g++</span>
+<span class="cmd">g++</span> <span class="flag">--version</span></code></pre>
+                </div>
+                <div class="info-box green reveal">
+                    <span class="info-icon">✅</span>
+                    <div class="info-text"><strong>Gotowe!</strong> Jeśli komenda wypisała wersję kompilatora, w Sublime Text otwórz plik <code>.cpp</code>, ustaw <code>Tools → Build System → C++</code> i wciśnij <code>Ctrl+B</code>, by skompilować i uruchomić program.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ─── PANEL: ZAAWANSOWANY (UBUNTU) ─── -->
+        <div class="track-panel" data-track="advanced" id="track-advanced">
+
+            <div class="sub-block" id="ubuntu">
+                <span class="sub-label">Krok 1 z 2</span>
+                <h3>Instalacja Ubuntu</h3>
+                <p style="color:var(--text-secondary);font-size:14.5px;line-height:1.75;max-width:640px;margin-bottom:24px;">Ubuntu to najpopularniejsza dystrybucja Linuxa, idealna dla olimpijczyków. Możesz zainstalować je obok Windowsa (dual boot) — jeden komputer, dwa systemy.</p>
+
+                <!-- VIDEO UBUNTU -->
+                <div class="video-container reveal">
+                    <div class="video-header">
+                        <div class="video-dots"><span></span><span></span><span></span></div>
+                        <div class="video-title">tutorial-ubuntu-instalacja.mp4</div>
+                        <div class="video-badge">▶ Tutorial</div>
+                    </div>
+                    <video controls preload="metadata" poster="../img/ubunut_video_thumbnail.png">
+                        <source src="../video/how_to_install_ubuntu.mp4" type="video/mp4">
+                        Twoja przeglądarka nie obsługuje wideo HTML5.
+                    </video>
+                    <div class="video-caption">// Krok po kroku: dual boot Ubuntu obok Windows — od pobrania ISO po pierwsze uruchomienie</div>
+                </div>
+
+                <div class="info-box blue reveal">
+                    <span class="info-icon">ℹ️</span>
+                    <div class="info-text"><strong>Zalecana wersja:</strong> Ubuntu 22.04 LTS lub nowsza. LTS oznacza Long Term Support — 5 lat aktualizacji bezpieczeństwa. Pobierz z <code>ubuntu.com/download</code>.</div>
+                </div>
+
+                <div class="steps-list">
+                    <div class="step-card reveal">
+                        <div class="step-num">01</div>
+                        <div class="step-body">
+                            <div class="step-title">Pobierz obraz ISO Ubuntu</div>
+                            <div class="step-desc">Wejdź na <code>ubuntu.com/download/desktop</code> i pobierz najnowszą wersję LTS (ok. 5 GB). To plik <code>.iso</code>, który za chwilę nagrasz na pendrive.</div>
+                        </div>
+                    </div>
+                    <div class="step-card reveal">
+                        <div class="step-num">02</div>
+                        <div class="step-body">
+                            <div class="step-title">Nagraj ISO na pendrive (Rufus / Balena Etcher)</div>
+                            <div class="step-desc">Na Windowsie pobierz <code>rufus.ie</code> (darmowy). Wybierz pendrive (min. 8 GB), wgraj ISO. Cały proces trwa ok. 5–10 minut. <strong>Pendrive zostanie sformatowany.</strong></div>
+                        </div>
+                    </div>
+                    <div class="step-card reveal">
+                        <div class="step-num">03</div>
+                        <div class="step-body">
+                            <div class="step-title">Zwolnij miejsce na dysku w Windowsie</div>
+                            <div class="step-desc">Otwórz <code>Zarządzanie dyskami</code> → kliknij partycję C prawym → <strong>Zmniejsz wolumin</strong>. Zmniejsz o min. 30 GB (zalecane 50–100 GB). Pojawi się niezaalokowane miejsce dla Ubuntu.</div>
+                        </div>
+                    </div>
+                    <div class="step-card reveal">
+                        <div class="step-num">04</div>
+                        <div class="step-body">
+                            <div class="step-title">Uruchom komputer z pendrive (BIOS/UEFI)</div>
+                            <div class="step-desc">Uruchom ponownie z włożonym pendrivem. Przy starcie naciśnij <code>F12</code>, <code>F2</code>, <code>Del</code> lub <code>Esc</code> (zależnie od płyty głównej) aby wejść do boot menu. Wybierz pendrive z Ubuntu.</div>
+                        </div>
+                    </div>
+                    <div class="step-card reveal">
+                        <div class="step-num">05</div>
+                        <div class="step-body">
+                            <div class="step-title">Instalacja — "Instaluj obok Windows"</div>
+                            <div class="step-desc">Wybierz <strong>Zainstaluj Ubuntu</strong> → język → układ klawiatury → <strong>Instalacja obok Windows Boot Managera</strong>. Instalator automatycznie zainstaluje GRUB — przy starcie będziesz wybierać system.</div>
+                        </div>
+                    </div>
+                    <div class="step-card reveal">
+                        <div class="step-num">06</div>
+                        <div class="step-body">
+                            <div class="step-title">Pierwsze uruchomienie — aktualizacje i g++</div>
+                            <div class="step-desc">Po instalacji otwórz terminal (<code>Ctrl+Alt+T</code>) i zainstaluj kompilator C++ — program, który zamienia napisany przez Ciebie kod źródłowy na uruchamialny program. Na Ubuntu nazywa się on <code>g++</code> (część pakietu <code>build-essential</code>, czyli zestawu podstawowych narzędzi do kompilowania kodu). Wpisz poniższe komendy:</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="code-block reveal">
+                    <div class="code-block-header">
+                        <div class="code-dots"><span></span><span></span><span></span></div>
+                        <div class="code-block-title">terminal — pierwsze uruchomienie</div>
+                    </div>
+                    <pre><code><span class="cm"># Zaktualizuj listę pakietów i system</span>
+<span class="cmd">sudo apt update</span> <span class="flag">&amp;&amp;</span> <span class="cmd">sudo apt upgrade</span> <span class="flag">-y</span>
+
+<span class="cm"># Zainstaluj kompilator C++ (g++) oraz narzędzia budowania</span>
+<span class="cmd">sudo apt install</span> <span class="flag">-y</span> <span class="str">build-essential g++ gdb</span>
+
+<span class="cm"># Sprawdź czy g++ działa — powinno wypisać wersję</span>
+<span class="cmd">g++</span> <span class="flag">--version</span></code></pre>
+                </div>
+
+                <div class="info-box green reveal">
+                    <span class="info-icon">✅</span>
+                    <div class="info-text"><strong>Gotowe!</strong> Jeśli <code>g++ --version</code> wypisało wersję kompilatora, Ubuntu jest w pełni gotowe do programowania olimpijskiego.</div>
+                </div>
+            </div>
+
+            <div class="sub-block" id="sublime" style="margin-top:60px;padding-top:60px;border-top:1px solid var(--border);">
+                <span class="sub-label">Krok 2 z 2</span>
+                <h3>Instalacja i konfiguracja Sublime Text 4</h3>
+                <p style="color:var(--text-secondary);font-size:14.5px;line-height:1.75;max-width:640px;margin-bottom:24px;">Sublime Text 4 to najszybszy edytor na rynku. Uruchamia się błyskawicznie, ma świetne podświetlanie składni C++ i przede wszystkim — nie crashuje. Idealny na stres olimpijski. Skonfigurujemy go tak, żebyś jednym skrótem klawiszowym kompilował kod przez <code>g++</code> i od razu widział wynik w terminalu — dokładnie tak, jak będziesz pracować przy każdym zadaniu w przygotowaniach do olimpiady.</p>
+
+                <div class="info-box blue reveal">
+                    <span class="info-icon">🔗</span>
+                    <div class="info-text"><strong>Pobierz:</strong> wejdź na <code>sublimetext.com/download</code> i wybierz paczkę dla <strong>Linux</strong> (<code>.deb</code> dla Ubuntu lub <code>.tar.xz</code> jako archiwum). Strona ma też gotową komendę <code>apt</code> do instalacji z oficjalnego repozytorium.</div>
+                </div>
+
+                <!-- VIDEO SUBLIME -->
+                <div class="video-container reveal">
+                    <div class="video-header">
+                        <div class="video-dots"><span></span><span></span><span></span></div>
+                        <div class="video-title">tutorial-sublime-text-4-olimpiada.mp4</div>
+                        <div class="video-badge">▶ Tutorial</div>
+                    </div>
+                    <video controls preload="metadata" poster="../img/ubunut_video_thumbnail.png">
+                        <source src="../video/how_to_install_sublime_text.mp4" type="video/mp4">
+                        Twoja przeglądarka nie obsługuje wideo HTML5.
+                    </video>
+                    <div class="video-caption">// Instalacja Sublime Text 4 + konfiguracja pod kątem olimpiady — system budowania C++, motywy, skróty</div>
+                </div>
+
+                <!-- DLACZEGO SUBLIME -->
+                <div class="features-grid">
+                    <div class="feature-card reveal">
+                        <div class="feature-icon blue">⚡</div>
+                        <div class="feature-title">Błyskawiczny start</div>
+                        <div class="feature-text">Otwiera się w ułamku sekundy. Zero czasu na ładowanie projektu — od razu do kodowania. Krytyczne gdy liczy się czas na zawodach.</div>
+                    </div>
+                    <div class="feature-card reveal">
+                        <div class="feature-icon green">🛡️</div>
+                        <div class="feature-title">Nie crashuje</div>
+                        <div class="feature-text">W odróżnieniu od ciężkich IDE, Sublime Text jest stabilny jak skała. Żadnych nieoczekiwanych zamknięć podczas pracy nad rozwiązaniem.</div>
+                    </div>
+                    <div class="feature-card reveal">
+                        <div class="feature-icon purp">🎮</div>
+                        <div class="feature-title">Multiple selection</div>
+                        <div class="feature-text">Edytuj wiele linii jednocześnie. <code>Ctrl+D</code> zaznacza następne wystąpienie, <code>Ctrl+Shift+L</code> rozbija zaznaczenie na linie — ogromna oszczędność czasu.</div>
+                    </div>
+                    <div class="feature-card reveal">
+                        <div class="feature-icon ora">🔨</div>
+                        <div class="feature-title">Build System C++</div>
+                        <div class="feature-text">Wbudowany system budowania — wciśnij <code>Ctrl+B</code> by skompilować i uruchomić plik C++ bez opuszczania edytora. Zero przełączania okien.</div>
+                    </div>
+                    <div class="feature-card reveal">
+                        <div class="feature-icon blue">🎨</div>
+                        <div class="feature-title">GPU Rendering</div>
+                        <div class="feature-text">Sublime Text 4 renderuje interfejs przez GPU — płynne przewijanie nawet przy ogromnych plikach i 8K monitorach. Zero stutteringu.</div>
+                    </div>
+                    <div class="feature-card reveal">
+                        <div class="feature-icon green">🔍</div>
+                        <div class="feature-title">Goto Anything</div>
+                        <div class="feature-text"><code>Ctrl+P</code> otwiera fuzzy search po plikach, <code>Ctrl+G</code> skacze do linii, <code>Ctrl+R</code> po symbolach. Nawigacja bez myszy.</div>
+                    </div>
+                </div>
+
+                <!-- SKRÓTY KLAWISZOWE -->
+                <h3 class="reveal" style="font-family:var(--font-display);font-size:22px;font-weight:700;letter-spacing:-0.01em;margin:40px 0 20px;">Skróty klawiszowe, które musisz znać</h3>
+
+                <div class="steps-list">
+                    <div class="step-card reveal">
+                        <div class="step-num" style="color:var(--green);font-size:16px;padding-top:4px;">⌨</div>
+                        <div class="step-body">
+                            <div class="step-title"><code style="font-family:var(--font-mono);font-size:14px;background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">Ctrl+B</code> — Kompiluj i uruchom</div>
+                            <div class="step-desc">Uruchamia wybrany Build System. Wynik pojawia się w panelu na dole. Najważniejszy skrót.</div>
+                        </div>
+                    </div>
+                    <div class="step-card reveal">
+                        <div class="step-num" style="color:var(--green);font-size:16px;padding-top:4px;">⌨</div>
+                        <div class="step-body">
+                            <div class="step-title"><code style="font-family:var(--font-mono);font-size:14px;background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">Ctrl+D</code> — Multi-select następne wystąpienie</div>
+                            <div class="step-desc">Zaznacza następne wystąpienie słowa pod kursorem. Wciskaj wielokrotnie by zaznaczyć wszystkie — edytuj równocześnie.</div>
+                        </div>
+                    </div>
+                    <div class="step-card reveal">
+                        <div class="step-num" style="color:var(--green);font-size:16px;padding-top:4px;">⌨</div>
+                        <div class="step-body">
+                            <div class="step-title"><code style="font-family:var(--font-mono);font-size:14px;background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">Ctrl+P</code> — Goto Anything</div>
+                            <div class="step-desc">Błyskawiczne wyszukiwanie pliku. Dodaj <code>:</code> by skoczyć do linii, <code>@</code> by skoczyć do funkcji.</div>
+                        </div>
+                    </div>
+                    <div class="step-card reveal">
+                        <div class="step-num" style="color:var(--green);font-size:16px;padding-top:4px;">⌨</div>
+                        <div class="step-body">
+                            <div class="step-title"><code style="font-family:var(--font-mono);font-size:14px;background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">Ctrl+Shift+K</code> — Usuń linię</div>
+                            <div class="step-desc">Usuwa całą bieżącą linię bez zaznaczania. Szybsze niż <code>Home → Shift+End → Delete</code>.</div>
+                        </div>
+                    </div>
+                    <div class="step-card reveal">
+                        <div class="step-num" style="color:var(--green);font-size:16px;padding-top:4px;">⌨</div>
+                        <div class="step-body">
+                            <div class="step-title"><code style="font-family:var(--font-mono);font-size:14px;background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);padding:2px 8px;border-radius:5px;">Ctrl+/</code> — Komentarz</div>
+                            <div class="step-desc">Przełącza komentarz <code>//</code> na bieżącej lub zaznaczonych liniach. Szybkie wyłączanie fragmentów kodu do debugowania.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="tutorial-section" id="pierwszy-program">
+        <span class="section-label reveal">05 — Twój pierwszy program</span>
+        <h2 class="reveal">Sprawdź, czy wszystko działa</h2>
+        <p class="reveal">Instalacja bez testu jest niczym. Zanim przejdziesz do materiałów, napisz i uruchom
+        jeden mały program — zajmie to dwie minuty, a upewnisz się, że edytor, kompilator i terminal
+        rozmawiają ze sobą. Jeśli coś jest źle skonfigurowane, dowiesz się teraz, a nie w środku
+        pierwszego zadania.</p>
+
+        <div class="two-col-setup">
+            <div class="steps-list">
+            <div class="step-card reveal">
+                <div class="step-num">01</div>
+                <div class="step-body">
+                    <div class="step-title">Utwórz plik <code>test.cpp</code></div>
+                    <div class="step-desc">W Sublime Text: <strong>File → New File</strong>, a potem od razu <strong>File → Save As</strong> i nazwij go <code>test.cpp</code>. Rozszerzenie <code>.cpp</code> jest ważne — po nim edytor rozpoznaje, że to C++, i zaczyna kolorować kod.</div>
+                </div>
+            </div>
+            <div class="step-card reveal">
+                <div class="step-num">02</div>
+                <div class="step-body">
+                    <div class="step-title">Przepisz program z ramki obok</div>
+                    <div class="step-desc">Przepisz go ręcznie, nie kopiuj. Przy przepisywaniu zauważysz każdy średnik i każdą klamrę — a właśnie ich brak jest później najczęstszym powodem błędów.</div>
+                </div>
+            </div>
+            <div class="step-card reveal">
+                <div class="step-num">03</div>
+                <div class="step-body">
+                    <div class="step-title">Zapisz i skompiluj</div>
+                    <div class="step-desc"><code>Ctrl+S</code> zapisuje plik, a <code>Ctrl+B</code> uruchamia kompilację. Na dole okna pojawi się panel z wynikiem. Jeśli jest pusty albo pisze <em>Finished</em> — wszystko poszło dobrze.</div>
+                </div>
+            </div>
+            <div class="step-card reveal">
+                <div class="step-num">04</div>
+                <div class="step-body">
+                    <div class="step-title">Uruchom program</div>
+                    <div class="step-desc">W terminalu wejdź do folderu z plikiem i wpisz <code>test</code> (Windows) albo <code>./test</code> (Ubuntu). Powinieneś zobaczyć napis <code>Czesc, swiecie!</code> i zapytanie o wiek.</div>
+                </div>
+            </div>
+            <div class="step-card reveal">
+                <div class="step-num">05</div>
+                <div class="step-body">
+                    <div class="step-title">Gdy coś nie działa</div>
+                    <div class="step-desc">Komunikat <code>'g++' nie jest rozpoznawany</code> oznacza, że kompilator nie trafił do <code>PATH</code> — wróć do kroku z poprzedniej sekcji. Jeśli błąd wskazuje na numer linii w Twoim pliku, to zwykła literówka: sprawdź średniki i klamry w tej linii <strong>i w linii nad nią</strong>.</div>
+                </div>
+            </div>
+            </div>
+
+            <div class="reveal">
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-dots"><span></span><span></span><span></span></div>
+                    <div class="code-block-title">test.cpp</div>
+                </div>
+                <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Czesc, swiecie!\n"</span><span class="op">;</span>
+
+    <span class="tp">int</span> <span class="var">wiek</span><span class="op">;</span>
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Ile masz lat? "</span><span class="op">;</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">wiek</span><span class="op">;</span>
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Za rok bedziesz mial "</span> <span class="op">&lt;&lt;</span> <span class="var">wiek</span> <span class="op">+</span> <span class="num">1</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+            </div>
+            <div class="output-label">▶ Tak ma wyglądać wynik</div>
+            <div class="output-box">Czesc, swiecie!
+Ile masz lat? 14
+Za rok bedziesz mial 15</div>
+            </div>
+        </div>
+
+        <p class="reveal" style="margin-top:28px;">Jeżeli zobaczyłeś te trzy linijki — masz działające
+        środowisko i możesz przejść do <a href="../materialy.html" style="color:var(--accent-bright);">materiałów</a>.
+        Nie martw się, że nie rozumiesz jeszcze, co robi każda linijka tego programu; rozbieramy go
+        na części w temacie <strong style="color:var(--text-primary)">Input / Output</strong>.</p>
+    </section>
+
+
+</main>
+
+<div class="divider"></div>
+
+<main>
+    <div class="cta-banner reveal">
+        <span class="section-label" style="display:block;text-align:center;margin-bottom:12px;">06 — Idź dalej</span>
+        <h2>Gotowy na więcej?</h2>
+        <p>Dołącz do T-Olimpians i trenuj z doświadczonymi mentorami. Zbuduj bazę, która prowadzi do finałów OI.</p>
+        <div class="hero-actions">
+            <a class="btn-primary" href="../index.html#contact-section">Zapisz się teraz</a>
+            <a class="btn-ghost" href="../materialy.html">← Wróć do materiałów</a>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <span>© 2025 T-Olimpians Team Poland</span>
+    <span>
+        <a href="../index.html">Home</a>
+        &nbsp;·&nbsp;
+        <a href="../materialy.html">Materiały</a>
+        &nbsp;·&nbsp;Setup · Windows / Ubuntu · Sublime Text 4
+    </span>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    /* ── PARTICLES ── */
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    let W, H, dots = [];
+    function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+    resize();
+    window.addEventListener('resize', () => { resize(); spawnDots(); });
+    function spawnDots() {
+        dots = [];
+        const count = Math.floor((W * H) / 18000);
+        for (let i = 0; i < count; i++) {
+            dots.push({ x: Math.random()*W, y: Math.random()*H, r: Math.random()*1.4+0.3, vx: (Math.random()-0.5)*0.3, vy: (Math.random()-0.5)*0.3, alpha: Math.random()*0.5+0.2 });
+        }
+    }
+    spawnDots();
+    const LINK_DIST = 120;
+    function drawParticles() {
+        ctx.clearRect(0, 0, W, H);
+        for (let i = 0; i < dots.length; i++) {
+            const d = dots[i];
+            d.x += d.vx; d.y += d.vy;
+            if (d.x < 0) d.x = W; if (d.x > W) d.x = 0;
+            if (d.y < 0) d.y = H; if (d.y > H) d.y = 0;
+            ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, Math.PI*2);
+            ctx.fillStyle = `rgba(96,165,250,${d.alpha})`; ctx.fill();
+            for (let j = i+1; j < dots.length; j++) {
+                const d2 = dots[j];
+                const dx = d.x-d2.x, dy = d.y-d2.y;
+                const dist = Math.sqrt(dx*dx+dy*dy);
+                if (dist < LINK_DIST) {
+                    ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d2.x, d2.y);
+                    ctx.strokeStyle = `rgba(59,130,246,${0.12*(1-dist/LINK_DIST)})`; ctx.lineWidth = 0.6; ctx.stroke();
+                }
+            }
+        }
+        requestAnimationFrame(drawParticles);
+    }
+    drawParticles();
+
+    /* ── SCROLL REVEAL ── */
+    const revealObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const parent = entry.target.closest('.why-grid, .steps-list, .features-grid');
+                let delay = 0;
+                if (parent) {
+                    const all = parent.querySelectorAll('.reveal');
+                    all.forEach((el, idx) => { if (el === entry.target) delay = idx * 90; });
+                }
+                setTimeout(() => entry.target.classList.add('visible'), delay);
+                revealObs.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+    /* ── NAVBAR SCROLL ── */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 40));
+
+    /* ── PRZEŁĄCZNIK TORÓW (Początkujący / Zaawansowany) ── */
+    function setTrack(track) {
+        document.querySelectorAll('.track-tab').forEach(b => b.classList.toggle('active', b.dataset.track === track));
+        document.querySelectorAll('.path-card').forEach(b => {
+            const isActive = b.dataset.track === track;
+            b.classList.toggle('active', isActive);
+            const dot = b.querySelector('.status-dot');
+            const label = b.querySelector('.status-label');
+            if (dot) dot.classList.toggle('on', isActive);
+            if (label) label.textContent = isActive ? 'Aktywny tor' : 'Wybierz ten tor';
+        });
+        document.querySelectorAll('.track-panel').forEach(p => p.classList.toggle('active', p.dataset.track === track));
+
+        const instalacjaSection = document.getElementById('instalacja');
+        if (instalacjaSection) instalacjaSection.classList.toggle('tor-ubuntu', track === 'advanced');
+    }
+    document.querySelectorAll('.track-tab, .path-card').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const track = btn.dataset.track;
+            setTrack(track);
+            if (btn.classList.contains('path-card')) {
+                const target = document.getElementById('instalacja');
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+
+    /* ── HAMBURGER ── */
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => {
+        navLinks.classList.toggle('open');
+        hamburger.classList.toggle('open');
+    });
+    document.querySelectorAll('.nav-close').forEach(a => {
+        a.addEventListener('click', () => {
+            navLinks.classList.remove('open');
+            hamburger.classList.remove('open');
+        });
+    });
+});
+</script>
+<!-- licznik odwiedzin -> panel kacperos.html -->
+<script type="module" src="/track.js"></script>
+</body>
+</html>

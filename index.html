@@ -1,0 +1,2005 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Przygotowanie do Olimpiady Informatycznej (OI i OIJ) | T-Olimpians</title>
+    <meta name="description" content="Przygotowanie do Olimpiady Informatycznej i Olimpiady Informatycznej Juniorów z T-Olympians Team Poland: darmowe kompendium wiedzy, zadania OI i OIJ, zajęcia grupowe i indywidualne.">
+    <link rel="canonical" href="https://t-olimpians.com/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="T-Olimpians Team Poland">
+    <meta property="og:locale" content="pl_PL">
+    <meta property="og:url" content="https://t-olimpians.com/">
+    <meta property="og:title" content="Przygotowanie do Olimpiady Informatycznej (OI i OIJ) | T-Olimpians">
+    <meta property="og:description" content="Darmowe kompendium wiedzy i zadania do Olimpiady Informatycznej i OIJ oraz zajęcia grupowe i indywidualne — od podstaw C++ do poziomu laureata OI.">
+    <meta property="og:image" content="https://t-olimpians.com/img/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="./img/favicon2.png">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "EducationalOrganization",
+                "@id": "https://t-olimpians.com/#organization",
+                "name": "T-Olimpians Team Poland",
+                "alternateName": ["T-Olimpians", "T-Olympians", "T-Olympians Team Poland"],
+                "url": "https://t-olimpians.com/",
+                "logo": "https://t-olimpians.com/img/t-olimpians-logo.jpg",
+                "image": "https://t-olimpians.com/img/og-image.png",
+                "description": "Przygotowanie do Olimpiady Informatycznej (OI), Olimpiady Informatycznej Juniorów (OIJ), BOI i IOI. Zajęcia grupowe i indywidualne z programowania w C++ i algorytmiki.",
+                "email": "t.olympians.poland@gmail.com",
+                "telephone": "+48720854368",
+                "areaServed": { "@type": "Country", "name": "Polska" },
+                "founder": { "@type": "Person", "name": "Kacper Ziemecki" },
+                "knowsAbout": ["Olimpiada Informatyczna", "Olimpiada Informatyczna Juniorów", "algorytmika", "programowanie w C++", "programowanie konkursowe"],
+                "sameAs": ["https://www.facebook.com/profile.php?id=61577376764545"]
+            },
+            {
+                "@type": "WebSite",
+                "@id": "https://t-olimpians.com/#website",
+                "url": "https://t-olimpians.com/",
+                "name": "T-Olimpians",
+                "inLanguage": "pl-PL",
+                "publisher": { "@id": "https://t-olimpians.com/#organization" }
+            }
+        ]
+    }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-base: #0a0a0f;
+            --bg-surface: #111118;
+            --bg-card: #15151e;
+            --bg-elevated: #1c1c28;
+            --accent: #3b82f6;
+            --accent-bright: #60a5fa;
+            --accent-glow: rgba(59, 130, 246, 0.25);
+            --accent-dim: rgba(59, 130, 246, 0.12);
+            --text-primary: #f0f0f8;
+            --text-secondary: #9090aa;
+            --text-muted: #55556a;
+            --border: rgba(255,255,255,0.07);
+            --border-accent: rgba(59, 130, 246, 0.3);
+            --font-display: 'Syne', sans-serif;
+            --font-body: 'DM Sans', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.6;
+        }
+
+        /* ─── NAVBAR ─── */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 48px;
+            height: 68px;
+            background: rgba(10, 10, 15, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            transition: background 0.3s;
+        }
+        .navbar.scrolled {
+            background: rgba(10, 10, 15, 0.95);
+            box-shadow: 0 4px 32px rgba(0,0,0,0.4);
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        .logo img:first-child {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+        #polska-flaga {
+            width: 22px;
+            height: auto;
+            border-radius: 3px;
+        }
+        .logo-text {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--text-primary);
+            letter-spacing: 0.01em;
+        }
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            flex-shrink: 0;
+        }
+        .nav-links {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            transition: color 0.2s, background 0.2s;
+            cursor: pointer;
+            letter-spacing: 0.02em;
+            position: relative;
+        }
+        .nav-links a:hover {
+            color: var(--text-primary);
+            background: var(--accent-dim);
+        }
+        .nav-links .nav-cta a {
+            background: var(--accent);
+            color: white;
+            font-weight: 600;
+        }
+        .nav-links .nav-cta a:hover {
+            background: var(--accent-bright);
+            color: white;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 4px; left: 16px; right: 16px;
+            height: 1px;
+            background: var(--accent-bright);
+            transform: scaleX(0);
+            transition: transform 0.25s ease;
+        }
+        .nav-links a:hover::after { transform: scaleX(1); }
+        .nav-links .nav-cta a::after { display: none; }
+
+        /* ─── HERO ─── */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6%;
+            padding: 100px 80px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 20%;
+            left: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%);
+            pointer-events: none;
+            animation: pulse-glow 6s ease-in-out infinite;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.1); }
+        }
+        .hero-text {
+            flex: 1;
+            max-width: 560px;
+            position: relative;
+            z-index: 1;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--accent-dim);
+            border: 1px solid var(--border-accent);
+            color: var(--accent-bright);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 500;
+            padding: 6px 14px;
+            border-radius: 100px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+            animation: fadeInUp 0.6s ease both;
+        }
+        .hero-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--accent-bright);
+            border-radius: 50%;
+            animation: blink 2s ease-in-out infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+        .hero-text h1 {
+            font-family: var(--font-display);
+            font-size: clamp(36px, 5vw, 58px);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            animation: fadeInUp 0.6s 0.1s ease both;
+        }
+        .hero-text h1 span {
+            background: linear-gradient(135deg, var(--accent-bright), #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-text p {
+            font-size: 16px;
+            color: var(--text-secondary);
+            line-height: 1.75;
+            margin-bottom: 36px;
+            animation: fadeInUp 0.6s 0.2s ease both;
+        }
+        .hero-actions {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.6s 0.3s ease both;
+        }
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+            letter-spacing: 0.01em;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary:hover {
+            background: var(--accent-bright);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px var(--accent-glow);
+        }
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: inherit;
+            background: linear-gradient(135deg, var(--accent), #7c3aed);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s;
+            filter: blur(8px);
+        }
+        .btn-primary:hover::after { opacity: 0.6; }
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            transform: skewX(-20deg);
+            transition: left 0.5s ease;
+        }
+        .btn-primary:hover::before { left: 150%; }
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            padding: 14px 28px;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.2s, border-color 0.2s, transform 0.2s;
+        }
+        .btn-ghost:hover {
+            color: var(--text-primary);
+            border-color: var(--border-accent);
+            transform: translateY(-2px);
+        }
+        .hero-stats {
+            display: flex;
+            gap: 32px;
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 1px solid var(--border);
+            animation: fadeInUp 0.6s 0.4s ease both;
+        }
+        .stat-item { display: flex; flex-direction: column; gap: 4px; }
+        .stat-number {
+            font-family: var(--font-display);
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--accent-bright);
+            letter-spacing: -0.02em;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+        }
+        .hero-media {
+            flex: 1;
+            max-width: 540px;
+            position: relative;
+            z-index: 1;
+            animation: fadeInRight 0.7s 0.2s ease both;
+            border-radius: var(--radius-lg);
+        }
+        .hero-media::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: calc(var(--radius-lg) + 2px);
+            background: linear-gradient(135deg, var(--accent), #7c3aed, transparent 60%);
+            z-index: 0;
+            opacity: 0.5;
+            animation: border-glow 4s ease-in-out infinite alternate;
+        }
+        @keyframes border-glow {
+            from { opacity: 0.3; }
+            to   { opacity: 0.8; }
+        }
+        .hero-media::after {
+            content: '';
+            position: absolute;
+            inset: 2px;
+            background: var(--bg-base);
+            border-radius: var(--radius-lg);
+            z-index: 0;
+        }
+        .hero-media video {
+            width: 100%;
+            height: auto;
+            border-radius: 14px;
+            display: block;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ─── PARTICLES ─── */
+        #particles {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        /* ─── SCROLL REVEAL ─── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.reveal-left  { transform: translateX(-40px); }
+        .reveal.reveal-right { transform: translateX(40px); }
+        .reveal.visible      { opacity: 1; transform: translate(0); }
+
+        /* ─── ANIMATIONS ─── */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(40px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+
+        /* ─── DIVIDER ─── */
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--border), transparent);
+            margin: 0 80px;
+        }
+
+        /* ─── SECTION LABEL ─── */
+        .section-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--accent-bright);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        /* ─── FAQ ─── */
+        .faq-section { padding: 80px 0; border-bottom: 1px solid var(--border); }
+        .faq-section h2 {
+            font-family: var(--font-display);
+            font-size: clamp(26px, 3vw, 38px);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            margin-bottom: 14px;
+        }
+        .faq-intro { color: var(--text-secondary); font-size: 15.5px; max-width: 680px; margin-bottom: 36px; }
+        .faq-list { display: flex; flex-direction: column; gap: 10px; max-width: 880px; }
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            transition: border-color 0.25s;
+        }
+        .faq-item:hover, .faq-item[open] { border-color: var(--border-accent); }
+        .faq-item summary {
+            list-style: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            padding: 18px 22px;
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--text-primary);
+        }
+        .faq-item summary::-webkit-details-marker { display: none; }
+        .faq-item summary::after {
+            content: '+';
+            font-family: var(--font-mono);
+            font-size: 20px;
+            color: var(--accent-bright);
+            flex-shrink: 0;
+            transition: transform 0.25s;
+        }
+        .faq-item[open] summary::after { transform: rotate(45deg); }
+        .faq-item summary:focus-visible { outline: 2px solid var(--accent-bright); outline-offset: 2px; border-radius: var(--radius-md); }
+        .faq-answer { padding: 0 22px 20px; color: var(--text-secondary); font-size: 15px; line-height: 1.7; }
+        .faq-answer a { color: var(--accent-bright); text-decoration: none; border-bottom: 1px solid var(--border-accent); }
+        .faq-answer a:hover { border-bottom-color: var(--accent-bright); }
+        @media (max-width: 640px) {
+            .faq-section { padding: 60px 0; }
+            .faq-item summary { padding: 16px 18px; font-size: 15px; }
+            .faq-answer { padding: 0 18px 18px; font-size: 14.5px; }
+        }
+
+        /* ─── MAIN ─── */
+        main {
+            padding: 0 80px;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+        .section-block {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 64px;
+            align-items: center;
+            padding: 80px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .section-block.reverse { direction: rtl; }
+        .section-block.reverse > * { direction: ltr; }
+        .section-content h2 {
+            font-family: var(--font-display);
+            font-size: clamp(26px, 3vw, 38px);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        .section-content p {
+            color: var(--text-secondary);
+            font-size: 15.5px;
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+        .section-content p strong {
+            color: var(--accent-bright);
+            font-weight: 600;
+        }
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-top: 8px;
+        }
+        .feature-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        .feature-list li::before {
+            content: '';
+            flex-shrink: 0;
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            background: var(--accent-dim);
+            border: 1px solid var(--border-accent);
+            border-radius: 50%;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6l3 3 5-5' stroke='%2360a5fa' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 12px;
+        }
+
+        /* ─── IMAGE BORDER ─── */
+        .img-border {
+            position: relative;
+            flex: 1;
+            border-radius: var(--radius-lg);
+        }
+        .img-border::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: calc(var(--radius-lg) + 2px);
+            background: conic-gradient(
+                from var(--angle, 0deg),
+                #3b82f6, #7c3aed, #06b6d4, #a78bfa, #3b82f6
+            );
+            z-index: 0;
+            animation: spin-border 4s linear infinite;
+        }
+        @property --angle {
+            syntax: '<angle>';
+            initial-value: 0deg;
+            inherits: false;
+        }
+        @keyframes spin-border { to { --angle: 360deg; } }
+        .img-border::after {
+            content: '';
+            position: absolute;
+            inset: 2px;
+            background: var(--bg-base);
+            border-radius: var(--radius-lg);
+            z-index: 0;
+        }
+        .img-border .section-image {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            display: block;
+        }
+
+        /* ─── SECTION IMAGE ─── */
+        .section-image {
+            width: 100%;
+            height: 340px;
+            object-fit: cover;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), box-shadow 0.5s ease;
+            will-change: transform;
+        }
+        .section-image:hover {
+            transform: scale(1.03) translateY(-4px);
+            box-shadow: 0 24px 60px rgba(0,0,0,0.55), 0 0 0 1px var(--border-accent);
+        }
+
+        /* ─── ACHIEVEMENTS ─── */
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            margin: 60px 0;
+        }
+        .achievement-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            transition: border-color 0.3s, transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .achievement-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--accent-dim), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            border-radius: inherit;
+        }
+        .achievement-card:hover::before { opacity: 1; }
+        .achievement-card:hover {
+            border-color: var(--border-accent);
+            transform: translateY(-6px) scale(1.01);
+            box-shadow: 0 16px 48px var(--accent-glow);
+        }
+        .achievement-icon { font-size: 28px; margin-bottom: 12px; }
+        .achievement-number {
+            font-family: var(--font-display);
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--accent-bright);
+            letter-spacing: -0.03em;
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+        .achievement-label { color: var(--text-secondary); font-size: 14px; line-height: 1.4; }
+
+        /* ─── FOUNDER GALLERY ─── */
+        .founder-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 28px;
+        }
+        .founder-gallery img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s ease;
+        }
+        .founder-gallery img:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+        }
+        .founder-quote {
+            position: relative;
+            margin: 22px 0 0;
+            padding: 4px 0 4px 34px;
+        }
+        .founder-quote::before {
+            content: '\201C';
+            position: absolute;
+            left: -4px;
+            top: -14px;
+            font-size: 56px;
+            font-family: Georgia, 'Times New Roman', serif;
+            color: var(--accent-bright);
+            opacity: 0.55;
+            line-height: 1;
+        }
+        .founder-quote p {
+            margin: 0 0 10px;
+            font-size: 16px;
+            font-style: italic;
+            font-weight: 500;
+            color: var(--text-primary);
+            line-height: 1.55;
+            letter-spacing: -0.01em;
+        }
+        .founder-quote cite {
+            display: block;
+            font-style: normal;
+            font-size: 12.5px;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            padding-top: 8px;
+            border-top: 1px solid var(--border);
+            width: fit-content;
+        }
+        .founder-results {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 22px 0 0;
+        }
+        .founder-result-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 14px 16px;
+            transition: border-color 0.3s, transform 0.3s ease;
+        }
+        .founder-result-item:hover {
+            border-color: var(--border-accent);
+            transform: translateY(-2px);
+        }
+        .founder-result-icon {
+            font-size: 22px;
+            line-height: 1;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .founder-result-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 14.5px;
+            margin-bottom: 4px;
+            letter-spacing: -0.01em;
+        }
+        .founder-result-detail {
+            color: var(--text-secondary);
+            font-size: 13.5px;
+            line-height: 1.5;
+        }
+        .founder-result-detail strong {
+            color: var(--accent-bright);
+            font-weight: 600;
+        }
+        .founder-result-detail a {
+            color: var(--accent-bright);
+            text-decoration: none;
+            border-bottom: 1px solid var(--border-accent);
+            transition: color 0.2s, border-color 0.2s;
+        }
+        .founder-result-detail a:hover {
+            color: var(--text-primary);
+            border-color: var(--accent-bright);
+        }
+
+        /* ─── FOUNDER LAYOUT ─── */
+        /* lewa kolumna: przedstawienie + galeria, prawa: osiągnięcia */
+        .founder-block {
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            grid-template-areas:
+                "intro   results"
+                "gallery results";
+            align-items: start;
+            gap: 28px 64px;
+        }
+        .founder-intro { grid-area: intro; }
+        .founder-block .founder-results { grid-area: results; margin: 0; }
+        .founder-block .founder-gallery { grid-area: gallery; margin: 0; align-self: end; }
+        .founder-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .founder-header h2 { margin-bottom: 6px; }
+        .founder-header .founder-role { margin-bottom: 0; line-height: 1.6; }
+        .founder-avatar {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: top center;
+            border: 2px solid var(--border-accent);
+            box-shadow: 0 0 0 6px var(--accent-dim), 0 12px 32px rgba(0,0,0,0.45);
+            flex-shrink: 0;
+        }
+
+        /* ─── DISCORD CTA ─── */
+        .discord-cta {
+            margin: 60px 0;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 56px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            gap: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        .discord-cta::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(88,101,242,0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .discord-cta::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -60%;
+            width: 40%; height: 200%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
+            transform: skewX(-15deg);
+            animation: shimmer 6s ease-in-out infinite;
+        }
+        @keyframes shimmer {
+            0%   { left: -60%; }
+            50%  { left: 120%; }
+            100% { left: 120%; }
+        }
+        .discord-cta h2 {
+            font-family: var(--font-display);
+            font-size: 30px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 10px;
+        }
+        .discord-cta p { color: var(--text-secondary); font-size: 16px; }
+        .discord-cta img {
+            width: 280px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+        }
+        .btn-discord {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #5865F2;
+            color: white;
+            text-decoration: none;
+            padding: 14px 24px;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 15px;
+            margin-top: 20px;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .btn-discord:hover { background: #4752c4; transform: translateY(-2px); }
+
+        /* ─── CONTACT ─── */
+        .contact-section { padding: 80px 0; text-align: center; }
+        .contact-section .section-label { display: block; text-align: center; margin-bottom: 12px; }
+        .contact-section h2 {
+            font-family: var(--font-display);
+            font-size: clamp(28px, 4vw, 44px);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 16px;
+        }
+        .contact-section > p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            max-width: 480px;
+            margin: 0 auto 48px;
+        }
+        .contact-cards { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+        .contact-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 28px 36px;
+            text-align: left;
+            min-width: 240px;
+            transition: border-color 0.3s, transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+        .contact-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent), #7c3aed);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        .contact-card:hover::after { transform: scaleX(1); }
+        .contact-card:hover {
+            border-color: var(--border-accent);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 36px rgba(0,0,0,0.4);
+        }
+        .contact-card-icon { font-size: 24px; margin-bottom: 12px; }
+        .contact-card-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-family: var(--font-mono);
+            margin-bottom: 8px;
+        }
+        .contact-card a {
+            color: var(--accent-bright);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            transition: color 0.2s;
+        }
+        .contact-card a:hover { color: white; }
+
+        /* ─── SLIDESHOW ─── */
+        .slideshow {
+            position: relative;
+            width: 100%;
+            height: 340px;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            z-index: 1;
+        }
+        .slide {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            border-radius: var(--radius-lg);
+        }
+        .slide.active { opacity: 1; }
+        .slide-dots {
+            position: absolute;
+            bottom: 14px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 7px;
+            z-index: 2;
+        }
+        .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.35);
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+        }
+        .dot.active { background: white; transform: scale(1.3); }
+
+        /* ─── FOOTER ─── */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 32px 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+        footer span { font-family: var(--font-mono); }
+
+        /* ─── LOGO HOVER ─── */
+        .logo img:first-child {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .logo:hover img:first-child {
+            transform: rotate(-5deg) scale(1.08);
+            box-shadow: 0 0 16px var(--accent-glow);
+        }
+
+        /* ─── POPUP ─── */
+        .popup {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px);
+            align-items: center;
+            justify-content: center;
+        }
+        .popup.active { display: flex; }
+        .popup-content {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 40px 48px;
+            position: relative;
+            text-align: center;
+            max-width: 320px;
+        }
+        .popup-content p { font-size: 16px; color: var(--text-secondary); }
+        .photo-popup-content {
+            padding: 0;
+            max-width: 420px;
+            width: 90%;
+            background: transparent;
+            border: none;
+        }
+        .photo-popup-content img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+        }
+        .photo-popup-content .close {
+            top: -34px;
+            right: 0;
+            color: #fff;
+        }
+        .founder-avatar { cursor: pointer; }
+        .close {
+            position: absolute;
+            top: 14px; right: 18px;
+            font-size: 22px;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: color 0.2s;
+            line-height: 1;
+        }
+        .close:hover { color: var(--text-primary); }
+
+        /* ─── HAMBURGER ─── */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            z-index: 110;
+        }
+        .hamburger span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: transform 0.3s, opacity 0.3s;
+        }
+        .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        /* ─── RESPONSIVE ─── */
+        .nav-group-item { display: flex; align-items: center; }
+        .nav-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border-accent);
+            border-radius: var(--radius-sm);
+            padding: 8px 10px 3px;
+            margin-top: 7px;
+            background: var(--accent-dim);
+        }
+        .nav-group-label {
+            position: absolute;
+            top: -7px;
+            left: 12px;
+            background: #0a0a0f;
+            padding: 1px 7px;
+            border: 1px solid var(--border-accent);
+            border-radius: 100px;
+            font-family: var(--font-mono);
+            font-size: 9.5px;
+            font-weight: 500;
+            color: var(--accent-bright);
+            text-transform: lowercase;
+            letter-spacing: 0.06em;
+            line-height: 1.3;
+        }
+        .nav-group-links { display: flex; align-items: center; gap: 2px; }
+
+        /* ─── NAV POINTER BUBBLE ─── */
+        .nav-pointer-bubble {
+            position: fixed;
+            top: 78px;
+            z-index: 150;
+            max-width: 240px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-accent);
+            border-radius: var(--radius-md);
+            padding: 12px 16px;
+            box-shadow: 0 12px 32px rgba(0,0,0,0.45), 0 0 0 1px rgba(59,130,246,0.08);
+            opacity: 0;
+            transform: translateY(-14px) scale(0.9);
+            pointer-events: none;
+            transition: border-color 0.25s ease;
+        }
+        .nav-pointer-bubble.visible {
+            opacity: 1;
+            pointer-events: auto;
+            animation: navBubbleIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        .nav-pointer-bubble.nav-pointer-idle {
+            animation: navBubbleFloat 3.2s ease-in-out infinite, navBubbleGlow 2.6s ease-in-out infinite;
+        }
+        .nav-pointer-bubble.visible:hover {
+            border-color: var(--accent-bright);
+        }
+        @keyframes navBubbleIn {
+            0%   { opacity: 0; transform: translateY(-22px) scale(0.85) rotate(-3deg); }
+            55%  { opacity: 1; transform: translateY(4px) scale(1.04) rotate(1deg); }
+            78%  { transform: translateY(-2px) scale(0.99) rotate(-0.5deg); }
+            100% { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); }
+        }
+        @keyframes navBubbleFloat {
+            0%, 100% { transform: translateY(0); }
+            50%      { transform: translateY(-5px); }
+        }
+        @keyframes navBubbleGlow {
+            0%, 100% { box-shadow: 0 12px 32px rgba(0,0,0,0.45), 0 0 0 1px rgba(59,130,246,0.08), 0 0 0 0 rgba(59,130,246,0); }
+            50%      { box-shadow: 0 14px 36px rgba(0,0,0,0.5), 0 0 0 1px rgba(59,130,246,0.2), 0 0 24px 5px var(--accent-glow); }
+        }
+        .nav-pointer-bubble::before {
+            content: '';
+            position: absolute;
+            top: -7px;
+            width: 13px;
+            height: 13px;
+            background: var(--bg-elevated);
+            border-left: 1px solid var(--border-accent);
+            border-top: 1px solid var(--border-accent);
+            transform: rotate(45deg);
+        }
+        .nav-pointer-bubble-text {
+            font-family: var(--font-body);
+            font-size: 13px;
+            line-height: 1.45;
+            color: var(--text-primary);
+        }
+        .nav-pointer-bubble-text strong {
+            color: var(--accent-bright);
+            font-family: var(--font-mono);
+            font-weight: 500;
+        }
+        .nav-pointer-bubble-close {
+            position: absolute;
+            top: 6px;
+            right: 8px;
+            font-size: 15px;
+            line-height: 1;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 4px;
+        }
+        .nav-pointer-bubble-close:hover { color: var(--text-primary); }
+        .nav-pointer-bubble-pulse {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent-bright);
+            margin-right: 6px;
+            box-shadow: 0 0 0 0 var(--accent-glow);
+            animation: navPulse 1.8s ease-out infinite;
+        }
+        @keyframes navPulse {
+            0% { box-shadow: 0 0 0 0 var(--accent-glow); }
+            70% { box-shadow: 0 0 0 7px rgba(59,130,246,0); }
+            100% { box-shadow: 0 0 0 0 rgba(59,130,246,0); }
+        }
+        @media (max-width: 900px) {
+            .nav-pointer-bubble { display: none !important; }
+        }
+
+        /* ─── NAV GROUP GLOW (świecenie t-olimpians net) ─── */
+        .nav-group.nav-group-glow {
+            animation: navGroupGlow 2.2s ease-in-out infinite;
+        }
+        .nav-group.nav-group-glow .nav-group-label {
+            animation: navLabelGlow 2.2s ease-in-out infinite;
+        }
+        @keyframes navGroupGlow {
+            0%, 100% {
+                border-color: var(--border-accent);
+                box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+                background: var(--accent-dim);
+            }
+            50% {
+                border-color: var(--accent-bright);
+                box-shadow: 0 0 16px 3px var(--accent-glow), 0 0 32px 6px rgba(59, 130, 246, 0.15);
+                background: rgba(59, 130, 246, 0.2);
+            }
+        }
+        @keyframes navLabelGlow {
+            0%, 100% {
+                color: var(--accent-bright);
+                text-shadow: none;
+            }
+            50% {
+                color: #ffffff;
+                text-shadow: 0 0 8px var(--accent-bright), 0 0 16px rgba(96, 165, 250, 0.6);
+            }
+        }
+        .nav-group-links a.nav-target-glow {
+            animation: navLabelGlow 2.2s ease-in-out infinite;
+        }
+
+        /* Tablet poziomo: nagłówek hero w dwóch liniach, film obok */
+        @media (min-width: 901px) and (max-width: 1199px) {
+            .hero { padding: 100px 48px 72px; gap: 40px; }
+            .hero-text { flex: 1 1 auto; max-width: 540px; }
+            .hero-media { flex: 0 1 40%; }
+            .hero-text h1 { font-size: clamp(38px, 4.1vw, 46px); }
+            main { padding: 0 48px; }
+        }
+
+        @media (max-width: 900px) {
+            .navbar { padding: 0 20px; }
+            .hamburger { display: flex; }
+            .logo-text { font-size: 13px; }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: fixed;
+                top: 68px;
+                left: 0; right: 0;
+                background: rgba(10, 10, 15, 0.98);
+                backdrop-filter: blur(20px);
+                border-bottom: 1px solid var(--border);
+                padding: 16px 0 24px;
+                gap: 0;
+                z-index: 99;
+            }
+            .nav-links.open { display: flex; }
+            .nav-links li { width: 100%; }
+            .nav-group-item { width: 100%; }
+            .nav-group {
+                flex-direction: column;
+                align-items: stretch;
+                border-radius: var(--radius-md);
+                margin: 16px 28px 6px;
+                padding: 12px 0 6px;
+                width: auto;
+            }
+            .nav-group-label { left: 16px; background: #0a0a0f; }
+            .nav-group-links { flex-direction: column; width: 100%; }
+            .nav-group-links a { width: 100%; }
+
+            .nav-links a {
+                display: block;
+                padding: 14px 28px;
+                font-size: 16px;
+                border-radius: 0;
+            }
+            .nav-links .nav-cta { padding: 12px 20px 0; }
+            .nav-links .nav-cta a {
+                display: block;
+                text-align: center;
+                border-radius: var(--radius-sm);
+                padding: 14px;
+            }
+            .hero { flex-direction: column; padding: 100px 24px 60px; text-align: center; gap: 0; }
+            .hero-stats { justify-content: center; margin-top: 36px; }
+            .hero-actions { justify-content: center; }
+            .hero-media { max-width: 100%; margin-top: 56px; }
+            main { padding: 0 24px; }
+            .section-block { grid-template-columns: 1fr; gap: 32px; padding: 60px 0; }
+            .section-block.reverse { direction: ltr; }
+            .discord-cta { grid-template-columns: 1fr; padding: 32px; }
+            .discord-cta img { width: 100%; height: 200px; }
+            .founder-gallery { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+            .founder-gallery img { height: 90px; }
+            .founder-block {
+                grid-template-areas: "intro" "results" "gallery";
+                gap: 24px;
+            }
+            .founder-header { gap: 16px; }
+            .founder-avatar { width: 68px; height: 68px; box-shadow: 0 0 0 4px var(--accent-dim); }
+            .founder-results { gap: 8px; }
+            .founder-result-item { padding: 12px 14px; gap: 10px; }
+            footer { flex-direction: column; gap: 12px; padding: 24px; text-align: center; }
+            .divider { margin: 0 24px; }
+        }
+
+        @media (max-width: 480px) {
+            .founder-result-icon { font-size: 19px; }
+            .founder-result-title { font-size: 13.5px; }
+            .founder-result-detail { font-size: 12.5px; line-height: 1.45; }
+            .founder-gallery { gap: 6px; }
+            .founder-gallery img { height: 70px; border-radius: var(--radius-sm); }
+            .founder-avatar { width: 52px; height: 52px; }
+        }
+
+    </style>
+    <style id="tablet-nav">
+        /* ─── TABLET: nawigacja i logo (641–1299px) ───
+           < 1024px  menu pod hamburgerem jako panel po prawej,
+           1024–1299 pelne menu w wersji kompaktowej + logo w dwoch liniach. */
+        @media (min-width: 641px) {
+            .logo { flex-shrink: 0; }
+            .logo-text { white-space: nowrap; }
+        }
+
+        @media (min-width: 641px) and (max-width: 1023px) {
+            .navbar { padding: 0 28px; }
+            .logo-text { font-size: 15px; }
+            .hamburger { display: flex; }
+            .nav-pointer-bubble { display: none !important; }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: fixed;
+                top: 76px; right: 20px; left: auto;
+                width: 340px;
+                max-height: calc(100vh - 96px);
+                overflow-y: auto;
+                background: rgba(10, 10, 15, 0.98);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border: 1px solid var(--border);
+                border-radius: var(--radius-lg, 20px);
+                box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+                padding: 10px 0 16px;
+                gap: 0;
+                z-index: 99;
+            }
+            .nav-links.open { display: flex; }
+            .nav-links li { width: 100%; }
+            .nav-group-item { width: 100%; }
+            .nav-group {
+                flex: 1;
+                flex-direction: column;
+                align-items: stretch;
+                border-radius: var(--radius-md, 14px);
+                margin: 18px 16px 8px;
+                padding: 12px 0 6px;
+                width: auto;
+            }
+            .nav-group-label { left: 14px; background: #0a0a0f; }
+            .nav-group-links { flex-direction: column; align-items: stretch; width: 100%; gap: 0; }
+            .nav-group-links a { width: 100%; }
+            .focus-toggle {
+                width: 100%; justify-content: center; margin: 8px 0 0; padding: 10px 0 4px;
+                border-left: none; border-top: 1px solid var(--border);
+            }
+            .nav-links a { display: block; padding: 12px 24px; font-size: 15px; border-radius: 0; }
+            .nav-links a::after { display: none; }
+            .nav-links .nav-cta { padding: 10px 16px 0; }
+            .nav-links .nav-cta a { display: block; text-align: center; border-radius: var(--radius-sm, 8px); padding: 13px; }
+        }
+
+        @media (min-width: 1024px) and (max-width: 1299px) {
+            .navbar { padding: 0 24px; }
+            .logo { gap: 10px; }
+            .logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+            .logo-text-sub {
+                margin-top: 3px;
+                font-family: var(--font-mono);
+                font-size: 9.5px;
+                font-weight: 500;
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                color: var(--accent-bright);
+            }
+            .nav-links { gap: 2px; }
+            .nav-links a { padding: 8px 10px; font-size: 13.5px; letter-spacing: 0.01em; }
+            .nav-links a::after { left: 10px; right: 10px; }
+            .nav-group { padding: 8px 6px 3px; }
+            .nav-group-links { gap: 0; }
+            .focus-toggle { margin-left: 4px; padding-left: 8px; gap: 6px; }
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+    <a class="logo" href="#">
+        <img src="./img/t-olimpians-logo.jpg" alt="Logo">
+        <span class="logo-text">T-Olimpians <span class="logo-text-sub">Team Poland</span></span>
+        <img id="polska-flaga" src="./img/polska_flaga.png" alt="Flaga Polski">
+    </a>
+
+    <div class="navbar-right">
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#">Home</a></li>
+            <li><a href="#o-nas" class="nav-close" data-i18n="nav_about">O nas</a></li>
+            <li class="nav-group-item">
+                <div class="nav-group">
+                    <span class="nav-group-label">t-olimpians net</span>
+                    <div class="nav-group-links">
+                    <a href="materialy.html" data-i18n="nav_materials">C++/logika</a>
+                    <a href="net.html">Algorytmy</a>
+                    <a href="zadania-oi-oij.html">Zadania OI/OIJ</a>
+                    <a href="konkursy.html">Konkursy</a>
+                    </div>
+                </div>
+            </li>
+            <li><a class="nav-close" href="zapisy.html" data-i18n="nav_contact">Zapisy</a></li>
+            <li class="nav-cta"><a class="nav-close nav-scroll" data-target="contact-section" href="#" data-i18n="nav_join">Dołącz →</a></li>
+        </ul>
+
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-text">
+        <div class="hero-badge" data-i18n="hero_badge">Przygotowanie do OI · OIJ · BOI · IOI</div>
+        <h1 data-i18n="hero_h1">Zostań jednym<br>z <span data-i18n="hero_h1_span">najlepszych</span></h1>
+        <p data-i18n="hero_p">Przygotowanie do <strong>Olimpiady Informatycznej</strong> i Olimpiady Informatycznej Juniorów —
+        od pierwszego programu w C++ aż po poziom laureata. Uczymy skutecznie rozwiązywać trudne zadania
+        algorytmiczne i rozwijać logiczne myślenie. Doświadczeni mentorzy, zaawansowane materiały, ambitne środowisko.</p>
+        <div class="hero-actions">
+            <button class="btn-primary" data-i18n="hero_cta1"
+                onclick="document.getElementById('contact-section').scrollIntoView({ behavior: 'smooth' });">Rozpocznij naukę</button>
+            <button class="btn-ghost" data-i18n="hero_cta2"
+                onclick="document.getElementById('o-nas').scrollIntoView({ behavior: 'smooth' });">Dowiedz się więcej</button>
+        </div>
+        <div class="hero-stats">
+            <div class="stat-item">
+                <span class="stat-number" data-count="2" data-suffix="">2</span>
+                <span class="stat-label" data-i18n="stat1">Laureaci OI</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" data-count="7" data-suffix="">7</span>
+                <span class="stat-label" data-i18n="stat2">Finaliści OI</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" data-count="16" data-suffix="+">16+</span>
+                <span class="stat-label" data-i18n="stat3">Finalistów OIJ</span>
+            </div>
+        </div>
+    </div>
+    <div class="hero-media">
+        <video src="/img/hero-video.mp4" poster="/img/hero-video-poster.jpg" width="960" height="540" autoplay muted loop playsinline aria-label="Animacja wyników finału Olimpiady Informatycznej"></video>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- MAIN CONTENT -->
+<main id="o-nas">
+
+    <!-- 01 Individual lessons -->
+    <div class="section-block" data-animate>
+        <div class="section-content reveal reveal-left">
+            <p class="section-label" data-i18n="s1_label">01 — Lekcje indywidualne</p>
+            <h2 data-i18n="s1_h2">Trening szyty<br>na miarę</h2>
+            <ul class="feature-list">
+                <li data-i18n="s1_li1">Każdy uczeń otrzymuje swojego dedykowanego trenera.</li>
+                <li data-i18n="s1_li2">Program dopasowany do indywidualnych potrzeb i aktualnego poziomu.</li>
+                <li data-i18n="s1_li3">Pomiędzy spotkaniami realizuje zadania przygotowane specjalnie dla niego oraz rozwija się pod okiem trenera.</li>
+            </ul>
+        </div>
+        <div class="img-border reveal reveal-right">
+            <img class="section-image" src="./img/wygrana_ajp.jpg" alt="Wręczenie nagrody w konkursie informatycznym">
+        </div>
+    </div>
+
+    <!-- 02 Team lessons -->
+    <div class="section-block reverse" data-animate>
+        <div class="section-content reveal reveal-right">
+            <p class="section-label" data-i18n="s2_label">02 — Lekcje drużynowe</p>
+            <h2 data-i18n="s2_h2">Rywalizacja<br>i współpraca</h2>
+            <ul class="feature-list">
+                <li data-i18n="s2_li1">Uczestnicy przydzielani do drużyn zależnie od poziomu zaawansowania.</li>
+                <li data-i18n="s2_li2">Każda drużyna ma przypisanego trenera.</li>
+                <li data-i18n="s2_li3">Zajęcia raz lub dwa razy w tygodniu, program dopasowany do grupy.</li>
+                <li data-i18n="s2_li4">Symulacje olimpiady, konkursy i zadania grupowe pomiędzy spotkaniami.</li>
+            </ul>
+        </div>
+        <div class="img-border reveal reveal-left">
+            <img class="section-image" src="./img/oai zdjecie.webp" alt="Drużyna z polskimi flagami na międzynarodowej olimpiadzie IOAI">
+        </div>
+    </div>
+
+    <!-- 03 Materials -->
+    <div class="section-block" data-animate>
+        <div class="section-content reveal reveal-left">
+            <p class="section-label" data-i18n="s3_label">03 — Dodatkowe możliwości</p>
+            <h2 data-i18n="s3_h2">Bogata baza<br>materiałów</h2>
+            <p data-i18n="s3_p1">Każdy olimpijczyk zyskuje dostęp do zestawień najlepszych zadań, tutoriali i filmów z platform takich jak <strong>Codeforces, USACO Guide, Szkopuł, OKI, Uva, CodeChef</strong> i wielu innych.</p>
+            <p data-i18n="s3_p2">Oferujemy także <strong>Progress Sessions</strong> – spotkania motywacyjne, które pomagają w utrzymaniu dyscypliny i systematyczności w nauce.</p>
+        </div>
+        <div class="img-border reveal reveal-right">
+            <div class="slideshow" id="slideshow03">
+                <img class="slide active" src="./img/zdjecie materialow1.PNG" alt="Notatki z zajęć z algorytmiki — przykładowe materiały T-Olimpians (1 z 5)">
+                <img class="slide" src="./img/zdjecie materialow2.PNG" alt="Przykładowe materiały T-Olimpians do nauki algorytmiki (2 z 5)">
+                <img class="slide" src="./img/zdjecie materialow3.PNG" alt="Przykładowe materiały T-Olimpians do nauki algorytmiki (3 z 5)">
+                <img class="slide" src="./img/zdjecie materialow4.PNG" alt="Przykładowe materiały T-Olimpians do nauki algorytmiki (4 z 5)">
+                <img class="slide" src="./img/zdjecie materialow5.PNG" alt="Przykładowe materiały T-Olimpians do nauki algorytmiki (5 z 5)">
+                <div class="slide-dots" id="slideDots03">
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 04 Achievements -->
+    <div id="achievements-section" style="padding: 80px 0; border-bottom: 1px solid var(--border);" data-animate-grid>
+        <p class="section-label" data-i18n="s4_label">04 — Osiągnięcia uczniów</p>
+        <h2 style="font-family: var(--font-display); font-size: clamp(26px, 3vw, 38px); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 40px;" data-i18n="s4_h2">Wyniki mówią<br>same za siebie</h2>
+        <div class="achievements-grid">
+            <div class="achievement-card reveal">
+                <div class="achievement-icon">🥇</div>
+                <div class="achievement-number" data-count="2" data-suffix="">2</div>
+                <div class="achievement-label" data-i18n="ach1">Laureatów Olimpiady Informatycznej</div>
+            </div>
+            <div class="achievement-card reveal">
+                <div class="achievement-icon">🏆</div>
+                <div class="achievement-number" data-count="7" data-suffix="">7</div>
+                <div class="achievement-label" data-i18n="ach2">Finalistów Olimpiady Informatycznej</div>
+            </div>
+            <div class="achievement-card reveal">
+                <div class="achievement-icon">🥈</div>
+                <div class="achievement-number" data-count="5" data-suffix="">5</div>
+                <div class="achievement-label" data-i18n="ach3">Laureatów Olimpiady Informatycznej Juniorów</div>
+            </div>
+            <div class="achievement-card reveal">
+                <div class="achievement-icon">🎖️</div>
+                <div class="achievement-number" data-count="11" data-suffix="">11</div>
+                <div class="achievement-label" data-i18n="ach4">Finalistów Olimpiady Informatycznej Juniorów</div>
+            </div>
+            <div class="achievement-card reveal">
+                <div class="achievement-icon">⚡</div>
+                <div class="achievement-number" data-count="1" data-suffix="×">1×</div>
+                <div class="achievement-label" data-i18n="ach5">Złoty medalista Mistrz Programowania</div>
+            </div>
+            <div class="achievement-card reveal">
+                <div class="achievement-icon">🌟</div>
+                <div class="achievement-number" data-count="1" data-suffix="×">1×</div>
+                <div class="achievement-label" data-i18n="ach6">Srebrny medalista Giganci Programowania</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 05 Founder -->
+    <div class="section-block founder-block" id="founder-section" data-animate data-nosnippet>
+        <div class="section-content founder-intro">
+            <p class="section-label" data-i18n="s5f_label">05 — Założyciel platformy</p>
+            <div class="founder-header">
+                <img class="founder-avatar" src="./img/kacper-face.png" alt="Kacper Ziemecki — założyciel platformy">
+                <div>
+                    <h2 data-i18n="s5f_h2">Kacper Ziemecki</h2>
+                    <p class="founder-role" data-i18n="s5f_p1">Twórca T-Olimpians, finalista Olimpiady Informatycznej.</p>
+                </div>
+            </div>
+            <blockquote class="founder-quote" data-i18n="s5f_quote">
+                <p>„Everybody should be given an equal chance at greatness”</p>
+                <cite>— Kacper Ziemecki</cite>
+            </blockquote>
+        </div>
+        <div class="founder-results">
+            <div class="founder-result-item" data-i18n="s5f_li1">
+                <div class="founder-result-icon">🥈</div>
+                <div>
+                    <div class="founder-result-title">Olimpiada Informatyczna Juniorów</div>
+                    <div class="founder-result-detail"><strong>51. miejsce w Polsce</strong> · <a href="https://oij.edu.pl/oij16/etap2/wyniki.pdf" target="_blank" rel="noopener">wyniki</a></div>
+                </div>
+            </div>
+            <div class="founder-result-item" data-i18n="s5f_li2">
+                <div class="founder-result-icon">🎖️</div>
+                <div>
+                    <div class="founder-result-title">Olimpiada Informatyczna</div>
+                    <div class="founder-result-detail"><strong>103. miejsce w Polsce</strong> · <a href="https://oi.edu.pl/l/33oi_finalisci/" target="_blank" rel="noopener">wyniki</a></div>
+                </div>
+            </div>
+            <div class="founder-result-item" data-i18n="s5f_li3">
+                <div class="founder-result-icon">🥇</div>
+                <div>
+                    <div class="founder-result-title">PKM</div>
+                    <div class="founder-result-detail"><strong>1. miejsce w Polsce</strong></div>
+                </div>
+            </div>
+            <div class="founder-result-item" data-i18n="s5f_li4">
+                <div class="founder-result-icon">💻</div>
+                <div>
+                    <div class="founder-result-title">CodeFlow</div>
+                    <div class="founder-result-detail">Twórca platformy do wspólnego kodowania · <a href="https://t-olimpians.com/code-share-app/wspolne-kodowanie" target="_blank" rel="noopener">zobacz</a></div>
+                </div>
+            </div>
+        </div>
+        <div class="founder-gallery">
+            <img src="./img/kacper-dyplom.jpg" alt="Dyplom finalisty Olimpiady Informatycznej dla Kacpra Ziemeckiego">
+            <img src="./img/kacper-oi.jpg" alt="Kacper Ziemecki jako finalista Olimpiady Informatycznej">
+            <img src="./img/kacper-pkm.jpg" alt="Kacper Ziemecki odbierający nagrodę PKM">
+        </div>
+    </div>
+
+    <!-- 06 Discord -->
+    <div class="discord-cta" id="discord-section" data-animate>
+        <div>
+            <p class="section-label" data-i18n="s5_label">06 — Społeczność</p>
+            <h2 data-i18n="s5_h2">Dołącz do T-Olympians</h2>
+            <p data-i18n="s5_p">Rozwijaj swoje umiejętności razem z najlepszymi. Nasza społeczność na Discordzie to miejsce wymiany wiedzy, rywalizacji i wzajemnej motywacji.</p>
+            <a class="btn-discord" href="https://discord.gg/cgvWjzB5e4" target="_blank">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057.1 18.08.114 18.103.132 18.117a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+                <span data-i18n="s5_btn">Serwer Discord</span>
+            </a>
+        </div>
+        <img src="./img/oi_kadra.jpg" alt="Polska drużyna z flagą na zawodach informatycznych">
+    </div>
+
+    <!-- 07 FAQ -->
+    <section class="faq-section" id="faq">
+        <p class="section-label">07 — Najczęstsze pytania</p>
+        <h2>Przygotowanie do Olimpiady Informatycznej — FAQ</h2>
+        <p class="faq-intro">Wszystko, co warto wiedzieć, zanim zaczniesz przygotowania do Olimpiady Informatycznej (OI) lub Olimpiady Informatycznej Juniorów (OIJ) z T-Olimpians.</p>
+        <div class="faq-list">
+            <details class="faq-item">
+                <summary>Jak wygląda przygotowanie do Olimpiady Informatycznej w T-Olimpians?</summary>
+                <div class="faq-answer">Każdy uczeń trafia do jednej z sześciu grup dopasowanych do poziomu — od początkujących w C++, przez pierwsze algorytmy i Olimpiadę Informatyczną Juniorów, aż po grupę dla finalistów i laureatów OI, którzy przygotowują się do BOI i IOI. Zajęcia grupowe odbywają się w weekendy i trwają 60 minut, a po każdych uczniowie dostają ponad 20 zadań z przerabianych tematów i rywalizują w rankingu. Można też wybrać <a href="zapisy.html">lekcje indywidualne 1 na 1</a> z mentorem.</div>
+            </details>
+            <details class="faq-item">
+                <summary>Czy trzeba umieć programować, żeby zacząć?</summary>
+                <div class="faq-answer">Nie. Grupa „Początkujący C++” zaczyna od zera: składnia C++, pętle, tablice, funkcje i biblioteka STL, a potem pierwsze algorytmy konkursowe. Do samodzielnej nauki podstaw służą też bezpłatne materiały <a href="materialy.html">C++ od podstaw</a>.</div>
+            </details>
+            <details class="faq-item">
+                <summary>Czym różni się Olimpiada Informatyczna od Olimpiady Informatycznej Juniorów?</summary>
+                <div class="faq-answer">Olimpiada Informatyczna Juniorów (OIJ) jest przeznaczona dla uczniów szkół podstawowych, a Olimpiada Informatyczna (OI) — dla uczniów szkół ponadpodstawowych. Obie są trzyetapowe, a zadania polegają na napisaniu programu, który rozwiąże problem algorytmiczny w limicie czasu i pamięci. W T-Olimpians prowadzimy osobne grupy przygotowujące do OIJ i do OI.</div>
+            </details>
+            <details class="faq-item">
+                <summary>Gdzie odbywają się zajęcia?</summary>
+                <div class="faq-answer">Online — na naszym serwerze Discord (awaryjnie przez Google Meet), więc można dołączyć z dowolnego miejsca w Polsce.</div>
+            </details>
+            <details class="faq-item">
+                <summary>Ile kosztują zajęcia?</summary>
+                <div class="faq-answer">Lekcje grupowe kosztują 50 zł (poziom OIJ) lub 70 zł (poziom OI) za lekcję. Lekcje indywidualne — od 120 zł do 180 zł, zależnie od poziomu ucznia. Jest też jednorazowa konsultacja: 50 zł za 15 minut. Szczegóły znajdziesz w <a href="cennik.html">cenniku</a>.</div>
+            </details>
+            <details class="faq-item">
+                <summary>Czy materiały do nauki są darmowe?</summary>
+                <div class="faq-answer">Tak. T-Olimpians Net jest dostępny bezpłatnie dla każdego: <a href="materialy.html">C++ i logika od podstaw</a>, <a href="net.html">algorytmy i struktury danych do OI i OIJ</a> oraz <a href="zadania-oi-oij.html">zbiór zadań z Olimpiady Informatycznej i OIJ</a>.</div>
+            </details>
+            <details class="faq-item">
+                <summary>Kto prowadzi zajęcia?</summary>
+                <div class="faq-answer">Zespół finalistów i laureatów Olimpiady Informatycznej oraz Olimpiady Informatycznej Juniorów. Założycielem T-Olimpians jest Kacper Ziemecki, finalista Olimpiady Informatycznej.</div>
+            </details>
+            <details class="faq-item">
+                <summary>Jak się zapisać?</summary>
+                <div class="faq-answer">Wypełnij formularz na stronie <a href="zapisy.html">Zapisy</a> — odezwiemy się w ciągu 24–48 godzin. Możesz też zadzwonić pod numer <a href="tel:+48720854368">+48 720 854 368</a> lub napisać na <a href="mailto:t.olympians.poland@gmail.com">t.olympians.poland@gmail.com</a>.</div>
+            </details>
+        </div>
+    </section>
+
+</main>
+
+<!-- CONTACT -->
+<div class="divider"></div>
+<main>
+    <section class="contact-section" id="contact-section">
+        <span class="section-label" data-i18n="contact_label">Kontakt</span>
+        <h2 data-i18n="contact_h2">Zapisz się już dziś</h2>
+        <p data-i18n="contact_p">Zapisy do rekrutacji na reprezentowanie drużyny T-Olympians Team Poland 🇵🇱 oraz na lekcje prowadzone przez nasz zespół.</p>
+        <div class="contact-cards">
+            <div class="contact-card">
+                <div class="contact-card-icon">📞</div>
+                <div class="contact-card-label" data-i18n="contact_phone_label">Telefon</div>
+                <a href="tel:+48720854368">+48 720 854 368</a>
+            </div>
+            <div class="contact-card">
+                <div class="contact-card-icon">📧</div>
+                <div class="contact-card-label" data-i18n="contact_email_label">E-mail</div>
+                <a href="mailto:t.olympians.poland@gmail.com">t.olympians.poland@gmail.com</a>
+            </div>
+            <div class="contact-card">
+                <div class="contact-card-icon">🌐</div>
+                <div class="contact-card-label">Facebook</div>
+                <a href="https://www.facebook.com/profile.php?id=61577376764545" target="_blank">T-Olympians Team Poland</a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <span>© 2025 T-Olimpians Team Poland</span>
+    <span style="color: var(--text-muted);" data-i18n="footer_tagline">Built for champions 🏆</span>
+</footer>
+
+<!-- POPUP -->
+<div id="popup" class="popup">
+    <div class="popup-content">
+        <span id="closeBtn" class="close">&times;</span>
+        <p style="font-size: 20px; margin-bottom: 8px;">⚙️</p>
+        <p data-i18n="popup_msg">Opcja jeszcze niedostępna</p>
+    </div>
+</div>
+
+<!-- NAV POINTER BUBBLE -->
+<div id="navPointerBubble" class="nav-pointer-bubble">
+    <span id="navPointerCloseBtn" class="nav-pointer-bubble-close">&times;</span>
+    <div class="nav-pointer-bubble-text">
+        <span class="nav-pointer-bubble-pulse"></span>
+        Zacznij uczyć się i korzystać z materiałów olimpijskich już teraz — sprawdź <strong>t-olimpians net</strong> ↑
+    </div>
+</div>
+
+<div id="photoPopup" class="popup">
+    <div class="popup-content photo-popup-content">
+        <span id="photoCloseBtn" class="close">&times;</span>
+        <img src="./img/kacper-face.png" alt="Kacper Ziemecki — założyciel platformy">
+    </div>
+</div>
+
+<script>
+
+/* ═══════════════════════════════════════════════
+   DOM READY
+═══════════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', function () {
+
+    /* ── PARTICLES ── */
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    let W, H, dots = [];
+
+    function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+    resize();
+    window.addEventListener('resize', () => { resize(); spawnDots(); });
+
+    function spawnDots() {
+        dots = [];
+        const count = Math.floor((W * H) / 18000);
+        for (let i = 0; i < count; i++) {
+            dots.push({
+                x: Math.random() * W, y: Math.random() * H,
+                r: Math.random() * 1.4 + 0.3,
+                vx: (Math.random() - 0.5) * 0.3,
+                vy: (Math.random() - 0.5) * 0.3,
+                alpha: Math.random() * 0.5 + 0.2
+            });
+        }
+    }
+    spawnDots();
+
+    const LINK_DIST = 120;
+    function drawParticles() {
+        ctx.clearRect(0, 0, W, H);
+        for (let i = 0; i < dots.length; i++) {
+            const d = dots[i];
+            d.x += d.vx; d.y += d.vy;
+            if (d.x < 0) d.x = W; if (d.x > W) d.x = 0;
+            if (d.y < 0) d.y = H; if (d.y > H) d.y = 0;
+            ctx.beginPath();
+            ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(96,165,250,${d.alpha})`;
+            ctx.fill();
+            for (let j = i + 1; j < dots.length; j++) {
+                const d2 = dots[j];
+                const dx = d.x - d2.x, dy = d.y - d2.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < LINK_DIST) {
+                    ctx.beginPath();
+                    ctx.moveTo(d.x, d.y);
+                    ctx.lineTo(d2.x, d2.y);
+                    ctx.strokeStyle = `rgba(59,130,246,${0.12 * (1 - dist / LINK_DIST)})`;
+                    ctx.lineWidth = 0.6;
+                    ctx.stroke();
+                }
+            }
+        }
+        requestAnimationFrame(drawParticles);
+    }
+    drawParticles();
+
+    /* ── SCROLL REVEAL ── */
+    const revealEls = document.querySelectorAll('.reveal');
+    const revealObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const siblings = entry.target.closest('.section-block, .achievements-grid, .contact-cards');
+                let delay = 0;
+                if (siblings) {
+                    const all = siblings.querySelectorAll('.reveal');
+                    all.forEach((el, idx) => { if (el === entry.target) delay = idx * 120; });
+                }
+                setTimeout(() => entry.target.classList.add('visible'), delay);
+                revealObs.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => revealObs.observe(el));
+
+    /* ── COUNTER ANIMATION ── */
+    function animateCounter(el, target, suffix) {
+        const duration = 1400;
+        const start = performance.now();
+        const isDecimal = String(target).includes('.');
+        function step(now) {
+            const progress = Math.min((now - start) / duration, 1);
+            const ease = 1 - Math.pow(1 - progress, 4);
+            const val = isDecimal ? (ease * target).toFixed(1) : Math.floor(ease * target);
+            el.textContent = val + suffix;
+            if (progress < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+    }
+    const counterObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const el = entry.target;
+                animateCounter(el, parseFloat(el.dataset.count), el.dataset.suffix || '');
+                counterObs.unobserve(el);
+            }
+        });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('[data-count]').forEach(el => counterObs.observe(el));
+
+    /* ── SLIDESHOW ── */
+    (function () {
+        const slides = document.querySelectorAll('#slideshow03 .slide');
+        const dots   = document.querySelectorAll('#slideDots03 .dot');
+        let current  = 0;
+        function goTo(next) {
+            const prev = current; current = next;
+            slides[current].classList.add('active');
+            dots[prev].classList.remove('active');
+            dots[current].classList.add('active');
+            setTimeout(() => slides[prev].classList.remove('active'), 400);
+        }
+        dots.forEach((dot, i) => dot.addEventListener('click', () => {
+            if (i !== current) { clearInterval(timer); goTo(i); timer = setInterval(advance, 2000); }
+        }));
+        function advance() { goTo((current + 1) % slides.length); }
+        let timer = setInterval(advance, 2000);
+    })();
+
+    /* ── HAMBURGER ── */
+    const hamburger = document.getElementById('hamburger');
+    const navLinks  = document.getElementById('navLinks');
+    hamburger.addEventListener('click', function () {
+        navLinks.classList.toggle('open');
+        hamburger.classList.toggle('open');
+    });
+    document.querySelectorAll('.nav-close').forEach(function (link) {
+        link.addEventListener('click', function () {
+            navLinks.classList.remove('open');
+            hamburger.classList.remove('open');
+        });
+    });
+    document.querySelectorAll('.nav-scroll').forEach(function (link) {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+            var target = document.getElementById(this.dataset.target);
+            if (target) target.scrollIntoView({ behavior: 'smooth' });
+        });
+    });
+
+    /* ── NAVBAR SCROLL ── */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', function () {
+        navbar.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    /* ── NAV POINTER BUBBLE (wskazuje "t-olimpians net" od sekcji 06 w dół) ── */
+    (function () {
+        const bubble = document.getElementById('navPointerBubble');
+        const closeBtn = document.getElementById('navPointerCloseBtn');
+        const targetSection = document.getElementById('founder-section');
+        const navTargetLink = document.querySelector('.nav-group-links a[href="net.html"]');
+        const navGroup = document.querySelector('.nav-group');
+        const navGroupLinks = document.querySelectorAll('.nav-group-links a');
+        if (!bubble || !targetSection || !navTargetLink) return;
+
+        const DISMISS_KEY = 'navPointerDismissed';
+        let dismissed = sessionStorage.getItem(DISMISS_KEY) === '1';
+        let ticking = false;
+
+        function positionBubble() {
+            const labelRect = navTargetLink.getBoundingClientRect();
+            const bubbleWidth = bubble.offsetWidth || 240;
+            let left = labelRect.left + labelRect.width / 2 - bubbleWidth / 2;
+            left = Math.max(12, Math.min(left, window.innerWidth - bubbleWidth - 12));
+            bubble.style.left = left + 'px';
+
+            const arrowLeft = labelRect.left + labelRect.width / 2 - left - 6.5;
+            bubble.style.setProperty('--arrow-left', arrowLeft + 'px');
+            bubble.style.setProperty('left', left + 'px');
+        }
+
+        // Ustawiamy pozycję strzałki dymka przez CSS custom property
+        const styleTag = document.createElement('style');
+        styleTag.textContent = '.nav-pointer-bubble::before { left: var(--arrow-left, 24px); }';
+        document.head.appendChild(styleTag);
+
+        // Po zakończeniu animacji wejścia przełączamy na płynną, powtarzającą się animację "unoszenia"
+        bubble.addEventListener('animationend', function (e) {
+            if (e.animationName === 'navBubbleIn' && bubble.classList.contains('visible')) {
+                bubble.classList.add('nav-pointer-idle');
+            }
+        });
+
+        function hideBubble() {
+            bubble.classList.remove('visible', 'nav-pointer-idle');
+            if (navGroup) navGroup.classList.remove('nav-group-glow');
+            navGroupLinks.forEach(function (a) { a.classList.remove('nav-target-glow'); });
+        }
+
+        function updateVisibility() {
+            if (dismissed || window.innerWidth <= 1023) {
+                hideBubble();
+                ticking = false;
+                return;
+            }
+            const sectionRect = targetSection.getBoundingClientRect();
+            const triggerPoint = sectionRect.top + window.scrollY + sectionRect.height / 2;
+            const shouldShow = window.scrollY + 120 >= triggerPoint;
+            if (shouldShow) {
+                positionBubble();
+                if (!bubble.classList.contains('visible')) bubble.classList.add('visible');
+            } else {
+                hideBubble();
+            }
+            if (navGroup) navGroup.classList.toggle('nav-group-glow', shouldShow);
+            navGroupLinks.forEach(function (a, i) {
+                if (shouldShow) {
+                    a.classList.add('nav-target-glow');
+                    a.style.animationDelay = (i * 0.15) + 's';
+                } else {
+                    a.classList.remove('nav-target-glow');
+                    a.style.animationDelay = '';
+                }
+            });
+            ticking = false;
+        }
+
+        function onScrollOrResize() {
+            if (!ticking) {
+                window.requestAnimationFrame(updateVisibility);
+                ticking = true;
+            }
+        }
+
+        window.addEventListener('scroll', onScrollOrResize, { passive: true });
+        window.addEventListener('resize', onScrollOrResize);
+        updateVisibility();
+
+        if (closeBtn) {
+            closeBtn.addEventListener('click', function () {
+                dismissed = true;
+                sessionStorage.setItem(DISMISS_KEY, '1');
+                hideBubble();
+            });
+        }
+
+        navTargetLink.closest('.nav-group-item')?.querySelectorAll('a').forEach(function (a) {
+            a.addEventListener('click', function () {
+                dismissed = true;
+                sessionStorage.setItem(DISMISS_KEY, '1');
+                hideBubble();
+            });
+        });
+    })();
+
+    /* ── POPUP ── */
+    const popup    = document.getElementById('popup');
+    const closeBtn = document.getElementById('closeBtn');
+    const materialyBtn = document.getElementById('materialyBtn');
+    if (materialyBtn) materialyBtn.addEventListener('click', function (e) { e.preventDefault(); popup.classList.add('active'); });
+    if (closeBtn)     closeBtn.addEventListener('click', function () { popup.classList.remove('active'); });
+    if (popup)        popup.addEventListener('click', function (e) { if (e.target === popup) popup.classList.remove('active'); });
+
+    const photoPopup     = document.getElementById('photoPopup');
+    const photoCloseBtn  = document.getElementById('photoCloseBtn');
+    document.querySelectorAll('.founder-avatar').forEach(function (img) {
+        img.addEventListener('click', function () { photoPopup.classList.add('active'); });
+    });
+    if (photoCloseBtn) photoCloseBtn.addEventListener('click', function () { photoPopup.classList.remove('active'); });
+    if (photoPopup)    photoPopup.addEventListener('click', function (e) { if (e.target === photoPopup) photoPopup.classList.remove('active'); });
+});
+</script>
+<!-- licznik odwiedzin -> panel kacperos.html -->
+<script type="module" src="/track.js"></script>
+</body>
+</html>

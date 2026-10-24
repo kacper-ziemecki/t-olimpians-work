@@ -1,0 +1,2316 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wejście i wyjście w C++ — T-Olimpians</title>
+    <meta name="description" content="Wejście i wyjście w C++ — cout, cin, getline i cin.ignore(). T-Olimpians Team Poland.">
+    <link rel="canonical" href="https://t-olimpians.com/c++_logika/input-output.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="T-Olimpians Team Poland">
+    <meta property="og:locale" content="pl_PL">
+    <meta property="og:url" content="https://t-olimpians.com/c++_logika/input-output.html">
+    <meta property="og:title" content="Wejście i wyjście w C++ — T-Olimpians">
+    <meta property="og:description" content="Wejście i wyjście w C++ — cout, cin, getline i cin.ignore(). T-Olimpians Team Poland.">
+    <meta property="og:image" content="https://t-olimpians.com/img/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="../img/favicon2.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-base: #0a0a0f;
+            --bg-surface: #111118;
+            --bg-card: #15151e;
+            --bg-elevated: #1c1c28;
+            --accent: #3b82f6;
+            --accent-bright: #60a5fa;
+            --accent-glow: rgba(59, 130, 246, 0.25);
+            --accent-dim: rgba(59, 130, 246, 0.12);
+            --green: #22c55e;
+            --green-dim: rgba(34, 197, 94, 0.12);
+            --green-glow: rgba(34, 197, 94, 0.25);
+            --purple: #a78bfa;
+            --purple-dim: rgba(167, 139, 250, 0.12);
+            --orange: #fb923c;
+            --orange-dim: rgba(251, 146, 60, 0.12);
+            --text-primary: #f0f0f8;
+            --text-secondary: #9090aa;
+            --text-muted: #55556a;
+            --border: rgba(255,255,255,0.07);
+            --border-accent: rgba(59, 130, 246, 0.3);
+            --font-display: 'Syne', sans-serif;
+            --font-body: 'DM Sans', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.6;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 48px;
+            height: 68px;
+            background: rgba(10, 10, 15, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            transition: background 0.3s;
+        }
+        .navbar.scrolled {
+            background: rgba(10, 10, 15, 0.95);
+            box-shadow: 0 4px 32px rgba(0,0,0,0.4);
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        .logo img:first-child {
+            width: 38px; height: 38px;
+            border-radius: 10px;
+            object-fit: cover;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .logo:hover img:first-child {
+            transform: rotate(-5deg) scale(1.08);
+            box-shadow: 0 0 16px var(--accent-glow);
+        }
+        #polska-flaga { width: 22px; height: auto; border-radius: 3px; }
+        .logo-text {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--text-primary);
+            letter-spacing: 0.01em;
+        }
+        .nav-links {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            transition: color 0.2s, background 0.2s;
+            cursor: pointer;
+            letter-spacing: 0.02em;
+            position: relative;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 4px; left: 16px; right: 16px;
+            height: 1px;
+            background: var(--accent-bright);
+            transform: scaleX(0);
+            transition: transform 0.25s ease;
+        }
+        .nav-links a:hover::after { transform: scaleX(1); }
+        .nav-links a:hover {
+            color: var(--text-primary);
+            background: var(--accent-dim);
+        }
+        .nav-links a.active-page {
+            color: var(--accent-bright);
+        }
+        .nav-links .nav-cta a {
+            background: var(--accent);
+            color: white;
+            font-weight: 600;
+        }
+        .nav-links .nav-cta a:hover { background: var(--accent-bright); color: white; }
+        .nav-links .nav-cta a::after { display: none; }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            z-index: 110;
+        }
+        .hamburger span {
+            display: block;
+            width: 24px; height: 2px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: transform 0.3s, opacity 0.3s;
+        }
+        .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        #particles {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        .hero {
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 120px 80px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 700px; height: 500px;
+            background: radial-gradient(circle, rgba(59,130,246,0.07) 0%, transparent 70%);
+            pointer-events: none;
+            animation: pulse-glow 6s ease-in-out infinite;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.5; transform: translateX(-50%) scale(1); }
+            50% { opacity: 1; transform: translateX(-50%) scale(1.1); }
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--accent-dim);
+            border: 1px solid var(--border-accent);
+            color: var(--accent-bright);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 500;
+            padding: 6px 14px;
+            border-radius: 100px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+            animation: fadeInUp 0.6s ease both;
+        }
+        .hero-badge::before {
+            content: '';
+            width: 6px; height: 6px;
+            background: var(--accent-bright);
+            border-radius: 50%;
+            animation: blink 2s ease-in-out infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(36px, 5vw, 64px);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.7s 0.1s cubic-bezier(0.16,1,0.3,1) both;
+        }
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--accent-bright), #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero > p {
+            font-size: 16px;
+            color: var(--text-secondary);
+            line-height: 1.75;
+            max-width: 560px;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.7s 0.2s cubic-bezier(0.16,1,0.3,1) both;
+        }
+        .hero code {
+            font-family: var(--font-mono);
+            font-size: 14px;
+            background: var(--accent-dim);
+            border: 1px solid var(--border-accent);
+            color: var(--accent-bright);
+            padding: 2px 8px;
+            border-radius: 5px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.7s 0.3s cubic-bezier(0.16,1,0.3,1) both;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+            letter-spacing: 0.01em;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: inherit;
+            background: linear-gradient(135deg, var(--accent), #7c3aed);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s;
+            filter: blur(8px);
+        }
+        .btn-primary:hover::after { opacity: 0.6; }
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 60%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            transform: skewX(-20deg);
+            transition: left 0.5s ease;
+        }
+        .btn-primary:hover::before { left: 150%; }
+        .btn-primary:hover {
+            background: var(--accent-bright);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px var(--accent-glow);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            padding: 14px 28px;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.2s, border-color 0.2s, transform 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-ghost:hover {
+            color: var(--text-primary);
+            border-color: var(--border-accent);
+            transform: translateY(-2px);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.reveal-left { transform: translateX(-40px); }
+        .reveal.reveal-right { transform: translateX(40px); }
+        .reveal.visible { opacity: 1; transform: translate(0); }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--border), transparent);
+            margin: 0 80px;
+        }
+
+        .section-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--accent-bright);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        main {
+            padding: 0 80px;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .syntax-section {
+            padding: 72px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .syntax-section h2 {
+            font-family: var(--font-display);
+            font-size: clamp(26px, 3vw, 38px);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+        }
+        .syntax-section > p {
+            color: var(--text-secondary);
+            font-size: 15.5px;
+            line-height: 1.8;
+            max-width: 640px;
+            margin-bottom: 40px;
+        }
+
+        .code-block {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin: 24px 0;
+            position: relative;
+        }
+        .code-block-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 20px;
+            background: var(--bg-elevated);
+            border-bottom: 1px solid var(--border);
+        }
+        .code-block-title {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+        }
+        .code-dots { display: flex; gap: 6px; }
+        .code-dots span { width: 10px; height: 10px; border-radius: 50%; }
+        .code-dots span:nth-child(1) { background: #ff5f56; }
+        .code-dots span:nth-child(2) { background: #ffbd2e; }
+        .code-dots span:nth-child(3) { background: #27c93f; }
+        .code-block pre { padding: 24px; overflow-x: auto; margin: 0; }
+        .code-block code {
+            font-family: var(--font-mono);
+            font-size: 14px;
+            line-height: 1.8;
+            color: var(--text-primary);
+        }
+
+        /* Syntax highlighting */
+        .kw   { color: #c792ea; }
+        .tp   { color: #82aaff; }
+        .fn   { color: #82aaff; }
+        .num  { color: #f78c6c; }
+        .str  { color: #c3e88d; }
+        .cm   { color: #546e7a; font-style: italic; }
+        .op   { color: #89ddff; }
+        .var  { color: #eeffff; }
+        .inc  { color: #c3e88d; }
+        .pp   { color: #c792ea; }
+
+        .anatomy-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 48px;
+            align-items: start;
+            margin-top: 48px;
+        }
+
+        .part-cards { display: flex; flex-direction: column; gap: 14px; }
+        .part-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 18px 22px;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            transition: border-color 0.3s, transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+        .part-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--accent-dim), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .part-card:hover::before { opacity: 1; }
+        .part-card:hover {
+            border-color: var(--border-accent);
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 12px 36px var(--accent-glow);
+        }
+        .part-icon {
+            width: 36px; height: 36px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+        }
+        .part-icon.blue  { background: var(--accent-dim);   border: 1px solid var(--border-accent); }
+        .part-icon.green { background: var(--green-dim);    border: 1px solid rgba(34,197,94,0.3);  }
+        .part-icon.purp  { background: var(--purple-dim);   border: 1px solid rgba(167,139,250,0.3); }
+        .part-icon.ora   { background: var(--orange-dim);   border: 1px solid rgba(251,146,60,0.3);  }
+        .part-body { flex: 1; position: relative; z-index: 1; }
+        .part-body h4 {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+        .part-body p { font-size: 13.5px; color: var(--text-secondary); line-height: 1.6; }
+        .part-body code {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            background: var(--bg-elevated);
+            padding: 1px 6px;
+            border-radius: 4px;
+            color: var(--accent-bright);
+        }
+
+        .part-icon.cyan  { background: rgba(56,189,248,0.12); border: 1px solid rgba(56,189,248,0.3); }
+        .part-icon.pink  { background: rgba(244,114,182,0.12); border: 1px solid rgba(244,114,182,0.3); }
+
+        .syntax-section > p code {
+            font-family: var(--font-mono);
+            font-size: 12.5px;
+            background: var(--accent-dim);
+            border: 1px solid var(--border-accent);
+            color: var(--accent-bright);
+            padding: 2px 8px;
+            border-radius: 5px;
+        }
+
+        /* ─── FILMY OKI ─── */
+        .wideo-sekcja {
+            margin: 0 0 12px;
+            padding: 30px 32px 32px;
+            background: linear-gradient(140deg, rgba(239,68,68,0.07), rgba(120,60,180,0.04) 55%, transparent);
+            border: 1px solid rgba(239,68,68,0.20);
+            border-radius: var(--radius-lg);
+            position: relative;
+            overflow: hidden;
+        }
+        .wideo-sekcja::before {
+            content: '';
+            position: absolute;
+            top: -80px; right: -80px;
+            width: 260px; height: 260px;
+            background: radial-gradient(circle, rgba(239,68,68,0.10) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .wideo-gora {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-bottom: 22px;
+            position: relative;
+            z-index: 1;
+        }
+        .wideo-gora-tekst { flex: 1 1 320px; min-width: 0; }
+        .wideo-etykieta {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #f87171;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        .wideo-etykieta::before {
+            content: '';
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: #ef4444;
+            box-shadow: 0 0 8px rgba(239,68,68,0.7);
+            flex-shrink: 0;
+        }
+        .wideo-sekcja h2 {
+            font-family: var(--font-display);
+            font-size: clamp(19px, 2.3vw, 25px);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        .wideo-sekcja h2 span {
+            background: linear-gradient(90deg, #f87171, #fb923c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .wideo-wstep {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.7;
+            max-width: 560px;
+        }
+        .wideo-playlisty {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            flex-shrink: 0;
+        }
+        .wideo-playlisty a {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            letter-spacing: 0.04em;
+            padding: 8px 14px;
+            border-radius: 100px;
+            border: 1px solid rgba(239,68,68,0.28);
+            background: rgba(239,68,68,0.07);
+            color: #f87171;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: background 0.2s, border-color 0.2s, color 0.2s;
+        }
+        .wideo-playlisty a:hover {
+            background: rgba(239,68,68,0.16);
+            border-color: rgba(239,68,68,0.55);
+            color: #fca5a5;
+        }
+        .wideo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(228px, 1fr));
+            gap: 14px;
+            position: relative;
+            z-index: 1;
+        }
+        .wideo-karta {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            transition: border-color 0.25s, transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s;
+        }
+        .wideo-karta:hover {
+            border-color: rgba(239,68,68,0.45);
+            transform: translateY(-4px);
+            box-shadow: 0 14px 34px rgba(239,68,68,0.15);
+        }
+        .wideo-miniatura {
+            position: relative;
+            aspect-ratio: 16 / 9;
+            background: #000;
+        }
+        .wideo-miniatura img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: opacity 0.25s;
+        }
+        .wideo-karta:hover .wideo-miniatura img { opacity: 0.72; }
+        .wideo-miniatura iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%; height: 100%;
+            border: 0;
+        }
+        .wideo-play {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+        .wideo-play span {
+            width: 48px; height: 33px;
+            border-radius: 8px;
+            background: rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.22);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            transition: background 0.25s, border-color 0.25s, transform 0.25s;
+        }
+        .wideo-karta:hover .wideo-play span {
+            background: #ef4444;
+            border-color: #ef4444;
+            transform: scale(1.12);
+        }
+        .wideo-czas {
+            position: absolute;
+            right: 7px; bottom: 7px;
+            font-family: var(--font-mono);
+            font-size: 10.5px;
+            letter-spacing: 0.02em;
+            color: #fff;
+            background: rgba(0,0,0,0.82);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        .wideo-opis { padding: 11px 13px 13px; }
+        .wideo-meta {
+            font-family: var(--font-mono);
+            font-size: 9.5px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+        .wideo-meta b {
+            color: #f87171;
+            font-weight: 600;
+        }
+        .wideo-tytul {
+            font-size: 13px;
+            line-height: 1.45;
+            color: var(--text-secondary);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            transition: color 0.2s;
+        }
+        .wideo-karta:hover .wideo-tytul { color: var(--text-primary); }
+        .wideo-zrodlo {
+            margin-top: 16px;
+            font-size: 11.5px;
+            color: var(--text-muted);
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 720px) {
+            .wideo-sekcja { padding: 22px 18px 24px; border-radius: var(--radius-md); }
+            .wideo-gora { gap: 16px; }
+            .wideo-grid { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
+            .wideo-tytul { font-size: 12.5px; }
+        }
+
+        .output-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin: 16px 0 8px;
+        }
+        .output-box {
+            background: rgba(34,197,94,0.06);
+            border: 1px solid rgba(34,197,94,0.2);
+            border-radius: var(--radius-sm);
+            padding: 14px 18px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: #4ade80;
+            line-height: 1.8;
+            white-space: pre;
+        }
+
+        .warn-box {
+            margin-top: 16px;
+            background: rgba(251,191,36,0.07);
+            border: 1px solid rgba(251,191,36,0.25);
+            border-radius: var(--radius-sm);
+            padding: 14px 18px;
+            font-size: 13.5px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            display: flex;
+            gap: 10px;
+        }
+        .warn-box .warn-icon { flex-shrink: 0; margin-top: 1px; }
+        .warn-box strong { color: #fbbf24; }
+        .warn-box code {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            background: var(--bg-elevated);
+            padding: 1px 6px;
+            border-radius: 4px;
+            color: var(--accent-bright);
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 32px;
+            margin-top: 40px;
+        }
+
+        /* Tablet: dwa bloki kodu obok siebie sie nie mieszcza - jeden pod drugim */
+        @media (min-width: 901px) and (max-width: 1100px) {
+            main { padding: 0 48px; }
+            .anatomy-grid { gap: 32px; }
+            .two-col { grid-template-columns: minmax(0, 1fr); }
+        }
+
+        .tips-section {
+            padding: 80px 0;
+            border-top: 1px solid var(--border);
+        }
+        .tips-section h2 {
+            font-family: var(--font-display);
+            font-size: clamp(26px, 3vw, 38px);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 40px;
+        }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+        .tip-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 26px;
+            transition: border-color 0.3s, transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+        .tip-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--accent-dim), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            border-radius: inherit;
+        }
+        .tip-card:hover::before { opacity: 1; }
+        .tip-card:hover {
+            border-color: var(--border-accent);
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 14px 40px var(--accent-glow);
+        }
+        .tip-icon { font-size: 26px; margin-bottom: 14px; position: relative; z-index: 1; }
+        .tip-title {
+            font-family: var(--font-display);
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+        .tip-text { font-size: 13.5px; color: var(--text-secondary); line-height: 1.65; position: relative; z-index: 1; }
+        .tip-text code {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            background: var(--bg-elevated);
+            padding: 1px 6px;
+            border-radius: 4px;
+            color: var(--accent-bright);
+        }
+
+        .cta-banner {
+            margin: 0 0 80px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 56px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-banner::before {
+            content: '';
+            position: absolute;
+            top: -40%; left: 50%;
+            transform: translateX(-50%);
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(59,130,246,0.07) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .cta-banner::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -60%;
+            width: 40%; height: 200%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
+            transform: skewX(-15deg);
+            animation: shimmer 6s ease-in-out infinite;
+        }
+        @keyframes shimmer { 0% { left: -60%; } 50% { left: 120%; } 100% { left: 120%; } }
+        .cta-banner h2 {
+            font-family: var(--font-display);
+            font-size: clamp(26px, 3.5vw, 40px);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 14px;
+            position: relative;
+            z-index: 1;
+        }
+        .cta-banner p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            max-width: 480px;
+            margin: 0 auto 28px;
+            position: relative;
+            z-index: 1;
+        }
+        .cta-banner .hero-actions { animation: none; position: relative; z-index: 1; }
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 32px 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+        footer span { font-family: var(--font-mono); }
+
+        .nav-group-item { display: flex; align-items: center; }
+        .nav-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border-accent);
+            border-radius: var(--radius-sm);
+            padding: 8px 10px 3px;
+            margin-top: 7px;
+            background: var(--accent-dim);
+        }
+        .nav-group-label {
+            position: absolute;
+            top: -7px;
+            left: 12px;
+            background: #0a0a0f;
+            padding: 1px 7px;
+            border: 1px solid var(--border-accent);
+            border-radius: 100px;
+            font-family: var(--font-mono);
+            font-size: 9.5px;
+            font-weight: 500;
+            color: var(--accent-bright);
+            text-transform: lowercase;
+            letter-spacing: 0.06em;
+            line-height: 1.3;
+        }
+        .nav-group-links { display: flex; align-items: center; gap: 2px; }
+
+        @media (max-width: 900px) {
+            .navbar { padding: 0 20px; }
+            .hamburger { display: flex; }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: fixed;
+                top: 68px; left: 0; right: 0;
+                background: rgba(10, 10, 15, 0.98);
+                backdrop-filter: blur(20px);
+                border-bottom: 1px solid var(--border);
+                padding: 16px 0 24px;
+                gap: 0;
+                z-index: 99;
+            }
+            .nav-links.open { display: flex; }
+            .nav-links li { width: 100%; }
+            .nav-group-item { width: 100%; }
+            .nav-group {
+                flex-direction: column;
+                align-items: stretch;
+                border-radius: var(--radius-md);
+                margin: 16px 28px 6px;
+                padding: 12px 0 6px;
+                width: auto;
+            }
+            .nav-group-label { left: 16px; background: #0a0a0f; }
+            .nav-group-links { flex-direction: column; width: 100%; }
+            .nav-group-links a { width: 100%; }
+
+            .nav-links a { display: block; padding: 14px 28px; font-size: 16px; border-radius: 0; }
+            .nav-links .nav-cta { padding: 12px 20px 0; }
+            .nav-links .nav-cta a { display: block; text-align: center; border-radius: var(--radius-sm); }
+            .hero { padding: 100px 24px 60px; }
+            main { padding: 0 24px; }
+            .anatomy-grid { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+            .two-col { grid-template-columns: minmax(0, 1fr); }
+            footer { flex-direction: column; gap: 12px; padding: 24px; text-align: center; }
+            .divider { margin: 0 24px; }
+            .cta-banner { padding: 36px 24px; }
+        }
+
+        /* ─── Tabela metod ze złożonością ─── */
+        .metody-wrap {
+            margin-top: 32px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow-x: auto;
+            background: var(--bg-card);
+        }
+
+        table.metody {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            min-width: 520px;
+        }
+
+        table.metody th {
+            text-align: left;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border);
+            background: rgba(255,255,255,0.02);
+            white-space: nowrap;
+        }
+
+        table.metody td {
+            padding: 13px 18px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+            line-height: 1.6;
+            vertical-align: top;
+        }
+
+        table.metody tr:last-child td { border-bottom: none; }
+        table.metody tbody tr { transition: background 0.2s; }
+        table.metody tbody tr:hover { background: rgba(96,165,250,0.05); }
+
+        table.metody td:first-child { white-space: nowrap; }
+        table.metody td:last-child { white-space: nowrap; }
+
+        table.metody code {
+            font-family: var(--font-mono);
+            font-size: 12.5px;
+            color: var(--accent-bright);
+            background: var(--accent-dim);
+            border: 1px solid var(--border-accent);
+            padding: 3px 9px;
+            border-radius: 5px;
+        }
+
+        .zloz {
+            font-family: var(--font-mono);
+            font-size: 11.5px;
+            font-weight: 500;
+            padding: 3px 10px;
+            border-radius: 100px;
+            white-space: nowrap;
+            display: inline-block;
+        }
+
+        .zloz.z1    { color:#4ade80; background:rgba(74,222,128,0.1);  border:1px solid rgba(74,222,128,0.28); }
+        .zloz.zlog  { color:#60a5fa; background:rgba(96,165,250,0.1);  border:1px solid rgba(96,165,250,0.28); }
+        .zloz.znlog { color:#a78bfa; background:rgba(167,139,250,0.1); border:1px solid rgba(167,139,250,0.28); }
+        .zloz.zn    { color:#fbbf24; background:rgba(251,191,36,0.1);  border:1px solid rgba(251,191,36,0.28); }
+        .zloz.zn2   { color:#f87171; background:rgba(248,113,113,0.1); border:1px solid rgba(248,113,113,0.28); }
+        .zloz.zinny { color:var(--text-secondary); background:rgba(255,255,255,0.05); border:1px solid var(--border); }
+
+        /* ─── Przykładowe zadania ─── */
+        .zadania-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 32px;
+        }
+
+        .zadanie {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 22px 24px;
+            transition: border-color 0.3s, transform 0.35s cubic-bezier(0.16,1,0.3,1);
+        }
+
+        .zadanie:hover {
+            border-color: var(--border-accent);
+            transform: translateY(-2px);
+        }
+
+        .zadanie-gora {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .zadanie-poziom {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            border-radius: 100px;
+            flex-shrink: 0;
+        }
+
+        .poz-latwe   { color:#4ade80; background:rgba(74,222,128,0.1);  border:1px solid rgba(74,222,128,0.28); }
+        .poz-srednie { color:#fbbf24; background:rgba(251,191,36,0.1);  border:1px solid rgba(251,191,36,0.28); }
+        .poz-trudne  { color:#f87171; background:rgba(248,113,113,0.1); border:1px solid rgba(248,113,113,0.28); }
+
+        .zadanie-tytul {
+            font-family: var(--font-display);
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+        }
+
+        .zadanie-tresc {
+            color: var(--text-secondary);
+            font-size: 14.5px;
+            line-height: 1.75;
+        }
+
+        .zadanie-wsk {
+            margin-top: 12px;
+            padding: 12px 16px;
+            background: var(--bg-surface);
+            border-left: 2px solid var(--border-accent);
+            border-radius: var(--radius-sm);
+            font-size: 13.5px;
+            line-height: 1.65;
+            color: var(--text-secondary);
+        }
+
+        .zadanie-wsk strong { color: var(--accent-bright); }
+
+        .zadanie-rozw { margin-top: 16px; }
+
+        .zadanie-rozw summary {
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--accent-bright);
+            letter-spacing: 0.05em;
+            padding: 9px 16px;
+            border: 1px solid var(--border-accent);
+            border-radius: 100px;
+            display: inline-block;
+            list-style: none;
+            transition: background 0.25s, transform 0.25s;
+            user-select: none;
+        }
+
+        .zadanie-rozw summary::-webkit-details-marker { display: none; }
+        .zadanie-rozw summary::before { content: '▸ '; }
+        .zadanie-rozw[open] summary::before { content: '▾ '; }
+        .zadanie-rozw summary:hover { background: var(--accent-dim); transform: translateY(-1px); }
+        .zadanie-rozw[open] summary { margin-bottom: 16px; }
+
+        @media (max-width: 720px) {
+            .zadanie { padding: 18px 16px; }
+            table.metody { font-size: 13px; }
+            table.metody th, table.metody td { padding: 11px 13px; }
+        }
+    </style>
+    <style id="tablet-nav">
+        /* ─── TABLET: nawigacja i logo (641–1299px) ───
+           < 1024px  menu pod hamburgerem jako panel po prawej,
+           1024–1299 pelne menu w wersji kompaktowej + logo w dwoch liniach. */
+        @media (min-width: 641px) {
+            .logo { flex-shrink: 0; }
+            .logo-text { white-space: nowrap; }
+        }
+
+        @media (min-width: 641px) and (max-width: 1023px) {
+            .navbar { padding: 0 28px; }
+            .logo-text { font-size: 15px; }
+            .hamburger { display: flex; }
+            .nav-pointer-bubble { display: none !important; }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: fixed;
+                top: 76px; right: 20px; left: auto;
+                width: 340px;
+                max-height: calc(100vh - 96px);
+                overflow-y: auto;
+                background: rgba(10, 10, 15, 0.98);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border: 1px solid var(--border);
+                border-radius: var(--radius-lg, 20px);
+                box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+                padding: 10px 0 16px;
+                gap: 0;
+                z-index: 99;
+            }
+            .nav-links.open { display: flex; }
+            .nav-links li { width: 100%; }
+            .nav-group-item { width: 100%; }
+            .nav-group {
+                flex: 1;
+                flex-direction: column;
+                align-items: stretch;
+                border-radius: var(--radius-md, 14px);
+                margin: 18px 16px 8px;
+                padding: 12px 0 6px;
+                width: auto;
+            }
+            .nav-group-label { left: 14px; background: #0a0a0f; }
+            .nav-group-links { flex-direction: column; align-items: stretch; width: 100%; gap: 0; }
+            .nav-group-links a { width: 100%; }
+            .focus-toggle {
+                width: 100%; justify-content: center; margin: 8px 0 0; padding: 10px 0 4px;
+                border-left: none; border-top: 1px solid var(--border);
+            }
+            .nav-links a { display: block; padding: 12px 24px; font-size: 15px; border-radius: 0; }
+            .nav-links a::after { display: none; }
+            .nav-links .nav-cta { padding: 10px 16px 0; }
+            .nav-links .nav-cta a { display: block; text-align: center; border-radius: var(--radius-sm, 8px); padding: 13px; }
+        }
+
+        @media (min-width: 1024px) and (max-width: 1299px) {
+            .navbar { padding: 0 24px; }
+            .logo { gap: 10px; }
+            .logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+            .logo-text-sub {
+                margin-top: 3px;
+                font-family: var(--font-mono);
+                font-size: 9.5px;
+                font-weight: 500;
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                color: var(--accent-bright);
+            }
+            .nav-links { gap: 2px; }
+            .nav-links a { padding: 8px 10px; font-size: 13.5px; letter-spacing: 0.01em; }
+            .nav-links a::after { left: 10px; right: 10px; }
+            .nav-group { padding: 8px 6px 3px; }
+            .nav-group-links { gap: 0; }
+            .focus-toggle { margin-left: 4px; padding-left: 8px; gap: 6px; }
+        }
+    </style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+
+<nav class="navbar" id="navbar">
+    <a class="logo" href="../index.html">
+        <img src="../img/t-olimpians-logo.jpg" alt="Logo">
+        <span class="logo-text">T-Olimpians <span class="logo-text-sub">Team Poland</span></span>
+        <img id="polska-flaga" src="../img/polska_flaga.png" alt="Flaga Polski">
+    </a>
+
+    <ul class="nav-links" id="navLinks">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../index.html#o-nas" class="nav-close">O nas</a></li>
+        <li class="nav-group-item">
+            <div class="nav-group">
+                <span class="nav-group-label">t-olimpians net</span>
+                <div class="nav-group-links">
+                <a href="../materialy.html" class="nav-close">C++/logika</a>
+                <a href="../net.html" class="nav-close">Algorytmy</a>
+                <a href="../zadania-OI-OIJ.html" class="nav-close">Zadania OI/OIJ</a>
+                <a href="../konkursy.html" class="nav-close">Konkursy</a>
+                </div>
+            </div>
+        </li>
+        <li><a href="../zapisy.html" class="nav-close">Zapisy</a></li>
+        <li class="nav-cta"><a href="../index.html#contact-section" class="nav-close">Dołącz →</a></li>
+    </ul>
+
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+    </button>
+</nav>
+
+<section class="hero">
+    <div class="hero-badge">C++ · Podstawy · I/O</div>
+    <h1>Wejście i <span>wyjście</span> w C++</h1>
+    <p>Twój pierwszy prawdziwy program: nauczysz go pisać na ekranie (<code>cout</code>) i słuchać tego, co wpiszesz na klawiaturze (<code>cin</code>). Od zera, linijka po linijce.</p>
+    <div class="hero-actions">
+        <button class="btn-primary" onclick="document.getElementById('cout-cin').scrollIntoView({ behavior: 'smooth' });">Zacznij naukę</button>
+        <button class="btn-ghost" onclick="document.getElementById('porady').scrollIntoView({ behavior: 'smooth' });">Częste błędy</button>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<main>
+
+    <section class="wideo-sekcja reveal" id="filmy">
+        <div class="wideo-gora">
+            <div class="wideo-gora-tekst">
+                <div class="wideo-etykieta">Filmy z OKI</div>
+                <h2>Wolisz <span>obejrzeć</span>?</h2>
+                <p class="wideo-wstep">Olimpijskie Koło Informatyczne nagrywa swoje zajęcia i udostępnia je za darmo. Poniżej 2 odcinki o tym temacie — dobre uzupełnienie, jeśli wolisz obejrzeć niż przeczytać.</p>
+            </div>
+            <div class="wideo-playlisty">
+                <a href="https://www.youtube.com/playlist?list=PL9BlBU4U-rDPrKykeT62mK-cH_NCuIg4Q" target="_blank" rel="noopener">Programowanie OD PODSTAW &#8599;</a>
+            </div>
+        </div>
+        <div class="wideo-grid">
+                <a class="wideo-karta" href="https://www.youtube.com/watch?v=Sx56hN31a7o"
+                   target="_blank" rel="noopener" onclick="return okiWideo(this, 'Sx56hN31a7o')">
+                    <div class="wideo-miniatura">
+                        <img src="https://i.ytimg.com/vi/Sx56hN31a7o/hqdefault.jpg" alt="" loading="lazy">
+                        <div class="wideo-play"><span>&#9654;</span></div>
+                        <div class="wideo-czas">1:18:13</div>
+                    </div>
+                    <div class="wideo-opis">
+                        <div class="wideo-meta"><b>Odc. 1</b> &middot; OD PODSTAW</div>
+                        <div class="wideo-tytul">🌟 Pierwszy program</div>
+                    </div>
+                </a>
+                <a class="wideo-karta" href="https://www.youtube.com/watch?v=4ubSOTgKyhM"
+                   target="_blank" rel="noopener" onclick="return okiWideo(this, '4ubSOTgKyhM')">
+                    <div class="wideo-miniatura">
+                        <img src="https://i.ytimg.com/vi/4ubSOTgKyhM/hqdefault.jpg" alt="" loading="lazy">
+                        <div class="wideo-play"><span>&#9654;</span></div>
+                        <div class="wideo-czas">52:38</div>
+                    </div>
+                    <div class="wideo-opis">
+                        <div class="wideo-meta"><b>Odc. 24</b> &middot; OD PODSTAW</div>
+                        <div class="wideo-tytul">Całe zdanie na ekranie. Getline w akcji</div>
+                    </div>
+                </a>
+        </div>
+        <div class="wideo-zrodlo">Materiały Olimpijskiego Koła Informatycznego — kanał zewnętrzny. Kliknięcie odtwarza film tutaj, bez opuszczania strony.</div>
+    </section>
+
+    <section class="syntax-section" id="cout-cin">
+        <span class="section-label reveal">01 — Podstawy</span>
+        <h2 class="reveal">Co to znaczy wejście i wyjście?</h2>
+        <p class="reveal">Program sam z siebie jest niemy i głuchy. Żeby się z nim dogadać, potrzebne są dwa kanały. <strong style="color:var(--accent-bright)">Wyjście</strong> to wszystko, co program pokazuje na ekranie. <strong style="color:var(--accent-bright)">Wejście</strong> to wszystko, co Ty wpisujesz na klawiaturze. W C++ obsługują je dwie nazwy, które będziesz pisać codziennie: <code>cout</code> i <code>cin</code>.</p>
+
+        <p class="reveal">Nazwy wyglądają dziwnie, ale są skrótami: <code>c</code> od <em>character</em> (znak), <code>out</code> od „na zewnątrz”, <code>in</code> od „do środka”. A strzałki <code>&lt;&lt;</code> i <code>&gt;&gt;</code> to najprostsza ściąga, jaka istnieje: <strong style="color:var(--text-primary)">zawsze pokazują, dokąd płyną dane</strong>.</p>
+
+        <div class="anatomy-grid">
+            <div class="part-cards reveal reveal-left">
+                <div class="part-card">
+                    <div class="part-icon blue">📤</div>
+                    <div class="part-body">
+                        <h4>cout &lt;&lt;</h4>
+                        <p>Wypisuje na ekran. Strzałki są odwrócone w stronę <code>cout</code>, bo dane płyną <strong style="color:var(--text-primary)">od Twojej wartości do ekranu</strong>.</p>
+                    </div>
+                </div>
+                <div class="part-card">
+                    <div class="part-icon green">📥</div>
+                    <div class="part-body">
+                        <h4>cin &gt;&gt;</h4>
+                        <p>Wczytuje to, co wpiszesz. Strzałki pokazują na zmienną, bo dane płyną <strong style="color:var(--text-primary)">od klawiatury do zmiennej</strong>.</p>
+                    </div>
+                </div>
+                <div class="part-card">
+                    <div class="part-icon purp">📦</div>
+                    <div class="part-body">
+                        <h4>&lt;iostream&gt;</h4>
+                        <p>Gotowy kawałek biblioteki, w którym siedzą <code>cin</code> i <code>cout</code>. Bez linijki <code>#include &lt;iostream&gt;</code> kompilator ich nie zna.</p>
+                    </div>
+                </div>
+                <div class="part-card">
+                    <div class="part-icon ora">⏸️</div>
+                    <div class="part-body">
+                        <h4>ENTER</h4>
+                        <p>Po <code>cin</code> program <strong style="color:var(--text-primary)">zatrzymuje się</strong> i czeka, aż coś wpiszesz i wciśniesz ENTER. Dopiero wtedy leci dalej.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="reveal reveal-right">
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-dots"><span></span><span></span><span></span></div>
+                        <div class="code-block-title">pierwszy_program.cpp</div>
+                    </div>
+                    <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Podaj swoj wiek: "</span><span class="op">;</span>   <span class="cm">// prosba na ekran</span>
+
+    <span class="tp">int</span> <span class="var">wiek</span><span class="op">;</span>                      <span class="cm">// pudelko na odpowiedz</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">wiek</span><span class="op">;</span>                   <span class="cm">// program CZEKA na ENTER</span>
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Masz "</span> <span class="op">&lt;&lt;</span> <span class="var">wiek</span> <span class="op">&lt;&lt;</span> <span class="str">" lat.\n"</span><span class="op">;</span>
+
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+                </div>
+                <div class="output-label">▶ Przykładowa rozmowa z programem</div>
+                <div class="output-box">Podaj swoj wiek: 17
+Masz 17 lat.</div>
+            </div>
+        </div>
+
+        <p class="reveal">Zwróć uwagę na kolejność: najpierw <code>cout</code> pyta, potem <code>cin</code> czeka na odpowiedź, na końcu <code>cout</code> wypisuje wynik. Program wykonuje linijki <strong style="color:var(--text-primary)">po kolei, z góry na dół</strong> — nigdy inaczej.</p>
+    </section>
+
+    <section class="syntax-section" id="budowa">
+        <span class="section-label reveal">02 — Budowa programu</span>
+        <h2 class="reveal">Z czego składa się każdy program w C++</h2>
+        <p class="reveal">Ten sam szkielet będziesz pisać w <strong style="color:var(--text-primary)">każdym</strong> programie, więc warto raz zrozumieć, co robi każda linijka. Nie musisz jej wymyślać za każdym razem — po prostu zaczynasz od niej i wpisujesz swój kod w środek.</p>
+
+        <div class="anatomy-grid">
+            <div class="part-cards reveal reveal-left">
+                <div class="part-card">
+                    <div class="part-icon blue">📎</div>
+                    <div class="part-body">
+                        <h4>#include &lt;iostream&gt;</h4>
+                        <p>„Dołącz gotowy zestaw narzędzi do wejścia i wyjścia”. Bez tego <code>cout</code> i <code>cin</code> nie istnieją. Linijki z <code>#</code> <strong style="color:var(--text-primary)">nie kończą się średnikiem</strong>.</p>
+                    </div>
+                </div>
+                <div class="part-card">
+                    <div class="part-icon green">🏷️</div>
+                    <div class="part-body">
+                        <h4>using namespace std;</h4>
+                        <p>Pozwala pisać krótko <code>cout</code> zamiast <code>std::cout</code>. Wygoda — nic więcej.</p>
+                    </div>
+                </div>
+                <div class="part-card">
+                    <div class="part-icon purp">🚀</div>
+                    <div class="part-body">
+                        <h4>int main()</h4>
+                        <p>Miejsce, od którego komputer zaczyna czytać Twój program. Każdy program ma dokładnie jedno <code>main</code>.</p>
+                    </div>
+                </div>
+                <div class="part-card">
+                    <div class="part-icon ora">🔲</div>
+                    <div class="part-body">
+                        <h4>{ nawiasy klamrowe }</h4>
+                        <p>Wyznaczają początek i koniec. Wszystko, co ma się wykonać, piszesz <strong style="color:var(--text-primary)">między</strong> nimi.</p>
+                    </div>
+                </div>
+                <div class="part-card">
+                    <div class="part-icon cyan">🏁</div>
+                    <div class="part-body">
+                        <h4>return 0;</h4>
+                        <p>Ostatnia linijka w <code>main</code>. Mówi systemowi: „skończyłem i wszystko poszło dobrze”.</p>
+                    </div>
+                </div>
+                <div class="part-card">
+                    <div class="part-icon pink">🔚</div>
+                    <div class="part-body">
+                        <h4>średnik ;</h4>
+                        <p>Kończy <strong style="color:var(--text-primary)">każdą</strong> instrukcję. Zapomniany średnik to najczęstszy błąd kompilacji na świecie.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="reveal reveal-right">
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-dots"><span></span><span></span><span></span></div>
+                        <div class="code-block-title">szkielet.cpp</div>
+                    </div>
+                    <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>      <span class="cm">// 1. dolaczamy narzedzia</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>     <span class="cm">// 2. skracamy zapis</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {             <span class="cm">// 3. start programu</span>
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Czesc!\n"</span><span class="op">;</span>  <span class="cm">// 4. TUTAJ piszesz swoj kod</span>
+
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>            <span class="cm">// 5. koniec, wszystko OK</span>
+}                        <span class="cm">// 6. klamra zamykajaca main</span></code></pre>
+                </div>
+                <div class="output-label">▶ Wyjście programu</div>
+                <div class="output-box">Czesc!</div>
+            </div>
+        </div>
+
+        <p class="reveal">Komentarze (to, co po <code>//</code>) komputer całkowicie pomija — są tylko dla Ciebie. Możesz ich pisać ile chcesz, program przez to nie zwolni ani o milisekundę.</p>
+    </section>
+
+    <section class="syntax-section" id="wypisywanie">
+        <span class="section-label reveal">03 — Wypisywanie</span>
+        <h2 class="reveal">cout — wszystko, co chcesz pokazać na ekranie</h2>
+        <p class="reveal"><code>cout</code> potrafi wypisać cztery rzeczy: tekst w cudzysłowie, wartość zmiennej, wynik działania matematycznego i znak nowej linii. Najlepsze jest to, że możesz je <strong style="color:var(--accent-bright)">skleić w jednej linijce</strong> — wystarczy przed każdą kolejną rzeczą powtórzyć <code>&lt;&lt;</code>.</p>
+
+        <div class="two-col">
+            <div class="reveal reveal-left">
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-dots"><span></span><span></span><span></span></div>
+                        <div class="code-block-title">sklejanie.cpp</div>
+                    </div>
+                    <pre><code><span class="tp">string</span> <span class="var">imie</span> <span class="op">=</span> <span class="str">"Ala"</span><span class="op">;</span>
+<span class="tp">int</span> <span class="var">wiek</span> <span class="op">=</span> <span class="num">12</span><span class="op">;</span>
+
+<span class="cm">// kazda rzecz poprzedzona &lt;&lt;</span>
+<span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Czesc, "</span> <span class="op">&lt;&lt;</span> <span class="var">imie</span> <span class="op">&lt;&lt;</span> <span class="str">"!\n"</span><span class="op">;</span>
+<span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Masz "</span> <span class="op">&lt;&lt;</span> <span class="var">wiek</span> <span class="op">&lt;&lt;</span> <span class="str">" lat.\n"</span><span class="op">;</span>
+
+<span class="cm">// cout policzy tez dzialanie</span>
+<span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Za rok: "</span> <span class="op">&lt;&lt;</span> <span class="var">wiek</span> <span class="op">+</span> <span class="num">1</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+<span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"2 + 3 = "</span> <span class="op">&lt;&lt;</span> <span class="num">2</span> <span class="op">+</span> <span class="num">3</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span></code></pre>
+                </div>
+                <div class="output-label">▶ Wyjście programu</div>
+                <div class="output-box">Czesc, Ala!
+Masz 12 lat.
+Za rok: 13
+2 + 3 = 5</div>
+            </div>
+            <div class="reveal reveal-right">
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-dots"><span></span><span></span><span></span></div>
+                        <div class="code-block-title">nowa_linia.cpp</div>
+                    </div>
+                    <pre><code><span class="cm">// BEZ znaku nowej linii wszystko sie sklei</span>
+<span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"raz"</span><span class="op">;</span>
+<span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"dwa"</span><span class="op">;</span>
+<span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"trzy"</span><span class="op">;</span>
+<span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+
+<span class="cm">// "\n" przechodzi do nowej linii</span>
+<span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"raz\n"</span><span class="op">;</span>
+<span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"dwa\n"</span><span class="op">;</span>
+
+<span class="cm">// endl robi to samo (i troche wiecej)</span>
+<span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"trzy"</span> <span class="op">&lt;&lt;</span> <span class="var">endl</span><span class="op">;</span></code></pre>
+                </div>
+                <div class="output-label">▶ Wyjście programu</div>
+                <div class="output-box">razdwatrzy
+raz
+dwa
+trzy</div>
+            </div>
+        </div>
+
+        <p class="reveal">Znak <code>\n</code> wygląda jak dwa znaki, ale dla programu jest jednym: „przejdź do nowej linii”. Zawsze wpisujesz go <strong style="color:var(--text-primary)">w środku cudzysłowu</strong>, np. <code>"gotowe\n"</code>. Możesz też użyć <code>endl</code> — efekt na ekranie jest ten sam, a różnicę między nimi opisuje ostatnia porada na dole strony.</p>
+
+        <p class="reveal">Uwaga na jedną pułapkę: cudzysłów wypisuje się <strong style="color:var(--text-primary)">dosłownie</strong>. <code>cout &lt;&lt; "wiek"</code> pokaże słowo <em>wiek</em>, a <code>cout &lt;&lt; wiek</code> (bez cudzysłowu) pokaże to, co siedzi w zmiennej.</p>
+
+        <div class="reveal">
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-dots"><span></span><span></span><span></span></div>
+                    <div class="code-block-title">dwie_pulapki.cpp</div>
+                </div>
+                <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">int</span> <span class="var">a</span> <span class="op">=</span> <span class="num">7</span><span class="op">,</span> <span class="var">b</span> <span class="op">=</span> <span class="num">2</span><span class="op">;</span>
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"a"</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>          <span class="cm">// slowo a</span>
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">a</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>            <span class="cm">// wartosc zmiennej</span>
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"a + b"</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>      <span class="cm">// slowa, nie dzialanie</span>
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">a</span> <span class="op">+</span> <span class="var">b</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>        <span class="cm">// dopiero to liczy</span>
+
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+            </div>
+            <div class="output-label">▶ Wyjście programu</div>
+            <div class="output-box">a
+7
+a + b
+9</div>
+        </div>
+    </section>
+
+    <section class="syntax-section" id="typy-wejscia">
+        <span class="section-label reveal">04 — Wczytywanie</span>
+        <h2 class="reveal">cin — pobieranie danych od użytkownika</h2>
+        <p class="reveal"><code>cin</code> nie pyta, jakiego typu jest to, co wpisujesz — <strong style="color:var(--text-primary)">patrzy na typ zmiennej</strong> stojącej po prawej stronie <code>&gt;&gt;</code> i dopasowuje się do niej. Twoje jedyne zadanie: utworzyć zmienną odpowiedniego typu, zanim cokolwiek wczytasz.</p>
+
+        <div class="anatomy-grid">
+            <div class="part-cards reveal reveal-left">
+                <div class="part-card">
+                    <div class="part-icon blue">🔢</div>
+                    <div class="part-body">
+                        <h4>liczba całkowita</h4>
+                        <p><code>int wiek;</code> a potem <code>cin &gt;&gt; wiek;</code> — wczyta <code>17</code>, ale na <code>17.5</code> się zatnie.</p>
+                    </div>
+                </div>
+                <div class="part-card">
+                    <div class="part-icon green">🌊</div>
+                    <div class="part-body">
+                        <h4>liczba z przecinkiem</h4>
+                        <p><code>double cena;</code> i <code>cin &gt;&gt; cena;</code> — wpisujesz <code>4.75</code> z <strong style="color:var(--text-primary)">kropką</strong>, nie przecinkiem.</p>
+                    </div>
+                </div>
+                <div class="part-card">
+                    <div class="part-icon purp">🔤</div>
+                    <div class="part-body">
+                        <h4>pojedynczy znak</h4>
+                        <p><code>char znak;</code> — pobiera jeden znak i pomija spacje stojące przed nim.</p>
+                    </div>
+                </div>
+                <div class="part-card">
+                    <div class="part-icon ora">📝</div>
+                    <div class="part-body">
+                        <h4>jedno słowo</h4>
+                        <p><code>string imie;</code> — uwaga, <code>cin</code> zatrzyma się na pierwszej spacji. Na całe zdanie jest <code>getline</code> z następnej sekcji.</p>
+                    </div>
+                </div>
+                <div class="part-card">
+                    <div class="part-icon cyan">🔗</div>
+                    <div class="part-body">
+                        <h4>kilka naraz</h4>
+                        <p><code>cin &gt;&gt; x &gt;&gt; y;</code> — jedna linijka wczyta dwie wartości. Możesz je wpisać po spacji albo w osobnych liniach, <code>cin</code> nie widzi różnicy.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="reveal reveal-right">
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-dots"><span></span><span></span><span></span></div>
+                        <div class="code-block-title">wczytywanie.cpp</div>
+                    </div>
+                    <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;string&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">string</span> <span class="var">imie</span><span class="op">;</span>
+    <span class="tp">int</span> <span class="var">wiek</span><span class="op">;</span>
+    <span class="tp">double</span> <span class="var">srednia</span><span class="op">;</span>
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Imie, wiek i srednia: "</span><span class="op">;</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">imie</span> <span class="op">&gt;&gt;</span> <span class="var">wiek</span> <span class="op">&gt;&gt;</span> <span class="var">srednia</span><span class="op">;</span>
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">imie</span> <span class="op">&lt;&lt;</span> <span class="str">", "</span> <span class="op">&lt;&lt;</span> <span class="var">wiek</span> <span class="op">&lt;&lt;</span> <span class="str">" lat\n"</span><span class="op">;</span>
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Srednia: "</span> <span class="op">&lt;&lt;</span> <span class="var">srednia</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+                </div>
+                <div class="output-label">▶ Przykładowa rozmowa z programem</div>
+                <div class="output-box">Imie, wiek i srednia: Ala 12 4.75
+Ala, 12 lat
+Srednia: 4.75</div>
+            </div>
+        </div>
+
+        <p class="reveal">Dobry nawyk na start: <strong style="color:var(--text-primary)">zanim coś wczytasz, napisz o to prośbę</strong> przez <code>cout</code>. Bez niej program wygląda, jakby się zawiesił — a on tylko cicho czeka na ENTER.</p>
+    </section>
+
+    <section class="syntax-section" id="stringi-getline">
+        <span class="section-label reveal">05 — Tekst ze spacjami</span>
+        <h2 class="reveal">getline — wczytanie całej linii</h2>
+        <p class="reveal"><code>cin &gt;&gt; imie</code> zatrzymuje się na pierwszej spacji — dostaniesz tylko <strong style="color:var(--text-primary)">jedno słowo</strong>. Przy „Jan Kowalski” w zmiennej wyląduje samo „Jan”, a „Kowalski” zostanie w kolejce i trafi do następnego wczytania. Na całą linię jest <code>getline(cin, zmienna)</code>.</p>
+
+        <div class="two-col">
+            <div class="reveal reveal-left">
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-dots"><span></span><span></span><span></span></div>
+                        <div class="code-block-title">jedno_slowo.cpp</div>
+                    </div>
+                    <pre><code><span class="tp">string</span> <span class="var">imie</span><span class="op">;</span>
+
+<span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Podaj imie i nazwisko: "</span><span class="op">;</span>
+<span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">imie</span><span class="op">;</span>             <span class="cm">// tylko jedno slowo</span>
+
+<span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"["</span> <span class="op">&lt;&lt;</span> <span class="var">imie</span> <span class="op">&lt;&lt;</span> <span class="str">"]"</span><span class="op">;</span></code></pre>
+                </div>
+                <div class="output-label">▶ Co się stanie</div>
+                <div class="output-box">Podaj imie i nazwisko: Jan Kowalski
+[Jan]</div>
+            </div>
+            <div class="reveal reveal-right">
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-dots"><span></span><span></span><span></span></div>
+                        <div class="code-block-title">cala_linia.cpp</div>
+                    </div>
+                    <pre><code><span class="tp">string</span> <span class="var">pelneImie</span><span class="op">;</span>
+
+<span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Podaj imie i nazwisko: "</span><span class="op">;</span>
+<span class="fn">getline</span>(<span class="var">cin</span><span class="op">,</span> <span class="var">pelneImie</span>)<span class="op">;</span> <span class="cm">// cala linia</span>
+
+<span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"["</span> <span class="op">&lt;&lt;</span> <span class="var">pelneImie</span> <span class="op">&lt;&lt;</span> <span class="str">"]"</span><span class="op">;</span></code></pre>
+                </div>
+                <div class="output-label">▶ Co się stanie</div>
+                <div class="output-box">Podaj imie i nazwisko: Jan Kowalski
+[Jan Kowalski]</div>
+            </div>
+        </div>
+
+        <p class="reveal">I teraz najważniejsza pułapka całej tej strony. Gdy wpisujesz liczbę i wciskasz ENTER, <code>cin &gt;&gt; n</code> zabiera samą liczbę, a <strong style="color:var(--accent-bright)">ENTER zostawia w kolejce</strong>. Kolejny <code>getline</code> widzi ten porzucony ENTER, uznaje, że linia właśnie się skończyła — i zwraca pusty tekst. Lekarstwo to jedna linijka: <code>cin.ignore();</code>, która ten ENTER wyrzuca.</p>
+
+        <div class="two-col">
+            <div class="reveal reveal-left">
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-dots"><span></span><span></span><span></span></div>
+                        <div class="code-block-title">zle.cpp</div>
+                    </div>
+                    <pre><code><span class="tp">int</span> <span class="var">n</span><span class="op">;</span>
+<span class="tp">string</span> <span class="var">nazwa</span><span class="op">;</span>
+
+<span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">n</span><span class="op">;</span>                 <span class="cm">// zabiera liczbe,</span>
+                          <span class="cm">// ENTER zostaje!</span>
+<span class="fn">getline</span>(<span class="var">cin</span><span class="op">,</span> <span class="var">nazwa</span>)<span class="op">;</span>      <span class="cm">// lapie pusty ENTER</span>
+
+<span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"["</span> <span class="op">&lt;&lt;</span> <span class="var">nazwa</span> <span class="op">&lt;&lt;</span> <span class="str">"]"</span><span class="op">;</span></code></pre>
+                </div>
+                <div class="output-label">▶ Co się stanie</div>
+                <div class="output-box">Wejście:
+3
+Zeszyt
+
+[]   &lt;- pusto!</div>
+            </div>
+            <div class="reveal reveal-right">
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-dots"><span></span><span></span><span></span></div>
+                        <div class="code-block-title">dobrze.cpp</div>
+                    </div>
+                    <pre><code><span class="tp">int</span> <span class="var">n</span><span class="op">;</span>
+<span class="tp">string</span> <span class="var">nazwa</span><span class="op">;</span>
+
+<span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">n</span><span class="op">;</span>
+<span class="var">cin</span><span class="op">.</span><span class="fn">ignore</span>()<span class="op">;</span>             <span class="cm">// wyrzuca ENTER</span>
+
+<span class="fn">getline</span>(<span class="var">cin</span><span class="op">,</span> <span class="var">nazwa</span>)<span class="op">;</span>      <span class="cm">// teraz dziala</span>
+
+<span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"["</span> <span class="op">&lt;&lt;</span> <span class="var">nazwa</span> <span class="op">&lt;&lt;</span> <span class="str">"]"</span><span class="op">;</span></code></pre>
+                </div>
+                <div class="output-label">▶ Co się stanie</div>
+                <div class="output-box">Wejście:
+3
+Zeszyt
+
+[Zeszyt]</div>
+            </div>
+        </div>
+
+        <p class="reveal">Zasada do zapamiętania raz na zawsze: <strong style="color:var(--text-primary)">jeśli po <code>cin &gt;&gt;</code> chcesz użyć <code>getline</code>, wstaw między nie <code>cin.ignore();</code></strong>. Gdy używasz samych <code>getline</code> albo samych <code>cin &gt;&gt;</code>, problem w ogóle nie istnieje.</p>
+    </section>
+
+    <section class="syntax-section" id="formatowanie">
+        <span class="section-label reveal">06 — Formatowanie wyjścia</span>
+        <h2 class="reveal">Jak sprawić, żeby wynik ładnie wyglądał</h2>
+        <p class="reveal">Samo <code>cout</code> wypisuje liczby po swojemu i zwykle to wystarcza. Czasem jednak chcesz dokładnie dwa miejsca po przecinku (bo to złotówki i grosze) albo równe kolumny (bo robisz tabelkę). Służą do tego <strong style="color:var(--accent-bright)">manipulatory</strong> — krótkie słówka, które wstawiasz do <code>cout</code> tak samo jak zwykły tekst. Większość z nich mieszka w nagłówku <code>&lt;iomanip&gt;</code>, więc dopisz go na górze pliku.</p>
+
+        <div class="metody-wrap reveal">
+            <table class="metody">
+                <thead><tr><th>Manipulator</th><th>Co robi</th><th>Przykład</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td><code>"\n"</code></td>
+                        <td>Przechodzi do nowej linii. Twój domyślny wybór.</td>
+                        <td><code>cout &lt;&lt; x &lt;&lt; "\n";</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>endl</code></td>
+                        <td>To samo co <code>"\n"</code>, ale dodatkowo natychmiast opróżnia bufor — w długiej pętli trochę spowalnia.</td>
+                        <td><code>cout &lt;&lt; x &lt;&lt; endl;</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>fixed</code></td>
+                        <td>Mówi: „pisz ułamki normalnie, z ustaloną liczbą miejsc po przecinku”.</td>
+                        <td><code>cout &lt;&lt; fixed;</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>setprecision(k)</code></td>
+                        <td>Razem z <code>fixed</code>: dokładnie <code>k</code> miejsc po przecinku.</td>
+                        <td><code>setprecision(2)</code> → <code>3.14</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>setw(k)</code></td>
+                        <td>Rezerwuje <code>k</code> znaków szerokości na następną wypisywaną rzecz — tak robi się równe kolumny.</td>
+                        <td><code>setw(5)</code> → <code>&nbsp;&nbsp;&nbsp;42</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>setfill(z)</code></td>
+                        <td>Czym wypełnić puste miejsce przy <code>setw</code>. Domyślnie spacja.</td>
+                        <td><code>setfill('0')</code> → <code>00042</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>left / right</code></td>
+                        <td>Dosunięcie do lewej albo do prawej wewnątrz <code>setw</code>.</td>
+                        <td><code>cout &lt;&lt; left &lt;&lt; setw(8);</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>boolalpha</code></td>
+                        <td>Wypisuje <code>true</code> / <code>false</code> zamiast <code>1</code> / <code>0</code>.</td>
+                        <td><code>cout &lt;&lt; boolalpha &lt;&lt; b;</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>'\t'</code></td>
+                        <td>Tabulator — najszybszy sposób na rozdzielenie dwóch kolumn.</td>
+                        <td><code>cout &lt;&lt; a &lt;&lt; '\t' &lt;&lt; b;</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="reveal">
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-dots"><span></span><span></span><span></span></div>
+                    <div class="code-block-title">formatowanie.cpp</div>
+                </div>
+                <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;iomanip&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">double</span> <span class="var">pi</span> <span class="op">=</span> <span class="num">3.14159265</span><span class="op">;</span>
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">pi</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>                        <span class="cm">// domyslnie</span>
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">fixed</span> <span class="op">&lt;&lt;</span> <span class="fn">setprecision</span>(<span class="num">2</span>)<span class="op">;</span>          <span class="cm">// od teraz 2 miejsca</span>
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">pi</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+
+    <span class="cm">// rowne kolumny: setw przed KAZDA wartoscia</span>
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="fn">setw</span>(<span class="num">8</span>) <span class="op">&lt;&lt;</span> <span class="str">"Ala"</span>    <span class="op">&lt;&lt;</span> <span class="fn">setw</span>(<span class="num">5</span>) <span class="op">&lt;&lt;</span> <span class="num">95</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="fn">setw</span>(<span class="num">8</span>) <span class="op">&lt;&lt;</span> <span class="str">"Bartek"</span> <span class="op">&lt;&lt;</span> <span class="fn">setw</span>(<span class="num">5</span>) <span class="op">&lt;&lt;</span> <span class="num">7</span>  <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+
+    <span class="cm">// zera zamiast spacji</span>
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="fn">setfill</span>(<span class="str">'0'</span>) <span class="op">&lt;&lt;</span> <span class="fn">setw</span>(<span class="num">5</span>) <span class="op">&lt;&lt;</span> <span class="num">42</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+            </div>
+            <div class="output-label">▶ Wyjście programu</div>
+            <div class="output-box">3.14159
+3.14
+     Ala   95
+  Bartek    7
+00042</div>
+        </div>
+
+        <p class="reveal">Dwie rzeczy warte zapamiętania. <code>fixed</code> i <code>setprecision</code> działają <strong style="color:var(--text-primary)">aż do odwołania</strong> — raz ustawione obowiązują do końca programu. Za to <code>setw</code> dotyczy <strong style="color:var(--text-primary)">tylko najbliższej</strong> wypisywanej wartości, więc trzeba go powtarzać przed każdą.</p>
+    </section>
+
+    <section class="syntax-section" id="wzorce">
+        <span class="section-label reveal">07 — Wzorce wczytywania</span>
+        <h2 class="reveal">Skąd wiadomo, kiedy przestać czytać</h2>
+        <p class="reveal">Przy jednej czy dwóch liczbach sprawa jest prosta. Gorzej, gdy danych jest wiele i program musi sam wiedzieć, kiedy skończyć. W praktyce spotkasz tylko trzy sytuacje — poniżej każda z nich z gotowym kodem do przepisania.</p>
+
+        <div class="part-cards reveal">
+                <div class="part-card">
+                    <div class="part-icon blue">1️⃣</div>
+                    <div class="part-body">
+                        <h4>Wiesz, ile będzie danych</h4>
+                        <p>Pierwsza liczba mówi, ile ich będzie: najpierw <code>cin &gt;&gt; n;</code>, potem pętla wykonana <code>n</code> razy.</p>
+                    </div>
+                </div>
+                <div class="part-card">
+                    <div class="part-icon green">2️⃣</div>
+                    <div class="part-body">
+                        <h4>Czytasz do samego końca</h4>
+                        <p>Nikt nie mówi ile — czytasz, aż dane się skończą: <code>while (cin &gt;&gt; x)</code>. Pętla zatrzyma się sama.</p>
+                    </div>
+                </div>
+                <div class="part-card">
+                    <div class="part-icon purp">3️⃣</div>
+                    <div class="part-body">
+                        <h4>Czytasz do znaku końca</h4>
+                        <p>Dane kończy umówiona wartość, np. zero: <code>while (cin &gt;&gt; x &amp;&amp; x != 0)</code>. Tej ostatniej wartości zwykle nie liczymy.</p>
+                    </div>
+                </div>
+        </div>
+
+        <div class="two-col">
+            <div class="reveal reveal-left">
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-dots"><span></span><span></span><span></span></div>
+                        <div class="code-block-title">wiem_ile.cpp</div>
+                    </div>
+                    <pre><code><span class="cm">// wariant 1: n podane na starcie</span>
+<span class="tp">int</span> <span class="var">n</span><span class="op">;</span>
+<span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">n</span><span class="op">;</span>
+
+<span class="tp">long long</span> <span class="var">suma</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
+<span class="kw">for</span> (<span class="tp">int</span> <span class="var">i</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span> <span class="var">i</span> <span class="op">&lt;</span> <span class="var">n</span><span class="op">;</span> <span class="var">i</span><span class="op">++</span>) {
+    <span class="tp">int</span> <span class="var">x</span><span class="op">;</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">x</span><span class="op">;</span>
+    <span class="var">suma</span> <span class="op">+=</span> <span class="var">x</span><span class="op">;</span>
+}
+
+<span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">suma</span><span class="op">;</span></code></pre>
+                </div>
+                <div class="output-label">▶ Wejście i wyjście</div>
+                <div class="output-box">Wejście:
+3
+10 20 30
+
+60</div>
+            </div>
+            <div class="reveal reveal-right">
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-dots"><span></span><span></span><span></span></div>
+                        <div class="code-block-title">do_konca.cpp</div>
+                    </div>
+                    <pre><code><span class="cm">// wariant 2: czytamy az do konca danych</span>
+<span class="tp">long long</span> <span class="var">suma</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
+<span class="tp">int</span> <span class="var">x</span><span class="op">;</span>
+
+<span class="kw">while</span> (<span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">x</span>) {
+    <span class="var">suma</span> <span class="op">+=</span> <span class="var">x</span><span class="op">;</span>
+}
+
+<span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">suma</span><span class="op">;</span></code></pre>
+                </div>
+                <div class="output-label">▶ Wejście i wyjście</div>
+                <div class="output-box">Wejście:
+10 20 30 40
+
+100</div>
+            </div>
+        </div>
+
+        <div class="reveal">
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-dots"><span></span><span></span><span></span></div>
+                    <div class="code-block-title">do_zera.cpp</div>
+                </div>
+                <pre><code><span class="cm">// wariant 3: zero konczy dane (i samo sie nie liczy)</span>
+<span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">long long</span> <span class="var">suma</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
+    <span class="tp">int</span> <span class="var">ile</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
+    <span class="tp">int</span> <span class="var">x</span><span class="op">;</span>
+
+    <span class="kw">while</span> (<span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">x</span> <span class="op">&amp;&amp;</span> <span class="var">x</span> <span class="op">!=</span> <span class="num">0</span>) {
+        <span class="var">suma</span> <span class="op">+=</span> <span class="var">x</span><span class="op">;</span>
+        <span class="var">ile</span><span class="op">++</span><span class="op">;</span>
+    }
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Liczb: "</span> <span class="op">&lt;&lt;</span> <span class="var">ile</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Suma:  "</span> <span class="op">&lt;&lt;</span> <span class="var">suma</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+            </div>
+            <div class="output-label">▶ Wyjście programu</div>
+            <div class="output-box">Wejście:
+5 8 2 0
+
+Liczb: 3
+Suma:  15</div>
+        </div>
+
+        <p class="reveal">Skąd wiesz, który wariant wybrać? Spójrz na przykładowe dane. Jeśli zaczynają się od samotnej liczby, która pasuje do liczby kolejnych wierszy — to wariant pierwszy. Jeśli po prostu się urywają — drugi. Jeśli kończą się podejrzanym zerem albo słowem <code>KONIEC</code> — trzeci.</p>
+    </section>
+
+    <section class="syntax-section" id="zadania">
+        <span class="section-label reveal">08 — Przykładowe zadania</span>
+        <h2 class="reveal">Sprawdź się na zadaniach</h2>
+        <p class="reveal">Sześć zadań ułożonych od najprostszego. Pierwsze trzy powinieneś napisać po samym przeczytaniu tej strony; trzy kolejne łączą po kilka rzeczy naraz. Rozwiązania są schowane — <strong style="color:var(--text-primary)">otwórz je dopiero po własnej próbie</strong>, nawet nieudanej. Nieudana próba uczy najwięcej.</p>
+
+        <div class="zadania-grid">
+            <div class="zadanie reveal">
+                <div class="zadanie-gora">
+                    <span class="zadanie-poziom poz-latwe">Łatwe</span>
+                    <span class="zadanie-tytul">Przywitanie</span>
+                </div>
+                <div class="zadanie-tresc">Poproś użytkownika o imię, wczytaj je i przywitaj się: <code>Czesc, Ala!</code></div>
+                <div class="zadanie-wsk"><strong>Jak to ugryźć:</strong> Potrzebujesz zmiennej typu <code>string</code> i nagłówka <code>&lt;string&gt;</code>. Imię to jedno słowo, więc wystarczy zwykłe <code>cin &gt;&gt;</code>.</div>
+                <details class="zadanie-rozw">
+                    <summary>Pokaż rozwiązanie</summary>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-dots"><span></span><span></span><span></span></div>
+                            <div class="code-block-title">przywitanie.cpp</div>
+                        </div>
+                        <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;string&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">string</span> <span class="var">imie</span><span class="op">;</span>
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Jak masz na imie? "</span><span class="op">;</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">imie</span><span class="op">;</span>
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Czesc, "</span> <span class="op">&lt;&lt;</span> <span class="var">imie</span> <span class="op">&lt;&lt;</span> <span class="str">"!\n"</span><span class="op">;</span>
+
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+            <div class="zadanie reveal">
+                <div class="zadanie-gora">
+                    <span class="zadanie-poziom poz-latwe">Łatwe</span>
+                    <span class="zadanie-tytul">Trzy działania</span>
+                </div>
+                <div class="zadanie-tresc">Wczytaj dwie liczby całkowite i wypisz ich sumę, różnicę oraz iloczyn — każde w osobnej linii.</div>
+                <div class="zadanie-wsk"><strong>Jak to ugryźć:</strong> Dwie wartości wczytasz jedną linijką: <code>cin &gt;&gt; a &gt;&gt; b;</code>. Działanie możesz policzyć wprost w <code>cout</code>.</div>
+                <details class="zadanie-rozw">
+                    <summary>Pokaż rozwiązanie</summary>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-dots"><span></span><span></span><span></span></div>
+                            <div class="code-block-title">trzy_dzialania.cpp</div>
+                        </div>
+                        <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">int</span> <span class="var">a</span><span class="op">,</span> <span class="var">b</span><span class="op">;</span>
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Podaj dwie liczby: "</span><span class="op">;</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">a</span> <span class="op">&gt;&gt;</span> <span class="var">b</span><span class="op">;</span>
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Suma:    "</span> <span class="op">&lt;&lt;</span> <span class="var">a</span> <span class="op">+</span> <span class="var">b</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Roznica: "</span> <span class="op">&lt;&lt;</span> <span class="var">a</span> <span class="op">-</span> <span class="var">b</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Iloczyn: "</span> <span class="op">&lt;&lt;</span> <span class="var">a</span> <span class="op">*</span> <span class="var">b</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+            <div class="zadanie reveal">
+                <div class="zadanie-gora">
+                    <span class="zadanie-poziom poz-latwe">Łatwe</span>
+                    <span class="zadanie-tytul">Pole prostokąta</span>
+                </div>
+                <div class="zadanie-tresc">Wczytaj dwa boki prostokąta (mogą mieć części ułamkowe) i wypisz jego pole z dokładnością do dwóch miejsc po przecinku.</div>
+                <div class="zadanie-wsk"><strong>Jak to ugryźć:</strong> Boki trzymaj w <code>double</code>, nie w <code>int</code> — inaczej <code>2.5</code> zamieni się w <code>2</code>. Dwa miejsca po przecinku daje <code>cout &lt;&lt; fixed &lt;&lt; setprecision(2);</code>.</div>
+                <details class="zadanie-rozw">
+                    <summary>Pokaż rozwiązanie</summary>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-dots"><span></span><span></span><span></span></div>
+                            <div class="code-block-title">pole.cpp</div>
+                        </div>
+                        <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;iomanip&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">double</span> <span class="var">a</span><span class="op">,</span> <span class="var">b</span><span class="op">;</span>
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Podaj dwa boki: "</span><span class="op">;</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">a</span> <span class="op">&gt;&gt;</span> <span class="var">b</span><span class="op">;</span>
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">fixed</span> <span class="op">&lt;&lt;</span> <span class="fn">setprecision</span>(<span class="num">2</span>)<span class="op">;</span>
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Pole: "</span> <span class="op">&lt;&lt;</span> <span class="var">a</span> <span class="op">*</span> <span class="var">b</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+            <div class="zadanie reveal">
+                <div class="zadanie-gora">
+                    <span class="zadanie-poziom poz-srednie">Średnie</span>
+                    <span class="zadanie-tytul">Tabliczka mnożenia</span>
+                </div>
+                <div class="zadanie-tresc">Wypisz tabliczkę mnożenia od 1 do 9 w równych kolumnach, tak żeby liczby ładnie się wyrównały.</div>
+                <div class="zadanie-wsk"><strong>Jak to ugryźć:</strong> Bez wyrównania wyniki jedno- i dwucyfrowe się rozjadą. <code>setw(4)</code> przed każdą liczbą zarezerwuje stałą szerokość. Dwie pętle: jedna po wierszach, druga po kolumnach.</div>
+                <details class="zadanie-rozw">
+                    <summary>Pokaż rozwiązanie</summary>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-dots"><span></span><span></span><span></span></div>
+                            <div class="code-block-title">tabliczka.cpp</div>
+                        </div>
+                        <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;iomanip&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="kw">for</span> (<span class="tp">int</span> <span class="var">w</span> <span class="op">=</span> <span class="num">1</span><span class="op">;</span> <span class="var">w</span> <span class="op">&lt;=</span> <span class="num">9</span><span class="op">;</span> <span class="var">w</span><span class="op">++</span>) {
+        <span class="kw">for</span> (<span class="tp">int</span> <span class="var">k</span> <span class="op">=</span> <span class="num">1</span><span class="op">;</span> <span class="var">k</span> <span class="op">&lt;=</span> <span class="num">9</span><span class="op">;</span> <span class="var">k</span><span class="op">++</span>) {
+            <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="fn">setw</span>(<span class="num">4</span>) <span class="op">&lt;&lt;</span> <span class="var">w</span> <span class="op">*</span> <span class="var">k</span><span class="op">;</span>
+        }
+        <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>            <span class="cm">// koniec wiersza</span>
+    }
+
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+            <div class="zadanie reveal">
+                <div class="zadanie-gora">
+                    <span class="zadanie-poziom poz-srednie">Średnie</span>
+                    <span class="zadanie-tytul">Średnia ocen</span>
+                </div>
+                <div class="zadanie-tresc">Na wejściu jest nieznana z góry liczba ocen (od 1 do 6). Wypisz, ile ich było, ich sumę oraz średnią z dokładnością do dwóch miejsc po przecinku.</div>
+                <div class="zadanie-wsk"><strong>Jak to ugryźć:</strong> To wariant drugi: <code>while (cin &gt;&gt; ocena)</code> skończy się sam. Średnią licz jako <code>(double)suma / ile</code> — bez rzutowania dostaniesz dzielenie całkowite i ułamek przepadnie.</div>
+                <details class="zadanie-rozw">
+                    <summary>Pokaż rozwiązanie</summary>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-dots"><span></span><span></span><span></span></div>
+                            <div class="code-block-title">srednia.cpp</div>
+                        </div>
+                        <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;iomanip&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">int</span> <span class="var">ocena</span><span class="op">;</span>
+    <span class="tp">int</span> <span class="var">ile</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
+    <span class="tp">int</span> <span class="var">suma</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
+
+    <span class="kw">while</span> (<span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">ocena</span>) {
+        <span class="var">suma</span> <span class="op">+=</span> <span class="var">ocena</span><span class="op">;</span>
+        <span class="var">ile</span><span class="op">++</span><span class="op">;</span>
+    }
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Ocen:    "</span> <span class="op">&lt;&lt;</span> <span class="var">ile</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Suma:    "</span> <span class="op">&lt;&lt;</span> <span class="var">suma</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">fixed</span> <span class="op">&lt;&lt;</span> <span class="fn">setprecision</span>(<span class="num">2</span>)<span class="op">;</span>
+    <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="str">"Srednia: "</span> <span class="op">&lt;&lt;</span> (<span class="tp">double</span>)<span class="var">suma</span> <span class="op">/</span> <span class="var">ile</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+            <div class="zadanie reveal">
+                <div class="zadanie-gora">
+                    <span class="zadanie-poziom poz-trudne">Trudne</span>
+                    <span class="zadanie-tytul">Tabelka z imionami</span>
+                </div>
+                <div class="zadanie-tresc">Pierwszy wiersz zawiera liczbę <code>n</code>. Każdy z kolejnych <code>n</code> wierszy to imię i nazwisko (ze spacją), a po nim w osobnym wierszu liczba punktów. Wypisz wszystko jako tabelkę wyrównaną w kolumnach.</div>
+                <div class="zadanie-wsk"><strong>Jak to ugryźć:</strong> Mieszasz <code>cin &gt;&gt;</code> z <code>getline</code>, więc po każdym wczytaniu liczby wywołaj <code>cin.ignore();</code> — inaczej <code>getline</code> złapie porzucony ENTER i zwróci pustą linię. Do kolumn użyj <code>left</code> i <code>setw</code>.</div>
+                <details class="zadanie-rozw">
+                    <summary>Pokaż rozwiązanie</summary>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-dots"><span></span><span></span><span></span></div>
+                            <div class="code-block-title">tabelka.cpp</div>
+                        </div>
+                        <pre><code><span class="pp">#include</span> <span class="inc">&lt;iostream&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;iomanip&gt;</span>
+<span class="pp">#include</span> <span class="inc">&lt;string&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span><span class="op">;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">int</span> <span class="var">n</span><span class="op">;</span>
+    <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">n</span><span class="op">;</span>
+    <span class="var">cin</span><span class="op">.</span><span class="fn">ignore</span>()<span class="op">;</span>            <span class="cm">// wyrzuca ENTER po liczbie</span>
+
+    <span class="kw">for</span> (<span class="tp">int</span> <span class="var">i</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span> <span class="var">i</span> <span class="op">&lt;</span> <span class="var">n</span><span class="op">;</span> <span class="var">i</span><span class="op">++</span>) {
+        <span class="tp">string</span> <span class="var">osoba</span><span class="op">;</span>
+        <span class="fn">getline</span>(<span class="var">cin</span><span class="op">,</span> <span class="var">osoba</span>)<span class="op">;</span> <span class="cm">// cale imie i nazwisko</span>
+
+        <span class="tp">int</span> <span class="var">punkty</span><span class="op">;</span>
+        <span class="var">cin</span> <span class="op">&gt;&gt;</span> <span class="var">punkty</span><span class="op">;</span>
+        <span class="var">cin</span><span class="op">.</span><span class="fn">ignore</span>()<span class="op">;</span>        <span class="cm">// i znowu ENTER</span>
+
+        <span class="var">cout</span> <span class="op">&lt;&lt;</span> <span class="var">left</span> <span class="op">&lt;&lt;</span> <span class="fn">setw</span>(<span class="num">18</span>) <span class="op">&lt;&lt;</span> <span class="var">osoba</span>
+             <span class="op">&lt;&lt;</span> <span class="var">right</span> <span class="op">&lt;&lt;</span> <span class="fn">setw</span>(<span class="num">4</span>) <span class="op">&lt;&lt;</span> <span class="var">punkty</span> <span class="op">&lt;&lt;</span> <span class="str">"\n"</span><span class="op">;</span>
+    }
+
+    <span class="kw">return</span> <span class="num">0</span><span class="op">;</span>
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<div class="divider"></div>
+
+<main>
+    <section class="tips-section" id="porady">
+        <span class="section-label reveal">09 — Porady</span>
+        <h2 class="reveal">Częste błędy i dobre praktyki</h2>
+        <div class="tips-grid">
+            <div class="tip-card reveal">
+                <div class="tip-icon">⌨️</div>
+                <div class="tip-title">cin >> a pierwsza spacja</div>
+                <div class="tip-text"><code>cin >> zmienna</code> zawsze zatrzymuje się na białym znaku (spacji, tabulacji, ENTER). Do imion i nazwisk ze spacją użyj <code>getline</code>.</div>
+            </div>
+            <div class="tip-card reveal">
+                <div class="tip-icon">🧹</div>
+                <div class="tip-title">Pamiętaj o cin.ignore()</div>
+                <div class="tip-text">Mieszanie <code>cin >></code> i <code>getline</code> bez <code>cin.ignore()</code> to jeden z najczęstszych błędów początkujących — getline "widzi" pusty ENTER.</div>
+            </div>
+            <div class="tip-card reveal">
+                <div class="tip-icon">🔀</div>
+                <div class="tip-title">Kolejność wczytywania</div>
+                <div class="tip-text"><code>cin >> a >> b;</code> wczytuje wartości w kolejności, w jakiej zostały wpisane — oddzielone spacją lub ENTER-em, bez różnicy.</div>
+            </div>
+            <div class="tip-card reveal">
+                <div class="tip-icon">🔡</div>
+                <div class="tip-title">Zgodność typów</div>
+                <div class="tip-text">Jeśli wpiszesz literę tam, gdzie program oczekuje liczby, <code>cin</code> "się zepsuje" i kolejne wczytania mogą działać niepoprawnie.</div>
+            </div>
+            <div class="tip-card reveal">
+                <div class="tip-icon">📃</div>
+                <div class="tip-title">endl vs "\n"</div>
+                <div class="tip-text"><code>endl</code> przechodzi do nowej linii i dodatkowo czyści bufor wyjścia — do bardzo częstego wypisywania w pętlach czasem szybszy jest zwykły <code>"\n"</code>.</div>
+            </div>
+            <div class="tip-card reveal">
+                <div class="tip-icon">🧾</div>
+                <div class="tip-title">Wiele cout w jednej linii</div>
+                <div class="tip-text">Każde kolejne <code>&lt;&lt;</code> dokleja kolejną wartość do tej samej linii wyjścia — można łączyć tekst i zmienne dowolnie.</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="cta-banner reveal">
+        <span class="section-label" style="display:block;text-align:center;margin-bottom:12px;">10 — Idź dalej</span>
+        <h2>Gotowy na więcej?</h2>
+        <p>Dołącz do T-Olimpians i trenuj z doświadczonymi mentorami. Zbuduj bazę, która prowadzi do finałów OI.</p>
+        <div class="hero-actions">
+            <a class="btn-primary" href="../index.html#contact-section">Zapisz się teraz</a>
+            <a class="btn-ghost" href="../materialy.html">← Wróć do materiałów</a>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <span>© 2025 T-Olimpians Team Poland</span>
+    <span style="color: var(--text-muted);">
+        <a href="../index.html" style="color:var(--text-muted);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--accent-bright)'" onmouseout="this.style.color='var(--text-muted)'">Home</a>
+        &nbsp;·&nbsp;
+        <a href="../materialy.html" style="color:var(--text-muted);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--accent-bright)'" onmouseout="this.style.color='var(--text-muted)'">Materiały</a>
+        &nbsp;·&nbsp;Wejście i wyjście · C++
+    </span>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    /* ── PARTICLES ── */
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    let W, H, dots = [];
+    function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+    resize();
+    window.addEventListener('resize', () => { resize(); spawnDots(); });
+    function spawnDots() {
+        dots = [];
+        const count = Math.floor((W * H) / 18000);
+        for (let i = 0; i < count; i++) {
+            dots.push({ x: Math.random()*W, y: Math.random()*H, r: Math.random()*1.4+0.3, vx: (Math.random()-0.5)*0.3, vy: (Math.random()-0.5)*0.3, alpha: Math.random()*0.5+0.2 });
+        }
+    }
+    spawnDots();
+    const LINK_DIST = 120;
+    function drawParticles() {
+        ctx.clearRect(0, 0, W, H);
+        for (let i = 0; i < dots.length; i++) {
+            const d = dots[i];
+            d.x += d.vx; d.y += d.vy;
+            if (d.x < 0) d.x = W; if (d.x > W) d.x = 0;
+            if (d.y < 0) d.y = H; if (d.y > H) d.y = 0;
+            ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, Math.PI*2);
+            ctx.fillStyle = `rgba(96,165,250,${d.alpha})`; ctx.fill();
+            for (let j = i+1; j < dots.length; j++) {
+                const d2 = dots[j];
+                const dx = d.x-d2.x, dy = d.y-d2.y;
+                const dist = Math.sqrt(dx*dx+dy*dy);
+                if (dist < LINK_DIST) {
+                    ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d2.x, d2.y);
+                    ctx.strokeStyle = `rgba(59,130,246,${0.12*(1-dist/LINK_DIST)})`; ctx.lineWidth = 0.6; ctx.stroke();
+                }
+            }
+        }
+        requestAnimationFrame(drawParticles);
+    }
+    drawParticles();
+
+    /* ── SCROLL REVEAL ── */
+    const revealObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const parent = entry.target.closest('.part-cards, .tips-grid, .anatomy-grid');
+                let delay = 0;
+                if (parent) {
+                    const all = parent.querySelectorAll('.reveal');
+                    all.forEach((el, idx) => { if (el === entry.target) delay = idx * 100; });
+                }
+                setTimeout(() => entry.target.classList.add('visible'), delay);
+                revealObs.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+    /* ── NAVBAR SCROLL ── */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 40));
+
+    /* ── HAMBURGER ── */
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => {
+        navLinks.classList.toggle('open');
+        hamburger.classList.toggle('open');
+    });
+    document.querySelectorAll('.nav-close').forEach(a => {
+        a.addEventListener('click', () => {
+            navLinks.classList.remove('open');
+            hamburger.classList.remove('open');
+        });
+    });
+});
+</script>
+<script>
+/* Filmy OKI: klikniecie podmienia miniature na odtwarzacz w tym samym miejscu.
+   Bez JavaScriptu karta zostaje zwyklym linkiem do YouTube. */
+function okiWideo(el, id) {
+    var m = el.querySelector('.wideo-miniatura');
+    if (!m) return true;
+    m.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + id +
+        '?autoplay=1&rel=0" title="Film OKI" allow="accelerometer; autoplay; ' +
+        'clipboard-write; encrypted-media; gyroscope; picture-in-picture" ' +
+        'allowfullscreen></iframe>';
+    el.removeAttribute('href');
+    el.removeAttribute('target');
+    return false;
+}
+</script>
+<!-- licznik odwiedzin -> panel kacperos.html -->
+<script type="module" src="/track.js"></script>
+</body>
+</html>

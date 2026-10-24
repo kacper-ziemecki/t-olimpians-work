@@ -961,6 +961,39 @@
             border-radius: inherit;
         }
         .slide.active { opacity: 1; }
+        /* cienki pasek postępu: jeden odcinek na slajd */
+        .slide-progress {
+            position: absolute;
+            left: 12px;
+            right: 12px;
+            bottom: 10px;
+            display: flex;
+            gap: 4px;
+            z-index: 2;
+            pointer-events: none;
+            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.7));
+        }
+        .slide-progress span {
+            flex: 1;
+            height: 3px;
+            border-radius: 2px;
+            background: rgba(255,255,255,0.28);
+            overflow: hidden;
+        }
+        .slide-progress span::after {
+            content: '';
+            display: block;
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-bright), #a78bfa);
+            transform: scaleX(0);
+            transform-origin: left;
+        }
+        .slide-progress span.done::after { transform: scaleX(1); }
+        .slide-progress span.active::after { animation: slide-fill 2s linear forwards; }
+        @keyframes slide-fill { to { transform: scaleX(1); } }
+        @media (prefers-reduced-motion: reduce) {
+            .slide-progress span.active::after { animation: none; transform: scaleX(1); }
+        }
         @media (max-width: 640px) {
             .slideshow { height: auto; aspect-ratio: 3 / 2; }
         }
@@ -1441,19 +1474,29 @@
 <!-- MAIN CONTENT -->
 <main id="o-nas">
 
-    <!-- 01 Individual lessons -->
+    <!-- 01 Materials -->
     <div class="section-block" data-animate>
         <div class="section-content reveal reveal-left">
-            <p class="section-label" data-i18n="s1_label">01 — Lekcje indywidualne</p>
-            <h2 data-i18n="s1_h2">Trening szyty<br>na miarę</h2>
-            <ul class="feature-list">
-                <li data-i18n="s1_li1">Każdy uczeń otrzymuje swojego dedykowanego trenera.</li>
-                <li data-i18n="s1_li2">Program dopasowany do indywidualnych potrzeb i aktualnego poziomu.</li>
-                <li data-i18n="s1_li3">Pomiędzy spotkaniami realizuje zadania przygotowane specjalnie dla niego oraz rozwija się pod okiem trenera.</li>
-            </ul>
+            <p class="section-label" data-i18n="s3_label">01 — Dodatkowe możliwości</p>
+            <h2 data-i18n="s3_h2">Bogata baza<br>materiałów</h2>
+            <p data-i18n="s3_p1">Każdy olimpijczyk zyskuje dostęp do zestawień najlepszych zadań, tutoriali i filmów z platform takich jak <strong>Codeforces, USACO Guide, Szkopuł, OKI, Uva, CodeChef</strong> i wielu innych.</p>
+            <p data-i18n="s3_p2">Oferujemy także <strong>Progress Sessions</strong> – spotkania motywacyjne, które pomagają w utrzymaniu dyscypliny i systematyczności w nauce.</p>
         </div>
         <div class="img-border reveal reveal-right">
-            <img class="section-image" src="./img/wygrana_ajp.jpg" alt="Wręczenie nagrody w konkursie informatycznym">
+            <div class="slideshow" id="slideshow03">
+                <img class="slide active" src="./img/materialy-mosty-punkty-artykulacji.webp" alt="Notatki z zajęć z algorytmiki: mosty i punkty artykulacji w grafie, DFS_NUM i DFS_LOW (1 z 11)">
+                <img class="slide" src="./img/materialy-dag-sortowanie-topologiczne.webp" alt="Notatki z zajęć z algorytmiki: stopnie wierzchołków, graf DAG i sortowanie topologiczne (2 z 11)" loading="lazy">
+                <img class="slide" src="./img/materialy-graf-wazony.webp" alt="Notatki z zajęć z algorytmiki: wczytywanie grafu ważonego w C++ (3 z 11)" loading="lazy">
+                <img class="slide" src="./img/materialy-graf-skierowany.webp" alt="Notatki z zajęć z algorytmiki: wczytywanie grafu skierowanego w C++ (4 z 11)" loading="lazy">
+                <img class="slide" src="./img/materialy-graf-meduza-dag.webp" alt="Notatki z zajęć z algorytmiki: graf meduza i właściwości grafów DAG (5 z 11)" loading="lazy">
+                <img class="slide" src="./img/materialy-wyszukiwanie-binarne.webp" alt="Notatki z zajęć z algorytmiki: sortowanie i wyszukiwanie binarne (6 z 11)" loading="lazy">
+                <img class="slide" src="./img/materialy-lis-n-log-n.webp" alt="Notatki z zajęć z algorytmiki: najdłuższy podciąg rosnący w O(n log n) (7 z 11)" loading="lazy">
+                <img class="slide" src="./img/materialy-manhattan-czebyszew.webp" alt="Materiały T-Olimpians: metryka Manhattan i Czebyszewa, obrót o 45° (8 z 11)" loading="lazy">
+                <img class="slide" src="./img/materialy-obrot-zapis-biegunowy.webp" alt="Materiały T-Olimpians: obracanie płaszczyzny, zapis biegunowy punktu (9 z 11)" loading="lazy">
+                <img class="slide" src="./img/materialy-obrot-wzor.webp" alt="Materiały T-Olimpians: wzór na obrót punktu o kąt β (10 z 11)" loading="lazy">
+                <img class="slide" src="./img/materialy-metryka-rzeka.webp" alt="Materiały T-Olimpians: metryka rzeka, odległość przez rzekę wzdłuż prostej y = 0 (11 z 11)" loading="lazy">
+                <div class="slide-progress" id="slideProgress03" aria-hidden="true"></div>
+            </div>
         </div>
     </div>
 
@@ -1474,28 +1517,19 @@
         </div>
     </div>
 
-    <!-- 03 Materials -->
+    <!-- 03 Individual lessons -->
     <div class="section-block" data-animate>
         <div class="section-content reveal reveal-left">
-            <p class="section-label" data-i18n="s3_label">03 — Dodatkowe możliwości</p>
-            <h2 data-i18n="s3_h2">Bogata baza<br>materiałów</h2>
-            <p data-i18n="s3_p1">Każdy olimpijczyk zyskuje dostęp do zestawień najlepszych zadań, tutoriali i filmów z platform takich jak <strong>Codeforces, USACO Guide, Szkopuł, OKI, Uva, CodeChef</strong> i wielu innych.</p>
-            <p data-i18n="s3_p2">Oferujemy także <strong>Progress Sessions</strong> – spotkania motywacyjne, które pomagają w utrzymaniu dyscypliny i systematyczności w nauce.</p>
+            <p class="section-label" data-i18n="s1_label">03 — Lekcje indywidualne</p>
+            <h2 data-i18n="s1_h2">Trening szyty<br>na miarę</h2>
+            <ul class="feature-list">
+                <li data-i18n="s1_li1">Każdy uczeń otrzymuje swojego dedykowanego trenera.</li>
+                <li data-i18n="s1_li2">Program dopasowany do indywidualnych potrzeb i aktualnego poziomu.</li>
+                <li data-i18n="s1_li3">Pomiędzy spotkaniami realizuje zadania przygotowane specjalnie dla niego oraz rozwija się pod okiem trenera.</li>
+            </ul>
         </div>
         <div class="img-border reveal reveal-right">
-            <div class="slideshow" id="slideshow03">
-                <img class="slide active" src="./img/materialy-mosty-punkty-artykulacji.webp" alt="Notatki z zajęć z algorytmiki: mosty i punkty artykulacji w grafie, DFS_NUM i DFS_LOW (1 z 11)">
-                <img class="slide" src="./img/materialy-dag-sortowanie-topologiczne.webp" alt="Notatki z zajęć z algorytmiki: stopnie wierzchołków, graf DAG i sortowanie topologiczne (2 z 11)" loading="lazy">
-                <img class="slide" src="./img/materialy-graf-wazony.webp" alt="Notatki z zajęć z algorytmiki: wczytywanie grafu ważonego w C++ (3 z 11)" loading="lazy">
-                <img class="slide" src="./img/materialy-graf-skierowany.webp" alt="Notatki z zajęć z algorytmiki: wczytywanie grafu skierowanego w C++ (4 z 11)" loading="lazy">
-                <img class="slide" src="./img/materialy-graf-meduza-dag.webp" alt="Notatki z zajęć z algorytmiki: graf meduza i właściwości grafów DAG (5 z 11)" loading="lazy">
-                <img class="slide" src="./img/materialy-wyszukiwanie-binarne.webp" alt="Notatki z zajęć z algorytmiki: sortowanie i wyszukiwanie binarne (6 z 11)" loading="lazy">
-                <img class="slide" src="./img/materialy-lis-n-log-n.webp" alt="Notatki z zajęć z algorytmiki: najdłuższy podciąg rosnący w O(n log n) (7 z 11)" loading="lazy">
-                <img class="slide" src="./img/materialy-manhattan-czebyszew.webp" alt="Materiały T-Olimpians: metryka Manhattan i Czebyszewa, obrót o 45° (8 z 11)" loading="lazy">
-                <img class="slide" src="./img/materialy-obrot-zapis-biegunowy.webp" alt="Materiały T-Olimpians: obracanie płaszczyzny, zapis biegunowy punktu (9 z 11)" loading="lazy">
-                <img class="slide" src="./img/materialy-obrot-wzor.webp" alt="Materiały T-Olimpians: wzór na obrót punktu o kąt β (10 z 11)" loading="lazy">
-                <img class="slide" src="./img/materialy-metryka-rzeka.webp" alt="Materiały T-Olimpians: metryka rzeka, odległość przez rzekę wzdłuż prostej y = 0 (11 z 11)" loading="lazy">
-            </div>
+            <img class="section-image" src="./img/wygrana_ajp.jpg" alt="Wręczenie nagrody w konkursie informatycznym">
         </div>
     </div>
 
@@ -1803,13 +1837,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /* ── SLIDESHOW ── */
     (function () {
-        const slides = document.querySelectorAll('#slideshow03 .slide');
-        let current  = 0;
+        const slides   = document.querySelectorAll('#slideshow03 .slide');
+        const progress = document.getElementById('slideProgress03');
+        const bars     = [...slides].map(() => progress.appendChild(document.createElement('span')));
+        let current    = 0;
+        function updateBars() {
+            bars.forEach((bar, i) => {
+                bar.classList.toggle('done', i < current);
+                bar.classList.remove('active');
+            });
+            void bars[current].offsetWidth; // restart animacji wypełniania
+            bars[current].classList.add('active');
+        }
         function goTo(next) {
             const prev = current; current = next;
             slides[current].classList.add('active');
+            updateBars();
             setTimeout(() => slides[prev].classList.remove('active'), 400);
         }
+        updateBars();
         function advance() { goTo((current + 1) % slides.length); }
         setInterval(advance, 2000);
     })();

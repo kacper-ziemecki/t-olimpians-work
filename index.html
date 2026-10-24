@@ -961,6 +961,39 @@
             border-radius: inherit;
         }
         .slide.active { opacity: 1; }
+        /* cienki pasek postępu: jeden odcinek na slajd */
+        .slide-progress {
+            position: absolute;
+            left: 12px;
+            right: 12px;
+            bottom: 10px;
+            display: flex;
+            gap: 4px;
+            z-index: 2;
+            pointer-events: none;
+            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.7));
+        }
+        .slide-progress span {
+            flex: 1;
+            height: 3px;
+            border-radius: 2px;
+            background: rgba(255,255,255,0.28);
+            overflow: hidden;
+        }
+        .slide-progress span::after {
+            content: '';
+            display: block;
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-bright), #a78bfa);
+            transform: scaleX(0);
+            transform-origin: left;
+        }
+        .slide-progress span.done::after { transform: scaleX(1); }
+        .slide-progress span.active::after { animation: slide-fill 2s linear forwards; }
+        @keyframes slide-fill { to { transform: scaleX(1); } }
+        @media (prefers-reduced-motion: reduce) {
+            .slide-progress span.active::after { animation: none; transform: scaleX(1); }
+        }
         @media (max-width: 640px) {
             .slideshow { height: auto; aspect-ratio: 3 / 2; }
         }
@@ -1495,6 +1528,7 @@
                 <img class="slide" src="./img/materialy-obrot-zapis-biegunowy.webp" alt="Materiały T-Olimpians: obracanie płaszczyzny, zapis biegunowy punktu (9 z 11)" loading="lazy">
                 <img class="slide" src="./img/materialy-obrot-wzor.webp" alt="Materiały T-Olimpians: wzór na obrót punktu o kąt β (10 z 11)" loading="lazy">
                 <img class="slide" src="./img/materialy-metryka-rzeka.webp" alt="Materiały T-Olimpians: metryka rzeka, odległość przez rzekę wzdłuż prostej y = 0 (11 z 11)" loading="lazy">
+                <div class="slide-progress" id="slideProgress03" aria-hidden="true"></div>
             </div>
         </div>
     </div>
@@ -1803,13 +1837,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /* ── SLIDESHOW ── */
     (function () {
-        const slides = document.querySelectorAll('#slideshow03 .slide');
-        let current  = 0;
+        const slides   = document.querySelectorAll('#slideshow03 .slide');
+        const progress = document.getElementById('slideProgress03');
+        const bars     = [...slides].map(() => progress.appendChild(document.createElement('span')));
+        let current    = 0;
+        function updateBars() {
+            bars.forEach((bar, i) => {
+                bar.classList.toggle('done', i < current);
+                bar.classList.remove('active');
+            });
+            void bars[current].offsetWidth; // restart animacji wypełniania
+            bars[current].classList.add('active');
+        }
         function goTo(next) {
             const prev = current; current = next;
             slides[current].classList.add('active');
+            updateBars();
             setTimeout(() => slides[prev].classList.remove('active'), 400);
         }
+        updateBars();
         function advance() { goTo((current + 1) % slides.length); }
         setInterval(advance, 2000);
     })();

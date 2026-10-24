@@ -954,39 +954,16 @@
             inset: 0;
             width: 100%;
             height: 100%;
-            object-fit: contain;
-            background: rgb(8, 19, 33); /* kolor tła notatek, wypełnia wolne miejsce */
+            object-fit: cover;
+            object-position: top; /* przy przycinaniu zostaje nagłówek materiału */
             opacity: 0;
             transition: opacity 0.4s ease;
             border-radius: inherit;
         }
         .slide.active { opacity: 1; }
-        .slide.slide-dark { background: var(--bg-base); } /* zrzuty z ciemniejszym tłem */
         @media (max-width: 640px) {
             .slideshow { height: auto; aspect-ratio: 3 / 2; }
         }
-        .slide-dots {
-            position: absolute;
-            bottom: 14px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 7px;
-            z-index: 2;
-            padding: 6px 10px;
-            border-radius: 999px;
-            background: rgba(0,0,0,0.55);
-            backdrop-filter: blur(4px);
-        }
-        .dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.35);
-            cursor: pointer;
-            transition: background 0.3s, transform 0.3s;
-        }
-        .dot.active { background: white; transform: scale(1.3); }
 
         /* ─── FOOTER ─── */
         footer {
@@ -1514,23 +1491,10 @@
                 <img class="slide" src="./img/materialy-graf-meduza-dag.webp" alt="Notatki z zajęć z algorytmiki: graf meduza i właściwości grafów DAG (5 z 11)" loading="lazy">
                 <img class="slide" src="./img/materialy-wyszukiwanie-binarne.webp" alt="Notatki z zajęć z algorytmiki: sortowanie i wyszukiwanie binarne (6 z 11)" loading="lazy">
                 <img class="slide" src="./img/materialy-lis-n-log-n.webp" alt="Notatki z zajęć z algorytmiki: najdłuższy podciąg rosnący w O(n log n) (7 z 11)" loading="lazy">
-                <img class="slide slide-dark" src="./img/materialy-manhattan-czebyszew.webp" alt="Materiały T-Olimpians: metryka Manhattan i Czebyszewa, obrót o 45° (8 z 11)" loading="lazy">
-                <img class="slide slide-dark" src="./img/materialy-obrot-zapis-biegunowy.webp" alt="Materiały T-Olimpians: obracanie płaszczyzny, zapis biegunowy punktu (9 z 11)" loading="lazy">
-                <img class="slide slide-dark" src="./img/materialy-obrot-wzor.webp" alt="Materiały T-Olimpians: wzór na obrót punktu o kąt β (10 z 11)" loading="lazy">
-                <img class="slide slide-dark" src="./img/materialy-metryka-rzeka.webp" alt="Materiały T-Olimpians: metryka rzeka, odległość przez rzekę wzdłuż prostej y = 0 (11 z 11)" loading="lazy">
-                <div class="slide-dots" id="slideDots03">
-                    <span class="dot active"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                </div>
+                <img class="slide" src="./img/materialy-manhattan-czebyszew.webp" alt="Materiały T-Olimpians: metryka Manhattan i Czebyszewa, obrót o 45° (8 z 11)" loading="lazy">
+                <img class="slide" src="./img/materialy-obrot-zapis-biegunowy.webp" alt="Materiały T-Olimpians: obracanie płaszczyzny, zapis biegunowy punktu (9 z 11)" loading="lazy">
+                <img class="slide" src="./img/materialy-obrot-wzor.webp" alt="Materiały T-Olimpians: wzór na obrót punktu o kąt β (10 z 11)" loading="lazy">
+                <img class="slide" src="./img/materialy-metryka-rzeka.webp" alt="Materiały T-Olimpians: metryka rzeka, odległość przez rzekę wzdłuż prostej y = 0 (11 z 11)" loading="lazy">
             </div>
         </div>
     </div>
@@ -1840,20 +1804,14 @@ document.addEventListener('DOMContentLoaded', function () {
     /* ── SLIDESHOW ── */
     (function () {
         const slides = document.querySelectorAll('#slideshow03 .slide');
-        const dots   = document.querySelectorAll('#slideDots03 .dot');
         let current  = 0;
         function goTo(next) {
             const prev = current; current = next;
             slides[current].classList.add('active');
-            dots[prev].classList.remove('active');
-            dots[current].classList.add('active');
             setTimeout(() => slides[prev].classList.remove('active'), 400);
         }
-        dots.forEach((dot, i) => dot.addEventListener('click', () => {
-            if (i !== current) { clearInterval(timer); goTo(i); timer = setInterval(advance, 2000); }
-        }));
         function advance() { goTo((current + 1) % slides.length); }
-        let timer = setInterval(advance, 2000);
+        setInterval(advance, 2000);
     })();
 
     /* ── HAMBURGER ── */

@@ -362,42 +362,34 @@
             letter-spacing: 0.07em;
         }
         .hero-media {
+            --frame-pad: 8px;
             flex: 1;
             max-width: 540px;
             position: relative;
             z-index: 1;
-            animation: fadeInRight 0.7s 0.2s ease both;
+            padding: var(--frame-pad);
+            border: 1.5px solid transparent;
             border-radius: var(--radius-lg);
+            background:
+                linear-gradient(160deg, var(--bg-elevated), var(--bg-card)) padding-box,
+                conic-gradient(
+                    from var(--angle, 0deg),
+                    #3b82f6, #7c3aed, #06b6d4, #a78bfa, #3b82f6
+                ) border-box;
+            box-shadow:
+                0 28px 60px -24px rgba(0,0,0,0.8),
+                0 20px 60px -18px rgba(59,130,246,0.45),
+                0 34px 80px -30px rgba(124,58,237,0.55);
+            animation: fadeInRight 0.7s 0.2s ease both, spin-border 8s linear infinite;
         }
-        .hero-media::before {
-            content: '';
-            position: absolute;
-            inset: -2px;
-            border-radius: calc(var(--radius-lg) + 2px);
-            background: linear-gradient(135deg, var(--accent), #7c3aed, transparent 60%);
-            z-index: 0;
-            opacity: 0.5;
-            animation: border-glow 4s ease-in-out infinite alternate;
-        }
-        @keyframes border-glow {
-            from { opacity: 0.3; }
-            to   { opacity: 0.8; }
-        }
-        .hero-media::after {
-            content: '';
-            position: absolute;
-            inset: 2px;
-            background: var(--bg-base);
-            border-radius: var(--radius-lg);
-            z-index: 0;
+        @media (prefers-reduced-motion: reduce) {
+            .hero-media { animation: fadeInRight 0.7s 0.2s ease both; }
         }
         .hero-media video {
             width: 100%;
             height: auto;
-            border-radius: 14px;
+            border-radius: calc(var(--radius-lg) - var(--frame-pad) - 1.5px);
             display: block;
-            position: relative;
-            z-index: 1;
         }
 
         /* ─── PARTICLES ─── */

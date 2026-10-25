@@ -115,6 +115,8 @@ w `zadania-tematowe-app/zadania.json` (testy, przykłady, wskazówki). Przy każ
 podmienia te zagadnienia i tę notatkę tematu, więc zmiany w nich rób w `bity-tresc.py`, a nie ręcznie
 w JSON-ie. Pierwsze zagadnienie tematu (filmy i linki) skrypt zostawia bez zmian.
 `python bity-build.py --sprawdz` tylko generuje testy i porównuje wzorcówki z rozwiązaniami siłowymi.
+Ten skrypt wpisuje testy wprost do `zadania.json` — po nim uruchom `node zadania-tematowe-app/podziel-testy.js`
+(patrz „Testy zadań T-Olimpians” niżej).
 
 ## Kurs rekurencji T-Olimpians (kroki 1–6)
 
@@ -138,8 +140,23 @@ zadań kroku (`zadania.html?dzial=…`) i zadania `rek-*` ze strony `zadania-tem
   `pdf-src/prezentacja_lib.js` to port `prezentacja_lib.py` z nowymi klockami (stos wywołań, drzewo wywołań,
   śledzenie, plansza, poziomy); CSS czyta wprost z `prezentacja_lib.py`, więc wygląd wszystkich prezentacji
   zmienia się w jednym miejscu. PDF drukuje zainstalowany Chrome albo Edge (zmienna `CHROME` = inna ścieżka).
-- `zadania.html` rozumie parametry `?dzial=<dokładna nazwa działu>` (od razu wybiera dział) i
-  `?szukaj=<tekst>` (wpisuje frazę w wyszukiwarkę).
+- `zadania.html` rozumie parametry `?temat=<dział>/<temat>/<krok>` (slugi jak w `net.html#temat=…`),
+  `?dzial=<dokładna wartość pola "category">` (wybiera krok z tymi zadaniami), `?szukaj=<tekst>`
+  (wpisuje frazę w wyszukiwarkę) i `?poziom=latwe|srednie|trudne`. Działy, tematy i kroki strona bierze
+  z `network-data.json`, więc nazwy są zawsze takie jak w kompendium.
+
+## Testy zadań T-Olimpians
+
+Testy to ~96% wagi zadań (kilka MB), a potrzebne są dopiero po kliknięciu „Wyślij” albo „Tryb ręczny”.
+Dlatego `zadania-tematowe-app/zadania.json` trzyma tylko treści i pole `tests_count`, a testy każdego
+zadania leżą w `zadania-tematowe-app/testy/<id>.json` (tablica `{input, output}`) — strona pobiera je
+dopiero przy pierwszym „Wyślij” lub otwarciu trybu ręcznego.
+
+- `node zadania-tematowe-app/podziel-testy.js` przenosi pole `tests` z `zadania.json` do `testy/` i usuwa
+  pliki testów po usuniętych zadaniach. Jest idempotentny — można go puszczać zawsze.
+- `rekurencja-zadania/build.js` woła go sam. Po każdym innym generatorze, który wpisuje testy wprost do
+  `zadania.json` (np. `bity-build.py`), albo po ręcznym dopisaniu zadania z polem `tests` — uruchom go.
+  Strona działa też z testami wpisanymi w `zadania.json`, tylko ładuje się wtedy dużo wolniej.
 
 Reszta tematów ma na razie po jednym zagadnieniu nazwanym jak temat — rozbicie na mniejsze
 zagadnienia robi się przyciskiem „✎ Modyfikuj temat” albo ręcznie w pliku.

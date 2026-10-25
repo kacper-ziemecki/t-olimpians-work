@@ -4,6 +4,7 @@
  *
  *   node rekurencja-zadania/build.js              liczy testy wzorcówkami w JS i zapisuje:
  *                                                  • zadania rek-* w zadania-tematowe-app/zadania.json,
+ *                                                    (testy w zadania-tematowe-app/testy/<id>.json),
  *                                                  • zagadnienia „Krok N · …” tematu „Funkcje rekurencyjne”
  *                                                    (Programowanie Dynamiczne) w network-data.json
  *   node rekurencja-zadania/build.js --sprawdz     dodatkowo uruchamia wzorcówki C++ (pole cpp) na wszystkich
@@ -20,6 +21,7 @@ const fs = require('fs');
 const path = require('path');
 const h = require('./lib');
 const { SITE, KROKI, TEMAT_NOTE } = require('./kroki');
+const podzielTesty = require('../zadania-tematowe-app/podziel-testy');
 
 const ROOT = path.resolve(__dirname, '..');
 const ZADANIA_JSON = path.join(ROOT, 'zadania-tematowe-app', 'zadania.json');
@@ -147,6 +149,8 @@ function writeZadania(built) {
     });
     meta.data.tasks = rest.concat(fresh);
     writeJson(ZADANIA_JSON, meta, meta.data);
+    // Testy idą do zadania-tematowe-app/testy/<id>.json — strona pobiera je dopiero przy „Wyślij”.
+    podzielTesty();
     return fresh;
 }
 

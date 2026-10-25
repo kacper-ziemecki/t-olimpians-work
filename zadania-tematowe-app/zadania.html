@@ -1487,23 +1487,72 @@
                     '</button>' +
                     '<svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>' +
                 '</div>' +
-                '<div class="task-body">' +
-                    '<div class="task-body-inner">' +
-                        '<div class="task-section"><h4>Treść zadania</h4>' + paragraphs(task.statement) + '</div>' +
-                        '<div class="task-section"><h4>Wejście</h4>' + paragraphs(task.input_format) + '</div>' +
-                        '<div class="task-section"><h4>Wyjście</h4>' + paragraphs(task.output_format) + '</div>' +
-                        (task.constraints && task.constraints.length ? '<div class="task-section"><h4>Ograniczenia</h4>' + renderList(task.constraints) + '</div>' : '') +
-                        (task.examples && task.examples.length ? '<div class="task-section"><h4>Przykłady</h4>' + renderExamples(task.examples) + '</div>' : '') +
-                        (task.hint ? '<details class="task-section hint-box"><summary>Wskazówka</summary><p>' + escapeHtml(task.hint) + '</p></details>' : '') +
-                        '<button class="copy-link-bottom" type="button" data-copy-link="' + task.id + '">' +
-                            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>' +
-                            '<span>Skopiuj link do zadania</span>' +
-                        '</button>' +
-                        renderSubmitSection(task) +
-                    '</div>' +
-                '</div>' +
+                // Treść i sprawdzarka powstają dopiero przy pierwszym otwarciu karty (ensureBody) —
+                // przy 184 zadaniach budowanie wszystkiego od razu niepotrzebnie spowalnia listę.
+                '<div class="task-body"><div class="task-body-inner"></div></div>' +
             '</div>'
         );
+    }
+
+    function bodyHtml(task) {
+        return (
+            '<div class="task-section"><h4>Treść zadania</h4>' + paragraphs(task.statement) + '</div>' +
+            '<div class="task-section"><h4>Wejście</h4>' + paragraphs(task.input_format) + '</div>' +
+            '<div class="task-section"><h4>Wyjście</h4>' + paragraphs(task.output_format) + '</div>' +
+            (task.constraints && task.constraints.length ? '<div class="task-section"><h4>Ograniczenia</h4>' + renderList(task.constraints) + '</div>' : '') +
+            (task.examples && task.examples.length ? '<div class="task-section"><h4>Przykłady</h4>' + renderExamples(task.examples) + '</div>' : '') +
+            (task.hint ? '<details class="task-section hint-box"><summary>Wskazówka</summary><p>' + escapeHtml(task.hint) + '</p></details>' : '') +
+            '<button class="copy-link-bottom" type="button" data-copy-link="' + task.id + '">' +
+                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>' +
+                '<span>Skopiuj link do zadania</span>' +
+            '</button>' +
+            renderSubmitSection(task)
+        );
+    }
+
+    function taskById(id) {
+        return allTasks.find(function (t) { return t.id === id; }) || null;
+    }
+
+    function ensureBody(card) {
+        var inner = card.querySelector('.task-body-inner');
+        if (!inner || inner.getAttribute('data-rendered') === '1') return;
+        var task = taskById(card.getAttribute('data-id'));
+        if (!task) return;
+        inner.innerHTML = bodyHtml(task);
+        inner.setAttribute('data-rendered', '1');
+        var editor = inner.querySelector('[data-code-for]');
+        if (editor) {
+            try {
+                var saved = localStorage.getItem(codeStorageKey(task.id));
+                if (saved) editor.value = saved;
+            } catch (err) {}
+        }
+    }
+
+    function testCount(task) {
+        return Array.isArray(task.tests) ? task.tests.length : (task.tests_count || 0);
+    }
+
+    // Testy siedzą w testy/<id>.json (patrz podziel-testy.js) i są pobierane dopiero,
+    // gdy są potrzebne. Zadanie z polem "tests" wpisanym wprost w zadania.json też działa.
+    function loadTests(task) {
+        if (Array.isArray(task.tests)) return Promise.resolve(task.tests);
+        if (!task._testsReq) {
+            task._testsReq = fetch('testy/' + encodeURIComponent(task.id) + '.json', { cache: 'no-cache' })
+                .then(function (res) {
+                    if (!res.ok) throw new Error('HTTP ' + res.status);
+                    return res.json();
+                })
+                .then(function (tests) {
+                    task.tests = Array.isArray(tests) ? tests : [];
+                    return task.tests;
+                }, function (err) {
+                    task._testsReq = null;
+                    throw err;
+                });
+        }
+        return task._testsReq;
     }
 
     function copyIconSvg() {
@@ -1553,9 +1602,9 @@
     }
 
     function renderSubmitSection(task) {
-        var hasTests = task.tests && task.tests.length;
+        var count = testCount(task);
 
-        if (!hasTests) {
+        if (!count) {
             return (
                 '<div class="submit-section" data-submit-for="' + task.id + '">' +
                     '<div class="submit-head"><h4>Rozwiązanie</h4></div>' +
@@ -1571,7 +1620,7 @@
                 '</div>' +
                 '<p class="judge-intro">' +
                     'Wklej poniżej cały kod w C++ i kliknij <strong>Wyślij</strong>. Program zostanie skompilowany ' +
-                    '(<code>g++ -O2 -std=gnu++17</code>) i uruchomiony na ' + task.tests.length + ' testach — ' +
+                    '(<code>g++ -O2 -std=gnu++17</code>) i uruchomiony na ' + count + ' testach — ' +
                     'dostaniesz werdykt dla każdego z nich. Limit czasu: <code>' + escapeHtml(task.time_limit || '1 s') + '</code> na test.' +
                 '</p>' +
                 '<textarea class="code-editor" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" ' +
@@ -1581,7 +1630,7 @@
                         '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>' +
                         '<span>Wyślij</span>' +
                     '</button>' +
-                    '<span class="submit-status" data-submit-status="' + task.id + '">' + task.tests.length + ' testów</span>' +
+                    '<span class="submit-status" data-submit-status="' + task.id + '">' + count + ' testów</span>' +
                     '<span class="spacer"></span>' +
                     '<button class="ghost-btn" type="button" data-clear-code="' + task.id + '">Wyczyść kod</button>' +
                     '<button class="ghost-btn" type="button" data-toggle-manual="' + task.id + '">Tryb ręczny</button>' +
@@ -1601,7 +1650,7 @@
                             '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>' +
                             '<span>Sprawdź</span>' +
                         '</button>' +
-                        '<span class="submit-status" data-manual-status="' + task.id + '">' + task.tests.length + ' testów dostępnych</span>' +
+                        '<span class="submit-status" data-manual-status="' + task.id + '">' + count + ' testów dostępnych</span>' +
                     '</div>' +
                 '</div>' +
             '</div>'
@@ -1673,6 +1722,7 @@
         opts = opts || {};
         var card = taskList.querySelector('.task-card[data-id="' + id.replace(/"/g, '') + '"]');
         if (!card) return false;
+        ensureBody(card);
         card.classList.add('open');
         if (opts.scroll) {
             setTimeout(function () {
@@ -1942,11 +1992,26 @@
         var rows = section.querySelector('[data-judge-rows]');
         var log = section.querySelector('[data-compile-log]');
         var status = section.querySelector('[data-submit-status]');
-        if (!editor || !task.tests || !task.tests.length) return;
+        if (!editor || !testCount(task)) return;
 
         var source = editor.value;
         if (!source.trim()) {
             setVerdict(section, 'warn', 'Najpierw wklej kod', 'Pole z rozwiązaniem jest puste.');
+            return;
+        }
+
+        if (!Array.isArray(task.tests)) {
+            runBtn.disabled = true;
+            setVerdict(section, 'run', 'Pobieranie testów…', testCount(task) + ' testów');
+            loadTests(task).then(function () {
+                runBtn.disabled = false;
+                judgeSubmission(task, section);
+            }, function (err) {
+                runBtn.disabled = false;
+                setVerdict(section, 'warn', 'Nie udało się pobrać testów',
+                    'Sprawdź połączenie z internetem i kliknij „Wyślij” jeszcze raz.');
+                console.error(err);
+            });
             return;
         }
 
@@ -2102,181 +2167,148 @@
 
         resultCount.textContent = shown + ' / ' + zadan(allTasks.length);
 
-        if (!shown) {
-            taskList.innerHTML = '<div class="empty-state">Brak zadań spełniających wybrane kryteria.</div>';
-            return;
+        taskList.innerHTML = shown
+            ? html
+            : '<div class="empty-state">Brak zadań spełniających wybrane kryteria.</div>';
+    }
+
+    function flashCopied(btn, ms) {
+        var label = btn.querySelector('span');
+        var originalText = label ? label.textContent : null;
+        btn.classList.add('copied');
+        if (label) label.textContent = 'Skopiowano!';
+        setTimeout(function () {
+            btn.classList.remove('copied');
+            if (label && originalText) label.textContent = originalText;
+        }, ms);
+    }
+
+    function copyText(text, done) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(done).catch(function () {
+                fallbackCopy(text);
+                done();
+            });
+        } else {
+            fallbackCopy(text);
+            done();
         }
+    }
 
-        taskList.innerHTML = html;
+    // Jeden zestaw nasłuchiwaczy na całą listę (delegacja) zamiast podpinania ich
+    // do każdego przycisku przy każdym przerysowaniu — lista przerysowuje się przy
+    // każdej literze w wyszukiwarce i każdym kliknięciu w dział.
+    function wireTaskList() {
+        taskList.addEventListener('click', function (e) {
+            var t = e.target;
+            var btn;
 
-        taskList.querySelectorAll('[data-toggle]').forEach(function (head) {
-            head.addEventListener('click', function () {
-                var card = head.closest('.task-card');
-                var isOpen = card.classList.toggle('open');
-                var id = head.getAttribute('data-toggle');
-                setHash(isOpen ? id : '');
-            });
-        });
+            if ((btn = t.closest('[data-copy-link]'))) {
+                var linkId = btn.getAttribute('data-copy-link');
+                var linkCard = btn.closest('.task-card');
+                ensureBody(linkCard);
+                linkCard.classList.add('open');
+                setHash(linkId);
+                copyLink(linkId);
+                flashCopied(btn, 1600);
+                return;
+            }
 
-        taskList.querySelectorAll('[data-check-btn]').forEach(function (btn) {
-            btn.addEventListener('click', function (e) {
-                e.stopPropagation();
-                var id = btn.getAttribute('data-check-btn');
-                var task = allTasks.find(function (t) { return t.id === id; });
-                if (!task) return;
-                var section = taskList.querySelector('.submit-section[data-submit-for="' + cssEscape(id) + '"]');
-                checkLocalTests(task, section);
-            });
-        });
-
-        taskList.querySelectorAll('[data-run-btn]').forEach(function (btn) {
-            btn.addEventListener('click', function (e) {
-                e.stopPropagation();
-                var id = btn.getAttribute('data-run-btn');
-                var task = allTasks.find(function (t) { return t.id === id; });
-                if (!task) return;
-                var section = taskList.querySelector('.submit-section[data-submit-for="' + cssEscape(id) + '"]');
-                judgeSubmission(task, section);
-            });
-        });
-
-        taskList.querySelectorAll('[data-toggle-manual]').forEach(function (btn) {
-            btn.addEventListener('click', function (e) {
-                e.stopPropagation();
-                var id = btn.getAttribute('data-toggle-manual');
-                var task = allTasks.find(function (t) { return t.id === id; });
-                var section = taskList.querySelector('.submit-section[data-submit-for="' + cssEscape(id) + '"]');
-                var manual = section.querySelector('[data-manual-for]');
-                if (!manual || !task) return;
-                ensureManualCases(task, section);
-                var shown = manual.classList.toggle('shown');
-                btn.textContent = shown ? 'Ukryj tryb ręczny' : 'Tryb ręczny';
-            });
-        });
-
-        taskList.querySelectorAll('[data-clear-code]').forEach(function (btn) {
-            btn.addEventListener('click', function (e) {
-                e.stopPropagation();
-                var id = btn.getAttribute('data-clear-code');
-                var section = taskList.querySelector('.submit-section[data-submit-for="' + cssEscape(id) + '"]');
-                var editor = section.querySelector('[data-code-for]');
-                if (!editor) return;
-                editor.value = '';
-                try { localStorage.removeItem(codeStorageKey(id)); } catch (err) {}
-                var verdict = section.querySelector('[data-verdict]');
-                if (verdict) verdict.className = 'judge-verdict';
-                section.querySelector('[data-judge-rows]').innerHTML = '';
-                var log = section.querySelector('[data-compile-log]');
-                log.style.display = 'none';
-                log.textContent = '';
-                editor.focus();
-            });
-        });
-
-        taskList.querySelectorAll('[data-code-for]').forEach(function (editor) {
-            var id = editor.getAttribute('data-code-for');
-
-            try {
-                var saved = localStorage.getItem(codeStorageKey(id));
-                if (saved) editor.value = saved;
-            } catch (err) {}
-
-            editor.addEventListener('input', function () {
-                try { localStorage.setItem(codeStorageKey(id), editor.value); } catch (err) {}
-            });
-
-            // Tab wstawia wcięcie zamiast przenosić fokus poza edytor.
-            editor.addEventListener('keydown', function (e) {
-                if (e.key === 'Tab') {
-                    e.preventDefault();
-                    var start = editor.selectionStart;
-                    var end = editor.selectionEnd;
-                    editor.value = editor.value.slice(0, start) + '    ' + editor.value.slice(end);
-                    editor.selectionStart = editor.selectionEnd = start + 4;
-                    try { localStorage.setItem(codeStorageKey(id), editor.value); } catch (err) {}
-                }
-                // Ctrl/Cmd + Enter wysyła rozwiązanie.
-                if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
-                    e.preventDefault();
-                    var task = allTasks.find(function (t) { return t.id === id; });
-                    if (task) judgeSubmission(task, editor.closest('.submit-section'));
-                }
-            });
-        });
-
-        wireCopyIo(taskList);
-
-        taskList.querySelectorAll('.submit-section').forEach(function (section) {
-            section.addEventListener('click', function (e) {
-                var head = e.target.closest('.test-case-head');
-                if (head) {
-                    head.closest('.test-case').classList.toggle('open');
-                }
-                var judgeHead = e.target.closest('.judge-row-head');
-                if (judgeHead) {
-                    judgeHead.closest('.judge-row').classList.toggle('open');
-                }
-            });
-            // Prevent the textarea/editor clicks from toggling the parent task card.
-            section.addEventListener('click', function (e) { e.stopPropagation(); });
-        });
-
-        taskList.querySelectorAll('[data-copy-link]').forEach(function (btn) {
-            btn.addEventListener('click', function (e) {
-                e.stopPropagation();
-                var id = btn.getAttribute('data-copy-link');
+            if ((btn = t.closest('[data-toggle]'))) {
                 var card = btn.closest('.task-card');
-                card.classList.add('open');
-                setHash(id);
-                copyLink(id);
-                btn.classList.add('copied');
-                var label = btn.querySelector('span');
-                var originalText = label ? label.textContent : null;
-                if (label) label.textContent = 'Skopiowano!';
-                setTimeout(function () {
-                    btn.classList.remove('copied');
-                    if (label && originalText) label.textContent = originalText;
-                }, 1600);
-            });
+                ensureBody(card);
+                var isOpen = card.classList.toggle('open');
+                setHash(isOpen ? btn.getAttribute('data-toggle') : '');
+                return;
+            }
+
+            var section = t.closest('.submit-section');
+            if (!section) return;
+            var task = taskById(section.getAttribute('data-submit-for'));
+            if (!task) return;
+
+            if (t.closest('[data-run-btn]')) {
+                judgeSubmission(task, section);
+            } else if (t.closest('[data-check-btn]')) {
+                checkLocalTests(task, section);
+            } else if ((btn = t.closest('[data-toggle-manual]'))) {
+                toggleManual(task, section, btn);
+            } else if (t.closest('[data-clear-code]')) {
+                clearCode(task, section);
+            } else if ((btn = t.closest('[data-copy-io]'))) {
+                var test = (task.tests || [])[parseInt(btn.getAttribute('data-copy-io'), 10)];
+                if (!test) return;
+                var text = btn.getAttribute('data-copy-kind') === 'output' ? (test.output || '') : (test.input || '');
+                copyText(text, function () { flashCopied(btn, 1400); });
+            } else if ((btn = t.closest('.test-case-head'))) {
+                btn.closest('.test-case').classList.toggle('open');
+            } else if ((btn = t.closest('.judge-row-head'))) {
+                btn.closest('.judge-row').classList.toggle('open');
+            }
+        });
+
+        taskList.addEventListener('input', function (e) {
+            var editor = e.target.closest('[data-code-for]');
+            if (!editor) return;
+            try { localStorage.setItem(codeStorageKey(editor.getAttribute('data-code-for')), editor.value); } catch (err) {}
+        });
+
+        taskList.addEventListener('keydown', function (e) {
+            var editor = e.target.closest('[data-code-for]');
+            if (!editor) return;
+            var id = editor.getAttribute('data-code-for');
+            // Tab wstawia wcięcie zamiast przenosić fokus poza edytor.
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                var start = editor.selectionStart;
+                var end = editor.selectionEnd;
+                editor.value = editor.value.slice(0, start) + '    ' + editor.value.slice(end);
+                editor.selectionStart = editor.selectionEnd = start + 4;
+                try { localStorage.setItem(codeStorageKey(id), editor.value); } catch (err) {}
+            }
+            // Ctrl/Cmd + Enter wysyła rozwiązanie.
+            if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+                e.preventDefault();
+                var task = taskById(id);
+                if (task) judgeSubmission(task, editor.closest('.submit-section'));
+            }
         });
     }
 
-    // Podpina przyciski „Kopiuj” dla wejscia/wyjscia testu. Wywolywane zarowno
-    // przy renderowaniu listy, jak i po leniwym zbudowaniu trybu recznego.
-    function wireCopyIo(scope) {
-        scope.querySelectorAll('[data-copy-io]').forEach(function (btn) {
-            btn.addEventListener('click', function (e) {
-                e.stopPropagation();
-                var section = btn.closest('.submit-section');
-                var id = section.getAttribute('data-submit-for');
-                var task = allTasks.find(function (t) { return t.id === id; });
-                if (!task) return;
-                var idx = parseInt(btn.getAttribute('data-copy-io'), 10);
-                var kind = btn.getAttribute('data-copy-kind');
-                var test = task.tests[idx];
-                if (!test) return;
-                var text = kind === 'output' ? (test.output || '') : (test.input || '');
-                var label = btn.querySelector('span');
-                var originalText = label ? label.textContent : null;
-                var markCopied = function () {
-                    btn.classList.add('copied');
-                    if (label) label.textContent = 'Skopiowano!';
-                    setTimeout(function () {
-                        btn.classList.remove('copied');
-                        if (label && originalText) label.textContent = originalText;
-                    }, 1400);
-                };
-                if (navigator.clipboard && navigator.clipboard.writeText) {
-                    navigator.clipboard.writeText(text).then(markCopied).catch(function () {
-                        fallbackCopy(text);
-                        markCopied();
-                    });
-                } else {
-                    fallbackCopy(text);
-                    markCopied();
-                }
-            });
+    function toggleManual(task, section, btn) {
+        var manual = section.querySelector('[data-manual-for]');
+        if (!manual) return;
+        if (manual.classList.contains('shown')) {
+            manual.classList.remove('shown');
+            btn.textContent = 'Tryb ręczny';
+            return;
+        }
+        var status = section.querySelector('[data-manual-status]');
+        if (!Array.isArray(task.tests) && status) status.textContent = 'Pobieranie testów…';
+        loadTests(task).then(function () {
+            ensureManualCases(task, section);
+            if (status) status.textContent = task.tests.length + ' testów dostępnych';
+            manual.classList.add('shown');
+            btn.textContent = 'Ukryj tryb ręczny';
+        }, function (err) {
+            if (status) status.textContent = 'Nie udało się pobrać testów — spróbuj jeszcze raz.';
+            manual.classList.add('shown');
+            console.error(err);
         });
+    }
+
+    function clearCode(task, section) {
+        var editor = section.querySelector('[data-code-for]');
+        if (!editor) return;
+        editor.value = '';
+        try { localStorage.removeItem(codeStorageKey(task.id)); } catch (err) {}
+        var verdict = section.querySelector('[data-verdict]');
+        if (verdict) verdict.className = 'judge-verdict';
+        section.querySelector('[data-judge-rows]').innerHTML = '';
+        var log = section.querySelector('[data-compile-log]');
+        log.style.display = 'none';
+        log.textContent = '';
+        editor.focus();
     }
 
     function applyHashOnLoad() {
@@ -2374,6 +2406,7 @@
         applyQueryOnLoad();
         render();
         wirePicker();
+        wireTaskList();
 
         applyHashOnLoad();
         window.addEventListener('hashchange', applyHashOnLoad);

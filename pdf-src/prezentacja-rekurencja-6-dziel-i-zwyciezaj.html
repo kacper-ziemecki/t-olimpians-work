@@ -1,0 +1,793 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<title>Dziel i zwyciężaj — T-Olimpians</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- plik wygenerowany przez pdf-src/build-prezentacja-rekurencja-6.js — edytuj generator, nie ten plik -->
+<style>
+@page { size: 1280px 720px; margin: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0a0a0f; --panel: #11111a; --panel2: #16161f; --chip: #1d1d2a; --line: #2a2a38;
+  --tx: #e8e8f0; --mu: #8888a0; --tl: #00e5c7; --pu: #7c5cff; --or: #ffb454; --yl: #ffcf87; --gr: #a8a8c0;
+}
+html, body {
+  background: var(--bg); color: var(--tx); font-family: 'DM Sans', sans-serif;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+html, body, code, pre, span, div, td, th, li {
+  font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0, "dlig" 0;
+}
+.mono, code, pre { font-family: 'JetBrains Mono', monospace; }
+
+/* ---------- slajd ---------- */
+.slide {
+  width: 1280px; height: 720px; position: relative; overflow: hidden;
+  page-break-after: always; break-after: page; padding: 30px 64px 0;
+  background:
+    radial-gradient(640px 400px at 0% 0%, rgba(124,92,255,.10), transparent 70%),
+    radial-gradient(640px 440px at 100% 100%, rgba(0,229,199,.06), transparent 70%),
+    var(--bg);
+}
+.slide:last-child { page-break-after: auto; break-after: auto; }
+.bar { position: absolute; top: 0; left: 0; right: 0; height: 4px; display: flex; gap: 3px; }
+.bar i { flex: 1; background: #1a1a26; }
+.bar i.done { background: rgba(124,92,255,.55); }
+.bar i.on { background: var(--tl); }
+.top {
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--mu);
+}
+.top b { color: var(--tl); font-weight: 700; }
+.top .brand b { color: var(--pu); }
+.head {
+  display: flex; align-items: baseline; gap: 14px;
+  border-left: 5px solid var(--pu); padding-left: 18px; margin: 14px 0 20px;
+}
+.head .num { font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 700; color: var(--tl); }
+.head h2 { font-size: 34px; font-weight: 700; color: #fff; letter-spacing: -.01em; line-height: 1.15; }
+.head h2 .tm { font-family: 'JetBrains Mono', monospace; font-size: .88em; color: var(--tl); letter-spacing: 0; }
+.kv-v > b { font-family: 'JetBrains Mono', monospace; }
+.foot {
+  position: absolute; left: 64px; right: 64px; bottom: 16px; display: flex; justify-content: space-between;
+  font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #5c5c74; letter-spacing: .04em;
+}
+.slide:not(.cover) { display: flex; flex-direction: column; }
+.content { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; justify-content: safe center; padding-bottom: 50px; }
+.content > * + * { margin-top: 16px; }
+
+/* ---------- tekst ---------- */
+p { font-size: 21px; line-height: 1.5; color: var(--tx); }
+p b, li b, td b, .card-d b, .kv-v b { color: #fff; font-weight: 700; }
+p.muted { color: var(--mu); font-size: 18px; }
+p.cen { text-align: center; }
+.big { font-size: 34px; font-weight: 700; line-height: 1.3; color: #fff; letter-spacing: -.01em; }
+.big em { font-style: normal; color: var(--tl); }
+.big strong { color: var(--or); }
+code.ic {
+  font-family: 'JetBrains Mono', monospace; font-size: .86em; background: var(--chip); color: var(--tl);
+  padding: 1px 6px; border-radius: 4px; white-space: nowrap;
+}
+b.yes { color: var(--tl) !important; }
+b.no { color: var(--or) !important; }
+sub { font-size: .7em; }
+
+/* ---------- układ ---------- */
+.stack > * + * { margin-top: var(--sg, 16px); }
+.cols { display: grid; }
+.col { min-width: 0; }
+.col > .stack, .col > * { min-width: 0; }
+.center { display: flex; justify-content: center; }
+
+/* ---------- boxy ---------- */
+.note, .warn, .good {
+  font-size: 18.5px; line-height: 1.5; padding: 13px 18px; border-radius: 6px; color: #b4b4c8;
+}
+.note { background: var(--panel); border: 1px solid var(--line); border-left: 4px solid var(--tl); }
+.note b, .good b { color: #fff; }
+.note-label, .good-label { font-family: 'JetBrains Mono', monospace; color: var(--tl); font-weight: 700; font-size: .92em; }
+.warn { background: rgba(255,180,84,.07); border: 1px solid rgba(255,180,84,.25); border-left: 4px solid var(--or); }
+.warn b { color: var(--yl); }
+.warn-label { font-family: 'JetBrains Mono', monospace; color: var(--or); font-weight: 700; font-size: .92em; }
+.good { background: rgba(0,229,199,.06); border: 1px solid rgba(0,229,199,.22); border-left: 4px solid var(--tl); }
+
+/* ---------- kod ---------- */
+.code-cap {
+  font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: var(--mu);
+  letter-spacing: .14em; text-transform: uppercase; margin-bottom: 7px;
+}
+.code-cap.bad { color: var(--or); }
+.code-cap.okc { color: var(--tl); }
+pre.code {
+  font-family: 'JetBrains Mono', monospace; font-size: 19px; line-height: 1.6;
+  background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
+  padding: 14px 0; white-space: pre; overflow: hidden; color: var(--tx);
+}
+pre.code.lg { font-size: 25px; padding: 16px 0; }
+pre.code.sm { font-size: 17px; }
+pre.code.xs { font-size: 15px; }
+pre.code.bad { border-color: rgba(255,180,84,.45); }
+pre.code.okc { border-color: rgba(0,229,199,.4); }
+pre.code .ln { display: block; padding: 0 22px; }
+pre.code .ln.hl { background: rgba(0,229,199,.09); box-shadow: inset 4px 0 0 var(--tl); }
+pre.code .ln.dim { opacity: .38; }
+pre.code.bare { background: none; border: none; padding: 2px 0; font-size: 17px; }
+pre.code.bare .ln { padding: 0 14px; }
+.k { color: #7c5cff; } .f { color: #00e5c7; } .n { color: #ffb454; } .s { color: #ffcf87; } .m { color: #c6b8ff; }
+.c { color: #8888a0; } .p { color: #a8a8c0; } .v { color: #e8e8f0; }
+.mk { outline: 2px dashed var(--or); outline-offset: 2px; border-radius: 3px; background: rgba(255,180,84,.13); }
+
+.syntax {
+  font-family: 'JetBrains Mono', monospace; font-size: 54px; font-weight: 700; color: #fff;
+  background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 40px;
+}
+.syntax span { color: var(--or); }
+
+/* ---------- terminal ---------- */
+.term { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: #07070b; }
+.term-cap {
+  font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
+  padding: 7px 14px; background: var(--panel2); border-bottom: 1px solid var(--line); color: var(--tl);
+}
+.term.in .term-cap { color: var(--or); }
+.term pre { font-size: 21px; line-height: 1.5; padding: 10px 16px; color: #fff; white-space: pre; overflow: hidden; }
+.term .cur { background: var(--tl); opacity: .75; }
+.term .used { color: #4a4a60; }
+.term .now { background: rgba(0,229,199,.2); color: var(--tl); outline: 2px solid var(--tl); border-radius: 3px; }
+
+/* ---------- tablica ---------- */
+.arr { display: inline-flex; flex-direction: column; gap: 6px; }
+.arow { display: flex; align-items: center; gap: var(--gap); }
+.al {
+  font-family: 'JetBrains Mono', monospace; font-size: 17px; color: var(--tx); text-align: right;
+  padding-right: 4px; flex: none; white-space: nowrap;
+}
+.al.sm { color: var(--mu); font-size: 17px; }
+.cell {
+  width: var(--cw); height: var(--cw); flex: none; border: 2px solid var(--line); background: var(--panel);
+  border-radius: 6px; display: flex; align-items: center; justify-content: center;
+  font-family: 'JetBrains Mono', monospace; font-size: var(--cf); font-weight: 700; color: var(--tx);
+  white-space: nowrap;
+}
+.cell.hi { border-color: var(--tl); background: rgba(0,229,199,.13); color: var(--tl); }
+.cell.sel { outline: 2.5px dashed var(--or); outline-offset: 4px; }
+.cell.g { color: var(--or); background: rgba(255,180,84,.07); border-color: rgba(255,180,84,.38); border-style: dashed; }
+.cell.q { color: var(--mu); border-style: dashed; }
+.cell.x { color: #4a4a5c; background: repeating-linear-gradient(135deg, #0e0e15 0 6px, #15151f 6px 12px); }
+.cell.dots { border-color: transparent; background: none; color: var(--mu); }
+.cell.ghost { border: 2px dashed var(--or); background: transparent; color: var(--or); }
+.cell.empty { color: transparent; }
+.idx {
+  width: var(--cw); flex: none; text-align: center; font-family: 'JetBrains Mono', monospace;
+  font-size: calc(var(--cf) * .66); color: var(--mu);
+}
+.idx.hi { color: var(--tl); font-weight: 700; }
+.idx.gh { color: var(--or); }
+.pt {
+  width: var(--cw); flex: none; display: flex; flex-direction: column; align-items: center;
+  font-family: 'JetBrains Mono', monospace; font-size: calc(var(--cf) * .66); color: var(--tl);
+  font-weight: 700; white-space: nowrap; line-height: 1.15;
+}
+.pt b { font-weight: 700; }
+.pt span { font-size: 1.1em; }
+.span { flex: none; display: flex; flex-direction: column; align-items: center; color: var(--tl); }
+.span .br { width: 100%; height: 10px; border: 2px solid currentColor; border-top: none; border-radius: 0 0 6px 6px; }
+.span .sl { font-family: 'JetBrains Mono', monospace; font-size: 14px; margin-top: 4px; white-space: nowrap; }
+.span.or { color: var(--or); } .span.gr { color: var(--mu); }
+.arr-cap { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--mu); letter-spacing: .1em; }
+
+/* ---------- para ---------- */
+.pbox { display: flex; gap: var(--gap); padding: 5px; border: 2px solid rgba(124,92,255,.6); border-radius: 10px;
+        background: rgba(124,92,255,.07); flex: none; }
+.pbox.on { border-color: var(--tl); background: rgba(0,229,199,.07); }
+.pbox.in { border-color: rgba(255,207,135,.6); background: rgba(255,207,135,.05); }
+.pbox.nest { align-items: flex-start; }
+.pbox.nest > .ncol:last-child { padding-top: 7px; }
+.ncol { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.ncol .prow { padding: 0 7px; }
+.prow { display: flex; gap: var(--gap); padding: 0 7px; }
+.ptype, .pm {
+  width: var(--cw); flex: none; text-align: center; font-family: 'JetBrains Mono', monospace;
+  font-size: max(13px, calc(var(--cf) * .6)); white-space: nowrap;
+}
+.ptype { color: var(--mu); }
+.pm { color: #c6b8ff; }
+.pm.hi { color: var(--tl); font-weight: 700; }
+.pm.wide { width: calc(var(--cw) * 2 + var(--gap) + 14px); }
+.parr { display: inline-grid; column-gap: 12px; row-gap: 6px; align-items: center; justify-items: center; }
+.parr .al { justify-self: end; }
+.parr .idx { width: auto; }
+.pdots { font-family: 'JetBrains Mono', monospace; font-size: var(--cf); color: var(--mu); }
+
+/* ---------- vector 2D i pamięć ---------- */
+.grid2 { display: inline-flex; flex-direction: column; gap: 6px; }
+.g-row { display: flex; align-items: center; gap: 10px; }
+.g-lab { width: 6ch; white-space: nowrap; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 15px; color: var(--mu); }
+.g-lab.hi { color: var(--tl); font-weight: 700; }
+.grid2 .idx { width: var(--cw); }
+.mem { border: 2px solid rgba(124,92,255,.45); border-radius: 10px; padding: 12px 16px 14px; background: rgba(124,92,255,.04); }
+.mem-cap { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase;
+           color: #c6b8ff; margin-bottom: 10px; }
+.mem .arr + .arr { margin-top: 12px; }
+.venn { width: 100%; height: auto; display: block; }
+.venn text { font-family: 'JetBrains Mono', monospace; font-weight: 700; }
+
+/* ---------- wykresy i schematy ---------- */
+.chartbox { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 10px 8px 4px; }
+.chart { width: 100%; height: auto; display: block; }
+.chart .grid { stroke: #1d1d2a; stroke-width: 1; }
+.chart .axis { stroke: #3a3a4c; stroke-width: 1; }
+.chart text { font-family: 'JetBrains Mono', monospace; }
+.chart .tick { fill: var(--mu); font-size: 12px; }
+.chart .alab { fill: var(--mu); font-size: 12.5px; }
+.chart .slab { fill: var(--tx); font-size: 15px; font-weight: 700; }
+.chart .pt { fill: var(--tx); }
+.chart .ptl { fill: var(--tx); font-size: 13px; }
+.flow { display: flex; align-items: stretch; justify-content: center; gap: 14px; }
+.fbox { border: 2px solid var(--line); border-radius: 10px; background: var(--panel); padding: 12px 18px; min-width: 200px; }
+.fbox.in { border-color: rgba(255,180,84,.6); }
+.fbox.pr { border-color: rgba(124,92,255,.7); }
+.fbox.out { border-color: rgba(0,229,199,.6); }
+.ftitle { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase;
+          color: var(--mu); margin-bottom: 8px; }
+.fbody { font-family: 'JetBrains Mono', monospace; font-size: 19px; color: var(--tx); white-space: pre; line-height: 1.5; }
+.farrow { align-self: center; font-size: 34px; color: var(--mu); }
+.st-ok { color: var(--tl) !important; font-weight: 700; }
+.st-bad { color: var(--or) !important; font-weight: 700; }
+.toc.xlong span { font-size: 15.5px; padding: 2.5px 0; }
+
+/* ---------- budowa linijki ---------- */
+.anat { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 26px 30px 22px; }
+.aline { font-family: 'JetBrains Mono', monospace; font-size: 31px; white-space: pre; text-align: center; padding-bottom: 30px; }
+.ap { position: relative; border-bottom: 4px solid var(--ac); padding-bottom: 4px; }
+.ab, .lb {
+  display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%;
+  background: var(--ac); color: #0a0a0f; font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 700;
+}
+.ab { position: absolute; left: 50%; bottom: -36px; transform: translateX(-50%); }
+.legend { display: grid; grid-template-columns: 1fr; gap: 9px; border-top: 1px solid var(--line); padding-top: 16px; }
+.lgd { display: grid; grid-template-columns: 34px 260px 1fr; align-items: center; font-size: 19px; color: #c8c8d8; }
+.lgd .lc code.ic { color: var(--ac); font-size: 17px; }
+
+/* ---------- listy, karty, tabele ---------- */
+ol.steps { list-style: none; counter-reset: s; }
+ol.steps li {
+  counter-increment: s; position: relative; font-size: 19.5px; line-height: 1.45; color: var(--tx);
+  padding: 10px 16px 10px 54px; background: var(--panel); border: 1px solid var(--line); border-radius: 6px;
+}
+ol.steps li + li { margin-top: 8px; }
+ol.steps li::before {
+  content: counter(s); position: absolute; left: 14px; top: 9px; width: 28px; height: 28px; border-radius: 50%;
+  background: rgba(124,92,255,.18); border: 1.5px solid var(--pu); color: var(--tl);
+  font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+ol.steps.tight li { padding-top: 7px; padding-bottom: 7px; font-size: 18px; }
+ol.steps.tight li::before { top: 6px; }
+ol.steps.big li { font-size: 21px; padding: 14px 18px 14px 58px; }
+ol.steps.big li + li { margin-top: 12px; }
+ol.steps.big li::before { top: 14px; }
+
+ol.traps { list-style: none; counter-reset: t; }
+ol.traps li {
+  counter-increment: t; position: relative; background: var(--panel); border: 1px solid var(--line);
+  border-left: 4px solid var(--or); border-radius: 6px; padding: 16px 20px 16px 62px;
+  font-size: 20.5px; line-height: 1.5; color: #b4b4c8;
+}
+ol.traps li + li { margin-top: 12px; }
+ol.traps li::before {
+  content: counter(t, decimal-leading-zero); position: absolute; left: 18px; top: 17px;
+  font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 700; color: var(--or);
+}
+ol.traps li b { color: #fff; }
+
+.cards { display: grid; gap: 14px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 14px 18px; }
+.card.tlc { border-top: 3px solid var(--tl); }
+.card.orc { border-top: 3px solid var(--or); }
+.card.puc { border-top: 3px solid var(--pu); }
+.card-t { font-family: 'JetBrains Mono', monospace; font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+.card-d { font-size: 18px; line-height: 1.45; color: #b4b4c8; }
+.card .arr { margin-top: 4px; }
+.cap-t, .cap-o { font-family: 'JetBrains Mono', monospace; font-size: 14px; margin-top: 8px; color: var(--tl); }
+.cap-o { color: var(--or); }
+
+table.tbl { width: 100%; border-collapse: collapse; table-layout: fixed; border: 1px solid var(--line); font-size: 18px; }
+table.tbl th {
+  background: var(--chip); color: var(--tl); text-align: left; font-family: 'JetBrains Mono', monospace;
+  font-size: 14px; font-weight: 700; padding: 10px 14px; border-bottom: 1px solid var(--line); letter-spacing: .04em;
+}
+table.tbl td { padding: 10px 14px; border-bottom: 1px solid var(--line); color: var(--tx); line-height: 1.4; vertical-align: middle; }
+table.tbl tbody tr:nth-child(odd) td { background: var(--panel); }
+table.tbl tbody tr:nth-child(even) td { background: var(--panel2); }
+table.tbl.big { font-size: 20px; }
+table.tbl.big td { padding: 14px 16px; }
+table.tbl.mid td { padding: 8px 14px; }
+table.tbl.ctr td, table.tbl.ctr th { text-align: center; }
+table.tbl td code.ic { white-space: nowrap; }
+
+.kv {
+  display: grid; grid-template-columns: 120px 1fr; background: var(--panel); border: 1px solid var(--line);
+  border-radius: 8px; overflow: hidden;
+}
+.kv-k, .kv-v { padding: 10px 16px; border-bottom: 1px solid var(--line); font-size: 19px; line-height: 1.4; }
+.kv-k { font-family: 'JetBrains Mono', monospace; font-size: 16px; color: var(--mu);
+        letter-spacing: .04em; background: var(--panel2); display: flex; align-items: center; }
+.kv > :nth-last-child(-n+2) { border-bottom: none; }
+
+.zones { font-size: 17px; }
+.zone { border-radius: 10px; padding: 12px 10px 10px; position: relative; }
+.zone.glob { border: 2px solid rgba(0,229,199,.55); background: rgba(0,229,199,.04); }
+.zone.loc { border: 2px dashed var(--or); background: rgba(255,180,84,.06); margin: 6px 0 6px 38px; }
+.zl { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--tl); margin: 0 0 6px 14px; }
+.zone.loc .zl { color: var(--or); }
+
+.rows { display: flex; flex-direction: column; gap: 14px; }
+.rw { display: grid; grid-template-columns: 330px 1fr; align-items: center; gap: 20px;
+      background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 12px 18px; }
+.rw code.ic { font-size: 20px; }
+.rwn { display: block; font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--or); margin-top: 8px; }
+
+/* ---------- okładka i koniec ---------- */
+.cover {
+  background:
+    radial-gradient(900px 640px at 4% -14%, rgba(124,92,255,.32), transparent 62%),
+    radial-gradient(820px 620px at 104% 92%, rgba(0,229,199,.22), transparent 60%),
+    var(--bg);
+  padding: 0;
+}
+.cover-l { position: absolute; left: 64px; top: 96px; width: 640px; }
+.kicker { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 500; color: var(--tl);
+          letter-spacing: .22em; margin-bottom: 22px; }
+.cover h1 { font-size: 70px; font-weight: 700; line-height: 1.05; color: var(--tl); letter-spacing: -.02em; }
+.cover .sub { margin-top: 22px; font-size: 19px; line-height: 1.6; color: var(--mu); }
+.cover .meta { margin-top: 20px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--mu); letter-spacing: .08em; }
+.cover .deco { margin-top: 34px; }
+.cover-r {
+  position: absolute; right: 64px; top: 96px; width: 420px; background: rgba(17,17,26,.72);
+  border: 1px solid var(--line); border-radius: 12px; padding: 22px 26px;
+}
+.toc-t { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; letter-spacing: .18em; color: var(--mu);
+         text-transform: uppercase; margin-bottom: 12px; }
+.toc span { display: block; font-size: 17.5px; color: #c8c8d8; padding: 5.5px 0; border-bottom: 1px solid #1d1d2a; }
+.toc span:last-child { border-bottom: none; }
+.toc.long span { font-size: 16.5px; padding: 4px 0; }
+.toc b { font-family: 'JetBrains Mono', monospace; color: var(--tl); margin-right: 12px; }
+.cover-foot { position: absolute; left: 64px; bottom: 34px; font-family: 'JetBrains Mono', monospace;
+              font-size: 13px; color: var(--mu); }
+.cover-foot b { color: var(--pu); }
+.end-c { position: absolute; left: 64px; right: 64px; top: 170px; }
+.end-c h1 { font-size: 64px; }
+.end-c .sub { max-width: 760px; }
+
+/* ---------- stos wywołań ---------- */
+.stk { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.stk-cap { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase;
+           color: #c6b8ff; margin-bottom: 2px; }
+.frm { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px; border: 2px solid var(--line);
+       border-radius: 8px; background: var(--panel); padding: 7px 14px; font-family: 'JetBrains Mono', monospace; }
+.frm .fn { font-size: 19px; font-weight: 700; color: #e8e8f0; white-space: nowrap; }
+.frm .fd { font-family: 'DM Sans', sans-serif; font-size: 16px; color: var(--mu); line-height: 1.3; }
+.frm .ftop { font-size: 12.5px; color: var(--tl); letter-spacing: .06em; white-space: nowrap; }
+.frm.on { border-color: var(--tl); background: rgba(0,229,199,.09); }
+.frm.on .fn { color: var(--tl); }
+.frm.on .fd { color: #c8c8d8; }
+.frm.wait { border-color: rgba(124,92,255,.5); background: rgba(124,92,255,.06); }
+.frm.ret { border-color: var(--or); background: rgba(255,180,84,.08); }
+.frm.ret .fn { color: var(--or); }
+.frm.ret .fd { color: var(--yl); }
+.frm.gone { border-style: dashed; opacity: .38; }
+.frm.new { border-style: dashed; border-color: var(--tl); }
+.frm.main { border-color: #3a3a4c; }
+.stk-bot { border-top: 3px solid #3a3a4c; margin-top: 2px; padding-top: 4px; font-family: 'JetBrains Mono', monospace;
+           font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase; color: #5c5c74; text-align: center; }
+.stk.sm .frm { padding: 4px 10px; gap: 8px; }
+.stk.sm .frm .fn { font-size: 15px; }
+.stk.sm .frm .fd { font-size: 13px; }
+.stk.sm .stk-cap { font-size: 11px; }
+.stk.sm .ftop { display: none; }
+.stks { display: flex; align-items: flex-end; gap: 14px; justify-content: center; }
+.stks > .stk { flex: 1 1 0; }
+.stks .stk-cap { color: var(--mu); }
+
+/* ---------- drzewo wywołań ---------- */
+.treebox { display: flex; justify-content: center; }
+.tree { display: block; height: auto; overflow: visible; }
+.tree text { font-family: 'JetBrains Mono', monospace; }
+.tree .te { stroke: #3a3a4c; stroke-width: 2; }
+.tree .te.on, .tree .te.done { stroke: rgba(124,92,255,.7); }
+.tree .te.cut, .tree .te.ghost { stroke-dasharray: 5 5; opacity: .45; }
+.tree .te.memo { stroke: var(--or); stroke-dasharray: 5 4; }
+.tree .tel { fill: var(--mu); font-size: 13px; }
+.tree .tel.on { fill: var(--tl); }
+.tree .tn rect { fill: var(--panel); stroke: var(--line); stroke-width: 2; }
+.tree .tn text { fill: #e8e8f0; font-weight: 700; }
+.tree .tn .tv { fill: var(--or); font-size: 14px; }
+.tree .tn.on rect { stroke: var(--tl); fill: #0d2421; }
+.tree .tn.on text { fill: var(--tl); }
+.tree .tn.done rect { stroke: rgba(124,92,255,.75); fill: #15122a; }
+.tree .tn.done text { fill: #c6b8ff; }
+.tree .tn.memo rect { stroke: var(--or); stroke-dasharray: 5 4; fill: #1e170d; }
+.tree .tn.memo text { fill: var(--or); }
+.tree .tn.ok rect { stroke: var(--tl); fill: #0d2421; }
+.tree .tn.ok text { fill: var(--tl); }
+.tree .tn.cut { opacity: .38; }
+.tree .tn.cut rect { stroke-dasharray: 5 5; }
+.tree .tn.ghost { opacity: .3; }
+.tree .tn.ghost rect { stroke-dasharray: 5 5; }
+.tree .tn.ghost .tv, .tree .tn.cut .tv { display: none; }
+
+/* ---------- śledzenie wywołań ---------- */
+.trc { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 10px 0; }
+.trc-cap { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase;
+           color: var(--mu); padding: 0 16px 8px; }
+.tr { display: flex; gap: 10px; align-items: baseline; padding-top: 3px; padding-bottom: 3px; padding-right: 14px;
+      font-size: 19.5px; line-height: 1.35; color: #c8c8d8; }
+.tr .ti { font-family: 'JetBrains Mono', monospace; font-weight: 700; width: 16px; flex: none; text-align: center; }
+.tr .tt code.ic { font-size: 16.5px; }
+.tr.call .ti { color: var(--tl); }
+.tr.ret .ti { color: var(--or); }
+.tr.out .ti { color: #fff; }
+.tr.out .tt { color: #fff; }
+.tr.stop .ti { color: var(--or); }
+.tr.note .ti { color: var(--mu); }
+.tr.note .tt { color: var(--mu); }
+.tr.hl { background: rgba(0,229,199,.09); box-shadow: inset 4px 0 0 var(--tl); }
+.trc.sm .tr { font-size: 17.5px; padding-top: 1px; padding-bottom: 1px; }
+.trc.sm .tr .tt code.ic { font-size: 15px; }
+
+/* ---------- plansza ---------- */
+.brd { display: inline-grid; gap: 3px; }
+.bc { width: var(--cw); height: var(--cw); border: 2px solid var(--line); background: var(--panel); border-radius: 5px;
+      display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace;
+      font-size: calc(var(--cw) * .48); font-weight: 700; color: var(--tx); }
+.bc.q { border-color: var(--tl); background: rgba(0,229,199,.16); color: var(--tl); }
+.bc.hit { background: rgba(255,180,84,.10); color: var(--or); border-color: rgba(255,180,84,.3); }
+.bc.x { background: repeating-linear-gradient(135deg, #0e0e15 0 6px, #1b1b27 6px 12px); color: #4a4a5c; }
+.bc.path { border-color: rgba(124,92,255,.75); background: rgba(124,92,255,.16); color: #c6b8ff; }
+.bc.cur { outline: 2.5px dashed var(--or); outline-offset: 2px; }
+.bc.ok { border-color: var(--tl); color: var(--tl); }
+.bc.bad { border-color: var(--or); color: var(--or); background: rgba(255,180,84,.10); }
+.bc.dim { color: #5c5c74; }
+.bc.new { color: var(--tl); }
+.brd.sdk { gap: 0; border: 3px solid #5c5c74; border-radius: 6px; overflow: hidden; }
+.brd.sdk .bc { border-radius: 0; border: 1px solid #2a2a38; }
+.brd.sdk .bc.alt { background: #1c1c2a; }
+
+/* ---------- poziomy (dziel i zwyciężaj) ---------- */
+.lvls { display: flex; flex-direction: column; gap: 12px; align-items: center; }
+.lvl { display: flex; align-items: center; gap: 14px; }
+.lvl-l { width: 150px; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--mu); letter-spacing: .06em; }
+.lvl-g { display: flex; gap: 18px; justify-content: center; }
+.grp { display: flex; gap: var(--gap); padding: 4px; border: 2px solid var(--line); border-radius: 9px; background: var(--panel2); }
+.grp .cell { width: var(--cw); height: var(--cw); }
+.grp.on { border-color: var(--tl); background: rgba(0,229,199,.07); }
+.grp.on .cell { color: var(--tl); border-color: rgba(0,229,199,.45); }
+.grp.done { border-color: rgba(124,92,255,.6); background: rgba(124,92,255,.07); }
+.grp.dim { opacity: .35; }
+.grp.or { border-color: var(--or); background: rgba(255,180,84,.07); }
+
+/* ---------- drobne ---------- */
+.arrow-down { text-align: center; font-size: 30px; color: var(--mu); line-height: 1; }
+.pill { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 15px; padding: 2px 10px; border-radius: 99px;
+        background: var(--chip); color: var(--tl); border: 1px solid rgba(0,229,199,.3); }
+.pill.or { color: var(--or); border-color: rgba(255,180,84,.35); }
+.qa { font-family: 'JetBrains Mono', monospace; font-size: 64px; font-weight: 700; color: var(--tl); text-align: center; }
+</style>
+</head>
+<body>
+<section class="slide cover">
+  <div class="cover-l">
+    <div class="kicker">// T-OLIMPIANS — PREZENTACJA DO LEKCJI</div>
+    <h1>Dziel<br>i zwyciężaj</h1>
+    <div class="sub">Zamiast zmniejszać problem o jeden — dzielimy go na połowy. Szybkie potęgowanie, wyszukiwanie binarne, scalanie i sortowanie przez scalanie, zliczanie inwersji, quickselect, najlepszy fragment i fraktale.</div>
+    <div class="meta">C++ · REKURENCJA · CZĘŚĆ 6 Z 6 · PO CZĘŚCIACH 1–5</div>
+    <div class="deco"><div class="lvls" style="--cw:38px;--cf:15px;--gap:4px"><div class="lvl"><div class="lvl-g"><div class="grp "><div class="cell">5</div><div class="cell">2</div><div class="cell">4</div><div class="cell">6</div></div></div></div><div class="lvl"><div class="lvl-g"><div class="grp on"><div class="cell">2</div><div class="cell">5</div></div><div class="grp on"><div class="cell">4</div><div class="cell">6</div></div></div></div><div class="lvl"><div class="lvl-g"><div class="grp on"><div class="cell">2</div><div class="cell">4</div><div class="cell">5</div><div class="cell">6</div></div></div></div></div></div>
+  </div>
+  <div class="cover-r"><div class="toc-t">Plan prezentacji</div><div class="toc"><span><b>01</b>Idea: dziel i zwyciężaj</span><span><b>02</b>Rozgrzewka: min i max</span><span><b>03</b>Szybkie potęgowanie</span><span><b>04</b>Wyszukiwanie binarne</span><span><b>05</b>Scalanie dwóch ciągów</span><span><b>06</b>Sortowanie przez scalanie</span><span><b>07</b>Ile to kosztuje?</span><span><b>08</b>Zliczanie inwersji</span><span><b>09</b>Quicksort i quickselect</span><span><b>10</b>Najlepszy spójny fragment</span><span><b>11</b>Fraktale i napisy</span><span><b>12</b>Sprawdź się</span><span><b>13</b>Podsumowanie</span></div></div>
+  <div class="cover-foot"><b>T-Olimpians</b> Team Poland · t-olimpians.com</div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>01</b> · Idea: dziel i zwyciężaj</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">01</span><h2>Dziel i zwyciężaj</h2></div>
+  <div class="content"><div class="stack " style="--sg:20px"><div class="big">Podziel problem na <em>dwie połowy</em>, rozwiąż każdą <em>rekurencyjnie</em>, a potem <strong>połącz</strong> wyniki.</div><div class="cards" style="grid-template-columns:repeat(3,1fr)"><div class="card tlc"><div class="card-t">1 · podziel</div><div class="card-d">Tablicę, przedział albo liczbę dzielimy na dwie (mniej więcej) równe części.</div></div><div class="card puc"><div class="card-t">2 · rozwiąż</div><div class="card-d">Każdą część rozwiązuje wywołanie rekurencyjne. Bardzo mała część to warunek stopu.</div></div><div class="card orc"><div class="card-t">3 · połącz</div><div class="card-d">Z wyników obu części budujemy wynik dla całości. Często to najciekawszy krok.</div></div></div><div class="note">Przykład z życia: posortować stos 1000 klasówek? Podziel na dwa stosy po 500, daj je dwóm osobom do posortowania, a potem <b>scal</b> dwa posortowane stosy w jeden.</div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>2 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>01</b> · Idea: dziel i zwyciężaj</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">01</span><h2>Po co dzielić na pół, a nie zmniejszać o 1?</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1.1fr 1fr;gap:34px;align-items:center"><div class="col"><div class="stack " style="--sg:16px"><p class="">Do tej pory problem malał <b>o jeden</b>: n → n − 1 → n − 2 → … Rekurencja miała <b>n poziomów</b>.</p><p class="">Gdy dzielimy na pół, problem maleje <b>dwa razy</b> na każdym poziomie: n → n / 2 → n / 4 → … → 1.</p><div class="good">Liczba poziomów to tyle, ile razy da się podzielić n przez 2 — czyli <b>log₂ n</b>. Nawet dla miliarda to tylko <b>30</b> poziomów.</div></div></div><div class="col"><table class="tbl mid ctr"><thead><tr><th>n</th><th>zmniejszanie o 1</th><th>dzielenie na pół</th></tr></thead><tbody><tr><td>8</td><td>8 poziomów</td><td>3 poziomy</td></tr><tr><td>1 000</td><td>1 000</td><td>10</td></tr><tr><td>1 000 000</td><td>milion</td><td>20</td></tr><tr><td>10⁹</td><td>miliard</td><td>30</td></tr><tr><td>10¹⁸</td><td>—</td><td>60</td></tr></tbody></table></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>3 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>02</b> · Rozgrzewka: min i max</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">02</span><h2>Minimum i maksimum — dzielimy tablicę</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1.05fr 1fr;gap:34px;align-items:center"><div class="col"><div class="code-wrap"><pre class="code sm"><span class="ln"><span class="f">pair</span><span class="p">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="k">int</span><span class="p">&gt;</span> <span class="v">minmaks</span><span class="p">(</span><span class="k">int</span> <span class="v">l</span><span class="p">,</span> <span class="k">int</span> <span class="v">r</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">l</span> <span class="p">=</span><span class="p">=</span> <span class="v">r</span><span class="p">)</span> <span class="k">return</span> <span class="p">{</span><span class="v">a</span><span class="p">[</span><span class="v">l</span><span class="p">]</span><span class="p">,</span> <span class="v">a</span><span class="p">[</span><span class="v">l</span><span class="p">]</span><span class="p">}</span><span class="p">;</span></span><span class="ln">    <span class="k">int</span> <span class="v">s</span> <span class="p">=</span> <span class="p">(</span><span class="v">l</span> <span class="p">+</span> <span class="v">r</span><span class="p">)</span> <span class="p">/</span> <span class="n">2</span><span class="p">;</span></span><span class="ln">    <span class="f">auto</span> <span class="v">L</span> <span class="p">=</span> <span class="v">minmaks</span><span class="p">(</span><span class="v">l</span><span class="p">,</span> <span class="v">s</span><span class="p">)</span><span class="p">;</span></span><span class="ln">    <span class="f">auto</span> <span class="v">R</span> <span class="p">=</span> <span class="v">minmaks</span><span class="p">(</span><span class="v">s</span> <span class="p">+</span> <span class="n">1</span><span class="p">,</span> <span class="v">r</span><span class="p">)</span><span class="p">;</span></span><span class="ln">    <span class="k">return</span> <span class="p">{</span><span class="f">min</span><span class="p">(</span><span class="v">L</span><span class="p">.</span><span class="m">first</span><span class="p">,</span> <span class="v">R</span><span class="p">.</span><span class="m">first</span><span class="p">)</span><span class="p">,</span></span><span class="ln">            <span class="f">max</span><span class="p">(</span><span class="v">L</span><span class="p">.</span><span class="m">second</span><span class="p">,</span> <span class="v">R</span><span class="p">.</span><span class="m">second</span><span class="p">)</span><span class="p">}</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div></div><div class="col"><div class="stack " style="--sg:16px"><ol class="steps tight"><li><b>stop</b>: jeden element jest swoim minimum i maksimum,</li><li><b>podziel</b>: środek <code class="ic">s = (l + r) / 2</code> — lewa połowa l…s, prawa s + 1…r,</li><li><b>połącz</b>: mniejsze z dwóch minimów, większe z dwóch maksimów.</li></ol><div class="note">Funkcja zwraca <b>parę</b> (pair) — dwie liczby naraz. <code class="ic">L.first</code> to minimum lewej połowy, <code class="ic">L.second</code> — maksimum.</div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>4 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>02</b> · Rozgrzewka: min i max</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">02</span><h2>Podział tablicy na kawałki</h2></div>
+  <div class="content"><div class="stack " style="--sg:18px"><div class="lvls" style="--cw:48px;--cf:19px;--gap:5px"><div class="lvl"><div class="lvl-l">minmaks(0, 7)</div><div class="lvl-g"><div class="grp "><div class="cell">5</div><div class="cell">2</div><div class="cell">9</div><div class="cell">1</div><div class="cell">7</div><div class="cell">3</div><div class="cell">8</div><div class="cell">6</div></div></div></div><div class="lvl"><div class="lvl-l">połowy</div><div class="lvl-g"><div class="grp "><div class="cell">5</div><div class="cell">2</div><div class="cell">9</div><div class="cell">1</div></div><div class="grp "><div class="cell">7</div><div class="cell">3</div><div class="cell">8</div><div class="cell">6</div></div></div></div><div class="lvl"><div class="lvl-l">ćwiartki</div><div class="lvl-g"><div class="grp "><div class="cell">5</div><div class="cell">2</div></div><div class="grp "><div class="cell">9</div><div class="cell">1</div></div><div class="grp "><div class="cell">7</div><div class="cell">3</div></div><div class="grp "><div class="cell">8</div><div class="cell">6</div></div></div></div><div class="lvl"><div class="lvl-l">pojedyncze: stop</div><div class="lvl-g"><div class="grp done"><div class="cell">5</div></div><div class="grp done"><div class="cell">2</div></div><div class="grp done"><div class="cell">9</div></div><div class="grp done"><div class="cell">1</div></div><div class="grp done"><div class="cell">7</div></div><div class="grp done"><div class="cell">3</div></div><div class="grp done"><div class="cell">8</div></div><div class="grp done"><div class="cell">6</div></div></div></div></div><p class="cen">Każdy kawałek dzieli się na dwa, aż zostaną pojedyncze elementy. Potem wyniki <b>łączą się w górę</b>: (5,5) i (2,2) → (2,5); (2,5) i (1,9) → (1,9); … aż do całej tablicy: <b>(1, 9)</b>.</p></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>5 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>02</b> · Rozgrzewka: min i max</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">02</span><h2>Drzewo wywołań <span class="tm">minmaks</span></h2></div>
+  <div class="content"><div class="stack " style="--sg:8px"><div class="treebox"><svg class="tree" viewBox="0 0 640 309" style="width:min(100%, 640px)" xmlns="http://www.w3.org/2000/svg"><line class="te " x1="80.0" y1="203" x2="40.0" y2="254"/><line class="te " x1="80.0" y1="203" x2="120.0" y2="254"/><line class="te " x1="240.0" y1="203" x2="200.0" y2="254"/><line class="te " x1="240.0" y1="203" x2="280.0" y2="254"/><line class="te " x1="160.0" y1="119" x2="80.0" y2="170"/><line class="te " x1="160.0" y1="119" x2="240.0" y2="170"/><line class="te " x1="400.0" y1="203" x2="360.0" y2="254"/><line class="te " x1="400.0" y1="203" x2="440.0" y2="254"/><line class="te " x1="560.0" y1="203" x2="520.0" y2="254"/><line class="te " x1="560.0" y1="203" x2="600.0" y2="254"/><line class="te " x1="480.0" y1="119" x2="400.0" y2="170"/><line class="te " x1="480.0" y1="119" x2="560.0" y2="170"/><line class="te " x1="320.0" y1="35" x2="160.0" y2="86"/><line class="te " x1="320.0" y1="35" x2="480.0" y2="86"/><g class="tn "><rect x="18.0" y="254" width="44" height="33" rx="7"/><text x="40.0" y="276.62" text-anchor="middle" style="font-size:17px">0</text><text class="tv" x="40.0" y="303" text-anchor="middle">5,5</text></g><g class="tn "><rect x="98.0" y="254" width="44" height="33" rx="7"/><text x="120.0" y="276.62" text-anchor="middle" style="font-size:17px">1</text><text class="tv" x="120.0" y="303" text-anchor="middle">2,2</text></g><g class="tn "><rect x="47.0" y="170" width="66" height="33" rx="7"/><text x="80.0" y="192.62" text-anchor="middle" style="font-size:17px">0..1</text><text class="tv" x="80.0" y="219" text-anchor="middle">2,5</text></g><g class="tn "><rect x="178.0" y="254" width="44" height="33" rx="7"/><text x="200.0" y="276.62" text-anchor="middle" style="font-size:17px">2</text><text class="tv" x="200.0" y="303" text-anchor="middle">9,9</text></g><g class="tn "><rect x="258.0" y="254" width="44" height="33" rx="7"/><text x="280.0" y="276.62" text-anchor="middle" style="font-size:17px">3</text><text class="tv" x="280.0" y="303" text-anchor="middle">1,1</text></g><g class="tn "><rect x="207.0" y="170" width="66" height="33" rx="7"/><text x="240.0" y="192.62" text-anchor="middle" style="font-size:17px">2..3</text><text class="tv" x="240.0" y="219" text-anchor="middle">1,9</text></g><g class="tn "><rect x="127.0" y="86" width="66" height="33" rx="7"/><text x="160.0" y="108.62" text-anchor="middle" style="font-size:17px">0..3</text><text class="tv" x="160.0" y="135" text-anchor="middle">1,9</text></g><g class="tn "><rect x="338.0" y="254" width="44" height="33" rx="7"/><text x="360.0" y="276.62" text-anchor="middle" style="font-size:17px">4</text><text class="tv" x="360.0" y="303" text-anchor="middle">7,7</text></g><g class="tn "><rect x="418.0" y="254" width="44" height="33" rx="7"/><text x="440.0" y="276.62" text-anchor="middle" style="font-size:17px">5</text><text class="tv" x="440.0" y="303" text-anchor="middle">3,3</text></g><g class="tn "><rect x="367.0" y="170" width="66" height="33" rx="7"/><text x="400.0" y="192.62" text-anchor="middle" style="font-size:17px">4..5</text><text class="tv" x="400.0" y="219" text-anchor="middle">3,7</text></g><g class="tn "><rect x="498.0" y="254" width="44" height="33" rx="7"/><text x="520.0" y="276.62" text-anchor="middle" style="font-size:17px">6</text><text class="tv" x="520.0" y="303" text-anchor="middle">8,8</text></g><g class="tn "><rect x="578.0" y="254" width="44" height="33" rx="7"/><text x="600.0" y="276.62" text-anchor="middle" style="font-size:17px">7</text><text class="tv" x="600.0" y="303" text-anchor="middle">6,6</text></g><g class="tn "><rect x="527.0" y="170" width="66" height="33" rx="7"/><text x="560.0" y="192.62" text-anchor="middle" style="font-size:17px">6..7</text><text class="tv" x="560.0" y="219" text-anchor="middle">6,8</text></g><g class="tn "><rect x="447.0" y="86" width="66" height="33" rx="7"/><text x="480.0" y="108.62" text-anchor="middle" style="font-size:17px">4..7</text><text class="tv" x="480.0" y="135" text-anchor="middle">3,8</text></g><g class="tn on"><rect x="287.0" y="2" width="66" height="33" rx="7"/><text x="320.0" y="24.62" text-anchor="middle" style="font-size:17px">0..7</text><text class="tv" x="320.0" y="51" text-anchor="middle">1,9</text></g></svg></div><p class="cen">W węzłach — przedziały indeksów, pod nimi — zwrócona para (min, max). Drzewo ma tylko <b>log₂ 8 = 3</b> poziomy podziałów.</p></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>6 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>03</b> · Szybkie potęgowanie</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">03</span><h2>Potęgowanie: zwykłe jest za wolne</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1.05fr 1fr;gap:34px;align-items:center"><div class="col"><div class="stack " style="--sg:16px"><div class="code-wrap"><div class="code-cap">z części 2 — n wywołań</div><pre class="code sm"><span class="ln"><span class="k">long</span> <span class="k">long</span> <span class="v">potega</span><span class="p">(</span><span class="k">long</span> <span class="k">long</span> <span class="v">a</span><span class="p">,</span> <span class="k">long</span> <span class="k">long</span> <span class="v">n</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">=</span><span class="p">=</span> <span class="n">0</span><span class="p">)</span> <span class="k">return</span> <span class="n">1</span><span class="p">;</span></span><span class="ln">    <span class="k">return</span> <span class="v">a</span> <span class="p">*</span> <span class="v">potega</span><span class="p">(</span><span class="v">a</span><span class="p">,</span> <span class="v">n</span> <span class="p">-</span> <span class="n">1</span><span class="p">)</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div><div class="warn"><span class="warn-label">Uwaga:</span> Dla n = 10¹⁸ to 10¹⁸ wywołań — nie skończy się do końca świata (i dużo wcześniej zabraknie stosu).</div></div></div><div class="col"><div class="stack " style="--sg:16px"><p class="">Pomysł: <b>a¹⁰⁰ = (a⁵⁰)²</b>. Wystarczy policzyć a⁵⁰ <b>raz</b> i podnieść do kwadratu. A a⁵⁰ = (a²⁵)², a a²⁵ = a · (a¹²)²…</p><table class="tbl mid"><thead><tr><th>n</th><th>wzór</th></tr></thead><tbody><tr><td>parzyste</td><td>aⁿ = (a<sup>n/2</sup>)²</td></tr><tr><td>nieparzyste</td><td>aⁿ = a · (a<sup>(n−1)/2</sup>)²</td></tr><tr><td>0</td><td>a⁰ = 1</td></tr></tbody></table></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>7 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>03</b> · Szybkie potęgowanie</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">03</span><h2>Przykład: 3¹³</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1.3fr 1fr;gap:34px;align-items:center"><div class="col"><table class="tbl mid"><colgroup><col style="width:30%"><col style="width:30%"><col style="width:40%"></colgroup><thead><tr><th>wywołanie</th><th>policz</th><th>wynik</th></tr></thead><tbody><tr><td><code class="ic">potega(3, 13)</code></td><td>3 · (3⁶)²</td><td>3 · 729² = <b>1 594 323</b></td></tr><tr><td><code class="ic">potega(3, 6)</code></td><td>(3³)²</td><td>27² = 729</td></tr><tr><td><code class="ic">potega(3, 3)</code></td><td>3 · (3¹)²</td><td>3 · 9 = 27</td></tr><tr><td><code class="ic">potega(3, 1)</code></td><td>3 · (3⁰)²</td><td>3 · 1 = 3</td></tr><tr><td><code class="ic">potega(3, 0)</code></td><td>stop</td><td>1</td></tr></tbody></table></div><div class="col"><div class="stack " style="--sg:16px"><p class="">Wykładnik maleje <b>o połowę</b>: 13 → 6 → 3 → 1 → 0. Zamiast 13 mnożeń — <b>5 wywołań</b>.</p><div class="good">Dla n = 10¹⁸ wystarczy ok. <b>60 wywołań</b>.</div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>8 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>03</b> · Szybkie potęgowanie</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">03</span><h2>Szybkie potęgowanie modulo m</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1.05fr 1fr;gap:34px;align-items:center"><div class="col"><div class="code-wrap"><pre class="code sm"><span class="ln"><span class="k">long</span> <span class="k">long</span> <span class="v">m</span><span class="p">;</span></span><span class="ln"> </span><span class="ln"><span class="k">long</span> <span class="k">long</span> <span class="v">potega</span><span class="p">(</span><span class="k">long</span> <span class="k">long</span> <span class="v">a</span><span class="p">,</span> <span class="k">long</span> <span class="k">long</span> <span class="v">n</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">=</span><span class="p">=</span> <span class="n">0</span><span class="p">)</span> <span class="k">return</span> <span class="n">1</span> <span class="p">%</span> <span class="v">m</span><span class="p">;</span></span><span class="ln hl">    <span class="k">long</span> <span class="k">long</span> <span class="v">p</span> <span class="p">=</span> <span class="v">potega</span><span class="p">(</span><span class="v">a</span><span class="p">,</span> <span class="v">n</span> <span class="p">/</span> <span class="n">2</span><span class="p">)</span><span class="p">;</span></span><span class="ln">    <span class="v">p</span> <span class="p">=</span> <span class="v">p</span> <span class="p">*</span> <span class="v">p</span> <span class="p">%</span> <span class="v">m</span><span class="p">;</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">%</span> <span class="n">2</span> <span class="p">=</span><span class="p">=</span> <span class="n">1</span><span class="p">)</span> <span class="v">p</span> <span class="p">=</span> <span class="v">p</span> <span class="p">*</span> <span class="p">(</span><span class="v">a</span> <span class="p">%</span> <span class="v">m</span><span class="p">)</span> <span class="p">%</span> <span class="v">m</span><span class="p">;</span></span><span class="ln">    <span class="k">return</span> <span class="v">p</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div></div><div class="col"><div class="stack " style="--sg:16px"><p class="">Wyniki potęg są gigantyczne, więc w zadaniach liczy się je <b>modulo m</b> — resztę z dzielenia przez m. Bierzemy resztę po każdym mnożeniu, żeby liczby nie urosły.</p><div class="warn"><span class="warn-label">Uwaga:</span> Linijka 5: <code class="ic">potega(a, n / 2)</code> wywołujemy <b>jeden raz</b> i zapisujemy w zmiennej. Napisanie <code class="ic">potega(a, n/2) * potega(a, n/2)</code> zrobiłoby z powrotem n wywołań!</div><div class="note">Gdy m ≤ 10⁹, iloczyn dwóch reszt jest mniejszy niż 10¹⁸ — mieści się w long long.</div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>9 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>04</b> · Wyszukiwanie binarne</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">04</span><h2>Wyszukiwanie binarne — zgadnij liczbę</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1fr;gap:34px;align-items:center"><div class="col"><div class="stack " style="--sg:16px"><p class="">Gra: myślę o liczbie od 1 do 100, a Ty zgadujesz. Na każdą próbę mówię „więcej” albo „mniej”. Najlepiej pytać o <b>środek</b> — każda odpowiedź wyrzuca <b>połowę</b> możliwości.</p><p class="">Wystarczy <b>7 pytań</b>: 100 → 50 → 25 → 13 → 7 → 4 → 2 → 1.</p></div></div><div class="col"><div class="stack " style="--sg:16px"><p class="">Tak samo szukamy liczby x w <b>posortowanej</b> tablicy: patrzymy na środkowy element.</p><ol class="steps tight"><li>środek == x — <b>znalezione</b>,</li><li>środek > x — x może być tylko w <b>lewej</b> połowie,</li><li>środek < x — tylko w <b>prawej</b>.</li></ol></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>10 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>04</b> · Wyszukiwanie binarne</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">04</span><h2>Szukamy x = 11</h2></div>
+  <div class="content"><div class="stack " style="--sg:14px"><div class="stack " style="--sg:8px"><div class="arr" style="--cw:60px;--cf:23px;--gap:6px"><div class="arow"><div class="al sm" style="width:7ch"></div><div class="pt"><b>l</b><span>↓</span></div><div class="pt"></div><div class="pt"></div><div class="pt"><b>s</b><span>↓</span></div><div class="pt"></div><div class="pt"></div><div class="pt"></div><div class="pt"><b>r</b><span>↓</span></div></div><div class="arow"><div class="al " style="width:7ch">a</div><div class="cell ">1</div><div class="cell ">3</div><div class="cell ">5</div><div class="cell  hi">7</div><div class="cell ">9</div><div class="cell ">11</div><div class="cell ">13</div><div class="cell ">15</div></div><div class="arow"><div class="al sm" style="width:7ch">indeks</div><div class="idx">0</div><div class="idx">1</div><div class="idx">2</div><div class="idx hi">3</div><div class="idx">4</div><div class="idx">5</div><div class="idx">6</div><div class="idx">7</div></div><div class="arow"><div class="al " style="width:7ch"></div><div class="span " style="width:calc(var(--cw)*8 + var(--gap)*7)"><div class="br"></div><div class="sl">szukamy tu</div></div></div></div><p class="">l = 0, r = 7, środek s = 3: a[3] = 7 < 11 → szukamy w prawej połowie (4…7).</p></div><div class="stack " style="--sg:8px"><div class="arr" style="--cw:60px;--cf:23px;--gap:6px"><div class="arow"><div class="al sm" style="width:7ch"></div><div class="pt"></div><div class="pt"></div><div class="pt"></div><div class="pt"></div><div class="pt"><b>l</b><span>↓</span></div><div class="pt"><b>s</b><span>↓</span></div><div class="pt"></div><div class="pt"><b>r</b><span>↓</span></div></div><div class="arow"><div class="al " style="width:7ch">a</div><div class="cell ">1</div><div class="cell ">3</div><div class="cell ">5</div><div class="cell ">7</div><div class="cell ">9</div><div class="cell  hi">11</div><div class="cell ">13</div><div class="cell ">15</div></div><div class="arow"><div class="al sm" style="width:7ch">indeks</div><div class="idx">0</div><div class="idx">1</div><div class="idx">2</div><div class="idx">3</div><div class="idx">4</div><div class="idx hi">5</div><div class="idx">6</div><div class="idx">7</div></div><div class="arow"><div class="al " style="width:7ch"></div><div style="width:calc(var(--cw)*4 + var(--gap)*3)"></div><div class="span " style="width:calc(var(--cw)*4 + var(--gap)*3)"><div class="br"></div><div class="sl">szukamy tu</div></div></div></div><p class="">l = 4, r = 7, s = 5: a[5] = 11 == 11 → <b>znalezione</b> na indeksie 5.</p></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>11 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>04</b> · Wyszukiwanie binarne</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">04</span><h2>Wyszukiwanie binarne — kod</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1.05fr 1fr;gap:34px;align-items:center"><div class="col"><div class="code-wrap"><pre class="code sm"><span class="ln"><span class="k">int</span> <span class="v">szukaj</span><span class="p">(</span><span class="k">int</span> <span class="v">l</span><span class="p">,</span> <span class="k">int</span> <span class="v">r</span><span class="p">,</span> <span class="k">int</span> <span class="v">x</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">l</span> <span class="p">&gt;</span> <span class="v">r</span><span class="p">)</span> <span class="k">return</span> <span class="n">-1</span><span class="p">;</span>          <span class="c">// pusto: nie ma</span></span><span class="ln">    <span class="k">int</span> <span class="v">s</span> <span class="p">=</span> <span class="p">(</span><span class="v">l</span> <span class="p">+</span> <span class="v">r</span><span class="p">)</span> <span class="p">/</span> <span class="n">2</span><span class="p">;</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">a</span><span class="p">[</span><span class="v">s</span><span class="p">]</span> <span class="p">=</span><span class="p">=</span> <span class="v">x</span><span class="p">)</span> <span class="k">return</span> <span class="v">s</span><span class="p">;</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">a</span><span class="p">[</span><span class="v">s</span><span class="p">]</span> <span class="p">&gt;</span> <span class="v">x</span><span class="p">)</span> <span class="k">return</span> <span class="v">szukaj</span><span class="p">(</span><span class="v">l</span><span class="p">,</span> <span class="v">s</span> <span class="p">-</span> <span class="n">1</span><span class="p">,</span> <span class="v">x</span><span class="p">)</span><span class="p">;</span></span><span class="ln">    <span class="k">return</span> <span class="v">szukaj</span><span class="p">(</span><span class="v">s</span> <span class="p">+</span> <span class="n">1</span><span class="p">,</span> <span class="v">r</span><span class="p">,</span> <span class="v">x</span><span class="p">)</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div></div><div class="col"><div class="stack " style="--sg:16px"><p class="">Tylko <b>jedno</b> wywołanie rekurencyjne — do tej połowy, w której x może być. Druga połowa jest odrzucana w całości.</p><table class="tbl mid ctr"><thead><tr><th>n</th><th>najwyżej kroków</th></tr></thead><tbody><tr><td>1 000</td><td>10</td></tr><tr><td>1 000 000</td><td>20</td></tr><tr><td>10⁹</td><td>30</td></tr></tbody></table><div class="warn"><span class="warn-label">Uwaga:</span> Działa <b>tylko na posortowanej tablicy</b>! W kompendium o wyszukiwaniu binarnym są osobne tematy — to dopiero wstęp.</div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>12 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>05</b> · Scalanie dwóch ciągów</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">05</span><h2>Scalanie dwóch posortowanych ciągów</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1.1fr;gap:34px;align-items:center"><div class="col"><div class="stack " style="--sg:16px"><div class="arr" style="--cw:48px;--cf:19px;--gap:5px"><div class="arow"><div class="al sm" style="width:7ch"></div><div class="pt"><b>i</b><span>↓</span></div><div class="pt"></div><div class="pt"></div></div><div class="arow"><div class="al " style="width:7ch">a</div><div class="cell  hi">1</div><div class="cell ">4</div><div class="cell ">9</div></div><div class="arow"><div class="al sm" style="width:7ch">indeks</div><div class="idx hi">0</div><div class="idx">1</div><div class="idx">2</div></div></div><div class="arr" style="--cw:48px;--cf:19px;--gap:5px"><div class="arow"><div class="al sm" style="width:7ch"></div><div class="pt"><b>j</b><span>↓</span></div><div class="pt"></div><div class="pt"></div><div class="pt"></div></div><div class="arow"><div class="al " style="width:7ch">b</div><div class="cell ">2</div><div class="cell ">3</div><div class="cell ">4</div><div class="cell ">10</div></div><div class="arow"><div class="al sm" style="width:7ch">indeks</div><div class="idx">0</div><div class="idx">1</div><div class="idx">2</div><div class="idx">3</div></div></div><div class="arr" style="--cw:48px;--cf:19px;--gap:5px"><div class="arow"><div class="al " style="width:6ch">wynik</div><div class="cell ">1</div></div></div></div></div><div class="col"><div class="stack " style="--sg:16px"><p class="">Najmniejszy element wyniku to <b>mniejszy z pierwszych</b> elementów obu ciągów: min(1, 2) = 1. Przepisujemy go i przesuwamy wskaźnik w tym ciągu, z którego wzięliśmy.</p><div class="note">Potem znowu porównujemy pierwsze nieprzepisane elementy: 4 i 2 → bierzemy 2. I tak dalej, aż oba ciągi się skończą.</div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>13 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>05</b> · Scalanie dwóch ciągów</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">05</span><h2>Scalanie krok po kroku</h2></div>
+  <div class="content"><table class="tbl mid"><colgroup><col style="width:10%"><col style="width:28%"><col style="width:32%"><col style="width:30%"></colgroup><thead><tr><th>krok</th><th>porównujemy</th><th>bierzemy</th><th>wynik</th></tr></thead><tbody><tr><td>1</td><td>a: 1, b: 2</td><td>1 z a</td><td>1</td></tr><tr><td>2</td><td>a: 4, b: 2</td><td>2 z b</td><td>1 2</td></tr><tr><td>3</td><td>a: 4, b: 3</td><td>3 z b</td><td>1 2 3</td></tr><tr><td>4</td><td>a: 4, b: 4</td><td>4 z a (przy remisie — z a)</td><td>1 2 3 4</td></tr><tr><td>5</td><td>a: 9, b: 4</td><td>4 z b</td><td>1 2 3 4 4</td></tr><tr><td>6</td><td>a: 9, b: 10</td><td>9 z a</td><td>1 2 3 4 4 9</td></tr><tr><td>7</td><td>a skończone</td><td>10 z b</td><td>1 2 3 4 4 9 <b>10</b></td></tr></tbody></table><div class="note">Każdy element przepisujemy raz, więc scalanie ciągów o długościach n i m to tylko <b>n + m</b> kroków.</div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>14 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>05</b> · Scalanie dwóch ciągów</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">05</span><h2>Scalanie — kod</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1fr;gap:30px;align-items:start"><div class="col"><div class="code-wrap"><div class="code-cap">rekurencyjnie</div><pre class="code sm"><span class="ln"><span class="k">void</span> <span class="v">scal</span><span class="p">(</span><span class="k">int</span> <span class="v">i</span><span class="p">,</span> <span class="k">int</span> <span class="v">j</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">i</span> <span class="p">=</span><span class="p">=</span> <span class="v">n</span> <span class="p">&amp;</span><span class="p">&amp;</span> <span class="v">j</span> <span class="p">=</span><span class="p">=</span> <span class="v">m</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">j</span> <span class="p">=</span><span class="p">=</span> <span class="v">m</span> <span class="p">|</span><span class="p">|</span> <span class="p">(</span><span class="v">i</span> <span class="p">&lt;</span> <span class="v">n</span> <span class="p">&amp;</span><span class="p">&amp;</span> <span class="v">a</span><span class="p">[</span><span class="v">i</span><span class="p">]</span> <span class="p">&lt;</span><span class="p">=</span> <span class="v">b</span><span class="p">[</span><span class="v">j</span><span class="p">]</span><span class="p">)</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">        <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">a</span><span class="p">[</span><span class="v">i</span><span class="p">]</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">" "</span><span class="p">;</span></span><span class="ln">        <span class="v">scal</span><span class="p">(</span><span class="v">i</span> <span class="p">+</span> <span class="n">1</span><span class="p">,</span> <span class="v">j</span><span class="p">)</span><span class="p">;</span></span><span class="ln">    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span></span><span class="ln">        <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">b</span><span class="p">[</span><span class="v">j</span><span class="p">]</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">" "</span><span class="p">;</span></span><span class="ln">        <span class="v">scal</span><span class="p">(</span><span class="v">i</span><span class="p">,</span> <span class="v">j</span> <span class="p">+</span> <span class="n">1</span><span class="p">)</span><span class="p">;</span></span><span class="ln">    <span class="p">}</span></span><span class="ln"><span class="p">}</span></span></pre></div></div><div class="col"><div class="code-wrap"><div class="code-cap">pętlą — w sortowaniu przez scalanie</div><pre class="code sm"><span class="ln"><span class="k">int</span> <span class="v">i</span> <span class="p">=</span> <span class="v">l</span><span class="p">,</span> <span class="v">j</span> <span class="p">=</span> <span class="v">s</span> <span class="p">+</span> <span class="n">1</span><span class="p">,</span> <span class="v">k</span> <span class="p">=</span> <span class="v">l</span><span class="p">;</span></span><span class="ln"><span class="k">while</span> <span class="p">(</span><span class="v">i</span> <span class="p">&lt;</span><span class="p">=</span> <span class="v">s</span> <span class="p">|</span><span class="p">|</span> <span class="v">j</span> <span class="p">&lt;</span><span class="p">=</span> <span class="v">r</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">j</span> <span class="p">&gt;</span> <span class="v">r</span> <span class="p">|</span><span class="p">|</span> <span class="p">(</span><span class="v">i</span> <span class="p">&lt;</span><span class="p">=</span> <span class="v">s</span> <span class="p">&amp;</span><span class="p">&amp;</span> <span class="v">a</span><span class="p">[</span><span class="v">i</span><span class="p">]</span> <span class="p">&lt;</span><span class="p">=</span> <span class="v">a</span><span class="p">[</span><span class="v">j</span><span class="p">]</span><span class="p">)</span><span class="p">)</span></span><span class="ln">        <span class="v">pom</span><span class="p">[</span><span class="v">k</span><span class="p">+</span><span class="p">+</span><span class="p">]</span> <span class="p">=</span> <span class="v">a</span><span class="p">[</span><span class="v">i</span><span class="p">+</span><span class="p">+</span><span class="p">]</span><span class="p">;</span></span><span class="ln">    <span class="k">else</span></span><span class="ln">        <span class="v">pom</span><span class="p">[</span><span class="v">k</span><span class="p">+</span><span class="p">+</span><span class="p">]</span> <span class="p">=</span> <span class="v">a</span><span class="p">[</span><span class="v">j</span><span class="p">+</span><span class="p">+</span><span class="p">]</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div></div></div><div class="note">W sortowaniu scalamy dwie <b>połowy tej samej tablicy</b> (l…s i s + 1…r) do tablicy pomocniczej pom, a potem kopiujemy wynik z powrotem.</div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>15 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>06</b> · Sortowanie przez scalanie</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">06</span><h2>Sortowanie przez scalanie (merge sort)</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1.1fr 1fr;gap:34px;align-items:center"><div class="col"><div class="stack " style="--sg:16px"><ol class="steps big"><li>jeden element jest już <b>posortowany</b> — stop,</li><li>podziel tablicę na <b>dwie połowy</b>,</li><li>posortuj każdą połowę <b>rekurencyjnie</b>,</li><li><b>scal</b> dwie posortowane połowy.</li></ol></div></div><div class="col"><div class="stack " style="--sg:16px"><div class="note">Zaufaj rekurencji: zakładamy, że wywołania dla połówek <b>już umieją sortować</b>. Nam zostaje tylko scalić ich wyniki — a to umiemy.</div><p class="muted">Ten algorytm pokazuje Striver w filmie „Merge Sort” z playlisty — zobacz go po tej prezentacji.</p></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>16 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>06</b> · Sortowanie przez scalanie</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">06</span><h2>Dzielenie — w dół</h2></div>
+  <div class="content"><div class="lvls" style="--cw:48px;--cf:19px;--gap:5px"><div class="lvl"><div class="lvl-l">cała tablica</div><div class="lvl-g"><div class="grp "><div class="cell">5</div><div class="cell">2</div><div class="cell">4</div><div class="cell">6</div><div class="cell">1</div><div class="cell">3</div><div class="cell">2</div><div class="cell">6</div></div></div></div><div class="lvl"><div class="lvl-l">połowy</div><div class="lvl-g"><div class="grp "><div class="cell">5</div><div class="cell">2</div><div class="cell">4</div><div class="cell">6</div></div><div class="grp "><div class="cell">1</div><div class="cell">3</div><div class="cell">2</div><div class="cell">6</div></div></div></div><div class="lvl"><div class="lvl-l">ćwiartki</div><div class="lvl-g"><div class="grp "><div class="cell">5</div><div class="cell">2</div></div><div class="grp "><div class="cell">4</div><div class="cell">6</div></div><div class="grp "><div class="cell">1</div><div class="cell">3</div></div><div class="grp "><div class="cell">2</div><div class="cell">6</div></div></div></div><div class="lvl"><div class="lvl-l">pojedyncze</div><div class="lvl-g"><div class="grp done"><div class="cell">5</div></div><div class="grp done"><div class="cell">2</div></div><div class="grp done"><div class="cell">4</div></div><div class="grp done"><div class="cell">6</div></div><div class="grp done"><div class="cell">1</div></div><div class="grp done"><div class="cell">3</div></div><div class="grp done"><div class="cell">2</div></div><div class="grp done"><div class="cell">6</div></div></div></div></div><p class="cen">W drodze w dół tylko dzielimy — nic jeszcze nie jest posortowane. Pojedyncze elementy (fioletowe) są posortowane „same z siebie”.</p></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>17 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>06</b> · Sortowanie przez scalanie</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">06</span><h2>Scalanie — w górę</h2></div>
+  <div class="content"><div class="lvls" style="--cw:48px;--cf:19px;--gap:5px"><div class="lvl"><div class="lvl-l">pojedyncze</div><div class="lvl-g"><div class="grp done"><div class="cell">5</div></div><div class="grp done"><div class="cell">2</div></div><div class="grp done"><div class="cell">4</div></div><div class="grp done"><div class="cell">6</div></div><div class="grp done"><div class="cell">1</div></div><div class="grp done"><div class="cell">3</div></div><div class="grp done"><div class="cell">2</div></div><div class="grp done"><div class="cell">6</div></div></div></div><div class="lvl"><div class="lvl-l">scalone pary</div><div class="lvl-g"><div class="grp on"><div class="cell">2</div><div class="cell">5</div></div><div class="grp on"><div class="cell">4</div><div class="cell">6</div></div><div class="grp on"><div class="cell">1</div><div class="cell">3</div></div><div class="grp on"><div class="cell">2</div><div class="cell">6</div></div></div></div><div class="lvl"><div class="lvl-l">scalone czwórki</div><div class="lvl-g"><div class="grp on"><div class="cell">2</div><div class="cell">4</div><div class="cell">5</div><div class="cell">6</div></div><div class="grp on"><div class="cell">1</div><div class="cell">2</div><div class="cell">3</div><div class="cell">6</div></div></div></div><div class="lvl"><div class="lvl-l">posortowane!</div><div class="lvl-g"><div class="grp on"><div class="cell">1</div><div class="cell">2</div><div class="cell">2</div><div class="cell">3</div><div class="cell">4</div><div class="cell">5</div><div class="cell">6</div><div class="cell">6</div></div></div></div></div><p class="cen">W drodze w górę każde wywołanie <b>scala</b> dwie posortowane połówki. Kod scalania jest <b>po</b> wywołaniach rekurencyjnych — wykonuje się w drodze powrotnej.</p></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>18 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>06</b> · Sortowanie przez scalanie</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">06</span><h2>Sortowanie przez scalanie — kod</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1.1fr 1fr;gap:34px;align-items:center"><div class="col"><div class="code-wrap"><pre class="code xs"><span class="ln"><span class="k">int</span> <span class="v">a</span><span class="p">[</span><span class="n">100000</span><span class="p">]</span><span class="p">,</span> <span class="v">pom</span><span class="p">[</span><span class="n">100000</span><span class="p">]</span><span class="p">;</span></span><span class="ln"> </span><span class="ln"><span class="k">void</span> <span class="v">sortuj</span><span class="p">(</span><span class="k">int</span> <span class="v">l</span><span class="p">,</span> <span class="k">int</span> <span class="v">r</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">l</span> <span class="p">&gt;</span><span class="p">=</span> <span class="v">r</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span></span><span class="ln">    <span class="k">int</span> <span class="v">s</span> <span class="p">=</span> <span class="p">(</span><span class="v">l</span> <span class="p">+</span> <span class="v">r</span><span class="p">)</span> <span class="p">/</span> <span class="n">2</span><span class="p">;</span></span><span class="ln hl">    <span class="v">sortuj</span><span class="p">(</span><span class="v">l</span><span class="p">,</span> <span class="v">s</span><span class="p">)</span><span class="p">;</span></span><span class="ln hl">    <span class="v">sortuj</span><span class="p">(</span><span class="v">s</span> <span class="p">+</span> <span class="n">1</span><span class="p">,</span> <span class="v">r</span><span class="p">)</span><span class="p">;</span></span><span class="ln">    <span class="k">int</span> <span class="v">i</span> <span class="p">=</span> <span class="v">l</span><span class="p">,</span> <span class="v">j</span> <span class="p">=</span> <span class="v">s</span> <span class="p">+</span> <span class="n">1</span><span class="p">,</span> <span class="v">k</span> <span class="p">=</span> <span class="v">l</span><span class="p">;</span></span><span class="ln">    <span class="k">while</span> <span class="p">(</span><span class="v">i</span> <span class="p">&lt;</span><span class="p">=</span> <span class="v">s</span> <span class="p">|</span><span class="p">|</span> <span class="v">j</span> <span class="p">&lt;</span><span class="p">=</span> <span class="v">r</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">        <span class="k">if</span> <span class="p">(</span><span class="v">j</span> <span class="p">&gt;</span> <span class="v">r</span> <span class="p">|</span><span class="p">|</span> <span class="p">(</span><span class="v">i</span> <span class="p">&lt;</span><span class="p">=</span> <span class="v">s</span> <span class="p">&amp;</span><span class="p">&amp;</span> <span class="v">a</span><span class="p">[</span><span class="v">i</span><span class="p">]</span> <span class="p">&lt;</span><span class="p">=</span> <span class="v">a</span><span class="p">[</span><span class="v">j</span><span class="p">]</span><span class="p">)</span><span class="p">)</span></span><span class="ln">            <span class="v">pom</span><span class="p">[</span><span class="v">k</span><span class="p">+</span><span class="p">+</span><span class="p">]</span> <span class="p">=</span> <span class="v">a</span><span class="p">[</span><span class="v">i</span><span class="p">+</span><span class="p">+</span><span class="p">]</span><span class="p">;</span></span><span class="ln">        <span class="k">else</span></span><span class="ln">            <span class="v">pom</span><span class="p">[</span><span class="v">k</span><span class="p">+</span><span class="p">+</span><span class="p">]</span> <span class="p">=</span> <span class="v">a</span><span class="p">[</span><span class="v">j</span><span class="p">+</span><span class="p">+</span><span class="p">]</span><span class="p">;</span></span><span class="ln">    <span class="p">}</span></span><span class="ln">    <span class="k">for</span> <span class="p">(</span><span class="k">int</span> <span class="v">x</span> <span class="p">=</span> <span class="v">l</span><span class="p">;</span> <span class="v">x</span> <span class="p">&lt;</span><span class="p">=</span> <span class="v">r</span><span class="p">;</span> <span class="v">x</span><span class="p">+</span><span class="p">+</span><span class="p">)</span> <span class="v">a</span><span class="p">[</span><span class="v">x</span><span class="p">]</span> <span class="p">=</span> <span class="v">pom</span><span class="p">[</span><span class="v">x</span><span class="p">]</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div></div><div class="col"><div class="stack " style="--sg:16px"><p class="">Wywołanie z main: <code class="ic">sortuj(0, n - 1)</code>.</p><ol class="steps tight"><li>linijka 4: fragment z 0 lub 1 elementem jest posortowany,</li><li>linijki 6–7: posortuj połówki (zaufaj rekurencji!),</li><li>linijki 8–14: scal połówki do pom,</li><li>linijka 15: przepisz z powrotem do a.</li></ol></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>19 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>07</b> · Ile to kosztuje?</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">07</span><h2>Ile pracy wykonuje merge sort?</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1.15fr;gap:34px;align-items:center"><div class="col"><div class="stack " style="--sg:16px"><p class="">Spójrz na schemat scalania „w górę”: na <b>każdym poziomie</b> scalamy kawałki, które razem mają <b>n</b> elementów. To ok. n operacji na poziom.</p><p class="">Poziomów jest <b>log₂ n</b>. Razem: <b>n · log₂ n</b> operacji.</p><div class="good">Dla n = 100 000 to ok. <b>1,7 miliona</b> operacji — ułamek sekundy.</div></div></div><div class="col"><table class="tbl mid"><colgroup><col style="width:20%"><col style="width:42%"><col style="width:38%"></colgroup><thead><tr><th>n</th><th>n² (sortowanie „bąbelkowe”)</th><th>n · log₂ n (merge sort)</th></tr></thead><tbody><tr><td>1 000</td><td>1 000 000</td><td>ok. 10 000</td></tr><tr><td>100 000</td><td>10¹⁰ — <b class="no">za wolno</b></td><td>ok. 1,7 · 10⁶</td></tr><tr><td>1 000 000</td><td>10¹² — <b class="no">za wolno</b></td><td>ok. 2 · 10⁷</td></tr></tbody></table></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>20 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>07</b> · Ile to kosztuje?</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">07</span><h2>Dlaczego dzielenie na pół jest tak dobre?</h2></div>
+  <div class="content"><div class="stack " style="--sg:18px"><div class="big">Głębokość <em>log n</em> zamiast n — to różnica między <em>30</em> a <strong>miliardem</strong>.</div><table class="tbl mid"><colgroup><col style="width:38%"><col style="width:40%"><col style="width:22%"></colgroup><thead><tr><th>algorytm</th><th>jak maleje problem</th><th>złożoność</th></tr></thead><tbody><tr><td>suma tablicy (część 2)</td><td>n → n − 1, jedno wywołanie</td><td>O(n)</td></tr><tr><td>Fibonacci bez pamięci (część 3)</td><td>n → n − 1 i n − 2</td><td>O(2ⁿ)</td></tr><tr><td>wyszukiwanie binarne</td><td>n → n / 2, jedno wywołanie</td><td><b>O(log n)</b></td></tr><tr><td>szybkie potęgowanie</td><td>n → n / 2, jedno wywołanie</td><td><b>O(log n)</b></td></tr><tr><td>merge sort</td><td>n → dwa razy n / 2 + scalanie O(n)</td><td><b>O(n log n)</b></td></tr></tbody></table></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>21 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>08</b> · Zliczanie inwersji</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">08</span><h2>Inwersje</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1.1fr;gap:34px;align-items:center"><div class="col"><div class="stack " style="--sg:16px"><p class=""><b>Inwersja</b> to para elementów stojących „w złej kolejności”: większy przed mniejszym, czyli i < j i aᵢ > aⱼ.</p><div class="arr" style="--cw:60px;--cf:23px;--gap:6px"><div class="arow"><div class="al " style="width:7ch">a</div><div class="cell ">2</div><div class="cell  sel">4</div><div class="cell  hi">1</div><div class="cell  sel">3</div><div class="cell ">5</div></div><div class="arow"><div class="al sm" style="width:7ch">indeks</div><div class="idx">0</div><div class="idx">1</div><div class="idx hi">2</div><div class="idx">3</div><div class="idx">4</div></div></div><p class="">Inwersje: (2, 1), (4, 1), (4, 3) — razem <b>3</b>.</p></div></div><div class="col"><div class="stack " style="--sg:16px"><p class="">Liczba inwersji mówi, jak bardzo tablica jest „nieposortowana”: posortowana ma 0 inwersji, odwrócona — najwięcej, n(n − 1) / 2.</p><div class="note">Sprawdzanie każdej pary to n² / 2 porównań — dla n = 10⁵ za dużo. Da się szybciej: <b>podczas sortowania przez scalanie</b>. (Film Strivera „Count Inversions”.)</div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>22 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>08</b> · Zliczanie inwersji</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">08</span><h2>Inwersje policzymy przy scalaniu</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1.1fr;gap:34px;align-items:center"><div class="col"><div class="stack " style="--sg:16px"><div class="arr" style="--cw:48px;--cf:19px;--gap:5px"><div class="arow"><div class="al sm" style="width:7ch"></div><div class="pt"><b>i</b><span>↓</span></div><div class="pt"></div></div><div class="arow"><div class="al " style="width:7ch">lewa</div><div class="cell ">2</div><div class="cell ">4</div></div><div class="arow"><div class="al sm" style="width:7ch">indeks</div><div class="idx">0</div><div class="idx">1</div></div></div><div class="arr" style="--cw:48px;--cf:19px;--gap:5px"><div class="arow"><div class="al sm" style="width:7ch"></div><div class="pt"><b>j</b><span>↓</span></div><div class="pt"></div></div><div class="arow"><div class="al " style="width:7ch">prawa</div><div class="cell  hi">1</div><div class="cell ">3</div></div><div class="arow"><div class="al sm" style="width:7ch">indeks</div><div class="idx hi">0</div><div class="idx">1</div></div></div><p class="">Bierzemy <b>1</b> z prawej połowy. Jest mniejsze od <b>wszystkich</b> elementów, które zostały w lewej: 2 i 4. To <b>2 inwersje</b> naraz!</p></div></div><div class="col"><div class="stack " style="--sg:16px"><p class="">Każda inwersja jest albo w lewej połowie, albo w prawej (te policzą wywołania rekurencyjne), albo <b>„pomiędzy”</b>: większy element w lewej, mniejszy w prawej.</p><div class="good">Te „pomiędzy” liczymy przy scalaniu: gdy bierzemy element z prawej, dodajemy liczbę elementów <b>pozostałych w lewej</b> połowie: <code class="ic">s - i + 1</code>.</div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>23 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>08</b> · Zliczanie inwersji</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">08</span><h2>Zliczanie inwersji — kod</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1.15fr 1fr;gap:34px;align-items:center"><div class="col"><div class="code-wrap"><pre class="code xs"><span class="ln"><span class="k">long</span> <span class="k">long</span> <span class="v">sortuj</span><span class="p">(</span><span class="k">int</span> <span class="v">l</span><span class="p">,</span> <span class="k">int</span> <span class="v">r</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">l</span> <span class="p">&gt;</span><span class="p">=</span> <span class="v">r</span><span class="p">)</span> <span class="k">return</span> <span class="n">0</span><span class="p">;</span></span><span class="ln">    <span class="k">int</span> <span class="v">s</span> <span class="p">=</span> <span class="p">(</span><span class="v">l</span> <span class="p">+</span> <span class="v">r</span><span class="p">)</span> <span class="p">/</span> <span class="n">2</span><span class="p">;</span></span><span class="ln hl">    <span class="k">long</span> <span class="k">long</span> <span class="v">w</span> <span class="p">=</span> <span class="v">sortuj</span><span class="p">(</span><span class="v">l</span><span class="p">,</span> <span class="v">s</span><span class="p">)</span> <span class="p">+</span> <span class="v">sortuj</span><span class="p">(</span><span class="v">s</span> <span class="p">+</span> <span class="n">1</span><span class="p">,</span> <span class="v">r</span><span class="p">)</span><span class="p">;</span></span><span class="ln">    <span class="k">int</span> <span class="v">i</span> <span class="p">=</span> <span class="v">l</span><span class="p">,</span> <span class="v">j</span> <span class="p">=</span> <span class="v">s</span> <span class="p">+</span> <span class="n">1</span><span class="p">,</span> <span class="v">k</span> <span class="p">=</span> <span class="v">l</span><span class="p">;</span></span><span class="ln">    <span class="k">while</span> <span class="p">(</span><span class="v">i</span> <span class="p">&lt;</span><span class="p">=</span> <span class="v">s</span> <span class="p">|</span><span class="p">|</span> <span class="v">j</span> <span class="p">&lt;</span><span class="p">=</span> <span class="v">r</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">        <span class="k">if</span> <span class="p">(</span><span class="v">j</span> <span class="p">&gt;</span> <span class="v">r</span> <span class="p">|</span><span class="p">|</span> <span class="p">(</span><span class="v">i</span> <span class="p">&lt;</span><span class="p">=</span> <span class="v">s</span> <span class="p">&amp;</span><span class="p">&amp;</span> <span class="v">a</span><span class="p">[</span><span class="v">i</span><span class="p">]</span> <span class="p">&lt;</span><span class="p">=</span> <span class="v">a</span><span class="p">[</span><span class="v">j</span><span class="p">]</span><span class="p">)</span><span class="p">)</span></span><span class="ln">            <span class="v">pom</span><span class="p">[</span><span class="v">k</span><span class="p">+</span><span class="p">+</span><span class="p">]</span> <span class="p">=</span> <span class="v">a</span><span class="p">[</span><span class="v">i</span><span class="p">+</span><span class="p">+</span><span class="p">]</span><span class="p">;</span></span><span class="ln">        <span class="k">else</span> <span class="p">{</span></span><span class="ln hl">            <span class="v">w</span> <span class="p">+</span><span class="p">=</span> <span class="v">s</span> <span class="p">-</span> <span class="v">i</span> <span class="p">+</span> <span class="n">1</span><span class="p">;</span></span><span class="ln">            <span class="v">pom</span><span class="p">[</span><span class="v">k</span><span class="p">+</span><span class="p">+</span><span class="p">]</span> <span class="p">=</span> <span class="v">a</span><span class="p">[</span><span class="v">j</span><span class="p">+</span><span class="p">+</span><span class="p">]</span><span class="p">;</span></span><span class="ln">        <span class="p">}</span></span><span class="ln">    <span class="p">}</span></span><span class="ln">    <span class="k">for</span> <span class="p">(</span><span class="k">int</span> <span class="v">x</span> <span class="p">=</span> <span class="v">l</span><span class="p">;</span> <span class="v">x</span> <span class="p">&lt;</span><span class="p">=</span> <span class="v">r</span><span class="p">;</span> <span class="v">x</span><span class="p">+</span><span class="p">+</span><span class="p">)</span> <span class="v">a</span><span class="p">[</span><span class="v">x</span><span class="p">]</span> <span class="p">=</span> <span class="v">pom</span><span class="p">[</span><span class="v">x</span><span class="p">]</span><span class="p">;</span></span><span class="ln">    <span class="k">return</span> <span class="v">w</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div></div><div class="col"><div class="stack " style="--sg:16px"><p class="">To <b>merge sort</b> z jedną dodatkową linijką (10) i wynikiem zwracanym przez return.</p><ol class="steps tight"><li>inwersje w lewej połowie + inwersje w prawej (linijka 4),</li><li>plus inwersje „pomiędzy”, liczone przy scalaniu (linijka 10).</li></ol><div class="warn"><span class="warn-label">Uwaga:</span> Przy remisie (a[i] == a[j]) bierz z <b>lewej</b> — równe liczby nie tworzą inwersji. Wynik może przekroczyć int.</div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>24 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>09</b> · Quicksort i quickselect</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">09</span><h2>Quicksort — inny sposób dzielenia</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1.1fr;gap:34px;align-items:center"><div class="col"><div class="stack " style="--sg:16px"><p class="">Merge sort dzieli „na ślepo” na pół, a cała praca jest przy <b>łączeniu</b>. Quicksort robi odwrotnie: cała praca jest przy <b>dzieleniu</b>.</p><ol class="steps tight"><li>wybierz element osiowy — <b>pivot</b>,</li><li>rozdziel elementy na <b>mniejsze</b>, <b>równe</b> i <b>większe</b> od pivota,</li><li>posortuj rekurencyjnie mniejsze i większe,</li><li>połącz: mniejsze, równe, większe — i gotowe.</li></ol></div></div><div class="col"><div class="lvls" style="--cw:48px;--cf:19px;--gap:5px"><div class="lvl"><div class="lvl-l">pivot = 5</div><div class="lvl-g"><div class="grp "><div class="cell">5</div><div class="cell">2</div><div class="cell">9</div><div class="cell">1</div><div class="cell">5</div><div class="cell">7</div><div class="cell">3</div></div></div></div><div class="lvl"><div class="lvl-l">podział</div><div class="lvl-g"><div class="grp "><div class="cell">2</div><div class="cell">1</div><div class="cell">3</div></div><div class="grp or"><div class="cell">5</div><div class="cell">5</div></div><div class="grp "><div class="cell">9</div><div class="cell">7</div></div></div></div><div class="lvl"><div class="lvl-l">po sortowaniu części</div><div class="lvl-g"><div class="grp on"><div class="cell">1</div><div class="cell">2</div><div class="cell">3</div></div><div class="grp or"><div class="cell">5</div><div class="cell">5</div></div><div class="grp on"><div class="cell">7</div><div class="cell">9</div></div></div></div></div></div></div><div class="note">Quicksort pokazuje Striver w filmie „Quick Sort For Beginners”. Zwykle jest bardzo szybki, ale przy pechowym pivocie (np. zawsze najmniejszy element) zwalnia do n² — dlatego pivot losuje się albo bierze ze środka.</div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>25 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>09</b> · Quicksort i quickselect</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">09</span><h2>Quickselect: k-ty najmniejszy element</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1.15fr 1fr;gap:34px;align-items:center"><div class="col"><div class="code-wrap"><pre class="code xs"><span class="ln"><span class="k">int</span> <span class="v">kty</span><span class="p">(</span><span class="f">vector</span><span class="f">&lt;int&gt;</span> <span class="v">v</span><span class="p">,</span> <span class="k">int</span> <span class="v">k</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="k">int</span> <span class="v">pivot</span> <span class="p">=</span> <span class="v">v</span><span class="p">[</span><span class="v">v</span><span class="p">.</span><span class="m">size</span><span class="p">(</span><span class="p">)</span> <span class="p">/</span> <span class="n">2</span><span class="p">]</span><span class="p">;</span></span><span class="ln">    <span class="f">vector</span><span class="f">&lt;int&gt;</span> <span class="v">mniejsze</span><span class="p">,</span> <span class="v">wieksze</span><span class="p">;</span></span><span class="ln">    <span class="k">int</span> <span class="v">rowne</span> <span class="p">=</span> <span class="n">0</span><span class="p">;</span></span><span class="ln">    <span class="k">for</span> <span class="p">(</span><span class="k">int</span> <span class="v">x</span> <span class="p">:</span> <span class="v">v</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">        <span class="k">if</span> <span class="p">(</span><span class="v">x</span> <span class="p">&lt;</span> <span class="v">pivot</span><span class="p">)</span> <span class="v">mniejsze</span><span class="p">.</span><span class="m">push_back</span><span class="p">(</span><span class="v">x</span><span class="p">)</span><span class="p">;</span></span><span class="ln">        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="v">x</span> <span class="p">&gt;</span> <span class="v">pivot</span><span class="p">)</span> <span class="v">wieksze</span><span class="p">.</span><span class="m">push_back</span><span class="p">(</span><span class="v">x</span><span class="p">)</span><span class="p">;</span></span><span class="ln">        <span class="k">else</span> <span class="v">rowne</span><span class="p">+</span><span class="p">+</span><span class="p">;</span></span><span class="ln">    <span class="p">}</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">k</span> <span class="p">&lt;</span><span class="p">=</span> <span class="v">mniejsze</span><span class="p">.</span><span class="m">size</span><span class="p">(</span><span class="p">)</span><span class="p">)</span> <span class="k">return</span> <span class="v">kty</span><span class="p">(</span><span class="v">mniejsze</span><span class="p">,</span> <span class="v">k</span><span class="p">)</span><span class="p">;</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">k</span> <span class="p">&lt;</span><span class="p">=</span> <span class="v">mniejsze</span><span class="p">.</span><span class="m">size</span><span class="p">(</span><span class="p">)</span> <span class="p">+</span> <span class="v">rowne</span><span class="p">)</span> <span class="k">return</span> <span class="v">pivot</span><span class="p">;</span></span><span class="ln">    <span class="k">return</span> <span class="v">kty</span><span class="p">(</span><span class="v">wieksze</span><span class="p">,</span> <span class="v">k</span> <span class="p">-</span> <span class="v">mniejsze</span><span class="p">.</span><span class="m">size</span><span class="p">(</span><span class="p">)</span> <span class="p">-</span> <span class="v">rowne</span><span class="p">)</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div></div><div class="col"><div class="stack " style="--sg:16px"><p class="">Nie musimy sortować wszystkiego, żeby znaleźć k-ty najmniejszy element. Po podziale wiemy, <b>w której części</b> on jest — i tylko tam szukamy dalej.</p><table class="tbl mid"><thead><tr><th>k</th><th>gdzie jest k-ty?</th></tr></thead><tbody><tr><td>k ≤ |mniejsze|</td><td>w mniejszych</td></tr><tr><td>dalej, do |m| + |r|</td><td>to sam pivot</td></tr><tr><td>jeszcze dalej</td><td>w większych (k przesuwamy)</td></tr></tbody></table></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>26 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>10</b> · Najlepszy spójny fragment</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">10</span><h2>Najlepszy spójny fragment</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1.1fr 1fr;gap:34px;align-items:center"><div class="col"><div class="stack " style="--sg:16px"><p class="">Wybierz <b>spójny</b> fragment tablicy (kilka liczb obok siebie) o <b>największej sumie</b>.</p><div class="arr" style="--cw:60px;--cf:23px;--gap:6px"><div class="arow"><div class="al " style="width:7ch">a</div><div class="cell ">-2</div><div class="cell ">1</div><div class="cell ">-3</div><div class="cell  hi">4</div><div class="cell  hi">-1</div><div class="cell  hi">2</div><div class="cell  hi">1</div><div class="cell ">-5</div></div><div class="arow"><div class="al sm" style="width:7ch">indeks</div><div class="idx">0</div><div class="idx">1</div><div class="idx">2</div><div class="idx hi">3</div><div class="idx hi">4</div><div class="idx hi">5</div><div class="idx hi">6</div><div class="idx">7</div></div><div class="arow"><div class="al " style="width:7ch"></div><div style="width:calc(var(--cw)*3 + var(--gap)*2)"></div><div class="span " style="width:calc(var(--cw)*4 + var(--gap)*3)"><div class="br"></div><div class="sl">suma 6</div></div></div></div></div></div><div class="col"><div class="stack " style="--sg:16px"><p class="">Podziel tablicę na pół. Najlepszy fragment leży:</p><ol class="steps tight"><li>cały w <b>lewej</b> połowie — znajdzie go wywołanie dla lewej,</li><li>cały w <b>prawej</b> — wywołanie dla prawej,</li><li><b>przez środek</b> — kawałek kończący się na końcu lewej połowy + kawałek zaczynający się na początku prawej.</li></ol></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>27 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>10</b> · Najlepszy spójny fragment</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">10</span><h2>Fragment przez środek</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1.35fr 1fr;gap:34px;align-items:center"><div class="col"><div class="stack " style="--sg:16px"><div class="arr" style="--cw:60px;--cf:23px;--gap:6px"><div class="arow"><div class="al " style="width:7ch">a</div><div class="cell ">-2</div><div class="cell ">1</div><div class="cell ">-3</div><div class="cell  sel">4</div><div class="cell  hi">-1</div><div class="cell  hi">2</div><div class="cell  hi">1</div><div class="cell ">-5</div></div><div class="arow"><div class="al sm" style="width:7ch">indeks</div><div class="idx">0</div><div class="idx">1</div><div class="idx">2</div><div class="idx">3</div><div class="idx hi">4</div><div class="idx hi">5</div><div class="idx hi">6</div><div class="idx">7</div></div><div class="arow"><div class="al " style="width:7ch"></div><div class="span gr" style="width:calc(var(--cw)*4 + var(--gap)*3)"><div class="br"></div><div class="sl">lewa połowa</div></div><div class="span gr" style="width:calc(var(--cw)*4 + var(--gap)*3)"><div class="br"></div><div class="sl">prawa połowa</div></div></div></div><table class="tbl mid"><colgroup><col style="width:24%"><col style="width:58%"><col style="width:18%"></colgroup><thead><tr><th>kierunek</th><th>sumy kolejnych kawałków</th><th>najlepsza</th></tr></thead><tbody><tr><td>od środka w lewo</td><td>a[3] = 4, 4 − 3 = 1, 1 + 1 = 2, 2 − 2 = 0</td><td><b>4</b></td></tr><tr><td>od środka w prawo</td><td>a[4] = −1, −1 + 2 = 1, 1 + 1 = 2, 2 − 5 = −3</td><td><b>2</b></td></tr></tbody></table></div></div><div class="col"><div class="stack " style="--sg:16px"><p class="">Najlepszy fragment przez środek = najlepsza suma w lewo + najlepsza suma w prawo = 4 + 2 = <b>6</b>.</p><p class="">Porównujemy go z najlepszymi fragmentami wewnątrz połówek (te znajdzie rekurencja) i bierzemy największy z trzech.</p></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>28 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>10</b> · Najlepszy spójny fragment</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">10</span><h2>Najlepszy fragment — kod</h2></div>
+  <div class="content"><div class="code-wrap"><pre class="code sm"><span class="ln"><span class="k">long</span> <span class="k">long</span> <span class="v">najlepszy</span><span class="p">(</span><span class="k">int</span> <span class="v">l</span><span class="p">,</span> <span class="k">int</span> <span class="v">r</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">l</span> <span class="p">=</span><span class="p">=</span> <span class="v">r</span><span class="p">)</span> <span class="k">return</span> <span class="v">a</span><span class="p">[</span><span class="v">l</span><span class="p">]</span><span class="p">;</span></span><span class="ln">    <span class="k">int</span> <span class="v">s</span> <span class="p">=</span> <span class="p">(</span><span class="v">l</span> <span class="p">+</span> <span class="v">r</span><span class="p">)</span> <span class="p">/</span> <span class="n">2</span><span class="p">;</span></span><span class="ln">    <span class="k">long</span> <span class="k">long</span> <span class="v">w</span> <span class="p">=</span> <span class="f">max</span><span class="p">(</span><span class="v">najlepszy</span><span class="p">(</span><span class="v">l</span><span class="p">,</span> <span class="v">s</span><span class="p">)</span><span class="p">,</span> <span class="v">najlepszy</span><span class="p">(</span><span class="v">s</span> <span class="p">+</span> <span class="n">1</span><span class="p">,</span> <span class="v">r</span><span class="p">)</span><span class="p">)</span><span class="p">;</span></span><span class="ln">    <span class="k">long</span> <span class="k">long</span> <span class="v">suma</span> <span class="p">=</span> <span class="n">0</span><span class="p">,</span> <span class="v">lewa</span> <span class="p">=</span> <span class="v">LLONG_MIN</span><span class="p">,</span> <span class="v">prawa</span> <span class="p">=</span> <span class="v">LLONG_MIN</span><span class="p">;</span></span><span class="ln">    <span class="k">for</span> <span class="p">(</span><span class="k">int</span> <span class="v">i</span> <span class="p">=</span> <span class="v">s</span><span class="p">;</span> <span class="v">i</span> <span class="p">&gt;</span><span class="p">=</span> <span class="v">l</span><span class="p">;</span> <span class="v">i</span><span class="p">-</span><span class="p">-</span><span class="p">)</span> <span class="p">{</span> <span class="v">suma</span> <span class="p">+</span><span class="p">=</span> <span class="v">a</span><span class="p">[</span><span class="v">i</span><span class="p">]</span><span class="p">;</span> <span class="v">lewa</span> <span class="p">=</span> <span class="f">max</span><span class="p">(</span><span class="v">lewa</span><span class="p">,</span> <span class="v">suma</span><span class="p">)</span><span class="p">;</span> <span class="p">}</span></span><span class="ln">    <span class="v">suma</span> <span class="p">=</span> <span class="n">0</span><span class="p">;</span></span><span class="ln">    <span class="k">for</span> <span class="p">(</span><span class="k">int</span> <span class="v">i</span> <span class="p">=</span> <span class="v">s</span> <span class="p">+</span> <span class="n">1</span><span class="p">;</span> <span class="v">i</span> <span class="p">&lt;</span><span class="p">=</span> <span class="v">r</span><span class="p">;</span> <span class="v">i</span><span class="p">+</span><span class="p">+</span><span class="p">)</span> <span class="p">{</span> <span class="v">suma</span> <span class="p">+</span><span class="p">=</span> <span class="v">a</span><span class="p">[</span><span class="v">i</span><span class="p">]</span><span class="p">;</span> <span class="v">prawa</span> <span class="p">=</span> <span class="f">max</span><span class="p">(</span><span class="v">prawa</span><span class="p">,</span> <span class="v">suma</span><span class="p">)</span><span class="p">;</span> <span class="p">}</span></span><span class="ln">    <span class="k">return</span> <span class="f">max</span><span class="p">(</span><span class="v">w</span><span class="p">,</span> <span class="v">lewa</span> <span class="p">+</span> <span class="v">prawa</span><span class="p">)</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div><div class="note">Na każdym poziomie rekurencji pętle przechodzą łącznie przez całą tablicę, a poziomów jest log n — razem <b>O(n log n)</b>. (Istnieje też sprytniejszy sposób O(n) — algorytm Kadane; w kompendium: „Maksymalna suma na przedziale 1D”.)</div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>29 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>11</b> · Fraktale i napisy</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">11</span><h2>Fraktal: dywan Sierpińskiego</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1.2fr 1fr;gap:34px;align-items:center"><div class="col"><div class="stack " style="--sg:16px"><p class="">Dywan rzędu 0 to jedno pole. Dywan rzędu k to <b>3 × 3 dywany rzędu k − 1</b>, ze środkowym wyciętym. Rekurencja rysuje się tu sama!</p><div class="code-wrap"><pre class="code xs"><span class="ln"><span class="k">void</span> <span class="v">rysuj</span><span class="p">(</span><span class="k">int</span> <span class="v">k</span><span class="p">,</span> <span class="k">int</span> <span class="v">w</span><span class="p">,</span> <span class="k">int</span> <span class="v">x</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">k</span> <span class="p">=</span><span class="p">=</span> <span class="n">0</span><span class="p">)</span> <span class="p">{</span> <span class="v">t</span><span class="p">[</span><span class="v">w</span><span class="p">]</span><span class="p">[</span><span class="v">x</span><span class="p">]</span> <span class="p">=</span> <span class="s">'#'</span><span class="p">;</span> <span class="k">return</span><span class="p">;</span> <span class="p">}</span></span><span class="ln">    <span class="k">int</span> <span class="v">b</span> <span class="p">=</span> <span class="v">pot3</span><span class="p">[</span><span class="v">k</span> <span class="p">-</span> <span class="n">1</span><span class="p">]</span><span class="p">;</span>          <span class="c">// bok mniejszego dywanu</span></span><span class="ln">    <span class="k">for</span> <span class="p">(</span><span class="k">int</span> <span class="v">i</span> <span class="p">=</span> <span class="n">0</span><span class="p">;</span> <span class="v">i</span> <span class="p">&lt;</span> <span class="n">3</span><span class="p">;</span> <span class="v">i</span><span class="p">+</span><span class="p">+</span><span class="p">)</span></span><span class="ln">        <span class="k">for</span> <span class="p">(</span><span class="k">int</span> <span class="v">j</span> <span class="p">=</span> <span class="n">0</span><span class="p">;</span> <span class="v">j</span> <span class="p">&lt;</span> <span class="n">3</span><span class="p">;</span> <span class="v">j</span><span class="p">+</span><span class="p">+</span><span class="p">)</span></span><span class="ln">            <span class="k">if</span> <span class="p">(</span><span class="p">!</span><span class="p">(</span><span class="v">i</span> <span class="p">=</span><span class="p">=</span> <span class="n">1</span> <span class="p">&amp;</span><span class="p">&amp;</span> <span class="v">j</span> <span class="p">=</span><span class="p">=</span> <span class="n">1</span><span class="p">)</span><span class="p">)</span></span><span class="ln">                <span class="v">rysuj</span><span class="p">(</span><span class="v">k</span> <span class="p">-</span> <span class="n">1</span><span class="p">,</span> <span class="v">w</span> <span class="p">+</span> <span class="v">i</span> <span class="p">*</span> <span class="v">b</span><span class="p">,</span> <span class="v">x</span> <span class="p">+</span> <span class="v">j</span> <span class="p">*</span> <span class="v">b</span><span class="p">)</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div></div></div><div class="col"><div class="brd" style="--cw:30px;grid-template-columns:repeat(9, var(--cw))"><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc "></div><div class="bc q"></div><div class="bc q"></div><div class="bc "></div><div class="bc q"></div><div class="bc q"></div><div class="bc "></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc "></div><div class="bc "></div><div class="bc "></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc "></div><div class="bc q"></div><div class="bc "></div><div class="bc "></div><div class="bc "></div><div class="bc q"></div><div class="bc "></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc "></div><div class="bc "></div><div class="bc "></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc "></div><div class="bc q"></div><div class="bc q"></div><div class="bc "></div><div class="bc q"></div><div class="bc q"></div><div class="bc "></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>30 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>11</b> · Fraktale i napisy</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">11</span><h2>Napis Fibonacciego: k-ta litera bez budowania napisu</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1.1fr 1fr;gap:34px;align-items:center"><div class="col"><div class="stack " style="--sg:16px"><p class="">S(1) = <b>a</b>, S(2) = <b>b</b>, S(n) = S(n − 1) + S(n − 2): b, ba, bab, babba, babbabab, … S(80) ma ponad 10¹⁶ liter — nie da się go zbudować.</p><p class="">Ale k-ta litera S(n) leży <b>albo w części S(n − 1)</b> (gdy k ≤ długość S(n − 1)), <b>albo w części S(n − 2)</b> — na pozycji k − długość S(n − 1). Schodzimy tylko w jedną część!</p></div></div><div class="col"><div class="code-wrap"><pre class="code sm"><span class="ln"><span class="k">char</span> <span class="v">litera</span><span class="p">(</span><span class="k">int</span> <span class="v">n</span><span class="p">,</span> <span class="k">long</span> <span class="k">long</span> <span class="v">k</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">=</span><span class="p">=</span> <span class="n">1</span><span class="p">)</span> <span class="k">return</span> <span class="s">'a'</span><span class="p">;</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">=</span><span class="p">=</span> <span class="n">2</span><span class="p">)</span> <span class="k">return</span> <span class="s">'b'</span><span class="p">;</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">k</span> <span class="p">&lt;</span><span class="p">=</span> <span class="v">dl</span><span class="p">[</span><span class="v">n</span> <span class="p">-</span> <span class="n">1</span><span class="p">]</span><span class="p">)</span> <span class="k">return</span> <span class="v">litera</span><span class="p">(</span><span class="v">n</span> <span class="p">-</span> <span class="n">1</span><span class="p">,</span> <span class="v">k</span><span class="p">)</span><span class="p">;</span></span><span class="ln">    <span class="k">return</span> <span class="v">litera</span><span class="p">(</span><span class="v">n</span> <span class="p">-</span> <span class="n">2</span><span class="p">,</span> <span class="v">k</span> <span class="p">-</span> <span class="v">dl</span><span class="p">[</span><span class="v">n</span> <span class="p">-</span> <span class="n">1</span><span class="p">]</span><span class="p">)</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div></div></div><div class="note">dl[n] — długości napisów, policzone wcześniej pętlą: dl[n] = dl[n − 1] + dl[n − 2]. To znowu liczby Fibonacciego!</div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>31 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>11</b> · Fraktale i napisy</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">11</span><h2>Ciąg Thuego–Morse’a</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1.15fr 1fr;gap:34px;align-items:center"><div class="col"><div class="stack " style="--sg:16px"><p class="">0 → 01 → 0110 → 01101001 → … Każdy krok dokleja kopię z zamienionymi cyframi.</p><div class="arr" style="--cw:48px;--cf:19px;--gap:5px"><div class="arow"><div class="al " style="width:7ch">T</div><div class="cell ">0</div><div class="cell ">1</div><div class="cell ">1</div><div class="cell ">0</div><div class="cell ">1</div><div class="cell ">0</div><div class="cell ">0</div><div class="cell ">1</div></div><div class="arow"><div class="al sm" style="width:7ch">indeks</div><div class="idx">1</div><div class="idx">2</div><div class="idx">3</div><div class="idx">4</div><div class="idx">5</div><div class="idx">6</div><div class="idx">7</div><div class="idx">8</div></div><div class="arow"><div class="al " style="width:7ch"></div><div class="span gr" style="width:calc(var(--cw)*4 + var(--gap)*3)"><div class="br"></div><div class="sl">pierwsza połowa</div></div><div class="span or" style="width:calc(var(--cw)*4 + var(--gap)*3)"><div class="br"></div><div class="sl">odwrócona kopia</div></div></div></div><p class="">k-ta cyfra w drugiej połowie (długości 2p) to <b>odwrócona</b> cyfra z pozycji k − p.</p></div></div><div class="col"><div class="code-wrap"><pre class="code sm"><span class="ln"><span class="k">int</span> <span class="v">cyfra</span><span class="p">(</span><span class="k">long</span> <span class="k">long</span> <span class="v">k</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">k</span> <span class="p">=</span><span class="p">=</span> <span class="n">1</span><span class="p">)</span> <span class="k">return</span> <span class="n">0</span><span class="p">;</span></span><span class="ln">    <span class="k">long</span> <span class="k">long</span> <span class="v">p</span> <span class="p">=</span> <span class="n">1</span><span class="p">;</span></span><span class="ln">    <span class="k">while</span> <span class="p">(</span><span class="n">2</span> <span class="p">*</span> <span class="v">p</span> <span class="p">&lt;</span> <span class="v">k</span><span class="p">)</span> <span class="v">p</span> <span class="p">*</span><span class="p">=</span> <span class="n">2</span><span class="p">;</span></span><span class="ln">    <span class="k">return</span> <span class="n">1</span> <span class="p">-</span> <span class="v">cyfra</span><span class="p">(</span><span class="v">k</span> <span class="p">-</span> <span class="v">p</span><span class="p">)</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div></div></div><div class="note">Na przykład 6. cyfra: p = 4, więc to odwrócona 2. cyfra; 2. cyfra to odwrócona 1., czyli 1 − 0 = 1; zatem 6. cyfra = 1 − 1 = <b>0</b>.</div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>32 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i></div>
+  <div class="top"><span><b>12</b> · Sprawdź się</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">12</span><h2>Pytanie 1: ile wywołań zrobi <span class="tm">potega(2, 1000)</span>?</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1.5fr 1fr;gap:34px;align-items:center"><div class="col"><div class="code-wrap"><pre class="code sm"><span class="ln"><span class="k">long</span> <span class="k">long</span> <span class="v">potega</span><span class="p">(</span><span class="k">long</span> <span class="k">long</span> <span class="v">a</span><span class="p">,</span> <span class="k">long</span> <span class="k">long</span> <span class="v">n</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">=</span><span class="p">=</span> <span class="n">0</span><span class="p">)</span> <span class="k">return</span> <span class="n">1</span> <span class="p">%</span> <span class="v">m</span><span class="p">;</span></span><span class="ln">    <span class="k">long</span> <span class="k">long</span> <span class="v">p</span> <span class="p">=</span> <span class="v">potega</span><span class="p">(</span><span class="v">a</span><span class="p">,</span> <span class="v">n</span> <span class="p">/</span> <span class="n">2</span><span class="p">)</span><span class="p">;</span></span><span class="ln">    <span class="v">p</span> <span class="p">=</span> <span class="v">p</span> <span class="p">*</span> <span class="v">p</span> <span class="p">%</span> <span class="v">m</span><span class="p">;</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">%</span> <span class="n">2</span> <span class="p">=</span><span class="p">=</span> <span class="n">1</span><span class="p">)</span> <span class="v">p</span> <span class="p">=</span> <span class="v">p</span> <span class="p">*</span> <span class="p">(</span><span class="v">a</span> <span class="p">%</span> <span class="v">m</span><span class="p">)</span> <span class="p">%</span> <span class="v">m</span><span class="p">;</span></span><span class="ln">    <span class="k">return</span> <span class="v">p</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div></div><div class="col"><div class="term out "><div class="term-cap">na ekranie</div><pre>?</pre></div></div></div><p class="muted cen">Zastanów się i zapisz odpowiedź, <b>zanim</b> przejdziesz dalej.</p></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>33 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i></div>
+  <div class="top"><span><b>12</b> · Sprawdź się</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">12</span><h2>Odpowiedź 1: 11</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1.3fr 1fr;gap:34px;align-items:center"><div class="col"><p class="">n idzie: 1000 → 500 → 250 → 125 → 62 → 31 → 15 → 7 → 3 → 1 → 0. To <b>11</b> wywołań (log₂ 1000 ≈ 10, plus warunek stopu).</p></div><div class="col"><div class="note">Zwykłe potęgowanie z części 2 potrzebowałoby 1001 wywołań.</div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>34 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i></div>
+  <div class="top"><span><b>12</b> · Sprawdź się</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">12</span><h2>Pytanie 2: co wyjdzie ze scalenia?</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1fr;gap:34px;align-items:center"><div class="col"><div class="stack " style="--sg:16px"><div class="arr" style="--cw:48px;--cf:19px;--gap:5px"><div class="arow"><div class="al " style="width:7ch">a</div><div class="cell ">1</div><div class="cell ">4</div><div class="cell ">7</div></div><div class="arow"><div class="al sm" style="width:7ch">indeks</div><div class="idx">0</div><div class="idx">1</div><div class="idx">2</div></div></div><div class="arr" style="--cw:48px;--cf:19px;--gap:5px"><div class="arow"><div class="al " style="width:7ch">b</div><div class="cell ">2</div><div class="cell ">3</div><div class="cell ">9</div></div><div class="arow"><div class="al sm" style="width:7ch">indeks</div><div class="idx">0</div><div class="idx">1</div><div class="idx">2</div></div></div></div></div><div class="col"><div class="term out "><div class="term-cap">na ekranie</div><pre>?</pre></div></div></div><p class="muted cen">Zastanów się i zapisz odpowiedź, <b>zanim</b> przejdziesz dalej.</p></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>35 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i></div>
+  <div class="top"><span><b>12</b> · Sprawdź się</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">12</span><h2>Odpowiedź 2: <span class="tm">1 2 3 4 7 9</span></h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:0.8fr 1.2fr;gap:34px;align-items:center"><div class="col"><div class="term out "><div class="term-cap">na ekranie</div><pre>1 2 3 4 7 9</pre></div></div><div class="col"><div class="note">1 (a) · 2 (b) · 3 (b) · 4 (a) · 7 (a) · 9 (b). Sześć kroków — każdy element przepisany raz.</div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>36 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i></div>
+  <div class="top"><span><b>12</b> · Sprawdź się</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">12</span><h2>Pytanie 3: ile inwersji ma tablica <span class="tm">3 1 2</span>?</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1fr;gap:34px;align-items:center"><div class="col"><div class="arr" style="--cw:76px;--cf:29px;--gap:8px"><div class="arow"><div class="al " style="width:7ch">a</div><div class="cell ">3</div><div class="cell ">1</div><div class="cell ">2</div></div><div class="arow"><div class="al sm" style="width:7ch">indeks</div><div class="idx">0</div><div class="idx">1</div><div class="idx">2</div></div></div></div><div class="col"><div class="term out "><div class="term-cap">na ekranie</div><pre>?</pre></div></div></div><p class="muted cen">Zastanów się i zapisz odpowiedź, <b>zanim</b> przejdziesz dalej.</p></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>37 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i></div>
+  <div class="top"><span><b>12</b> · Sprawdź się</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">12</span><h2>Odpowiedź 3: 2</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1.2fr;gap:34px;align-items:center"><div class="col"><div class="arr" style="--cw:76px;--cf:29px;--gap:8px"><div class="arow"><div class="al " style="width:7ch">a</div><div class="cell  hi">3</div><div class="cell  sel">1</div><div class="cell  sel">2</div></div><div class="arow"><div class="al sm" style="width:7ch">indeks</div><div class="idx hi">0</div><div class="idx">1</div><div class="idx">2</div></div></div></div><div class="col"><div class="note">(3, 1) i (3, 2). Para (1, 2) jest w dobrej kolejności. Merge sort dzieli na [3, 1] i [2]: scalając [3] z [1] bierze 1, gdy w lewej czeka 3 → +1; scalając [1, 3] z [2] bierze 2, gdy w lewej czeka 3 → +1. Razem 2.</div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>38 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i></div>
+  <div class="top"><span><b>12</b> · Sprawdź się</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">12</span><h2>Pytanie 4: dlaczego to jest wolne?</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1.6fr 1fr;gap:34px;align-items:center"><div class="col"><div class="code-wrap"><pre class="code xs"><span class="ln"><span class="k">long</span> <span class="k">long</span> <span class="v">potega</span><span class="p">(</span><span class="k">long</span> <span class="k">long</span> <span class="v">a</span><span class="p">,</span> <span class="k">long</span> <span class="k">long</span> <span class="v">n</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">=</span><span class="p">=</span> <span class="n">0</span><span class="p">)</span> <span class="k">return</span> <span class="n">1</span> <span class="p">%</span> <span class="v">m</span><span class="p">;</span></span><span class="ln">    <span class="k">long</span> <span class="k">long</span> <span class="v">p</span> <span class="p">=</span> <span class="v">potega</span><span class="p">(</span><span class="v">a</span><span class="p">,</span> <span class="v">n</span> <span class="p">/</span> <span class="n">2</span><span class="p">)</span> <span class="p">*</span> <span class="v">potega</span><span class="p">(</span><span class="v">a</span><span class="p">,</span> <span class="v">n</span> <span class="p">/</span> <span class="n">2</span><span class="p">)</span> <span class="p">%</span> <span class="v">m</span><span class="p">;</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">%</span> <span class="n">2</span> <span class="p">=</span><span class="p">=</span> <span class="n">1</span><span class="p">)</span> <span class="v">p</span> <span class="p">=</span> <span class="v">p</span> <span class="p">*</span> <span class="p">(</span><span class="v">a</span> <span class="p">%</span> <span class="v">m</span><span class="p">)</span> <span class="p">%</span> <span class="v">m</span><span class="p">;</span></span><span class="ln">    <span class="k">return</span> <span class="v">p</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div></div><div class="col"><div class="term out "><div class="term-cap">na ekranie</div><pre>?</pre></div></div></div><p class="muted cen">Zastanów się i zapisz odpowiedź, <b>zanim</b> przejdziesz dalej.</p></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>39 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i></div>
+  <div class="top"><span><b>12</b> · Sprawdź się</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">12</span><h2>Odpowiedź 4: dwa wywołania zamiast jednego</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1.3fr 1fr;gap:34px;align-items:center"><div class="col"><div class="stack " style="--sg:16px"><div class="warn"><span class="warn-label">Uwaga:</span> Każde wywołanie woła <b>dwa</b> mniejsze, a każde z nich znowu dwa… Drzewo ma log n poziomów, ale na każdym <b>dwa razy więcej</b> węzłów: razem ok. <b>2n</b> wywołań. Zysk z dzielenia na pół zniknął!</div><div class="good">Policz <code class="ic">potega(a, n / 2)</code> raz, zapisz w zmiennej i pomnóż przez siebie. Ta sama lekcja co przy Fibonaccim: <b>nie licz dwa razy tego samego</b>.</div></div></div><div class="col"><div class="treebox"><svg class="tree" viewBox="0 0 280 201" style="width:min(100%, 280px)" xmlns="http://www.w3.org/2000/svg"><line class="te " x1="70.0" y1="107" x2="35.0" y2="146"/><line class="te " x1="70.0" y1="107" x2="105.0" y2="146"/><line class="te " x1="210.0" y1="107" x2="175.0" y2="146"/><line class="te " x1="210.0" y1="107" x2="245.0" y2="146"/><line class="te " x1="140.0" y1="35" x2="70.0" y2="74"/><line class="te " x1="140.0" y1="35" x2="210.0" y2="74"/><g class="tn "><rect x="7.0" y="146" width="56" height="33" rx="7"/><text x="35.0" y="168.62" text-anchor="middle" style="font-size:17px">n/4</text></g><g class="tn "><rect x="77.0" y="146" width="56" height="33" rx="7"/><text x="105.0" y="168.62" text-anchor="middle" style="font-size:17px">n/4</text></g><g class="tn "><rect x="42.0" y="74" width="56" height="33" rx="7"/><text x="70.0" y="96.62" text-anchor="middle" style="font-size:17px">n/2</text></g><g class="tn "><rect x="147.0" y="146" width="56" height="33" rx="7"/><text x="175.0" y="168.62" text-anchor="middle" style="font-size:17px">n/4</text></g><g class="tn "><rect x="217.0" y="146" width="56" height="33" rx="7"/><text x="245.0" y="168.62" text-anchor="middle" style="font-size:17px">n/4</text></g><g class="tn "><rect x="182.0" y="74" width="56" height="33" rx="7"/><text x="210.0" y="96.62" text-anchor="middle" style="font-size:17px">n/2</text></g><g class="tn "><rect x="118.0" y="2" width="44" height="33" rx="7"/><text x="140.0" y="24.62" text-anchor="middle" style="font-size:17px">n</text></g></svg></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>40 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i></div>
+  <div class="top"><span><b>13</b> · Podsumowanie</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">13</span><h2>Ściąga: dziel i zwyciężaj</h2></div>
+  <div class="content"><table class="tbl mid"><colgroup><col style="width:26%"><col style="width:24%"><col style="width:32%"><col style="width:18%"></colgroup><thead><tr><th>Algorytm</th><th>Podział</th><th>Łączenie</th><th>Złożoność</th></tr></thead><tbody><tr><td>min / max</td><td>dwie połowy</td><td>min z min, max z max</td><td>O(n)</td></tr><tr><td>szybkie potęgowanie</td><td>aⁿ → a<sup>n/2</sup></td><td>p · p (· a)</td><td>O(log n)</td></tr><tr><td>wyszukiwanie binarne</td><td>jedna połowa</td><td>— (odrzucamy drugą)</td><td>O(log n)</td></tr><tr><td>merge sort</td><td>dwie połowy</td><td>scalanie dwóch ciągów</td><td>O(n log n)</td></tr><tr><td>inwersje</td><td>jak merge sort</td><td>scalanie + s − i + 1</td><td>O(n log n)</td></tr><tr><td>quickselect</td><td>podział wg pivota</td><td>— (jedna część)</td><td>zwykle O(n)</td></tr><tr><td>najlepszy fragment</td><td>dwie połowy</td><td>max z połówek i przez środek</td><td>O(n log n)</td></tr></tbody></table></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>41 / 43</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i></div>
+  <div class="top"><span><b>13</b> · Podsumowanie</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 6</span></div>
+  <div class="head"><span class="num">13</span><h2>Zadania na koniec — Twoja kolej</h2></div>
+  <div class="content"><div class="stack " style="--sg:14px"><p class="">Zadania są na <b>t-olimpians.com → Kompendium → Funkcje rekurencyjne → Krok 6</b>. Każde ma sprawdzarkę i wskazówkę:</p><div class="cols" style="grid-template-columns:1fr 1fr;gap:20px"><ol class="steps tight"><li>Minimum i maksimum przez połowienie</li><li>Szybkie potęgowanie</li><li>Wyszukiwanie binarne</li><li>Scalanie dwóch ciągów</li><li>Sortowanie przez scalanie</li><li>Zliczanie inwersji</li></ol><ol class="steps tight" style="counter-reset:s 6"><li>K-ty najmniejszy element</li><li>Najlepszy spójny fragment</li><li>Dywan Sierpińskiego</li><li>Napis Fibonacciego</li><li>Ciąg Thuego–Morse’a</li></ol></div><div class="note">To koniec kursu rekurencji. Dalej w kompendium: <b>Memoizacja i tabulacja</b> (programowanie dynamiczne), <b>Dziel i zwyciężaj</b> oraz <b>Wyszukiwanie binarne po wyniku</b>.</div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 6 — dziel i zwyciężaj</span><span>42 / 43</span></div>
+</section>
+<section class="slide cover">
+  <div class="end-c">
+    <div class="kicker">// KONIEC KURSU REKURENCJI</div>
+    <h1>Rekurencja<br>nie ma przed Tobą tajemnic!</h1>
+    <div class="sub">Od odliczania przez memoizację, generowanie i backtracking aż po dziel i zwyciężaj — sześć kroków za Tobą. Zrób zadania z kroku 6 i ruszaj dalej: programowanie dynamiczne czeka.</div>
+    <div class="deco" style="margin-top:34px"><div class="brd" style="--cw:30px;grid-template-columns:repeat(3, var(--cw))"><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc "></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div><div class="bc q"></div></div></div>
+  </div>
+  <div class="cover-foot"><b>T-Olimpians</b> Team Poland · t-olimpians.com</div>
+</section>
+</body>
+</html>

@@ -1745,11 +1745,24 @@
         openCardById(id, { scroll: true, highlight: true });
     }
 
+    // Linki z kompendium: ?dzial=<dział> od razu wybiera dział, ?szukaj=<tekst> wpisuje frazę
+    // w wyszukiwarkę (np. ?szukaj=Rekurencja pokazuje wszystkie zadania z rekurencji).
+    function applyQueryOnLoad() {
+        var params = new URLSearchParams(location.search);
+        var dzial = params.get('dzial');
+        var szukaj = params.get('szukaj');
+        if (dzial && Array.prototype.some.call(categoryFilter.options, function (o) { return o.value === dzial; })) {
+            categoryFilter.value = dzial;
+        }
+        if (szukaj) searchInput.value = szukaj;
+    }
+
     function init(data) {
         allTasks = (data.tasks || []).slice().sort(function (a, b) {
             return (a.number || 0) - (b.number || 0);
         });
         populateCategoryFilter(allTasks);
+        applyQueryOnLoad();
         render();
 
         searchInput.addEventListener('input', render);

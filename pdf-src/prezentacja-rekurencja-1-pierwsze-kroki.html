@@ -1,0 +1,973 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<title>Rekurencja — pierwsze kroki — T-Olimpians</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- plik wygenerowany przez pdf-src/build-prezentacja-rekurencja-1.js — edytuj generator, nie ten plik -->
+<style>
+@page { size: 1280px 720px; margin: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0a0a0f; --panel: #11111a; --panel2: #16161f; --chip: #1d1d2a; --line: #2a2a38;
+  --tx: #e8e8f0; --mu: #8888a0; --tl: #00e5c7; --pu: #7c5cff; --or: #ffb454; --yl: #ffcf87; --gr: #a8a8c0;
+}
+html, body {
+  background: var(--bg); color: var(--tx); font-family: 'DM Sans', sans-serif;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+html, body, code, pre, span, div, td, th, li {
+  font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0, "dlig" 0;
+}
+.mono, code, pre { font-family: 'JetBrains Mono', monospace; }
+
+/* ---------- slajd ---------- */
+.slide {
+  width: 1280px; height: 720px; position: relative; overflow: hidden;
+  page-break-after: always; break-after: page; padding: 30px 64px 0;
+  background:
+    radial-gradient(640px 400px at 0% 0%, rgba(124,92,255,.10), transparent 70%),
+    radial-gradient(640px 440px at 100% 100%, rgba(0,229,199,.06), transparent 70%),
+    var(--bg);
+}
+.slide:last-child { page-break-after: auto; break-after: auto; }
+.bar { position: absolute; top: 0; left: 0; right: 0; height: 4px; display: flex; gap: 3px; }
+.bar i { flex: 1; background: #1a1a26; }
+.bar i.done { background: rgba(124,92,255,.55); }
+.bar i.on { background: var(--tl); }
+.top {
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--mu);
+}
+.top b { color: var(--tl); font-weight: 700; }
+.top .brand b { color: var(--pu); }
+.head {
+  display: flex; align-items: baseline; gap: 14px;
+  border-left: 5px solid var(--pu); padding-left: 18px; margin: 14px 0 20px;
+}
+.head .num { font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 700; color: var(--tl); }
+.head h2 { font-size: 34px; font-weight: 700; color: #fff; letter-spacing: -.01em; line-height: 1.15; }
+.head h2 .tm { font-family: 'JetBrains Mono', monospace; font-size: .88em; color: var(--tl); letter-spacing: 0; }
+.kv-v > b { font-family: 'JetBrains Mono', monospace; }
+.foot {
+  position: absolute; left: 64px; right: 64px; bottom: 16px; display: flex; justify-content: space-between;
+  font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #5c5c74; letter-spacing: .04em;
+}
+.slide:not(.cover) { display: flex; flex-direction: column; }
+.content { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; justify-content: safe center; padding-bottom: 50px; }
+.content > * + * { margin-top: 16px; }
+
+/* ---------- tekst ---------- */
+p { font-size: 21px; line-height: 1.5; color: var(--tx); }
+p b, li b, td b, .card-d b, .kv-v b { color: #fff; font-weight: 700; }
+p.muted { color: var(--mu); font-size: 18px; }
+p.cen { text-align: center; }
+.big { font-size: 34px; font-weight: 700; line-height: 1.3; color: #fff; letter-spacing: -.01em; }
+.big em { font-style: normal; color: var(--tl); }
+.big strong { color: var(--or); }
+code.ic {
+  font-family: 'JetBrains Mono', monospace; font-size: .86em; background: var(--chip); color: var(--tl);
+  padding: 1px 6px; border-radius: 4px; white-space: nowrap;
+}
+b.yes { color: var(--tl) !important; }
+b.no { color: var(--or) !important; }
+sub { font-size: .7em; }
+
+/* ---------- układ ---------- */
+.stack > * + * { margin-top: var(--sg, 16px); }
+.cols { display: grid; }
+.col { min-width: 0; }
+.col > .stack, .col > * { min-width: 0; }
+.center { display: flex; justify-content: center; }
+
+/* ---------- boxy ---------- */
+.note, .warn, .good {
+  font-size: 18.5px; line-height: 1.5; padding: 13px 18px; border-radius: 6px; color: #b4b4c8;
+}
+.note { background: var(--panel); border: 1px solid var(--line); border-left: 4px solid var(--tl); }
+.note b, .good b { color: #fff; }
+.note-label, .good-label { font-family: 'JetBrains Mono', monospace; color: var(--tl); font-weight: 700; font-size: .92em; }
+.warn { background: rgba(255,180,84,.07); border: 1px solid rgba(255,180,84,.25); border-left: 4px solid var(--or); }
+.warn b { color: var(--yl); }
+.warn-label { font-family: 'JetBrains Mono', monospace; color: var(--or); font-weight: 700; font-size: .92em; }
+.good { background: rgba(0,229,199,.06); border: 1px solid rgba(0,229,199,.22); border-left: 4px solid var(--tl); }
+
+/* ---------- kod ---------- */
+.code-cap {
+  font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: var(--mu);
+  letter-spacing: .14em; text-transform: uppercase; margin-bottom: 7px;
+}
+.code-cap.bad { color: var(--or); }
+.code-cap.okc { color: var(--tl); }
+pre.code {
+  font-family: 'JetBrains Mono', monospace; font-size: 19px; line-height: 1.6;
+  background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
+  padding: 14px 0; white-space: pre; overflow: hidden; color: var(--tx);
+}
+pre.code.lg { font-size: 25px; padding: 16px 0; }
+pre.code.sm { font-size: 17px; }
+pre.code.xs { font-size: 15px; }
+pre.code.bad { border-color: rgba(255,180,84,.45); }
+pre.code.okc { border-color: rgba(0,229,199,.4); }
+pre.code .ln { display: block; padding: 0 22px; }
+pre.code .ln.hl { background: rgba(0,229,199,.09); box-shadow: inset 4px 0 0 var(--tl); }
+pre.code .ln.dim { opacity: .38; }
+pre.code.bare { background: none; border: none; padding: 2px 0; font-size: 17px; }
+pre.code.bare .ln { padding: 0 14px; }
+.k { color: #7c5cff; } .f { color: #00e5c7; } .n { color: #ffb454; } .s { color: #ffcf87; } .m { color: #c6b8ff; }
+.c { color: #8888a0; } .p { color: #a8a8c0; } .v { color: #e8e8f0; }
+.mk { outline: 2px dashed var(--or); outline-offset: 2px; border-radius: 3px; background: rgba(255,180,84,.13); }
+
+.syntax {
+  font-family: 'JetBrains Mono', monospace; font-size: 54px; font-weight: 700; color: #fff;
+  background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 40px;
+}
+.syntax span { color: var(--or); }
+
+/* ---------- terminal ---------- */
+.term { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: #07070b; }
+.term-cap {
+  font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
+  padding: 7px 14px; background: var(--panel2); border-bottom: 1px solid var(--line); color: var(--tl);
+}
+.term.in .term-cap { color: var(--or); }
+.term pre { font-size: 21px; line-height: 1.5; padding: 10px 16px; color: #fff; white-space: pre; overflow: hidden; }
+.term .cur { background: var(--tl); opacity: .75; }
+.term .used { color: #4a4a60; }
+.term .now { background: rgba(0,229,199,.2); color: var(--tl); outline: 2px solid var(--tl); border-radius: 3px; }
+
+/* ---------- tablica ---------- */
+.arr { display: inline-flex; flex-direction: column; gap: 6px; }
+.arow { display: flex; align-items: center; gap: var(--gap); }
+.al {
+  font-family: 'JetBrains Mono', monospace; font-size: 17px; color: var(--tx); text-align: right;
+  padding-right: 4px; flex: none; white-space: nowrap;
+}
+.al.sm { color: var(--mu); font-size: 17px; }
+.cell {
+  width: var(--cw); height: var(--cw); flex: none; border: 2px solid var(--line); background: var(--panel);
+  border-radius: 6px; display: flex; align-items: center; justify-content: center;
+  font-family: 'JetBrains Mono', monospace; font-size: var(--cf); font-weight: 700; color: var(--tx);
+  white-space: nowrap;
+}
+.cell.hi { border-color: var(--tl); background: rgba(0,229,199,.13); color: var(--tl); }
+.cell.sel { outline: 2.5px dashed var(--or); outline-offset: 4px; }
+.cell.g { color: var(--or); background: rgba(255,180,84,.07); border-color: rgba(255,180,84,.38); border-style: dashed; }
+.cell.q { color: var(--mu); border-style: dashed; }
+.cell.x { color: #4a4a5c; background: repeating-linear-gradient(135deg, #0e0e15 0 6px, #15151f 6px 12px); }
+.cell.dots { border-color: transparent; background: none; color: var(--mu); }
+.cell.ghost { border: 2px dashed var(--or); background: transparent; color: var(--or); }
+.cell.empty { color: transparent; }
+.idx {
+  width: var(--cw); flex: none; text-align: center; font-family: 'JetBrains Mono', monospace;
+  font-size: calc(var(--cf) * .66); color: var(--mu);
+}
+.idx.hi { color: var(--tl); font-weight: 700; }
+.idx.gh { color: var(--or); }
+.pt {
+  width: var(--cw); flex: none; display: flex; flex-direction: column; align-items: center;
+  font-family: 'JetBrains Mono', monospace; font-size: calc(var(--cf) * .66); color: var(--tl);
+  font-weight: 700; white-space: nowrap; line-height: 1.15;
+}
+.pt b { font-weight: 700; }
+.pt span { font-size: 1.1em; }
+.span { flex: none; display: flex; flex-direction: column; align-items: center; color: var(--tl); }
+.span .br { width: 100%; height: 10px; border: 2px solid currentColor; border-top: none; border-radius: 0 0 6px 6px; }
+.span .sl { font-family: 'JetBrains Mono', monospace; font-size: 14px; margin-top: 4px; white-space: nowrap; }
+.span.or { color: var(--or); } .span.gr { color: var(--mu); }
+.arr-cap { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--mu); letter-spacing: .1em; }
+
+/* ---------- para ---------- */
+.pbox { display: flex; gap: var(--gap); padding: 5px; border: 2px solid rgba(124,92,255,.6); border-radius: 10px;
+        background: rgba(124,92,255,.07); flex: none; }
+.pbox.on { border-color: var(--tl); background: rgba(0,229,199,.07); }
+.pbox.in { border-color: rgba(255,207,135,.6); background: rgba(255,207,135,.05); }
+.pbox.nest { align-items: flex-start; }
+.pbox.nest > .ncol:last-child { padding-top: 7px; }
+.ncol { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.ncol .prow { padding: 0 7px; }
+.prow { display: flex; gap: var(--gap); padding: 0 7px; }
+.ptype, .pm {
+  width: var(--cw); flex: none; text-align: center; font-family: 'JetBrains Mono', monospace;
+  font-size: max(13px, calc(var(--cf) * .6)); white-space: nowrap;
+}
+.ptype { color: var(--mu); }
+.pm { color: #c6b8ff; }
+.pm.hi { color: var(--tl); font-weight: 700; }
+.pm.wide { width: calc(var(--cw) * 2 + var(--gap) + 14px); }
+.parr { display: inline-grid; column-gap: 12px; row-gap: 6px; align-items: center; justify-items: center; }
+.parr .al { justify-self: end; }
+.parr .idx { width: auto; }
+.pdots { font-family: 'JetBrains Mono', monospace; font-size: var(--cf); color: var(--mu); }
+
+/* ---------- vector 2D i pamięć ---------- */
+.grid2 { display: inline-flex; flex-direction: column; gap: 6px; }
+.g-row { display: flex; align-items: center; gap: 10px; }
+.g-lab { width: 6ch; white-space: nowrap; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 15px; color: var(--mu); }
+.g-lab.hi { color: var(--tl); font-weight: 700; }
+.grid2 .idx { width: var(--cw); }
+.mem { border: 2px solid rgba(124,92,255,.45); border-radius: 10px; padding: 12px 16px 14px; background: rgba(124,92,255,.04); }
+.mem-cap { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase;
+           color: #c6b8ff; margin-bottom: 10px; }
+.mem .arr + .arr { margin-top: 12px; }
+.venn { width: 100%; height: auto; display: block; }
+.venn text { font-family: 'JetBrains Mono', monospace; font-weight: 700; }
+
+/* ---------- wykresy i schematy ---------- */
+.chartbox { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 10px 8px 4px; }
+.chart { width: 100%; height: auto; display: block; }
+.chart .grid { stroke: #1d1d2a; stroke-width: 1; }
+.chart .axis { stroke: #3a3a4c; stroke-width: 1; }
+.chart text { font-family: 'JetBrains Mono', monospace; }
+.chart .tick { fill: var(--mu); font-size: 12px; }
+.chart .alab { fill: var(--mu); font-size: 12.5px; }
+.chart .slab { fill: var(--tx); font-size: 15px; font-weight: 700; }
+.chart .pt { fill: var(--tx); }
+.chart .ptl { fill: var(--tx); font-size: 13px; }
+.flow { display: flex; align-items: stretch; justify-content: center; gap: 14px; }
+.fbox { border: 2px solid var(--line); border-radius: 10px; background: var(--panel); padding: 12px 18px; min-width: 200px; }
+.fbox.in { border-color: rgba(255,180,84,.6); }
+.fbox.pr { border-color: rgba(124,92,255,.7); }
+.fbox.out { border-color: rgba(0,229,199,.6); }
+.ftitle { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase;
+          color: var(--mu); margin-bottom: 8px; }
+.fbody { font-family: 'JetBrains Mono', monospace; font-size: 19px; color: var(--tx); white-space: pre; line-height: 1.5; }
+.farrow { align-self: center; font-size: 34px; color: var(--mu); }
+.st-ok { color: var(--tl) !important; font-weight: 700; }
+.st-bad { color: var(--or) !important; font-weight: 700; }
+.toc.xlong span { font-size: 15.5px; padding: 2.5px 0; }
+
+/* ---------- budowa linijki ---------- */
+.anat { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 26px 30px 22px; }
+.aline { font-family: 'JetBrains Mono', monospace; font-size: 31px; white-space: pre; text-align: center; padding-bottom: 30px; }
+.ap { position: relative; border-bottom: 4px solid var(--ac); padding-bottom: 4px; }
+.ab, .lb {
+  display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%;
+  background: var(--ac); color: #0a0a0f; font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 700;
+}
+.ab { position: absolute; left: 50%; bottom: -36px; transform: translateX(-50%); }
+.legend { display: grid; grid-template-columns: 1fr; gap: 9px; border-top: 1px solid var(--line); padding-top: 16px; }
+.lgd { display: grid; grid-template-columns: 34px 260px 1fr; align-items: center; font-size: 19px; color: #c8c8d8; }
+.lgd .lc code.ic { color: var(--ac); font-size: 17px; }
+
+/* ---------- listy, karty, tabele ---------- */
+ol.steps { list-style: none; counter-reset: s; }
+ol.steps li {
+  counter-increment: s; position: relative; font-size: 19.5px; line-height: 1.45; color: var(--tx);
+  padding: 10px 16px 10px 54px; background: var(--panel); border: 1px solid var(--line); border-radius: 6px;
+}
+ol.steps li + li { margin-top: 8px; }
+ol.steps li::before {
+  content: counter(s); position: absolute; left: 14px; top: 9px; width: 28px; height: 28px; border-radius: 50%;
+  background: rgba(124,92,255,.18); border: 1.5px solid var(--pu); color: var(--tl);
+  font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+ol.steps.tight li { padding-top: 7px; padding-bottom: 7px; font-size: 18px; }
+ol.steps.tight li::before { top: 6px; }
+ol.steps.big li { font-size: 21px; padding: 14px 18px 14px 58px; }
+ol.steps.big li + li { margin-top: 12px; }
+ol.steps.big li::before { top: 14px; }
+
+ol.traps { list-style: none; counter-reset: t; }
+ol.traps li {
+  counter-increment: t; position: relative; background: var(--panel); border: 1px solid var(--line);
+  border-left: 4px solid var(--or); border-radius: 6px; padding: 16px 20px 16px 62px;
+  font-size: 20.5px; line-height: 1.5; color: #b4b4c8;
+}
+ol.traps li + li { margin-top: 12px; }
+ol.traps li::before {
+  content: counter(t, decimal-leading-zero); position: absolute; left: 18px; top: 17px;
+  font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 700; color: var(--or);
+}
+ol.traps li b { color: #fff; }
+
+.cards { display: grid; gap: 14px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 14px 18px; }
+.card.tlc { border-top: 3px solid var(--tl); }
+.card.orc { border-top: 3px solid var(--or); }
+.card.puc { border-top: 3px solid var(--pu); }
+.card-t { font-family: 'JetBrains Mono', monospace; font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+.card-d { font-size: 18px; line-height: 1.45; color: #b4b4c8; }
+.card .arr { margin-top: 4px; }
+.cap-t, .cap-o { font-family: 'JetBrains Mono', monospace; font-size: 14px; margin-top: 8px; color: var(--tl); }
+.cap-o { color: var(--or); }
+
+table.tbl { width: 100%; border-collapse: collapse; table-layout: fixed; border: 1px solid var(--line); font-size: 18px; }
+table.tbl th {
+  background: var(--chip); color: var(--tl); text-align: left; font-family: 'JetBrains Mono', monospace;
+  font-size: 14px; font-weight: 700; padding: 10px 14px; border-bottom: 1px solid var(--line); letter-spacing: .04em;
+}
+table.tbl td { padding: 10px 14px; border-bottom: 1px solid var(--line); color: var(--tx); line-height: 1.4; vertical-align: middle; }
+table.tbl tbody tr:nth-child(odd) td { background: var(--panel); }
+table.tbl tbody tr:nth-child(even) td { background: var(--panel2); }
+table.tbl.big { font-size: 20px; }
+table.tbl.big td { padding: 14px 16px; }
+table.tbl.mid td { padding: 8px 14px; }
+table.tbl.ctr td, table.tbl.ctr th { text-align: center; }
+table.tbl td code.ic { white-space: nowrap; }
+
+.kv {
+  display: grid; grid-template-columns: 120px 1fr; background: var(--panel); border: 1px solid var(--line);
+  border-radius: 8px; overflow: hidden;
+}
+.kv-k, .kv-v { padding: 10px 16px; border-bottom: 1px solid var(--line); font-size: 19px; line-height: 1.4; }
+.kv-k { font-family: 'JetBrains Mono', monospace; font-size: 16px; color: var(--mu);
+        letter-spacing: .04em; background: var(--panel2); display: flex; align-items: center; }
+.kv > :nth-last-child(-n+2) { border-bottom: none; }
+
+.zones { font-size: 17px; }
+.zone { border-radius: 10px; padding: 12px 10px 10px; position: relative; }
+.zone.glob { border: 2px solid rgba(0,229,199,.55); background: rgba(0,229,199,.04); }
+.zone.loc { border: 2px dashed var(--or); background: rgba(255,180,84,.06); margin: 6px 0 6px 38px; }
+.zl { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--tl); margin: 0 0 6px 14px; }
+.zone.loc .zl { color: var(--or); }
+
+.rows { display: flex; flex-direction: column; gap: 14px; }
+.rw { display: grid; grid-template-columns: 330px 1fr; align-items: center; gap: 20px;
+      background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 12px 18px; }
+.rw code.ic { font-size: 20px; }
+.rwn { display: block; font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--or); margin-top: 8px; }
+
+/* ---------- okładka i koniec ---------- */
+.cover {
+  background:
+    radial-gradient(900px 640px at 4% -14%, rgba(124,92,255,.32), transparent 62%),
+    radial-gradient(820px 620px at 104% 92%, rgba(0,229,199,.22), transparent 60%),
+    var(--bg);
+  padding: 0;
+}
+.cover-l { position: absolute; left: 64px; top: 96px; width: 640px; }
+.kicker { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 500; color: var(--tl);
+          letter-spacing: .22em; margin-bottom: 22px; }
+.cover h1 { font-size: 70px; font-weight: 700; line-height: 1.05; color: var(--tl); letter-spacing: -.02em; }
+.cover .sub { margin-top: 22px; font-size: 19px; line-height: 1.6; color: var(--mu); }
+.cover .meta { margin-top: 20px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--mu); letter-spacing: .08em; }
+.cover .deco { margin-top: 34px; }
+.cover-r {
+  position: absolute; right: 64px; top: 96px; width: 420px; background: rgba(17,17,26,.72);
+  border: 1px solid var(--line); border-radius: 12px; padding: 22px 26px;
+}
+.toc-t { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; letter-spacing: .18em; color: var(--mu);
+         text-transform: uppercase; margin-bottom: 12px; }
+.toc span { display: block; font-size: 17.5px; color: #c8c8d8; padding: 5.5px 0; border-bottom: 1px solid #1d1d2a; }
+.toc span:last-child { border-bottom: none; }
+.toc.long span { font-size: 16.5px; padding: 4px 0; }
+.toc b { font-family: 'JetBrains Mono', monospace; color: var(--tl); margin-right: 12px; }
+.cover-foot { position: absolute; left: 64px; bottom: 34px; font-family: 'JetBrains Mono', monospace;
+              font-size: 13px; color: var(--mu); }
+.cover-foot b { color: var(--pu); }
+.end-c { position: absolute; left: 64px; right: 64px; top: 170px; }
+.end-c h1 { font-size: 64px; }
+.end-c .sub { max-width: 760px; }
+
+/* ---------- stos wywołań ---------- */
+.stk { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.stk-cap { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase;
+           color: #c6b8ff; margin-bottom: 2px; }
+.frm { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px; border: 2px solid var(--line);
+       border-radius: 8px; background: var(--panel); padding: 7px 14px; font-family: 'JetBrains Mono', monospace; }
+.frm .fn { font-size: 19px; font-weight: 700; color: #e8e8f0; white-space: nowrap; }
+.frm .fd { font-family: 'DM Sans', sans-serif; font-size: 16px; color: var(--mu); line-height: 1.3; }
+.frm .ftop { font-size: 12.5px; color: var(--tl); letter-spacing: .06em; white-space: nowrap; }
+.frm.on { border-color: var(--tl); background: rgba(0,229,199,.09); }
+.frm.on .fn { color: var(--tl); }
+.frm.on .fd { color: #c8c8d8; }
+.frm.wait { border-color: rgba(124,92,255,.5); background: rgba(124,92,255,.06); }
+.frm.ret { border-color: var(--or); background: rgba(255,180,84,.08); }
+.frm.ret .fn { color: var(--or); }
+.frm.ret .fd { color: var(--yl); }
+.frm.gone { border-style: dashed; opacity: .38; }
+.frm.new { border-style: dashed; border-color: var(--tl); }
+.frm.main { border-color: #3a3a4c; }
+.stk-bot { border-top: 3px solid #3a3a4c; margin-top: 2px; padding-top: 4px; font-family: 'JetBrains Mono', monospace;
+           font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase; color: #5c5c74; text-align: center; }
+.stk.sm .frm { padding: 4px 10px; gap: 8px; }
+.stk.sm .frm .fn { font-size: 15px; }
+.stk.sm .frm .fd { font-size: 13px; }
+.stk.sm .stk-cap { font-size: 11px; }
+.stk.sm .ftop { display: none; }
+.stks { display: flex; align-items: flex-end; gap: 14px; justify-content: center; }
+.stks > .stk { flex: 1 1 0; }
+.stks .stk-cap { color: var(--mu); }
+
+/* ---------- drzewo wywołań ---------- */
+.treebox { display: flex; justify-content: center; }
+.tree { display: block; height: auto; overflow: visible; }
+.tree text { font-family: 'JetBrains Mono', monospace; }
+.tree .te { stroke: #3a3a4c; stroke-width: 2; }
+.tree .te.on, .tree .te.done { stroke: rgba(124,92,255,.7); }
+.tree .te.cut, .tree .te.ghost { stroke-dasharray: 5 5; opacity: .45; }
+.tree .te.memo { stroke: var(--or); stroke-dasharray: 5 4; }
+.tree .tel { fill: var(--mu); font-size: 13px; }
+.tree .tel.on { fill: var(--tl); }
+.tree .tn rect { fill: var(--panel); stroke: var(--line); stroke-width: 2; }
+.tree .tn text { fill: #e8e8f0; font-weight: 700; }
+.tree .tn .tv { fill: var(--or); font-size: 14px; }
+.tree .tn.on rect { stroke: var(--tl); fill: #0d2421; }
+.tree .tn.on text { fill: var(--tl); }
+.tree .tn.done rect { stroke: rgba(124,92,255,.75); fill: #15122a; }
+.tree .tn.done text { fill: #c6b8ff; }
+.tree .tn.memo rect { stroke: var(--or); stroke-dasharray: 5 4; fill: #1e170d; }
+.tree .tn.memo text { fill: var(--or); }
+.tree .tn.ok rect { stroke: var(--tl); fill: #0d2421; }
+.tree .tn.ok text { fill: var(--tl); }
+.tree .tn.cut { opacity: .38; }
+.tree .tn.cut rect { stroke-dasharray: 5 5; }
+.tree .tn.ghost { opacity: .3; }
+.tree .tn.ghost rect { stroke-dasharray: 5 5; }
+.tree .tn.ghost .tv, .tree .tn.cut .tv { display: none; }
+
+/* ---------- śledzenie wywołań ---------- */
+.trc { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 10px 0; }
+.trc-cap { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase;
+           color: var(--mu); padding: 0 16px 8px; }
+.tr { display: flex; gap: 10px; align-items: baseline; padding-top: 3px; padding-bottom: 3px; padding-right: 14px;
+      font-size: 19.5px; line-height: 1.35; color: #c8c8d8; }
+.tr .ti { font-family: 'JetBrains Mono', monospace; font-weight: 700; width: 16px; flex: none; text-align: center; }
+.tr .tt code.ic { font-size: 16.5px; }
+.tr.call .ti { color: var(--tl); }
+.tr.ret .ti { color: var(--or); }
+.tr.out .ti { color: #fff; }
+.tr.out .tt { color: #fff; }
+.tr.stop .ti { color: var(--or); }
+.tr.note .ti { color: var(--mu); }
+.tr.note .tt { color: var(--mu); }
+.tr.hl { background: rgba(0,229,199,.09); box-shadow: inset 4px 0 0 var(--tl); }
+.trc.sm .tr { font-size: 17.5px; padding-top: 1px; padding-bottom: 1px; }
+.trc.sm .tr .tt code.ic { font-size: 15px; }
+
+/* ---------- plansza ---------- */
+.brd { display: inline-grid; gap: 3px; }
+.bc { width: var(--cw); height: var(--cw); border: 2px solid var(--line); background: var(--panel); border-radius: 5px;
+      display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace;
+      font-size: calc(var(--cw) * .48); font-weight: 700; color: var(--tx); }
+.bc.q { border-color: var(--tl); background: rgba(0,229,199,.16); color: var(--tl); }
+.bc.hit { background: rgba(255,180,84,.10); color: var(--or); border-color: rgba(255,180,84,.3); }
+.bc.x { background: repeating-linear-gradient(135deg, #0e0e15 0 6px, #1b1b27 6px 12px); color: #4a4a5c; }
+.bc.path { border-color: rgba(124,92,255,.75); background: rgba(124,92,255,.16); color: #c6b8ff; }
+.bc.cur { outline: 2.5px dashed var(--or); outline-offset: 2px; }
+.bc.ok { border-color: var(--tl); color: var(--tl); }
+.bc.bad { border-color: var(--or); color: var(--or); background: rgba(255,180,84,.10); }
+.bc.dim { color: #5c5c74; }
+.bc.new { color: var(--tl); }
+.brd.sdk { gap: 0; border: 3px solid #5c5c74; border-radius: 6px; overflow: hidden; }
+.brd.sdk .bc { border-radius: 0; border: 1px solid #2a2a38; }
+.brd.sdk .bc.alt { background: #1c1c2a; }
+
+/* ---------- poziomy (dziel i zwyciężaj) ---------- */
+.lvls { display: flex; flex-direction: column; gap: 12px; align-items: center; }
+.lvl { display: flex; align-items: center; gap: 14px; }
+.lvl-l { width: 150px; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--mu); letter-spacing: .06em; }
+.lvl-g { display: flex; gap: 18px; justify-content: center; }
+.grp { display: flex; gap: var(--gap); padding: 4px; border: 2px solid var(--line); border-radius: 9px; background: var(--panel2); }
+.grp .cell { width: var(--cw); height: var(--cw); }
+.grp.on { border-color: var(--tl); background: rgba(0,229,199,.07); }
+.grp.on .cell { color: var(--tl); border-color: rgba(0,229,199,.45); }
+.grp.done { border-color: rgba(124,92,255,.6); background: rgba(124,92,255,.07); }
+.grp.dim { opacity: .35; }
+.grp.or { border-color: var(--or); background: rgba(255,180,84,.07); }
+
+/* ---------- drobne ---------- */
+.arrow-down { text-align: center; font-size: 30px; color: var(--mu); line-height: 1; }
+.pill { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 15px; padding: 2px 10px; border-radius: 99px;
+        background: var(--chip); color: var(--tl); border: 1px solid rgba(0,229,199,.3); }
+.pill.or { color: var(--or); border-color: rgba(255,180,84,.35); }
+.qa { font-family: 'JetBrains Mono', monospace; font-size: 64px; font-weight: 700; color: var(--tl); text-align: center; }
+</style>
+</head>
+<body>
+<section class="slide cover">
+  <div class="cover-l">
+    <div class="kicker">// T-OLIMPIANS — PREZENTACJA DO LEKCJI</div>
+    <h1>Rekurencja<br>— pierwsze kroki</h1>
+    <div class="sub">Funkcja, która wywołuje samą siebie — od zera, powoli i po kolei: warunek stopu, osobne kopie funkcji, stos wywołań i kod wykonywany w drodze w dół i w górę. Każde wywołanie śledzimy na osobnym slajdzie.</div>
+    <div class="meta">C++ · REKURENCJA · CZĘŚĆ 1 Z 6 · OD ZERA</div>
+    <div class="deco"><div class="trc sm"><div class="tr call" style="padding-left:14px"><span class="ti">↓</span><span class="tt">odliczaj(3)</span></div><div class="tr call" style="padding-left:44px"><span class="ti">↓</span><span class="tt">odliczaj(2)</span></div><div class="tr call" style="padding-left:74px"><span class="ti">↓</span><span class="tt">odliczaj(1)</span></div><div class="tr stop" style="padding-left:104px"><span class="ti">■</span><span class="tt">odliczaj(0) — stop</span></div></div></div>
+  </div>
+  <div class="cover-r"><div class="toc-t">Plan prezentacji</div><div class="toc"><span><b>01</b>Przypomnienie: funkcje</span><span><b>02</b>Funkcja woła funkcję</span><span><b>03</b>Funkcja woła samą siebie</span><span><b>04</b>Warunek stopu</span><span><b>05</b>Śledzimy krok po kroku</span><span><b>06</b>Stos wywołań</span><span><b>07</b>Kod przed i po wywołaniu</span><span><b>08</b>Jak pisać rekurencję?</span><span><b>09</b>Więcej przykładów</span><span><b>10</b>Typowe błędy</span><span><b>11</b>Sprawdź się</span><span><b>12</b>Podsumowanie</span></div></div>
+  <div class="cover-foot"><b>T-Olimpians</b> Team Poland · t-olimpians.com</div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>01</b> · Przypomnienie: funkcje</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">01</span><h2>Funkcja — krótkie przypomnienie</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1.1fr 1fr;gap:34px;align-items:center"><div class="col"><div class="stack " style="--sg:16px"><p class="">Funkcja to <b>kawałek programu z nazwą</b>. Piszemy go raz, a potem możemy go uruchamiać — <b>wywoływać</b> — ile razy chcemy.</p><div class="code-wrap"><div class="code-cap">definicja i dwa wywołania</div><pre class="code "><span class="ln"><span class="k">void</span> <span class="v">powitaj</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">"Czesc!"</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="f">endl</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span><span class="ln"> </span><span class="ln"><span class="k">int</span> <span class="f">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="v">powitaj</span><span class="p">(</span><span class="p">)</span><span class="p">;</span></span><span class="ln">    <span class="v">powitaj</span><span class="p">(</span><span class="p">)</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div></div></div><div class="col"><div class="stack " style="--sg:16px"><div class="term out "><div class="term-cap">na ekranie</div><pre>Czesc!
+Czesc!</pre></div><ol class="steps tight"><li>Linijki 1–3 to <b>definicja</b> — przepis. Sama definicja niczego nie robi.</li><li>Linijki 6 i 7 to <b>wywołania</b> — dopiero one uruchamiają przepis.</li><li>Dwa wywołania → napis pojawia się <b>dwa razy</b>.</li></ol></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>2 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>01</b> · Przypomnienie: funkcje</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">01</span><h2>Funkcja z parametrem</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1.15fr 1fr;gap:34px;align-items:center"><div class="col"><div class="stack " style="--sg:16px"><p class="">Funkcja może dostać <b>parametr</b> — wartość, którą podajemy przy wywołaniu w nawiasie.</p><div class="code-wrap"><pre class="code "><span class="ln"><span class="k">void</span> <span class="v">powitaj</span><span class="p">(</span><span class="f">string</span> <span class="v">imie</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">"Czesc, "</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">imie</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">"!"</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="f">endl</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span><span class="ln"> </span><span class="ln"><span class="k">int</span> <span class="f">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="v">powitaj</span><span class="p">(</span><span class="s">"Ola"</span><span class="p">)</span><span class="p">;</span></span><span class="ln">    <span class="v">powitaj</span><span class="p">(</span><span class="s">"Bartek"</span><span class="p">)</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div><div class="term out "><div class="term-cap">na ekranie</div><pre>Czesc, Ola!
+Czesc, Bartek!</pre></div></div></div><div class="col"><div class="stack " style="--sg:16px"><table class="tbl "><colgroup><col style="width:55%"><col style="width:45%"></colgroup><thead><tr><th>Wywołanie</th><th>Wartość imie</th></tr></thead><tbody><tr><td><code class="ic">powitaj("Ola")</code></td><td><b>"Ola"</b></td></tr><tr><td><code class="ic">powitaj("Bartek")</code></td><td><b>"Bartek"</b></td></tr></tbody></table><div class="note">Każde wywołanie dostaje <b>własną</b> zmienną <b>imie</b> z własną wartością. Za chwilę to będzie bardzo ważne — zapamiętaj to zdanie.</div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>3 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>01</b> · Przypomnienie: funkcje</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">01</span><h2>Co dokładnie dzieje się przy wywołaniu?</h2></div>
+  <div class="content"><div class="stack " style="--sg:20px"><ol class="steps big"><li>Program dochodzi do linijki z wywołaniem i <b>zatrzymuje się</b> w tym miejscu — zapamiętuje, gdzie skończył.</li><li>Przechodzi do funkcji. Parametr dostaje wartość podaną w nawiasie.</li><li>Wykonuje kolejne linijki funkcji — aż do jej końca albo do <b>return</b>.</li><li>Wraca <b>dokładnie w to miejsce</b>, w którym się zatrzymał, i idzie dalej od następnej linijki.</li></ol><div class="good">Te cztery kroki działają zawsze — dla każdej funkcji, także dla funkcji rekurencyjnych. Cała rekurencja to tylko <b>wiele razy powtórzone te same cztery kroki</b>.</div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>4 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>01</b> · Przypomnienie: funkcje</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">01</span><h2>Śledzimy: w jakiej kolejności wykonują się linijki?</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1.25fr;gap:34px;align-items:center"><div class="col"><div class="stack " style="--sg:16px"><div class="code-wrap"><pre class="code lg"><span class="ln"><span class="k">void</span> <span class="v">f</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">"B"</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span><span class="ln"> </span><span class="ln"><span class="k">int</span> <span class="f">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">"A"</span><span class="p">;</span></span><span class="ln">    <span class="v">f</span><span class="p">(</span><span class="p">)</span><span class="p">;</span></span><span class="ln">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">"C"</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div><div class="term out "><div class="term-cap">na ekranie</div><pre>ABC</pre></div></div></div><div class="col"><table class="tbl "><colgroup><col style="width:14%"><col style="width:18%"><col style="width:68%"></colgroup><thead><tr><th>Krok</th><th>Linijka</th><th>Co się dzieje</th></tr></thead><tbody><tr><td>1</td><td>6</td><td>wypisujemy <b>A</b></td></tr><tr><td>2</td><td>7</td><td>wywołanie: <b>main zatrzymuje się</b> i skacze do f</td></tr><tr><td>3</td><td>2</td><td>wypisujemy <b>B</b></td></tr><tr><td>4</td><td>3</td><td>koniec f → <b>powrót</b> do main, za linijkę 7</td></tr><tr><td>5</td><td>8</td><td>wypisujemy <b>C</b></td></tr></tbody></table></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>5 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>01</b> · Przypomnienie: funkcje</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">01</span><h2>Funkcja, która zwraca wynik</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1.1fr;gap:34px;align-items:center"><div class="col"><div class="stack " style="--sg:16px"><div class="code-wrap"><pre class="code "><span class="ln"><span class="k">int</span> <span class="v">kwadrat</span><span class="p">(</span><span class="k">int</span> <span class="v">x</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="k">return</span> <span class="v">x</span> <span class="p">*</span> <span class="v">x</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span><span class="ln"> </span><span class="ln"><span class="k">int</span> <span class="f">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="k">int</span> <span class="v">a</span> <span class="p">=</span> <span class="v">kwadrat</span><span class="p">(</span><span class="n">5</span><span class="p">)</span><span class="p">;</span></span><span class="ln">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">a</span> <span class="p">+</span> <span class="v">kwadrat</span><span class="p">(</span><span class="n">3</span><span class="p">)</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div><div class="term out "><div class="term-cap">na ekranie</div><pre>34</pre></div></div></div><div class="col"><div class="stack " style="--sg:16px"><p class="">Funkcja typu <b>int</b> oddaje wynik przez <b>return</b>. Wywołanie <b>zamienia się</b> w zwróconą liczbę:</p><ol class="steps tight"><li><code class="ic">kwadrat(5)</code> zwraca <b>25</b>, więc <code class="ic">a = 25</code>.</li><li><code class="ic">kwadrat(3)</code> zwraca <b>9</b>.</li><li>Na ekran trafia <code class="ic">25 + 9</code> = <b>34</b>.</li></ol><div class="note">W tej części będziemy pisać głównie funkcje <b>void</b>, które coś wypisują. Funkcjami zwracającymi wynik zajmie się część 2.</div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>6 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>02</b> · Funkcja woła funkcję</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">02</span><h2>Funkcja może wywołać inną funkcję</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:0.9fr 1.1fr;gap:34px;align-items:center"><div class="col"><div class="code-wrap"><pre class="code sm"><span class="ln"><span class="k">void</span> <span class="v">c</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">"C "</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span><span class="ln"><span class="k">void</span> <span class="v">b</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">"B "</span><span class="p">;</span></span><span class="ln">    <span class="v">c</span><span class="p">(</span><span class="p">)</span><span class="p">;</span></span><span class="ln">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">"b "</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span><span class="ln"><span class="k">void</span> <span class="v">a</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">"A "</span><span class="p">;</span></span><span class="ln">    <span class="v">b</span><span class="p">(</span><span class="p">)</span><span class="p">;</span></span><span class="ln">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">"a "</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span><span class="ln"><span class="k">int</span> <span class="f">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="v">a</span><span class="p">(</span><span class="p">)</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div></div><div class="col"><div class="stack " style="--sg:16px"><p class="">Funkcja <b>a</b> woła <b>b</b>, a <b>b</b> woła <b>c</b>. Co pojawi się na ekranie?</p><p class="muted">Zastosuj cztery kroki z poprzedniej części: przy każdym wywołaniu funkcja <b>zatrzymuje się</b> i czeka, aż wywołana funkcja skończy.</p><div class="term out "><div class="term-cap">na ekranie</div><pre>A B C b a</pre></div><div class="note">Małe litery <b>b</b> i <b>a</b> pojawiają się na końcu — bo b i a mogą dokończyć swoją pracę dopiero <b>po powrocie</b> z funkcji, którą wywołały.</div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>7 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>02</b> · Funkcja woła funkcję</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">02</span><h2>Śledzimy: kto na kogo czeka?</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1.15fr 1fr;gap:34px;align-items:center"><div class="col"><div class="trc"><div class="trc-cap">przebieg programu</div><div class="tr call" style="padding-left:14px"><span class="ti">↓</span><span class="tt">main woła <code class="ic">a()</code></span></div><div class="tr out" style="padding-left:44px"><span class="ti">▸</span><span class="tt">a wypisuje <b>A</b></span></div><div class="tr call" style="padding-left:44px"><span class="ti">↓</span><span class="tt">a woła <code class="ic">b()</code> — a czeka</span></div><div class="tr out" style="padding-left:74px"><span class="ti">▸</span><span class="tt">b wypisuje <b>B</b></span></div><div class="tr call" style="padding-left:74px"><span class="ti">↓</span><span class="tt">b woła <code class="ic">c()</code> — b czeka</span></div><div class="tr out" style="padding-left:104px"><span class="ti">▸</span><span class="tt">c wypisuje <b>C</b></span></div><div class="tr ret" style="padding-left:104px"><span class="ti">↑</span><span class="tt">c kończy → wracamy do b</span></div><div class="tr out" style="padding-left:74px"><span class="ti">▸</span><span class="tt">b dokańcza: wypisuje <b>b</b></span></div><div class="tr ret" style="padding-left:74px"><span class="ti">↑</span><span class="tt">b kończy → wracamy do a</span></div><div class="tr out" style="padding-left:44px"><span class="ti">▸</span><span class="tt">a dokańcza: wypisuje <b>a</b></span></div><div class="tr ret" style="padding-left:44px"><span class="ti">↑</span><span class="tt">a kończy → wracamy do main</span></div></div></div><div class="col"><div class="stack " style="--sg:16px"><p class="">Wcięcie pokazuje, <b>jak głęboko</b> jesteśmy: im dalej w prawo, tym więcej funkcji czeka na swoją kolej.</p><ol class="steps tight"><li><b style="color:var(--tl)">↓</b> — wywołanie, schodzimy głębiej.</li><li><b>▸</b> — funkcja coś wypisuje.</li><li><b style="color:var(--or)">↑</b> — funkcja się kończy, wracamy wyżej.</li></ol><div class="note">Funkcje kończą się w <b>odwrotnej kolejności</b>, niż się zaczynały: zaczęły a, b, c — skończyły c, b, a.</div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>8 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>02</b> · Funkcja woła funkcję</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">02</span><h2>Zasada powrotu</h2></div>
+  <div class="content"><div class="stack " style="--sg:26px"><div class="big">Gdy funkcja się kończy, wracamy <em>tam, skąd ją wywołano</em> — i stamtąd idziemy dalej.</div><div class="cards" style="grid-template-columns:repeat(2,1fr)"><div class="card tlc"><div class="card-t">Funkcja nie zapomina</div><div class="card-d">Funkcja, która kogoś wywołała, <b>czeka</b>. Pamięta, w której linijce skończyła, i jakie miała wartości zmiennych.</div></div><div class="card puc"><div class="card-t">Ostatnia zaczęta — pierwsza skończona</div><div class="card-d">Najpierw kończy się funkcja wywołana <b>najpóźniej</b>. Dopiero potem ta, która na nią czekała.</div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>9 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>02</b> · Funkcja woła funkcję</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">02</span><h2>Stos wywołań — pierwsze spojrzenie</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1.1fr;gap:34px;align-items:center"><div class="col"><div class="stk"><div class="stk-cap">stos wywołań</div><div class="frm on"><span class="fn">c()</span><span class="fd">działa — wypisuje C</span><span class="ftop">← wierzch</span></div><div class="frm wait"><span class="fn">b()</span><span class="fd">czeka, aż skończy się c()</span></div><div class="frm wait"><span class="fn">a()</span><span class="fd">czeka, aż skończy się b()</span></div><div class="frm main"><span class="fn">main()</span><span class="fd">czeka, aż skończy się a()</span></div><div class="stk-bot">dno stosu</div></div></div><div class="col"><div class="stack " style="--sg:16px"><p class="">Komputer zapisuje czekające funkcje jedna na drugiej — jak <b>stos talerzy</b>. To jest <b>stos wywołań</b>.</p><ol class="steps tight"><li>Wywołanie funkcji = <b>kładziemy</b> nowy talerz na wierzch.</li><li>Koniec funkcji = <b>zdejmujemy</b> talerz z wierzchu.</li><li>Działa zawsze tylko funkcja <b>z wierzchu</b>. Reszta czeka.</li></ol><div class="note">Obrazek pokazuje chwilę, gdy działa <b>c()</b> i wypisuje literę C.</div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>10 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>03</b> · Funkcja woła samą siebie</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">03</span><h2>A gdyby funkcja wywołała samą siebie?</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1.15fr;gap:34px;align-items:center"><div class="col"><div class="stack " style="--sg:16px"><div class="code-wrap"><pre class="code lg"><span class="ln"><span class="k">void</span> <span class="v">f</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">"Hej "</span><span class="p">;</span></span><span class="ln hl">    <span class="v">f</span><span class="p">(</span><span class="p">)</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span><span class="ln"> </span><span class="ln"><span class="k">int</span> <span class="f">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="v">f</span><span class="p">(</span><span class="p">)</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div></div></div><div class="col"><div class="stack " style="--sg:16px"><p class="">W linijce 3 funkcja <b>f</b> wywołuje… funkcję <b>f</b>. W C++ wolno tak napisać. Co się stanie?</p><div class="term out "><div class="term-cap">na ekranie</div><pre>Hej Hej Hej Hej Hej Hej Hej Hej Hej Hej
+Hej Hej Hej Hej Hej Hej Hej Hej Hej Hej
+Hej Hej Hej Hej …
+Segmentation fault</pre></div><div class="warn"><span class="warn-label">Uwaga:</span> Każde f() woła kolejne f(), które woła kolejne f()… Nic tego nie zatrzymuje. Po chwili brakuje pamięci na kolejne czekające funkcje i <b>program się wysypuje</b>.</div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>11 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>03</b> · Funkcja woła samą siebie</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">03</span><h2>Rekurencja</h2></div>
+  <div class="content"><div class="stack " style="--sg:22px"><div class="big"><em>Rekurencja</em> to sytuacja, w której funkcja <strong>wywołuje samą siebie</strong>.</div><p class="">Brzmi jak błąd z poprzedniego slajdu — i bez zabezpieczenia rzeczywiście nim jest. Ale dobrze napisana rekurencja to jedno z najpotężniejszych narzędzi w programowaniu olimpijskim. Na czym polega „dobrze napisana”? Za chwilę.</p><div class="cards" style="grid-template-columns:repeat(3,1fr)"><div class="card tlc"><div class="card-t">Matrioszka</div><div class="card-d">W każdej lalce jest mniejsza lalka. Ale w najmniejszej <b>nie ma już nic</b> — tam się kończy.</div></div><div class="card orc"><div class="card-t">Lustro w lustrze</div><div class="card-d">Dwa lustra naprzeciw siebie pokazują odbicie odbicia odbicia… To rekurencja <b>bez końca</b>.</div></div><div class="card puc"><div class="card-t">Kolejka w sklepiku</div><div class="card-d">Pytasz osobę przed sobą: „które jesteś?”. Ona pyta osobę przed nią… Zaraz to rozpiszemy.</div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>12 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>03</b> · Funkcja woła samą siebie</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">03</span><h2>Analogia: kolejka do sklepiku</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1.1fr 1fr;gap:34px;align-items:center"><div class="col"><div class="trc"><div class="trc-cap">pytanie idzie w dół, odpowiedź wraca w górę</div><div class="tr call" style="padding-left:14px"><span class="ti">↓</span><span class="tt">Ty pytasz Kasię: „które jesteś w kolejce?”</span></div><div class="tr call" style="padding-left:44px"><span class="ti">↓</span><span class="tt">Kasia nie wie — pyta Olka</span></div><div class="tr call" style="padding-left:74px"><span class="ti">↓</span><span class="tt">Olek nie wie — pyta Zosię</span></div><div class="tr stop" style="padding-left:104px"><span class="ti">■</span><span class="tt">Zosia stoi pierwsza: <b>„jestem 1.”</b></span></div><div class="tr ret" style="padding-left:74px"><span class="ti">↑</span><span class="tt">Olek: „to ja jestem <b>2.</b>”</span></div><div class="tr ret" style="padding-left:44px"><span class="ti">↑</span><span class="tt">Kasia: „to ja jestem <b>3.</b>”</span></div><div class="tr ret" style="padding-left:14px"><span class="ti">↑</span><span class="tt">Ty: „czyli ja jestem <b>4.</b>”</span></div></div></div><div class="col"><div class="stack " style="--sg:16px"><p class="">Każda osoba robi <b>to samo</b>: jeśli nie zna odpowiedzi, zadaje <b>to samo pytanie</b> osobie przed sobą, czeka na odpowiedź i dodaje do niej 1.</p><p class="">Tylko pierwsza osoba odpowiada <b>od razu</b>, bez pytania — to zatrzymuje całą lawinę pytań.</p><div class="good">To jest dokładnie rekurencja: <b>to samo pytanie, tylko mniejsze</b>, aż do przypadku, który znamy od ręki.</div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>13 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>03</b> · Funkcja woła samą siebie</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">03</span><h2>Każde wywołanie to osobna kopia funkcji</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1.15fr;gap:34px;align-items:center"><div class="col"><div class="code-wrap"><pre class="code sm"><span class="ln"><span class="k">void</span> <span class="v">f</span><span class="p">(</span><span class="k">int</span> <span class="v">n</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">"zaczynam f("</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">n</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">")"</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="f">endl</span><span class="p">;</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">&gt;</span> <span class="n">1</span><span class="p">)</span> <span class="v">f</span><span class="p">(</span><span class="v">n</span> <span class="p">-</span> <span class="n">1</span><span class="p">)</span><span class="p">;</span></span><span class="ln">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">"koncze f("</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">n</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">")"</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="f">endl</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div></div><div class="col"><div class="stack " style="--sg:16px"><p class="">Wywołanie <code class="ic">f(3)</code> woła <code class="ic">f(2)</code>. Czy <code class="ic">f(2)</code> „psuje” zmienną <b>n</b> w <code class="ic">f(3)</code>? <b>Nie!</b></p><div class="cards" style="grid-template-columns:repeat(3,1fr)"><div class="card puc"><div class="card-t">kopia 1: f(3)</div><div class="card-d">własne <b>n = 3</b></div></div><div class="card puc"><div class="card-t">kopia 2: f(2)</div><div class="card-d">własne <b>n = 2</b></div></div><div class="card tlc"><div class="card-t">kopia 3: f(1)</div><div class="card-d">własne <b>n = 1</b></div></div></div><div class="term out "><div class="term-cap">na ekranie</div><pre>zaczynam f(3)
+zaczynam f(2)
+zaczynam f(1)
+koncze f(1)
+koncze f(2)
+koncze f(3)</pre></div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>14 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>03</b> · Funkcja woła samą siebie</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">03</span><h2>Kopie funkcji — najważniejsze</h2></div>
+  <div class="content"><div class="stack " style="--sg:20px"><div class="big">Każde wywołanie ma <em>własne</em> parametry i zmienne. Wywołania <strong>nie widzą</strong> nawzajem swoich zmiennych.</div><p class="">Pamiętasz zdanie z początku? „Każde wywołanie dostaje własną zmienną.” Przy rekurencji jest tak samo: gdy <b>f(3)</b> wywołuje <b>f(2)</b>, to powstaje nowa kopia funkcji z nowym <b>n</b>. Gdy ta kopia się skończy, wracamy do <b>f(3)</b> — a tam <b>n</b> nadal wynosi <b>3</b>.</p><div class="note">Dlatego po wypisaniu „koncze f(1)” program wypisał „koncze f(2)”, a nie znowu „koncze f(1)”: każda kopia pamięta <b>swoje</b> n.</div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>15 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>04</b> · Warunek stopu</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">04</span><h2>Problem: rekurencja bez końca</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1.1fr;gap:34px;align-items:center"><div class="col"><div class="code-wrap"><pre class="code lg"><span class="ln"><span class="k">void</span> <span class="v">odliczaj</span><span class="p">(</span><span class="k">int</span> <span class="v">n</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">n</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">" "</span><span class="p">;</span></span><span class="ln">    <span class="v">odliczaj</span><span class="p">(</span><span class="v">n</span> <span class="p">-</span> <span class="n">1</span><span class="p">)</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span><span class="ln"> </span><span class="ln"><span class="k">int</span> <span class="f">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="v">odliczaj</span><span class="p">(</span><span class="n">3</span><span class="p">)</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div></div><div class="col"><div class="stack " style="--sg:16px"><p class="">Chcemy odliczać: <b>3 2 1</b>. Funkcja wypisuje n i woła siebie dla n − 1. Brzmi dobrze…</p><div class="term out "><div class="term-cap">na ekranie</div><pre>3 2 1 0 -1 -2 -3 -4 -5 -6 -7 -8 …
+Segmentation fault</pre></div><div class="warn"><span class="warn-label">Uwaga:</span> …ale nic nie mówi funkcji, <b>kiedy przestać</b>. Po 1 przychodzi 0, potem −1, −2, i tak bez końca — aż program się wysypie.</div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>16 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>04</b> · Warunek stopu</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">04</span><h2>Warunek stopu</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1.1fr;gap:34px;align-items:center"><div class="col"><div class="code-wrap"><pre class="code lg"><span class="ln"><span class="k">void</span> <span class="v">odliczaj</span><span class="p">(</span><span class="k">int</span> <span class="v">n</span><span class="p">)</span> <span class="p">{</span></span><span class="ln hl">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">=</span><span class="p">=</span> <span class="n">0</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span></span><span class="ln">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">n</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">" "</span><span class="p">;</span></span><span class="ln">    <span class="v">odliczaj</span><span class="p">(</span><span class="v">n</span> <span class="p">-</span> <span class="n">1</span><span class="p">)</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div></div><div class="col"><div class="stack " style="--sg:16px"><p class="">Dodajemy jedną linijkę: <code class="ic">if (n == 0) return;</code></p><p class="">Gdy n dojdzie do zera, funkcja <b>od razu kończy pracę</b> — nie wypisuje nic i nie woła siebie dalej. To jest <b>warunek stopu</b> (po angielsku: <i>base case</i>).</p><div class="term out "><div class="term-cap">na ekranie</div><pre>3 2 1</pre></div><div class="good">Teraz wywołania idą 3 → 2 → 1 → 0, a <b>odliczaj(0)</b> zatrzymuje lawinę.</div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>17 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>04</b> · Warunek stopu</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">04</span><h2>Budowa funkcji rekurencyjnej</h2></div>
+  <div class="content"><div class="stack " style="--sg:20px"><div class="code-wrap"><pre class="code lg"><span class="ln"><span class="k">void</span> <span class="v">odliczaj</span><span class="p">(</span><span class="k">int</span> <span class="v">n</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">=</span><span class="p">=</span> <span class="n">0</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span></span><span class="ln">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">n</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">" "</span><span class="p">;</span></span><span class="ln">    <span class="v">odliczaj</span><span class="p">(</span><span class="v">n</span> <span class="p">-</span> <span class="n">1</span><span class="p">)</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div><div class="cards" style="grid-template-columns:repeat(3,1fr)"><div class="card orc"><div class="card-t">1 · warunek stopu</div><div class="card-d"><code class="ic">if (n == 0) return;</code> — najmniejszy przypadek, w którym <b>nie trzeba</b> wołać siebie. Piszemy go <b>na samej górze</b>.</div></div><div class="card puc"><div class="card-t">2 · praca tego wywołania</div><div class="card-d"><code class="ic">cout &lt;&lt; n &lt;&lt; " ";</code> — to, co robi <b>ta jedna kopia</b> funkcji: wypisuje swoje n.</div></div><div class="card tlc"><div class="card-t">3 · mniejszy problem</div><div class="card-d"><code class="ic">odliczaj(n - 1);</code> — resztę pracy zlecamy kolejnej kopii, z <b>mniejszym</b> n. Każde wywołanie zbliża nas do warunku stopu.</div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>18 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>04</b> · Warunek stopu</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">04</span><h2>Odliczanie — cały program</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1.05fr 1fr;gap:34px;align-items:center"><div class="col"><div class="code-wrap"><pre class="code sm"><span class="ln"><span class="k">#include</span> <span class="p">&lt;</span><span class="v">bits</span><span class="p">/</span><span class="v">stdc</span><span class="p">+</span><span class="p">+</span><span class="p">.</span><span class="m">h</span><span class="p">&gt;</span></span><span class="ln"><span class="k">using</span> <span class="k">namespace</span> <span class="f">std</span><span class="p">;</span></span><span class="ln"> </span><span class="ln"><span class="k">void</span> <span class="v">odliczaj</span><span class="p">(</span><span class="k">int</span> <span class="v">n</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">=</span><span class="p">=</span> <span class="n">0</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span></span><span class="ln">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">n</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">" "</span><span class="p">;</span></span><span class="ln">    <span class="v">odliczaj</span><span class="p">(</span><span class="v">n</span> <span class="p">-</span> <span class="n">1</span><span class="p">)</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span><span class="ln"> </span><span class="ln"><span class="k">int</span> <span class="f">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="v">odliczaj</span><span class="p">(</span><span class="n">3</span><span class="p">)</span><span class="p">;</span></span><span class="ln">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">"START"</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="f">endl</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div></div><div class="col"><div class="stack " style="--sg:16px"><div class="term out "><div class="term-cap">na ekranie</div><pre>3 2 1 START</pre></div><p class="">Napis START wypisuje <b>main</b> — dopiero wtedy, gdy <code class="ic">odliczaj(3)</code> całkowicie się skończy, razem ze wszystkimi kopiami, które wywołało.</p><div class="note">Na kolejnych slajdach prześledzimy ten program <b>wywołanie po wywołaniu</b> — razem ze stosem.</div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>19 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>05</b> · Śledzimy krok po kroku</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">05</span><h2>Start: main woła <span class="tm">odliczaj(3)</span></h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1fr;gap:34px;align-items:start"><div class="col"><div class="stack " style="--sg:16px"><div class="code-wrap"><pre class="code "><span class="ln dim"><span class="k">void</span> <span class="v">odliczaj</span><span class="p">(</span><span class="k">int</span> <span class="v">n</span><span class="p">)</span> <span class="p">{</span></span><span class="ln dim">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">=</span><span class="p">=</span> <span class="n">0</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span></span><span class="ln dim">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">n</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">" "</span><span class="p">;</span></span><span class="ln dim">    <span class="v">odliczaj</span><span class="p">(</span><span class="v">n</span> <span class="p">-</span> <span class="n">1</span><span class="p">)</span><span class="p">;</span></span><span class="ln dim"><span class="p">}</span></span><span class="ln dim"> </span><span class="ln dim"><span class="k">int</span> <span class="f">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span></span><span class="ln hl">    <span class="v">odliczaj</span><span class="p">(</span><span class="n">3</span><span class="p">)</span><span class="p">;</span></span><span class="ln dim">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">"START"</span><span class="p">;</span></span><span class="ln dim"><span class="p">}</span></span></pre></div><div class="term out "><div class="term-cap">na ekranie</div><pre><span class="cur"> </span></pre></div></div></div><div class="col"><div class="stack " style="--sg:16px"><div class="kv"><div class="kv-k">linijka</div><div class="kv-v">8</div><div class="kv-k">robimy</div><div class="kv-v"><code class="ic">odliczaj(3)</code> — main <b>zatrzymuje się</b> i czeka</div></div><div class="stk"><div class="stk-cap">stos wywołań</div><div class="frm on"><span class="fn">odliczaj(3)</span><span class="fd">zaczyna, n = 3</span><span class="ftop">← wierzch</span></div><div class="frm main"><span class="fn">main()</span><span class="fd">czeka w linijce 8</span></div><div class="stk-bot">dno stosu</div></div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>20 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>05</b> · Śledzimy krok po kroku</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">05</span><h2>Kopia <span class="tm">odliczaj(3)</span>: n = 3</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1fr;gap:34px;align-items:start"><div class="col"><div class="stack " style="--sg:16px"><div class="code-wrap"><pre class="code "><span class="ln dim"><span class="k">void</span> <span class="v">odliczaj</span><span class="p">(</span><span class="k">int</span> <span class="v">n</span><span class="p">)</span> <span class="p">{</span></span><span class="ln hl">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">=</span><span class="p">=</span> <span class="n">0</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span></span><span class="ln hl">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">n</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">" "</span><span class="p">;</span></span><span class="ln hl">    <span class="v">odliczaj</span><span class="p">(</span><span class="v">n</span> <span class="p">-</span> <span class="n">1</span><span class="p">)</span><span class="p">;</span></span><span class="ln dim"><span class="p">}</span></span><span class="ln dim"> </span><span class="ln dim"><span class="k">int</span> <span class="f">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span></span><span class="ln dim">    <span class="v">odliczaj</span><span class="p">(</span><span class="n">3</span><span class="p">)</span><span class="p">;</span></span><span class="ln dim">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">"START"</span><span class="p">;</span></span><span class="ln dim"><span class="p">}</span></span></pre></div><div class="term out "><div class="term-cap">na ekranie</div><pre>3 <span class="cur"> </span></pre></div></div></div><div class="col"><div class="stack " style="--sg:16px"><div class="kv"><div class="kv-k">warunek</div><div class="kv-v"><code class="ic">3 == 0</code> → <b class="no">NIE</b> — idziemy dalej</div><div class="kv-k">wypisuje</div><div class="kv-v"><b>3</b></div><div class="kv-k">woła</div><div class="kv-v"><code class="ic">odliczaj(2)</code> i czeka w linijce 4</div></div><div class="stk"><div class="stk-cap">stos wywołań</div><div class="frm on"><span class="fn">odliczaj(2)</span><span class="fd">zaczyna, n = 2</span><span class="ftop">← wierzch</span></div><div class="frm wait"><span class="fn">odliczaj(3)</span><span class="fd">n = 3, czeka w linijce 4</span></div><div class="frm main"><span class="fn">main()</span><span class="fd">czeka w linijce 8</span></div><div class="stk-bot">dno stosu</div></div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>21 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>05</b> · Śledzimy krok po kroku</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">05</span><h2>Kopia <span class="tm">odliczaj(2)</span>: n = 2</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1fr;gap:34px;align-items:start"><div class="col"><div class="stack " style="--sg:16px"><div class="code-wrap"><pre class="code "><span class="ln dim"><span class="k">void</span> <span class="v">odliczaj</span><span class="p">(</span><span class="k">int</span> <span class="v">n</span><span class="p">)</span> <span class="p">{</span></span><span class="ln hl">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">=</span><span class="p">=</span> <span class="n">0</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span></span><span class="ln hl">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">n</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">" "</span><span class="p">;</span></span><span class="ln hl">    <span class="v">odliczaj</span><span class="p">(</span><span class="v">n</span> <span class="p">-</span> <span class="n">1</span><span class="p">)</span><span class="p">;</span></span><span class="ln dim"><span class="p">}</span></span><span class="ln dim"> </span><span class="ln dim"><span class="k">int</span> <span class="f">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span></span><span class="ln dim">    <span class="v">odliczaj</span><span class="p">(</span><span class="n">3</span><span class="p">)</span><span class="p">;</span></span><span class="ln dim">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">"START"</span><span class="p">;</span></span><span class="ln dim"><span class="p">}</span></span></pre></div><div class="term out "><div class="term-cap">na ekranie</div><pre>3 2 <span class="cur"> </span></pre></div></div></div><div class="col"><div class="stack " style="--sg:16px"><div class="kv"><div class="kv-k">warunek</div><div class="kv-v"><code class="ic">2 == 0</code> → <b class="no">NIE</b></div><div class="kv-k">wypisuje</div><div class="kv-v"><b>2</b></div><div class="kv-k">woła</div><div class="kv-v"><code class="ic">odliczaj(1)</code> i czeka</div></div><div class="stk"><div class="stk-cap">stos wywołań</div><div class="frm on"><span class="fn">odliczaj(1)</span><span class="fd">zaczyna, n = 1</span><span class="ftop">← wierzch</span></div><div class="frm wait"><span class="fn">odliczaj(2)</span><span class="fd">n = 2, czeka w linijce 4</span></div><div class="frm wait"><span class="fn">odliczaj(3)</span><span class="fd">n = 3, czeka</span></div><div class="frm main"><span class="fn">main()</span><span class="fd">czeka w linijce 8</span></div><div class="stk-bot">dno stosu</div></div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>22 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>05</b> · Śledzimy krok po kroku</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">05</span><h2>Kopia <span class="tm">odliczaj(1)</span>: n = 1</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1fr;gap:34px;align-items:start"><div class="col"><div class="stack " style="--sg:16px"><div class="code-wrap"><pre class="code "><span class="ln dim"><span class="k">void</span> <span class="v">odliczaj</span><span class="p">(</span><span class="k">int</span> <span class="v">n</span><span class="p">)</span> <span class="p">{</span></span><span class="ln hl">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">=</span><span class="p">=</span> <span class="n">0</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span></span><span class="ln hl">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">n</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">" "</span><span class="p">;</span></span><span class="ln hl">    <span class="v">odliczaj</span><span class="p">(</span><span class="v">n</span> <span class="p">-</span> <span class="n">1</span><span class="p">)</span><span class="p">;</span></span><span class="ln dim"><span class="p">}</span></span><span class="ln dim"> </span><span class="ln dim"><span class="k">int</span> <span class="f">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span></span><span class="ln dim">    <span class="v">odliczaj</span><span class="p">(</span><span class="n">3</span><span class="p">)</span><span class="p">;</span></span><span class="ln dim">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">"START"</span><span class="p">;</span></span><span class="ln dim"><span class="p">}</span></span></pre></div><div class="term out "><div class="term-cap">na ekranie</div><pre>3 2 1 <span class="cur"> </span></pre></div></div></div><div class="col"><div class="stack " style="--sg:16px"><div class="kv"><div class="kv-k">warunek</div><div class="kv-v"><code class="ic">1 == 0</code> → <b class="no">NIE</b></div><div class="kv-k">wypisuje</div><div class="kv-v"><b>1</b></div><div class="kv-k">woła</div><div class="kv-v"><code class="ic">odliczaj(0)</code> i czeka</div></div><div class="stk"><div class="stk-cap">stos wywołań</div><div class="frm on"><span class="fn">odliczaj(0)</span><span class="fd">zaczyna, n = 0</span><span class="ftop">← wierzch</span></div><div class="frm wait"><span class="fn">odliczaj(1)</span><span class="fd">n = 1, czeka w linijce 4</span></div><div class="frm wait"><span class="fn">odliczaj(2)</span><span class="fd">n = 2, czeka</span></div><div class="frm wait"><span class="fn">odliczaj(3)</span><span class="fd">n = 3, czeka</span></div><div class="frm main"><span class="fn">main()</span><span class="fd">czeka</span></div><div class="stk-bot">dno stosu</div></div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>23 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>05</b> · Śledzimy krok po kroku</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">05</span><h2>Kopia <span class="tm">odliczaj(0)</span>: warunek stopu!</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1fr;gap:34px;align-items:start"><div class="col"><div class="stack " style="--sg:16px"><div class="code-wrap"><pre class="code "><span class="ln dim"><span class="k">void</span> <span class="v">odliczaj</span><span class="p">(</span><span class="k">int</span> <span class="v">n</span><span class="p">)</span> <span class="p">{</span></span><span class="ln hl">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">=</span><span class="p">=</span> <span class="n">0</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span></span><span class="ln dim">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">n</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">" "</span><span class="p">;</span></span><span class="ln dim">    <span class="v">odliczaj</span><span class="p">(</span><span class="v">n</span> <span class="p">-</span> <span class="n">1</span><span class="p">)</span><span class="p">;</span></span><span class="ln dim"><span class="p">}</span></span><span class="ln dim"> </span><span class="ln dim"><span class="k">int</span> <span class="f">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span></span><span class="ln dim">    <span class="v">odliczaj</span><span class="p">(</span><span class="n">3</span><span class="p">)</span><span class="p">;</span></span><span class="ln dim">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">"START"</span><span class="p">;</span></span><span class="ln dim"><span class="p">}</span></span></pre></div><div class="term out "><div class="term-cap">na ekranie</div><pre>3 2 1 <span class="cur"> </span></pre></div></div></div><div class="col"><div class="stack " style="--sg:16px"><div class="kv"><div class="kv-k">warunek</div><div class="kv-v"><code class="ic">0 == 0</code> → <b class="yes">TAK</b></div><div class="kv-k">robimy</div><div class="kv-v"><code class="ic">return</code> — koniec tej kopii</div><div class="kv-k">nie robi</div><div class="kv-v">nic nie wypisuje, <b>nikogo nie woła</b></div></div><div class="stk"><div class="stk-cap">stos wywołań</div><div class="frm ret"><span class="fn">odliczaj(0)</span><span class="fd">return — znika ze stosu</span><span class="ftop">← wierzch</span></div><div class="frm wait"><span class="fn">odliczaj(1)</span><span class="fd">n = 1, czeka</span></div><div class="frm wait"><span class="fn">odliczaj(2)</span><span class="fd">n = 2, czeka</span></div><div class="frm wait"><span class="fn">odliczaj(3)</span><span class="fd">n = 3, czeka</span></div><div class="frm main"><span class="fn">main()</span><span class="fd">czeka</span></div><div class="stk-bot">dno stosu</div></div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>24 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>05</b> · Śledzimy krok po kroku</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">05</span><h2>Powrót do <span class="tm">odliczaj(1)</span></h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1fr;gap:34px;align-items:start"><div class="col"><div class="stack " style="--sg:16px"><div class="code-wrap"><pre class="code "><span class="ln dim"><span class="k">void</span> <span class="v">odliczaj</span><span class="p">(</span><span class="k">int</span> <span class="v">n</span><span class="p">)</span> <span class="p">{</span></span><span class="ln dim">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">=</span><span class="p">=</span> <span class="n">0</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span></span><span class="ln dim">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">n</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">" "</span><span class="p">;</span></span><span class="ln dim">    <span class="v">odliczaj</span><span class="p">(</span><span class="v">n</span> <span class="p">-</span> <span class="n">1</span><span class="p">)</span><span class="p">;</span></span><span class="ln hl"><span class="p">}</span></span><span class="ln dim"> </span><span class="ln dim"><span class="k">int</span> <span class="f">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span></span><span class="ln dim">    <span class="v">odliczaj</span><span class="p">(</span><span class="n">3</span><span class="p">)</span><span class="p">;</span></span><span class="ln dim">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">"START"</span><span class="p">;</span></span><span class="ln dim"><span class="p">}</span></span></pre></div><div class="term out "><div class="term-cap">na ekranie</div><pre>3 2 1 <span class="cur"> </span></pre></div></div></div><div class="col"><div class="stack " style="--sg:16px"><div class="kv"><div class="kv-k">gdzie</div><div class="kv-v">w linijce 4, zaraz po wywołaniu</div><div class="kv-k">co dalej</div><div class="kv-v">za wywołaniem nie ma już żadnych poleceń</div><div class="kv-k">robimy</div><div class="kv-v">dochodzimy do końca funkcji → <b>powrót</b></div></div><div class="stk"><div class="stk-cap">stos wywołań</div><div class="frm ret"><span class="fn">odliczaj(1)</span><span class="fd">n = 1, kończy pracę</span><span class="ftop">← wierzch</span></div><div class="frm wait"><span class="fn">odliczaj(2)</span><span class="fd">n = 2, czeka</span></div><div class="frm wait"><span class="fn">odliczaj(3)</span><span class="fd">n = 3, czeka</span></div><div class="frm main"><span class="fn">main()</span><span class="fd">czeka</span></div><div class="stk-bot">dno stosu</div></div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>25 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>05</b> · Śledzimy krok po kroku</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">05</span><h2>Powrót do <span class="tm">odliczaj(2)</span> i <span class="tm">odliczaj(3)</span></h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1fr;gap:34px;align-items:start"><div class="col"><div class="stack " style="--sg:16px"><div class="code-wrap"><pre class="code "><span class="ln dim"><span class="k">void</span> <span class="v">odliczaj</span><span class="p">(</span><span class="k">int</span> <span class="v">n</span><span class="p">)</span> <span class="p">{</span></span><span class="ln dim">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">=</span><span class="p">=</span> <span class="n">0</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span></span><span class="ln dim">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">n</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">" "</span><span class="p">;</span></span><span class="ln dim">    <span class="v">odliczaj</span><span class="p">(</span><span class="v">n</span> <span class="p">-</span> <span class="n">1</span><span class="p">)</span><span class="p">;</span></span><span class="ln hl"><span class="p">}</span></span><span class="ln dim"> </span><span class="ln dim"><span class="k">int</span> <span class="f">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span></span><span class="ln dim">    <span class="v">odliczaj</span><span class="p">(</span><span class="n">3</span><span class="p">)</span><span class="p">;</span></span><span class="ln dim">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">"START"</span><span class="p">;</span></span><span class="ln dim"><span class="p">}</span></span></pre></div><div class="term out "><div class="term-cap">na ekranie</div><pre>3 2 1 <span class="cur"> </span></pre></div></div></div><div class="col"><div class="stack " style="--sg:16px"><div class="kv"><div class="kv-k">odliczaj(2)</div><div class="kv-v">też nie ma nic po wywołaniu → kończy</div><div class="kv-k">odliczaj(3)</div><div class="kv-v">tak samo → kończy</div><div class="kv-k">stos</div><div class="kv-v">zdejmujemy kopie <b>od wierzchu</b>: 1, potem 2, potem 3</div></div><div class="stk"><div class="stk-cap">stos wywołań</div><div class="frm ret"><span class="fn">odliczaj(3)</span><span class="fd">kończy pracę</span><span class="ftop">← wierzch</span></div><div class="frm main"><span class="fn">main()</span><span class="fd">czeka</span></div><div class="stk-bot">dno stosu</div></div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>26 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>05</b> · Śledzimy krok po kroku</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">05</span><h2>Powrót do main: START</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1fr;gap:34px;align-items:start"><div class="col"><div class="stack " style="--sg:16px"><div class="code-wrap"><pre class="code "><span class="ln dim"><span class="k">void</span> <span class="v">odliczaj</span><span class="p">(</span><span class="k">int</span> <span class="v">n</span><span class="p">)</span> <span class="p">{</span></span><span class="ln dim">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">=</span><span class="p">=</span> <span class="n">0</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span></span><span class="ln dim">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">n</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">" "</span><span class="p">;</span></span><span class="ln dim">    <span class="v">odliczaj</span><span class="p">(</span><span class="v">n</span> <span class="p">-</span> <span class="n">1</span><span class="p">)</span><span class="p">;</span></span><span class="ln dim"><span class="p">}</span></span><span class="ln dim"> </span><span class="ln dim"><span class="k">int</span> <span class="f">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span></span><span class="ln dim">    <span class="v">odliczaj</span><span class="p">(</span><span class="n">3</span><span class="p">)</span><span class="p">;</span></span><span class="ln hl">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">"START"</span><span class="p">;</span></span><span class="ln dim"><span class="p">}</span></span></pre></div><div class="term out "><div class="term-cap">na ekranie</div><pre>3 2 1 START<span class="cur"> </span></pre></div></div></div><div class="col"><div class="stack " style="--sg:16px"><div class="kv"><div class="kv-k">gdzie</div><div class="kv-v">main wraca za linijkę 8</div><div class="kv-k">robimy</div><div class="kv-v"><code class="ic">cout &lt;&lt; "START"</code></div><div class="kv-k">stos</div><div class="kv-v">został sam main — wszystkie kopie odliczaj zniknęły</div></div><div class="stk"><div class="stk-cap">stos wywołań</div><div class="frm on"><span class="fn">main()</span><span class="fd">działa dalej, linijka 9</span><span class="ftop">← wierzch</span></div><div class="stk-bot">dno stosu</div></div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>27 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>05</b> · Śledzimy krok po kroku</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">05</span><h2>Całe odliczanie w jednej tabeli</h2></div>
+  <div class="content"><div class="stack " style="--sg:18px"><table class="tbl mid"><colgroup><col style="width:22%"><col style="width:8%"><col style="width:13%"><col style="width:15%"><col style="width:42%"></colgroup><thead><tr><th>Kopia</th><th>n</th><th>n == 0?</th><th>Wypisuje</th><th>Co dalej</th></tr></thead><tbody><tr><td><code class="ic">odliczaj(3)</code></td><td>3</td><td><b class="no">NIE</b></td><td><b>3</b></td><td>woła <code class="ic">odliczaj(2)</code></td></tr><tr><td><code class="ic">odliczaj(2)</code></td><td>2</td><td><b class="no">NIE</b></td><td><b>2</b></td><td>woła <code class="ic">odliczaj(1)</code></td></tr><tr><td><code class="ic">odliczaj(1)</code></td><td>1</td><td><b class="no">NIE</b></td><td><b>1</b></td><td>woła <code class="ic">odliczaj(0)</code></td></tr><tr><td><code class="ic">odliczaj(0)</code></td><td>0</td><td><b class="yes">TAK</b></td><td>—</td><td><b>return</b> — warunek stopu</td></tr></tbody></table><div class="note">W drodze <b>w dół</b> (3 → 2 → 1 → 0) każda kopia wypisuje swoje n. W drodze <b>w górę</b> (0 → 1 → 2 → 3) kopie tylko się kończą, bo po wywołaniu nie mają już nic do zrobienia. Za chwilę to zmienimy!</div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>28 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>06</b> · Stos wywołań</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">06</span><h2>Stos — jak stos talerzy</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1.15fr 1fr;gap:34px;align-items:center"><div class="col"><div class="stack " style="--sg:16px"><div class="cards" style="grid-template-columns:repeat(2,1fr)"><div class="card tlc"><div class="card-t">wywołanie funkcji</div><div class="card-d">kładziemy nowy talerz <b>na wierzch</b> stosu</div></div><div class="card orc"><div class="card-t">return / koniec funkcji</div><div class="card-d">zdejmujemy talerz <b>z wierzchu</b> stosu</div></div><div class="card puc"><div class="card-t">kto działa?</div><div class="card-d">zawsze funkcja z <b>wierzchu</b> — pozostałe czekają</div></div><div class="card puc"><div class="card-t">na dnie</div><div class="card-d">zawsze leży <b>main</b> — program kończy się, gdy zdejmiemy i jego</div></div></div></div></div><div class="col"><div class="stk"><div class="stk-cap">stos wywołań</div><div class="frm on"><span class="fn">odliczaj(1)</span><span class="fd">n = 1 — działa</span><span class="ftop">← wierzch</span></div><div class="frm wait"><span class="fn">odliczaj(2)</span><span class="fd">n = 2, czeka</span></div><div class="frm wait"><span class="fn">odliczaj(3)</span><span class="fd">n = 3, czeka</span></div><div class="frm main"><span class="fn">main()</span><span class="fd">czeka w linijce 8</span></div><div class="stk-bot">dno stosu</div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>29 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>06</b> · Stos wywołań</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">06</span><h2>Stos podczas <span class="tm">odliczaj(3)</span> — klatka po klatce</h2></div>
+  <div class="content"><div class="stack " style="--sg:22px"><div class="stks"><div class="stk sm"><div class="stk-cap">1. start</div><div class="frm on"><span class="fn">odl(3)</span><span class="fd"></span></div><div class="frm main"><span class="fn">main</span><span class="fd"></span></div><div class="stk-bot">dno stosu</div></div><div class="stk sm"><div class="stk-cap">2. woła</div><div class="frm on"><span class="fn">odl(2)</span><span class="fd"></span></div><div class="frm wait"><span class="fn">odl(3)</span><span class="fd"></span></div><div class="frm main"><span class="fn">main</span><span class="fd"></span></div><div class="stk-bot">dno stosu</div></div><div class="stk sm"><div class="stk-cap">3. woła</div><div class="frm on"><span class="fn">odl(1)</span><span class="fd"></span></div><div class="frm wait"><span class="fn">odl(2)</span><span class="fd"></span></div><div class="frm wait"><span class="fn">odl(3)</span><span class="fd"></span></div><div class="frm main"><span class="fn">main</span><span class="fd"></span></div><div class="stk-bot">dno stosu</div></div><div class="stk sm"><div class="stk-cap">4. stop</div><div class="frm ret"><span class="fn">odl(0)</span><span class="fd">stop</span></div><div class="frm wait"><span class="fn">odl(1)</span><span class="fd"></span></div><div class="frm wait"><span class="fn">odl(2)</span><span class="fd"></span></div><div class="frm wait"><span class="fn">odl(3)</span><span class="fd"></span></div><div class="frm main"><span class="fn">main</span><span class="fd"></span></div><div class="stk-bot">dno stosu</div></div><div class="stk sm"><div class="stk-cap">5. powrót</div><div class="frm ret"><span class="fn">odl(1)</span><span class="fd"></span></div><div class="frm wait"><span class="fn">odl(2)</span><span class="fd"></span></div><div class="frm wait"><span class="fn">odl(3)</span><span class="fd"></span></div><div class="frm main"><span class="fn">main</span><span class="fd"></span></div><div class="stk-bot">dno stosu</div></div><div class="stk sm"><div class="stk-cap">6. powrót</div><div class="frm ret"><span class="fn">odl(2)</span><span class="fd"></span></div><div class="frm wait"><span class="fn">odl(3)</span><span class="fd"></span></div><div class="frm main"><span class="fn">main</span><span class="fd"></span></div><div class="stk-bot">dno stosu</div></div><div class="stk sm"><div class="stk-cap">7. powrót</div><div class="frm ret"><span class="fn">odl(3)</span><span class="fd"></span></div><div class="frm main"><span class="fn">main</span><span class="fd"></span></div><div class="stk-bot">dno stosu</div></div><div class="stk sm"><div class="stk-cap">8. koniec</div><div class="frm on"><span class="fn">main</span><span class="fd">START</span></div><div class="stk-bot">dno stosu</div></div></div><div class="note">Stos najpierw <b>rośnie</b> (każde wywołanie dokłada kopię), a od warunku stopu <b>maleje</b> (każdy powrót zdejmuje kopię). Najwyżej był na 5 piętrach: main + 4 kopie odliczaj.</div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>30 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>06</b> · Stos wywołań</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">06</span><h2>Ile miejsca zajmuje stos?</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1.2fr 1fr;gap:34px;align-items:center"><div class="col"><div class="stack " style="--sg:16px"><p class="">Każda czekająca kopia funkcji zajmuje trochę pamięci: swoje parametry, zmienne i informację, dokąd wrócić.</p><table class="tbl mid"><colgroup><col style="width:38%"><col style="width:27%"><col style="width:35%"></colgroup><thead><tr><th>Wywołanie</th><th>Pięter stosu</th><th>Czy się zmieści?</th></tr></thead><tbody><tr><td><code class="ic">odliczaj(10)</code></td><td>11</td><td><b class="yes">bez problemu</b></td></tr><tr><td><code class="ic">odliczaj(10000)</code></td><td>10 001</td><td><b class="yes">tak</b></td></tr><tr><td><code class="ic">odliczaj(1000000)</code></td><td>milion</td><td>zależy od komputera — <b class="no">ryzykownie</b></td></tr><tr><td>rekurencja bez stopu</td><td>nieskończenie wiele</td><td><b class="no">nigdy</b></td></tr></tbody></table></div></div><div class="col"><div class="stack " style="--sg:16px"><div class="warn"><span class="warn-label">Uwaga:</span> Gdy pięter jest za dużo, kończy się pamięć przeznaczona na stos. To jest <b>przepełnienie stosu</b> (ang. <i>stack overflow</i>) — program kończy się błędem.</div><div class="note">Bezpieczna zasada na olimpiadzie: rekurencja o głębokości do <b>ok. 100 000</b> zwykle działa. Jeśli ma być głębsza — lepiej użyć pętli.</div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>31 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>07</b> · Kod przed i po wywołaniu</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">07</span><h2>Przenieśmy jedną linijkę</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1fr;gap:40px;align-items:start"><div class="col"><div class="stack " style="--sg:16px"><div class="code-wrap"><div class="code-cap">wersja A — wypisz, potem wywołaj</div><pre class="code "><span class="ln"><span class="k">void</span> <span class="v">A</span><span class="p">(</span><span class="k">int</span> <span class="v">n</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">=</span><span class="p">=</span> <span class="n">0</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span></span><span class="ln hl">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">n</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">" "</span><span class="p">;</span></span><span class="ln">    <span class="v">A</span><span class="p">(</span><span class="v">n</span> <span class="p">-</span> <span class="n">1</span><span class="p">)</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div><div class="term out "><div class="term-cap">A(3) wypisuje</div><pre>3 2 1</pre></div></div></div><div class="col"><div class="stack " style="--sg:16px"><div class="code-wrap"><div class="code-cap">wersja B — wywołaj, potem wypisz</div><pre class="code "><span class="ln"><span class="k">void</span> <span class="v">B</span><span class="p">(</span><span class="k">int</span> <span class="v">n</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">=</span><span class="p">=</span> <span class="n">0</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span></span><span class="ln">    <span class="v">B</span><span class="p">(</span><span class="v">n</span> <span class="p">-</span> <span class="n">1</span><span class="p">)</span><span class="p">;</span></span><span class="ln hl">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">n</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">" "</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div><div class="term out "><div class="term-cap">B(3) wypisuje</div><pre>1 2 3</pre></div></div></div></div><p class="cen">Funkcje różnią się tylko <b>kolejnością dwóch linijek</b>, a wypisują liczby w odwrotnej kolejności. Dlaczego?</p></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>32 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>07</b> · Kod przed i po wywołaniu</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">07</span><h2>Wersja B: droga w dół</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1.15fr;gap:34px;align-items:center"><div class="col"><div class="stack " style="--sg:16px"><div class="code-wrap"><pre class="code lg"><span class="ln dim"><span class="k">void</span> <span class="v">B</span><span class="p">(</span><span class="k">int</span> <span class="v">n</span><span class="p">)</span> <span class="p">{</span></span><span class="ln dim">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">=</span><span class="p">=</span> <span class="n">0</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span></span><span class="ln hl">    <span class="v">B</span><span class="p">(</span><span class="v">n</span> <span class="p">-</span> <span class="n">1</span><span class="p">)</span><span class="p">;</span></span><span class="ln dim">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">n</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">" "</span><span class="p">;</span></span><span class="ln dim"><span class="p">}</span></span></pre></div><div class="term out "><div class="term-cap">na ekranie</div><pre><span class="cur"> </span></pre></div></div></div><div class="col"><div class="stack " style="--sg:16px"><div class="trc"><div class="tr call" style="padding-left:14px"><span class="ti">↓</span><span class="tt"><code class="ic">B(3)</code>: 3 ≠ 0, woła <code class="ic">B(2)</code> — <b>jeszcze nic nie wypisuje</b></span></div><div class="tr call" style="padding-left:44px"><span class="ti">↓</span><span class="tt"><code class="ic">B(2)</code>: woła <code class="ic">B(1)</code> — czeka</span></div><div class="tr call" style="padding-left:74px"><span class="ti">↓</span><span class="tt"><code class="ic">B(1)</code>: woła <code class="ic">B(0)</code> — czeka</span></div><div class="tr stop" style="padding-left:104px"><span class="ti">■</span><span class="tt"><code class="ic">B(0)</code>: warunek stopu, <b>return</b></span></div></div><div class="note">W drodze w dół każda kopia zatrzymuje się na linijce 3 — na wywołaniu. Do <code class="ic">cout</code> w linijce 4 jeszcze <b>nikt nie doszedł</b>, więc ekran jest pusty.</div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>33 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>07</b> · Kod przed i po wywołaniu</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">07</span><h2>Wersja B: droga w górę</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1.15fr;gap:34px;align-items:center"><div class="col"><div class="stack " style="--sg:16px"><div class="code-wrap"><pre class="code lg"><span class="ln dim"><span class="k">void</span> <span class="v">B</span><span class="p">(</span><span class="k">int</span> <span class="v">n</span><span class="p">)</span> <span class="p">{</span></span><span class="ln dim">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">=</span><span class="p">=</span> <span class="n">0</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span></span><span class="ln dim">    <span class="v">B</span><span class="p">(</span><span class="v">n</span> <span class="p">-</span> <span class="n">1</span><span class="p">)</span><span class="p">;</span></span><span class="ln hl">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">n</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">" "</span><span class="p">;</span></span><span class="ln dim"><span class="p">}</span></span></pre></div><div class="term out "><div class="term-cap">na ekranie</div><pre>1 2 3</pre></div></div></div><div class="col"><div class="stack " style="--sg:16px"><div class="trc"><div class="tr ret" style="padding-left:104px"><span class="ti">↑</span><span class="tt"><code class="ic">B(0)</code> wraca do <code class="ic">B(1)</code></span></div><div class="tr out" style="padding-left:74px"><span class="ti">▸</span><span class="tt"><code class="ic">B(1)</code> dochodzi do linijki 4: wypisuje <b>1</b></span></div><div class="tr ret" style="padding-left:74px"><span class="ti">↑</span><span class="tt"><code class="ic">B(1)</code> wraca do <code class="ic">B(2)</code></span></div><div class="tr out" style="padding-left:44px"><span class="ti">▸</span><span class="tt"><code class="ic">B(2)</code> wypisuje <b>2</b></span></div><div class="tr ret" style="padding-left:44px"><span class="ti">↑</span><span class="tt"><code class="ic">B(2)</code> wraca do <code class="ic">B(3)</code></span></div><div class="tr out" style="padding-left:14px"><span class="ti">▸</span><span class="tt"><code class="ic">B(3)</code> wypisuje <b>3</b></span></div></div><div class="note">Kopie wracają w odwrotnej kolejności (1, 2, 3) — i dopiero <b>po powrocie</b> każda wypisuje swoje n.</div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>34 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>07</b> · Kod przed i po wywołaniu</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">07</span><h2>Najważniejsza zasada rekurencji</h2></div>
+  <div class="content"><div class="stack " style="--sg:22px"><div class="big">Kod <em>PRZED</em> wywołaniem wykonuje się w drodze <em>w dół</em>. Kod <strong>PO</strong> wywołaniu — w drodze <strong>w górę</strong>, w odwrotnej kolejności.</div><div class="cols" style="grid-template-columns:1fr 1fr;gap:30px;align-items:start"><div class="col"><div class="trc"><div class="trc-cap">w dół: 3, 2, 1</div><div class="tr out" style="padding-left:14px"><span class="ti">▸</span><span class="tt">przed: n = 3</span></div><div class="tr out" style="padding-left:44px"><span class="ti">▸</span><span class="tt">przed: n = 2</span></div><div class="tr out" style="padding-left:74px"><span class="ti">▸</span><span class="tt">przed: n = 1</span></div><div class="tr stop" style="padding-left:104px"><span class="ti">■</span><span class="tt">stop</span></div></div></div><div class="col"><div class="trc"><div class="trc-cap">w górę: 1, 2, 3</div><div class="tr stop" style="padding-left:104px"><span class="ti">■</span><span class="tt">stop</span></div><div class="tr ret" style="padding-left:74px"><span class="ti">↑</span><span class="tt">po: n = 1</span></div><div class="tr ret" style="padding-left:44px"><span class="ti">↑</span><span class="tt">po: n = 2</span></div><div class="tr ret" style="padding-left:14px"><span class="ti">↑</span><span class="tt">po: n = 3</span></div></div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>35 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>07</b> · Kod przed i po wywołaniu</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">07</span><h2>Przed i po — naraz</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1.1fr 1fr;gap:34px;align-items:center"><div class="col"><div class="stack " style="--sg:16px"><div class="code-wrap"><pre class="code lg"><span class="ln"><span class="k">void</span> <span class="v">f</span><span class="p">(</span><span class="k">int</span> <span class="v">n</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">=</span><span class="p">=</span> <span class="n">0</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span></span><span class="ln hl">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">n</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">" "</span><span class="p">;</span></span><span class="ln">    <span class="v">f</span><span class="p">(</span><span class="v">n</span> <span class="p">-</span> <span class="n">1</span><span class="p">)</span><span class="p">;</span></span><span class="ln hl">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">n</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">" "</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div><div class="term out "><div class="term-cap">f(3) wypisuje</div><pre>3 2 1 1 2 3</pre></div></div></div><div class="col"><div class="trc"><div class="trc-cap">kolejność wypisywania</div><div class="tr out" style="padding-left:14px"><span class="ti">▸</span><span class="tt">f(3) przed: <b>3</b></span></div><div class="tr out" style="padding-left:44px"><span class="ti">▸</span><span class="tt">f(2) przed: <b>2</b></span></div><div class="tr out" style="padding-left:74px"><span class="ti">▸</span><span class="tt">f(1) przed: <b>1</b></span></div><div class="tr stop" style="padding-left:104px"><span class="ti">■</span><span class="tt">f(0): stop</span></div><div class="tr ret" style="padding-left:74px"><span class="ti">↑</span><span class="tt">f(1) po: <b>1</b></span></div><div class="tr ret" style="padding-left:44px"><span class="ti">↑</span><span class="tt">f(2) po: <b>2</b></span></div><div class="tr ret" style="padding-left:14px"><span class="ti">↑</span><span class="tt">f(3) po: <b>3</b></span></div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>36 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>07</b> · Kod przed i po wywołaniu</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">07</span><h2>Ćwiczenie: co wypisze <span class="tm">f(3)</span>?</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1.2fr 1fr;gap:34px;align-items:center"><div class="col"><div class="code-wrap"><pre class="code lg"><span class="ln"><span class="k">void</span> <span class="v">f</span><span class="p">(</span><span class="k">int</span> <span class="v">n</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">=</span><span class="p">=</span> <span class="n">0</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span></span><span class="ln">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">"("</span><span class="p">;</span></span><span class="ln">    <span class="v">f</span><span class="p">(</span><span class="v">n</span> <span class="p">-</span> <span class="n">1</span><span class="p">)</span><span class="p">;</span></span><span class="ln">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">")"</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div></div><div class="col"><div class="stack " style="--sg:16px"><div class="term out "><div class="term-cap">na ekranie</div><pre>?</pre></div><p class="muted">Zastanów się i zapisz odpowiedź, <b>zanim</b> przejdziesz dalej. Podpowiedź: co wypisuje się w drodze w dół, a co w drodze w górę?</p></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>37 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>07</b> · Kod przed i po wywołaniu</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">07</span><h2>Odpowiedź: <span class="tm">((()))</span></h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1fr;gap:34px;align-items:center"><div class="col"><div class="trc"><div class="tr out" style="padding-left:14px"><span class="ti">▸</span><span class="tt">f(3) przed: <b>(</b></span></div><div class="tr out" style="padding-left:44px"><span class="ti">▸</span><span class="tt">f(2) przed: <b>(</b></span></div><div class="tr out" style="padding-left:74px"><span class="ti">▸</span><span class="tt">f(1) przed: <b>(</b></span></div><div class="tr stop" style="padding-left:104px"><span class="ti">■</span><span class="tt">f(0): stop</span></div><div class="tr ret" style="padding-left:74px"><span class="ti">↑</span><span class="tt">f(1) po: <b>)</b></span></div><div class="tr ret" style="padding-left:44px"><span class="ti">↑</span><span class="tt">f(2) po: <b>)</b></span></div><div class="tr ret" style="padding-left:14px"><span class="ti">↑</span><span class="tt">f(3) po: <b>)</b></span></div></div></div><div class="col"><div class="stack " style="--sg:16px"><div class="term out "><div class="term-cap">na ekranie</div><pre>((()))</pre></div><div class="note">Trzy nawiasy otwierające w drodze w dół, trzy zamykające w drodze w górę. Każde wywołanie „otacza” nawiasami wszystko, co wypisało wywołanie głębiej.</div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>38 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>08</b> · Jak pisać rekurencję?</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">08</span><h2>Trzy pytania przed napisaniem rekurencji</h2></div>
+  <div class="content"><div class="stack " style="--sg:20px"><ol class="steps big"><li><b>Kiedy kończę?</b> Jaki jest najmniejszy przypadek, który umiem obsłużyć od ręki, bez wołania siebie? To będzie warunek stopu.</li><li><b>Jak zmniejszyć problem?</b> Z jakim argumentem wywołać siebie, żeby problem był mniejszy i zbliżał się do warunku stopu? (n − 1, n / 10, i + 1, …)</li><li><b>Co robi to jedno wywołanie — i kiedy?</b> Jaka jest „moja część” pracy i czy wykonać ją przed wywołaniem (w dół), czy po nim (w górę)?</li></ol><div class="note">Te trzy pytania zadawaj sobie przy <b>każdym</b> zadaniu z rekurencji — także w kolejnych częściach kursu.</div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>39 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>08</b> · Jak pisać rekurencję?</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">08</span><h2>Przykład: wypisz liczby od 1 do n</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1.05fr;gap:34px;align-items:center"><div class="col"><table class="tbl "><colgroup><col style="width:36%"><col style="width:64%"></colgroup><thead><tr><th>Pytanie</th><th>Odpowiedź</th></tr></thead><tbody><tr><td>Kiedy kończę?</td><td>gdy <b>n == 0</b> — nie ma nic do wypisania</td></tr><tr><td>Jak zmniejszyć?</td><td>wywołuję <code class="ic">wypisz(n - 1)</code></td></tr><tr><td>Moja część?</td><td>wypisać <b>n</b></td></tr><tr><td>Kiedy?</td><td>n ma być <b>na końcu</b>, więc <b>po</b> wywołaniu</td></tr></tbody></table></div><div class="col"><div class="stack " style="--sg:16px"><div class="code-wrap"><pre class="code lg"><span class="ln"><span class="k">void</span> <span class="v">wypisz</span><span class="p">(</span><span class="k">int</span> <span class="v">n</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">=</span><span class="p">=</span> <span class="n">0</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span></span><span class="ln">    <span class="v">wypisz</span><span class="p">(</span><span class="v">n</span> <span class="p">-</span> <span class="n">1</span><span class="p">)</span><span class="p">;</span></span><span class="ln">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">n</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">" "</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div><div class="term out "><div class="term-cap">wypisz(5) wypisuje</div><pre>1 2 3 4 5</pre></div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>40 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>08</b> · Jak pisać rekurencję?</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">08</span><h2>Zaufaj rekurencji</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1.2fr 1fr;gap:34px;align-items:center"><div class="col"><div class="stack " style="--sg:16px"><div class="big">Nie śledź w głowie wszystkich wywołań. <em>Załóż</em>, że mniejsze wywołanie działa — i dopisz tylko swoją część.</div><div class="note">Myślimy tak: „<code class="ic">wypisz(n - 1)</code> na pewno wypisze 1, 2, …, n − 1. Mnie zostaje dopisać <b>n</b>.” Koniec. Nie trzeba schodzić do zera.</div></div></div><div class="col"><div class="stack " style="--sg:16px"><div class="card tlc"><div class="card-t">wypisz(5) =</div><div class="card-d"><code class="ic">wypisz(4)</code> <b>[czyli 1 2 3 4]</b> + wypisanie <b>5</b></div></div><div class="card puc"><div class="card-t">wypisz(4) =</div><div class="card-d"><code class="ic">wypisz(3)</code> <b>[czyli 1 2 3]</b> + wypisanie <b>4</b></div></div><div class="card orc"><div class="card-t">wypisz(0) =</div><div class="card-d">nic — warunek stopu</div></div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>41 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>09</b> · Więcej przykładów</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">09</span><h2>Przykład: napis n razy</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1.1fr 1fr;gap:34px;align-items:center"><div class="col"><div class="stack " style="--sg:16px"><div class="code-wrap"><pre class="code "><span class="ln"><span class="k">void</span> <span class="v">powtorz</span><span class="p">(</span><span class="k">int</span> <span class="v">n</span><span class="p">,</span> <span class="f">string</span> <span class="v">s</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">=</span><span class="p">=</span> <span class="n">0</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span></span><span class="ln">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">s</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="f">endl</span><span class="p">;</span></span><span class="ln">    <span class="v">powtorz</span><span class="p">(</span><span class="v">n</span> <span class="p">-</span> <span class="n">1</span><span class="p">,</span> <span class="v">s</span><span class="p">)</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span><span class="ln"> </span><span class="ln"><span class="k">int</span> <span class="f">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="v">powtorz</span><span class="p">(</span><span class="n">3</span><span class="p">,</span> <span class="s">"rekurencja"</span><span class="p">)</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div><div class="term out "><div class="term-cap">na ekranie</div><pre>rekurencja
+rekurencja
+rekurencja</pre></div></div></div><div class="col"><div class="stack " style="--sg:16px"><table class="tbl mid"><colgroup><col style="width:42%"><col style="width:58%"></colgroup><thead><tr><th>Pytanie</th><th>Odpowiedź</th></tr></thead><tbody><tr><td>Kiedy kończę?</td><td>gdy n == 0</td></tr><tr><td>Jak zmniejszyć?</td><td><code class="ic">powtorz(n - 1, s)</code></td></tr><tr><td>Moja część?</td><td>wypisać s jeden raz</td></tr></tbody></table><div class="note">Funkcja może mieć <b>kilka parametrów</b>. Parametr s przekazujemy dalej bez zmian — zmniejsza się tylko n.</div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>42 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>09</b> · Więcej przykładów</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">09</span><h2>Przykład: liczby od a do b</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1.05fr;gap:34px;align-items:center"><div class="col"><div class="stack " style="--sg:16px"><div class="code-wrap"><pre class="code lg"><span class="ln"><span class="k">void</span> <span class="v">wypisz</span><span class="p">(</span><span class="k">int</span> <span class="v">a</span><span class="p">,</span> <span class="k">int</span> <span class="v">b</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">a</span> <span class="p">&gt;</span> <span class="v">b</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span></span><span class="ln">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">a</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">" "</span><span class="p">;</span></span><span class="ln">    <span class="v">wypisz</span><span class="p">(</span><span class="v">a</span> <span class="p">+</span> <span class="n">1</span><span class="p">,</span> <span class="v">b</span><span class="p">)</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div><div class="term out "><div class="term-cap">wypisz(3, 6) wypisuje</div><pre>3 4 5 6</pre></div></div></div><div class="col"><div class="stack " style="--sg:16px"><div class="trc sm"><div class="tr out" style="padding-left:14px"><span class="ti">▸</span><span class="tt">wypisz(3, 6): <b>3</b></span></div><div class="tr out" style="padding-left:44px"><span class="ti">▸</span><span class="tt">wypisz(4, 6): <b>4</b></span></div><div class="tr out" style="padding-left:74px"><span class="ti">▸</span><span class="tt">wypisz(5, 6): <b>5</b></span></div><div class="tr out" style="padding-left:104px"><span class="ti">▸</span><span class="tt">wypisz(6, 6): <b>6</b></span></div><div class="tr stop" style="padding-left:134px"><span class="ti">■</span><span class="tt">wypisz(7, 6): 7 > 6, stop</span></div></div><div class="note">Tutaj problem <b>maleje</b>, choć liczba a <b>rośnie</b>: maleje odległość od a do b. Warunek stopu zależy od obu parametrów.</div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>43 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>09</b> · Więcej przykładów</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">09</span><h2>Przykład: co druga liczba</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1.05fr;gap:34px;align-items:center"><div class="col"><div class="stack " style="--sg:16px"><div class="code-wrap"><pre class="code lg"><span class="ln"><span class="k">void</span> <span class="v">coDruga</span><span class="p">(</span><span class="k">int</span> <span class="v">n</span><span class="p">)</span> <span class="p">{</span></span><span class="ln hl">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">&lt;</span><span class="p">=</span> <span class="n">0</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span></span><span class="ln">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">n</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">" "</span><span class="p">;</span></span><span class="ln">    <span class="v">coDruga</span><span class="p">(</span><span class="v">n</span> <span class="p">-</span> <span class="n">2</span><span class="p">)</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div><div class="term out "><div class="term-cap">coDruga(9) wypisuje</div><pre>9 7 5 3 1</pre></div></div></div><div class="col"><div class="stack " style="--sg:16px"><div class="warn"><span class="warn-label">Uwaga:</span> Z warunkiem <code class="ic">n == 0</code> ta funkcja by się wysypała! Dla n = 9 wywołania idą 9, 7, 5, 3, 1, <b>−1</b>, −3, … i <b>nigdy</b> nie trafiają w zero.</div><div class="good">Warunek <code class="ic">n &lt;= 0</code> łapie i zero, i liczby ujemne. Pisz warunek stopu tak, żeby <b>nie dało się go przeskoczyć</b>.</div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>44 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>09</b> · Więcej przykładów</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">09</span><h2>Przykład: linia gwiazdek</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1.05fr;gap:34px;align-items:center"><div class="col"><div class="stack " style="--sg:16px"><div class="code-wrap"><pre class="code lg"><span class="ln"><span class="k">void</span> <span class="v">linia</span><span class="p">(</span><span class="k">int</span> <span class="v">k</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">k</span> <span class="p">=</span><span class="p">=</span> <span class="n">0</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span></span><span class="ln">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">'*'</span><span class="p">;</span></span><span class="ln">    <span class="v">linia</span><span class="p">(</span><span class="v">k</span> <span class="p">-</span> <span class="n">1</span><span class="p">)</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div><div class="term out "><div class="term-cap">linia(5) wypisuje</div><pre>*****</pre></div></div></div><div class="col"><div class="stack " style="--sg:16px"><p class="">To ta sama funkcja co <code class="ic">powtorz</code>, tylko zamiast słowa wypisuje gwiazdkę i <b>bez</b> przechodzenia do nowej linii.</p><div class="note">Za chwilę użyjemy jej jak klocka: z wielu linii zbudujemy trójkąt. Rekurencyjne funkcje mogą wołać <b>inne</b> rekurencyjne funkcje.</div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>45 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>09</b> · Więcej przykładów</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">09</span><h2>Przykład: trójkąt z gwiazdek</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1fr;gap:34px;align-items:center"><div class="col"><div class="code-wrap"><pre class="code sm"><span class="ln"><span class="k">void</span> <span class="v">linia</span><span class="p">(</span><span class="k">int</span> <span class="v">k</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">k</span> <span class="p">=</span><span class="p">=</span> <span class="n">0</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span></span><span class="ln">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">'*'</span><span class="p">;</span></span><span class="ln">    <span class="v">linia</span><span class="p">(</span><span class="v">k</span> <span class="p">-</span> <span class="n">1</span><span class="p">)</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span><span class="ln"> </span><span class="ln"><span class="k">void</span> <span class="v">trojkat</span><span class="p">(</span><span class="k">int</span> <span class="v">n</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">=</span><span class="p">=</span> <span class="n">0</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span></span><span class="ln hl">    <span class="v">trojkat</span><span class="p">(</span><span class="v">n</span> <span class="p">-</span> <span class="n">1</span><span class="p">)</span><span class="p">;</span></span><span class="ln hl">    <span class="v">linia</span><span class="p">(</span><span class="v">n</span><span class="p">)</span><span class="p">;</span></span><span class="ln hl">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="f">endl</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div></div><div class="col"><div class="stack " style="--sg:16px"><div class="term out "><div class="term-cap">trojkat(4) wypisuje</div><pre>*
+**
+***
+****</pre></div><p class="">Zaufaj rekurencji: <code class="ic">trojkat(n - 1)</code> narysuje trójkąt o wysokości n − 1. Nam zostaje dorysować <b>pod nim</b> wiersz z n gwiazdkami — czyli <b>po</b> wywołaniu.</p></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>46 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>09</b> · Więcej przykładów</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">09</span><h2>Trójkąt krok po kroku</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1.15fr 1fr;gap:34px;align-items:center"><div class="col"><div class="trc"><div class="tr call" style="padding-left:14px"><span class="ti">↓</span><span class="tt">trojkat(3) woła trojkat(2)</span></div><div class="tr call" style="padding-left:44px"><span class="ti">↓</span><span class="tt">trojkat(2) woła trojkat(1)</span></div><div class="tr call" style="padding-left:74px"><span class="ti">↓</span><span class="tt">trojkat(1) woła trojkat(0)</span></div><div class="tr stop" style="padding-left:104px"><span class="ti">■</span><span class="tt">trojkat(0): stop</span></div><div class="tr out" style="padding-left:74px"><span class="ti">▸</span><span class="tt">trojkat(1) po powrocie: linia(1) → <b>*</b></span></div><div class="tr out" style="padding-left:44px"><span class="ti">▸</span><span class="tt">trojkat(2) po powrocie: linia(2) → <b>**</b></span></div><div class="tr out" style="padding-left:14px"><span class="ti">▸</span><span class="tt">trojkat(3) po powrocie: linia(3) → <b>***</b></span></div></div></div><div class="col"><div class="stack " style="--sg:16px"><div class="term out "><div class="term-cap">na ekranie</div><pre>*
+**
+***</pre></div><div class="note">A gdyby linię narysować <b>przed</b> wywołaniem? Wiersze pojawiłyby się w drodze w dół: <b>***</b>, <b>**</b>, <b>*</b> — trójkąt do góry nogami. Sprawdź to w zadaniu „Odwrócony trójkąt”.</div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>47 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>09</b> · Więcej przykładów</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">09</span><h2>Przykład: cyfry liczby od końca</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1.15fr;gap:34px;align-items:center"><div class="col"><div class="stack " style="--sg:16px"><div class="code-wrap"><pre class="code "><span class="ln"><span class="k">void</span> <span class="v">cyfry</span><span class="p">(</span><span class="k">int</span> <span class="v">n</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">&lt;</span> <span class="n">10</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">        <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">n</span><span class="p">;</span></span><span class="ln">        <span class="k">return</span><span class="p">;</span></span><span class="ln">    <span class="p">}</span></span><span class="ln">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">n</span> <span class="p">%</span> <span class="n">10</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">" "</span><span class="p">;</span></span><span class="ln">    <span class="v">cyfry</span><span class="p">(</span><span class="v">n</span> <span class="p">/</span> <span class="n">10</span><span class="p">)</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div><div class="term out "><div class="term-cap">cyfry(4821) wypisuje</div><pre>1 2 8 4</pre></div></div></div><div class="col"><table class="tbl mid"><colgroup><col style="width:30%"><col style="width:38%"><col style="width:32%"></colgroup><thead><tr><th>Wywołanie</th><th>n % 10</th><th>n / 10</th></tr></thead><tbody><tr><td><code class="ic">cyfry(4821)</code></td><td>wypisuje <b>1</b></td><td>woła cyfry(482)</td></tr><tr><td><code class="ic">cyfry(482)</code></td><td>wypisuje <b>2</b></td><td>woła cyfry(48)</td></tr><tr><td><code class="ic">cyfry(48)</code></td><td>wypisuje <b>8</b></td><td>woła cyfry(4)</td></tr><tr><td><code class="ic">cyfry(4)</code></td><td>4 < 10 → wypisuje <b>4</b></td><td>stop</td></tr></tbody></table></div></div><div class="note"><code class="ic">n % 10</code> to ostatnia cyfra, a <code class="ic">n / 10</code> to liczba bez ostatniej cyfry. Problem maleje: liczba ma za każdym razem o jedną cyfrę mniej.</div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>48 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>09</b> · Więcej przykładów</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">09</span><h2>Przykład: cyfry od początku</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1.1fr;gap:34px;align-items:center"><div class="col"><div class="stack " style="--sg:16px"><div class="code-wrap"><pre class="code "><span class="ln"><span class="k">void</span> <span class="v">cyfry</span><span class="p">(</span><span class="k">int</span> <span class="v">n</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">&lt;</span> <span class="n">10</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">        <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">n</span><span class="p">;</span></span><span class="ln">        <span class="k">return</span><span class="p">;</span></span><span class="ln">    <span class="p">}</span></span><span class="ln hl">    <span class="v">cyfry</span><span class="p">(</span><span class="v">n</span> <span class="p">/</span> <span class="n">10</span><span class="p">)</span><span class="p">;</span></span><span class="ln hl">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">" "</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">n</span> <span class="p">%</span> <span class="n">10</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div><div class="term out "><div class="term-cap">cyfry(4821) wypisuje</div><pre>4 8 2 1</pre></div></div></div><div class="col"><div class="stack " style="--sg:16px"><p class="">Zamieniamy kolejność dwóch linijek — i cyfry wychodzą od <b>pierwszej</b>!</p><div class="trc sm"><div class="tr call" style="padding-left:14px"><span class="ti">↓</span><span class="tt">cyfry(4821) woła cyfry(482)</span></div><div class="tr call" style="padding-left:44px"><span class="ti">↓</span><span class="tt">cyfry(482) woła cyfry(48)</span></div><div class="tr call" style="padding-left:74px"><span class="ti">↓</span><span class="tt">cyfry(48) woła cyfry(4)</span></div><div class="tr out" style="padding-left:104px"><span class="ti">▸</span><span class="tt">cyfry(4): <b>4</b></span></div><div class="tr ret" style="padding-left:74px"><span class="ti">↑</span><span class="tt">cyfry(48) po powrocie: <b>8</b></span></div><div class="tr ret" style="padding-left:44px"><span class="ti">↑</span><span class="tt">cyfry(482): <b>2</b></span></div><div class="tr ret" style="padding-left:14px"><span class="ti">↑</span><span class="tt">cyfry(4821): <b>1</b></span></div></div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>49 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>09</b> · Więcej przykładów</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">09</span><h2>Przykład: napis od tyłu</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1.05fr;gap:34px;align-items:center"><div class="col"><div class="stack " style="--sg:16px"><div class="code-wrap"><pre class="code sm"><span class="ln"><span class="k">void</span> <span class="v">odwroc</span><span class="p">(</span><span class="k">const</span> <span class="f">string</span> <span class="p">&amp;</span><span class="v">s</span><span class="p">,</span> <span class="k">int</span> <span class="v">i</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">i</span> <span class="p">=</span><span class="p">=</span> <span class="v">s</span><span class="p">.</span><span class="m">size</span><span class="p">(</span><span class="p">)</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span></span><span class="ln">    <span class="v">odwroc</span><span class="p">(</span><span class="v">s</span><span class="p">,</span> <span class="v">i</span> <span class="p">+</span> <span class="n">1</span><span class="p">)</span><span class="p">;</span></span><span class="ln">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">s</span><span class="p">[</span><span class="v">i</span><span class="p">]</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span><span class="ln"> </span><span class="ln"><span class="k">int</span> <span class="f">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="v">odwroc</span><span class="p">(</span><span class="s">"kot"</span><span class="p">,</span> <span class="n">0</span><span class="p">)</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div><div class="term out "><div class="term-cap">na ekranie</div><pre>tok</pre></div></div></div><div class="col"><div class="stack " style="--sg:16px"><p class="">Tym razem parametr <b>i</b> to pozycja w napisie. Zaczynamy od 0, a każde wywołanie przesuwa się o jedną literę w prawo — aż do końca napisu.</p><div class="trc sm"><div class="tr call" style="padding-left:14px"><span class="ti">↓</span><span class="tt">i = 0 (k) woła i = 1</span></div><div class="tr call" style="padding-left:44px"><span class="ti">↓</span><span class="tt">i = 1 (o) woła i = 2</span></div><div class="tr call" style="padding-left:74px"><span class="ti">↓</span><span class="tt">i = 2 (t) woła i = 3</span></div><div class="tr stop" style="padding-left:104px"><span class="ti">■</span><span class="tt">i = 3: koniec napisu</span></div><div class="tr out" style="padding-left:74px"><span class="ti">▸</span><span class="tt">wypisuje <b>t</b></span></div><div class="tr out" style="padding-left:44px"><span class="ti">▸</span><span class="tt">wypisuje <b>o</b></span></div><div class="tr out" style="padding-left:14px"><span class="ti">▸</span><span class="tt">wypisuje <b>k</b></span></div></div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>50 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>09</b> · Więcej przykładów</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">09</span><h2>Przykład: zapis dwójkowy</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1.05fr;gap:34px;align-items:center"><div class="col"><div class="stack " style="--sg:16px"><div class="code-wrap"><pre class="code "><span class="ln"><span class="k">void</span> <span class="v">dwojkowo</span><span class="p">(</span><span class="k">int</span> <span class="v">n</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">&lt;</span> <span class="n">2</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">        <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">n</span><span class="p">;</span></span><span class="ln">        <span class="k">return</span><span class="p">;</span></span><span class="ln">    <span class="p">}</span></span><span class="ln">    <span class="v">dwojkowo</span><span class="p">(</span><span class="v">n</span> <span class="p">/</span> <span class="n">2</span><span class="p">)</span><span class="p">;</span></span><span class="ln">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">n</span> <span class="p">%</span> <span class="n">2</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div><div class="term out "><div class="term-cap">dwojkowo(13) wypisuje</div><pre>1101</pre></div></div></div><div class="col"><div class="stack " style="--sg:16px"><p class="">Ostatnia cyfra zapisu dwójkowego to <b>n % 2</b>, a reszta to zapis liczby <b>n / 2</b>. Dokładnie jak cyfry od początku — tylko z 2 zamiast 10.</p><table class="tbl mid ctr"><thead><tr><th>n</th><th>n / 2</th><th>n % 2</th></tr></thead><tbody><tr><td>13</td><td>6</td><td>1</td></tr><tr><td>6</td><td>3</td><td>0</td></tr><tr><td>3</td><td>1</td><td>1</td></tr><tr><td>1</td><td>stop</td><td>wypisuje 1</td></tr></tbody></table><div class="note">Reszty wypisują się w drodze w górę, od dołu tabeli: <b>1, 1, 0, 1</b>.</div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>51 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>10</b> · Typowe błędy</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">10</span><h2>Najczęstsze błędy (1/2)</h2></div>
+  <div class="content"><ol class="traps"><li><b>Brak warunku stopu.</b> Funkcja woła siebie bez końca, aż skończy się stos. Pisz warunek stopu jako <b>pierwszą linijkę</b> funkcji — zanim napiszesz cokolwiek innego.</li><li><b>Krok w złą stronę.</b> <code class="ic">odliczaj(n + 1)</code> zamiast <code class="ic">odliczaj(n - 1)</code>: n rośnie i nigdy nie dojdzie do zera. Sprawdź, czy argument naprawdę <b>zbliża się</b> do warunku stopu.</li><li><b>Warunek, który da się przeskoczyć.</b> Przy kroku <code class="ic">n - 2</code> warunek <code class="ic">n == 0</code> nie zadziała dla nieparzystych n. Bezpieczniej: <code class="ic">n &lt;= 0</code>.</li></ol></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>52 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i><i class=""></i></div>
+  <div class="top"><span><b>10</b> · Typowe błędy</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">10</span><h2>Najczęstsze błędy (2/2)</h2></div>
+  <div class="content"><ol class="traps"><li><b>Zapomniany return.</b> <code class="ic">if (n == 0) cout &lt;&lt; "koniec";</code> — bez <b>return</b> funkcja idzie dalej i woła siebie dla −1, −2, … Warunek stopu musi <b>kończyć</b> funkcję.</li><li><b>Zła kolejność.</b> Kod przed wywołaniem działa w drodze w dół, kod po wywołaniu — w drodze w górę. Jeśli liczby wychodzą odwrotnie, niż chcesz, przestaw linijki.</li><li><b>Za głęboka rekurencja.</b> <code class="ic">odliczaj(10000000)</code> to 10 milionów pięter stosu — program się wysypie. Rekurencja głęboka na miliony to zadanie dla pętli.</li></ol></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>53 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i></div>
+  <div class="top"><span><b>11</b> · Sprawdź się</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">11</span><h2>Pytanie 1: co wypisze <span class="tm">f(4)</span>?</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1.35fr 1fr;gap:34px;align-items:center"><div class="col"><div class="code-wrap"><pre class="code lg"><span class="ln"><span class="k">void</span> <span class="v">f</span><span class="p">(</span><span class="k">int</span> <span class="v">n</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">=</span><span class="p">=</span> <span class="n">0</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span></span><span class="ln">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">n</span><span class="p">;</span></span><span class="ln">    <span class="v">f</span><span class="p">(</span><span class="v">n</span> <span class="p">-</span> <span class="n">1</span><span class="p">)</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div></div><div class="col"><div class="stack " style="--sg:16px"><div class="term out "><div class="term-cap">na ekranie</div><pre>?</pre></div><p class="muted">Zastanów się i zapisz odpowiedź, <b>zanim</b> przejdziesz dalej.</p></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>54 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i></div>
+  <div class="top"><span><b>11</b> · Sprawdź się</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">11</span><h2>Odpowiedź 1: <span class="tm">4321</span></h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1fr;gap:34px;align-items:center"><div class="col"><div class="trc"><div class="tr out" style="padding-left:14px"><span class="ti">▸</span><span class="tt">f(4): <b>4</b></span></div><div class="tr out" style="padding-left:44px"><span class="ti">▸</span><span class="tt">f(3): <b>3</b></span></div><div class="tr out" style="padding-left:74px"><span class="ti">▸</span><span class="tt">f(2): <b>2</b></span></div><div class="tr out" style="padding-left:104px"><span class="ti">▸</span><span class="tt">f(1): <b>1</b></span></div><div class="tr stop" style="padding-left:134px"><span class="ti">■</span><span class="tt">f(0): stop</span></div></div></div><div class="col"><div class="stack " style="--sg:16px"><div class="term out "><div class="term-cap">na ekranie</div><pre>4321</pre></div><div class="note">Wypisywanie jest <b>przed</b> wywołaniem, więc liczby idą w drodze w dół: 4, 3, 2, 1. Bez spacji — bo w kodzie nie ma " ".</div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>55 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i></div>
+  <div class="top"><span><b>11</b> · Sprawdź się</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">11</span><h2>Pytanie 2: co wypisze <span class="tm">g(4)</span>?</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1.35fr 1fr;gap:34px;align-items:center"><div class="col"><div class="code-wrap"><pre class="code lg"><span class="ln"><span class="k">void</span> <span class="v">g</span><span class="p">(</span><span class="k">int</span> <span class="v">n</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">=</span><span class="p">=</span> <span class="n">0</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span></span><span class="ln">    <span class="v">g</span><span class="p">(</span><span class="v">n</span> <span class="p">-</span> <span class="n">1</span><span class="p">)</span><span class="p">;</span></span><span class="ln">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">n</span> <span class="p">*</span> <span class="v">n</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">" "</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div></div><div class="col"><div class="stack " style="--sg:16px"><div class="term out "><div class="term-cap">na ekranie</div><pre>?</pre></div><p class="muted">Zastanów się i zapisz odpowiedź, <b>zanim</b> przejdziesz dalej.</p></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>56 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i></div>
+  <div class="top"><span><b>11</b> · Sprawdź się</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">11</span><h2>Odpowiedź 2: <span class="tm">1 4 9 16</span></h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1fr;gap:34px;align-items:center"><div class="col"><div class="trc sm"><div class="tr call" style="padding-left:14px"><span class="ti">↓</span><span class="tt">g(4) woła g(3)</span></div><div class="tr call" style="padding-left:44px"><span class="ti">↓</span><span class="tt">g(3) woła g(2)</span></div><div class="tr call" style="padding-left:74px"><span class="ti">↓</span><span class="tt">g(2) woła g(1)</span></div><div class="tr call" style="padding-left:104px"><span class="ti">↓</span><span class="tt">g(1) woła g(0) — stop</span></div><div class="tr out" style="padding-left:104px"><span class="ti">▸</span><span class="tt">g(1): <b>1</b></span></div><div class="tr out" style="padding-left:74px"><span class="ti">▸</span><span class="tt">g(2): <b>4</b></span></div><div class="tr out" style="padding-left:44px"><span class="ti">▸</span><span class="tt">g(3): <b>9</b></span></div><div class="tr out" style="padding-left:14px"><span class="ti">▸</span><span class="tt">g(4): <b>16</b></span></div></div></div><div class="col"><div class="stack " style="--sg:16px"><div class="term out "><div class="term-cap">na ekranie</div><pre>1 4 9 16</pre></div><div class="note">Wypisywanie jest <b>po</b> wywołaniu, więc kwadraty pojawiają się w drodze w górę — od najmniejszego n.</div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>57 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i></div>
+  <div class="top"><span><b>11</b> · Sprawdź się</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">11</span><h2>Pytanie 3: co wypisze <span class="tm">h(10)</span>?</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1.35fr 1fr;gap:34px;align-items:center"><div class="col"><div class="code-wrap"><pre class="code lg"><span class="ln"><span class="k">void</span> <span class="v">h</span><span class="p">(</span><span class="k">int</span> <span class="v">n</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">&lt;</span><span class="p">=</span> <span class="n">0</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span></span><span class="ln">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">n</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">" "</span><span class="p">;</span></span><span class="ln">    <span class="v">h</span><span class="p">(</span><span class="v">n</span> <span class="p">-</span> <span class="n">3</span><span class="p">)</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div></div><div class="col"><div class="stack " style="--sg:16px"><div class="term out "><div class="term-cap">na ekranie</div><pre>?</pre></div><p class="muted">Zastanów się i zapisz odpowiedź, <b>zanim</b> przejdziesz dalej.</p></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>58 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i></div>
+  <div class="top"><span><b>11</b> · Sprawdź się</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">11</span><h2>Odpowiedź 3: <span class="tm">10 7 4 1</span></h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1fr;gap:34px;align-items:center"><div class="col"><div class="trc"><div class="tr out" style="padding-left:14px"><span class="ti">▸</span><span class="tt">h(10): <b>10</b></span></div><div class="tr out" style="padding-left:44px"><span class="ti">▸</span><span class="tt">h(7): <b>7</b></span></div><div class="tr out" style="padding-left:74px"><span class="ti">▸</span><span class="tt">h(4): <b>4</b></span></div><div class="tr out" style="padding-left:104px"><span class="ti">▸</span><span class="tt">h(1): <b>1</b></span></div><div class="tr stop" style="padding-left:134px"><span class="ti">■</span><span class="tt">h(−2): −2 ≤ 0, stop</span></div></div></div><div class="col"><div class="stack " style="--sg:16px"><div class="term out "><div class="term-cap">na ekranie</div><pre>10 7 4 1</pre></div><div class="note">Po 1 przychodzi −2 — nie zero! Dobrze, że warunek to <code class="ic">n &lt;= 0</code>, a nie <code class="ic">n == 0</code>.</div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>59 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i></div>
+  <div class="top"><span><b>11</b> · Sprawdź się</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">11</span><h2>Pytanie 4: znajdź błąd</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1.35fr 1fr;gap:34px;align-items:center"><div class="col"><div class="code-wrap"><pre class="code lg"><span class="ln"><span class="k">void</span> <span class="v">odliczaj</span><span class="p">(</span><span class="k">int</span> <span class="v">n</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">n</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">" "</span><span class="p">;</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">=</span><span class="p">=</span> <span class="n">0</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span></span><span class="ln">    <span class="v">odliczaj</span><span class="p">(</span><span class="v">n</span> <span class="p">+</span> <span class="n">1</span><span class="p">)</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div></div><div class="col"><div class="stack " style="--sg:16px"><div class="term out "><div class="term-cap">na ekranie</div><pre>?</pre></div><p class="muted">Program dla odliczaj(3) miał wypisać 3 2 1 0.</p><p class="muted">Zastanów się i zapisz odpowiedź, <b>zanim</b> przejdziesz dalej.</p></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>60 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i></div>
+  <div class="top"><span><b>11</b> · Sprawdź się</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">11</span><h2>Odpowiedź 4: krok w złą stronę</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1fr 1fr;gap:30px;align-items:start"><div class="col"><div class="stack " style="--sg:16px"><div class="code-wrap"><div class="code-cap bad">błąd</div><pre class="code lg bad"><span class="ln"><span class="k">void</span> <span class="v">odliczaj</span><span class="p">(</span><span class="k">int</span> <span class="v">n</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">n</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">" "</span><span class="p">;</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">=</span><span class="p">=</span> <span class="n">0</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span></span><span class="ln">    <span class="v">odliczaj</span><span class="p">(</span><span class="mk"><span class="v">n</span> <span class="p">+</span> <span class="n">1</span></span><span class="p">)</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div><div class="term out "><div class="term-cap">na ekranie</div><pre>3 4 5 6 7 8 9 10 …
+Segmentation fault</pre></div></div></div><div class="col"><div class="stack " style="--sg:16px"><div class="code-wrap"><div class="code-cap okc">poprawnie</div><pre class="code lg okc"><span class="ln"><span class="k">void</span> <span class="v">odliczaj</span><span class="p">(</span><span class="k">int</span> <span class="v">n</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">n</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">" "</span><span class="p">;</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">=</span><span class="p">=</span> <span class="n">0</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span></span><span class="ln">    <span class="v">odliczaj</span><span class="p">(</span><span class="v">n</span> <span class="p">-</span> <span class="n">1</span><span class="p">)</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div><div class="term out "><div class="term-cap">na ekranie</div><pre>3 2 1 0</pre></div><div class="note">Warunek stopu stoi tu <b>po</b> cout — dlatego wypisze się też 0. To nie błąd, tylko inna kolejność.</div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>61 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i></div>
+  <div class="top"><span><b>11</b> · Sprawdź się</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">11</span><h2>Pytanie 5: co wypisze <span class="tm">f(3)</span>?</h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1.35fr 1fr;gap:34px;align-items:center"><div class="col"><div class="code-wrap"><pre class="code lg"><span class="ln"><span class="k">void</span> <span class="v">f</span><span class="p">(</span><span class="k">int</span> <span class="v">n</span><span class="p">)</span> <span class="p">{</span></span><span class="ln">    <span class="k">if</span> <span class="p">(</span><span class="v">n</span> <span class="p">=</span><span class="p">=</span> <span class="n">0</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span></span><span class="ln">    <span class="v">f</span><span class="p">(</span><span class="v">n</span> <span class="p">-</span> <span class="n">1</span><span class="p">)</span><span class="p">;</span></span><span class="ln">    <span class="f">cout</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="v">n</span> <span class="p">&lt;</span><span class="p">&lt;</span> <span class="s">" "</span><span class="p">;</span></span><span class="ln">    <span class="v">f</span><span class="p">(</span><span class="v">n</span> <span class="p">-</span> <span class="n">1</span><span class="p">)</span><span class="p">;</span></span><span class="ln"><span class="p">}</span></span></pre></div></div><div class="col"><div class="stack " style="--sg:16px"><div class="term out "><div class="term-cap">na ekranie</div><pre>?</pre></div><p class="muted">Uwaga: tym razem funkcja woła siebie DWA razy.</p><p class="muted">Zastanów się i zapisz odpowiedź, <b>zanim</b> przejdziesz dalej.</p></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>62 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i class=""></i></div>
+  <div class="top"><span><b>11</b> · Sprawdź się</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">11</span><h2>Odpowiedź 5: <span class="tm">1 2 1 3 1 2 1</span></h2></div>
+  <div class="content"><div class="cols" style="grid-template-columns:1.2fr 1fr;gap:34px;align-items:center"><div class="col"><div class="stack " style="--sg:16px"><p class=""><code class="ic">f(n)</code> = najpierw całe <code class="ic">f(n - 1)</code>, potem <b>n</b>, potem znowu całe <code class="ic">f(n - 1)</code>.</p><table class="tbl "><colgroup><col style="width:30%"><col style="width:70%"></colgroup><thead><tr><th>Wywołanie</th><th>Wypisuje</th></tr></thead><tbody><tr><td><code class="ic">f(1)</code></td><td><b>1</b></td></tr><tr><td><code class="ic">f(2)</code></td><td>f(1), 2, f(1) = <b>1 2 1</b></td></tr><tr><td><code class="ic">f(3)</code></td><td>f(2), 3, f(2) = <b>1 2 1 3 1 2 1</b></td></tr></tbody></table></div></div><div class="col"><div class="stack " style="--sg:16px"><div class="term out "><div class="term-cap">na ekranie</div><pre>1 2 1 3 1 2 1</pre></div><div class="good">Funkcja, która woła siebie <b>więcej niż raz</b>, to temat części 3 — zobaczysz tam całe <b>drzewo</b> wywołań.</div></div></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>63 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i></div>
+  <div class="top"><span><b>12</b> · Podsumowanie</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">12</span><h2>Ściąga: rekurencja w jednym miejscu</h2></div>
+  <div class="content"><table class="tbl mid"><colgroup><col style="width:26%"><col style="width:42%"><col style="width:32%"></colgroup><thead><tr><th>Element</th><th>Co robi</th><th>Pamiętaj</th></tr></thead><tbody><tr><td><code class="ic">if (n == 0) return;</code></td><td>warunek stopu — koniec schodzenia w dół</td><td>zawsze na górze funkcji</td></tr><tr><td><code class="ic">f(n - 1);</code></td><td>wywołanie dla mniejszego problemu</td><td>argument musi zbliżać się do stopu</td></tr><tr><td>kod <b>przed</b> f(…)</td><td>wykonuje się w drodze <b>w dół</b></td><td>kolejność: 3, 2, 1</td></tr><tr><td>kod <b>po</b> f(…)</td><td>wykonuje się w drodze <b>w górę</b></td><td>kolejność odwrotna: 1, 2, 3</td></tr><tr><td>stos wywołań</td><td>czekające kopie funkcji, każda z własnymi zmiennymi</td><td>za głęboko → przepełnienie</td></tr><tr><td><code class="ic">n % 10, n / 10</code></td><td>ostatnia cyfra i liczba bez niej</td><td>krok po cyfrach liczby</td></tr><tr><td><code class="ic">f(s, i + 1)</code></td><td>krok po pozycjach napisu / tablicy</td><td>stop, gdy i dojdzie do końca</td></tr></tbody></table></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>64 / 66</span></div>
+</section>
+<section class="slide">
+  <div class="bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i></div>
+  <div class="top"><span><b>12</b> · Podsumowanie</span><span class="brand"><b>T-Olimpians</b> · rekurencja · część 1</span></div>
+  <div class="head"><span class="num">12</span><h2>Zadania na koniec — Twoja kolej</h2></div>
+  <div class="content"><div class="stack " style="--sg:14px"><p class="">Wszystkie zadania są na <b>t-olimpians.com → Kompendium → Funkcje rekurencyjne → Krok 1</b>, z automatyczną sprawdzarką i wskazówką. Rób je po kolei:</p><div class="cols" style="grid-template-columns:1fr 1fr;gap:20px"><ol class="steps tight"><li>Powtórz napis</li><li>Odliczanie do startu</li><li>Od 1 do n</li><li>Tam i z powrotem</li><li>Od a do b</li><li>Co druga liczba</li><li>Linia gwiazdek</li><li>Trójkąt z gwiazdek</li><li>Odwrócony trójkąt</li></ol><ol class="steps tight" start="10" style="counter-reset:s 9"><li>Klepsydra</li><li>Schodki z liczb</li><li>Cyfry od końca</li><li>Cyfry od początku</li><li>Napis od tyłu</li><li>Tablica od końca</li><li>Zapis dwójkowy rekurencyjnie</li><li>Zapis w systemie o podstawie k</li></ol></div></div></div>
+  <div class="foot"><span>t-olimpians.com — Rekurencja, część 1 — pierwsze kroki</span><span>65 / 66</span></div>
+</section>
+<section class="slide cover">
+  <div class="end-c">
+    <div class="kicker">// KONIEC CZĘŚCI 1</div>
+    <h1>Umiesz już<br>napisać rekurencję!</h1>
+    <div class="sub">Warunek stopu, mniejszy problem, kod przed i po wywołaniu, stos wywołań. Zrób zadania z kroku 1, a potem przejdź do części 2: funkcje rekurencyjne, które zwracają wynik.</div>
+    <div class="deco" style="margin-top:34px"><div class="stk sm"><div class="stk-cap">stos wywołań</div><div class="frm on"><span class="fn">main()</span><span class="fd">program działa dalej</span></div><div class="stk-bot">dno stosu</div></div></div>
+  </div>
+  <div class="cover-foot"><b>T-Olimpians</b> Team Poland · t-olimpians.com</div>
+</section>
+</body>
+</html>

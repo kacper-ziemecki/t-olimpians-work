@@ -1636,7 +1636,891 @@
       },
       {
         "name": "Funkcje rekurencyjne",
-        "tag": "trzeba"
+        "tag": "trzeba",
+        "note": "Rekurencja od zera w 6 krokach — dla kogoś, kto jeszcze nigdy nie napisał funkcji wołającej samą siebie. W każdym kroku najpierw przejrzyj prezentację (slajdy krok po kroku, z kodem i śledzeniem wywołań), potem obejrzyj filmy Strivera z playlisty „Recursion (Basics to Advanced) and Backtracking”, a na końcu zrób zadania T-Olimpians z automatyczną sprawdzarką C++ (każde ma wskazówkę). Kroki budują jeden na drugim — przerabiaj je po kolei.",
+        "sections": [
+          {
+            "name": "Krok 1 · Pierwsze kroki — funkcja, która woła samą siebie",
+            "note": "Funkcja, która wywołuje samą siebie: warunek stopu, kolejne kopie funkcji na stosie wywołań, kod przed wywołaniem (w drodze w dół) i po wywołaniu (w drodze powrotnej). Zadania tylko wypisują — odliczanie, napisy, gwiazdki, cyfry, zapis dwójkowy. Każde zadanie ma automatyczną sprawdzarkę C++ i wskazówkę.",
+            "videos": [
+              {
+                "title": "Re 1. Introduction to Recursion | Recursion Tree | Stack Space | Strivers A2Z DSA Course",
+                "url": "https://www.youtube.com/watch?v=yVdKa8dnKiE",
+                "author": "take U forward (Striver)",
+                "duration": "22:46"
+              },
+              {
+                "title": "Re 2. Problems on Recursion | Strivers A2Z DSA Course",
+                "url": "https://www.youtube.com/watch?v=un6PLygfXrA",
+                "author": "take U forward (Striver)",
+                "duration": "22:04"
+              }
+            ],
+            "links": [
+              {
+                "label": "slajdy: Pierwsze kroki",
+                "url": "https://t-olimpians.com/pdf-src/prezentacja-rekurencja-1-pierwsze-kroki.html"
+              },
+              {
+                "label": "slajdy w PDF",
+                "url": "https://t-olimpians.com/prezentacja-rekurencja-1-pierwsze-kroki-t-olimpians.pdf"
+              },
+              {
+                "label": "zadania z kroku 1 (17)",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html?dzial=Rekurencja%20%2F%20krok%201%3A%20pierwsze%20kroki"
+              },
+              {
+                "label": "lekcja: Rekurencja w C++",
+                "url": "https://t-olimpians.com/c++_logika/rekurencja.html"
+              },
+              {
+                "label": "wszystkie zadania z rekurencji",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html?szukaj=Rekurencja"
+              }
+            ],
+            "tasks": [
+              {
+                "name": "Powtórz napis",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-powtorz-napis",
+                "platform": "T-Olimpians",
+                "level": "latwe",
+                "hint": "Warunek stopu: jeśli n == 0, nie ma już nic do wypisania — wykonaj return. W przeciwnym razie wypisz s (i znak nowej linii), a potem wywołaj powtorz(n - 1, s). Każde wywołanie zmniejsza n o 1, więc po n krokach dojdziemy do zera."
+              },
+              {
+                "name": "Odliczanie do startu",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-odliczanie",
+                "platform": "T-Olimpians",
+                "level": "latwe",
+                "hint": "Warunek stopu: gdy n == 0, nie ma już czego odliczać — return. W przeciwnym razie: najpierw cout << n << endl, potem odliczaj(n - 1). Napis START wypisz w main, zaraz po wywołaniu odliczaj(n) — wykona się dopiero wtedy, gdy całe odliczanie się skończy."
+              },
+              {
+                "name": "Od 1 do n",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-od-1-do-n",
+                "platform": "T-Olimpians",
+                "level": "latwe",
+                "hint": "void wypisz(int n): jeśli n == 0 — return. W przeciwnym razie NAJPIERW wywołaj wypisz(n - 1), a DOPIERO POTEM cout << n << \" \". Zaufaj rekurencji: wypisz(n - 1) wypisze 1 … n−1, więc po nim zostaje dopisać już tylko samo n."
+              },
+              {
+                "name": "Tam i z powrotem",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-tam-i-z-powrotem",
+                "platform": "T-Olimpians",
+                "level": "latwe",
+                "hint": "void f(int n): jeśli n == 0 — return. Potem: cout << n << \" \"; f(n - 1); cout << n << \" \";. Pierwszy cout wykonuje się w drodze w dół (od n do 1), drugi — w drodze powrotnej (od 1 do n)."
+              },
+              {
+                "name": "Od a do b",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-od-a-do-b",
+                "platform": "T-Olimpians",
+                "level": "latwe",
+                "hint": "Kiedy nie ma już nic do wypisania? Gdy a > b — wtedy return. W przeciwnym razie wypisz a i wywołaj wypisz(a + 1, b). Parametr b się nie zmienia, „zbliża się” tylko a."
+              },
+              {
+                "name": "Co druga liczba",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-co-druga",
+                "platform": "T-Olimpians",
+                "level": "latwe",
+                "hint": "Warunek if (n == 0) return; tutaj nie wystarczy: dla n = 9 wywołania idą 9, 7, 5, 3, 1, −1, −3, … i nigdy nie trafiają w zero — program wysypie się z przepełnieniem stosu. Użyj if (n <= 0) return;."
+              },
+              {
+                "name": "Linia gwiazdek",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-linia-gwiazdek",
+                "platform": "T-Olimpians",
+                "level": "latwe",
+                "hint": "Tak samo jak w „Powtórz napis”: if (n == 0) return; cout << '*'; linia(n - 1);. Znak nowej linii wypisz raz, w main, po wywołaniu linia(n)."
+              },
+              {
+                "name": "Trójkąt z gwiazdek",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-trojkat",
+                "platform": "T-Olimpians",
+                "level": "latwe",
+                "hint": "trojkat(n): jeśli n == 0 — return. Inaczej NAJPIERW trojkat(n - 1) (narysuje wiersze 1 … n−1), a POTEM linia(n) i znak nowej linii. Kolejność ma znaczenie: kod po wywołaniu wykonuje się w drodze powrotnej, czyli od najkrótszego wiersza."
+              },
+              {
+                "name": "Odwrócony trójkąt",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-trojkat-odwrocony",
+                "platform": "T-Olimpians",
+                "level": "latwe",
+                "hint": "Teraz najdłuższy wiersz ma się pojawić pierwszy, więc wypisz go w drodze w dół: linia(n), znak nowej linii, a dopiero potem wywołaj odwrocony(n - 1)."
+              },
+              {
+                "name": "Klepsydra",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-klepsydra",
+                "platform": "T-Olimpians",
+                "level": "latwe",
+                "hint": "To jest „Tam i z powrotem”, tylko zamiast liczby rysujesz wiersz: klepsydra(n) = linia(n) + nowa linia; klepsydra(n - 1); linia(n) + nowa linia. Warunek stopu: n == 0."
+              },
+              {
+                "name": "Schodki z liczb",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-schodki-liczb",
+                "platform": "T-Olimpians",
+                "level": "latwe",
+                "hint": "wiersz(i): if (i == 0) return; wiersz(i - 1); cout << i << \" \";. schodki(n): if (n == 0) return; schodki(n - 1); wiersz(n); cout << endl;. Obie funkcje wypisują swoją część w drodze powrotnej."
+              },
+              {
+                "name": "Cyfry od końca",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-cyfry-od-konca",
+                "platform": "T-Olimpians",
+                "level": "latwe",
+                "hint": "void cyfry(long long n): jeśli n < 10 — wypisz n i return (to obsługuje też n = 0). W przeciwnym razie wypisz n % 10 i wywołaj cyfry(n / 10). Pamiętaj o long long — liczby sięgają 10¹⁸."
+              },
+              {
+                "name": "Cyfry od początku",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-cyfry-od-poczatku",
+                "platform": "T-Olimpians",
+                "level": "latwe",
+                "hint": "void cyfry(long long n): jeśli n < 10 — wypisz n i return. W przeciwnym razie NAJPIERW cyfry(n / 10) (wypisze wszystkie cyfry oprócz ostatniej), a POTEM cout << \" \" << n % 10."
+              },
+              {
+                "name": "Napis od tyłu",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-napis-od-tylu",
+                "platform": "T-Olimpians",
+                "level": "latwe",
+                "hint": "Jeśli i == s.size(), słowo się skończyło — return. W przeciwnym razie NAJPIERW odwroc(s, i + 1), a POTEM cout << s[i]. Litera s[i] wypisze się w drodze powrotnej, czyli po wszystkich literach stojących za nią."
+              },
+              {
+                "name": "Tablica od końca",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-tablica-od-konca",
+                "platform": "T-Olimpians",
+                "level": "latwe",
+                "hint": "Tablicę zrób globalną, żeby funkcja ją widziała. wypisz(i): jeśli i == n — return; NAJPIERW wypisz(i + 1), POTEM cout << a[i] << \" \". Element a[0] wypisze się na samym końcu, bo jego wywołanie wraca jako ostatnie."
+              },
+              {
+                "name": "Zapis dwójkowy rekurencyjnie",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-zapis-dwojkowy",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "void dwojkowo(long long n): jeśli n < 2 — wypisz n i return. W przeciwnym razie NAJPIERW dwojkowo(n / 2), POTEM cout << n % 2. Starsze cyfry wypisują się pierwsze, bo ich wywołania są głębiej."
+              },
+              {
+                "name": "Zapis w systemie o podstawie k",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-system-k",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "Zrób napis cyfry = \"0123456789ABCDEF\" — wtedy cyfrą o wartości d jest cyfry[d]. Funkcja: jeśli n < k — wypisz cyfry[n] i return; inaczej zapis(n / k, k), a potem cout << cyfry[n % k]."
+              }
+            ]
+          },
+          {
+            "name": "Krok 2 · Rekurencja, która zwraca wynik",
+            "note": "Funkcje rekurencyjne z return: suma, silnia, potęga, cyfry liczby, tablice i napisy (indeks jako parametr), NWD. Zaufaj mniejszemu wywołaniu: „jeśli f(n − 1) już działa, jak z niego zrobić f(n)?”. Rekurencja z parametrem (akumulatorem) kontra rekurencja zwracająca wynik. Każde zadanie ma automatyczną sprawdzarkę C++ i wskazówkę.",
+            "videos": [
+              {
+                "title": "Re 3. Parameterised and Functional Recursion | Strivers A2Z DSA Course",
+                "url": "https://www.youtube.com/watch?v=69ZCDFy-OUo",
+                "author": "take U forward (Striver)",
+                "duration": "18:14"
+              },
+              {
+                "title": "Re 4. Problems on Functional Recursion | Strivers A2Z DSA Course",
+                "url": "https://www.youtube.com/watch?v=twuC1F6gLI8",
+                "author": "take U forward (Striver)",
+                "duration": "19:48"
+              }
+            ],
+            "links": [
+              {
+                "label": "slajdy: Rekurencja, która zwraca wynik",
+                "url": "https://t-olimpians.com/pdf-src/prezentacja-rekurencja-2-zwracanie-wyniku.html"
+              },
+              {
+                "label": "slajdy w PDF",
+                "url": "https://t-olimpians.com/prezentacja-rekurencja-2-zwracanie-wyniku-t-olimpians.pdf"
+              },
+              {
+                "label": "zadania z kroku 2 (18)",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html?dzial=Rekurencja%20%2F%20krok%202%3A%20funkcje%20zwracaj%C4%85ce%20wynik"
+              }
+            ],
+            "tasks": [
+              {
+                "name": "Suma od 1 do n",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-suma-do-n",
+                "platform": "T-Olimpians",
+                "level": "latwe",
+                "hint": "Warunek stopu: suma(0) = 0 (suma zera liczb). Krok: return n + suma(n - 1);. Nie śledź w głowie wszystkich wywołań — wystarczy założyć, że suma(n - 1) zwraca poprawny wynik, i dodać do niego n."
+              },
+              {
+                "name": "Silnia",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-silnia",
+                "platform": "T-Olimpians",
+                "level": "latwe",
+                "hint": "silnia(0) = 1, a dla n > 0: return n * silnia(n - 1);. Już 13! nie mieści się w int, a 20! = 2 432 902 008 176 640 000 ledwo mieści się w long long — dlatego funkcja zwraca long long."
+              },
+              {
+                "name": "Potęga",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-potega",
+                "platform": "T-Olimpians",
+                "level": "latwe",
+                "hint": "potega(a, 0) = 1, a dla n > 0: return a * potega(a, n - 1);. Pamiętaj, żeby a i wynik były typu long long."
+              },
+              {
+                "name": "Ile cyfr?",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-liczba-cyfr",
+                "platform": "T-Olimpians",
+                "level": "latwe",
+                "hint": "Warunek stopu: jeśli n < 10, liczba ma 1 cyfrę (to działa też dla n = 0). W przeciwnym razie: return 1 + ileCyfr(n / 10);. Uwaga: warunek „n == 0 → 0 cyfr” dawałby złą odpowiedź dla samego zera."
+              },
+              {
+                "name": "Suma cyfr",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-suma-cyfr",
+                "platform": "T-Olimpians",
+                "level": "latwe",
+                "hint": "sumaCyfr(0) = 0 — liczba bez cyfr. Dla n > 0: return n % 10 + sumaCyfr(n / 10);."
+              },
+              {
+                "name": "Ile razy występuje cyfra?",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-ile-razy-cyfra",
+                "platform": "T-Olimpians",
+                "level": "latwe",
+                "hint": "Uważaj na zero! Najprościej zatrzymać się na liczbie jednocyfrowej: jeśli n < 10, zwróć 1 gdy n == d, a 0 w przeciwnym razie. Dla dłuższej liczby: (n % 10 == d) + ile(n / 10, d) — w C++ wynik porównania to 1 albo 0."
+              },
+              {
+                "name": "Pierwiastek cyfrowy",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-pierwiastek-cyfrowy",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "pierwiastek(n): jeśli n < 10, to już jest wynik — return n. W przeciwnym razie return pierwiastek(sumaCyfr(n));. Funkcja nie woła siebie z n − 1, tylko z mniejszą liczbą — sumą cyfr. To też jest krok w stronę warunku stopu."
+              },
+              {
+                "name": "Liczba od tyłu",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-odwroc-liczbe",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "W każdym kroku przenieś ostatnią cyfrę n na koniec wyniku: return odwroc(n / 10, wynik * 10 + n % 10);. Gdy n == 0, wszystkie cyfry są już przeniesione — return wynik;. To rekurencja „z parametrem”: wynik rośnie w drodze w dół, a w drodze powrotnej tylko się go przekazuje."
+              },
+              {
+                "name": "Suma tablicy",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-suma-tablicy",
+                "platform": "T-Olimpians",
+                "level": "latwe",
+                "hint": "Warunek stopu: suma(n) = 0 — za ostatnim elementem nie ma już nic do dodania. Krok: return a[i] + suma(i + 1);. Wynik może sięgnąć 10¹², więc long long."
+              },
+              {
+                "name": "Największy element",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-maks-tablicy",
+                "platform": "T-Olimpians",
+                "level": "latwe",
+                "hint": "Warunek stopu: gdy i == n - 1, został jeden element — return a[i]. W przeciwnym razie return max(a[i], maks(i + 1));."
+              },
+              {
+                "name": "Ile liczb parzystych?",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-ile-parzystych",
+                "platform": "T-Olimpians",
+                "level": "latwe",
+                "hint": "ileParzystych(n) = 0. Dla i < n: jeśli a[i] % 2 == 0, wynik to 1 + ileParzystych(i + 1), a w przeciwnym razie po prostu ileParzystych(i + 1). Uwaga: dla liczb ujemnych nieparzystych a[i] % 2 daje −1, więc porównuj z zerem, a nie z jedynką."
+              },
+              {
+                "name": "Czy tablica jest posortowana?",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-czy-posortowana",
+                "platform": "T-Olimpians",
+                "level": "latwe",
+                "hint": "Jeśli i >= n - 1, został co najwyżej jeden element — return true. Jeśli a[i] > a[i + 1], znaleźliśmy „zły” sąsiedni układ — return false. W przeciwnym razie odpowiedź zależy od reszty: return posortowana(i + 1);. Pamiętaj, żeby przed każdą tablicą ustawić globalne n."
+              },
+              {
+                "name": "Palindrom",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-palindrom",
+                "platform": "T-Olimpians",
+                "level": "latwe",
+                "hint": "Porównuj skrajne litery i idź do środka. Jeśli l >= r, został co najwyżej jeden znak — return true. Jeśli s[l] != s[r] — return false. W przeciwnym razie return palindrom(s, l + 1, r - 1);."
+              },
+              {
+                "name": "Odwróć fragment tablicy",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-odwroc-fragment",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "Warunek stopu: if (l >= r) return; — fragment jest pusty albo ma jeden element. W przeciwnym razie swap(a[l], a[r]); odwroc(l + 1, r - 1);. Najprościej trzymać liczby w tablicy od indeksu 1, wtedy l i r z wejścia pasują wprost."
+              },
+              {
+                "name": "Największy wspólny dzielnik",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-nwd",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "Dwie linijki: if (b == 0) return a; return nwd(b, a % b);. Nie musisz sprawdzać, która liczba jest większa — jeśli a < b, pierwsze wywołanie samo zamieni je miejscami, bo a % b == a."
+              },
+              {
+                "name": "Mnożenie bez mnożenia",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-mnozenie",
+                "platform": "T-Olimpians",
+                "level": "latwe",
+                "hint": "razy(a, 0) = 0. Dla b > 0: return a + razy(a, b - 1);. Rekurencja schodzi tu b poziomów w głąb, więc b nie może być ogromne — 10 000 poziomów to jeszcze bezpiecznie."
+              },
+              {
+                "name": "Problem Collatza",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-collatz",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "kroki(1) = 0. Dla n > 1: jeśli n jest parzyste, return 1 + kroki(n / 2);, w przeciwnym razie return 1 + kroki(3 * n + 1);. Liczby po drodze potrafią przekroczyć zakres int (dla n ≤ 10⁶ dochodzą do ok. 5,7 · 10¹⁰), więc n musi być long long."
+              },
+              {
+                "name": "Czy to potęga dwójki?",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-potega-dwojki",
+                "platform": "T-Olimpians",
+                "level": "latwe",
+                "hint": "Trzy przypadki: jeśli n == 1 — return true; jeśli n jest nieparzyste — return false; w przeciwnym razie return potegaDwojki(n / 2);."
+              }
+            ]
+          },
+          {
+            "name": "Krok 3 · Wiele wywołań — drzewo rekurencji i memoizacja",
+            "note": "Funkcja, która woła siebie dwa razy: Fibonacci, wieże Hanoi, drzewo wywołań i to, dlaczego potrafi być ogromne. Memoizacja — zapamiętywanie wyników w tablicy — i pierwsze zadania „ile jest sposobów?”: schody, ścieżki na planszy, trójkąt Pascala, żaba, rozkłady liczby. To most do programowania dynamicznego. Każde zadanie ma automatyczną sprawdzarkę C++ i wskazówkę.",
+            "videos": [
+              {
+                "title": "Re 5. Multiple Recursion Calls | Problems | Strivers A2Z DSA Course",
+                "url": "https://www.youtube.com/watch?v=kvRjNm4rVBE",
+                "author": "take U forward (Striver)",
+                "duration": "16:45"
+              }
+            ],
+            "links": [
+              {
+                "label": "slajdy: Drzewo rekurencji i memoizacja",
+                "url": "https://t-olimpians.com/pdf-src/prezentacja-rekurencja-3-drzewo-i-memoizacja.html"
+              },
+              {
+                "label": "slajdy w PDF",
+                "url": "https://t-olimpians.com/prezentacja-rekurencja-3-drzewo-i-memoizacja-t-olimpians.pdf"
+              },
+              {
+                "label": "zadania z kroku 3 (13)",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html?dzial=Rekurencja%20%2F%20krok%203%3A%20drzewo%20rekurencji%20i%20memoizacja"
+              }
+            ],
+            "tasks": [
+              {
+                "name": "Liczby Fibonacciego",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-fibonacci",
+                "platform": "T-Olimpians",
+                "level": "latwe",
+                "hint": "Dwa warunki stopu: fib(0) = 0 i fib(1) = 1 (możesz je połączyć: if (n <= 1) return n;). Krok: return fib(n - 1) + fib(n - 2);. Dla n = 30 funkcja wywoła się ok. 2,7 miliona razy — to jeszcze zmieści się w sekundzie, ale dla n = 50 już nie (o tym w kolejnych zadaniach)."
+              },
+              {
+                "name": "Linijka",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-linijka",
+                "platform": "T-Olimpians",
+                "level": "latwe",
+                "hint": "void linijka(int n): if (n == 0) return; linijka(n - 1); cout << n << \" \"; linijka(n - 1);. Liczba n wypisuje się pomiędzy dwoma wywołaniami — w drodze powrotnej z pierwszego, a przed zejściem w drugie."
+              },
+              {
+                "name": "Wieże Hanoi",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-hanoi",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "void hanoi(int n, int z, int na, int przez): if (n == 0) return; hanoi(n - 1, z, przez, na); cout << z << \" \" << na << endl; hanoi(n - 1, przez, na, z);. Z main: hanoi(n, 1, 3, 2). Ruchów jest zawsze 2ⁿ − 1 — to też da się policzyć rekurencyjnie: ruchy(n) = 2 · ruchy(n − 1) + 1."
+              },
+              {
+                "name": "Fibonacci z pamięcią",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-fibonacci-memo",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "Zrób globalną tablicę long long pamiec[91] wypełnioną na start wartością −1 („jeszcze nie policzone”). W fib(n): jeśli n <= 1 — return n; jeśli pamiec[n] != −1 — return pamiec[n]; w przeciwnym razie policz, ZAPISZ i zwróć: return pamiec[n] = fib(n - 1) + fib(n - 2);. F(90) ≈ 2,9 · 10¹⁸ mieści się w long long."
+              },
+              {
+                "name": "Ile wywołań?",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-ile-wywolan",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "W(0) = W(1) = 1 (wywołanie, które od razu zwraca wynik). Dla n ≥ 2: W(n) = 1 + W(n − 1) + W(n − 2). To zwykła rekurencja z dwoma wywołaniami — więc liczyłaby się tak samo długo jak fib! Dodaj tablicę pamięci tak jak w „Fibonacci z pamięcią”. Wynik dla n = 80 przekracza 7 · 10¹⁶ — long long."
+              },
+              {
+                "name": "Schody",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-schody",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "sposoby(n) = sposoby(n − 1) + sposoby(n − 2), a warunki stopu to sposoby(0) = 1 (już stoimy na szczycie — jeden, pusty sposób) i sposoby(1) = 1. Wygląda znajomo? To prawie Fibonacci! Dodaj tablicę pamięci i użyj long long."
+              },
+              {
+                "name": "Schody z dłuższymi krokami",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-schody-k",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "sposoby(0) = 1. Dla n > 0: wynik = 0; for (int d = 1; d <= k && d <= n; d++) wynik += sposoby(n - d);. Zapamiętaj wynik w tablicy pamiec[n] (k jest stałe dla całego testu, więc wystarczy tablica jednowymiarowa). Wynik zmieści się w long long."
+              },
+              {
+                "name": "Trójkąt Pascala",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-newton",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "Tablica pamięci jest tu dwuwymiarowa: long long pamiec[61][61], na start wypełniona −1. W funkcji: if (k == 0 || k == n) return 1; if (pamiec[n][k] != -1) return pamiec[n][k]; return pamiec[n][k] = C(n - 1, k - 1) + C(n - 1, k);. Największa wartość, C(60, 30) ≈ 1,18 · 10¹⁷, mieści się w long long."
+              },
+              {
+                "name": "Ścieżki na planszy",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-sciezki",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "Niech sciezki(i, j) to liczba ścieżek z pola (1, 1) do pola (i, j). Pola w pierwszym wierszu i w pierwszej kolumnie mają dokładnie jedną ścieżkę: if (i == 1 || j == 1) return 1;. W przeciwnym razie sciezki(i, j) = sciezki(i − 1, j) + sciezki(i, j − 1) — z pamięcią w tablicy pamiec[18][18]. Bez pamięci dla 17 × 17 wywołań byłoby ponad miliard."
+              },
+              {
+                "name": "Ścieżki z przeszkodami",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-sciezki-przeszkody",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "Numeruj pola od 0. sciezki(i, j): jeśli i < 0 albo j < 0 albo pole (i, j) to # — return 0; jeśli (i, j) to start (0, 0) — return 1; w przeciwnym razie sciezki(i − 1, j) + sciezki(i, j − 1) z pamięcią. Odpowiedź to sciezki(n − 1, m − 1). Wynik może przekroczyć zakres int — użyj long long."
+              },
+              {
+                "name": "Żaba na kamieniach",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-zaba",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "koszt(i) = najmniejszy koszt dojścia na kamień i. koszt(1) = 0. Na kamień i żaba przyskoczyła z i − 1 albo z i − 2, więc koszt(i) = min(koszt(i − 1) + |hᵢ − hᵢ₋₁|, koszt(i − 2) + |hᵢ − hᵢ₋₂|) — przy czym kamień i − 2 istnieje tylko dla i ≥ 3. Zapamiętuj wyniki w tablicy. Głębokość rekurencji sięga 10 000 — to jeszcze bezpieczne."
+              },
+              {
+                "name": "Na ile sposobów rozłożyć liczbę?",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-podzialy-liczby",
+                "platform": "T-Olimpians",
+                "level": "trudne",
+                "hint": "Rozkłady n na składniki ≤ k dzielą się na dwie grupy: te, w których NIE ma składnika k — jest ich R(n, k − 1) — i te, w których jest choć jeden składnik k — po zabraniu go zostaje rozkład n − k na składniki ≤ k, czyli R(n − k, k). Warunki stopu: R(0, k) = 1 (pusty rozkład), R(n, 0) = 0 dla n > 0, a gdy k > n, to R(n, k) = R(n, n). Odpowiedź: R(n, n), z pamięcią w tablicy [121][121] i w long long."
+              },
+              {
+                "name": "Ile sposobów wydania reszty?",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-monety-sposoby",
+                "platform": "T-Olimpians",
+                "level": "trudne",
+                "hint": "Patrz na i-ty nominał: albo nie używamy go wcale — sposoby(i − 1, s) — albo używamy go co najmniej raz — wtedy po odłożeniu jednej takiej monety zostaje sposoby(i, s − cᵢ) (i-ty nominał wciąż wolno użyć). Warunki stopu: s == 0 → 1 sposób; s < 0 albo i == 0 (przy s > 0) → 0 sposobów. Pamięć: tablica long long [11][1001]."
+              }
+            ]
+          },
+          {
+            "name": "Krok 4 · Generowanie: ciągi, podzbiory, permutacje",
+            "note": "Rekurencja, która przegląda wszystkie możliwości: ciągi zero-jedynkowe, „bierz / nie bierz” (podzbiory), kombinacje, permutacje, nawiasowania. Cofanie wyboru (push_back / pop_back) i trzy wzorce: wypisz wszystkie, znajdź jedno, policz. Każde zadanie ma automatyczną sprawdzarkę C++ i wskazówkę.",
+            "videos": [
+              {
+                "title": "L6. Recursion on Subsequences | Printing Subsequences",
+                "url": "https://www.youtube.com/watch?v=AxNNVECce8c",
+                "author": "take U forward (Striver)",
+                "duration": "25:01"
+              },
+              {
+                "title": "L7. All Kind of Patterns in Recursion | Print All | Print one | Count",
+                "url": "https://www.youtube.com/watch?v=eQCS_v3bw0Q",
+                "author": "take U forward (Striver)",
+                "duration": "34:12"
+              },
+              {
+                "title": "L8. Combination Sum | Recursion | Leetcode | C++ | Java",
+                "url": "https://www.youtube.com/watch?v=OyZFFqQtu98",
+                "author": "take U forward (Striver)",
+                "duration": "27:00"
+              },
+              {
+                "title": "L9. Combination Sum II | Leetcode | Recursion | Java | C++",
+                "url": "https://www.youtube.com/watch?v=G1fRTGRxXU8",
+                "author": "take U forward (Striver)",
+                "duration": "32:37"
+              },
+              {
+                "title": "L10. Subset Sum I | Recursion | C++ | Java",
+                "url": "https://www.youtube.com/watch?v=rYkfBRtMJr8",
+                "author": "take U forward (Striver)",
+                "duration": "24:25"
+              },
+              {
+                "title": "L11. Subset Sum II | Leetcode | Recursion",
+                "url": "https://www.youtube.com/watch?v=RIn3gOkbhQE",
+                "author": "take U forward (Striver)",
+                "duration": "30:16"
+              },
+              {
+                "title": "L12. Print all Permutations of a String/Array | Recursion | Approach - 1",
+                "url": "https://www.youtube.com/watch?v=YK78FU5Ffjw",
+                "author": "take U forward (Striver)",
+                "duration": "19:07"
+              },
+              {
+                "title": "L13. Print all Permutations of a String/Array | Recursion | Approach - 2",
+                "url": "https://www.youtube.com/watch?v=f2ic2Rsc9pU",
+                "author": "take U forward (Striver)",
+                "duration": "18:14"
+              },
+              {
+                "title": "L18. K-th Permutation Sequence | Leetcode",
+                "url": "https://www.youtube.com/watch?v=wT7gcXLYoao",
+                "author": "take U forward (Striver)",
+                "duration": "24:41"
+              }
+            ],
+            "links": [
+              {
+                "label": "slajdy: Generowanie wszystkich możliwości",
+                "url": "https://t-olimpians.com/pdf-src/prezentacja-rekurencja-4-generowanie.html"
+              },
+              {
+                "label": "slajdy w PDF",
+                "url": "https://t-olimpians.com/prezentacja-rekurencja-4-generowanie-t-olimpians.pdf"
+              },
+              {
+                "label": "zadania z kroku 4 (17)",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html?dzial=Rekurencja%20%2F%20krok%204%3A%20generowanie%20wszystkich%20mo%C5%BCliwo%C5%9Bci"
+              }
+            ],
+            "tasks": [
+              {
+                "name": "Wszystkie ciągi zero-jedynkowe",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-ciagi-binarne",
+                "platform": "T-Olimpians",
+                "level": "latwe",
+                "hint": "Trzymaj globalny napis s o długości n (string s(n, '0')). void generuj(int i): if (i == n) { cout << s << endl; return; } s[i] = '0'; generuj(i + 1); s[i] = '1'; generuj(i + 1);. Najpierw próbujemy 0, potem 1 — dlatego ciągi wychodzą od razu w kolejności alfabetycznej."
+              },
+              {
+                "name": "Ciągi z cyfr od 1 do k",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-ciagi-k",
+                "platform": "T-Olimpians",
+                "level": "latwe",
+                "hint": "void generuj(int i): if (i == n) { wypisz; return; } for (char c = '1'; c < '1' + k; c++) { s[i] = c; generuj(i + 1); }. Pętla jest tu w porządku — to ona wybiera kolejne możliwości, a rekurencja schodzi do następnej pozycji."
+              },
+              {
+                "name": "Bez dwóch jedynek obok siebie",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-bez-sasiednich-jedynek",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "Jak w „Wszystkich ciągach zero-jedynkowych”: s[i] = '0'; generuj(i + 1);, a potem jedynka tylko wtedy, gdy wolno: if (i == 0 || s[i - 1] == '0') { s[i] = '1'; generuj(i + 1); }. Ciekawostka: ciągów jest F(n + 2) — znowu Fibonacci!"
+              },
+              {
+                "name": "Wszystkie podzbiory",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-podzbiory",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "Trzymaj wybrane liczby w globalnym vector<int> wybrane. void podzbiory(int i): if (i > n) { jeśli wybrane nie jest puste — wypisz je; return; } podzbiory(i + 1); /* nie bierz */ wybrane.push_back(i); podzbiory(i + 1); /* bierz */ wybrane.pop_back(); /* cofnij wybór */. Bez pop_back liczba i zostałaby w wektorze także w kolejnych podzbiorach!"
+              },
+              {
+                "name": "Sumy wszystkich podzbiorów",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-sumy-podzbiorow",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "void sumy(int i, int s): if (i == n) { wynik.push_back(s); return; } sumy(i + 1, s); sumy(i + 1, s + a[i]);. Z main: sumy(0, 0), potem sort(wynik.begin(), wynik.end()) i wypisanie. Tutaj nie trzeba niczego cofać, bo suma jest parametrem — każde wywołanie ma własną kopię."
+              },
+              {
+                "name": "Ile podzbiorów ma sumę k?",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-podzbiory-suma-k",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "int ile(int i, long long s): if (i == n) return s == k ? 1 : 0; return ile(i + 1, s) + ile(i + 1, s + a[i]);. To wzorzec „policz”: zamiast wypisywać, każdy liść drzewa zwraca 1 albo 0, a węzły sumują wyniki dzieci. Możesz też przerwać gałąź, gdy s > k — liczby są dodatnie, więc suma już nie zmaleje."
+              },
+              {
+                "name": "Czy da się uzbierać k?",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-czy-suma-k",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "bool da(int i, long long s): if (s == k) return true; if (i == n || s > k) return false; if (da(i + 1, s + a[i])) return true; return da(i + 1, s);. Gdy któreś wywołanie zwróci true, wracamy od razu, nie sprawdzając pozostałych gałęzi. Zaczynamy od da(0, 0) — a ponieważ k ≥ 1, pusty wybór nigdy nie przejdzie."
+              },
+              {
+                "name": "Wybierz k z n",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-kombinacje",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "void wybieraj(int od): if (wybrane.size() == k) { wypisz; return; } for (int x = od; x <= n; x++) { wybrane.push_back(x); wybieraj(x + 1); wybrane.pop_back(); }. Następna liczba musi być większa od poprzedniej — dlatego wołamy wybieraj(x + 1), a nie wybieraj(od + 1)."
+              },
+              {
+                "name": "Wszystkie permutacje",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-permutacje",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "void permutuj(int i): if (i == n) { wypisz; return; } for (int x = 1; x <= n; x++) if (!uzyta[x]) { uzyta[x] = true; perm[i] = x; permutuj(i + 1); uzyta[x] = false; }. Linijka uzyta[x] = false to cofnięcie wyboru — bez niej liczba x zostałaby zablokowana na zawsze."
+              },
+              {
+                "name": "Permutacje napisu",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-permutacje-napisu",
+                "platform": "T-Olimpians",
+                "level": "trudne",
+                "hint": "int ile[26] — ile zostało każdej litery. void generuj(int i): if (i == n) { wypisz; return; } for (int c = 0; c < 26; c++) if (ile[c] > 0) { ile[c]--; slowo[i] = 'a' + c; generuj(i + 1); ile[c]++; }. Pętla przechodzi po różnych literach (a nie po pozycjach w s), więc dwie jednakowe litery nigdy nie dadzą dwa razy tego samego słowa — a pętla od a do z daje od razu kolejność alfabetyczną."
+              },
+              {
+                "name": "Poprawne nawiasowania",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-nawiasy",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "Pamiętaj, ile nawiasów już otworzyłeś (otw) i zamknąłeś (zam). void generuj(int otw, int zam): if (zam == n) { wypisz; return; } if (otw < n) { dopisz '('; generuj(otw + 1, zam); usuń ostatni znak; } if (zam < otw) { dopisz ')'; generuj(otw, zam + 1); usuń ostatni znak; }. Zamknąć wolno tylko wtedy, gdy jest co zamykać: zam < otw."
+              },
+              {
+                "name": "Rozkłady liczby na składniki",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-rozklady",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "void rozklad(int zostalo, int maks): if (zostalo == 0) { wypisz składniki; return; } for (int x = min(zostalo, maks); x >= 1; x--) { skladniki.push_back(x); rozklad(zostalo - x, x); skladniki.pop_back(); }. Z main: rozklad(n, n). Pętla idzie od największego x w dół — stąd kolejność od „największego” rozkładu."
+              },
+              {
+                "name": "Suma z powtórzeniami",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-suma-z-powtorzeniami",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "Posortuj liczby. void szukaj(int od, int zostalo): if (zostalo == 0) { wypisz; return; } for (int i = od; i < n; i++) { if (a[i] > zostalo) break; wybrane.push_back(a[i]); szukaj(i, zostalo - a[i]); wybrane.pop_back(); }. Wołamy szukaj(i, …), a nie szukaj(i + 1, …) — tej samej liczby wolno użyć jeszcze raz. Ale nigdy nie cofamy się do mniejszych liczb, więc każdy sposób powstanie raz."
+              },
+              {
+                "name": "Każda liczba co najwyżej raz",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-suma-bez-powtorzen",
+                "platform": "T-Olimpians",
+                "level": "trudne",
+                "hint": "Posortuj liczby. Jak w poprzednim zadaniu, ale wołaj szukaj(i + 1, …) (każda pozycja raz) i pomijaj powtórki NA TYM SAMYM POZIOMIE: w pętli for (int i = od; i < n; i++) dodaj if (i > od && a[i] == a[i - 1]) continue;. Dzięki temu z kilku równych liczb jako „kolejny składnik” próbujemy tylko pierwszej."
+              },
+              {
+                "name": "Podzbiory bez powtórzeń",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-podzbiory-bez-powtorzen",
+                "platform": "T-Olimpians",
+                "level": "trudne",
+                "hint": "Posortuj tablicę. void podzbiory(int od): for (int i = od; i < n; i++) { if (i > od && a[i] == a[i - 1]) continue; wybrane.push_back(a[i]); wypisz wybrane; podzbiory(i + 1); wybrane.pop_back(); }. Każde wywołanie wypisuje podzbiór od razu po dopisaniu liczby — dzięki temu krótszy podzbiór pojawia się przed swoimi przedłużeniami."
+              },
+              {
+                "name": "Klawiatura telefonu",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-klawiatura-telefonu",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "Zrób tablicę napisów litery[10] = {\"\", \"\", \"abc\", \"def\", \"ghi\", \"jkl\", \"mno\", \"pqrs\", \"tuv\", \"wxyz\"}. void generuj(int i): if (i == cyfry.size()) { wypisz; return; } for (char c : litery[cyfry[i] - '0']) { slowo[i] = c; generuj(i + 1); }. To „Ciągi z cyfr od 1 do k”, tylko na każdej pozycji jest inny zestaw możliwości."
+              },
+              {
+                "name": "K-ta permutacja",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-k-ta-permutacja",
+                "platform": "T-Olimpians",
+                "level": "trudne",
+                "hint": "void kta(vector<int> zostale, long long k): jeśli zostale jest puste — return. Niech f = (liczba zostałych − 1)!. Pierwsza liczba to zostale[(k − 1) / f] — wypisz ją, usuń z wektora i wywołaj kta(zostale, (k − 1) % f + 1). Dla n = 12 permutacji jest 479 001 600 — generowanie po kolei byłoby za wolne, więc potrzebny jest ten sposób. Pamiętaj o long long."
+              }
+            ]
+          },
+          {
+            "name": "Krok 5 · Backtracking — szukanie z wycofywaniem",
+            "note": "Próbuj, sprawdzaj, wycofuj się: hetmany, labirynty, sudoku, kolorowanie grafu, podział na palindromy, wykreślanka. Obcinanie gałęzi, które na pewno nie dadzą rozwiązania. Każde zadanie ma automatyczną sprawdzarkę C++ i wskazówkę.",
+            "videos": [
+              {
+                "title": "L14. N-Queens | Leetcode Hard | Backtracking",
+                "url": "https://www.youtube.com/watch?v=i05Ju7AftcM",
+                "author": "take U forward (Striver)",
+                "duration": "36:55"
+              },
+              {
+                "title": "L15. Sudoko Solver | Backtracking",
+                "url": "https://www.youtube.com/watch?v=FWAIf_EVUKE",
+                "author": "take U forward (Striver)",
+                "duration": "26:10"
+              },
+              {
+                "title": "L16. M-Coloring Problem | Backtracking",
+                "url": "https://www.youtube.com/watch?v=wuVwUK25Rfc",
+                "author": "take U forward (Striver)",
+                "duration": "24:37"
+              },
+              {
+                "title": "L17. Palindrome Partitioning | Leetcode | Recursion | C++ | Java",
+                "url": "https://www.youtube.com/watch?v=WBgsABoClE0",
+                "author": "take U forward (Striver)",
+                "duration": "24:34"
+              },
+              {
+                "title": "L19. Rat in A Maze | Backtracking",
+                "url": "https://www.youtube.com/watch?v=bLGZhJlt4y0",
+                "author": "take U forward (Striver)",
+                "duration": "25:10"
+              }
+            ],
+            "links": [
+              {
+                "label": "slajdy: Backtracking",
+                "url": "https://t-olimpians.com/pdf-src/prezentacja-rekurencja-5-backtracking.html"
+              },
+              {
+                "label": "slajdy w PDF",
+                "url": "https://t-olimpians.com/prezentacja-rekurencja-5-backtracking-t-olimpians.pdf"
+              },
+              {
+                "label": "zadania z kroku 5 (11)",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html?dzial=Rekurencja%20%2F%20krok%205%3A%20backtracking"
+              }
+            ],
+            "tasks": [
+              {
+                "name": "Hetmany — ile ustawień?",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-hetmany",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "Trzymaj kol[w] — kolumnę hetmana w wierszu w. Hetman (w, k) jest bezpieczny, jeśli dla każdego wcześniejszego wiersza i: kol[i] != k i abs(kol[i] - k) != w - i (ta druga równość oznacza wspólną przekątną). ustaw(w): if (w == n) { licznik++; return; } for (int k = 0; k < n; k++) if (bezpieczny(w, k)) { kol[w] = k; ustaw(w + 1); }. Dla n = 10 jest 724 ustawień."
+              },
+              {
+                "name": "Hetmany — pierwsze ustawienie",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-hetmany-plansza",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "bool ustaw(int w): if (w == n) return true; for (int k = 0; k < n; k++) if (bezpieczny(w, k)) { kol[w] = k; if (ustaw(w + 1)) return true; } return false;. Kolumny sprawdzamy od lewej, więc pierwsze znalezione ustawienie jest tym, o które chodzi w zadaniu."
+              },
+              {
+                "name": "Ile dróg przez labirynt?",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-labirynt",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "void idz(int i, int j): if (poza planszą || sciana || odwiedzone[i][j]) return; if (i == n - 1 && j == m - 1) { licznik++; return; } odwiedzone[i][j] = true; idz(i + 1, j); idz(i - 1, j); idz(i, j + 1); idz(i, j - 1); odwiedzone[i][j] = false;. Ostatnia linijka to wycofanie — bez niej pole zostałoby zablokowane dla wszystkich innych dróg."
+              },
+              {
+                "name": "Szczur w labiryncie",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-szczur",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "void szukaj(int i, int j, string droga): if (i == n - 1 && j == n - 1) { wypisz drogę; return; } odw[i][j] = true; i dla każdego kierunku w kolejności D, L, R, U: jeśli sąsiednie pole jest w planszy, wolne i nieodwiedzone — szukaj(nowe i, nowe j, droga + litera); na końcu odw[i][j] = false;. Najwygodniej zapisać kierunki w tablicach: di = {1, 0, 0, -1}, dj = {0, -1, 1, 0}, litera = \"DLRU\"."
+              },
+              {
+                "name": "Sudoku",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-sudoku",
+                "platform": "T-Olimpians",
+                "level": "trudne",
+                "hint": "bool rozwiaz(int p) — p to numer pola od 0 do 80 (wiersz p / 9, kolumna p % 9). if (p == 81) return true; jeśli pole jest wypełnione — return rozwiaz(p + 1); w przeciwnym razie for (d = 1..9) if (pasuje(p, d)) { plansza = d; if (rozwiaz(p + 1)) return true; plansza = 0; } return false;. Lewy górny róg kwadratu, w którym leży pole (w, k), to (w - w % 3, k - k % 3)."
+              },
+              {
+                "name": "Kolorowanie mapy",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-kolorowanie-grafu",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "Zrób listy sąsiadów vector<int> sas[11] i tablicę kolor[11] (0 = jeszcze bez koloru). void koloruj(int v): if (v > n) { licznik++; return; } for (int c = 1; c <= k; c++) { sprawdź, czy któryś sąsiad u ma kolor[u] == c; jeśli nie — kolor[v] = c; koloruj(v + 1); kolor[v] = 0; }."
+              },
+              {
+                "name": "Podział na palindromy",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-podzial-palindromy",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "void tnij(int i): if (i == n) { wypisz kawałki; return; } for (int j = i; j < n; j++) if (palindrom(i, j)) { kawalki.push_back(s.substr(i, j - i + 1)); tnij(j + 1); kawalki.pop_back(); }. Palindrom możesz sprawdzać rekurencyjnie, tak jak w kroku 2."
+              },
+              {
+                "name": "Liczby o danej sumie cyfr",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-liczby-suma-cyfr",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "void buduj(int i, int suma, string liczba): if (suma > s) return; if (suma + 9 * (n - i) < s) return; if (i == n) { if (suma == s) wypisz; return; } for (int d = (i == 0 ? 1 : 0); d <= 9; d++) buduj(i + 1, suma + d, liczba + char('0' + d));. Cyfry próbujemy od najmniejszej, więc liczby wychodzą rosnąco."
+              },
+              {
+                "name": "Wykreślanka",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-wykreslanka",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "bool szukaj(int i, int j, int k) — czy od pola (i, j) da się przeczytać słowo od litery nr k. Jeśli pole jest poza planszą, już użyte albo litera się nie zgadza — return false. Jeśli k to ostatnia litera — return true. W przeciwnym razie zaznacz pole, sprawdź czterech sąsiadów z k + 1, odznacz pole i zwróć, czy któryś sąsiad się udał."
+              },
+              {
+                "name": "Plecak — sprawdź wszystko",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-plecak-brut",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "void pakuj(int i, long long waga, long long wartosc): if (waga > W) return; if (i == n) { najlepsza = max(najlepsza, wartosc); return; } pakuj(i + 1, waga, wartosc); pakuj(i + 1, waga + w[i], wartosc + v[i]);. Sumy przekraczają zakres int — long long. Odpowiedzią może być 0, jeśli nic się nie mieści."
+              },
+              {
+                "name": "Sprawiedliwy podział",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-dwie-druzyny",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "void dziel(int i, long long bajtek): if (i == n) { najmniejsza = min(najmniejsza, abs(suma - 2 * bajtek)); return; } dziel(i + 1, bajtek + a[i]); dziel(i + 1, bajtek);. Różnica to |bajtek − (suma − bajtek)| = |suma − 2 · bajtek|."
+              }
+            ]
+          },
+          {
+            "name": "Krok 6 · Dziel i zwyciężaj",
+            "note": "Podziel problem na połowy, rozwiąż każdą rekurencyjnie, połącz wyniki: szybkie potęgowanie, wyszukiwanie binarne, sortowanie przez scalanie, zliczanie inwersji, quickselect, fraktale i napisy definiowane rekurencyjnie. Każde zadanie ma automatyczną sprawdzarkę C++ i wskazówkę.",
+            "videos": [
+              {
+                "title": "Merge Sort | Algorithm | Pseudocode | Dry Run | Code | Strivers A2Z DSA Course",
+                "url": "https://www.youtube.com/watch?v=ogjf7ORKfd8",
+                "author": "take U forward (Striver)",
+                "duration": "49:43"
+              },
+              {
+                "title": "Quick Sort For Beginners | Strivers A2Z DSA Course",
+                "url": "https://www.youtube.com/watch?v=WIrA4YexLRQ",
+                "author": "take U forward (Striver)",
+                "duration": "35:17"
+              },
+              {
+                "title": "Count Inversions in an Array | Brute and Optimal",
+                "url": "https://www.youtube.com/watch?v=AseUmwVNaoY",
+                "author": "take U forward (Striver)",
+                "duration": "24:17"
+              }
+            ],
+            "links": [
+              {
+                "label": "slajdy: Dziel i zwyciężaj",
+                "url": "https://t-olimpians.com/pdf-src/prezentacja-rekurencja-6-dziel-i-zwyciezaj.html"
+              },
+              {
+                "label": "slajdy w PDF",
+                "url": "https://t-olimpians.com/prezentacja-rekurencja-6-dziel-i-zwyciezaj-t-olimpians.pdf"
+              },
+              {
+                "label": "zadania z kroku 6 (11)",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html?dzial=Rekurencja%20%2F%20krok%206%3A%20dziel%20i%20zwyci%C4%99%C5%BCaj"
+              }
+            ],
+            "tasks": [
+              {
+                "name": "Minimum i maksimum przez połowienie",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-min-maks-dziel",
+                "platform": "T-Olimpians",
+                "level": "latwe",
+                "hint": "if (l == r) return {a[l], a[l]}; int s = (l + r) / 2; auto L = minmaks(l, s); auto R = minmaks(s + 1, r); return {min(L.first, R.first), max(L.second, R.second)};. Głębokość rekurencji to tylko ok. log₂ n, bo fragment za każdym razem maleje o połowę."
+              },
+              {
+                "name": "Szybkie potęgowanie",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-szybkie-potegowanie",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "long long potega(long long a, long long b): if (b == 0) return 1 % m; long long p = potega(a, b / 2); p = p * p % m; if (b % 2 == 1) p = p * (a % m) % m; return p;. Wywołanie potega(a, b / 2) zrób tylko RAZ i zapisz w zmiennej — dwa takie wywołania zepsułyby całą szybkość. Uwaga na m = 1: wtedy każdy wynik to 0. Iloczyny reszt są mniejsze niż 10¹⁸, więc mieszczą się w long long."
+              },
+              {
+                "name": "Wyszukiwanie binarne",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-wyszukiwanie-binarne",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "int szukaj(int l, int r, int x): if (l > r) return -1; int s = (l + r) / 2; if (a[s] == x) return s; if (a[s] > x) return szukaj(l, s - 1, x); return szukaj(s + 1, r, x);. Każde wywołanie zmniejsza fragment co najmniej o połowę, więc dla n = 5000 wystarczy ok. 13 kroków."
+              },
+              {
+                "name": "Scalanie dwóch ciągów",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-scalanie",
+                "platform": "T-Olimpians",
+                "level": "latwe",
+                "hint": "void scal(int i, int j): if (i == n && j == m) return; if (j == m || (i < n && a[i] <= b[j])) { cout << a[i] << \" \"; scal(i + 1, j); } else { cout << b[j] << \" \"; scal(i, j + 1); }. Gdy jeden ciąg się skończy, wypisujemy już tylko drugi."
+              },
+              {
+                "name": "Sortowanie przez scalanie",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-sortowanie-scalanie",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "void sortuj(int l, int r): if (l >= r) return; int s = (l + r) / 2; sortuj(l, s); sortuj(s + 1, r); potem scalanie: dwa wskaźniki i = l, j = s + 1 i tablica pom — zawsze przepisuj do pom mniejszy z a[i], a[j], a na koniec skopiuj pom[l..r] z powrotem do a. (Do sprawdzenia możesz użyć sort(), ale celem jest napisać to samemu.)"
+              },
+              {
+                "name": "Zliczanie inwersji",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-inwersje",
+                "platform": "T-Olimpians",
+                "level": "trudne",
+                "hint": "long long sortuj(int l, int r) zwraca liczbę inwersji we fragmencie i go sortuje: if (l >= r) return 0; long long w = sortuj(l, s) + sortuj(s + 1, r); podczas scalania, gdy bierzesz a[j] z prawej połowy, dodaj w += s - i + 1 (tyle elementów zostało w lewej). Równe liczby nie tworzą inwersji — przy remisie bierz najpierw z lewej (a[i] <= a[j]). Wynik może przekroczyć int."
+              },
+              {
+                "name": "K-ty najmniejszy element",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-k-ty-najmniejszy",
+                "platform": "T-Olimpians",
+                "level": "trudne",
+                "hint": "int kty(vector<int> v, int k): wybierz pivot, np. v[v.size() / 2] albo losowy. Rozdziel v na mniejsze, rowne, wieksze. Jeśli k <= mniejsze.size() — return kty(mniejsze, k); jeśli k <= mniejsze.size() + rowne.size() — return pivot; w przeciwnym razie return kty(wieksze, k - mniejsze.size() - rowne.size());."
+              },
+              {
+                "name": "Najlepszy spójny fragment",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-maks-podtablica",
+                "platform": "T-Olimpians",
+                "level": "trudne",
+                "hint": "long long najlepszy(int l, int r): if (l == r) return a[l]; s = (l + r) / 2; wynik = max(najlepszy(l, s), najlepszy(s + 1, r)); potem pętlą od s w lewo licz sumy a[s], a[s] + a[s − 1], … i zapamiętaj największą (lewa), tak samo od s + 1 w prawo (prawa); wynik = max(wynik, lewa + prawa). Sumy sięgają 5 · 10¹² — long long."
+              },
+              {
+                "name": "Dywan Sierpińskiego",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-dywan-sierpinskiego",
+                "platform": "T-Olimpians",
+                "level": "srednie",
+                "hint": "Wypełnij tablicę char t[81][81] kropkami. void rysuj(int k, int w, int x): if (k == 0) { t[w][x] = '#'; return; } int b = 3^(k − 1); for (int i = 0; i < 3; i++) for (int j = 0; j < 3; j++) if (!(i == 1 && j == 1)) rysuj(k - 1, w + i * b, x + j * b);. Na końcu wypisz tablicę."
+              },
+              {
+                "name": "Napis Fibonacciego",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-napis-fibonacciego",
+                "platform": "T-Olimpians",
+                "level": "trudne",
+                "hint": "Policz długości dl[1] = dl[2] = 1, dl[n] = dl[n − 1] + dl[n − 2] (long long). char litera(int n, long long k): if (n == 1) return 'a'; if (n == 2) return 'b'; if (k <= dl[n - 1]) return litera(n - 1, k); return litera(n - 2, k - dl[n - 1]);. Każde wywołanie schodzi o 1 lub 2 rzędy niżej, więc rekurencja ma najwyżej 80 poziomów."
+              },
+              {
+                "name": "Ciąg Thuego–Morse’a",
+                "url": "https://t-olimpians.com/zadania-tematowe-app/zadania.html#rek-thue-morse",
+                "platform": "T-Olimpians",
+                "level": "trudne",
+                "hint": "int cyfra(long long k): if (k == 1) return 0; znajdź największą potęgę dwójki p mniejszą od k (p = 1, a potem podwajaj, dopóki 2p < k); return 1 - cyfra(k - p);. Każde wywołanie przynajmniej o połowę zmniejsza k, więc wystarczy ok. 60 poziomów."
+              }
+            ]
+          }
+        ]
       },
       {
         "name": "Memoizacja i tabulacja",

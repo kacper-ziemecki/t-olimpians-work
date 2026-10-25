@@ -70,7 +70,7 @@ Poza `name` **wszystkie pola są opcjonalne**.
 ## Uwagi
 
 - **Wszystkie tematy z treścią są już przepakowane w `sections`** — w pliku nie ma luźnych
-  `links` / `tasks` poza zagadnieniami. 31 tematów jest pustych (brak materiałów) i czeka na uzupełnienie.
+  `links` / `tasks` poza zagadnieniami. 26 tematów jest pustych (brak materiałów) i czeka na uzupełnienie.
 - Filmy z playlist **OKI poziom 2** i **OKI poziom 3** są rozdzielone po pasujących zagadnieniach
   (pole `author` mówi, z której playlisty pochodzi film). Filmy typu „Zadania Olimpijskie”, gale
   i rozmowy zostały pominięte — nie dotyczą jednego tematu.
@@ -115,6 +115,31 @@ w `zadania-tematowe-app/zadania.json` (testy, przykłady, wskazówki). Przy każ
 podmienia te zagadnienia i tę notatkę tematu, więc zmiany w nich rób w `bity-tresc.py`, a nie ręcznie
 w JSON-ie. Pierwsze zagadnienie tematu (filmy i linki) skrypt zostawia bez zmian.
 `python bity-build.py --sprawdz` tylko generuje testy i porównuje wzorcówki z rozwiązaniami siłowymi.
+
+## Kurs rekurencji T-Olimpians (kroki 1–6)
+
+Temat `Funkcje rekurencyjne` (*Programowanie Dynamiczne*) ma 6 zagadnień `Krok 1 · …` – `Krok 6 · …`
+(od pierwszego wywołania samej siebie, przez memoizację, generowanie i backtracking, do dziel i zwyciężaj).
+W każdym kroku: linki do prezentacji („slajdy: …” i „slajdy w PDF”), filmy z playlisty Strivera
+*Recursion (Basics to Advanced) and Backtracking* (wszystkie 22, każdy w pasującym kroku), link do listy
+zadań kroku (`zadania.html?dzial=…`) i zadania `rek-*` ze strony `zadania-tematowe-app/zadania.html`
+(`platform`: „T-Olimpians”, razem 87).
+
+- **Zadania i zagadnienia generuje** `node rekurencja-zadania/build.js` z plików
+  `rekurencja-zadania/zadania-krok1.js` … `zadania-krok6.js` (treść, generator testów, wzorcówka JS liczy
+  wyjścia, wzorcówka C++ do sprawdzania) i `rekurencja-zadania/kroki.js` (nazwy kroków, filmy, prezentacje,
+  notatka tematu). Skrypt podmienia wszystkie zadania `rek-*` w `zadania.json` i wszystkie zagadnienia tego
+  tematu, więc zmiany rób w plikach źródłowych, a nie w JSON-ach.
+- `node rekurencja-zadania/build.js --sprawdz` uruchamia wzorcówki C++ na wszystkich testach przez
+  Compiler Explorer (godbolt.org) i porównuje z wynikami wzorcówek JS — nic nie zapisuje. Można podać
+  wybrane id: `--sprawdz rek-silnia rek-nwd`. `--bez-zapisu` tylko liczy testy i wypisuje ich rozmiary.
+- **Prezentacje**: `node pdf-src/build-prezentacja-rekurencja-N.js --pdf` (N = 1…6) tworzy
+  `pdf-src/prezentacja-rekurencja-N-….html` i PDF w katalogu głównym. Te generatory są w Node.js —
+  `pdf-src/prezentacja_lib.js` to port `prezentacja_lib.py` z nowymi klockami (stos wywołań, drzewo wywołań,
+  śledzenie, plansza, poziomy); CSS czyta wprost z `prezentacja_lib.py`, więc wygląd wszystkich prezentacji
+  zmienia się w jednym miejscu. PDF drukuje zainstalowany Chrome albo Edge (zmienna `CHROME` = inna ścieżka).
+- `zadania.html` rozumie parametry `?dzial=<dokładna nazwa działu>` (od razu wybiera dział) i
+  `?szukaj=<tekst>` (wpisuje frazę w wyszukiwarkę).
 
 Reszta tematów ma na razie po jednym zagadnieniu nazwanym jak temat — rozbicie na mniejsze
 zagadnienia robi się przyciskiem „✎ Modyfikuj temat” albo ręcznie w pliku.

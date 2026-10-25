@@ -108,7 +108,6 @@
     .nav-links a:hover { color: var(--text-primary); background: var(--accent-dim); }
     .nav-links .active a { color: var(--accent-bright); background: var(--accent-dim); }
 
-    /* ─── TOOLBAR ─── */
     main {
         padding: 118px 80px 100px;
         max-width: 1280px;
@@ -116,17 +115,168 @@
         position: relative;
         z-index: 1;
     }
+
+    /* ─── NAGŁÓWEK STRONY ─── */
+    .page-head { margin-bottom: 32px; }
+    .section-label {
+        display: block;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        font-weight: 500;
+        color: var(--accent-bright);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+    }
+    .page-head h1 {
+        font-family: var(--font-display);
+        font-size: clamp(30px, 5vw, 46px);
+        font-weight: 800;
+        line-height: 1.08;
+        letter-spacing: -0.02em;
+        margin-bottom: 14px;
+    }
+    .page-head h1 span { color: var(--accent-bright); }
+    .page-head p {
+        color: var(--text-secondary);
+        font-size: 15.5px;
+        max-width: 760px;
+    }
+    .page-head p a { color: var(--accent-bright); text-decoration: none; }
+    .page-head p a:hover { text-decoration: underline; }
+
+    /* ─── WYBÓR: DZIAŁ → TEMAT → KROK (nazwy 1:1 z kompendium) ─── */
+    .picker {
+        background: var(--bg-surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 22px 24px 24px;
+        margin-bottom: 26px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    .picker-block[hidden] { display: none; }
+    .picker-label {
+        display: block;
+        font-family: var(--font-mono);
+        font-size: 10.5px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        margin-bottom: 10px;
+    }
+    .chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
+    .cat-btn, .topic-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        color: var(--text-secondary);
+        font-family: var(--font-body);
+        font-size: 14px;
+        font-weight: 600;
+        padding: 10px 16px;
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        transition: color 0.2s, border-color 0.2s, background 0.2s;
+        text-align: left;
+    }
+    .cat-btn:hover, .topic-btn:hover { color: var(--text-primary); border-color: var(--border-accent); }
+    .cat-btn.is-on { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .topic-btn { border-radius: 100px; font-size: 13.5px; padding: 8px 15px; }
+    .topic-btn.is-on { background: var(--accent-dim); border-color: var(--border-accent); color: var(--accent-bright); }
+    .chip-count {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        font-weight: 500;
+        opacity: 0.7;
+        white-space: nowrap;
+    }
+    .chip-count .ok { color: var(--ok); }
+    .cat-btn.is-on .chip-count .ok { color: #fff; }
+
+    .compendium-topic-tag {
+        font-family: var(--font-mono); font-size: 9.5px; text-transform: uppercase;
+        letter-spacing: .04em; font-weight: 600; padding: 2px 8px; border-radius: 5px;
+        flex-shrink: 0; line-height: 1.6;
+    }
+    .tag-trzeba { background: rgba(245,158,11,.14); color: #f59e0b; border: 1px solid rgba(245,158,11,.35); }
+    .tag-warto { background: rgba(34,211,238,.12); color: #22d3ee; border: 1px solid rgba(34,211,238,.3); }
+    .tag-zadanie { background: rgba(52,211,153,.12); color: #34d399; border: 1px solid rgba(52,211,153,.3); }
+    .tag-rzadkie { background: rgba(129,140,248,.14); color: #818cf8; border: 1px solid rgba(129,140,248,.32); }
+    .tag-ezoteryczne { background: rgba(59,130,246,.12); color: #f43f5e; border: 1px solid rgba(244,63,94,.3); }
+
+    .step-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+        gap: 10px;
+    }
+    .step-card {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        padding: 14px 16px 13px;
+        color: var(--text-primary);
+        font-family: var(--font-body);
+        text-align: left;
+        cursor: pointer;
+        transition: border-color 0.2s, background 0.2s, transform 0.15s;
+    }
+    .step-card:hover { border-color: var(--border-accent); transform: translateY(-1px); }
+    .step-card.is-on {
+        border-color: var(--accent);
+        background: linear-gradient(180deg, var(--accent-dim), transparent 85%), var(--bg-card);
+        box-shadow: inset 0 0 0 1px var(--accent);
+    }
+    .step-name {
+        font-family: var(--font-display);
+        font-size: 14.5px;
+        font-weight: 700;
+        line-height: 1.3;
+    }
+    .step-sub {
+        font-size: 12.5px;
+        color: var(--text-secondary);
+        line-height: 1.45;
+    }
+    .step-foot {
+        margin-top: auto;
+        padding-top: 6px;
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--text-muted);
+    }
+    .step-foot .ok { color: var(--ok); }
+    .step-bar {
+        height: 3px;
+        border-radius: 3px;
+        background: var(--bg-elevated);
+        overflow: hidden;
+    }
+    .step-bar i { display: block; height: 100%; background: var(--ok); border-radius: 3px; }
+
+    /* ─── TOOLBAR ─── */
     .toolbar {
         display: flex;
         flex-wrap: wrap;
         gap: 12px;
         align-items: center;
-        margin-bottom: 36px;
-        padding-bottom: 28px;
+        margin-bottom: 34px;
+        padding-bottom: 26px;
         border-bottom: 1px solid var(--border);
     }
-    .toolbar input[type="search"],
-    .toolbar select {
+    .toolbar input[type="search"] {
+        flex: 1;
+        min-width: 200px;
         background: var(--bg-card);
         border: 1px solid var(--border);
         color: var(--text-primary);
@@ -137,10 +287,31 @@
         outline: none;
         transition: border-color 0.2s;
     }
-    .toolbar input[type="search"] { flex: 1; min-width: 200px; }
-    .toolbar input[type="search"]:focus,
-    .toolbar select:focus { border-color: var(--border-accent); }
-    .toolbar select { cursor: pointer; }
+    .toolbar input[type="search"]:focus { border-color: var(--border-accent); }
+    .level-filter {
+        display: inline-flex;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 3px;
+        gap: 2px;
+    }
+    .level-filter button {
+        background: transparent;
+        border: none;
+        color: var(--text-secondary);
+        font-family: var(--font-mono);
+        font-size: 12px;
+        padding: 7px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: color 0.2s, background 0.2s;
+    }
+    .level-filter button:hover { color: var(--text-primary); }
+    .level-filter button.is-on { background: var(--bg-elevated); color: var(--text-primary); }
+    .level-filter button[data-level="latwe"].is-on { color: #34d399; }
+    .level-filter button[data-level="srednie"].is-on { color: #f59e0b; }
+    .level-filter button[data-level="trudne"].is-on { color: #f43f5e; }
     .toolbar .count {
         margin-left: auto;
         font-family: var(--font-mono);
@@ -150,8 +321,81 @@
         white-space: nowrap;
     }
 
+    /* ─── GRUPY ZADAŃ (jedna grupa = jeden krok / zagadnienie z kompendium) ─── */
+    .task-group { margin-bottom: 44px; }
+    .task-group:last-child { margin-bottom: 0; }
+    .group-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        flex-wrap: wrap;
+        gap: 12px 20px;
+        margin-bottom: 16px;
+    }
+    .group-head-main { flex: 1 1 420px; min-width: 0; }
+    .group-path {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        letter-spacing: 0.06em;
+        color: var(--text-muted);
+        margin-bottom: 6px;
+    }
+    .group-head h2 {
+        font-family: var(--font-display);
+        font-size: 21px;
+        font-weight: 700;
+        line-height: 1.25;
+        letter-spacing: -0.01em;
+    }
+    .group-head p {
+        margin-top: 6px;
+        color: var(--text-secondary);
+        font-size: 14px;
+        line-height: 1.65;
+        max-width: 820px;
+    }
+    .kompendium-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--accent-bright);
+        border: 1px solid var(--border-accent);
+        padding: 7px 13px;
+        border-radius: 100px;
+        text-decoration: none;
+        white-space: nowrap;
+        transition: background 0.2s;
+    }
+    .kompendium-link:hover { background: var(--accent-dim); }
+    .group-list { display: flex; flex-direction: column; gap: 12px; }
+
     /* ─── TASK LIST ─── */
-    #taskList { display: flex; flex-direction: column; gap: 16px; }
+    .lvl {
+        font-family: var(--font-mono);
+        font-size: 10.5px;
+        font-weight: 600;
+        padding: 2px 9px;
+        border-radius: 100px;
+        line-height: 1.6;
+    }
+    .lvl-latwe { background: rgba(52,211,153,.13); border: 1px solid rgba(52,211,153,.32); color: #34d399; }
+    .lvl-srednie { background: rgba(245,158,11,.13); border: 1px solid rgba(245,158,11,.32); color: #f59e0b; }
+    .lvl-trudne { background: rgba(244,63,94,.13); border: 1px solid rgba(244,63,94,.32); color: #f43f5e; }
+    .solved-badge {
+        display: none;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--ok);
+        background: rgba(52,211,153,.12);
+        padding: 2px 10px;
+        border-radius: 100px;
+    }
+    .task-card.is-solved .solved-badge { display: inline-block; }
+    .task-card.is-solved { border-color: rgba(52,211,153,.22); }
+    .task-card.is-solved .task-num { color: var(--ok); }
 
     .task-card {
         background: var(--bg-card);
@@ -159,6 +403,7 @@
         border-radius: var(--radius-md);
         overflow: hidden;
         transition: border-color 0.25s ease;
+        scroll-margin-top: 88px;
     }
     .task-card:hover { border-color: var(--border-accent); }
 
@@ -854,6 +1099,16 @@
         .task-limits { flex-direction: row; gap: 14px; align-items: center; }
         .task-num { display: none; }
         .example-grid { grid-template-columns: 1fr; }
+        .picker { padding: 16px; border-radius: var(--radius-md); gap: 16px; }
+        .cat-btn { font-size: 13px; padding: 9px 12px; }
+        .step-grid { grid-template-columns: 1fr; gap: 8px; }
+        .step-card { padding: 11px 14px; gap: 4px; }
+        .step-sub { display: none; }
+        .toolbar input[type="search"] { flex-basis: 100%; }
+        .level-filter { flex: 1; }
+        .level-filter button { flex: 1; padding: 7px 6px; }
+        .toolbar .count { margin-left: 0; width: 100%; }
+        .group-head h2 { font-size: 18px; }
     }
 </style>
 </head>
@@ -866,13 +1121,41 @@
     </a>
     <ul class="nav-links">
         <li><a href="../index.html">Strona główna</a></li>
+        <li><a href="../net.html">Kompendium</a></li>
+        <li><a href="../zadania-oi-oij.html">Zbiór zadań</a></li>
     </ul>
 </nav>
 
 <main>
+    <header class="page-head">
+        <span class="section-label">Zadania treningowe · sprawdzarka C++</span>
+        <h1>Zadania <span>tematami</span></h1>
+        <p>Zadania do tematów z <a href="../net.html">kompendium</a>, ułożone tak samo jak w kompendium: wybierz dział, temat i krok. Każde zadanie ma testy i automatyczną sprawdzarkę C++, a zaliczone zadania zapamiętujemy w tej przeglądarce.</p>
+    </header>
+
+    <section class="picker" id="picker" aria-label="Wybór działu i tematu">
+        <div class="picker-block">
+            <span class="picker-label">Dział</span>
+            <div class="chip-row" id="catRow"></div>
+        </div>
+        <div class="picker-block" id="topicBlock" hidden>
+            <span class="picker-label">Temat</span>
+            <div class="chip-row" id="topicRow"></div>
+        </div>
+        <div class="picker-block" id="stepBlock" hidden>
+            <span class="picker-label">Krok / zagadnienie</span>
+            <div class="step-grid" id="stepGrid"></div>
+        </div>
+    </section>
+
     <div class="toolbar">
-        <input type="search" id="searchInput" placeholder="Szukaj po tytule, dziale lub tagu…">
-        <select id="categoryFilter"><option value="">Wszystkie działy</option></select>
+        <input type="search" id="searchInput" placeholder="Szukaj po tytule lub temacie…">
+        <div class="level-filter" id="levelFilter" role="group" aria-label="Poziom trudności">
+            <button type="button" data-level="" class="is-on">wszystkie</button>
+            <button type="button" data-level="latwe">łatwe</button>
+            <button type="button" data-level="srednie">średnie</button>
+            <button type="button" data-level="trudne">trudne</button>
+        </div>
         <span class="count" id="resultCount"></span>
     </div>
 
@@ -889,9 +1172,263 @@
 
     const taskList = document.getElementById('taskList');
     const searchInput = document.getElementById('searchInput');
-    const categoryFilter = document.getElementById('categoryFilter');
+    const levelFilter = document.getElementById('levelFilter');
     const resultCount = document.getElementById('resultCount');
     const linkToast = document.getElementById('linkToast');
+    const catRow = document.getElementById('catRow');
+    const topicRow = document.getElementById('topicRow');
+    const topicBlock = document.getElementById('topicBlock');
+    const stepGrid = document.getElementById('stepGrid');
+    const stepBlock = document.getElementById('stepBlock');
+
+    // Nazwy poziomów i tagów — te same co w kompendium (net.html).
+    var LEVELS = { latwe: 'łatwe', srednie: 'średnie', trudne: 'trudne' };
+    var TAGS = {
+        trzeba: ['trzeba znać', 'tag-trzeba'], warto: ['warto znać', 'tag-warto'],
+        zadanie: ['zadanie', 'tag-zadanie'], rzadkie: ['rzadziej', 'tag-rzadkie'],
+        ezoteryczne: ['ezoteryczne', 'tag-ezoteryczne']
+    };
+
+    // Drzewo dział → temat → krok budowane z network-data.json (dane kompendium).
+    // Każde zadanie trafia tam, gdzie kompendium do niego linkuje, więc nazwy
+    // działów, tematów i kroków są zawsze identyczne jak w kompendium.
+    var tree = [];
+    var sel = { cat: '', topic: '', sec: '', level: '' };
+
+    var SOLVED_KEY = 'tolimpians:solved';
+    var solved = loadSolved();
+
+    function loadSolved() {
+        try {
+            var arr = JSON.parse(localStorage.getItem(SOLVED_KEY) || '[]');
+            return new Set(Array.isArray(arr) ? arr : []);
+        } catch (e) { return new Set(); }
+    }
+
+    function markSolved(id) {
+        if (solved.has(id)) return;
+        solved.add(id);
+        try { localStorage.setItem(SOLVED_KEY, JSON.stringify(Array.from(solved))); } catch (e) {}
+        var card = taskList.querySelector('.task-card[data-id="' + cssEscape(id) + '"]');
+        if (card) card.classList.add('is-solved');
+        renderPicker();
+    }
+
+    // Ten sam slug co tdxSlug w kompendium — dzięki temu linki #temat=… pasują do siebie.
+    function slug(str) {
+        var from = 'ąćęłńóśźżĄĆĘŁŃÓŚŹŻ', to = 'acelnoszzACELNOSZZ';
+        var s = String(str || '').replace(/[ąćęłńóśźżĄĆĘŁŃÓŚŹŻ]/g, function (c) { return to[from.indexOf(c)]; });
+        return s.normalize('NFD').replace(/[̀-ͯ]/g, '')
+                .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    }
+
+    // „Krok 1 · Pierwsze kroki — funkcja, która woła samą siebie” → część przed „ — ” na kafelek.
+    function shortName(name) { return String(name).split(' — ')[0]; }
+    function restName(name) {
+        var i = String(name).indexOf(' — ');
+        return i > -1 ? String(name).slice(i + 3) : '';
+    }
+
+    // 1 zadanie, 2–4 zadania (poza 12–14), reszta: zadań.
+    function zadan(n) {
+        if (n === 1) return n + ' zadanie';
+        var d = n % 10, s = n % 100;
+        return n + (d >= 2 && d <= 4 && (s < 12 || s > 14) ? ' zadania' : ' zadań');
+    }
+
+    function baseCategory(c) { return String(c || '').split(' / ')[0]; }
+
+    function taskIdFromUrl(url) {
+        var m = String(url || '').match(/zadania-tematowe-app\/zadania\.html#(.+)$/);
+        return m ? decodeURIComponent(m[1]) : null;
+    }
+
+    function buildTree(kompendium) {
+        var byId = {};
+        allTasks.forEach(function (t) { byId[t.id] = t; });
+        var out = [];
+
+        (Array.isArray(kompendium) ? kompendium : []).forEach(function (c) {
+            var cat = { name: c.cat, slug: slug(c.cat), topics: [], fromKompendium: true };
+            (c.topics || []).forEach(function (tp) {
+                if (!tp || typeof tp === 'string') return;
+                var topic = { name: tp.name, slug: slug(tp.name), tag: tp.tag || '', cat: cat, sections: [] };
+                var secs = (tp.tasks && tp.tasks.length ? [{ name: tp.name, tasks: tp.tasks }] : []).concat(tp.sections || []);
+                secs.forEach(function (s) {
+                    var name = s.name || tp.name;
+                    var sec = { name: name, slug: slug(name), note: s.note || '', topic: topic, tasks: [] };
+                    (s.tasks || []).forEach(function (k) {
+                        var t = byId[taskIdFromUrl(k && k.url)];
+                        if (!t || t._sec) return;
+                        t._sec = sec;
+                        t._level = LEVELS[k.level] ? k.level : '';
+                        sec.tasks.push(t);
+                    });
+                    if (sec.tasks.length) topic.sections.push(sec);
+                });
+                if (topic.sections.length) cat.topics.push(topic);
+            });
+            if (cat.topics.length) out.push(cat);
+        });
+
+        // Zadania, do których kompendium (jeszcze) nie linkuje, idą do kroku,
+        // w którym jest najwięcej zadań z tego samego działu w zadania.json.
+        var orphans = allTasks.filter(function (t) { return !t._sec; });
+        orphans.forEach(function (t) {
+            var home = mostCommonSection(function (o) { return o.category === t.category; }) ||
+                       mostCommonSection(function (o) { return baseCategory(o.category) === baseCategory(t.category); });
+            if (home) {
+                t._sec = home;
+                t._level = '';
+                home.tasks.push(t);
+            }
+        });
+
+        // Ostatecznie (np. gdy network-data.json się nie wczytał) — grupy z pola "category".
+        var rest = allTasks.filter(function (t) { return !t._sec; });
+        if (rest.length) {
+            var other = { name: 'Pozostałe zadania', slug: 'pozostale', topics: [], fromKompendium: false };
+            rest.forEach(function (t) {
+                var tName = baseCategory(t.category) || 'Bez działu';
+                var topic = other.topics.find(function (x) { return x.name === tName; });
+                if (!topic) {
+                    topic = { name: tName, slug: slug(tName), tag: '', cat: other, sections: [] };
+                    other.topics.push(topic);
+                }
+                var sName = t.category || tName;
+                var sec = topic.sections.find(function (x) { return x.name === sName; });
+                if (!sec) {
+                    sec = { name: sName, slug: slug(sName), note: '', topic: topic, tasks: [] };
+                    topic.sections.push(sec);
+                }
+                t._sec = sec;
+                t._level = '';
+                sec.tasks.push(t);
+            });
+            out.push(other);
+        }
+        return out;
+    }
+
+    function mostCommonSection(pred) {
+        var counts = new Map();
+        allTasks.forEach(function (o) {
+            if (o._sec && pred(o)) counts.set(o._sec, (counts.get(o._sec) || 0) + 1);
+        });
+        var best = null, bestN = 0;
+        counts.forEach(function (n, s) { if (n > bestN) { best = s; bestN = n; } });
+        return best;
+    }
+
+    function eachSection(fn) {
+        tree.forEach(function (c) { c.topics.forEach(function (tp) { tp.sections.forEach(fn); }); });
+    }
+
+    function tasksOf(node) {
+        if (node.tasks) return node.tasks;
+        if (node.sections) return node.sections.reduce(function (a, s) { return a.concat(s.tasks); }, []);
+        return node.topics.reduce(function (a, tp) { return a.concat(tasksOf(tp)); }, []);
+    }
+
+    function solvedCount(list) {
+        return list.reduce(function (n, t) { return n + (solved.has(t.id) ? 1 : 0); }, 0);
+    }
+
+    function findCat(s) { return tree.find(function (c) { return c.slug === s; }) || null; }
+    function findTopic(cat, s) { return cat ? (cat.topics.find(function (t) { return t.slug === s; }) || null) : null; }
+    function findSec(topic, s) { return topic ? (topic.sections.find(function (x) { return x.slug === s; }) || null) : null; }
+
+    function selectSection(sec) {
+        sel.cat = sec.topic.cat.slug;
+        sel.topic = sec.topic.slug;
+        sel.sec = sec.slug;
+    }
+
+    function chipCount(list) {
+        var done = solvedCount(list);
+        return '<span class="chip-count">' + list.length +
+            (done ? ' · <span class="ok">✓ ' + done + '</span>' : '') + '</span>';
+    }
+
+    function renderPicker() {
+        catRow.innerHTML =
+            '<button type="button" class="cat-btn' + (!sel.cat ? ' is-on' : '') + '" data-cat="" aria-pressed="' + !sel.cat + '">' +
+                'Wszystkie' + chipCount(allTasks) +
+            '</button>' +
+            tree.map(function (c) {
+                var on = sel.cat === c.slug;
+                return '<button type="button" class="cat-btn' + (on ? ' is-on' : '') + '" data-cat="' + c.slug + '" aria-pressed="' + on + '">' +
+                    escapeHtml(c.name) + chipCount(tasksOf(c)) +
+                '</button>';
+            }).join('');
+
+        var cat = findCat(sel.cat);
+        topicBlock.hidden = !cat;
+        topicRow.innerHTML = cat ? cat.topics.map(function (tp) {
+            var on = sel.topic === tp.slug;
+            var tag = TAGS[tp.tag] ? '<span class="compendium-topic-tag ' + TAGS[tp.tag][1] + '">' + TAGS[tp.tag][0] + '</span>' : '';
+            return '<button type="button" class="topic-btn' + (on ? ' is-on' : '') + '" data-topic="' + tp.slug + '" aria-pressed="' + on + '">' +
+                escapeHtml(tp.name) + tag + chipCount(tasksOf(tp)) +
+            '</button>';
+        }).join('') : '';
+
+        var topic = findTopic(cat, sel.topic);
+        stepBlock.hidden = !topic;
+        stepGrid.innerHTML = topic ? topic.sections.map(function (s) {
+            var on = sel.sec === s.slug;
+            var done = solvedCount(s.tasks);
+            var pct = Math.round(100 * done / s.tasks.length);
+            var sub = restName(s.name);
+            return '<button type="button" class="step-card' + (on ? ' is-on' : '') + '" data-sec="' + s.slug + '" aria-pressed="' + on + '" title="' + escapeHtml(s.name) + '">' +
+                '<span class="step-name">' + escapeHtml(shortName(s.name)) + '</span>' +
+                (sub ? '<span class="step-sub">' + escapeHtml(sub) + '</span>' : '') +
+                '<span class="step-foot"><span>' + zadan(s.tasks.length) + '</span>' +
+                    '<span' + (done ? ' class="ok"' : '') + '>' + (done ? '✓ ' + done + ' / ' + s.tasks.length : 'nic jeszcze') + '</span></span>' +
+                '<span class="step-bar"><i style="width:' + pct + '%"></i></span>' +
+            '</button>';
+        }).join('') : '';
+
+        Array.prototype.forEach.call(levelFilter.querySelectorAll('button'), function (b) {
+            var on = b.getAttribute('data-level') === sel.level;
+            b.classList.toggle('is-on', on);
+            b.setAttribute('aria-pressed', on);
+        });
+    }
+
+    function updateUrl() {
+        var params = new URLSearchParams(location.search);
+        params.delete('dzial');
+        var temat = [sel.cat, sel.topic, sel.sec].filter(Boolean).join('/');
+        if (temat) params.set('temat', temat); else params.delete('temat');
+        if (sel.level) params.set('poziom', sel.level); else params.delete('poziom');
+        var q = searchInput.value.trim();
+        if (q) params.set('szukaj', q); else params.delete('szukaj');
+        var qs = params.toString();
+        history.replaceState(null, '', location.pathname + (qs ? '?' + qs.replace(/%2F/g, '/') : '') + location.hash);
+    }
+
+    function kompendiumHref(sec) {
+        return '../net.html#temat=' + sec.topic.cat.slug + '/' + sec.topic.slug + '/' + sec.slug;
+    }
+
+    function groupHtml(sec, list) {
+        var topic = sec.topic;
+        var note = String(sec.note || '').replace(/\s*Każde zadanie ma automatyczną sprawdzarkę[^.]*\./, '');
+        var title = sec.name === topic.name ? topic.name : sec.name;
+        return (
+            '<section class="task-group">' +
+                '<div class="group-head">' +
+                    '<div class="group-head-main">' +
+                        '<div class="group-path">' + escapeHtml(topic.cat.name) + ' › ' + escapeHtml(topic.name) + '</div>' +
+                        '<h2>' + escapeHtml(title) + '</h2>' +
+                        (note ? '<p>' + escapeHtml(note) + '</p>' : '') +
+                    '</div>' +
+                    (topic.cat.fromKompendium ? '<a class="kompendium-link" href="' + kompendiumHref(sec) + '">Materiały w kompendium →</a>' : '') +
+                '</div>' +
+                '<div class="group-list">' + list.map(function (t, i) { return taskCardHtml(t, i); }).join('') + '</div>' +
+            '</section>'
+        );
+    }
 
     function escapeHtml(str) {
         return String(str)
@@ -928,15 +1465,17 @@
 
     function taskCardHtml(task, index) {
         return (
-            '<div class="task-card" data-id="' + task.id + '">' +
+            '<div class="task-card' + (solved.has(task.id) ? ' is-solved' : '') + '" data-id="' + task.id + '">' +
                 '<div class="task-head" data-toggle="' + task.id + '">' +
                     '<div class="task-num">#' + String(task.number != null ? task.number : index + 1).padStart(2, '0') + '</div>' +
                     '<div class="task-head-main">' +
                         '<div class="task-title-row">' +
                             '<h3>' + escapeHtml(task.title || 'Zadanie bez tytułu') + '</h3>' +
+                            '<span class="solved-badge">✓ zaliczone</span>' +
                         '</div>' +
                         '<div class="task-meta">' +
-                            '<span>' + escapeHtml(task.category || 'Bez działu') + '</span>' +
+                            (task._level ? '<span class="lvl lvl-' + task._level + '">' + LEVELS[task._level] + '</span><span class="dot"></span>' : '') +
+                            '<span>' + escapeHtml(task._sec ? task._sec.topic.name + ' · ' + shortName(task._sec.name) : (task.category || 'Bez działu')) + '</span>' +
                         '</div>' +
                     '</div>' +
                     '<div class="task-limits">' +
@@ -1069,26 +1608,22 @@
         );
     }
 
-    function populateCategoryFilter(tasks) {
-        var cats = Array.from(new Set(tasks.map(function (t) { return t.category; }).filter(Boolean))).sort();
-        cats.forEach(function (c) {
-            var opt = document.createElement('option');
-            opt.value = c;
-            opt.textContent = c;
-            categoryFilter.appendChild(opt);
-        });
-    }
-
     function matchesFilters(task) {
         var q = searchInput.value.trim().toLowerCase();
-        var cat = categoryFilter.value;
+        var sec = task._sec, topic = sec.topic;
 
-        if (cat && task.category !== cat) return false;
+        if (sel.cat && topic.cat.slug !== sel.cat) return false;
+        if (sel.topic && topic.slug !== sel.topic) return false;
+        if (sel.sec && sec.slug !== sel.sec) return false;
+        if (sel.level && task._level !== sel.level) return false;
 
         if (q) {
             var haystack = [
                 task.title,
-                task.category
+                task.category,
+                sec.name,
+                topic.name,
+                topic.cat.name
             ].join(' ').toLowerCase();
             if (haystack.indexOf(q) === -1) return false;
         }
@@ -1441,6 +1976,7 @@
             } else {
                 setVerdict(section, 'ok', 'Accepted',
                     total + ' / ' + total + ' testów • najwolniejszy ' + Math.round(maxTime) + ' ms');
+                markSolved(task.id);
             }
         }
 
@@ -1549,19 +2085,29 @@
                 ? (passCount + ' / ' + checked + ' sprawdzonych zaliczonych (' + (total - checked) + ' bez wklejonego wyniku)')
                 : (passCount === total ? 'Wszystkie testy zaliczone! 🎉' : (passCount + ' / ' + total + ' zaliczonych'));
         }
+        if (passCount === total) markSolved(task.id);
     }
 
     function render() {
-        var filtered = allTasks.filter(matchesFilters);
+        renderPicker();
 
-        resultCount.textContent = filtered.length + ' / ' + allTasks.length + ' zadań';
+        var html = '';
+        var shown = 0;
+        eachSection(function (sec) {
+            var list = sec.tasks.filter(matchesFilters);
+            if (!list.length) return;
+            shown += list.length;
+            html += groupHtml(sec, list);
+        });
 
-        if (!filtered.length) {
+        resultCount.textContent = shown + ' / ' + zadan(allTasks.length);
+
+        if (!shown) {
             taskList.innerHTML = '<div class="empty-state">Brak zadań spełniających wybrane kryteria.</div>';
             return;
         }
 
-        taskList.innerHTML = filtered.map(function (t, i) { return taskCardHtml(t, i); }).join('');
+        taskList.innerHTML = html;
 
         taskList.querySelectorAll('[data-toggle]').forEach(function (head) {
             head.addEventListener('click', function () {
@@ -1736,37 +2282,98 @@
     function applyHashOnLoad() {
         var id = currentHashId();
         if (!id) return;
-        var exists = allTasks.some(function (t) { return t.id === id; });
-        if (!exists) return;
+        var task = allTasks.find(function (t) { return t.id === id; });
+        if (!task) return;
 
+        // Link do konkretnego zadania pokazuje cały jego krok, żeby było widać kontekst.
         searchInput.value = '';
-        categoryFilter.value = '';
+        sel.level = '';
+        selectSection(task._sec);
+        updateUrl();
         render();
         openCardById(id, { scroll: true, highlight: true });
     }
 
-    // Linki z kompendium: ?dzial=<dział> od razu wybiera dział, ?szukaj=<tekst> wpisuje frazę
-    // w wyszukiwarkę (np. ?szukaj=Rekurencja pokazuje wszystkie zadania z rekurencji).
+    // Linki z kompendium:
+    //   ?temat=<dział>/<temat>/<krok> — slugi jak w #temat=… kompendium (krok i temat opcjonalne),
+    //   ?dzial=<pole "category" z zadania.json> — stary format, wybiera krok z tymi zadaniami,
+    //   ?szukaj=<tekst> — wpisuje frazę w wyszukiwarkę, ?poziom=latwe|srednie|trudne.
     function applyQueryOnLoad() {
         var params = new URLSearchParams(location.search);
+        var temat = params.get('temat');
         var dzial = params.get('dzial');
         var szukaj = params.get('szukaj');
-        if (dzial && Array.prototype.some.call(categoryFilter.options, function (o) { return o.value === dzial; })) {
-            categoryFilter.value = dzial;
+        var poziom = params.get('poziom');
+
+        if (temat) {
+            var parts = temat.split('/');
+            var cat = findCat(parts[0]);
+            var topic = findTopic(cat, parts[1]);
+            var sec = findSec(topic, parts[2]);
+            if (cat) {
+                sel.cat = cat.slug;
+                sel.topic = topic ? topic.slug : (cat.topics.length === 1 ? cat.topics[0].slug : '');
+                sel.sec = sec ? sec.slug : '';
+            }
+        } else if (dzial) {
+            var match = allTasks.find(function (t) { return t.category === dzial; });
+            if (match) selectSection(match._sec);
         }
         if (szukaj) searchInput.value = szukaj;
+        if (LEVELS[poziom]) sel.level = poziom;
     }
 
-    function init(data) {
+    function wirePicker() {
+        catRow.addEventListener('click', function (e) {
+            var b = e.target.closest('[data-cat]');
+            if (!b) return;
+            var cat = findCat(b.getAttribute('data-cat'));
+            sel.cat = cat ? cat.slug : '';
+            // Dział z jednym tematem od razu pokazuje jego kroki.
+            sel.topic = cat && cat.topics.length === 1 ? cat.topics[0].slug : '';
+            sel.sec = '';
+            updateUrl();
+            render();
+        });
+        topicRow.addEventListener('click', function (e) {
+            var b = e.target.closest('[data-topic]');
+            if (!b) return;
+            var s = b.getAttribute('data-topic');
+            var cat = findCat(sel.cat);
+            sel.topic = sel.topic === s && cat.topics.length > 1 ? '' : s;
+            sel.sec = '';
+            updateUrl();
+            render();
+        });
+        stepGrid.addEventListener('click', function (e) {
+            var b = e.target.closest('[data-sec]');
+            if (!b) return;
+            var s = b.getAttribute('data-sec');
+            sel.sec = sel.sec === s ? '' : s;
+            updateUrl();
+            render();
+        });
+        levelFilter.addEventListener('click', function (e) {
+            var b = e.target.closest('[data-level]');
+            if (!b) return;
+            sel.level = b.getAttribute('data-level');
+            updateUrl();
+            render();
+        });
+        searchInput.addEventListener('input', function () {
+            updateUrl();
+            render();
+        });
+    }
+
+    function init(data, kompendium) {
         allTasks = (data.tasks || []).slice().sort(function (a, b) {
             return (a.number || 0) - (b.number || 0);
         });
-        populateCategoryFilter(allTasks);
+        tree = buildTree(kompendium);
         applyQueryOnLoad();
         render();
-
-        searchInput.addEventListener('input', render);
-        categoryFilter.addEventListener('change', render);
+        wirePicker();
 
         applyHashOnLoad();
         window.addEventListener('hashchange', applyHashOnLoad);
@@ -1775,12 +2382,20 @@
     // 'no-cache' wymusza sprawdzenie u serwera, czy plik sie zmienil (warunkowe
     // zapytanie, przy braku zmian serwer odpowiada 304). Bez tego przegladarka
     // potrafi w nieskonczonosc trzymac stara liste zadan i testow.
+    // network-data.json (kompendium) jest opcjonalny — bez niego zadania
+    // grupujemy po polu "category".
+    var kompendiumReq = fetch('../network-data.json', { cache: 'no-cache' })
+        .then(function (res) { return res.ok ? res.json() : null; })
+        .catch(function () { return null; });
+
     fetch('zadania.json', { cache: 'no-cache' })
         .then(function (res) {
             if (!res.ok) throw new Error('HTTP ' + res.status);
             return res.json();
         })
-        .then(init)
+        .then(function (data) {
+            return kompendiumReq.then(function (kompendium) { init(data, kompendium); });
+        })
         .catch(function (err) {
             taskList.innerHTML =
                 '<div class="error-state">' +

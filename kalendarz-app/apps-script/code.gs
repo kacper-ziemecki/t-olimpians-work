@@ -1794,7 +1794,10 @@ function discordKey() {
     props_().setProperty('DISCORD_BOT_KEY', key);
   }
   Logger.log('Klucz bota Discord (w pliku .env bota: CALENDAR_BOT_KEY): ' + key);
-  Logger.log('Adres backendu (w pliku .env bota: CALENDAR_API_URL): ' + ScriptApp.getService().getUrl());
+  // z edytora getUrl() potrafi zwrócić adres testowy …/dev, a bot potrzebuje publicznego …/exec
+  const url = ScriptApp.getService().getUrl() || '';
+  Logger.log('Adres backendu (w pliku .env bota: CALENDAR_API_URL): ' +
+    (/\/exec$/.test(url) ? url : 'ten sam co APPS_SCRIPT_URL w kalendarz.html (kończy się na /exec)'));
 }
 
 function discordLite_(m) { return { s: m.s, e: m.e, dur: m.duration }; }

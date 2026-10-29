@@ -735,6 +735,9 @@
         .price-in input { width: 84px; padding: 7px 9px; border-radius: 8px; text-align: right; }
         .price-in input.saving { opacity: .55; }
         .dr-students .li-sub { overflow-wrap: anywhere; }
+        .dc-in { display: flex; align-items: center; gap: 6px; margin-top: 6px; font-size: 12.5px; color: var(--text-secondary); }
+        .dc-in input { flex: 1; min-width: 0; max-width: 220px; padding: 6px 9px; border-radius: 8px; }
+        .dc-in input.saving { opacity: .55; }
         .ibtn {
             width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border); background: rgba(28,28,40,.85);
             color: var(--text-secondary); cursor: pointer; font-size: 14px; display: inline-flex; align-items: center; justify-content: center;
@@ -2868,10 +2871,32 @@ async function savePrice(input) {
     if (!drawerEl.hidden) renderDrawer();
 }
 
+async function saveDiscord(input) {
+    const s = S.students.find((x) => x.email === input.dataset.discord);
+    if (!s) return;
+    const prev = s.discord || '';
+    const discord = input.value.trim().replace(/^@+/, '').slice(0, 64);
+    input.value = discord;
+    if (discord === prev) return;
+    input.classList.add('saving');
+    const res = await runOptimistic({
+        apply: () => { s.discord = discord; },
+        request: () => api('setDiscord', { email: s.email, discord }).catch((err) => {
+            if (/Nieznana akcja/.test(err.message)) err.message = 'Backend nie zna jeszcze Discorda — wdróż nową wersję Code.gs (Zarządzaj wdrożeniami → Nowa wersja).';
+            throw err;
+        }),
+        done: () => toast(discord ? `✓ ${s.name}: Discord @${discord}` : `Usunięto nick Discord: ${s.name}`, 'ok'),
+        failTitle: 'Nie udało się zapisać nicku Discord'
+    });
+    if (!res) { s.discord = prev; input.value = prev; }
+    input.classList.remove('saving');
+    if (!drawerEl.hidden) renderDrawer();
+}
+
 function renderDrawer() {
-    // nie przerywaj wpisywania ceny odświeżeniem kalendarza
+    // nie przerywaj wpisywania ceny / nicku odświeżeniem kalendarza
     const act = document.activeElement;
-    if (act && act.matches('[data-price]') && drawerPanel.contains(act)) return;
+    if (act && act.matches('[data-price], [data-discord]') && drawerPanel.contains(act)) return;
     let h = '';
     if (S.role === 'admin') {
         const R = currentRange();
@@ -2901,9 +2926,11 @@ function renderDrawer() {
             <div class="li-sub">${lessonsWord(g.count)} · ${hoursLabel(g.min)}${g.price !== null ? ' · ' + fmtPrice(g.price) + '/lekcja = <b>' + fmtPrice(g.price * g.count) + '</b>' : ''} · opłacone ${g.paid}/${g.count}${g.email ? ' · ' + esc(g.email) : ''}${g.phone ? ' · ' + esc(g.phone) : ''}</div></div></div>`).join('')
             : '<p class="dr-text">Brak lekcji w tym widoku.</p>'}</div>`;
         if (S.students.length) {
-            h += `<div class="dr-sec"><details class="dr-more dr-students"${allOpen ? ' open' : ''}><summary>Wszyscy uczniowie i ceny (${S.students.length})</summary>
+            h += `<div class="dr-sec"><details class="dr-more dr-students"${allOpen ? ' open' : ''}><summary>Wszyscy uczniowie, ceny i Discord (${S.students.length})</summary>
                 ${S.students.map((s) => `<div class="li"><div class="li-main"><div class="li-title">${esc(s.name)}</div>
-                <div class="li-sub"><a href="mailto:${esc(s.email)}" style="color:inherit">${esc(s.email)}</a>${s.phone ? ' · ' + esc(s.phone) : ''}</div></div>
+                <div class="li-sub"><a href="mailto:${esc(s.email)}" style="color:inherit">${esc(s.email)}</a>${s.phone ? ' · ' + esc(s.phone) : ''}</div>
+                <label class="dc-in" title="Nick ucznia na Discordzie — bot wysyła na jego kanał przypomnienia i zmiany lekcji">Discord <input type="text" maxlength="64" autocomplete="off" spellcheck="false" placeholder="nick" aria-label="Nick na Discordzie: ${esc(s.name)}"
+                    data-discord="${esc(s.email)}" value="${esc(s.discord || '')}"></label></div>
                 <label class="price-in" title="Cena za lekcję — widzisz ją tylko Ty"><input type="text" inputmode="decimal" maxlength="9" autocomplete="off" placeholder="—" aria-label="Cena za lekcję: ${esc(s.name)}"
                     data-price="${esc(s.email)}" value="${priceVal(s.price)}"> zł</label></div>`).join('')}
             </details></div>`;
@@ -2995,9 +3022,10 @@ function renderDrawer() {
 
 drawerEl.addEventListener('change', (e) => {
     if (e.target.matches('[data-price]')) savePrice(e.target);
+    if (e.target.matches('[data-discord]')) saveDiscord(e.target);
 });
 drawerEl.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && e.target.matches('[data-price]')) { e.preventDefault(); e.target.blur(); }
+    if (e.key === 'Enter' && e.target.matches('[data-price], [data-discord]')) { e.preventDefault(); e.target.blur(); }
 });
 drawerEl.addEventListener('click', (e) => {
     if (e.target.closest('[data-close-drawer]')) { closeDrawer(); return; }

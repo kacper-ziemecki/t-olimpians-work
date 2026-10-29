@@ -52,6 +52,18 @@ płatności. Kalendarz współpracuje ze **Stripe**:
 Klucza nie wpisuj do kodu. Po płatności lekcja sama oznacza się jako opłacona,
 a Ty dostajesz maila. Stripe pobiera prowizję i wypłaca pieniądze na konto.
 
+### 3b. (opcjonalnie) Bot Discord — przypomnienia na kanałach uczniów
+
+Bot jest w osobnym folderze `Documents	-olimpians-discord-bot` (pełna instrukcja
+w jego `README.md`). Po stronie kalendarza:
+
+1. Wybierz funkcję **`discordKey`** → **▶ Uruchom**. Tworzy ona właściwość skryptu
+   `DISCORD_BOT_KEY` i wypisuje w logu klucz oraz adres backendu do pliku `.env` bota.
+2. W panelu nauczyciela → „Wszyscy uczniowie, ceny i Discord” wpisz każdemu
+   uczniowi nick z Discorda.
+
+Dopóki nie ma `DISCORD_BOT_KEY`, kalendarz nie zapisuje zmian dla bota.
+
 ## 4. Sprawdź ustawienia na górze `Code.gs` (`CONFIG`)
 
 - `CALENDAR_ID`: `'primary'`, czyli główny kalendarz konta, tak jak w starym

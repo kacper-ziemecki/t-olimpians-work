@@ -100,6 +100,8 @@ const ACTIONS = {
   adminLogin: actionAdminLogin_,
   setAvailability: actionSetAvailability_,
   setPrice: actionSetPrice_,
+  setDiscord: actionSetDiscord_,
+  discordFeed: actionDiscordFeed_,
   payInfo: actionPayInfo_,
   payCard: actionPayCard_,
   payConfirm: actionPayConfirm_,
@@ -131,6 +133,9 @@ function setup() {
   Logger.log(stripeKey_()
     ? 'Płatności kartą / BLIK / Google Pay (Stripe) są włączone.'
     : 'Płatności kartą wyłączone — działa sam przelew (dodaj STRIPE_SECRET_KEY, żeby włączyć).');
+  Logger.log(props_().getProperty('DISCORD_BOT_KEY')
+    ? 'Bot Discord jest włączony (kolejka zmian działa).'
+    : 'Bot Discord wyłączony — uruchom funkcję discordKey, żeby go włączyć.');
   if (CONFIG.PUSH_ENABLED) {
     Logger.log('Klucz powiadomień (VAPID): ' + vapidKeys_().pub.slice(0, 16) + '…');
     UrlFetchApp.getRequest('https://fcm.googleapis.com/');   // tylko po to, żeby Google poprosił o uprawnienie „połączenia zewnętrzne”
@@ -311,6 +316,10 @@ function actionBook_(body) {
     }
     const created = free.map((s, i) => modelOf_(insertLesson_(s, info, i === 0)));
     const st = upsertStudent_(info.email, info.name, info.phone, info.color);
+    discordQueue_(ctx, info.email, info.name, {
+      type: 'booked', series: weekly, open: weekly && weeks === 0, count: created.length,
+      lessons: created.slice(0, 8).map(discordLite_), skipped: busyDates
+    });
     bumpVersion_();
 
     const out = {
@@ -362,6 +371,11 @@ function actionMove_(body) {
         if (s.endDate) s.endDate = addDaysStr_(s.endDate, delta);
       });
     }
+    const to = plan[0].slot;
+    discordQueue_(ctx, L.email, L.name, {
+      type: 'moved', following: following, count: plan.length, from: discordLite_(L),
+      to: { s: to.date + 'T' + to.time, e: localIso_(to.end), dur: to.dur }
+    });
     bumpVersion_();
     after = () => mailMoved_(L, plan, ctx, following);
     return { ok: true, moved: plan.length };
@@ -386,6 +400,7 @@ function actionCancel_(body) {
     if (following) {
       updateSeries_(L.seriesId, (s) => { s.open = false; s.ended = true; s.endDate = addDaysStr_(dateOf_(L), -1); });
     }
+    discordQueue_(ctx, L.email, L.name, { type: 'cancelled', following: following, count: targets.length, lesson: discordLite_(L) });
     bumpVersion_();
     after = () => mailCancelled_(L, targets, ctx, following);
     return { ok: true, cancelled: targets.length };
@@ -488,6 +503,21 @@ function actionSetPrice_(body) {
     if (price === null) delete cur.price; else cur.price = price;
     props_().setProperty('stu_' + email, JSON.stringify(cur));
     return { ok: true, email: email, price: price };
+  });
+}
+
+/** Panel nauczyciela: nick ucznia na Discordzie (bot T-Olimpians wysyła mu przypomnienia na jego kanał). */
+function actionSetDiscord_(body) {
+  const ctx = auth_(body);
+  if (ctx.role !== 'admin') throw userError_('Nick na Discordzie może zmieniać tylko nauczyciel.', 'FORBIDDEN');
+  const email = clean_(body.email, 120).toLowerCase();
+  const discord = clean_(body.discord, 64).replace(/^@+/, '').trim();
+  return withLock_(() => {
+    const cur = getStudent_(email);
+    if (!cur) throw userError_('Nie znaleziono ucznia.', 'NOT_FOUND');
+    if (discord) cur.discord = discord; else delete cur.discord;
+    props_().setProperty('stu_' + email, JSON.stringify(cur));
+    return { ok: true, email: email, discord: discord };
   });
 }
 
@@ -1099,6 +1129,7 @@ function upsertStudent_(email, name, phone, color) {
     last: now
   };
   if (cur && typeof cur.price === 'number') rec.price = cur.price;
+  if (cur && cur.discord) rec.discord = cur.discord;
   props_().setProperties({
     ['stu_' + email]: JSON.stringify(rec),
     ['tk_' + studentToken_(email)]: email
@@ -1112,7 +1143,7 @@ function listStudents_() {
     const email = k.slice(4);
     const r = JSON.parse(all[k]);
     return { email: email, name: r.name, phone: r.phone, key: studentKey_(email), color: r.color || colorFor_(email),
-      price: typeof r.price === 'number' ? r.price : null };
+      price: typeof r.price === 'number' ? r.price : null, discord: r.discord || '' };
   }).sort((a, b) => a.name.localeCompare(b.name, 'pl'));
 }
 
@@ -1742,6 +1773,82 @@ function bigToBytes_(x) {
 }
 function b64urlBytes_(arr) {
   return Utilities.base64EncodeWebSafe(arr.map((b) => (b > 127 ? b - 256 : b))).replace(/=+$/, '');
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   DISCORD (bot T-Olimpians)
+   ═══════════════════════════════════════════════════════════════════════
+   Bot działa osobno (folder t-olimpians-discord-bot) i co minutę pyta akcję discordFeed o lekcje
+   z najbliższych godzin, nicki uczniów i nowe zmiany (rezerwacje, przesunięcia, odwołania).
+   Zmiany zapisujemy w krótkiej kolejce we właściwości DISCORD_Q — bot pamięta, które już wysłał.
+   Wszystko jest wyłączone, dopóki nie ma właściwości skryptu DISCORD_BOT_KEY (funkcja discordKey). */
+
+const DISCORD_Q_KEY = 'DISCORD_Q';
+const DISCORD_Q_DAYS = 7;
+
+/** Uruchom RAZ z edytora: tworzy klucz bota (właściwość DISCORD_BOT_KEY) i wypisuje go w logu. */
+function discordKey() {
+  let key = props_().getProperty('DISCORD_BOT_KEY');
+  if (!key) {
+    key = 'tol_' + Utilities.getUuid().replace(/-/g, '') + Utilities.getUuid().replace(/-/g, '').slice(0, 16);
+    props_().setProperty('DISCORD_BOT_KEY', key);
+  }
+  Logger.log('Klucz bota Discord (w pliku .env bota: CALENDAR_BOT_KEY): ' + key);
+  Logger.log('Adres backendu (w pliku .env bota: CALENDAR_API_URL): ' + ScriptApp.getService().getUrl());
+}
+
+function discordLite_(m) { return { s: m.s, e: m.e, dur: m.duration }; }
+
+function discordQueueRead_() {
+  try {
+    const q = JSON.parse(props_().getProperty(DISCORD_Q_KEY) || 'null');
+    if (q && Array.isArray(q.items)) return q;
+  } catch (e) { /* zepsuta kolejka — zaczynamy od nowa */ }
+  return { seq: 0, items: [] };
+}
+
+/** Dopisuje zmianę do kolejki dla bota (wołane pod blokadą, razem z samą zmianą). */
+function discordQueue_(ctx, email, name, evt) {
+  if (!email || !props_().getProperty('DISCORD_BOT_KEY')) return;
+  try {
+    const q = discordQueueRead_();
+    const cutoff = Date.now() - DISCORD_Q_DAYS * 864e5;
+    evt.seq = ++q.seq;
+    evt.at = Date.now();
+    evt.email = email;
+    evt.name = name;
+    evt.by = ctx.role === 'admin' ? 'teacher' : 'student';
+    q.items = q.items.filter((x) => x.at > cutoff).concat([evt]);
+    while (q.items.length > 1 && JSON.stringify(q).length > 8000) q.items.shift();   // limit właściwości: 9 kB
+    props_().setProperty(DISCORD_Q_KEY, JSON.stringify(q));
+  } catch (e) {
+    console.error(e);                                         // Discord nie może zepsuć rezerwacji
+  }
+}
+
+/** Dla bota: lekcje z najbliższych godzin, nicki uczniów i zmiany od numeru after. */
+function actionDiscordFeed_(body) {
+  const key = props_().getProperty('DISCORD_BOT_KEY');
+  if (!key || String(body.botKey || '') !== key) {
+    Utilities.sleep(500);
+    throw userError_('Nieprawidłowy klucz bota (właściwość skryptu DISCORD_BOT_KEY).', 'FORBIDDEN');
+  }
+  const q = discordQueueRead_();
+  const after = typeof body.after === 'number' ? body.after : null;
+  // pierwsze połączenie (after = null) albo wyczyszczona kolejka — nie wysyłamy starych zmian, tylko numer
+  const events = after !== null && after <= q.seq ? q.items.filter((x) => x.seq > after) : [];
+
+  const hours = Math.min(168, Math.max(1, Number(body.hours) || 36));
+  const now = Date.now();
+  const until = now + hours * 3600000;
+  const lessons = rangeModels_(todayStr_(), addDaysStr_(localIso_(new Date(until)).slice(0, 10), 1))
+    .filter((m) => m.kind === 'lesson' && !m.allDay)
+    .map((m) => ({ id: m.id, s: m.s, e: m.e, dur: m.duration, start: parseLocal_(m.s).getTime(), end: parseLocal_(m.e).getTime(),
+      name: m.name, email: m.email, series: !!m.seriesId }))
+    .filter((m) => m.end > now && m.start < until);
+
+  const students = listStudents_().filter((s) => s.discord).map((s) => ({ email: s.email, name: s.name, discord: s.discord }));
+  return { ok: true, now: now, seq: q.seq, events: events, lessons: lessons, students: students };
 }
 
 /* ─── logowanie kodem (w zainstalowanej aplikacji na iPhonie link z maila otwiera się w Safari) ─── */

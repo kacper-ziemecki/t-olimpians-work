@@ -716,7 +716,7 @@
             transform: translateY(-6px) scale(1.01);
             box-shadow: 0 16px 48px var(--accent-glow);
         }
-        /* logo olimpiady / konkursu przefarbowane na kolor akcentu (filtr #logo-tint pod sekcją) */
+        /* logo olimpiady / konkursu w oryginalnych kolorach; .logo-recolor = logo z czarnymi partiami / białym tłem (filtr #logo-tint pod sekcją) */
         .achievement-icon {
             width: 52px; height: 52px;
             flex-shrink: 0;
@@ -728,7 +728,8 @@
             transition: box-shadow 0.3s;
         }
         .achievement-card:hover .achievement-icon { box-shadow: 0 0 18px var(--accent-glow); }
-        .achievement-icon img { width: 100%; height: 100%; object-fit: contain; display: block; filter: url(#logo-tint); }
+        .achievement-icon img { width: 100%; height: 100%; object-fit: contain; display: block; }
+        .achievement-icon img.logo-recolor { filter: url(#logo-tint); }
         .achievement-head { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; position: relative; }
         .achievement-title {
             font-family: var(--font-mono);
@@ -1665,7 +1666,7 @@
             </div>
             <div class="achievement-card reveal">
                 <div class="achievement-head">
-                    <div class="achievement-icon"><img src="./img/logos/oij.png" alt="" width="128" height="128" loading="lazy" decoding="async"></div>
+                    <div class="achievement-icon"><img class="logo-recolor" src="./img/logos/oij.png" alt="" width="128" height="128" loading="lazy" decoding="async"></div>
                     <span class="achievement-title">Laureaci</span>
                 </div>
                 <div class="achievement-number" data-count="5" data-suffix="">5</div>
@@ -1673,7 +1674,7 @@
             </div>
             <div class="achievement-card reveal">
                 <div class="achievement-head">
-                    <div class="achievement-icon"><img src="./img/logos/oij.png" alt="" width="128" height="128" loading="lazy" decoding="async"></div>
+                    <div class="achievement-icon"><img class="logo-recolor" src="./img/logos/oij.png" alt="" width="128" height="128" loading="lazy" decoding="async"></div>
                     <span class="achievement-title">Finaliści</span>
                 </div>
                 <div class="achievement-number" data-count="11" data-suffix="">11</div>
@@ -1689,7 +1690,7 @@
             </div>
             <div class="achievement-card reveal">
                 <div class="achievement-head">
-                    <div class="achievement-icon"><img src="./img/logos/giganci-programowania.svg" alt="" width="128" height="128" loading="lazy" decoding="async"></div>
+                    <div class="achievement-icon"><img class="logo-recolor" src="./img/logos/giganci-programowania.svg" alt="" width="128" height="128" loading="lazy" decoding="async"></div>
                     <span class="achievement-title">Srebro</span>
                 </div>
                 <div class="achievement-number" data-count="1" data-suffix="×">1×</div>
@@ -1697,7 +1698,7 @@
             </div>
             <div class="achievement-card reveal">
                 <div class="achievement-head">
-                    <div class="achievement-icon"><img src="./img/logos/zdolny-slazak.png" alt="" width="128" height="128" loading="lazy" decoding="async"></div>
+                    <div class="achievement-icon"><img class="logo-recolor" src="./img/logos/zdolny-slazak.png" alt="" width="128" height="128" loading="lazy" decoding="async"></div>
                     <span class="achievement-title">Laureat</span>
                 </div>
                 <div class="achievement-number" data-count="1" data-suffix="">1</div>
@@ -1712,12 +1713,15 @@
                 <div class="achievement-label" data-i18n="ach8">Laureat konkursu LOGIA</div>
             </div>
         </div>
-        <!-- ciemne i kolorowe partie logo → --accent-bright, białe tło → przezroczyste -->
+        <!-- kolory logo zostają, czarne/ciemne partie → --accent-bright (inaczej giną na ciemnym tle), białe tło → przezroczyste -->
         <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
             <filter id="logo-tint" color-interpolation-filters="sRGB">
-                <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -0.34 -1.144 -0.116 1.6 0" result="shape"/>
+                <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  -0.85 -2.861 -0.289 4 0" result="cut"/>
+                <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -0.638 -2.146 -0.217 0 1" result="dark"/>
                 <feFlood flood-color="#60a5fa"/>
-                <feComposite in2="shape" operator="in"/>
+                <feComposite in2="dark" operator="in" result="accent"/>
+                <feComposite in="accent" in2="SourceGraphic" operator="over" result="mix"/>
+                <feComposite in="mix" in2="cut" operator="in"/>
             </filter>
         </svg>
     </div>

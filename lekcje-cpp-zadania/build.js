@@ -273,7 +273,7 @@ function spisHtml(lekcja, built, pad) {
     return lekcja.kroki.map((k) => {
         const n = built.filter((b) => b._krok === k).length;
         const nr = k.baza ? '★' : String(k.nr).padStart(2, '0');
-        const ile = k.baza ? zadan(n) : cwiczen(n);
+        const ile = k.baza ? zadan(n) : (n ? cwiczen(n) : 'teoria');
         return `${pad}<a class="spis-pozycja${k.baza ? ' spis-baza' : ''}" href="#${k.kotwica}"><span class="spis-nr">${nr}</span><span class="spis-nazwa">${esc(k.spis)}</span><span class="spis-liczba">${ile}</span></a>`;
     }).join('\n');
 }

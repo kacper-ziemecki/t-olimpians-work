@@ -93,6 +93,66 @@ const LEKCJE = [
             },
         ],
     },
+    {
+        temat: 'Input / Output',
+        prefix: 'io-',
+        plik: 'c++_logika/input-output.html',
+        pliki: ['input-output-cwiczenia.js', 'input-output-baza.js'],
+        note: 'Druga lekcja C++: jak naprawdę działa wczytywanie, dane z separatorami (12:30, 04.11.2026), całe wiersze tekstu ' +
+            '(getline), formatowanie wyników (setprecision, setw, setfill) oraz printf i scanf. Bez pętli i bez if — ' +
+            'wystarczy to, co znasz z lekcji o typach zmiennych.',
+        kroki: [
+            {
+                nr: 1, kotwica: 'wejscie', spis: 'Jak naprawdę działa cin',
+                nazwa: 'Krok 1 · Jak naprawdę działa wejście',
+                kategoria: 'Wejście i wyjście / krok 1: jak działa cin',
+                note: 'Wejście jako taśma znaków: cin >> przeskakuje spacje i entery, czyta kolejne wartości po kolei. Dane w wielu wierszach i czytanie opisu wejścia z treści zadania.',
+            },
+            {
+                nr: 2, kotwica: 'separatory', spis: 'Znaki pomiędzy liczbami: 12:30',
+                nazwa: 'Krok 2 · Dane ze znakami pomiędzy — 12:30, 3/4',
+                kategoria: 'Wejście i wyjście / krok 2: separatory',
+                note: 'Godziny, daty, ułamki i punkty: separatory wczytywane do zmiennej typu char.',
+            },
+            {
+                nr: 3, kotwica: 'getline', spis: 'getline — całe wiersze',
+                nazwa: 'Krok 3 · getline — całe wiersze tekstu',
+                kategoria: 'Wejście i wyjście / krok 3: getline',
+                note: 'Wiersze ze spacjami, pułapka cin >> przed getline (cin.ignore() i ws), getline do wybranego znaku.',
+            },
+            {
+                nr: 4, kotwica: 'precyzja', spis: 'fixed i setprecision',
+                nazwa: 'Krok 4 · Liczby z przecinkiem — fixed i setprecision',
+                kategoria: 'Wejście i wyjście / krok 4: fixed i setprecision',
+                note: 'Zaokrąglanie do wybranej liczby miejsc po przecinku, setprecision(0), liczby całkowite obok double.',
+            },
+            {
+                nr: 5, kotwica: 'setw', spis: 'setw, setfill i wyrównanie',
+                nazwa: 'Krok 5 · Szerokość i wyrównanie — setw, setfill, left',
+                kategoria: 'Wejście i wyjście / krok 5: setw i setfill',
+                note: 'Zera z przodu (09:05, 00042), równe kolumny, wyrównanie do lewej i do prawej, tabelki i paragony.',
+            },
+            {
+                nr: 6, kotwica: 'printf', spis: 'printf i scanf',
+                nazwa: 'Krok 6 · printf i scanf',
+                kategoria: 'Wejście i wyjście / krok 6: printf i scanf',
+                note: 'Wypisywanie i wczytywanie w stylu języka C: %d, %lld, %.2f, %lf, szerokość pola, zera z przodu, wzorce z separatorami.',
+            },
+            {
+                nr: 7, kotwica: 'szybkie-io', spis: 'Szybkie wejście i wyjście',
+                nazwa: 'Krok 7 · Szybkie wejście i wyjście',
+                kategoria: 'Wejście i wyjście / krok 7: szybkie I/O',
+                note: 'sync_with_stdio(false), cin.tie(nullptr) i "\\n" zamiast endl — szablon programu na olimpiadę.',
+            },
+            {
+                nr: 8, kotwica: 'baza', spis: 'Baza zadań', baza: true,
+                nazwa: 'Baza zadań — podsumowanie tematu',
+                kategoria: 'Wejście i wyjście / baza zadań',
+                note: 'Zadania na cały temat, od najłatwiejszego do najtrudniejszego: bilety, daty, paragony, rozkłady jazdy, faktury — ' +
+                    'a na koniec legitymacja szkolna, w której przydaje się wszystko naraz.',
+            },
+        ],
+    },
 ];
 
 module.exports = { SITE, KATEGORIA, LEKCJE };

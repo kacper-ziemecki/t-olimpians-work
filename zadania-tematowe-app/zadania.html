@@ -1121,6 +1121,7 @@
     </a>
     <ul class="nav-links">
         <li><a href="../index.html">Strona główna</a></li>
+        <li><a href="../materialy.html">Lekcje C++</a></li>
         <li><a href="../net.html">Kompendium</a></li>
         <li><a href="../zadania-oi-oij.html">Zbiór zadań</a></li>
     </ul>
@@ -1130,7 +1131,7 @@
     <header class="page-head">
         <span class="section-label">Zadania treningowe · sprawdzarka C++</span>
         <h1>Zadania <span>tematami</span></h1>
-        <p>Zadania do tematów z <a href="../net.html">kompendium</a>, ułożone tak samo jak w kompendium: wybierz dział, temat i krok. Każde zadanie ma testy i automatyczną sprawdzarkę C++, a zaliczone zadania zapamiętujemy w tej przeglądarce.</p>
+        <p>Zadania do <a href="../materialy.html">lekcji C++ od podstaw</a> i do tematów z <a href="../net.html">kompendium</a>, ułożone tak samo jak tam: wybierz dział, temat i krok. Każde zadanie ma testy i automatyczną sprawdzarkę C++, a zaliczone zadania zapamiętujemy w tej przeglądarce.</p>
     </header>
 
     <section class="picker" id="picker" aria-label="Wybór działu i tematu">
@@ -1243,20 +1244,27 @@
         return m ? decodeURIComponent(m[1]) : null;
     }
 
-    function buildTree(kompendium) {
+    // lekcje — lekcje.json (dział „C++ od podstaw”, lekcje z c++_logika/), kompendium — network-data.json.
+    // Oba pliki mają ten sam układ: dział → tematy → zagadnienia (kroki) → zadania. Lekcje idą pierwsze,
+    // bo od nich zaczyna zupełnie początkujący; ich kroki linkują z powrotem do części lekcji (pole lesson).
+    function buildTree(lekcje, kompendium) {
         var byId = {};
         allTasks.forEach(function (t) { byId[t.id] = t; });
         var out = [];
 
-        (Array.isArray(kompendium) ? kompendium : []).forEach(function (c) {
-            var cat = { name: c.cat, slug: slug(c.cat), topics: [], fromKompendium: true };
+        var sources = (Array.isArray(lekcje) ? lekcje : []).map(function (c) { return { c: c, lesson: true }; })
+            .concat((Array.isArray(kompendium) ? kompendium : []).map(function (c) { return { c: c, lesson: false }; }));
+
+        sources.forEach(function (src) {
+            var c = src.c;
+            var cat = { name: c.cat, slug: slug(c.cat), topics: [], fromKompendium: !src.lesson };
             (c.topics || []).forEach(function (tp) {
                 if (!tp || typeof tp === 'string') return;
-                var topic = { name: tp.name, slug: slug(tp.name), tag: tp.tag || '', cat: cat, sections: [] };
+                var topic = { name: tp.name, slug: slug(tp.name), tag: tp.tag || '', cat: cat, sections: [], lesson: tp.lesson || '' };
                 var secs = (tp.tasks && tp.tasks.length ? [{ name: tp.name, tasks: tp.tasks }] : []).concat(tp.sections || []);
                 secs.forEach(function (s) {
                     var name = s.name || tp.name;
-                    var sec = { name: name, slug: slug(name), note: s.note || '', topic: topic, tasks: [] };
+                    var sec = { name: name, slug: slug(name), note: s.note || '', topic: topic, tasks: [], lesson: s.lesson || '' };
                     (s.tasks || []).forEach(function (k) {
                         var t = byId[taskIdFromUrl(k && k.url)];
                         if (!t || t._sec) return;
@@ -1423,7 +1431,9 @@
                         '<h2>' + escapeHtml(title) + '</h2>' +
                         (note ? '<p>' + escapeHtml(note) + '</p>' : '') +
                     '</div>' +
-                    (topic.cat.fromKompendium ? '<a class="kompendium-link" href="' + kompendiumHref(sec) + '">Materiały w kompendium →</a>' : '') +
+                    (sec.lesson || topic.lesson
+                        ? '<a class="kompendium-link" href="' + escapeHtml(sec.lesson || topic.lesson) + '">Wróć do lekcji →</a>'
+                        : (topic.cat.fromKompendium ? '<a class="kompendium-link" href="' + kompendiumHref(sec) + '">Materiały w kompendium →</a>' : '')) +
                 '</div>' +
                 '<div class="group-list">' + list.map(function (t, i) { return taskCardHtml(t, i); }).join('') + '</div>' +
             '</section>'
@@ -2398,11 +2408,11 @@
         });
     }
 
-    function init(data, kompendium) {
+    function init(data, lekcje, kompendium) {
         allTasks = (data.tasks || []).slice().sort(function (a, b) {
             return (a.number || 0) - (b.number || 0);
         });
-        tree = buildTree(kompendium);
+        tree = buildTree(lekcje, kompendium);
         applyQueryOnLoad();
         render();
         wirePicker();
@@ -2415,11 +2425,15 @@
     // 'no-cache' wymusza sprawdzenie u serwera, czy plik sie zmienil (warunkowe
     // zapytanie, przy braku zmian serwer odpowiada 304). Bez tego przegladarka
     // potrafi w nieskonczonosc trzymac stara liste zadan i testow.
-    // network-data.json (kompendium) jest opcjonalny — bez niego zadania
-    // grupujemy po polu "category".
-    var kompendiumReq = fetch('../network-data.json', { cache: 'no-cache' })
-        .then(function (res) { return res.ok ? res.json() : null; })
-        .catch(function () { return null; });
+    // network-data.json (kompendium) i lekcje.json (lekcje C++ od podstaw) są
+    // opcjonalne — bez nich zadania grupujemy po polu "category".
+    function optionalJson(url) {
+        return fetch(url, { cache: 'no-cache' })
+            .then(function (res) { return res.ok ? res.json() : null; })
+            .catch(function () { return null; });
+    }
+    var lekcjeReq = optionalJson('lekcje.json');
+    var kompendiumReq = optionalJson('../network-data.json');
 
     fetch('zadania.json', { cache: 'no-cache' })
         .then(function (res) {
@@ -2427,7 +2441,7 @@
             return res.json();
         })
         .then(function (data) {
-            return kompendiumReq.then(function (kompendium) { init(data, kompendium); });
+            return Promise.all([lekcjeReq, kompendiumReq]).then(function (r) { init(data, r[0], r[1]); });
         })
         .catch(function (err) {
             taskList.innerHTML =

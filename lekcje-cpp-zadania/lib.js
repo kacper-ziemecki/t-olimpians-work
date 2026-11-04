@@ -39,4 +39,8 @@ function dec(k, d) {
 // Pierwsza litera wielka, reszta małe.
 const capital = (w) => w[0].toUpperCase() + w.slice(1);
 
-module.exports = { ...base, fx, safe, dec, capital };
+// setw: domyślnie do prawej (padL), z left — do lewej (padR); f to znak z setfill.
+const padL = (s, w, f = ' ') => String(s).padStart(w, f);
+const padR = (s, w, f = ' ') => String(s).padEnd(w, f);
+
+module.exports = { ...base, fx, safe, dec, capital, padL, padR };

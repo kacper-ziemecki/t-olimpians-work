@@ -256,7 +256,7 @@ function bazaHtml(lekcja, krok, list, pad) {
             `${pad}        <span class="zadanie-poziom poz-${g.level}">${LEVELS[g.level]}</span>`,
             `${pad}        <h3>${g.name} <span>· zadania ${from}–${to}</span></h3>`,
             `${pad}    </div>`,
-            `${pad}    <p>${g.desc}</p>`,
+            `${pad}    <p>${(lekcja.bazaOpisy && lekcja.bazaOpisy[g.level]) || g.desc}</p>`,
             `${pad}    <div class="cw-lista">`,
             ...part.map((b) => cardHtml(b, String(++nr), pad + '        ')),
             `${pad}    </div>`,

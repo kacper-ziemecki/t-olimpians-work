@@ -463,13 +463,17 @@ footer span { font-family: var(--font-mono); }
     .lang-switcher { display: none; }
     main { padding: 0 24px; }
     .hero { padding: 100px 24px 60px; }
-    .section-block { grid-template-columns: 1fr; gap: 32px; padding: 60px 0; }
+    .section-block { grid-template-columns: minmax(0, 1fr); gap: 32px; padding: 60px 0; }
     .section-block.reverse { direction: ltr; }
     .divider { margin: 0 24px; }
     footer { flex-direction: column; gap: 12px; padding: 24px; text-align: center; }
     .pros-cons { grid-template-columns: 1fr; }
-    .viz-bars { min-height: 120px; }
-    .bar { font-size: 9px; }
+    /* wizualizacje na telefonie: słupki się zwężają (12 słupków po 24 px nie mieściło się w ramce),
+       a tytuł, suwak i przyciski zawijają się do kolejnych wierszy zamiast wychodzić poza ramkę */
+    .viz-bars { min-height: 120px; padding: 20px 10px 10px; gap: 3px; }
+    .bar { font-size: 9px; min-width: 0; }
+    .viz-top { flex-wrap: wrap; gap: 8px 12px; }
+    .viz-ctrls { flex-wrap: wrap; }
 }
 
         /* ─── Tabela metod ze złożonością ─── */
@@ -781,6 +785,7 @@ footer span { font-family: var(--font-mono); }
             gap: 8px;
             flex-wrap: wrap;
             flex-shrink: 0;
+            max-width: 100%;
         }
         .wideo-playlisty a {
             font-family: var(--font-mono);

@@ -153,6 +153,84 @@ const LEKCJE = [
             },
         ],
     },
+    {
+        temat: 'If / Else',
+        prefix: 'ie-',
+        plik: 'c++_logika/if-else.html',
+        pliki: ['if-else-cwiczenia-1.js', 'if-else-cwiczenia-2.js', 'if-else-baza.js'],
+        note: 'Trzecia lekcja C++: program podejmuje decyzje. if, else, else if, warunki z porównaniami i operatorami && || !, ' +
+            'zagnieżdżanie, typowe schematy (największa z trzech liczb, zamiana miejscami, sortowanie trzech liczb, licznik) ' +
+            'oraz switch i operator ?:. Bez pętli — wystarczy to, co znasz z lekcji o typach zmiennych i o wejściu i wyjściu.',
+        // Opisy grup w bazie zadań (zamiast domyślnych z build.js).
+        bazaOpisy: {
+            latwe: 'Jeden albo dwa warunki naraz — sprawdź, czy pewnie czujesz if, else i else if.',
+            srednie: 'Kilka przypadków, łączenie warunków i schematy z lekcji: zamiany, licznik, przedziały.',
+            trudne: 'Szachownica, trójkąty, kalendarz i long long — a na końcu wielki finał, w którym przydaje się wszystko naraz.',
+        },
+        kroki: [
+            {
+                nr: 1, kotwica: 'if', spis: 'Pierwszy if',
+                nazwa: 'Krok 1 · Pierwszy if — zrób to tylko wtedy, gdy…',
+                kategoria: 'Instrukcja if / krok 1: pierwszy if',
+                note: 'Instrukcja if z warunkiem i klamrami, kod wykonywany tylko czasem i zawsze, if zmieniający zmienną, ' +
+                    'zaokrąglanie dzielenia w górę, kilka niezależnych if-ów, pułapki: średnik po if i if bez klamer.',
+            },
+            {
+                nr: 2, kotwica: 'else', spis: 'if … else — dwie drogi',
+                nazwa: 'Krok 2 · if … else — jedna z dwóch dróg',
+                kategoria: 'Instrukcja if / krok 2: if … else',
+                note: 'Dokładnie jedna z dwóch gałęzi, odpowiedzi TAK/NIE, parzystość także dla liczb ujemnych, zmienna tworzona przed if, ' +
+                    'różnica między if … else a dwoma osobnymi if-ami.',
+            },
+            {
+                nr: 3, kotwica: 'warunki', spis: 'Z czego zbudować warunek',
+                nazwa: 'Krok 3 · Warunki — porównania liczb, znaków i napisów',
+                kategoria: 'Instrukcja if / krok 3: warunki',
+                note: '= kontra ==, działania w warunkach, liczba jako warunek, porównywanie znaków (kody ASCII) i napisów (kolejność słownikowa), ' +
+                    'ostrożnie z double, mnożenie zamiast dzielenia, warunek w zmiennej bool.',
+            },
+            {
+                nr: 4, kotwica: 'else-if', spis: 'else if — wiele możliwości',
+                nazwa: 'Krok 4 · else if — więcej niż dwie możliwości',
+                kategoria: 'Instrukcja if / krok 4: else if',
+                note: 'Łańcuch else if sprawdzany z góry na dół, kolejność progów, przedziały i ich granice, osobne if-y kontra łańcuch, końcowe else.',
+            },
+            {
+                nr: 5, kotwica: 'logiczne', spis: '&&, || i ! w warunkach',
+                nazwa: 'Krok 5 · Łączenie warunków — &&, || i !',
+                kategoria: 'Instrukcja if / krok 5: && || !',
+                note: 'Liczba w przedziale (i pułapka a <= x <= b), jedna z kilku wartości, przedziały znaków, nawiasy przy && i ||, ' +
+                    'zaprzeczenie i prawa De Morgana, skrócone obliczanie jako ochrona przed dzieleniem przez zero.',
+            },
+            {
+                nr: 6, kotwica: 'zagniezdzone', spis: 'if w środku if',
+                nazwa: 'Krok 6 · if w środku if — zagnieżdżanie',
+                kategoria: 'Instrukcja if / krok 6: zagnieżdżanie',
+                note: 'if w klamrach innego if, drzewo decyzji, zagnieżdżanie kontra && i else if, else należący do najbliższego if.',
+            },
+            {
+                nr: 7, kotwica: 'schematy', spis: 'Typowe schematy z if',
+                nazwa: 'Krok 7 · Typowe schematy — maksimum, zamiana, licznik',
+                kategoria: 'Instrukcja if / krok 7: typowe schematy',
+                note: 'Największa i najmniejsza z kilku liczb, max i min, zamiana miejscami (swap), dwie i trzy liczby w kolejności rosnącej, ' +
+                    'licznik i suma warunkowa, flaga typu bool.',
+            },
+            {
+                nr: 8, kotwica: 'switch', spis: 'switch i operator ?:',
+                nazwa: 'Krok 8 · switch i operator ?:',
+                kategoria: 'Instrukcja if / krok 8: switch i ?:',
+                note: 'switch z case, break i default, kilka case z jednym kodem, zapomniany break, switch na znakach (kalkulator) ' +
+                    'i operator warunkowy ?: do wyboru jednej z dwóch wartości.',
+            },
+            {
+                nr: 9, kotwica: 'baza', spis: 'Baza zadań', baza: true,
+                nazwa: 'Baza zadań — podsumowanie tematu',
+                kategoria: 'Instrukcja if / baza zadań',
+                note: 'Zadania na cały temat, od najłatwiejszego do najtrudniejszego: termometr, boisko, szachownica, trójkąty, odcinki, ' +
+                    'parking i kalendarz — a na koniec wielki finał: jaka data będzie jutro.',
+            },
+        ],
+    },
 ];
 
 module.exports = { SITE, KATEGORIA, LEKCJE };

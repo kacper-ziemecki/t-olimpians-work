@@ -10215,6 +10215,2923 @@
       ],
       "hint": "Najpierw getline(cin, uczen);, potem cin >> d >> c >> m >> c >> r >> nr_klasy >> litera >> numer; (klasa to int i char). Każdy wiersz w ramce składaj z kawałków: cout << \"| \" << left << setw(28) << uczen << \" |\\n\";. Wiersze z datą i numerem łatwiej zbudować najpierw jako string — z to_string i dopisywaniem zer — albo wypisać kawałkami, pilnując, żeby razem miały 28 znaków.",
       "tests_count": 7
+    },
+    {
+      "id": "ie-mroz",
+      "number": 319,
+      "title": "Ostrzeżenie przed mrozem",
+      "category": "Instrukcja if / krok 1: pierwszy if",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj temperaturę t (liczbę całkowitą). W pierwszym wierszu wypisz Temperatura: t. Jeśli temperatura jest niższa niż 0 stopni, wypisz w drugim wierszu Uwaga: mroz!.",
+        "Gdy mrozu nie ma, drugiego wiersza nie wypisuj wcale. Zero stopni to jeszcze nie mróz."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita t."
+      ],
+      "output_format": [
+        "Jeden albo dwa wiersze, jak w przykładach."
+      ],
+      "constraints": [
+        "−50 ≤ t ≤ 50"
+      ],
+      "examples": [
+        {
+          "input": "-3",
+          "output": "Temperatura: -3\nUwaga: mroz!"
+        },
+        {
+          "input": "12",
+          "output": "Temperatura: 12"
+        }
+      ],
+      "hint": "Pierwszy wiersz wypisz zawsze, jeszcze przed if. Potem: if (t < 0) { cout << \"Uwaga: mroz!\\n\"; }. Warunek to t < 0, a nie t <= 0 — przy zerze ostrzeżenia nie ma.",
+      "tests_count": 8
+    },
+    {
+      "id": "ie-bez-minusa",
+      "number": 320,
+      "title": "Odległość od zera",
+      "category": "Instrukcja if / krok 1: pierwszy if",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj liczbę całkowitą x i wypisz jej odległość od zera na osi liczbowej, czyli wartość bezwzględną: dla liczby ujemnej — tę liczbę bez minusa, a dla pozostałych — tę samą liczbę.",
+        "Zrób to instrukcją if, bez gotowej funkcji abs."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita x."
+      ],
+      "output_format": [
+        "Jedna liczba — odległość x od zera."
+      ],
+      "constraints": [
+        "−10⁹ ≤ x ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "-7",
+          "output": "7"
+        },
+        {
+          "input": "12",
+          "output": "12"
+        }
+      ],
+      "hint": "if (x < 0) { x = -x; } — a potem wypisz x. Dla liczb nieujemnych if niczego nie zmienia.",
+      "tests_count": 9
+    },
+    {
+      "id": "ie-darmowa-dostawa",
+      "number": 321,
+      "title": "Darmowa dostawa",
+      "category": "Instrukcja if / krok 1: pierwszy if",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Sklep internetowy dolicza 15 zł za dostawę, ale tylko do zamówień tańszych niż 100 zł — od 100 zł w górę dostawa jest darmowa.",
+        "Wczytaj wartość zamówienia w (w złotych) i wypisz, ile trzeba zapłacić razem z dostawą."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita w."
+      ],
+      "output_format": [
+        "Jedna liczba — kwota do zapłaty."
+      ],
+      "constraints": [
+        "1 ≤ w ≤ 10 000"
+      ],
+      "examples": [
+        {
+          "input": "80",
+          "output": "95"
+        },
+        {
+          "input": "120",
+          "output": "120"
+        }
+      ],
+      "hint": "Utwórz zmienną razem = w, a potem if (w < 100) { razem += 15; }. Uważaj na granicę: przy dokładnie 100 zł dostawa jest już darmowa.",
+      "tests_count": 9
+    },
+    {
+      "id": "ie-do-parzystej",
+      "number": 322,
+      "title": "W górę do parzystej",
+      "category": "Instrukcja if / krok 1: pierwszy if",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj nieujemną liczbę całkowitą n. Jeśli n jest nieparzysta, zwiększ ją o 1, a jeśli parzysta — zostaw. Wypisz wynik, czyli najmniejszą liczbę parzystą, która nie jest mniejsza od n."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jedna liczba."
+      ],
+      "constraints": [
+        "0 ≤ n ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "7",
+          "output": "8"
+        },
+        {
+          "input": "10",
+          "output": "10"
+        }
+      ],
+      "hint": "Liczba jest nieparzysta, gdy reszta z dzielenia przez 2 nie jest zerem: if (n % 2 != 0) { n++; }.",
+      "tests_count": 8
+    },
+    {
+      "id": "ie-autobusy",
+      "number": 323,
+      "title": "Autobusy na wycieczkę",
+      "category": "Instrukcja if / krok 1: pierwszy if",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na wycieczkę jedzie n osób, a jeden autobus mieści k osób. Ile autobusów trzeba zamówić, żeby pojechali wszyscy?"
+      ],
+      "input_format": [
+        "Jeden wiersz z dwiema liczbami całkowitymi n i k."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba autobusów."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10⁹",
+        "1 ≤ k ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "50 12",
+          "output": "5",
+          "note": "4 autobusy pomieszczą tylko 48 osób, więc potrzebny jest piąty."
+        },
+        {
+          "input": "48 12",
+          "output": "4"
+        }
+      ],
+      "hint": "n / k mówi, ile autobusów zapełni się do końca. Jeśli zostaje reszta (n % k != 0), ktoś się nie zmieścił i potrzebny jest jeszcze jeden autobus — zwiększ wynik o 1.",
+      "tests_count": 12
+    },
+    {
+      "id": "ie-glosnosc",
+      "number": 324,
+      "title": "Pokrętło głośności",
+      "category": "Instrukcja if / krok 1: pierwszy if",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Głośność w telefonie może wynosić od 0 do 100. Aktualna głośność to g. Użytkownik zmienia ją o z: dodatnie z to podgłośnienie, a ujemne — ściszenie.",
+        "Gdy wynik wyszedłby powyżej 100, głośność zatrzymuje się na 100, a gdy poniżej 0 — na 0. Wypisz nową głośność."
+      ],
+      "input_format": [
+        "Jeden wiersz z dwiema liczbami całkowitymi g i z."
+      ],
+      "output_format": [
+        "Jedna liczba — nowa głośność."
+      ],
+      "constraints": [
+        "0 ≤ g ≤ 100",
+        "−200 ≤ z ≤ 200"
+      ],
+      "examples": [
+        {
+          "input": "70 20",
+          "output": "90"
+        },
+        {
+          "input": "70 45",
+          "output": "100"
+        },
+        {
+          "input": "10 -30",
+          "output": "0"
+        }
+      ],
+      "hint": "Policz nowa = g + z. Potem dwa osobne if-y: if (nowa > 100) { nowa = 100; } oraz if (nowa < 0) { nowa = 0; }. Oba mogą stać jeden po drugim, bo nigdy nie zadziałają naraz.",
+      "tests_count": 14
+    },
+    {
+      "id": "ie-bagaz",
+      "number": 325,
+      "title": "Kontrola bagażu",
+      "category": "Instrukcja if / krok 1: pierwszy if",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na lotnisku bagaż podręczny może ważyć najwyżej 8 kg, a suma jego wymiarów może wynosić najwyżej 115 cm. Za przekroczenie wagi płaci się 100 zł, a za przekroczenie wymiarów — 80 zł. Gdy przekroczone jest jedno i drugie, płaci się obie kwoty.",
+        "Wczytaj wagę w (w kg) i sumę wymiarów s (w cm). Jeśli waga jest przekroczona, wypisz wiersz Za ciezki. Jeśli wymiary są przekroczone, wypisz wiersz Za duzy. Na końcu zawsze wypisz Doplata: X zl, gdzie X to suma opłat."
+      ],
+      "input_format": [
+        "Jeden wiersz z dwiema liczbami całkowitymi w i s."
+      ],
+      "output_format": [
+        "Od jednego do trzech wierszy, jak w przykładach."
+      ],
+      "constraints": [
+        "1 ≤ w ≤ 50",
+        "20 ≤ s ≤ 300"
+      ],
+      "examples": [
+        {
+          "input": "10 120",
+          "output": "Za ciezki\nZa duzy\nDoplata: 180 zl"
+        },
+        {
+          "input": "7 100",
+          "output": "Doplata: 0 zl"
+        }
+      ],
+      "hint": "Utwórz doplata = 0. Potem dwa osobne if-y, bo oba przypadki mogą zajść naraz: if (w > 8) { cout << \"Za ciezki\\n\"; doplata += 100; } i podobnie dla s > 115. Ostatni wiersz wypisz już poza if-ami.",
+      "tests_count": 12
+    },
+    {
+      "id": "ie-parzysta-nieparzysta",
+      "number": 326,
+      "title": "Parzysta czy nieparzysta?",
+      "category": "Instrukcja if / krok 2: if … else",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj liczbę całkowitą n i wypisz PARZYSTA, jeśli jest parzysta, albo NIEPARZYSTA w przeciwnym razie. Uwaga: liczba może być ujemna."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jedno słowo: PARZYSTA albo NIEPARZYSTA."
+      ],
+      "constraints": [
+        "−10⁹ ≤ n ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "14",
+          "output": "PARZYSTA"
+        },
+        {
+          "input": "-7",
+          "output": "NIEPARZYSTA",
+          "note": "W C++ −7 % 2 to −1, a nie 1."
+        }
+      ],
+      "hint": "if (n % 2 == 0) … else …. Nie sprawdzaj n % 2 == 1 — dla ujemnych liczb nieparzystych reszta wynosi −1 i taki warunek byłby fałszywy.",
+      "tests_count": 12
+    },
+    {
+      "id": "ie-kolejka-gorska",
+      "number": 327,
+      "title": "Kolejka górska",
+      "category": "Instrukcja if / krok 2: if … else",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Do kolejki górskiej wpuszczane są osoby, które mają co najmniej 140 cm wzrostu. Wczytaj wzrost w (w cm). Jeśli osoba może wsiąść, wypisz Wsiadaj!. W przeciwnym razie wypisz Za niski o X cm, gdzie X to brakujące centymetry."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita w."
+      ],
+      "output_format": [
+        "Jeden wiersz, jak w przykładach."
+      ],
+      "constraints": [
+        "50 ≤ w ≤ 250"
+      ],
+      "examples": [
+        {
+          "input": "152",
+          "output": "Wsiadaj!"
+        },
+        {
+          "input": "131",
+          "output": "Za niski o 9 cm"
+        }
+      ],
+      "hint": "if (w >= 140) { cout << \"Wsiadaj!\\n\"; } else { cout << \"Za niski o \" << 140 - w << \" cm\\n\"; }. Sprawdź granicę: przy dokładnie 140 cm można wsiąść.",
+      "tests_count": 9
+    },
+    {
+      "id": "ie-wieksza-z-dwoch",
+      "number": 328,
+      "title": "Większa z dwóch",
+      "category": "Instrukcja if / krok 2: if … else",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj dwie liczby całkowite i wypisz większą z nich. Jeśli są równe, wypisz tę liczbę."
+      ],
+      "input_format": [
+        "Jeden wiersz z dwiema liczbami całkowitymi a i b."
+      ],
+      "output_format": [
+        "Jedna liczba."
+      ],
+      "constraints": [
+        "−10⁹ ≤ a, b ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "8 3",
+          "output": "8"
+        },
+        {
+          "input": "-4 9",
+          "output": "9"
+        }
+      ],
+      "hint": "if (a > b) wypisz a, a w przeciwnym razie wypisz b. Gdy liczby są równe, wykona się else i wypisze b — czyli właśnie tę liczbę.",
+      "tests_count": 10
+    },
+    {
+      "id": "ie-czy-dzieli",
+      "number": 329,
+      "title": "Czy się dzieli?",
+      "category": "Instrukcja if / krok 2: if … else",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj liczby całkowite a i b. Wypisz TAK, jeśli a dzieli się przez b bez reszty, albo NIE w przeciwnym razie."
+      ],
+      "input_format": [
+        "Jeden wiersz z dwiema liczbami całkowitymi a i b."
+      ],
+      "output_format": [
+        "Jedno słowo: TAK albo NIE."
+      ],
+      "constraints": [
+        "−10⁹ ≤ a ≤ 10⁹",
+        "1 ≤ b ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "12 4",
+          "output": "TAK"
+        },
+        {
+          "input": "13 4",
+          "output": "NIE"
+        }
+      ],
+      "hint": "a dzieli się przez b, gdy reszta z dzielenia wynosi zero: if (a % b == 0). Działa to także dla ujemnych a — na przykład −12 % 4 to 0.",
+      "tests_count": 14
+    },
+    {
+      "id": "ie-zeszyty",
+      "number": 330,
+      "title": "Wystarczy na zakupy?",
+      "category": "Instrukcja if / krok 2: if … else",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Chcesz kupić n jednakowych zeszytów po c zł każdy, a w portfelu masz p zł.",
+        "Jeśli pieniędzy wystarczy, wypisz TAK, a w drugim wierszu — ile zostanie reszty. Jeśli nie wystarczy, wypisz NIE, a w drugim wierszu — ile brakuje."
+      ],
+      "input_format": [
+        "Jeden wiersz z trzema liczbami całkowitymi n, c i p."
+      ],
+      "output_format": [
+        "Dwa wiersze: TAK albo NIE oraz liczba."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "1 ≤ c ≤ 1000",
+        "0 ≤ p ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "3 12 50",
+          "output": "TAK\n14"
+        },
+        {
+          "input": "5 12 50",
+          "output": "NIE\n10"
+        }
+      ],
+      "hint": "Najpierw policz koszt = n * c. Potem if (p >= koszt) { TAK i p - koszt } else { NIE i koszt - p }. Gdy pieniędzy jest dokładnie tyle, ile trzeba, wypisz TAK i 0.",
+      "tests_count": 10
+    },
+    {
+      "id": "ie-na-czas",
+      "number": 331,
+      "title": "Zdążysz na lekcję?",
+      "category": "Instrukcja if / krok 2: if … else",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Lekcje zaczynają się o 8:00. Wychodzisz z domu o godzinie HH:MM, a droga do szkoły trwa t minut.",
+        "Jeśli dotrzesz najpóźniej o 8:00, wypisz Na czas, zapas X min, gdzie X to liczba minut, o którą jesteś przed 8:00 (może to być 0). W przeciwnym razie wypisz Spoznienie X min."
+      ],
+      "input_format": [
+        "Jeden wiersz: godzina wyjścia w formacie HH:MM i liczba całkowita t, oddzielone spacją."
+      ],
+      "output_format": [
+        "Jeden wiersz, jak w przykładach."
+      ],
+      "constraints": [
+        "06:00 ≤ HH:MM ≤ 08:59",
+        "1 ≤ t ≤ 120"
+      ],
+      "examples": [
+        {
+          "input": "07:35 20",
+          "output": "Na czas, zapas 5 min"
+        },
+        {
+          "input": "07:50 25",
+          "output": "Spoznienie 15 min"
+        }
+      ],
+      "hint": "Wczytaj godzinę jak w lekcji Input / Output: cin >> h >> dwukropek >> m >> t;. Zamień wszystko na minuty od północy: przyjazd = h * 60 + m + t, a 8:00 to 480 minut. Na czas jesteś, gdy przyjazd <= 480.",
+      "tests_count": 12
+    },
+    {
+      "id": "ie-fotoradar",
+      "number": 332,
+      "title": "Fotoradar",
+      "category": "Instrukcja if / krok 2: if … else",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na drodze obowiązuje ograniczenie prędkości do L km/h. Fotoradar zmierzył samochód jadący z prędkością v km/h.",
+        "Jeśli v nie przekracza ograniczenia, wypisz Bez mandatu. W przeciwnym razie wypisz Mandat: X zl, gdzie X to 10 zł za każdy km/h ponad ograniczenie."
+      ],
+      "input_format": [
+        "Jeden wiersz z dwiema liczbami całkowitymi L i v."
+      ],
+      "output_format": [
+        "Jeden wiersz, jak w przykładach."
+      ],
+      "constraints": [
+        "20 ≤ L ≤ 140",
+        "1 ≤ v ≤ 300"
+      ],
+      "examples": [
+        {
+          "input": "50 47",
+          "output": "Bez mandatu"
+        },
+        {
+          "input": "50 73",
+          "output": "Mandat: 230 zl"
+        }
+      ],
+      "hint": "Za szybko jedziesz, gdy v > L. Wtedy mandat to (v - L) * 10. Przy v == L mandatu nie ma.",
+      "tests_count": 10
+    },
+    {
+      "id": "ie-sprawdz-dodawanie",
+      "number": 333,
+      "title": "Sprawdź dodawanie",
+      "category": "Instrukcja if / krok 3: warunki",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Uczeń policzył w zeszycie a + b i otrzymał c. Sprawdź, czy się nie pomylił: wypisz DOBRZE, jeśli a + b jest równe c, albo ZLE w przeciwnym razie."
+      ],
+      "input_format": [
+        "Jeden wiersz z trzema liczbami całkowitymi a, b i c."
+      ],
+      "output_format": [
+        "Jedno słowo: DOBRZE albo ZLE."
+      ],
+      "constraints": [
+        "−10⁹ ≤ a, b ≤ 10⁹",
+        "−2·10⁹ ≤ c ≤ 2·10⁹"
+      ],
+      "examples": [
+        {
+          "input": "17 25 42",
+          "output": "DOBRZE"
+        },
+        {
+          "input": "17 25 32",
+          "output": "ZLE"
+        }
+      ],
+      "hint": "if (a + b == c) — komputer najpierw policzy sumę, a dopiero potem ją porówna. Pamiętaj o podwójnym znaku ==.",
+      "tests_count": 12
+    },
+    {
+      "id": "ie-ta-sama-cyfra",
+      "number": 334,
+      "title": "Ta sama ostatnia cyfra",
+      "category": "Instrukcja if / krok 3: warunki",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj dwie nieujemne liczby całkowite a i b. Wypisz TAK, jeśli kończą się tą samą cyfrą, albo NIE w przeciwnym razie."
+      ],
+      "input_format": [
+        "Jeden wiersz z dwiema liczbami całkowitymi a i b."
+      ],
+      "output_format": [
+        "Jedno słowo: TAK albo NIE."
+      ],
+      "constraints": [
+        "0 ≤ a, b ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "127 57",
+          "output": "TAK"
+        },
+        {
+          "input": "40 14",
+          "output": "NIE"
+        }
+      ],
+      "hint": "Ostatnia cyfra liczby to reszta z dzielenia przez 10. Porównaj reszty: if (a % 10 == b % 10).",
+      "tests_count": 12
+    },
+    {
+      "id": "ie-wielka-czy-mala",
+      "number": 335,
+      "title": "Wielka czy mała?",
+      "category": "Instrukcja if / krok 3: warunki",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj jedną literę alfabetu angielskiego. Wypisz wielka, jeśli to wielka litera, albo mala, jeśli mała."
+      ],
+      "input_format": [
+        "Jedna litera."
+      ],
+      "output_format": [
+        "Jedno słowo: wielka albo mala."
+      ],
+      "constraints": [
+        "na wejściu jest litera od a do z albo od A do Z"
+      ],
+      "examples": [
+        {
+          "input": "q",
+          "output": "mala"
+        },
+        {
+          "input": "Q",
+          "output": "wielka"
+        }
+      ],
+      "hint": "Wszystkie małe litery mają kody ASCII co najmniej 'a' (97), a wielkie — najwyżej 'Z' (90). Wystarczy jedno porównanie: if (c >= 'a'). Znak piszesz w apostrofach.",
+      "tests_count": 10
+    },
+    {
+      "id": "ie-sprawdz-haslo",
+      "number": 336,
+      "title": "Sprawdzenie hasła",
+      "category": "Instrukcja if / krok 3: warunki",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W pierwszym wierszu wejścia jest prawdziwe hasło, a w drugim — hasło wpisane przez użytkownika. Oba są pojedynczymi słowami.",
+        "Wypisz Dostep przyznany, jeśli hasła są identyczne (co do każdego znaku, także wielkości liter), albo Odmowa dostepu w przeciwnym razie."
+      ],
+      "input_format": [
+        "Dwa wiersze, w każdym jedno słowo złożone z liter i cyfr."
+      ],
+      "output_format": [
+        "Jeden wiersz: Dostep przyznany albo Odmowa dostepu."
+      ],
+      "constraints": [
+        "każde hasło ma od 1 do 30 znaków"
+      ],
+      "examples": [
+        {
+          "input": "bajtek123\nbajtek123",
+          "output": "Dostep przyznany"
+        },
+        {
+          "input": "Kot2026\nkot2026",
+          "output": "Odmowa dostepu",
+          "note": "Wielkie i małe litery to różne znaki."
+        }
+      ],
+      "hint": "Wczytaj oba słowa do zmiennych typu string i porównaj je przez ==. Dla napisów == sprawdza każdy znak i odróżnia wielkie litery od małych.",
+      "tests_count": 10
+    },
+    {
+      "id": "ie-alfabetycznie",
+      "number": 337,
+      "title": "W kolejności alfabetycznej",
+      "category": "Instrukcja if / krok 3: warunki",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj dwa słowa złożone z małych liter i wypisz je w jednym wierszu, w kolejności alfabetycznej (takiej jak w słowniku), oddzielone spacją. Jeśli słowa są takie same, wypisz je oba."
+      ],
+      "input_format": [
+        "Jeden wiersz z dwoma słowami."
+      ],
+      "output_format": [
+        "Jeden wiersz z dwoma słowami w kolejności alfabetycznej."
+      ],
+      "constraints": [
+        "każde słowo ma od 1 do 20 małych liter alfabetu angielskiego"
+      ],
+      "examples": [
+        {
+          "input": "ola ala",
+          "output": "ala ola"
+        },
+        {
+          "input": "kotek kot",
+          "output": "kot kotek",
+          "note": "Gdy jedno słowo jest początkiem drugiego, krótsze jest wcześniej."
+        }
+      ],
+      "hint": "Dla napisów a < b znaczy „a jest wcześniej w słowniku”. if (a < b) wypisz a i b, a w przeciwnym razie b i a.",
+      "tests_count": 12
+    },
+    {
+      "id": "ie-swiadectwo",
+      "number": 338,
+      "title": "Świadectwo z paskiem",
+      "category": "Instrukcja if / krok 3: warunki",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Uczeń dostaje świadectwo z paskiem, gdy średnia jego ocen wynosi co najmniej 4.75.",
+        "Wczytaj liczbę przedmiotów n i sumę wszystkich ocen s. Wypisz Z PASKIEM albo BEZ PASKA."
+      ],
+      "input_format": [
+        "Jeden wiersz z dwiema liczbami całkowitymi n i s."
+      ],
+      "output_format": [
+        "Jeden wiersz: Z PASKIEM albo BEZ PASKA."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 20",
+        "n ≤ s ≤ 6n"
+      ],
+      "examples": [
+        {
+          "input": "12 57",
+          "output": "Z PASKIEM",
+          "note": "57 / 12 to dokładnie 4.75 — pasek jest."
+        },
+        {
+          "input": "12 56",
+          "output": "BEZ PASKA"
+        }
+      ],
+      "hint": "Średnia to s / n — ale gdy obie liczby są typu int, to dzielenie całkowite i 57 / 12 da 4! Licz na double: (double)s / n >= 4.75 albo — bez ułamków — pomnóż obie strony przez 4n: 4 * s >= 19 * n.",
+      "tests_count": 16
+    },
+    {
+      "id": "ie-wiekszy-ulamek",
+      "number": 339,
+      "title": "Który ułamek większy?",
+      "category": "Instrukcja if / krok 3: warunki",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na wejściu są dwa ułamki zapisane jako a/b i c/d (z ukośnikiem), oddzielone spacją. Liczniki i mianowniki są dodatnie, a ułamki — różne.",
+        "Wypisz większy z ułamków w takiej samej postaci, w jakiej stał na wejściu."
+      ],
+      "input_format": [
+        "Jeden wiersz: dwa ułamki w postaci a/b oddzielone spacją."
+      ],
+      "output_format": [
+        "Większy ułamek w postaci a/b."
+      ],
+      "constraints": [
+        "1 ≤ a, b, c, d ≤ 10⁵",
+        "ułamki nie są równe"
+      ],
+      "examples": [
+        {
+          "input": "3/4 2/3",
+          "output": "3/4"
+        },
+        {
+          "input": "5/8 7/10",
+          "output": "7/10"
+        }
+      ],
+      "hint": "Wczytaj ułamki jak w lekcji Input / Output: cin >> a >> kreska >> b >> c >> kreska >> d;. Zamiast dzielić (double bywa niedokładny), porównaj iloczyny na krzyż: a/b > c/d dokładnie wtedy, gdy a * d > c * b. Iloczyny sięgają 10¹⁰, więc użyj long long.",
+      "tests_count": 13
+    },
+    {
+      "id": "ie-dodatnia-ujemna-zero",
+      "number": 340,
+      "title": "Dodatnia, ujemna czy zero?",
+      "category": "Instrukcja if / krok 4: else if",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj liczbę całkowitą i wypisz DODATNIA, jeśli jest większa od zera, UJEMNA, jeśli jest mniejsza od zera, albo ZERO."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita."
+      ],
+      "output_format": [
+        "Jedno słowo: DODATNIA, UJEMNA albo ZERO."
+      ],
+      "constraints": [
+        "liczba jest między −10⁹ a 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "5",
+          "output": "DODATNIA"
+        },
+        {
+          "input": "-3",
+          "output": "UJEMNA"
+        },
+        {
+          "input": "0",
+          "output": "ZERO"
+        }
+      ],
+      "hint": "Trzy przypadki to if, else if i else: if (n > 0) … else if (n < 0) … else …. Do else trafi tylko zero.",
+      "tests_count": 9
+    },
+    {
+      "id": "ie-porownaj",
+      "number": 341,
+      "title": "Porównaj dwie liczby",
+      "category": "Instrukcja if / krok 4: else if",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj liczby całkowite a i b. Wypisz jeden wiersz: a < b, a > b albo a = b — z liczbami w miejscu liter i ze spacjami wokół znaku (zobacz przykłady)."
+      ],
+      "input_format": [
+        "Jeden wiersz z dwiema liczbami całkowitymi a i b."
+      ],
+      "output_format": [
+        "Jeden wiersz, jak w przykładach."
+      ],
+      "constraints": [
+        "−10⁹ ≤ a, b ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "3 7",
+          "output": "3 < 7"
+        },
+        {
+          "input": "10 -2",
+          "output": "10 > -2"
+        },
+        {
+          "input": "5 5",
+          "output": "5 = 5"
+        }
+      ],
+      "hint": "Trzy przypadki — if, else if, else. W każdej gałęzi wypisz liczby i znak, np. cout << a << \" < \" << b << \"\\n\";.",
+      "tests_count": 10
+    },
+    {
+      "id": "ie-ocena-z-punktow",
+      "number": 342,
+      "title": "Ocena z klasówki",
+      "category": "Instrukcja if / krok 4: else if",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Zamień liczbę punktów z klasówki (od 0 do 100) na ocenę według skali:",
+        "0–29 → 1, 30–49 → 2, 50–69 → 3, 70–84 → 4, 85–96 → 5, 97–100 → 6.",
+        "Wypisz samą ocenę."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita p — liczba punktów."
+      ],
+      "output_format": [
+        "Jedna liczba — ocena."
+      ],
+      "constraints": [
+        "0 ≤ p ≤ 100"
+      ],
+      "examples": [
+        {
+          "input": "88",
+          "output": "5"
+        },
+        {
+          "input": "30",
+          "output": "2"
+        }
+      ],
+      "hint": "Łańcuch else if od najwyższego progu: if (p >= 97) 6, else if (p >= 85) 5, else if (p >= 70) 4… Sprawdź program na granicach: 97 i 96, 85 i 84, 70 i 69, 50 i 49, 30 i 29.",
+      "tests_count": 14
+    },
+    {
+      "id": "ie-pora-dnia",
+      "number": 343,
+      "title": "Pora dnia",
+      "category": "Instrukcja if / krok 4: else if",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj pełną godzinę g (od 0 do 23) i wypisz porę dnia: noc dla godzin 0–5 oraz 22–23, rano dla 6–11, popoludnie dla 12–17 i wieczor dla 18–21."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita g."
+      ],
+      "output_format": [
+        "Jedno słowo: noc, rano, popoludnie albo wieczor."
+      ],
+      "constraints": [
+        "0 ≤ g ≤ 23"
+      ],
+      "examples": [
+        {
+          "input": "7",
+          "output": "rano"
+        },
+        {
+          "input": "23",
+          "output": "noc"
+        }
+      ],
+      "hint": "Noc występuje w dwóch kawałkach doby, ale łańcuch else if sobie z tym poradzi: if (g < 6) noc; else if (g < 12) rano; else if (g < 18) popoludnie; else if (g < 22) wieczor; else noc.",
+      "tests_count": 24
+    },
+    {
+      "id": "ie-fizzbuzz",
+      "number": 344,
+      "title": "FizzBuzz",
+      "category": "Instrukcja if / krok 4: else if",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj liczbę całkowitą dodatnią n. Jeśli dzieli się i przez 3, i przez 5, wypisz FizzBuzz. Jeśli dzieli się tylko przez 3 — Fizz, a jeśli tylko przez 5 — Buzz. W pozostałych przypadkach wypisz samą liczbę n."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jedno słowo albo liczba."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "9",
+          "output": "Fizz"
+        },
+        {
+          "input": "15",
+          "output": "FizzBuzz"
+        },
+        {
+          "input": "7",
+          "output": "7"
+        }
+      ],
+      "hint": "Kolejność ma znaczenie! Najpierw sprawdź, czy n dzieli się przez 15 (czyli przez 3 i przez 5 naraz). Gdybyś zaczął od n % 3 == 0, liczba 15 wpadłaby do Fizz i program nie dotarłby do FizzBuzz.",
+      "tests_count": 14
+    },
+    {
+      "id": "ie-taksowka",
+      "number": 345,
+      "title": "Taksówka",
+      "category": "Instrukcja if / krok 4: else if",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Kurs taksówką kosztuje 10 zł za pierwsze 3 km — nawet wtedy, gdy przejazd jest krótszy. Każdy kolejny kilometr aż do 20. kilometru kosztuje 3 zł, a każdy kilometr powyżej 20 km — 2 zł.",
+        "Wczytaj długość trasy d (w pełnych kilometrach) i wypisz cenę kursu w złotych."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita d."
+      ],
+      "output_format": [
+        "Jedna liczba — cena kursu."
+      ],
+      "constraints": [
+        "1 ≤ d ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "2",
+          "output": "10"
+        },
+        {
+          "input": "8",
+          "output": "25",
+          "note": "10 zł + 5 km po 3 zł = 25 zł."
+        },
+        {
+          "input": "30",
+          "output": "81",
+          "note": "10 zł + 17 km po 3 zł + 10 km po 2 zł = 81 zł."
+        }
+      ],
+      "hint": "Trzy przypadki: d <= 3, d <= 20 i pozostałe. W drugim płacisz 10 + 3 * (d - 3), a w trzecim 10 + 3 * 17 + 2 * (d - 20).",
+      "tests_count": 11
+    },
+    {
+      "id": "ie-wynik-meczu",
+      "number": 346,
+      "title": "Wynik meczu",
+      "category": "Instrukcja if / krok 4: else if",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wynik meczu piłkarskiego zapisano jako a:b, gdzie a to gole gospodarzy, a b — gole gości. Wypisz z punktu widzenia gospodarzy WYGRANA 3, REMIS 1 albo PORAZKA 0 (słowo i liczbę zdobytych punktów)."
+      ],
+      "input_format": [
+        "Jeden wiersz: wynik w postaci a:b."
+      ],
+      "output_format": [
+        "Jeden wiersz, jak w przykładach."
+      ],
+      "constraints": [
+        "0 ≤ a, b ≤ 20"
+      ],
+      "examples": [
+        {
+          "input": "3:1",
+          "output": "WYGRANA 3"
+        },
+        {
+          "input": "2:2",
+          "output": "REMIS 1"
+        },
+        {
+          "input": "0:4",
+          "output": "PORAZKA 0"
+        }
+      ],
+      "hint": "Wczytaj wynik z dwukropkiem: cin >> a >> dwukropek >> b;. Potem trzy przypadki: a > b, a == b i pozostały.",
+      "tests_count": 12
+    },
+    {
+      "id": "ie-dwucyfrowa",
+      "number": 347,
+      "title": "Liczba dwucyfrowa",
+      "category": "Instrukcja if / krok 5: && || !",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj nieujemną liczbę całkowitą n. Wypisz TAK, jeśli jest dwucyfrowa (od 10 do 99), albo NIE w przeciwnym razie."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jedno słowo: TAK albo NIE."
+      ],
+      "constraints": [
+        "0 ≤ n ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "42",
+          "output": "TAK"
+        },
+        {
+          "input": "100",
+          "output": "NIE"
+        }
+      ],
+      "hint": "Dwa porównania połączone przez &&: if (n >= 10 && n <= 99). Zapis 10 <= n <= 99 się skompiluje, ale da zły wynik — sprawdź dlaczego w części 05.",
+      "tests_count": 12
+    },
+    {
+      "id": "ie-weekend",
+      "number": 348,
+      "title": "Weekend",
+      "category": "Instrukcja if / krok 5: && || !",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dni tygodnia są ponumerowane od 1 (poniedziałek) do 7 (niedziela). Wczytaj numer dnia i wypisz weekend dla soboty i niedzieli, a dzien roboczy dla pozostałych dni."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita od 1 do 7."
+      ],
+      "output_format": [
+        "Jeden wiersz: weekend albo dzien roboczy."
+      ],
+      "constraints": [
+        "1 ≤ numer dnia ≤ 7"
+      ],
+      "examples": [
+        {
+          "input": "6",
+          "output": "weekend"
+        },
+        {
+          "input": "3",
+          "output": "dzien roboczy"
+        }
+      ],
+      "hint": "Sobota to 6, a niedziela 7: if (d == 6 || d == 7). Każde porównanie piszesz w całości — d == 6 || 7 nie zadziała.",
+      "tests_count": 7
+    },
+    {
+      "id": "ie-samogloska",
+      "number": 349,
+      "title": "Samogłoska czy spółgłoska?",
+      "category": "Instrukcja if / krok 5: && || !",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj jedną małą literę alfabetu angielskiego. Wypisz samogloska, jeśli to jedna z liter a, e, i, o, u, y, albo spolgloska w przeciwnym razie."
+      ],
+      "input_format": [
+        "Jedna mała litera."
+      ],
+      "output_format": [
+        "Jedno słowo: samogloska albo spolgloska."
+      ],
+      "constraints": [
+        "na wejściu jest litera od a do z"
+      ],
+      "examples": [
+        {
+          "input": "e",
+          "output": "samogloska"
+        },
+        {
+          "input": "k",
+          "output": "spolgloska"
+        }
+      ],
+      "hint": "Sześć porównań połączonych przez ||: c == 'a' || c == 'e' || … || c == 'y'. Nie skracaj zapisu do c == 'a' || 'e' — taki warunek jest zawsze prawdziwy.",
+      "tests_count": 26
+    },
+    {
+      "id": "ie-rodzaj-znaku",
+      "number": 350,
+      "title": "Rodzaj znaku",
+      "category": "Instrukcja if / krok 5: && || !",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj jeden znak (nie spację). Wypisz cyfra, mala litera, wielka litera albo inny znak."
+      ],
+      "input_format": [
+        "Jeden znak."
+      ],
+      "output_format": [
+        "Jeden wiersz: cyfra, mala litera, wielka litera albo inny znak."
+      ],
+      "constraints": [
+        "znak ma kod ASCII od 33 do 126 (nie jest spacją)"
+      ],
+      "examples": [
+        {
+          "input": "7",
+          "output": "cyfra"
+        },
+        {
+          "input": "g",
+          "output": "mala litera"
+        },
+        {
+          "input": "G",
+          "output": "wielka litera"
+        },
+        {
+          "input": "?",
+          "output": "inny znak"
+        }
+      ],
+      "hint": "Znaki od '0' do '9', od 'a' do 'z' i od 'A' do 'Z' mają kolejne kody, więc każdy rodzaj to przedział: c >= '0' && c <= '9' i tak dalej. Uważaj na znaki leżące między przedziałami — na przykład [ i ` mają kody między 'Z' a 'a'.",
+      "tests_count": 19
+    },
+    {
+      "id": "ie-luty",
+      "number": 351,
+      "title": "Ile dni ma luty?",
+      "category": "Instrukcja if / krok 5: && || !",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj rok r i wypisz, ile dni ma luty w tym roku: 29 w roku przestępnym i 28 w zwykłym.",
+        "Rok jest przestępny, gdy dzieli się przez 4, ale nie dzieli się przez 100 — albo gdy dzieli się przez 400."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita r."
+      ],
+      "output_format": [
+        "Jedna liczba: 28 albo 29."
+      ],
+      "constraints": [
+        "1 ≤ r ≤ 100 000"
+      ],
+      "examples": [
+        {
+          "input": "2024",
+          "output": "29"
+        },
+        {
+          "input": "1900",
+          "output": "28"
+        },
+        {
+          "input": "2000",
+          "output": "29"
+        }
+      ],
+      "hint": "Przepisz zasadę wprost na warunek, z nawiasami: (r % 4 == 0 && r % 100 != 0) || r % 400 == 0. Sprawdź program na latach 2024, 2023, 1900 i 2000.",
+      "tests_count": 15
+    },
+    {
+      "id": "ie-cwiartka",
+      "number": 352,
+      "title": "Ćwiartka układu współrzędnych",
+      "category": "Instrukcja if / krok 5: && || !",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj współrzędne punktu x i y. Wypisz numer ćwiartki układu współrzędnych, w której leży punkt: I (x > 0, y > 0), II (x < 0, y > 0), III (x < 0, y < 0) albo IV (x > 0, y < 0).",
+        "Jeśli punkt leży na którejś osi (x = 0 lub y = 0), wypisz na osi."
+      ],
+      "input_format": [
+        "Jeden wiersz z dwiema liczbami całkowitymi x i y."
+      ],
+      "output_format": [
+        "Jeden wiersz: I, II, III, IV albo na osi."
+      ],
+      "constraints": [
+        "−10⁹ ≤ x, y ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "3 5",
+          "output": "I"
+        },
+        {
+          "input": "-3 -5",
+          "output": "III"
+        },
+        {
+          "input": "0 7",
+          "output": "na osi"
+        }
+      ],
+      "hint": "Najpierw przypadek szczególny: if (x == 0 || y == 0) na osi. Potem każda ćwiartka to dwa warunki połączone przez &&, np. else if (x > 0 && y > 0) I.",
+      "tests_count": 14
+    },
+    {
+      "id": "ie-bilet-ulgowy",
+      "number": 353,
+      "title": "Bilet ulgowy",
+      "category": "Instrukcja if / krok 5: && || !",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Bilet ulgowy przysługuje uczniom (osobom, które mają mniej niż 19 lat) i seniorom (osobom, które mają co najmniej 65 lat) — ale tylko wtedy, gdy pokażą legitymację.",
+        "Wczytaj wiek i literę T (ma legitymację) albo N (nie ma). Wypisz ULGOWY albo NORMALNY."
+      ],
+      "input_format": [
+        "Jeden wiersz: liczba całkowita (wiek) i litera T albo N."
+      ],
+      "output_format": [
+        "Jedno słowo: ULGOWY albo NORMALNY."
+      ],
+      "constraints": [
+        "1 ≤ wiek ≤ 120"
+      ],
+      "examples": [
+        {
+          "input": "15 T",
+          "output": "ULGOWY"
+        },
+        {
+          "input": "15 N",
+          "output": "NORMALNY"
+        },
+        {
+          "input": "40 T",
+          "output": "NORMALNY"
+        }
+      ],
+      "hint": "Warunek to (wiek < 19 || wiek >= 65) && leg == 'T'. Nawiasy są tu konieczne — bez nich && połączyłoby się tylko z drugim porównaniem i uczeń bez legitymacji dostałby ulgę.",
+      "tests_count": 14
+    },
+    {
+      "id": "ie-bezpieczne-dzielenie",
+      "number": 354,
+      "title": "Bezpieczne dzielenie",
+      "category": "Instrukcja if / krok 5: && || !",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj liczby całkowite a i b. Wypisz TAK, jeśli b jest różne od zera i a dzieli się przez b bez reszty. W przeciwnym razie — także gdy b jest zerem — wypisz NIE."
+      ],
+      "input_format": [
+        "Jeden wiersz z dwiema liczbami całkowitymi a i b."
+      ],
+      "output_format": [
+        "Jedno słowo: TAK albo NIE."
+      ],
+      "constraints": [
+        "−10⁹ ≤ a, b ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "12 4",
+          "output": "TAK"
+        },
+        {
+          "input": "12 0",
+          "output": "NIE"
+        }
+      ],
+      "hint": "Reszta z dzielenia przez zero wysypuje program. Najpierw sprawdź b != 0, a dopiero potem a % b == 0 — i połącz oba warunki przez &&. Dzięki skróconemu obliczaniu przy b = 0 reszta w ogóle się nie policzy.",
+      "tests_count": 14
+    },
+    {
+      "id": "ie-logowanie",
+      "number": 355,
+      "title": "Logowanie",
+      "category": "Instrukcja if / krok 6: zagnieżdżanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W pierwszym wierszu wejścia są poprawny login i poprawne hasło, a w drugim — login i hasło wpisane przez użytkownika.",
+        "Jeśli wpisany login jest inny niż poprawny, wypisz Nieznany uzytkownik. Jeśli login się zgadza, ale hasło nie — wypisz Bledne haslo. Jeśli zgadza się jedno i drugie, wypisz Witaj, LOGIN! (z loginem w miejscu słowa LOGIN)."
+      ],
+      "input_format": [
+        "Dwa wiersze, w każdym dwa słowa: login i hasło."
+      ],
+      "output_format": [
+        "Jeden wiersz, jak w przykładach."
+      ],
+      "constraints": [
+        "loginy i hasła mają od 1 do 20 znaków (litery i cyfry)"
+      ],
+      "examples": [
+        {
+          "input": "bajtek tajne1\nbajtek tajne1",
+          "output": "Witaj, bajtek!"
+        },
+        {
+          "input": "bajtek tajne1\nbajtek tajne2",
+          "output": "Bledne haslo"
+        },
+        {
+          "input": "bajtek tajne1\nbajtka tajne1",
+          "output": "Nieznany uzytkownik"
+        }
+      ],
+      "hint": "Zewnętrzny if sprawdza login, a w jego klamrach drugi if sprawdza hasło. Gdy login się nie zgadza, hasła w ogóle nie trzeba sprawdzać — to załatwia zewnętrzny else.",
+      "tests_count": 9
+    },
+    {
+      "id": "ie-co-zalozyc",
+      "number": 356,
+      "title": "Co założyć?",
+      "category": "Instrukcja if / krok 6: zagnieżdżanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj literę T albo N (czy pada deszcz) i temperaturę t.",
+        "Gdy pada: przy t < 5 wypisz kurtka i kalosze, a w przeciwnym razie parasol. Gdy nie pada: przy t >= 20 wypisz koszulka, a w przeciwnym razie bluza."
+      ],
+      "input_format": [
+        "Jeden wiersz: litera T albo N i liczba całkowita t."
+      ],
+      "output_format": [
+        "Jeden wiersz z odpowiedzią."
+      ],
+      "constraints": [
+        "−30 ≤ t ≤ 40"
+      ],
+      "examples": [
+        {
+          "input": "T 3",
+          "output": "kurtka i kalosze"
+        },
+        {
+          "input": "N 24",
+          "output": "koszulka"
+        }
+      ],
+      "hint": "Zewnętrzny if sprawdza, czy pada (if (pada == 'T')), a w każdej gałęzi stoi drugi if … else z temperaturą. To dokładnie drzewo decyzji z części 06.",
+      "tests_count": 12
+    },
+    {
+      "id": "ie-bankomat",
+      "number": 357,
+      "title": "Bankomat",
+      "category": "Instrukcja if / krok 6: zagnieżdżanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Bankomat wypłaca tylko kwoty podzielne przez 10. Na koncie jest s zł, a klient chce wypłacić w zł.",
+        "Jeśli w nie dzieli się przez 10, wypisz Bledna kwota. Jeśli kwota jest dobra, ale na koncie jest za mało pieniędzy, wypisz Brak srodkow. W przeciwnym razie wypisz dwa wiersze: Wyplacono w zl oraz Saldo: X zl, gdzie X to pieniądze, które zostały na koncie."
+      ],
+      "input_format": [
+        "Jeden wiersz z dwiema liczbami całkowitymi s i w."
+      ],
+      "output_format": [
+        "Jeden albo dwa wiersze, jak w przykładach."
+      ],
+      "constraints": [
+        "0 ≤ s ≤ 10⁹",
+        "1 ≤ w ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "500 120",
+          "output": "Wyplacono 120 zl\nSaldo: 380 zl"
+        },
+        {
+          "input": "500 125",
+          "output": "Bledna kwota"
+        },
+        {
+          "input": "100 200",
+          "output": "Brak srodkow"
+        }
+      ],
+      "hint": "Zewnętrzny if: if (w % 10 == 0) { … } else { Bledna kwota }. W jego klamrach drugi if sprawdza, czy w <= s. Najpierw sprawdzasz kwotę, a dopiero potem saldo — przy kwocie 125 zł bankomat nie mówi o braku środków.",
+      "tests_count": 12
+    },
+    {
+      "id": "ie-dni-miesiaca",
+      "number": 358,
+      "title": "Ile dni ma miesiąc?",
+      "category": "Instrukcja if / krok 6: zagnieżdżanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj numer miesiąca m (od 1 do 12) i rok r. Wypisz, ile dni ma ten miesiąc.",
+        "Kwiecień, czerwiec, wrzesień i listopad mają po 30 dni. Luty ma 29 dni w roku przestępnym i 28 w zwykłym (rok jest przestępny, gdy dzieli się przez 4, ale nie przez 100 — albo gdy dzieli się przez 400). Pozostałe miesiące mają po 31 dni."
+      ],
+      "input_format": [
+        "Jeden wiersz z dwiema liczbami całkowitymi m i r."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba dni w miesiącu."
+      ],
+      "constraints": [
+        "1 ≤ m ≤ 12",
+        "1 ≤ r ≤ 100 000"
+      ],
+      "examples": [
+        {
+          "input": "2 2024",
+          "output": "29"
+        },
+        {
+          "input": "4 2026",
+          "output": "30"
+        },
+        {
+          "input": "12 2026",
+          "output": "31"
+        }
+      ],
+      "hint": "if (m == 2) { tu drugi if: rok przestępny → 29, inaczej 28 } else if (m == 4 || m == 6 || m == 9 || m == 11) { 30 } else { 31 }.",
+      "tests_count": 23
+    },
+    {
+      "id": "ie-staly-klient",
+      "number": 359,
+      "title": "Rabat dla stałych klientów",
+      "category": "Instrukcja if / krok 6: zagnieżdżanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Stały klient dostaje 20% rabatu przy zakupach za co najmniej 200 zł i 10% przy mniejszych. Pozostali klienci dostają 5% rabatu przy zakupach za co najmniej 200 zł, a przy mniejszych — nic.",
+        "Wczytaj literę T (stały klient) albo N i kwotę zakupów k (w pełnych złotych). Wypisz kwotę do zapłaty z dokładnością do dwóch miejsc po przecinku."
+      ],
+      "input_format": [
+        "Jeden wiersz: litera T albo N i liczba całkowita k."
+      ],
+      "output_format": [
+        "Jedna liczba z dwiema cyframi po kropce."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ 100 000"
+      ],
+      "examples": [
+        {
+          "input": "T 250",
+          "output": "200.00"
+        },
+        {
+          "input": "N 199",
+          "output": "199.00"
+        },
+        {
+          "input": "T 199",
+          "output": "179.10"
+        }
+      ],
+      "hint": "Najpierw ustal procent rabatu: zewnętrzny if sprawdza, czy klient jest stały, a wewnętrzny — czy k >= 200. Potem do zapłaty = k * (100 - procent) / 100.0 i wypisz przez cout << fixed << setprecision(2).",
+      "tests_count": 14
+    },
+    {
+      "id": "ie-rownanie",
+      "number": 360,
+      "title": "Równanie a · x = b",
+      "category": "Instrukcja if / krok 6: zagnieżdżanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Rozwiąż w liczbach całkowitych równanie a · x = b.",
+        "Jeśli a jest różne od zera i b dzieli się przez a, wypisz jedyne rozwiązanie x. Jeśli a jest różne od zera, ale b nie dzieli się przez a, wypisz BRAK (rozwiązanie nie jest liczbą całkowitą). Jeśli a = 0, to dla b = 0 każda liczba jest rozwiązaniem — wypisz NIESKONCZENIE WIELE — a dla b różnego od zera rozwiązań nie ma: wypisz BRAK."
+      ],
+      "input_format": [
+        "Jeden wiersz z dwiema liczbami całkowitymi a i b."
+      ],
+      "output_format": [
+        "Jedna liczba albo napis BRAK lub NIESKONCZENIE WIELE."
+      ],
+      "constraints": [
+        "−10⁹ ≤ a, b ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "3 12",
+          "output": "4"
+        },
+        {
+          "input": "3 13",
+          "output": "BRAK"
+        },
+        {
+          "input": "0 0",
+          "output": "NIESKONCZENIE WIELE"
+        },
+        {
+          "input": "0 5",
+          "output": "BRAK"
+        }
+      ],
+      "hint": "Zewnętrzny if: if (a != 0). W środku: if (b % a == 0) wypisz b / a, inaczej BRAK. W zewnętrznym else (czyli a == 0): if (b == 0) NIESKONCZENIE WIELE, inaczej BRAK. Przy a = 0 nie wolno liczyć b % a!",
+      "tests_count": 17
+    },
+    {
+      "id": "ie-najwieksza-z-trzech",
+      "number": 361,
+      "title": "Największa z trzech",
+      "category": "Instrukcja if / krok 7: typowe schematy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj trzy liczby całkowite i wypisz największą z nich."
+      ],
+      "input_format": [
+        "Jeden wiersz z trzema liczbami całkowitymi."
+      ],
+      "output_format": [
+        "Jedna liczba — największa z trzech."
+      ],
+      "constraints": [
+        "każda liczba jest między −10⁹ a 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "4 9 2",
+          "output": "9"
+        },
+        {
+          "input": "-5 -2 -8",
+          "output": "-2"
+        }
+      ],
+      "hint": "int najw = a; if (b > najw) { najw = b; } if (c > najw) { najw = c; }. Oba if-y są osobne — każdą liczbę trzeba porównać z dotychczasową największą.",
+      "tests_count": 12
+    },
+    {
+      "id": "ie-najmniejsza-z-czterech",
+      "number": 362,
+      "title": "Najmniejsza z czterech",
+      "category": "Instrukcja if / krok 7: typowe schematy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj cztery liczby całkowite i wypisz najmniejszą z nich."
+      ],
+      "input_format": [
+        "Jeden wiersz z czterema liczbami całkowitymi."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejsza z czterech."
+      ],
+      "constraints": [
+        "każda liczba jest między −10⁹ a 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "8 3 6 5",
+          "output": "3"
+        }
+      ],
+      "hint": "Zacznij od int najm = a; i dla każdej kolejnej liczby napisz osobny if: if (b < najm) { najm = b; } — razem trzy if-y.",
+      "tests_count": 11
+    },
+    {
+      "id": "ie-dwie-rosnaco",
+      "number": 363,
+      "title": "Dwie liczby po kolei",
+      "category": "Instrukcja if / krok 7: typowe schematy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj dwie liczby całkowite i wypisz je w kolejności rosnącej (najpierw mniejszą), oddzielone spacją."
+      ],
+      "input_format": [
+        "Jeden wiersz z dwiema liczbami całkowitymi."
+      ],
+      "output_format": [
+        "Jeden wiersz z dwiema liczbami w kolejności rosnącej."
+      ],
+      "constraints": [
+        "każda liczba jest między −10⁹ a 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "9 4",
+          "output": "4 9"
+        },
+        {
+          "input": "2 6",
+          "output": "2 6"
+        }
+      ],
+      "hint": "if (a > b) { swap(a, b); } — po tym if na pewno a <= b. Zamiast swap możesz użyć pomocniczej zmiennej: int t = a; a = b; b = t;.",
+      "tests_count": 10
+    },
+    {
+      "id": "ie-ile-parzystych",
+      "number": 364,
+      "title": "Ile parzystych?",
+      "category": "Instrukcja if / krok 7: typowe schematy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj cztery liczby całkowite i wypisz, ile z nich jest parzystych. Liczby mogą być ujemne."
+      ],
+      "input_format": [
+        "Jeden wiersz z czterema liczbami całkowitymi."
+      ],
+      "output_format": [
+        "Jedna liczba od 0 do 4."
+      ],
+      "constraints": [
+        "każda liczba jest między −10⁹ a 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "3 8 -4 7",
+          "output": "2"
+        }
+      ],
+      "hint": "int ile = 0; a potem cztery osobne if-y: if (a % 2 == 0) { ile++; } i tak dalej. Pamiętaj, że −4 % 2 to 0, ale −7 % 2 to −1.",
+      "tests_count": 12
+    },
+    {
+      "id": "ie-trzy-rosnaco",
+      "number": 365,
+      "title": "Trzy liczby po kolei",
+      "category": "Instrukcja if / krok 7: typowe schematy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj trzy liczby całkowite i wypisz je w kolejności rosnącej, oddzielone spacjami."
+      ],
+      "input_format": [
+        "Jeden wiersz z trzema liczbami całkowitymi."
+      ],
+      "output_format": [
+        "Jeden wiersz z trzema liczbami w kolejności rosnącej."
+      ],
+      "constraints": [
+        "każda liczba jest między −10⁹ a 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "8 2 5",
+          "output": "2 5 8"
+        },
+        {
+          "input": "3 2 1",
+          "output": "1 2 3"
+        }
+      ],
+      "hint": "Trzy zamiany: if (a > b) swap(a, b); if (b > c) swap(b, c); — teraz c jest największa — i jeszcze raz if (a > b) swap(a, b);. Sprawdź na kartce dane 3 2 1.",
+      "tests_count": 14
+    },
+    {
+      "id": "ie-srodkowa",
+      "number": 366,
+      "title": "Środkowa liczba",
+      "category": "Instrukcja if / krok 7: typowe schematy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj trzy liczby całkowite i wypisz tę, która znajdzie się w środku, gdy ustawisz je w kolejności rosnącej. Na przykład dla 7 1 4 to 4, a dla 5 1 5 — 5."
+      ],
+      "input_format": [
+        "Jeden wiersz z trzema liczbami całkowitymi."
+      ],
+      "output_format": [
+        "Jedna liczba — środkowa."
+      ],
+      "constraints": [
+        "każda liczba jest między −10⁹ a 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "7 1 4",
+          "output": "4"
+        },
+        {
+          "input": "5 1 5",
+          "output": "5"
+        }
+      ],
+      "hint": "Najprościej: ustaw liczby rosnąco trzema zamianami, jak w poprzednim ćwiczeniu, i wypisz b.",
+      "tests_count": 13
+    },
+    {
+      "id": "ie-podium",
+      "number": 367,
+      "title": "Podium",
+      "category": "Instrukcja if / krok 7: typowe schematy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W biegu wystartowało trzech zawodników. W każdym z trzech wierszy wejścia jest imię zawodnika i jego czas w sekundach. Czasy są różne.",
+        "Wypisz podium: w pierwszym wierszu 1. i imię najszybszego zawodnika (z najmniejszym czasem), w drugim 2. i imię drugiego, a w trzecim 3. i imię trzeciego."
+      ],
+      "input_format": [
+        "Trzy wiersze, w każdym imię (jedno słowo) i liczba całkowita — czas."
+      ],
+      "output_format": [
+        "Trzy wiersze, jak w przykładzie."
+      ],
+      "constraints": [
+        "imiona mają od 1 do 20 liter",
+        "1 ≤ czas ≤ 10 000",
+        "czasy są różne"
+      ],
+      "examples": [
+        {
+          "input": "Ola 62\nAda 58\nIza 71",
+          "output": "1. Ada\n2. Ola\n3. Iza"
+        }
+      ],
+      "hint": "Ustaw zawodników według czasu trzema zamianami, jak liczby w ćwiczeniu „Trzy liczby po kolei”. Przy każdej zamianie zamieniaj naraz czasy i imiona: if (t1 > t2) { swap(t1, t2); swap(i1, i2); }.",
+      "tests_count": 11
+    },
+    {
+      "id": "ie-dzien-tygodnia",
+      "number": 368,
+      "title": "Nazwa dnia tygodnia",
+      "category": "Instrukcja if / krok 8: switch i ?:",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj numer dnia tygodnia (1 to poniedziałek, 7 — niedziela) i wypisz jego nazwę bez polskich znaków: poniedzialek, wtorek, sroda, czwartek, piatek, sobota albo niedziela."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita od 1 do 7."
+      ],
+      "output_format": [
+        "Jedno słowo — nazwa dnia."
+      ],
+      "constraints": [
+        "1 ≤ numer ≤ 7"
+      ],
+      "examples": [
+        {
+          "input": "3",
+          "output": "sroda"
+        },
+        {
+          "input": "7",
+          "output": "niedziela"
+        }
+      ],
+      "hint": "switch (d) { case 1: cout << \"poniedzialek\\n\"; break; case 2: … }. Nie zapomnij o break na końcu każdego case — bez niego program wypisze kilka dni naraz.",
+      "tests_count": 7
+    },
+    {
+      "id": "ie-ocena-slownie",
+      "number": 369,
+      "title": "Ocena słownie",
+      "category": "Instrukcja if / krok 8: switch i ?:",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj ocenę szkolną (liczbę całkowitą) i wypisz jej nazwę bez polskich znaków: 1 — niedostateczny, 2 — dopuszczajacy, 3 — dostateczny, 4 — dobry, 5 — bardzo dobry, 6 — celujacy.",
+        "Dla każdej innej liczby wypisz nie ma takiej oceny."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita."
+      ],
+      "output_format": [
+        "Jeden wiersz z nazwą oceny albo nie ma takiej oceny."
+      ],
+      "constraints": [
+        "liczba jest między −100 a 100"
+      ],
+      "examples": [
+        {
+          "input": "5",
+          "output": "bardzo dobry"
+        },
+        {
+          "input": "9",
+          "output": "nie ma takiej oceny"
+        }
+      ],
+      "hint": "Sześć przypadków case i default na wszystkie pozostałe liczby — default działa jak else na końcu łańcucha.",
+      "tests_count": 12
+    },
+    {
+      "id": "ie-min-max",
+      "number": 370,
+      "title": "Najpierw mniejsza",
+      "category": "Instrukcja if / krok 8: switch i ?:",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj dwie liczby całkowite a i b. Wypisz w jednym wierszu najpierw mniejszą, a potem większą z nich, oddzielone spacją. Spróbuj użyć operatora ?: zamiast if."
+      ],
+      "input_format": [
+        "Jeden wiersz z dwiema liczbami całkowitymi a i b."
+      ],
+      "output_format": [
+        "Jeden wiersz z dwiema liczbami."
+      ],
+      "constraints": [
+        "−10⁹ ≤ a, b ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "9 4",
+          "output": "4 9"
+        },
+        {
+          "input": "-3 8",
+          "output": "-3 8"
+        }
+      ],
+      "hint": "int mn = (a < b) ? a : b; i podobnie mx = (a > b) ? a : b;. Potem wypisz mn i mx.",
+      "tests_count": 10
+    },
+    {
+      "id": "ie-pora-roku",
+      "number": 371,
+      "title": "Pora roku",
+      "category": "Instrukcja if / krok 8: switch i ?:",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj numer miesiąca (od 1 do 12) i wypisz porę roku: zima dla grudnia, stycznia i lutego (12, 1, 2), wiosna dla miesięcy 3–5, lato dla 6–8 i jesien dla 9–11."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita od 1 do 12."
+      ],
+      "output_format": [
+        "Jedno słowo: zima, wiosna, lato albo jesien."
+      ],
+      "constraints": [
+        "1 ≤ m ≤ 12"
+      ],
+      "examples": [
+        {
+          "input": "1",
+          "output": "zima"
+        },
+        {
+          "input": "7",
+          "output": "lato"
+        }
+      ],
+      "hint": "Kilka case jeden pod drugim prowadzi do tego samego kodu: case 12: case 1: case 2: cout << \"zima\\n\"; break;. To ta sama sztuczka co z sobotą i niedzielą w lekcji.",
+      "tests_count": 12
+    },
+    {
+      "id": "ie-kalkulator",
+      "number": 372,
+      "title": "Kalkulator",
+      "category": "Instrukcja if / krok 8: switch i ?:",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj działanie zapisane bez spacji: liczba, znak działania i liczba, np. 7*6 albo 100/7. Znak działania to jeden z: + - * / %. Wypisz wynik.",
+        "Dzielenie / i reszta % działają jak w C++ na liczbach całkowitych: 100/7 to 14, a 100%7 to 2. Przy dzieleniu i reszcie druga liczba nie jest zerem."
+      ],
+      "input_format": [
+        "Jeden wiersz: liczba całkowita, znak działania i liczba całkowita, bez spacji. Druga liczba jest nieujemna."
+      ],
+      "output_format": [
+        "Jedna liczba — wynik działania."
+      ],
+      "constraints": [
+        "0 ≤ obie liczby ≤ 10⁹",
+        "dla / i % druga liczba jest dodatnia"
+      ],
+      "examples": [
+        {
+          "input": "7*6",
+          "output": "42"
+        },
+        {
+          "input": "100/7",
+          "output": "14"
+        },
+        {
+          "input": "9-12",
+          "output": "-3"
+        }
+      ],
+      "hint": "Wczytaj: cin >> a >> op >> b; (op to char). Iloczyn może sięgać 10¹⁸, więc a i b niech będą typu long long. Potem switch (op) z pięcioma przypadkami: case '+', case '-', case '*', case '/' i case '%'.",
+      "tests_count": 16
+    },
+    {
+      "id": "ie-robot",
+      "number": 373,
+      "title": "Robot na kratce",
+      "category": "Instrukcja if / krok 8: switch i ?:",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Robot stoi w punkcie (x, y). Dostaje polecenie: kierunek i liczbę kroków d. Kierunek to jedna z liter: N (północ — y rośnie), S (południe — y maleje), E (wschód — x rośnie) albo W (zachód — x maleje).",
+        "Wypisz współrzędne robota po wykonaniu polecenia: x i y oddzielone spacją."
+      ],
+      "input_format": [
+        "Pierwszy wiersz: dwie liczby całkowite x i y. Drugi wiersz: litera kierunku i liczba całkowita d."
+      ],
+      "output_format": [
+        "Jeden wiersz: nowe współrzędne x i y."
+      ],
+      "constraints": [
+        "−10⁹ ≤ x, y ≤ 10⁹",
+        "0 ≤ d ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "2 3\nN 5",
+          "output": "2 8"
+        },
+        {
+          "input": "0 0\nW 7",
+          "output": "-7 0"
+        }
+      ],
+      "hint": "switch (k) { case 'N': y += d; break; case 'S': y -= d; break; … }. Współrzędne po ruchu mogą sięgać 2·10⁹, więc użyj long long.",
+      "tests_count": 10
+    },
+    {
+      "id": "ie-woda",
+      "number": 374,
+      "title": "Lód, woda czy para?",
+      "category": "Instrukcja if / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj temperaturę wody t (w stopniach Celsjusza). Wypisz lod, gdy t ≤ 0, para, gdy t ≥ 100, a woda w pozostałych przypadkach."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita t."
+      ],
+      "output_format": [
+        "Jedno słowo: lod, woda albo para."
+      ],
+      "constraints": [
+        "−273 ≤ t ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "-5",
+          "output": "lod"
+        },
+        {
+          "input": "25",
+          "output": "woda"
+        },
+        {
+          "input": "100",
+          "output": "para"
+        }
+      ],
+      "hint": "Trzy przypadki: if (t <= 0) lod, else if (t >= 100) para, else woda. Granice 0 i 100 należą odpowiednio do lodu i pary — sprawdź je osobno.",
+      "tests_count": 11
+    },
+    {
+      "id": "ie-kto-wyzszy",
+      "number": 375,
+      "title": "Kto jest wyższy?",
+      "category": "Instrukcja if / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W każdym z dwóch wierszy wejścia jest imię osoby i jej wzrost w centymetrach. Wypisz imię wyższej osoby, a gdy obie są tego samego wzrostu — słowo REMIS."
+      ],
+      "input_format": [
+        "Dwa wiersze, w każdym imię (jedno słowo) i liczba całkowita."
+      ],
+      "output_format": [
+        "Jedno słowo: imię albo REMIS."
+      ],
+      "constraints": [
+        "imiona mają od 1 do 20 liter i są różne",
+        "50 ≤ wzrost ≤ 250"
+      ],
+      "examples": [
+        {
+          "input": "Ola 152\nAda 148",
+          "output": "Ola"
+        },
+        {
+          "input": "Jan 170\nIgor 170",
+          "output": "REMIS"
+        }
+      ],
+      "hint": "Wczytaj cin >> imie1 >> w1 >> imie2 >> w2;. Potem trzy przypadki: w1 > w2, w2 > w1 i remis.",
+      "tests_count": 7
+    },
+    {
+      "id": "ie-boisko",
+      "number": 376,
+      "title": "Piłka na boisku",
+      "category": "Instrukcja if / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Boisko to prostokąt, w którym x jest od 0 do a, a y — od 0 do b. Linie należą do boiska.",
+        "Wczytaj a i b, a potem współrzędne piłki x i y. Wypisz BOISKO, jeśli piłka jest na boisku (także na linii), albo AUT w przeciwnym razie."
+      ],
+      "input_format": [
+        "Pierwszy wiersz: liczby całkowite a i b. Drugi wiersz: liczby całkowite x i y."
+      ],
+      "output_format": [
+        "Jedno słowo: BOISKO albo AUT."
+      ],
+      "constraints": [
+        "1 ≤ a, b ≤ 1000",
+        "−2000 ≤ x, y ≤ 2000"
+      ],
+      "examples": [
+        {
+          "input": "100 60\n30 45",
+          "output": "BOISKO"
+        },
+        {
+          "input": "100 60\n101 20",
+          "output": "AUT"
+        }
+      ],
+      "hint": "Piłka jest na boisku, gdy x jest w przedziale [0, a] i jednocześnie y w przedziale [0, b]: x >= 0 && x <= a && y >= 0 && y <= b.",
+      "tests_count": 12
+    },
+    {
+      "id": "ie-wspolny-dzielnik",
+      "number": 377,
+      "title": "Wspólny dzielnik",
+      "category": "Instrukcja if / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj trzy dodatnie liczby całkowite n, m i d. Wypisz TAK, jeśli d dzieli bez reszty zarówno n, jak i m, albo NIE w przeciwnym razie."
+      ],
+      "input_format": [
+        "Jeden wiersz z trzema liczbami całkowitymi n, m i d."
+      ],
+      "output_format": [
+        "Jedno słowo: TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ n, m, d ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "12 18 6",
+          "output": "TAK"
+        },
+        {
+          "input": "12 18 4",
+          "output": "NIE"
+        }
+      ],
+      "hint": "Dwa warunki naraz: n % d == 0 && m % d == 0.",
+      "tests_count": 10
+    },
+    {
+      "id": "ie-bilet-miesieczny",
+      "number": 378,
+      "title": "Bilet miesięczny czy jednorazowe?",
+      "category": "Instrukcja if / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Bilet jednorazowy kosztuje p zł, a miesięczny — m zł. W tym miesiącu pojedziesz n razy.",
+        "Wypisz MIESIECZNY, jeśli bilet miesięczny wyjdzie taniej niż n biletów jednorazowych, albo JEDNORAZOWE w przeciwnym razie (także wtedy, gdy koszty są równe). W drugim wierszu wypisz, ile zapłacisz, wybierając tańszą możliwość."
+      ],
+      "input_format": [
+        "Jeden wiersz z trzema liczbami całkowitymi p, m i n."
+      ],
+      "output_format": [
+        "Dwa wiersze: wybór i koszt."
+      ],
+      "constraints": [
+        "1 ≤ p ≤ 100",
+        "1 ≤ m ≤ 1000",
+        "0 ≤ n ≤ 200"
+      ],
+      "examples": [
+        {
+          "input": "4 110 40",
+          "output": "MIESIECZNY\n110"
+        },
+        {
+          "input": "4 110 20",
+          "output": "JEDNORAZOWE\n80"
+        }
+      ],
+      "hint": "Policz jednorazowe = p * n. if (m < jednorazowe) MIESIECZNY i m, else JEDNORAZOWE i jednorazowe.",
+      "tests_count": 10
+    },
+    {
+      "id": "ie-do-dziesiatek",
+      "number": 379,
+      "title": "Zaokrąglanie do dziesiątek",
+      "category": "Instrukcja if / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Zaokrąglij nieujemną liczbę całkowitą n do najbliższej pełnej dziesiątki. Liczby kończące się cyfrą 5 zaokrąglamy w górę: 25 → 30, 24 → 20, 40 → 40."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jedna liczba — n zaokrąglona do dziesiątek."
+      ],
+      "constraints": [
+        "0 ≤ n ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "24",
+          "output": "20"
+        },
+        {
+          "input": "25",
+          "output": "30"
+        },
+        {
+          "input": "40",
+          "output": "40"
+        }
+      ],
+      "hint": "Ostatnia cyfra to n % 10. Jeśli jest mniejsza od 5, zaokrąglasz w dół: n - n % 10. W przeciwnym razie — w górę: n - n % 10 + 10.",
+      "tests_count": 13
+    },
+    {
+      "id": "ie-poprawna-godzina",
+      "number": 380,
+      "title": "Czy to poprawna godzina?",
+      "category": "Instrukcja if / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj godzinę zapisaną jako HH:MM, gdzie HH i MM to dowolne liczby dwucyfrowe (od 00 do 99). Wypisz POPRAWNA, jeśli taka godzina istnieje na zegarze (godziny od 0 do 23, minuty od 0 do 59), albo NIEPOPRAWNA w przeciwnym razie."
+      ],
+      "input_format": [
+        "Jeden wiersz w postaci HH:MM."
+      ],
+      "output_format": [
+        "Jedno słowo: POPRAWNA albo NIEPOPRAWNA."
+      ],
+      "constraints": [
+        "HH i MM to liczby od 00 do 99 zapisane dwiema cyframi"
+      ],
+      "examples": [
+        {
+          "input": "13:45",
+          "output": "POPRAWNA"
+        },
+        {
+          "input": "24:00",
+          "output": "NIEPOPRAWNA"
+        },
+        {
+          "input": "07:60",
+          "output": "NIEPOPRAWNA"
+        }
+      ],
+      "hint": "Wczytaj cin >> h >> dwukropek >> m;. Godzina jest poprawna, gdy h <= 23 && m <= 59 (ujemnych liczb na wejściu nie ma).",
+      "tests_count": 13
+    },
+    {
+      "id": "ie-kolor-pola",
+      "number": 381,
+      "title": "Kolor pola szachownicy",
+      "category": "Instrukcja if / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Pola szachownicy oznacza się literą kolumny (od a do h) i numerem wiersza (od 1 do 8), na przykład e4. Pole a1 jest czarne, a kolory sąsiednich pól się zmieniają — tak jak na prawdziwej szachownicy.",
+        "Wczytaj oznaczenie pola i wypisz czarne albo biale."
+      ],
+      "input_format": [
+        "Jeden wiersz z oznaczeniem pola, np. e4."
+      ],
+      "output_format": [
+        "Jedno słowo: czarne albo biale."
+      ],
+      "constraints": [
+        "litera od a do h, cyfra od 1 do 8"
+      ],
+      "examples": [
+        {
+          "input": "a1",
+          "output": "czarne"
+        },
+        {
+          "input": "e4",
+          "output": "biale"
+        },
+        {
+          "input": "h1",
+          "output": "biale"
+        }
+      ],
+      "hint": "Wczytaj char kol; int w; cin >> kol >> w;. Numer kolumny to kol - 'a' + 1 (dla a to 1, dla h — 8). Na polu a1 suma numeru kolumny i wiersza to 2, a gdy przesuniesz się o jedno pole, suma zmienia się o 1 — więc pola z parzystą sumą są czarne, a z nieparzystą — białe.",
+      "tests_count": 14
+    },
+    {
+      "id": "ie-papier-kamien-nozyce",
+      "number": 382,
+      "title": "Kamień, papier, nożyce",
+      "category": "Instrukcja if / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dwaj gracze pokazują jednocześnie K (kamień), P (papier) albo N (nożyce). Kamień tępi nożyce, nożyce tną papier, a papier owija kamień.",
+        "Wczytaj dwa znaki — wybór pierwszego i drugiego gracza — i wypisz PIERWSZY, DRUGI albo REMIS."
+      ],
+      "input_format": [
+        "Jeden wiersz z dwiema literami (K, P lub N) oddzielonymi spacją."
+      ],
+      "output_format": [
+        "Jedno słowo: PIERWSZY, DRUGI albo REMIS."
+      ],
+      "constraints": [
+        "każda litera to K, P albo N"
+      ],
+      "examples": [
+        {
+          "input": "K N",
+          "output": "PIERWSZY"
+        },
+        {
+          "input": "K P",
+          "output": "DRUGI"
+        },
+        {
+          "input": "N N",
+          "output": "REMIS"
+        }
+      ],
+      "hint": "Najpierw remis: if (a == b). Potem trzy sytuacje, w których wygrywa pierwszy, połączone przez ||: (a == 'K' && b == 'N') || (a == 'N' && b == 'P') || (a == 'P' && b == 'K'). W pozostałych przypadkach wygrywa drugi.",
+      "tests_count": 9
+    },
+    {
+      "id": "ie-zegar-12h",
+      "number": 383,
+      "title": "Zegar 12-godzinny",
+      "category": "Instrukcja if / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Zamień godzinę z zapisu 24-godzinnego HH:MM na zapis 12-godzinny w stylu angielskim: h:MM AM dla godzin przed południem i h:MM PM dla godzin od południa.",
+        "Północ (00:MM) to 12:MM AM, a południe (12:MM) to 12:MM PM. Godzinę h wypisz bez zera z przodu, a minuty — zawsze dwiema cyframi."
+      ],
+      "input_format": [
+        "Jeden wiersz w postaci HH:MM."
+      ],
+      "output_format": [
+        "Jeden wiersz w postaci h:MM AM albo h:MM PM."
+      ],
+      "constraints": [
+        "00 ≤ HH ≤ 23",
+        "00 ≤ MM ≤ 59"
+      ],
+      "examples": [
+        {
+          "input": "00:05",
+          "output": "12:05 AM"
+        },
+        {
+          "input": "09:30",
+          "output": "9:30 AM"
+        },
+        {
+          "input": "12:00",
+          "output": "12:00 PM"
+        },
+        {
+          "input": "23:59",
+          "output": "11:59 PM"
+        }
+      ],
+      "hint": "Cztery przypadki: h == 0 → 12 AM, h < 12 → h AM, h == 12 → 12 PM, pozostałe → h - 12 PM. Minuty wypisz z zerem z przodu: cout << setfill('0') << setw(2) << m;.",
+      "tests_count": 31
+    },
+    {
+      "id": "ie-rodzaj-trojkata",
+      "number": 384,
+      "title": "Jaki to trójkąt?",
+      "category": "Instrukcja if / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj długości trzech odcinków a, b i c. Trójkąt da się z nich zbudować, gdy każdy odcinek jest krótszy od sumy dwóch pozostałych.",
+        "Jeśli trójkąta nie da się zbudować, wypisz NIE ISTNIEJE. W przeciwnym razie wypisz ROWNOBOCZNY (wszystkie trzy boki równe), ROWNORAMIENNY (dokładnie dwa boki równe) albo ROZNOBOCZNY."
+      ],
+      "input_format": [
+        "Jeden wiersz z trzema liczbami całkowitymi a, b i c."
+      ],
+      "output_format": [
+        "Jeden wiersz z odpowiedzią."
+      ],
+      "constraints": [
+        "1 ≤ a, b, c ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "3 4 5",
+          "output": "ROZNOBOCZNY"
+        },
+        {
+          "input": "5 5 8",
+          "output": "ROWNORAMIENNY"
+        },
+        {
+          "input": "1 2 3",
+          "output": "NIE ISTNIEJE",
+          "note": "1 + 2 nie jest większe od 3 — odcinki położą się na jednej prostej."
+        }
+      ],
+      "hint": "Najpierw sprawdź, czy trójkąt istnieje: a + b > c && a + c > b && b + c > a — i jeśli nie, od razu NIE ISTNIEJE. Potem: a == b && b == c → równoboczny, a == b || b == c || a == c → równoramienny, w pozostałych przypadkach różnoboczny.",
+      "tests_count": 17
+    },
+    {
+      "id": "ie-odcinki",
+      "number": 385,
+      "title": "Czy odcinki się nakładają?",
+      "category": "Instrukcja if / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na osi liczbowej leżą dwa odcinki: od a do b oraz od c do d (a ≤ b i c ≤ d).",
+        "Wypisz TAK, jeśli mają co najmniej jeden wspólny punkt (wystarczy wspólny koniec), albo NIE w przeciwnym razie."
+      ],
+      "input_format": [
+        "Jeden wiersz z czterema liczbami całkowitymi a, b, c i d."
+      ],
+      "output_format": [
+        "Jedno słowo: TAK albo NIE."
+      ],
+      "constraints": [
+        "−10⁹ ≤ a ≤ b ≤ 10⁹",
+        "−10⁹ ≤ c ≤ d ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "1 5 4 9",
+          "output": "TAK"
+        },
+        {
+          "input": "1 3 4 9",
+          "output": "NIE"
+        },
+        {
+          "input": "1 4 4 9",
+          "output": "TAK",
+          "note": "Wspólny koniec 4 wystarczy."
+        }
+      ],
+      "hint": "Łatwiej opisać, kiedy odcinki się NIE nakładają: gdy pierwszy kończy się przed początkiem drugiego (b < c) albo drugi kończy się przed początkiem pierwszego (d < a). Odpowiedź TAK to zaprzeczenie: !(b < c || d < a).",
+      "tests_count": 14
+    },
+    {
+      "id": "ie-skoczek",
+      "number": 386,
+      "title": "Ruch skoczka",
+      "category": "Instrukcja if / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Skoczek (konik) szachowy porusza się „literą L”: o dwa pola w jednym kierunku i o jedno pole w kierunku prostopadłym.",
+        "Wczytaj pole, na którym stoi skoczek, i pole docelowe (na przykład b1 c3). Wypisz TAK, jeśli skoczek może dojść na pole docelowe jednym ruchem, albo NIE w przeciwnym razie."
+      ],
+      "input_format": [
+        "Jeden wiersz z dwoma polami szachownicy, np. b1 c3."
+      ],
+      "output_format": [
+        "Jedno słowo: TAK albo NIE."
+      ],
+      "constraints": [
+        "litery od a do h, cyfry od 1 do 8"
+      ],
+      "examples": [
+        {
+          "input": "b1 c3",
+          "output": "TAK"
+        },
+        {
+          "input": "b1 b3",
+          "output": "NIE"
+        }
+      ],
+      "hint": "Wczytaj cin >> k1 >> w1 >> k2 >> w2; (k1, k2 to char). Policz różnice dk = k2 - k1 i dw = w2 - w1 i zamień je na nieujemne (if (dk < 0) dk = -dk;). Ruch skoczka to (dk == 1 && dw == 2) || (dk == 2 && dw == 1).",
+      "tests_count": 15
+    },
+    {
+      "id": "ie-za-k-dni",
+      "number": 387,
+      "title": "Jaki dzień będzie za k dni?",
+      "category": "Instrukcja if / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dziś jest dzień tygodnia numer d (1 — poniedziałek, 2 — wtorek, …, 7 — niedziela). Wypisz nazwę dnia tygodnia, który będzie za k dni: poniedzialek, wtorek, sroda, czwartek, piatek, sobota albo niedziela."
+      ],
+      "input_format": [
+        "Jeden wiersz z dwiema liczbami całkowitymi d i k."
+      ],
+      "output_format": [
+        "Jedno słowo — nazwa dnia."
+      ],
+      "constraints": [
+        "1 ≤ d ≤ 7",
+        "0 ≤ k ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "1 2",
+          "output": "sroda"
+        },
+        {
+          "input": "5 3",
+          "output": "poniedzialek",
+          "note": "Piątek + 3 dni to poniedziałek."
+        },
+        {
+          "input": "7 700",
+          "output": "niedziela"
+        }
+      ],
+      "hint": "Co 7 dni tydzień się powtarza, więc liczy się tylko reszta z dzielenia. Ponumeruj dni od zera: numer dnia za k dni to (d - 1 + k) % 7 + 1. Potem switch z siedmioma przypadkami.",
+      "tests_count": 15
+    },
+    {
+      "id": "ie-lista-obecnosci",
+      "number": 388,
+      "title": "Lista obecności",
+      "category": "Instrukcja if / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj trzy imiona (każde zaczyna się wielką literą, a dalej ma małe litery) i wypisz je w kolejności alfabetycznej, każde w osobnym wierszu."
+      ],
+      "input_format": [
+        "Jeden wiersz z trzema imionami oddzielonymi spacjami."
+      ],
+      "output_format": [
+        "Trzy wiersze z imionami w kolejności alfabetycznej."
+      ],
+      "constraints": [
+        "każde imię ma od 1 do 20 liter"
+      ],
+      "examples": [
+        {
+          "input": "Zosia Adam Marek",
+          "output": "Adam\nMarek\nZosia"
+        },
+        {
+          "input": "Ola Ala Olaf",
+          "output": "Ala\nOla\nOlaf"
+        }
+      ],
+      "hint": "To ten sam schemat co „Trzy liczby po kolei”, tylko na napisach: trzy zamiany if (a > b) swap(a, b); if (b > c) swap(b, c); if (a > b) swap(a, b);. Dla stringów > znaczy „później w słowniku”.",
+      "tests_count": 10
+    },
+    {
+      "id": "ie-najblizsza-wielokrotnosc",
+      "number": 389,
+      "title": "Najbliższa wielokrotność",
+      "category": "Instrukcja if / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj liczby całkowite dodatnie n i k. Wypisz tę wielokrotność liczby k (czyli liczbę postaci k · i dla całkowitego i ≥ 0 — 0 też się liczy), która leży najbliżej n.",
+        "Jeśli dwie wielokrotności są tak samo blisko, wypisz większą."
+      ],
+      "input_format": [
+        "Jeden wiersz z dwiema liczbami całkowitymi n i k."
+      ],
+      "output_format": [
+        "Jedna liczba."
+      ],
+      "constraints": [
+        "1 ≤ n, k ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "17 5",
+          "output": "15"
+        },
+        {
+          "input": "13 5",
+          "output": "15"
+        },
+        {
+          "input": "15 10",
+          "output": "20",
+          "note": "10 i 20 są tak samo blisko — wybieramy większą."
+        }
+      ],
+      "hint": "Wielokrotność „w dół” to dol = n - n % k, a „w górę” — gora = dol + k. Porównaj odległości n - dol i gora - n: jeśli pierwsza jest mniejsza, wynik to dol, w przeciwnym razie (także przy remisie) gora.",
+      "tests_count": 16
+    },
+    {
+      "id": "ie-koniec-filmu",
+      "number": 390,
+      "title": "Koniec filmu",
+      "category": "Instrukcja if / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Film zaczyna się o godzinie HH:MM i trwa t minut. Wypisz godzinę jego końca w formacie HH:MM (z zerami z przodu).",
+        "Jeśli film skończy się następnego dnia, w drugim wierszu wypisz nastepnego dnia."
+      ],
+      "input_format": [
+        "Jeden wiersz: godzina rozpoczęcia HH:MM i liczba całkowita t."
+      ],
+      "output_format": [
+        "Jeden albo dwa wiersze, jak w przykładach."
+      ],
+      "constraints": [
+        "00 ≤ HH ≤ 23",
+        "00 ≤ MM ≤ 59",
+        "1 ≤ t ≤ 600"
+      ],
+      "examples": [
+        {
+          "input": "18:30 135",
+          "output": "20:45"
+        },
+        {
+          "input": "22:15 140",
+          "output": "00:35\nnastepnego dnia"
+        }
+      ],
+      "hint": "Zamień początek na minuty od północy i dodaj t. Jeśli wynik to co najmniej 1440 (24 · 60), odejmij 1440 i zapamiętaj, że to już następny dzień. Godzinę wypisz przez setfill('0') << setw(2).",
+      "tests_count": 11
+    },
+    {
+      "id": "ie-cennik-paczek",
+      "number": 391,
+      "title": "Cennik paczek",
+      "category": "Instrukcja if / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Firma kurierska ma cennik: paczka do 1 kg włącznie kosztuje 9 zł, do 5 kg — 14 zł, a do 20 kg — 25 zł. Cięższych paczek firma nie przyjmuje. Za dostawę ekspresową dopłaca się 10 zł.",
+        "Wczytaj wagę paczki w gramach i literę E (ekspres) albo Z (zwykła dostawa). Wypisz cenę w złotych albo NIE PRZYJMUJEMY dla paczek cięższych niż 20 kg."
+      ],
+      "input_format": [
+        "Jeden wiersz: liczba całkowita (waga w gramach) i litera E albo Z."
+      ],
+      "output_format": [
+        "Jedna liczba albo napis NIE PRZYJMUJEMY."
+      ],
+      "constraints": [
+        "1 ≤ waga ≤ 100 000"
+      ],
+      "examples": [
+        {
+          "input": "1500 E",
+          "output": "24"
+        },
+        {
+          "input": "800 Z",
+          "output": "9"
+        },
+        {
+          "input": "25000 Z",
+          "output": "NIE PRZYJMUJEMY"
+        }
+      ],
+      "hint": "Uważaj na jednostki: 1 kg to 1000 g. Najpierw przypadek odmowy (waga > 20000), potem cena w łańcuchu else if, a na końcu if (dostawa == 'E') cena += 10.",
+      "tests_count": 14
+    },
+    {
+      "id": "ie-podatek",
+      "number": 392,
+      "title": "Podatek progowy",
+      "category": "Instrukcja if / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Uproszczony podatek dochodowy działa tak: od dochodu do 120 000 zł płaci się 12%, a od nadwyżki ponad 120 000 zł — 32%. Na przykład od 150 000 zł podatek to 12% z 120 000 zł plus 32% z 30 000 zł.",
+        "Wczytaj roczny dochód d (w pełnych złotych) i wypisz podatek w złotych z dokładnością do dwóch miejsc po przecinku."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita d."
+      ],
+      "output_format": [
+        "Jedna liczba z dwiema cyframi po kropce."
+      ],
+      "constraints": [
+        "0 ≤ d ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "50000",
+          "output": "6000.00"
+        },
+        {
+          "input": "150000",
+          "output": "24000.00"
+        }
+      ],
+      "hint": "Dwa przypadki: if (d <= 120000) podatek = 0.12 * d; else podatek = 0.12 * 120000 + 0.32 * (d - 120000);. Licz na double — iloczyn d * 32 na int przekroczyłby zakres dla dużych dochodów.",
+      "tests_count": 12
+    },
+    {
+      "id": "ie-ile-trafien",
+      "number": 393,
+      "title": "Ile trafień?",
+      "category": "Instrukcja if / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W loterii wybierasz trzy różne liczby od 1 do 49, a maszyna losuje trzy różne liczby z tego samego zakresu.",
+        "W pierwszym wierszu są Twoje liczby, a w drugim — wylosowane. Wypisz, ile Twoich liczb zostało wylosowanych."
+      ],
+      "input_format": [
+        "Dwa wiersze, w każdym trzy różne liczby całkowite."
+      ],
+      "output_format": [
+        "Jedna liczba od 0 do 3."
+      ],
+      "constraints": [
+        "wszystkie liczby są od 1 do 49",
+        "liczby w jednym wierszu są różne"
+      ],
+      "examples": [
+        {
+          "input": "7 13 42\n42 8 7",
+          "output": "2"
+        }
+      ],
+      "hint": "Licznik od zera i trzy osobne if-y — po jednym dla każdej Twojej liczby: if (a == x || a == y || a == z) { ile++; }.",
+      "tests_count": 13
+    },
+    {
+      "id": "ie-jablka",
+      "number": 394,
+      "title": "Ile jabłek?",
+      "category": "Instrukcja if / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W języku polskim po liczbie zmienia się końcówka słowa: 1 jablko, 2 jablka, 5 jablek, 22 jablka, 112 jablek.",
+        "Zasada: dla n = 1 piszemy jablko. Gdy ostatnia cyfra to 2, 3 lub 4, a przedostatnia nie jest jedynką (czyli liczba nie kończy się na 12, 13 ani 14) — jablka. We wszystkich pozostałych przypadkach, także dla 0 — jablek.",
+        "Wczytaj n i wypisz n, spację i słowo z poprawną końcówką."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jeden wiersz, jak w przykładach."
+      ],
+      "constraints": [
+        "0 ≤ n ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "1",
+          "output": "1 jablko"
+        },
+        {
+          "input": "22",
+          "output": "22 jablka"
+        },
+        {
+          "input": "12",
+          "output": "12 jablek"
+        }
+      ],
+      "hint": "Ostatnia cyfra to n % 10, a dwie ostatnie cyfry — n % 100. Warunek na jablka: n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14). Przypadek n == 1 sprawdź na samym początku.",
+      "tests_count": 25
+    },
+    {
+      "id": "ie-jaki-kat",
+      "number": 395,
+      "title": "Ostry, prosty czy rozwarty?",
+      "category": "Instrukcja if / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj długości trzech odcinków. Jeśli nie da się z nich zbudować trójkąta (każdy bok musi być krótszy od sumy dwóch pozostałych), wypisz NIE ISTNIEJE.",
+        "W przeciwnym razie wypisz PROSTOKATNY, OSTROKATNY albo ROZWARTOKATNY. Z matematyki: gdy c jest najdłuższym bokiem, trójkąt jest prostokątny, gdy a² + b² = c², ostrokątny, gdy a² + b² > c², a rozwartokątny, gdy a² + b² < c²."
+      ],
+      "input_format": [
+        "Jeden wiersz z trzema liczbami całkowitymi — długościami odcinków, w dowolnej kolejności."
+      ],
+      "output_format": [
+        "Jeden wiersz z odpowiedzią."
+      ],
+      "constraints": [
+        "1 ≤ każda długość ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "5 3 4",
+          "output": "PROSTOKATNY"
+        },
+        {
+          "input": "2 3 3",
+          "output": "OSTROKATNY"
+        },
+        {
+          "input": "2 2 3",
+          "output": "ROZWARTOKATNY"
+        }
+      ],
+      "hint": "Najpierw ustaw boki rosnąco trzema zamianami — wtedy c jest najdłuższy, a trójkąt istnieje dokładnie wtedy, gdy a + b > c. Kwadraty boków sięgają 10¹², więc licz je na long long.",
+      "tests_count": 17
+    },
+    {
+      "id": "ie-czesc-wspolna",
+      "number": 396,
+      "title": "Część wspólna odcinków",
+      "category": "Instrukcja if / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na osi liczbowej leżą odcinki od a do b oraz od c do d (a ≤ b i c ≤ d).",
+        "Wypisz długość ich części wspólnej. Gdy odcinki nie mają wspólnych punktów albo stykają się tylko końcami, wypisz 0."
+      ],
+      "input_format": [
+        "Jeden wiersz z czterema liczbami całkowitymi a, b, c i d."
+      ],
+      "output_format": [
+        "Jedna liczba — długość części wspólnej."
+      ],
+      "constraints": [
+        "−10⁹ ≤ a ≤ b ≤ 10⁹",
+        "−10⁹ ≤ c ≤ d ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "1 5 3 9",
+          "output": "2",
+          "note": "Część wspólna to odcinek od 3 do 5."
+        },
+        {
+          "input": "1 3 4 9",
+          "output": "0"
+        }
+      ],
+      "hint": "Część wspólna zaczyna się w późniejszym z początków i kończy we wcześniejszym z końców: pocz = max(a, c), kon = min(b, d). Jeśli kon > pocz, długość to kon - pocz, a w przeciwnym razie 0. Różnica może sięgać 2·10⁹ — użyj long long.",
+      "tests_count": 13
+    },
+    {
+      "id": "ie-hetman",
+      "number": 397,
+      "title": "Ruch hetmana",
+      "category": "Instrukcja if / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Hetman porusza się o dowolną liczbę pól w pionie, w poziomie albo po przekątnej.",
+        "Wczytaj dwa różne pola szachownicy (na przykład d1 h5) i wypisz TAK, jeśli hetman może przejść z pierwszego na drugie jednym ruchem (szachownica jest pusta), albo NIE w przeciwnym razie."
+      ],
+      "input_format": [
+        "Jeden wiersz z dwoma różnymi polami szachownicy, np. d1 h5."
+      ],
+      "output_format": [
+        "Jedno słowo: TAK albo NIE."
+      ],
+      "constraints": [
+        "litery od a do h, cyfry od 1 do 8",
+        "pola są różne"
+      ],
+      "examples": [
+        {
+          "input": "d1 h5",
+          "output": "TAK"
+        },
+        {
+          "input": "d1 d8",
+          "output": "TAK"
+        },
+        {
+          "input": "a1 b3",
+          "output": "NIE"
+        }
+      ],
+      "hint": "Ta sama kolumna (k1 == k2) albo ten sam wiersz (w1 == w2) to ruch w pionie lub poziomie. Po przekątnej hetman idzie wtedy, gdy różnica kolumn jest równa różnicy wierszy — po zamianie obu na wartości bez minusa.",
+      "tests_count": 18
+    },
+    {
+      "id": "ie-parking",
+      "number": 398,
+      "title": "Parking",
+      "category": "Instrukcja if / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na parkingu pierwsza godzina postoju jest darmowa, a za każdą kolejną rozpoczętą godzinę płaci się 4 zł. Na przykład za 61 minut płaci się 4 zł, a za 2 godziny i 1 minutę — 8 zł.",
+        "Wczytaj godzinę wjazdu i godzinę wyjazdu (obie w formacie HH:MM, tego samego dnia, wyjazd nie wcześniej niż wjazd) i wypisz opłatę w złotych."
+      ],
+      "input_format": [
+        "Jeden wiersz: godzina wjazdu i godzina wyjazdu, obie w postaci HH:MM, oddzielone spacją."
+      ],
+      "output_format": [
+        "Jedna liczba — opłata w złotych."
+      ],
+      "constraints": [
+        "00:00 ≤ wjazd ≤ wyjazd ≤ 23:59"
+      ],
+      "examples": [
+        {
+          "input": "10:00 10:45",
+          "output": "0"
+        },
+        {
+          "input": "10:00 11:01",
+          "output": "4"
+        },
+        {
+          "input": "08:30 12:30",
+          "output": "12"
+        }
+      ],
+      "hint": "Policz minuty postoju: (h2 * 60 + m2) - (h1 * 60 + m1). Jeśli to najwyżej 60 — opłata 0. W przeciwnym razie płatne minuty to postoj - 60, a liczba rozpoczętych godzin to płatne / 60 plus jeszcze 1, gdy płatne % 60 != 0 — tak jak przy autobusach z części 01.",
+      "tests_count": 13
+    },
+    {
+      "id": "ie-dzien-roku",
+      "number": 399,
+      "title": "Który to dzień roku?",
+      "category": "Instrukcja if / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj datę w formacie DD.MM.RRRR i wypisz, którym dniem roku jest. 1 stycznia to dzień 1, a 31 grudnia — dzień 365 albo 366 w roku przestępnym.",
+        "Rok jest przestępny, gdy dzieli się przez 4, ale nie przez 100 — albo gdy dzieli się przez 400. Data na wejściu jest poprawna."
+      ],
+      "input_format": [
+        "Jeden wiersz z datą DD.MM.RRRR."
+      ],
+      "output_format": [
+        "Jedna liczba — numer dnia w roku."
+      ],
+      "constraints": [
+        "1000 ≤ RRRR ≤ 9999",
+        "data jest poprawna"
+      ],
+      "examples": [
+        {
+          "input": "01.01.2026",
+          "output": "1"
+        },
+        {
+          "input": "01.03.2024",
+          "output": "61",
+          "note": "Styczeń (31) + luty (29) + 1 = 61."
+        },
+        {
+          "input": "31.12.2026",
+          "output": "365"
+        }
+      ],
+      "hint": "Zacznij od numer = d i dodawaj długości wszystkich pełnych miesięcy przed miesiącem m — osobnymi if-ami: if (m > 1) numer += 31; if (m > 2) numer += luty; if (m > 3) numer += 31; … aż do if (m > 11) numer += 30;. Luty ma 29 albo 28 dni — policz to wcześniej.",
+      "tests_count": 18
+    },
+    {
+      "id": "ie-ostatnia-cyfra-potegi",
+      "number": 400,
+      "title": "Ostatnia cyfra potęgi",
+      "category": "Instrukcja if / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj cyfrę a (od 0 do 9) i liczbę n (od 1 do 10¹⁸). Wypisz ostatnią cyfrę liczby aⁿ, czyli a pomnożonego przez siebie n razy.",
+        "Liczba aⁿ jest gigantyczna, ale jej ostatnie cyfry powtarzają się co 4 kroki. Na przykład dla a = 2 kolejne potęgi kończą się cyframi 2, 4, 8, 6, 2, 4, 8, 6, … Tak jest dla każdej cyfry: ostatnia cyfra aⁿ jest taka sama jak ostatnia cyfra aᵖ, gdzie p to liczba od 1 do 4 o tej samej reszcie z dzielenia przez 4 co n."
+      ],
+      "input_format": [
+        "Jeden wiersz z dwiema liczbami całkowitymi a i n."
+      ],
+      "output_format": [
+        "Jedna cyfra."
+      ],
+      "constraints": [
+        "0 ≤ a ≤ 9",
+        "1 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "2 10",
+          "output": "4",
+          "note": "2¹⁰ = 1024."
+        },
+        {
+          "input": "7 3",
+          "output": "3"
+        },
+        {
+          "input": "9 1000000000000000000",
+          "output": "1"
+        }
+      ],
+      "hint": "n nie mieści się w int — użyj long long. Policz p = (n - 1) % 4 + 1 (to liczba od 1 do 4). Potem pomnóż a przez siebie p razy, za każdym razem zostawiając tylko ostatnią cyfrę: int w = a; if (p >= 2) w = w * a % 10; if (p >= 3) w = w * a % 10; if (p >= 4) w = w * a % 10;.",
+      "tests_count": 18
+    },
+    {
+      "id": "ie-prostokaty",
+      "number": 401,
+      "title": "Wspólna część prostokątów",
+      "category": "Instrukcja if / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na płaszczyźnie leżą dwa prostokąty o bokach równoległych do osi układu. Pierwszy ma przeciwległe rogi w punktach (x1, y1) i (x2, y2), a drugi — w punktach (x3, y3) i (x4, y4), przy czym x1 < x2, y1 < y2, x3 < x4 i y3 < y4.",
+        "Wypisz pole części wspólnej prostokątów. Gdy prostokąty na siebie nie nachodzą (albo stykają się tylko brzegami), wypisz 0."
+      ],
+      "input_format": [
+        "Dwa wiersze: x1 y1 x2 y2 oraz x3 y3 x4 y4."
+      ],
+      "output_format": [
+        "Jedna liczba — pole części wspólnej."
+      ],
+      "constraints": [
+        "wszystkie współrzędne są między −10⁹ a 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "0 0 4 3\n2 1 6 5",
+          "output": "4",
+          "note": "Część wspólna to prostokąt od (2, 1) do (4, 3) — pole 2 · 2 = 4."
+        },
+        {
+          "input": "0 0 2 2\n3 3 5 5",
+          "output": "0"
+        }
+      ],
+      "hint": "Prostokąty nachodzą na siebie wtedy, gdy nachodzą na siebie ich „cienie” na obu osiach. Szerokość części wspólnej to min(x2, x4) - max(x1, x3), a wysokość — min(y2, y4) - max(y1, y3). Jeśli któraś wyjdzie ≤ 0, pole jest równe 0. Iloczyn może sięgać 4·10¹⁸ — tylko long long go pomieści.",
+      "tests_count": 14
+    },
+    {
+      "id": "ie-jutro",
+      "number": 402,
+      "title": "Wielki finał: jaka data będzie jutro?",
+      "category": "Instrukcja if / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj datę w formacie DD.MM.RRRR i wypisz datę następnego dnia w tym samym formacie: dzień i miesiąc dwiema cyframi, rok czterema.",
+        "Pamiętaj o miesiącach o różnej długości (kwiecień, czerwiec, wrzesień i listopad mają po 30 dni), o lutym w latach przestępnych (rok jest przestępny, gdy dzieli się przez 4, ale nie przez 100 — albo gdy dzieli się przez 400) i o Sylwestrze."
+      ],
+      "input_format": [
+        "Jeden wiersz z poprawną datą DD.MM.RRRR."
+      ],
+      "output_format": [
+        "Jeden wiersz z datą następnego dnia w formacie DD.MM.RRRR."
+      ],
+      "constraints": [
+        "1000 ≤ RRRR ≤ 9998",
+        "data jest poprawna"
+      ],
+      "examples": [
+        {
+          "input": "15.06.2026",
+          "output": "16.06.2026"
+        },
+        {
+          "input": "28.02.2024",
+          "output": "29.02.2024"
+        },
+        {
+          "input": "31.12.2025",
+          "output": "01.01.2026"
+        }
+      ],
+      "hint": "Najpierw policz, ile dni ma miesiąc m (jak w ćwiczeniu „Ile dni ma miesiąc?”). Potem: d++; if (d > dni) { d = 1; m++; if (m > 12) { m = 1; r++; } }. Wypisz z zerami: cout << setfill('0') << setw(2) << d << \".\" << setw(2) << m << \".\" << r;.",
+      "tests_count": 24
     }
   ]
 }

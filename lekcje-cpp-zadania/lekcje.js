@@ -231,6 +231,86 @@ const LEKCJE = [
             },
         ],
     },
+    {
+        temat: 'While loop',
+        prefix: 'wh-',
+        plik: 'c++_logika/while-loop.html',
+        pliki: ['while-cwiczenia-1.js', 'while-cwiczenia-2.js', 'while-baza.js'],
+        note: 'Czwarta lekcja C++: program powtarza instrukcje. Pętla while krok po kroku, licznik, suma i iloczyn, ' +
+            'wczytywanie danych w pętli (n liczb, wartość kończąca, while (cin >> x)), cyfry liczby i znaki napisu, ' +
+            'pętle „aż do skutku” (Collatz, algorytm Euklidesa), break, continue, do … while i pętla w pętli. ' +
+            'Wystarczy to, co znasz z lekcji o typach zmiennych, o wejściu i wyjściu oraz o if / else.',
+        bazaOpisy: {
+            latwe: 'Jedna pętla i jeden pomysł naraz — FizzBuzz, sumy, cyfry i ramka z gwiazdek.',
+            srednie: 'Symulacje, rekordy i serie, liczby pierwsze, system dwójkowy i szyfr Cezara.',
+            trudne: 'Rozkład na czynniki, NWW, Collatz, trójkąt Pascala — a na końcu wielki finał: dziennik pogody.',
+        },
+        kroki: [
+            {
+                nr: 1, kotwica: 'pierwsza', spis: 'Pierwsza pętla while',
+                nazwa: 'Krok 1 · Pierwsza pętla — powtarzaj, dopóki…',
+                kategoria: 'Pętla while / krok 1: pierwsza pętla',
+                note: 'Po co pętla, składnia while, ślad wykonania obrót po obrocie, liczenie od 1 do n i w dół, ' +
+                    'powtórzenie czegoś n razy, licznik pętli w obliczeniach, pętla w gałęzi if.',
+            },
+            {
+                nr: 2, kotwica: 'budowa', spis: 'Start, warunek i zmiana',
+                nazwa: 'Krok 2 · Start, warunek i zmiana — budowa pętli',
+                kategoria: 'Pętla while / krok 2: budowa pętli',
+                note: 'Trzy elementy każdej pętli, krok inny niż 1 (+= 2, -= k, *= 2), ile razy wykona się pętla i błąd o jeden, ' +
+                    'pętla, która nie wykona się ani razu, pętla nieskończona i średnik po while, dwie zmienne w jednej pętli.',
+            },
+            {
+                nr: 3, kotwica: 'suma', spis: 'Licznik, suma i iloczyn',
+                nazwa: 'Krok 3 · Licznik, suma i iloczyn',
+                kategoria: 'Pętla while / krok 3: licznik i suma',
+                note: 'Zmienna, która zbiera wynik: suma od zera, iloczyn od jedynki, licznik warunkowy z if w pętli, ' +
+                    'silnia i potęga w long long, dzielniki liczby i sprawdzanie, czy liczba jest pierwsza.',
+            },
+            {
+                nr: 4, kotwica: 'wczytywanie', spis: 'Wczytywanie danych w pętli',
+                nazwa: 'Krok 4 · Wczytywanie danych w pętli',
+                kategoria: 'Pętla while / krok 4: wczytywanie w pętli',
+                note: 'n liczb po kolei, średnia, największa i najmniejsza liczba, wartość kończąca (do zera), ' +
+                    'while (cin >> x) do końca danych, zapamiętywanie poprzedniej liczby.',
+            },
+            {
+                nr: 5, kotwica: 'cyfry', spis: 'Cyfry liczby i znaki napisu',
+                nazwa: 'Krok 5 · Cyfry liczby i znaki napisu',
+                kategoria: 'Pętla while / krok 5: cyfry i napisy',
+                note: 'n % 10 i n /= 10: liczba cyfr, suma cyfr, odwracanie liczby i palindromy; ' +
+                    'przechodzenie po napisie znak po znaku (s[i], s.length()) w przód i wstecz.',
+            },
+            {
+                nr: 6, kotwica: 'do-skutku', spis: 'Pętla „aż do skutku”',
+                nazwa: 'Krok 6 · Pętla „aż do skutku”',
+                kategoria: 'Pętla while / krok 6: aż do skutku',
+                note: 'Gdy nie wiadomo, ile będzie obrotów: dzielenie na pół, cel do osiągnięcia, lokata w groszach, ' +
+                    'problem Collatza, algorytm Euklidesa (NWD), odejmowanie do skutku.',
+            },
+            {
+                nr: 7, kotwica: 'break', spis: 'break, continue i do … while',
+                nazwa: 'Krok 7 · break, continue, while (true) i do … while',
+                kategoria: 'Pętla while / krok 7: break, continue, do-while',
+                note: 'Przerwanie pętli w połowie, pomijanie obrotu i pułapka z i++, pętla while (true) z wyjściem w środku, ' +
+                    'menu poleceń, do … while wykonujące się co najmniej raz, szukanie dzielnika do pierwiastka.',
+            },
+            {
+                nr: 8, kotwica: 'zagniezdzone', spis: 'Pętla w pętli',
+                nazwa: 'Krok 8 · Pętla w pętli',
+                kategoria: 'Pętla while / krok 8: pętla w pętli',
+                note: 'Wiersze i kolumny: prostokąty, trójkąty, choinka i szachownica z gwiazdek, tabliczka mnożenia, ' +
+                    'zerowanie licznika wewnętrznej pętli, liczby pierwsze i doskonałe do n.',
+            },
+            {
+                nr: 9, kotwica: 'baza', spis: 'Baza zadań', baza: true,
+                nazwa: 'Baza zadań — podsumowanie tematu',
+                kategoria: 'Pętla while / baza zadań',
+                note: 'Zadania na cały temat, od najłatwiejszego do najtrudniejszego: FizzBuzz, ślimak w studni, bankomat, ' +
+                    'system dwójkowy, szyfr Cezara, rozkład na czynniki, trójkąt Pascala — a na koniec wielki finał: dziennik pogody.',
+            },
+        ],
+    },
 ];
 
 module.exports = { SITE, KATEGORIA, LEKCJE };

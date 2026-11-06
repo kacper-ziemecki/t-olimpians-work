@@ -311,6 +311,85 @@ const LEKCJE = [
             },
         ],
     },
+    {
+        temat: 'For loop',
+        prefix: 'for-',
+        plik: 'c++_logika/for-loop.html',
+        pliki: ['for-cwiczenia-1.js', 'for-cwiczenia-2.js', 'for-baza.js'],
+        note: 'Piąta lekcja C++: pętla for, czyli start, warunek i zmiana w jednej linijce. Zakresy i liczba obrotów, ' +
+            'wczytywanie danych, break i continue w for, napisy (także for (char c : s)), pętle zagnieżdżone, ' +
+            'sprawdzanie wszystkich możliwości i szybkość pętli. Wystarczy to, co znasz z poprzednich lekcji — zwłaszcza z lekcji o while.',
+        bazaOpisy: {
+            latwe: 'Jedna pętla albo prosta pętla w pętli — sumy, alfabet, wykresy, tabela temperatur i silnie.',
+            srednie: 'Serie, rysunki z warunkiem na wiersz i kolumnę, liczenie liter, kompresja napisu, hetman i zegar.',
+            trudne: 'Trójki pitagorejskie, palindromy, Goldbach, liczby zaprzyjaźnione, kalendarz — a na końcu wielki finał: wyniki konkursu.',
+        },
+        kroki: [
+            {
+                nr: 1, kotwica: 'pierwsza', spis: 'Pierwsza pętla for',
+                nazwa: 'Krok 1 · Pierwsza pętla for — while w jednej linijce',
+                kategoria: 'Pętla for / krok 1: pierwsza pętla for',
+                note: 'Budowa for: start, warunek i zmiana w jednym nawiasie, kolejność wykonywania, ślad obrót po obrocie, ' +
+                    'przepisywanie while na for, n razy, odliczanie, licznik w obliczeniach, suma z double.',
+            },
+            {
+                nr: 2, kotwica: 'zakresy', spis: 'Zakresy, kroki i liczba obrotów',
+                nazwa: 'Krok 2 · Zakresy, kroki i liczba obrotów',
+                kategoria: 'Pętla for / krok 2: zakresy i kroki',
+                note: 'Od a do b, w dół, co k, mnożenie licznika, dwa liczniki w jednym nawiasie, ile razy obróci się pętla, ' +
+                    'pusty zakres, zasięg licznika (zmienna istnieje tylko w pętli), pierwsza wielokrotność i skoki co k.',
+            },
+            {
+                nr: 3, kotwica: 'dane', spis: 'for i dane wejściowe',
+                nazwa: 'Krok 3 · for i dane wejściowe',
+                kategoria: 'Pętla for / krok 3: for i dane',
+                note: 'n liczb w pętli for, suma i średnia, rekordy z pozycją (pierwsza i ostatnia), wiersze z kilkoma danymi, ' +
+                    'imię przy rekordzie, poprzednia liczba, minimum na bieżąco.',
+            },
+            {
+                nr: 4, kotwica: 'break', spis: 'for kontra while, break i continue',
+                nazwa: 'Krok 4 · for kontra while — break, continue i for (;;)',
+                kategoria: 'Pętla for / krok 4: for kontra while',
+                note: 'Kiedy for, a kiedy while, break przy szukaniu, continue bez pułapki z licznikiem, ' +
+                    'pętla bez warunku for (;;), następna liczba pierwsza.',
+            },
+            {
+                nr: 5, kotwica: 'napisy', spis: 'for i napisy',
+                nazwa: 'Krok 5 · for i napisy',
+                kategoria: 'Pętla for / krok 5: for i napisy',
+                note: 'for po indeksach napisu, for (char c : s), getline, separatory, zamiana liter na kodach, ' +
+                    'palindromy, porównywanie dwóch napisów, budowanie nowego napisu, krok co 2.',
+            },
+            {
+                nr: 6, kotwica: 'zagniezdzone', spis: 'Pętle zagnieżdżone',
+                nazwa: 'Krok 6 · Pętle zagnieżdżone',
+                kategoria: 'Pętla for / krok 6: pętle zagnieżdżone',
+                note: 'Wiersze i kolumny z for, trójkąty w różne strony, pętla po literach, pary i < j, ' +
+                    'tabliczka z nagłówkami i setw, piramida z cyfr, liczenie par.',
+            },
+            {
+                nr: 7, kotwica: 'mozliwosci', spis: 'Sprawdź wszystkie możliwości',
+                nazwa: 'Krok 7 · Sprawdź wszystkie możliwości',
+                kategoria: 'Pętla for / krok 7: wszystkie możliwości',
+                note: 'Przeszukiwanie zupełne: kury i krowy, cyfry liczb trzycyfrowych, zakupy co do grosza, sumy kwadratów, ' +
+                    'trójkąty o danym obwodzie, kody PIN, trzecia wartość wyliczona z dwóch.',
+            },
+            {
+                nr: 8, kotwica: 'szybkosc', spis: 'Jak szybka jest pętla',
+                nazwa: 'Krok 8 · Jak szybka jest pętla',
+                kategoria: 'Pętla for / krok 8: szybkość pętli',
+                note: 'Ile obrotów zdąży komputer w sekundę, liczenie obrotów wzorem, pętla do pierwiastka, ' +
+                    'dzielniki w parach, jedna pętla zamiast dwóch.',
+            },
+            {
+                nr: 9, kotwica: 'baza', spis: 'Baza zadań', baza: true,
+                nazwa: 'Baza zadań — podsumowanie tematu',
+                kategoria: 'Pętla for / baza zadań',
+                note: 'Zadania na cały temat, od najłatwiejszego do najtrudniejszego: silnie, wykresy, romb, warstwy kwadratu, ' +
+                    'anagramy, hetman, trójki pitagorejskie, Goldbach, kalendarz — a na koniec wielki finał: wyniki konkursu.',
+            },
+        ],
+    },
 ];
 
 module.exports = { SITE, KATEGORIA, LEKCJE };

@@ -470,6 +470,86 @@ const LEKCJE = [
             },
         ],
     },
+    {
+        temat: 'Tablice',
+        prefix: 'tab-',
+        plik: 'c++_logika/tablice.html',
+        pliki: ['tablice-cwiczenia-1.js', 'tablice-cwiczenia-2.js', 'tablice-baza.js'],
+        note: 'Siódma lekcja C++ i pierwsza z drugiego etapu: tablice. Pudełka z numerami i indeksy od zera, wczytywanie, ' +
+            'wypisywanie i wypełnianie tablicy pętlą, suma, maksimum, szukanie i sąsiedzi, zamiana, odwracanie, przesuwanie, ' +
+            'usuwanie i wstawianie, tablice równoległe i ściągi, tablica liczników, tablice dwuwymiarowe i plansze, a na koniec ' +
+            'duże tablice globalne, sumy prefiksowe i sito Eratostenesa. Wystarczy to, co znasz z pierwszego etapu.',
+        bazaOpisy: {
+            latwe: 'Jeden pomysł naraz: zamiana sąsiadów, palindromy, podlewanie ogrodu, sto drzwi, waga szalkowa, wybory, wieże, kino, lista zakupów i pionek na planszy.',
+            srednie: 'Kilka sztuczek naraz: medaliści, statki, kwadrat magiczny, sudoku, lider ciągu, cieplejszy dzień, liczby bliźniacze, mediana, wywiadówka, wykres i szyfr kolumnowy.',
+            trudne: 'Spirala, gra w życie, skarbonki z tablicą różnic, sumy prostokątów, dodawanie i silnia olbrzymów, rekordzista dzielników — a na końcu wielki finał: tabela turnieju.',
+        },
+        kroki: [
+            {
+                nr: 1, kotwica: 'pierwsza', spis: 'Pierwsza tablica',
+                nazwa: 'Krok 1 · Pierwsza tablica — pudełka z numerami',
+                kategoria: 'Tablice / krok 1: pierwsza tablica',
+                note: 'Tworzenie tablicy, indeksy od zera, zapisywanie i odczytywanie pudełek, wartości w klamrach, indeks jako wyrażenie, ' +
+                    'wyjście poza tablicę, tablice napisów i tablice-ściągi.',
+            },
+            {
+                nr: 2, kotwica: 'petla', spis: 'Tablica i pętla',
+                nazwa: 'Krok 2 · Tablica i pętla — wczytaj, wypisz, wypełnij',
+                kategoria: 'Tablice / krok 2: tablica i pętla',
+                note: 'n liczb w tablicy z zapasem, wypisywanie od tyłu, z numerami i co drugi element, fragment od a do b, ' +
+                    'wypełnianie wzorem, element z poprzednich (potęgi, Fibonacci), separatory i for (int x : t).',
+            },
+            {
+                nr: 3, kotwica: 'przegladanie', spis: 'Suma, maksimum, szukanie',
+                nazwa: 'Krok 3 · Przeglądanie tablicy — suma, maksimum, szukanie',
+                kategoria: 'Tablice / krok 3: przeglądanie',
+                note: 'Suma i średnia, liczby większe od średniej, liczniki z warunkiem, maksimum i jego pozycja, szukanie z break, ' +
+                    'pierwsze i ostatnie wystąpienie, sąsiedzi t[i] i t[i + 1], pary i < j.',
+            },
+            {
+                nr: 4, kotwica: 'zmiany', spis: 'Zamiana, odwracanie, przesuwanie',
+                nazwa: 'Krok 4 · Zmienianie tablicy — zamiana, odwracanie, przesuwanie',
+                kategoria: 'Tablice / krok 4: zmiany',
+                note: 'Zmiana każdego elementu, swap, odwracanie całości i fragmentu, przesuwanie w kółko o 1 i o k, ' +
+                    'usuwanie i wstawianie, usuwanie wielu elementów dwoma indeksami, kopiowanie pętlą.',
+            },
+            {
+                nr: 5, kotwica: 'kilka', spis: 'Kilka tablic naraz',
+                nazwa: 'Krok 5 · Kilka tablic naraz — równoległe, ściągi, scalanie',
+                kategoria: 'Tablice / krok 5: kilka tablic',
+                note: 'Tablice równoległe (imię i punkty), dane z dwóch rund, nowa tablica z wybranych elementów, ściągi indeksowane literą, ' +
+                    'liczby rzymskie, scalanie dwóch uporządkowanych list.',
+            },
+            {
+                nr: 6, kotwica: 'zliczanie', spis: 'Tablica liczników',
+                nazwa: 'Krok 6 · Tablica liczników — ile razy wystąpiło',
+                kategoria: 'Tablice / krok 6: liczniki',
+                note: 'ile[x]++, histogram, liczenie liter, najczęstsza wartość, tablica bool „czy już było”, brakujące i powtórzone liczby, ' +
+                    'sortowanie przez zliczanie, przesunięcie dla liczb ujemnych.',
+            },
+            {
+                nr: 7, kotwica: 'dwuwymiarowe', spis: 'Tablice dwuwymiarowe',
+                nazwa: 'Krok 7 · Tablice dwuwymiarowe — wiersze i kolumny',
+                kategoria: 'Tablice / krok 7: tablice 2D',
+                note: 't[w][k], wczytywanie tabelki, sumy wierszy i kolumn, transpozycja, przekątne, plansze ze znaków, ' +
+                    'sąsiedzi kratki z kontrolą brzegów, saper i kierunki w tablicach.',
+            },
+            {
+                nr: 8, kotwica: 'olimpiada', spis: 'Tablice na olimpiadzie',
+                nazwa: 'Krok 8 · Tablice na olimpiadzie — sumy prefiksowe i sito',
+                kategoria: 'Tablice / krok 8: olimpiada',
+                note: 'Duże tablice globalne i szacowanie pamięci, numeracja od 1, sumy prefiksowe i suma przedziału p[b] − p[a − 1], ' +
+                    'najlepszy odcinek długości k, sito Eratostenesa.',
+            },
+            {
+                nr: 9, kotwica: 'baza', spis: 'Baza zadań', baza: true,
+                nazwa: 'Baza zadań — podsumowanie tematu',
+                kategoria: 'Tablice / baza zadań',
+                note: 'Zadania na cały temat, od najłatwiejszego do najtrudniejszego: sto drzwi, wieże, kino, statki, sudoku, kwadrat magiczny, ' +
+                    'gra w życie, spirala, olbrzymie liczby cyfra po cyfrze — a na koniec wielki finał: tabela turnieju.',
+            },
+        ],
+    },
 ];
 
 module.exports = { SITE, KATEGORIA, LEKCJE };

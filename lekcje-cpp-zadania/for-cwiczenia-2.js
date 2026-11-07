@@ -926,10 +926,12 @@ int main() {
             statement: ['Wczytaj n i wypisz w jednym wierszu wszystkie jego dzielniki w kolejności rosnącej.'],
             input_format: ['Jedna liczba całkowita n.'],
             output_format: ['Jeden wiersz z dzielnikami.'],
-            constraints: ['1 ≤ n ≤ 10¹²'],
+            constraints: ['1 ≤ n ≤ 10¹⁰'],
             examples: [{ input: '36' }, { input: '13' }],
             hint: R`Pierwsza pętla idzie od d = 1 w górę, dopóki d * d <= n, i wypisuje małe dzielniki d. Druga idzie od tego samego miejsca w dół (od ostatniego d z d * d <= n do 1) i wypisuje „duże” dzielniki n / d — z pominięciem przypadku d * d == n, żeby pierwiastka nie wypisać dwa razy.`,
-            tests: (r) => ['36', '13', '1', '2', '1000000000000', '963761198400', '999999000001', '999999999989', String(r.int(1, 1e12)), String(r.int(1, 1e6) ** 2)],
+            // 6983776800 ma najwięcej dzielników (2304) spośród liczb do 10¹⁰; 9998000099 = 99989 · 99991, 9998200081 = 99991².
+            tests: (r) => ['36', '13', '1', '2', '10000000000', '6983776800', '9998000099', '9999999967', String(r.int(1, 1e10)), String(r.int(1, 1e5) ** 2), '9998200081'],
+            check: (inp) => { const n = Number(toks(inp)[0]); return Number.isInteger(n) && n >= 1 && n <= 1e10 ? null : 'n poza 1..10^10'; },
             solve: (inp) => dzielniki(Number(toks(inp)[0])).join(' '),
             cpp: R`
 #include <iostream>

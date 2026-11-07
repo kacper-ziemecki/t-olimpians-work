@@ -175,10 +175,12 @@ int main() {
             ],
             input_format: ['W pierwszym wierszu wejścia znajduje się liczba n.', 'W drugim wierszu znajduje się n liczb całkowitych.'],
             output_format: ['Wypisz w jednym wierszu te same liczby w kolejności niemalejącej.'],
-            constraints: ['1 ≤ n ≤ 5000', '−10⁹ ≤ aᵢ ≤ 10⁹'],
+            constraints: ['1 ≤ n ≤ 2000', '−10⁹ ≤ aᵢ ≤ 10⁹'],
             examples: [{ input: '6\n5 2 4 6 1 3', note: '5 2 4 | 6 1 3 → po posortowaniu połówek 2 4 5 | 1 3 6 → po scaleniu 1 2 3 4 5 6.' }],
             hint: 'void sortuj(int l, int r): if (l >= r) return; int s = (l + r) / 2; sortuj(l, s); sortuj(s + 1, r); potem scalanie: dwa wskaźniki i = l, j = s + 1 i tablica pom — zawsze przepisuj do pom mniejszy z a[i], a[j], a na koniec skopiuj pom[l..r] z powrotem do a. (Do sprawdzenia możesz użyć sort(), ale celem jest napisać to samemu.)',
-            tests: (r) => ['1\n42', '2\n2 1', '5\n1 2 3 4 5', '5\n5 4 3 2 1', arrT(r, 10, -9, 9), arrT(r, 1000, -1e9, 1e9), arrT(r, 5000, -1e9, 1e9), arrT(r, 5000, 0, 3)],
+            tests: (r) => ['1\n42', '2\n2 1', '5\n1 2 3 4 5', '5\n5 4 3 2 1', arrT(r, 10, -9, 9), arrT(r, 1000, -1e9, 1e9), arrT(r, 2000, -1e9, 1e9), arrT(r, 2000, 0, 3),
+                `2000\n${Array.from({ length: 2000 }, (_, i) => (i % 2 ? -1e9 : 1e9)).join(' ')}`],
+            check: (inp) => { const a = h.nums(inp); const n = a[0]; return n >= 1 && n <= 2000 && a.length === n + 1 && a.slice(1).every((x) => Math.abs(x) <= 1e9) ? null : 'n albo liczby poza zakresem'; },
             solve: (inp) => h.nums(inp).slice(1).sort((x, y) => x - y).join(' '),
             cpp: String.raw`
 #include <bits/stdc++.h>

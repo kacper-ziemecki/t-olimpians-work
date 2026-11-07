@@ -46,10 +46,11 @@ int main() {
             ],
             input_format: ['W jedynym wierszu wejścia znajduje się jedna liczba całkowita n.'],
             output_format: ['Wypisz w jednym wierszu liczby tworzące linijkę rzędu n, oddzielone spacjami.'],
-            constraints: ['1 ≤ n ≤ 14'],
+            constraints: ['1 ≤ n ≤ 13'],
             examples: [{ input: '3', note: 'linijka(3) = linijka(2), 3, linijka(2) = (1 2 1) 3 (1 2 1). Linijka rzędu n ma 2ⁿ − 1 liczb.' }],
             hint: 'void linijka(int n): if (n == 0) return; linijka(n - 1); cout << n << " "; linijka(n - 1);. Liczba n wypisuje się pomiędzy dwoma wywołaniami — w drodze powrotnej z pierwszego, a przed zejściem w drugie.',
-            tests: () => ['1', '2', '4', '5', '7', '10', '12', '14'],
+            tests: () => ['1', '2', '4', '5', '7', '10', '12', '13'],
+            check: (inp) => { const n = Number(inp); return Number.isInteger(n) && n >= 1 && n <= 13 ? null : 'n poza 1..13'; },
             solve: (inp) => { const o = []; const f = (n) => { if (!n) return; f(n - 1); o.push(n); f(n - 1); }; f(Number(inp)); return o.join(' '); },
             cpp: String.raw`
 #include <bits/stdc++.h>

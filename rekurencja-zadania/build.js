@@ -29,6 +29,9 @@ const NETWORK_JSON = path.join(ROOT, 'network-data.json');
 const KATEGORIA = 'Programowanie Dynamiczne';
 const TEMAT = 'Funkcje rekurencyjne';
 const PREFIX = 'rek-';
+// Sprawdzarka (zadania.html) uruchamia programy na Compiler Explorerze, a ten oddaje najwyżej 32 768 znaków
+// wyjścia programu — test z dłuższym wyjściem oblałby każdy program. Zapas zostaje na spacje na końcach wierszy.
+const MAX_WYJSCIE = 30000;
 
 const args = process.argv.slice(2);
 const SPRAWDZ = args.includes('--sprawdz');
@@ -91,7 +94,14 @@ function buildTask(t) {
             const err = t.check(inp);
             if (err) throw new Error(`${t.id}: test łamie ograniczenia (${err}): ${JSON.stringify(inp.slice(0, 80))}`);
         }
-        tests.push({ input: inp, output: run(inp) });
+        const output = run(inp);
+        const size = Buffer.byteLength(output, 'utf8');
+        if (size >= MAX_WYJSCIE) {
+            throw new Error(`${t.id}: wyjście testu ma ${size} bajtów, a musi mieć mniej niż ${MAX_WYJSCIE} ` +
+                `(Compiler Explorer ucina wyjście na 32 768 znakach) — zmniejsz test, a jeśli trzeba, także ograniczenia: ` +
+                JSON.stringify(inp.slice(0, 80)));
+        }
+        tests.push({ input: inp, output });
     };
     examples.forEach((ex) => add(ex.input));
     t.tests(h.rng(hashSeed(t.id))).forEach(add);
@@ -140,14 +150,22 @@ const dzialUrl = (cat) => `${SITE}/zadania-tematowe-app/zadania.html?dzial=${enc
 
 function writeZadania(built) {
     const meta = readJson(ZADANIA_JSON);
-    const rest = meta.data.tasks.filter((t) => !t.id.startsWith(PREFIX));
-    let num = rest.reduce((m, t) => Math.max(m, t.number || 0), 0);
+    const all = meta.data.tasks;
+    // Zadania rek-* zostają jednym blokiem w tym samym miejscu i z tymi samymi numerami: numer widać
+    // w sprawdzarce (#98) i po nim sortuje się lista, a za blokiem stoją zadania lekcji C++
+    // (lekcje-cpp-zadania/build.js numeruje je od największego numeru reszty). Nowe zadanie rek-*
+    // dostaje pierwszy wolny numer.
+    const oldNumber = new Map(all.filter((t) => t.id.startsWith(PREFIX)).map((t) => [t.id, t.number]));
+    let num = all.reduce((m, t) => Math.max(m, t.number || 0), 0);
     const fresh = built.map((b) => {
-        const o = { id: b.id, number: ++num };
+        const o = { id: b.id, number: oldNumber.has(b.id) ? oldNumber.get(b.id) : ++num };
         for (const [k, v] of Object.entries(b)) if (!k.startsWith('_') && k !== 'id') o[k] = v;
         return o;
     });
-    meta.data.tasks = rest.concat(fresh);
+    const rest = all.filter((t) => !t.id.startsWith(PREFIX));
+    const first = all.findIndex((t) => t.id.startsWith(PREFIX)); // przed nim same zadania spoza rek-*
+    const at = first < 0 ? rest.length : first;
+    meta.data.tasks = [...rest.slice(0, at), ...fresh, ...rest.slice(at)];
     writeJson(ZADANIA_JSON, meta, meta.data);
     // Testy idą do zadania-tematowe-app/testy/<id>.json — strona pobiera je dopiero przy „Wyślij”.
     podzielTesty();

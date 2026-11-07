@@ -393,11 +393,12 @@ int main() {
             statement: ['Wczytaj n, a i b. Wypisz w jednym wierszu wszystkie liczby od 1 do n, które dzielą się zarówno przez a, jak i przez b. Jeśli nie ma ani jednej takiej liczby, wypisz BRAK.'],
             input_format: ['Jeden wiersz z trzema liczbami całkowitymi n, a i b.'],
             output_format: ['Jeden wiersz z liczbami oddzielonymi spacjami albo słowo BRAK.'],
-            constraints: ['1 ≤ n ≤ 10 000', '1 ≤ a, b ≤ 10 000'],
+            constraints: ['1 ≤ n ≤ 5000', '1 ≤ a, b ≤ 5000'],
             examples: [{ input: '50 4 6', note: 'Liczba podzielna przez 4 i przez 6 nie musi dzielić się przez 24 — wystarczy 12.' }, { input: '10 4 6' }],
             hint: R`Warunek i % a == 0 && i % b == 0. Zapamiętaj w zmiennej, czy coś zostało wypisane, żeby po pętli wiedzieć, czy trzeba wypisać BRAK.`,
-            tests: (r) => ['50 4 6', '10 4 6', '100 3 5', '10000 1 1', '10000 7 7', '10000 9999 10000', '1 1 1', '10000 100 250',
-                `${r.int(1000, 10000)} ${r.int(2, 60)} ${r.int(2, 60)}`],
+            tests: (r) => ['50 4 6', '10 4 6', '100 3 5', '5000 1 1', '5000 7 7', '5000 4999 5000', '1 1 1', '5000 100 250',
+                `${r.int(1000, 5000)} ${r.int(2, 60)} ${r.int(2, 60)}`],
+            check: (inp) => { const [n, a, b] = nums(inp); return n >= 1 && n <= 5000 && a >= 1 && a <= 5000 && b >= 1 && b <= 5000 ? null : 'n, a albo b poza zakresem'; },
             solve: (inp) => {
                 const [n, a, b] = nums(inp);
                 const ls = [];

@@ -390,6 +390,86 @@ const LEKCJE = [
             },
         ],
     },
+    {
+        temat: 'Modulo',
+        prefix: 'mod-',
+        plik: 'c++_logika/modulo.html',
+        pliki: ['modulo-cwiczenia-1.js', 'modulo-cwiczenia-2.js', 'modulo-baza.js'],
+        note: 'Szósta lekcja C++: reszta z dzielenia, czyli operator %. Dzielenie z resztą i kolejność działań, podzielność, ' +
+            'rozkładanie czasu i pieniędzy na jednostki, cyfry na dowolnej pozycji i inne systemy liczbowe, zawijanie w kółko ' +
+            '(zegar, dni tygodnia, numeracja od 1), liczby ujemne, działania modulo (wynik modulo 10⁹ + 7, reszta z ogromnej liczby) ' +
+            'oraz NWD, dzielenie pisemne i szybkie potęgowanie. Wystarczy to, co znasz z poprzednich lekcji — zwłaszcza pętle.',
+        bazaOpisy: {
+            latwe: 'Jedno zastosowanie % naraz — reszty, ostatnie cyfry, numeracja od 1, grosze i zegar z kukułką.',
+            srednie: 'Kilka sztuczek naraz: obroty liczb, systemy liczbowe, olbrzymy zapisane jako napisy, kod kreskowy, zera silni i zegar w lustrze.',
+            trudne: 'Okresy reszt, IBAN, wyliczanka, ułamki okresowe i strefy czasowe — a na końcu wielki finał: dzień tygodnia dowolnej daty.',
+        },
+        kroki: [
+            {
+                nr: 1, kotwica: 'reszta', spis: 'Dzielenie z resztą: / i %',
+                nazwa: 'Krok 1 · Dzielenie z resztą — / i %',
+                kategoria: 'Modulo / krok 1: dzielenie z resztą',
+                note: 'Iloraz i reszta, sprawdzenie a = b · q + r, reszta zawsze mniejsza od dzielnika, reszty idące w kółko, ' +
+                    'kolejność działań z % i operator %=.',
+            },
+            {
+                nr: 2, kotwica: 'podzielnosc', spis: 'Podzielność',
+                nazwa: 'Krok 2 · Podzielność — reszta równa zero',
+                kategoria: 'Modulo / krok 2: podzielność',
+                note: 'x % k == 0, parzystość, dzielnik czy wielokrotność, liczenie wielokrotności wzorem, co k-ty element, ' +
+                    'lata przestępne, wspólne wielokrotności, cecha podzielności przez 3 i 9.',
+            },
+            {
+                nr: 3, kotwica: 'jednostki', spis: 'Czas, pieniądze i miary',
+                nazwa: 'Krok 3 · Rozkładanie na jednostki — czas, pieniądze, miary',
+                kategoria: 'Modulo / krok 3: jednostki',
+                note: 'Minuty na godziny, sekundy na HH:MM:SS, grosze na złote, składanie z powrotem i różnica czasu, ' +
+                    'wydawanie reszty, mieszane jednostki: tygodnie, jardy, doba na innej planecie.',
+            },
+            {
+                nr: 4, kotwica: 'cyfry', spis: 'Cyfry liczby',
+                nazwa: 'Krok 4 · Cyfry liczby — każda pozycja na zawołanie',
+                kategoria: 'Modulo / krok 4: cyfry liczby',
+                note: 'n / 10ᵏ % 10, ostatnie cyfry przez % 100 i % 1000, pierwsza cyfra, liczenie cyfr z do … while, ' +
+                    'budowanie liczby z wybranych cyfr, wycinanie cyfry, zapis w systemie o podstawie b.',
+            },
+            {
+                nr: 5, kotwica: 'w-kolko', spis: 'Zawijanie w kółko',
+                nazwa: 'Krok 5 · Zawijanie w kółko — zegar, kalendarz, kółeczko',
+                kategoria: 'Modulo / krok 5: zawijanie w kółko',
+                note: 'Zegar i dni tygodnia, numeracja od 1 ((x − 1 + k) % n + 1), rzędy i miejsca, chodzenie po kółku, ' +
+                    'powtarzające się wzory, szachownica z dużych pól, cykl świateł.',
+            },
+            {
+                nr: 6, kotwica: 'ujemne', spis: 'Liczby ujemne i pułapki',
+                nazwa: 'Krok 6 · Liczby ujemne i pułapki',
+                kategoria: 'Modulo / krok 6: liczby ujemne',
+                note: 'Znak reszty w C++, poprawka ((a % n) + n) % n, cofanie zegara, czas przez północ, iloraz i reszta ' +
+                    'po matematycznemu, nieparzystość liczb ujemnych, % na double i dzielenie przez zero.',
+            },
+            {
+                nr: 7, kotwica: 'dzialania', spis: 'Działania modulo',
+                nazwa: 'Krok 7 · Działania modulo — reszta z ogromnych liczb',
+                kategoria: 'Modulo / krok 7: działania modulo',
+                note: 'Reszta z sumy i z iloczynu, modulo po każdym kroku, ostatnie cyfry potęg, wynik modulo 10⁹ + 7, ' +
+                    'silnia i Fibonacci modulo, reszta z liczby zapisanej jako napis.',
+            },
+            {
+                nr: 8, kotwica: 'olimpiada', spis: 'Modulo na olimpiadzie',
+                nazwa: 'Krok 8 · Modulo na olimpiadzie — NWD, dzielenie pisemne, szybkie potęgowanie',
+                kategoria: 'Modulo / krok 8: modulo na olimpiadzie',
+                note: 'Algorytm Euklidesa z resztą, NWW i skracanie ułamków, dzielenie pisemne z dowolną liczbą cyfr, ' +
+                    'k-ta cyfra po przecinku, szybkie potęgowanie modulo.',
+            },
+            {
+                nr: 9, kotwica: 'baza', spis: 'Baza zadań', baza: true,
+                nazwa: 'Baza zadań — podsumowanie tematu',
+                kategoria: 'Modulo / baza zadań',
+                note: 'Zadania na cały temat, od najłatwiejszego do najtrudniejszego: zegar z kukułką, batony w paczkach, kod kreskowy, ' +
+                    'zera silni, zegar w lustrze, IBAN, wyliczanka, ułamki okresowe — a na koniec wielki finał: jaki to dzień tygodnia.',
+            },
+        ],
+    },
 ];
 
 module.exports = { SITE, KATEGORIA, LEKCJE };

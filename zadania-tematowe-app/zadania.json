@@ -18777,6 +18777,3191 @@
       ],
       "hint": "Zewnętrzna pętla po uczestnikach: wczytaj imię, wyzeruj sumę, ustaw maksimum, flagę „miał zero” na false. Wewnętrzna po zadaniach: wczytaj wynik, dodaj do sumy, popraw maksimum, policz setki i zera. Po wewnętrznej pętli wypisz wiersz uczestnika i zaktualizuj dane do podsumowania (zwycięzca, suma wszystkich sum, licznik „bez zera”). Podsumowanie — po zewnętrznej pętli.",
       "tests_count": 9
+    },
+    {
+      "id": "mod-iloraz-reszta",
+      "number": 580,
+      "title": "Iloraz i reszta",
+      "category": "Modulo / krok 1: dzielenie z resztą",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj liczbę t, a potem t par liczb a i b. Dla każdej pary wypisz w osobnym wierszu dwie liczby: a / b — ile razy b mieści się w a — oraz a % b — ile zostaje."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t. W każdym z kolejnych t wierszy dwie liczby całkowite a i b."
+      ],
+      "output_format": [
+        "t wierszy, w każdym iloraz i reszta oddzielone spacją."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100",
+        "0 ≤ a ≤ 10⁹",
+        "1 ≤ b ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "3\n17 5\n20 5\n3 5",
+          "output": "3 2\n4 0\n0 3",
+          "note": "17 = 5 · 3 + 2, 20 = 5 · 4 + 0, a 3 = 5 · 0 + 3 — piątka nie mieści się w trójce ani razu."
+        }
+      ],
+      "hint": "W pętli for (int i = 0; i < t; i++) wczytaj a i b, a potem wypisz a / b << \" \" << a % b << \"\\n\". Gdy a jest mniejsze od b, iloraz to 0, a reszta — całe a.",
+      "tests_count": 6
+    },
+    {
+      "id": "mod-zapis-dzielenia",
+      "number": 581,
+      "title": "Dzielenie z resztą na piśmie",
+      "category": "Modulo / krok 1: dzielenie z resztą",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj liczby a i b i wypisz zapis dzielenia z resztą w postaci a = b * q + r, gdzie q to wynik dzielenia całkowitego a przez b, a r to reszta. Na przykład dla 17 i 5 wypisz 17 = 5 * 3 + 2."
+      ],
+      "input_format": [
+        "Jeden wiersz z dwiema liczbami całkowitymi a i b."
+      ],
+      "output_format": [
+        "Jeden wiersz: a = b * q + r — ze spacjami wokół znaków =, * i +."
+      ],
+      "constraints": [
+        "0 ≤ a ≤ 10⁹",
+        "1 ≤ b ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "17 5",
+          "output": "17 = 5 * 3 + 2"
+        },
+        {
+          "input": "3 7",
+          "output": "3 = 7 * 0 + 3",
+          "note": "Siódemka nie mieści się w trójce ani razu: iloraz 0, reszta 3."
+        }
+      ],
+      "hint": "Policz q = a / b i r = a % b, a potem wypisz wszystko jednym cout: cout << a << \" = \" << b << \" * \" << q << \" + \" << r. Zawsze wyjdzie prawdziwa równość — możesz ją sprawdzić na kalkulatorze.",
+      "tests_count": 10
+    },
+    {
+      "id": "mod-reszty-po-kolei",
+      "number": 582,
+      "title": "Reszty po kolei",
+      "category": "Modulo / krok 1: dzielenie z resztą",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n i k. Wypisz w jednym wierszu reszty z dzielenia przez k kolejnych liczb od 1 do n: 1 % k, 2 % k, 3 % k, …, n % k. Przyjrzyj się wynikowi — reszty powtarzają się w kółko."
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami n i k."
+      ],
+      "output_format": [
+        "Jeden wiersz z n resztami oddzielonymi spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "1 ≤ k ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "10 4",
+          "output": "1 2 3 0 1 2 3 0 1 2",
+          "note": "Po reszcie 3 (czyli k − 1) zawsze wraca 0."
+        },
+        {
+          "input": "5 1",
+          "output": "0 0 0 0 0"
+        }
+      ],
+      "hint": "for (int i = 1; i <= n; i++) { cout << i % k << \" \"; }. Dla k = 4 reszty idą 1, 2, 3, 0, 1, 2, 3, 0, … Dla k = 1 każda reszta to 0, bo jedynka mieści się w każdej liczbie bez reszty.",
+      "tests_count": 8
+    },
+    {
+      "id": "mod-kolejnosc-dzialan",
+      "number": 583,
+      "title": "Kolejność działań z %",
+      "category": "Modulo / krok 1: dzielenie z resztą",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Operator % ma ten sam priorytet co * i /: wykonuje się przed dodawaniem i odejmowaniem, a razem z * i / — po kolei od lewej do prawej. Wczytaj liczby a, b i c i wypisz w czterech wierszach wartości wyrażeń (w tej kolejności):",
+        "a + b % c",
+        "(a + b) % c",
+        "a * b % c",
+        "a % b * c"
+      ],
+      "input_format": [
+        "Jeden wiersz z trzema liczbami całkowitymi a, b i c."
+      ],
+      "output_format": [
+        "Cztery wiersze — wartości kolejnych wyrażeń."
+      ],
+      "constraints": [
+        "1 ≤ a, b, c ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "2 7 3",
+          "output": "3\n0\n2\n6",
+          "note": "2 + 7 % 3 = 2 + 1 = 3; (2 + 7) % 3 = 9 % 3 = 0; 2 * 7 % 3 = 14 % 3 = 2; 2 % 7 * 3 = 2 * 3 = 6."
+        }
+      ],
+      "hint": "Przepisz wyrażenia do cout dokładnie tak, jak stoją w treści — C++ sam zastosuje kolejność działań: cout << a + b % c << \"\\n\"; itd. Ale zanim uruchomisz program, policz przykład w głowie: 2 + 7 % 3 to 2 + 1, a nie 9 % 3.",
+      "tests_count": 8
+    },
+    {
+      "id": "mod-ostatni-wagon",
+      "number": 584,
+      "title": "Ostatni wagon",
+      "category": "Modulo / krok 1: dzielenie z resztą",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na peron przyszło n pasażerów. Do każdego wagonu wsiada dokładnie k osób i dopiero gdy wagon jest pełny, pasażerowie zajmują następny. Ile wagonów będzie potrzebnych i ile osób pojedzie w ostatnim z nich?"
+      ],
+      "input_format": [
+        "Jeden wiersz z dwiema liczbami całkowitymi n i k."
+      ],
+      "output_format": [
+        "Jeden wiersz: liczba wagonów i liczba osób w ostatnim wagonie."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10⁹",
+        "1 ≤ k ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "23 10",
+          "output": "3 3",
+          "note": "Dwa pełne wagony po 10 osób i trzeci, w którym jadą 3 osoby."
+        },
+        {
+          "input": "30 10",
+          "output": "3 10",
+          "note": "Wszystkie wagony są pełne — w ostatnim jedzie 10 osób, a nie 0."
+        }
+      ],
+      "hint": "Gdy n % k == 0, wszystkie wagony są pełne: jest ich n / k, a w ostatnim jedzie k osób. W przeciwnym razie potrzebny jest jeszcze jeden wagon — razem n / k + 1 — i jedzie w nim n % k osób. To jeden if … else.",
+      "tests_count": 10
+    },
+    {
+      "id": "mod-ta-sama-reszta",
+      "number": 585,
+      "title": "Ta sama reszta",
+      "category": "Modulo / krok 1: dzielenie z resztą",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Mówimy, że liczby a i b przystają modulo k, gdy dają tę samą resztę z dzielenia przez k. Na przykład 17 i 32 przy dzieleniu przez 5 dają resztę 2. Wczytaj a, b i k i wypisz TAK, jeśli a i b dają tę samą resztę z dzielenia przez k, albo NIE w przeciwnym razie."
+      ],
+      "input_format": [
+        "Jeden wiersz z trzema liczbami całkowitymi a, b i k."
+      ],
+      "output_format": [
+        "TAK albo NIE."
+      ],
+      "constraints": [
+        "0 ≤ a, b ≤ 10¹⁸",
+        "1 ≤ k ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "17 32 5",
+          "output": "TAK"
+        },
+        {
+          "input": "17 30 5",
+          "output": "NIE"
+        }
+      ],
+      "hint": "Porównaj reszty: a % k == b % k. Liczby mają do 19 cyfr, więc wczytaj je do long long. Ciekawostka: a i b dają tę samą resztę dokładnie wtedy, gdy ich różnica dzieli się przez k (32 − 17 = 15).",
+      "tests_count": 13
+    },
+    {
+      "id": "mod-wytlaczanki",
+      "number": 586,
+      "title": "Ile jajek dokupić?",
+      "category": "Modulo / krok 1: dzielenie z resztą",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W wytłaczance mieści się k jajek. Pan Józef ma n jajek i chce zapakować je tak, żeby wszystkie użyte wytłaczanki były pełne. Ile jajek musi dokupić? Jeśli n dzieli się przez k, nie musi dokupować niczego."
+      ],
+      "input_format": [
+        "Jeden wiersz z dwiema liczbami całkowitymi n i k."
+      ],
+      "output_format": [
+        "Jedna liczba — ile jajek trzeba dokupić."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10⁹",
+        "1 ≤ k ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "23 10",
+          "output": "7",
+          "note": "W trzeciej wytłaczance są 3 jajka, brakuje 7."
+        },
+        {
+          "input": "30 6",
+          "output": "0"
+        }
+      ],
+      "hint": "W ostatniej, niepełnej wytłaczance jest n % k jajek, więc brakuje k − n % k. Uwaga na przypadek, gdy n % k == 0: wtedy ten wzór daje k, a powinno być 0. Załatwi to if albo jeszcze jedno modulo: (k − n % k) % k.",
+      "tests_count": 10
+    },
+    {
+      "id": "mod-po-k-w-wierszu",
+      "number": 587,
+      "title": "Po k w wierszu",
+      "category": "Modulo / krok 2: podzielność",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wypisz liczby od 1 do n, po k liczb w każdym wierszu (liczby w wierszu oddzielaj spacjami). Ostatni wiersz może być krótszy."
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami n i k."
+      ],
+      "output_format": [
+        "Liczby od 1 do n, po k w wierszu."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "1 ≤ k ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "14 5",
+          "output": "1 2 3 4 5\n6 7 8 9 10\n11 12 13 14"
+        },
+        {
+          "input": "6 3",
+          "output": "1 2 3\n4 5 6"
+        }
+      ],
+      "hint": "Po wypisaniu liczby i sprawdź, czy i % k == 0. Jeśli tak, to była k-ta, 2k-ta, 3k-ta… liczba i trzeba przejść do nowego wiersza: cout << \"\\n\". Spacja na końcu wiersza nie przeszkadza.",
+      "tests_count": 9
+    },
+    {
+      "id": "mod-ile-dzieli-sie",
+      "number": 588,
+      "title": "Ile dzieli się przez k?",
+      "category": "Modulo / krok 2: podzielność",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb całkowitych — także ujemnych — oraz liczbę k. Wypisz, ile spośród wczytanych liczb dzieli się przez k bez reszty."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k, w drugim n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jedna liczba — ile liczb dzieli się przez k."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "1 ≤ k ≤ 1000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "6 3\n9 -6 4 0 10 -7",
+          "output": "3",
+          "note": "Dzielą się 9, −6 i 0. Zero dzieli się przez każdą liczbę."
+        }
+      ],
+      "hint": "Liczba x dzieli się przez k, gdy x % k == 0. Dla liczb ujemnych reszta może wyjść ujemna (−7 % 3 to −1), ale zero zostaje zerem — więc warunek == 0 działa poprawnie także dla nich.",
+      "tests_count": 9
+    },
+    {
+      "id": "mod-dzielnik-czy-wielokrotnosc",
+      "number": 589,
+      "title": "Dzielnik czy wielokrotność?",
+      "category": "Modulo / krok 2: podzielność",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj dwie liczby dodatnie a i b i wypisz jedno słowo:",
+        "ROWNE — jeśli a = b,",
+        "DZIELNIK — jeśli a jest dzielnikiem b (czyli b dzieli się przez a),",
+        "WIELOKROTNOSC — jeśli a jest wielokrotnością b (czyli a dzieli się przez b),",
+        "NIC — w pozostałych przypadkach."
+      ],
+      "input_format": [
+        "Jeden wiersz z dwiema liczbami całkowitymi a i b."
+      ],
+      "output_format": [
+        "Jedno słowo: ROWNE, DZIELNIK, WIELOKROTNOSC albo NIC."
+      ],
+      "constraints": [
+        "1 ≤ a, b ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "3 12",
+          "output": "DZIELNIK",
+          "note": "12 dzieli się przez 3, więc 3 jest dzielnikiem 12."
+        },
+        {
+          "input": "12 3",
+          "output": "WIELOKROTNOSC"
+        },
+        {
+          "input": "4 6",
+          "output": "NIC"
+        }
+      ],
+      "hint": "„a jest dzielnikiem b” to b % a == 0 — liczba, którą dzielimy, stoi po lewej stronie %. Najpierw sprawdź a == b (wtedy oba warunki podzielności są prawdziwe), a potem pozostałe przypadki w łańcuchu else if.",
+      "tests_count": 12
+    },
+    {
+      "id": "mod-lata-przestepne",
+      "number": 590,
+      "title": "Lata przestępne w przedziale",
+      "category": "Modulo / krok 2: podzielność",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Rok jest przestępny, gdy dzieli się przez 4, ale nie dzieli się przez 100 — chyba że dzieli się przez 400, wtedy też jest przestępny. Wczytaj a i b i wypisz w pierwszym wierszu wszystkie lata przestępne od a do b (włącznie), a w drugim — ile ich jest. Jeśli w przedziale nie ma żadnego roku przestępnego, w pierwszym wierszu wypisz BRAK."
+      ],
+      "input_format": [
+        "Jeden wiersz z dwiema liczbami całkowitymi a i b."
+      ],
+      "output_format": [
+        "Dwa wiersze: lata przestępne oddzielone spacjami (albo BRAK) i ich liczba."
+      ],
+      "constraints": [
+        "1 ≤ a ≤ b ≤ 10⁹",
+        "b − a ≤ 10 000"
+      ],
+      "examples": [
+        {
+          "input": "1896 1912",
+          "output": "1896 1904 1908 1912\n4",
+          "note": "1900 dzieli się przez 100, ale nie przez 400 — nie jest przestępny."
+        },
+        {
+          "input": "2097 2103",
+          "output": "BRAK\n0"
+        }
+      ],
+      "hint": "Warunek: (r % 4 == 0 && r % 100 != 0) || r % 400 == 0. Licz lata w osobnej zmiennej, a słowo BRAK wypisz po pętli, jeśli licznik został zerem. Rok 1900 nie jest przestępny, a 2000 — jest.",
+      "tests_count": 9
+    },
+    {
+      "id": "mod-wspolne-wielokrotnosci",
+      "number": 591,
+      "title": "Wspólne wielokrotności",
+      "category": "Modulo / krok 2: podzielność",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n, a i b. Wypisz w jednym wierszu wszystkie liczby od 1 do n, które dzielą się zarówno przez a, jak i przez b. Jeśli nie ma ani jednej takiej liczby, wypisz BRAK."
+      ],
+      "input_format": [
+        "Jeden wiersz z trzema liczbami całkowitymi n, a i b."
+      ],
+      "output_format": [
+        "Jeden wiersz z liczbami oddzielonymi spacjami albo słowo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "1 ≤ a, b ≤ 10 000"
+      ],
+      "examples": [
+        {
+          "input": "50 4 6",
+          "output": "12 24 36 48",
+          "note": "Liczba podzielna przez 4 i przez 6 nie musi dzielić się przez 24 — wystarczy 12."
+        },
+        {
+          "input": "10 4 6",
+          "output": "BRAK"
+        }
+      ],
+      "hint": "Warunek i % a == 0 && i % b == 0. Zapamiętaj w zmiennej, czy coś zostało wypisane, żeby po pętli wiedzieć, czy trzeba wypisać BRAK.",
+      "tests_count": 9
+    },
+    {
+      "id": "mod-wielokrotnosci-olbrzymie",
+      "number": 592,
+      "title": "Wielokrotności w ogromnym przedziale",
+      "category": "Modulo / krok 2: podzielność",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj a, b i k i wypisz, ile liczb z przedziału od a do b (włącznie) dzieli się przez k. Liczby są tak duże, że pętla po całym przedziale nie zdąży się wykonać — potrzebny jest wzór."
+      ],
+      "input_format": [
+        "Jeden wiersz z trzema liczbami całkowitymi a, b i k."
+      ],
+      "output_format": [
+        "Jedna liczba."
+      ],
+      "constraints": [
+        "1 ≤ a ≤ b ≤ 10¹⁸",
+        "1 ≤ k ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "10 40 7",
+          "output": "4",
+          "note": "14, 21, 28 i 35."
+        },
+        {
+          "input": "1 1000000000000000000 3",
+          "output": "333333333333333333"
+        }
+      ],
+      "hint": "Od 1 do n jest dokładnie n / k wielokrotności liczby k: k, 2k, 3k, … Wielokrotności z przedziału od a do b to te, które są nie większe od b, minus te nie większe od a − 1: b / k − (a − 1) / k. Wszystko w long long.",
+      "tests_count": 11
+    },
+    {
+      "id": "mod-dokladnie-jedna",
+      "number": 593,
+      "title": "Przez jedną, ale nie przez obie",
+      "category": "Modulo / krok 2: podzielność",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n, a i b. Ile liczb od 1 do n dzieli się przez a albo przez b, ale nie przez obie naraz?"
+      ],
+      "input_format": [
+        "Jeden wiersz z trzema liczbami całkowitymi n, a i b."
+      ],
+      "output_format": [
+        "Jedna liczba."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10⁷",
+        "1 ≤ a, b ≤ 10⁷"
+      ],
+      "examples": [
+        {
+          "input": "20 2 3",
+          "output": "10",
+          "note": "2, 3, 4, 8, 9, 10, 14, 15, 16 i 20. Liczby 6, 12 i 18 dzielą się przez obie, więc odpadają."
+        }
+      ],
+      "hint": "Dla każdej liczby i policz dwa warunki: bool p = (i % a == 0); bool q = (i % b == 0);. „Jedna, ale nie obie” to p != q — dokładnie jeden z warunków jest prawdziwy. Pętla wykona do 10 milionów obrotów, to zdąży.",
+      "tests_count": 8
+    },
+    {
+      "id": "mod-cecha-3-9",
+      "number": 594,
+      "title": "Olbrzym podzielny przez 3 i przez 9?",
+      "category": "Modulo / krok 2: podzielność",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Liczba dzieli się przez 3, gdy suma jej cyfr dzieli się przez 3 — i tak samo jest z dziewiątką. Wczytaj liczbę naturalną, która może mieć nawet 1000 cyfr (nie zmieści się w żadnym typie liczbowym), i sprawdź, czy dzieli się przez 3 i czy dzieli się przez 9."
+      ],
+      "input_format": [
+        "Jeden wiersz — liczba naturalna bez zer z przodu."
+      ],
+      "output_format": [
+        "Dwa wiersze: w pierwszym TAK albo NIE (podzielność przez 3), w drugim TAK albo NIE (podzielność przez 9)."
+      ],
+      "constraints": [
+        "liczba ma od 1 do 1000 cyfr"
+      ],
+      "examples": [
+        {
+          "input": "123456789123456789",
+          "output": "TAK\nTAK",
+          "note": "Suma cyfr to 90 — dzieli się i przez 3, i przez 9."
+        },
+        {
+          "input": "12",
+          "output": "TAK\nNIE"
+        }
+      ],
+      "hint": "Wczytaj liczbę do zmiennej typu string i zsumuj cyfry: for (char c : s) suma += c - '0';. Suma jest najwyżej 9 · 1000 = 9000, więc mieści się w int. Potem dwa warunki: suma % 3 == 0 i suma % 9 == 0.",
+      "tests_count": 13
+    },
+    {
+      "id": "mod-godziny-minuty",
+      "number": 595,
+      "title": "Ile godzin i minut?",
+      "category": "Modulo / krok 3: jednostki",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Film trwa t minut. Wypisz, ile to pełnych godzin i ile minut ponad nie, w postaci: G h M min."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita t."
+      ],
+      "output_format": [
+        "Jeden wiersz w postaci G h M min."
+      ],
+      "constraints": [
+        "0 ≤ t ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "135",
+          "output": "2 h 15 min"
+        },
+        {
+          "input": "59",
+          "output": "0 h 59 min"
+        },
+        {
+          "input": "120",
+          "output": "2 h 0 min"
+        }
+      ],
+      "hint": "t / 60 to pełne godziny, a t % 60 — minuty, które zostały. cout << t / 60 << \" h \" << t % 60 << \" min\\n\";",
+      "tests_count": 9
+    },
+    {
+      "id": "mod-stoper",
+      "number": 596,
+      "title": "Stoper",
+      "category": "Modulo / krok 3: jednostki",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Stoper pokazuje czas w formacie HH:MM:SS — godziny, minuty i sekundy, każde dwiema cyframi (z zerem z przodu, jeśli trzeba). Od włączenia stopera minęło s sekund. Co pokazuje stoper?"
+      ],
+      "input_format": [
+        "Jedna liczba całkowita s."
+      ],
+      "output_format": [
+        "Jeden wiersz w formacie HH:MM:SS."
+      ],
+      "constraints": [
+        "0 ≤ s < 360 000 (mniej niż 100 godzin)"
+      ],
+      "examples": [
+        {
+          "input": "3725",
+          "output": "01:02:05",
+          "note": "3725 = 1 · 3600 + 2 · 60 + 5."
+        },
+        {
+          "input": "90000",
+          "output": "25:00:00",
+          "note": "Stoper nie zawija się po dobie — pokazuje 25 godzin."
+        }
+      ],
+      "hint": "Godziny to s / 3600, minuty s % 3600 / 60, a sekundy s % 60. Zera z przodu dopisze setw(2) z setfill('0') (#include <iomanip>) — setw trzeba powtórzyć przed każdą z trzech liczb.",
+      "tests_count": 10
+    },
+    {
+      "id": "mod-rachunek-grosze",
+      "number": 597,
+      "title": "Rachunek w groszach",
+      "category": "Modulo / krok 3: jednostki",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Kasa w sklepie zapisuje ceny w groszach. Wczytaj n cen i wypisz łączną kwotę w złotych w formacie Z.GG — z kropką i zawsze dwiema cyframi groszy, na przykład 12.05."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n, w drugim n liczb całkowitych — ceny w groszach."
+      ],
+      "output_format": [
+        "Jeden wiersz: kwota w formacie Z.GG."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "1 ≤ cena ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "3\n499 1250 6",
+          "output": "17.55",
+          "note": "Razem 1755 groszy, czyli 17 zł i 55 gr."
+        },
+        {
+          "input": "2\n100 5",
+          "output": "1.05"
+        }
+      ],
+      "hint": "Najpierw zsumuj grosze (long long na wszelki wypadek), a potem suma / 100 to złote, a suma % 100 — grosze. Grosze wypisz przez setw(2) i setfill('0'), bo inaczej 1.05 zamieni się w 1.5.",
+      "tests_count": 9
+    },
+    {
+      "id": "mod-tygodnie-dni-godziny",
+      "number": 598,
+      "title": "Tygodnie, dni i godziny",
+      "category": "Modulo / krok 3: jednostki",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wycieczka trwała h godzin. Ile to pełnych tygodni, ile dni ponad nie i ile godzin ponad pełne dni? Tydzień ma 7 dni, a doba — 24 godziny."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita h."
+      ],
+      "output_format": [
+        "Jeden wiersz z trzema liczbami: tygodnie, dni i godziny."
+      ],
+      "constraints": [
+        "0 ≤ h ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "200",
+          "output": "1 1 8",
+          "note": "200 = 168 + 24 + 8: tydzień, dzień i 8 godzin."
+        },
+        {
+          "input": "23",
+          "output": "0 0 23"
+        }
+      ],
+      "hint": "Tydzień to 7 · 24 = 168 godzin. Tygodnie: h / 168. Dni: h % 168 / 24 — to, co zostało po pełnych tygodniach, dzielone na doby. Godziny: h % 24.",
+      "tests_count": 9
+    },
+    {
+      "id": "mod-ile-trwal-bieg",
+      "number": 599,
+      "title": "Ile trwał bieg?",
+      "category": "Modulo / krok 3: jednostki",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Zawodnik wystartował o godzinie HH:MM:SS i dobiegł do mety o HH:MM:SS tego samego dnia. Ile trwał bieg? Wypisz czas w postaci G:MM:SS — godziny bez zera z przodu, a minuty i sekundy zawsze dwiema cyframi."
+      ],
+      "input_format": [
+        "Jeden wiersz: godzina startu i godzina dobiegnięcia w formacie HH:MM:SS, oddzielone spacją."
+      ],
+      "output_format": [
+        "Jeden wiersz w postaci G:MM:SS."
+      ],
+      "constraints": [
+        "00:00:00 ≤ start ≤ meta ≤ 23:59:59"
+      ],
+      "examples": [
+        {
+          "input": "08:47:30 10:15:10",
+          "output": "1:27:40"
+        },
+        {
+          "input": "09:00:00 09:00:59",
+          "output": "0:00:59"
+        }
+      ],
+      "hint": "Zamień obie godziny na liczbę sekund od północy: h · 3600 + m · 60 + s. Odejmij je, a różnicę d rozłóż z powrotem: d / 3600, d % 3600 / 60 i d % 60. Dwukropki wczytasz do zmiennej typu char.",
+      "tests_count": 9
+    },
+    {
+      "id": "mod-reszta-monetami",
+      "number": 600,
+      "title": "Reszta w monetach",
+      "category": "Modulo / krok 3: jednostki",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W kasie są monety 5 zł, 2 zł, 1 zł, 50 gr, 20 gr, 10 gr, 5 gr, 2 gr i 1 gr — każdej dowolnie dużo. Zakupy kosztują c groszy, a klient płaci kwotą z groszy. Kasjer wydaje resztę zawsze największą monetą, która jeszcze się mieści. Wypisz, ile monet każdego rodzaju wyda — dziewięć liczb, od monety 5 zł do monety 1 gr."
+      ],
+      "input_format": [
+        "Jeden wiersz z dwiema liczbami całkowitymi c i z (w groszach)."
+      ],
+      "output_format": [
+        "Jeden wiersz z dziewięcioma liczbami."
+      ],
+      "constraints": [
+        "1 ≤ c ≤ z ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "1213 2000",
+          "output": "1 1 0 1 1 1 1 1 0",
+          "note": "Reszta to 787 gr = 500 + 200 + 50 + 20 + 10 + 5 + 2."
+        }
+      ],
+      "hint": "Reszta to z − c. Dla każdej monety, od największej (500 gr) do najmniejszej (1 gr): ile = reszta / moneta; reszta %= moneta;. Ten sam schemat powtarzasz dziewięć razy — możesz go po prostu napisać dziewięć razy.",
+      "tests_count": 9
+    },
+    {
+      "id": "mod-jardy-stopy-cale",
+      "number": 601,
+      "title": "Jardy, stopy i cale",
+      "category": "Modulo / krok 3: jednostki",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W Anglii długość mierzy się w jardach, stopach i calach: 1 jard to 3 stopy, a 1 stopa to 12 cali. Wczytaj długość w calach i wypisz ją w jardach, stopach i calach — tak, żeby stóp było mniej niż 3, a cali mniej niż 12."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita — długość w calach."
+      ],
+      "output_format": [
+        "Jeden wiersz w postaci J yd S ft C in."
+      ],
+      "constraints": [
+        "0 ≤ długość ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "100",
+          "output": "2 yd 2 ft 4 in",
+          "note": "100 = 2 · 36 + 2 · 12 + 4."
+        },
+        {
+          "input": "35",
+          "output": "0 yd 2 ft 11 in"
+        }
+      ],
+      "hint": "Jard ma 3 · 12 = 36 cali. Jardy: c / 36, stopy: c % 36 / 12, cale: c % 12. Albo od najmniejszej jednostki: cale = c % 12; c /= 12; (teraz c to stopy) stopy = c % 3; c /= 3; (teraz jardy). Liczba ma do 19 cyfr — long long.",
+      "tests_count": 9
+    },
+    {
+      "id": "mod-doba-na-planecie",
+      "number": 602,
+      "title": "Doba na innej planecie",
+      "category": "Modulo / krok 3: jednostki",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na planecie Modulo doba ma H godzin, a godzina — M minut. Od lądowania sondy minęło t minut. Ile pełnych dób minęło i którą godzinę oraz minutę pokazuje teraz zegar sondy, jeśli w chwili lądowania wskazywał 0:00? Wypisz trzy liczby: doby, godziny i minuty."
+      ],
+      "input_format": [
+        "Jeden wiersz z trzema liczbami całkowitymi H, M i t."
+      ],
+      "output_format": [
+        "Jeden wiersz z trzema liczbami: pełne doby, godzina i minuta."
+      ],
+      "constraints": [
+        "1 ≤ H, M ≤ 10⁶",
+        "0 ≤ t ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "30 50 4321",
+          "output": "2 26 21",
+          "note": "Doba trwa 30 · 50 = 1500 minut. 4321 = 2 · 1500 + 26 · 50 + 21."
+        },
+        {
+          "input": "24 60 1500",
+          "output": "1 1 0",
+          "note": "Na Ziemi: 1500 minut to doba i godzina."
+        }
+      ],
+      "hint": "Doba ma H · M minut — przez tę liczbę trzeba dzielić. Doby: t / (H * M), godziny: t % (H * M) / M, minuty: t % M. Nawias przy H * M jest konieczny — bez niego t / H * M znaczy coś zupełnie innego. Wszystko w long long.",
+      "tests_count": 8
+    },
+    {
+      "id": "mod-cyfra-setek",
+      "number": 603,
+      "title": "Cyfra setek",
+      "category": "Modulo / krok 4: cyfry liczby",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj liczbę naturalną n i wypisz jej cyfrę setek. Jeśli liczba jest mniejsza od 100, jej cyfra setek wynosi 0."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jedna cyfra."
+      ],
+      "constraints": [
+        "0 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "52847",
+          "output": "8"
+        },
+        {
+          "input": "99",
+          "output": "0"
+        }
+      ],
+      "hint": "n / 100 obcina dwie ostatnie cyfry, a % 10 bierze ostatnią z tych, które zostały: n / 100 % 10. Liczba może mieć 19 cyfr — użyj long long.",
+      "tests_count": 9
+    },
+    {
+      "id": "mod-dwie-ostatnie",
+      "number": 604,
+      "title": "Dwie ostatnie cyfry",
+      "category": "Modulo / krok 4: cyfry liczby",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj liczbę naturalną n i wypisz jej dwie ostatnie cyfry — zawsze dwie, także gdy pierwsza z nich to zero: dla 1205 wypisz 05, a dla 7 — 07."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Dwie cyfry."
+      ],
+      "constraints": [
+        "0 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "1205",
+          "output": "05"
+        },
+        {
+          "input": "7",
+          "output": "07"
+        },
+        {
+          "input": "123456",
+          "output": "56"
+        }
+      ],
+      "hint": "Dwie ostatnie cyfry to n % 100. Żeby 5 wypisało się jako 05, użyj setw(2) i setfill('0') z biblioteki <iomanip>.",
+      "tests_count": 9
+    },
+    {
+      "id": "mod-cyfra-na-pozycji",
+      "number": 605,
+      "title": "Cyfra na pozycji k",
+      "category": "Modulo / krok 4: cyfry liczby",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj liczbę naturalną n i numer pozycji k. Wypisz k-tą cyfrę liczby n licząc od końca: k = 1 to cyfra jedności, k = 2 — dziesiątek, k = 3 — setek i tak dalej. Jeśli liczba ma mniej niż k cyfr, wypisz 0."
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami n i k."
+      ],
+      "output_format": [
+        "Jedna cyfra."
+      ],
+      "constraints": [
+        "0 ≤ n ≤ 10¹⁸",
+        "1 ≤ k ≤ 20"
+      ],
+      "examples": [
+        {
+          "input": "9876543210 4",
+          "output": "3",
+          "note": "Od końca: 0, 1, 2, 3 — czwarta cyfra to 3."
+        },
+        {
+          "input": "52 5",
+          "output": "0"
+        }
+      ],
+      "hint": "Odetnij k − 1 cyfr z prawej (pętla, w której n /= 10), a potem wypisz n % 10. Jeśli cyfry się skończą, n zostanie zerem, a 0 % 10 to 0 — więc przypadek „za mało cyfr” załatwia się sam.",
+      "tests_count": 9
+    },
+    {
+      "id": "mod-pierwsza-ostatnia",
+      "number": 606,
+      "title": "Pierwsza i ostatnia cyfra",
+      "category": "Modulo / krok 4: cyfry liczby",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj liczbę naturalną n i wypisz jej pierwszą i ostatnią cyfrę, oddzielone spacją."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Dwie cyfry oddzielone spacją."
+      ],
+      "constraints": [
+        "0 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "52847",
+          "output": "5 7"
+        },
+        {
+          "input": "9",
+          "output": "9 9",
+          "note": "Jedna cyfra jest jednocześnie pierwsza i ostatnia."
+        }
+      ],
+      "hint": "Ostatnia cyfra to n % 10 — zapamiętaj ją od razu, zanim zaczniesz zmieniać n. Pierwszą znajdziesz, obcinając cyfry z prawej, dopóki liczba ma więcej niż jedną cyfrę: while (n >= 10) n /= 10;.",
+      "tests_count": 9
+    },
+    {
+      "id": "mod-ile-razy-cyfra",
+      "number": 607,
+      "title": "Ile razy cyfra d?",
+      "category": "Modulo / krok 4: cyfry liczby",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj liczbę naturalną n i cyfrę d. Wypisz, ile razy cyfra d występuje w zapisie liczby n."
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami n i d."
+      ],
+      "output_format": [
+        "Jedna liczba."
+      ],
+      "constraints": [
+        "0 ≤ n ≤ 10¹⁸",
+        "0 ≤ d ≤ 9"
+      ],
+      "examples": [
+        {
+          "input": "1001 0",
+          "output": "2"
+        },
+        {
+          "input": "0 0",
+          "output": "1",
+          "note": "Liczba 0 ma jedną cyfrę — zero."
+        },
+        {
+          "input": "777 7",
+          "output": "3"
+        }
+      ],
+      "hint": "Przejdź po cyfrach parą n % 10 i n /= 10, licząc te równe d. Pułapka: dla n = 0 pętla while (n > 0) nie wykona się ani razu, a zero ma przecież jedną cyfrę. Pomaga do … while, które wykonuje się co najmniej raz.",
+      "tests_count": 10
+    },
+    {
+      "id": "mod-tylko-parzyste-cyfry",
+      "number": 608,
+      "title": "Tylko parzyste cyfry",
+      "category": "Modulo / krok 4: cyfry liczby",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj liczbę naturalną n i utwórz z niej nową liczbę, zostawiając tylko cyfry parzyste (0, 2, 4, 6, 8) w tej samej kolejności. Wypisz ją jako zwykłą liczbę — zera z przodu znikają: z 1023 zostaje 02, czyli 2. Jeśli n nie ma żadnej parzystej cyfry, wypisz BRAK."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jedna liczba albo słowo BRAK."
+      ],
+      "constraints": [
+        "0 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "52847",
+          "output": "284"
+        },
+        {
+          "input": "1023",
+          "output": "2"
+        },
+        {
+          "input": "1357",
+          "output": "BRAK"
+        },
+        {
+          "input": "1030",
+          "output": "0",
+          "note": "Zostają dwa zera, czyli liczba 0."
+        }
+      ],
+      "hint": "Idź po cyfrach od końca. Każdą parzystą cyfrę c doklejaj z przodu nowej liczby: wynik += c * p; p *= 10;, gdzie p zaczyna od 1 i mówi, ile wart jest kolejny „slot” (jedności, dziesiątki, …). To, czy była jakakolwiek parzysta cyfra, poznasz po tym, że p urosło ponad 1. Pamiętaj o n = 0 — to jedna parzysta cyfra.",
+      "tests_count": 11
+    },
+    {
+      "id": "mod-wytnij-cyfre",
+      "number": 609,
+      "title": "Wytnij cyfrę",
+      "category": "Modulo / krok 4: cyfry liczby",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj liczbę n i numer k. Usuń z liczby n k-tą cyfrę licząc od końca (k = 1 to cyfra jedności), a pozostałe cyfry zsuń do siebie. Wypisz wynik jako liczbę — jeśli na początku zostaną zera, znikają (z 105 po usunięciu jedynki zostaje 05, czyli 5). Jeśli nie zostanie żadna cyfra, wypisz 0."
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami n i k."
+      ],
+      "output_format": [
+        "Jedna liczba."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10¹⁸",
+        "n ma co najmniej k cyfr"
+      ],
+      "examples": [
+        {
+          "input": "52847 2",
+          "output": "5287"
+        },
+        {
+          "input": "105 3",
+          "output": "5"
+        },
+        {
+          "input": "7 1",
+          "output": "0"
+        }
+      ],
+      "hint": "Niech p = 10 do potęgi k − 1 (policz pętlą). Cyfry na prawo od wycinanej to n % p, a cyfry na lewo — n / p / 10. Sklej je: n / p / 10 * p + n % p. Sprawdź na 52847 i k = 2: p = 10, lewa część 528, prawa 7, wynik 528 · 10 + 7 = 5287.",
+      "tests_count": 11
+    },
+    {
+      "id": "mod-system-b",
+      "number": 610,
+      "title": "Zapis w systemie o podstawie b",
+      "category": "Modulo / krok 4: cyfry liczby",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W systemie dziesiątkowym kolejne cyfry liczby to reszty z dzielenia przez 10. W systemie o podstawie b — reszty z dzielenia przez b: n % b to ostatnia cyfra, a n / b to liczba bez niej. Wczytaj n i b i wypisz zapis liczby n w systemie o podstawie b (bez zer z przodu)."
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami n i b."
+      ],
+      "output_format": [
+        "Zapis liczby n w systemie o podstawie b."
+      ],
+      "constraints": [
+        "0 ≤ n ≤ 10¹⁸",
+        "2 ≤ b ≤ 10"
+      ],
+      "examples": [
+        {
+          "input": "100 8",
+          "output": "144",
+          "note": "100 = 1 · 64 + 4 · 8 + 4."
+        },
+        {
+          "input": "13 2",
+          "output": "1101"
+        },
+        {
+          "input": "0 5",
+          "output": "0"
+        }
+      ],
+      "hint": "Cyfry wychodzą od końca, więc doklejaj każdą na początek napisu: s = char('0' + n % b) + s; n /= b;. Użyj do … while, żeby liczba 0 dała napis \"0\".",
+      "tests_count": 10
+    },
+    {
+      "id": "mod-za-k-godzin",
+      "number": 611,
+      "title": "Za k godzin",
+      "category": "Modulo / krok 5: zawijanie w kółko",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Jest pełna godzina h:00 (h od 0 do 23). Która pełna godzina będzie za k godzin? Po godzinie 23:00 przychodzi 0:00."
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami całkowitymi h i k."
+      ],
+      "output_format": [
+        "Jedna liczba od 0 do 23 — godzina."
+      ],
+      "constraints": [
+        "0 ≤ h ≤ 23",
+        "0 ≤ k ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "20 50",
+          "output": "22",
+          "note": "20 + 50 = 70, a 70 = 2 · 24 + 22."
+        },
+        {
+          "input": "23 1",
+          "output": "0"
+        }
+      ],
+      "hint": "Godziny chodzą w kółko co 24, więc wynik to (h + k) % 24. k może mieć 19 cyfr — wczytaj je do long long (suma h + k nadal się zmieści).",
+      "tests_count": 9
+    },
+    {
+      "id": "mod-wzor-liter",
+      "number": 612,
+      "title": "Powtarzający się wzór",
+      "category": "Modulo / krok 5: zawijanie w kółko",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wypisz napis złożony z n liter, w którym w kółko powtarza się k pierwszych wielkich liter alfabetu angielskiego: dla k = 3 jest to ABCABCABC…"
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami n i k."
+      ],
+      "output_format": [
+        "Jeden wiersz z n literami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "1 ≤ k ≤ 26"
+      ],
+      "examples": [
+        {
+          "input": "8 3",
+          "output": "ABCABCAB"
+        },
+        {
+          "input": "5 1",
+          "output": "AAAAA"
+        }
+      ],
+      "hint": "Litera na pozycji i (licząc od zera) to char('A' + i % k). Pętla for (int i = 0; i < n; i++) i w środku cout tej litery.",
+      "tests_count": 7
+    },
+    {
+      "id": "mod-miejsce-w-kinie",
+      "number": 613,
+      "title": "Miejsce w kinie",
+      "category": "Modulo / krok 5: zawijanie w kółko",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W kinie w każdym rzędzie jest k miejsc. Bilety sprzedaje się po kolei: bilet nr 1 to rząd 1, miejsce 1; bilet nr k to rząd 1, miejsce k; bilet nr k + 1 to rząd 2, miejsce 1; i tak dalej. Wypisz rząd i miejsce dla biletu numer x."
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami k i x."
+      ],
+      "output_format": [
+        "Dwie liczby: numer rzędu i numer miejsca."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ 10⁹",
+        "1 ≤ x ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "10 37",
+          "output": "4 7"
+        },
+        {
+          "input": "10 40",
+          "output": "4 10",
+          "note": "Zwykłe 40 / 10 i 40 % 10 dałyby rząd 4 i miejsce 0 — a miejsca 0 nie ma."
+        }
+      ],
+      "hint": "Przejdź na numerację od zera: bilet x ma numer x − 1. Wtedy rząd liczony od zera to (x − 1) / k, a miejsce liczone od zera to (x − 1) % k. Na koniec dodaj 1 do obu. Wszystko w long long.",
+      "tests_count": 9
+    },
+    {
+      "id": "mod-podawanie-pilki",
+      "number": 614,
+      "title": "Podawanie piłki",
+      "category": "Modulo / krok 5: zawijanie w kółko",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "n dzieci stoi w kółku, ponumerowanych od 1 do n zgodnie z ruchem wskazówek zegara. Piłkę ma dziecko numer s. Przy każdym podaniu piłka przesuwa się o k dzieci zgodnie z ruchem wskazówek zegara (po dziecku n jest znowu dziecko 1). Wypisz numery dzieci, które dostają piłkę w kolejnych t podaniach."
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami n, s, k i t."
+      ],
+      "output_format": [
+        "Jeden wiersz z t numerami dzieci."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10⁹",
+        "1 ≤ s ≤ n",
+        "0 ≤ k ≤ 10⁹",
+        "1 ≤ t ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "5 1 2 6",
+          "output": "3 5 2 4 1 3",
+          "note": "1 → 3 → 5 → 2 → 4 → 1 → 3."
+        }
+      ],
+      "hint": "Numeracja jest od 1, więc użyj triku z lekcji: s = (s − 1 + k) % n + 1;. Wykonaj to t razy w pętli i za każdym razem wypisz s. Użyj long long — s − 1 + k może przekroczyć 2 miliardy.",
+      "tests_count": 8
+    },
+    {
+      "id": "mod-zegar-za-k-sekund",
+      "number": 615,
+      "title": "Zegar za k sekund",
+      "category": "Modulo / krok 5: zawijanie w kółko",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Zegar pokazuje godzinę HH:MM:SS — od 00:00:00 do 23:59:59, a po 23:59:59 znowu 00:00:00. Wypisz, co pokaże za k sekund."
+      ],
+      "input_format": [
+        "Jeden wiersz: godzina w formacie HH:MM:SS i liczba całkowita k."
+      ],
+      "output_format": [
+        "Godzina w formacie HH:MM:SS."
+      ],
+      "constraints": [
+        "0 ≤ k ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "23:59:30 45",
+          "output": "00:00:15"
+        },
+        {
+          "input": "12:00:00 86400",
+          "output": "12:00:00",
+          "note": "Doba ma 86 400 sekund — zegar wraca do tej samej godziny."
+        }
+      ],
+      "hint": "Zamień godzinę na sekundy od północy, dodaj k i weź resztę z dzielenia przez 86 400. Potem rozłóż wynik na godziny, minuty i sekundy, z zerami z przodu (setw i setfill). k jest ogromne — long long.",
+      "tests_count": 9
+    },
+    {
+      "id": "mod-dzien-po-nazwie",
+      "number": 616,
+      "title": "Dzień tygodnia za k dni",
+      "category": "Modulo / krok 5: zawijanie w kółko",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dziś jest dzień tygodnia podany słowem: poniedzialek, wtorek, sroda, czwartek, piatek, sobota albo niedziela. Jaki dzień tygodnia będzie za k dni? Wypisz jego nazwę w ten sam sposób — bez polskich znaków."
+      ],
+      "input_format": [
+        "Jeden wiersz: nazwa dnia tygodnia i liczba całkowita k."
+      ],
+      "output_format": [
+        "Nazwa dnia tygodnia."
+      ],
+      "constraints": [
+        "0 ≤ k ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "piatek 10",
+          "output": "poniedzialek",
+          "note": "Za 7 dni znowu piątek, za kolejne 3 — poniedziałek."
+        },
+        {
+          "input": "niedziela 1",
+          "output": "poniedzialek"
+        }
+      ],
+      "hint": "Zamień nazwę na numer od 0 (poniedziałek) do 6 (niedziela) łańcuchem if … else if, policz (numer + k) % 7 i zamień numer z powrotem na nazwę, na przykład instrukcją switch. k wczytaj do long long.",
+      "tests_count": 12
+    },
+    {
+      "id": "mod-za-k-miesiecy",
+      "number": 617,
+      "title": "Za k miesięcy",
+      "category": "Modulo / krok 5: zawijanie w kółko",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Jest miesiąc m roku r (miesiące numerujemy od 1 — styczeń — do 12 — grudzień). Jaki miesiąc i który rok będzie za k miesięcy?"
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami r, m i k."
+      ],
+      "output_format": [
+        "Dwie liczby: rok i numer miesiąca."
+      ],
+      "constraints": [
+        "1 ≤ r ≤ 10⁹",
+        "1 ≤ m ≤ 12",
+        "0 ≤ k ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "2026 11 2",
+          "output": "2027 1",
+          "note": "Listopad 2026 → grudzień 2026 → styczeń 2027."
+        },
+        {
+          "input": "2026 1 11",
+          "output": "2026 12"
+        }
+      ],
+      "hint": "Policz miesiące od początku naszej ery w numeracji od zera: t = r * 12 + (m − 1) + k. Wtedy rok to t / 12, a miesiąc to t % 12 + 1. To ten sam trik co w lekcji: przejście na numerację od zera, modulo i powrót do numeracji od 1. Użyj long long — r · 12 nie zmieści się w int.",
+      "tests_count": 9
+    },
+    {
+      "id": "mod-szachownica-pola",
+      "number": 618,
+      "title": "Szachownica z dużych pól",
+      "category": "Modulo / krok 5: zawijanie w kółko",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Narysuj kwadrat n × n ze znaków # i ., który wygląda jak szachownica, ale każde jej pole ma rozmiar s × s znaków. W lewym górnym rogu jest pole ze znakami #. Pola przy prawej i dolnej krawędzi mogą być ucięte."
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami n i s."
+      ],
+      "output_format": [
+        "n wierszy po n znaków."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 100",
+        "1 ≤ s ≤ 100"
+      ],
+      "examples": [
+        {
+          "input": "8 2",
+          "output": "##..##..\n##..##..\n..##..##\n..##..##\n##..##..\n##..##..\n..##..##\n..##..##"
+        },
+        {
+          "input": "5 3",
+          "output": "###..\n###..\n###..\n...##\n...##"
+        }
+      ],
+      "hint": "Dla znaku w wierszu w i kolumnie k (oba liczone od zera) numer pola to w / s i k / s. Zwykła szachownica ma # tam, gdzie (w + k) % 2 == 0 — tutaj sprawdzasz (w / s + k / s) % 2 == 0.",
+      "tests_count": 8
+    },
+    {
+      "id": "mod-sygnalizacja",
+      "number": 619,
+      "title": "Sygnalizacja świetlna",
+      "category": "Modulo / krok 5: zawijanie w kółko",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Sygnalizator w kółko pokazuje: światło zielone przez g sekund, potem żółte przez y sekund, potem czerwone przez r sekund — i znowu zielone. W sekundzie 0 właśnie zapaliło się zielone. Jakie światło świeci w sekundzie t? Przy g = 30 sekundy od 0 do 29 są zielone, a sekunda 30 jest już żółta."
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami g, y, r i t."
+      ],
+      "output_format": [
+        "Jedno słowo: zielone, zolte albo czerwone."
+      ],
+      "constraints": [
+        "1 ≤ g, y, r ≤ 10⁹",
+        "0 ≤ t ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "30 3 27 1000000",
+          "output": "czerwone",
+          "note": "Cykl trwa 60 s, a 1 000 000 % 60 = 40 — to już czerwone."
+        },
+        {
+          "input": "30 3 27 30",
+          "output": "zolte"
+        }
+      ],
+      "hint": "Cały cykl trwa g + y + r sekund i powtarza się w kółko, więc liczy się tylko reszta x = t % (g + y + r). Potem łańcuch: x < g — zielone; x < g + y — żółte; w pozostałych przypadkach — czerwone.",
+      "tests_count": 10
+    },
+    {
+      "id": "mod-reszta-nieujemna",
+      "number": 620,
+      "title": "Reszta jak w matematyce",
+      "category": "Modulo / krok 6: liczby ujemne",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W matematyce reszta z dzielenia przez n jest zawsze liczbą od 0 do n − 1, także dla liczb ujemnych: −7 przy dzieleniu przez 3 daje resztę 2, bo −7 = 3 · (−3) + 2. W C++ wyrażenie −7 % 3 daje −1. Wczytaj a i n i wypisz resztę „matematyczną”."
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami całkowitymi a i n."
+      ],
+      "output_format": [
+        "Jedna liczba od 0 do n − 1."
+      ],
+      "constraints": [
+        "−10¹⁸ ≤ a ≤ 10¹⁸",
+        "1 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "-7 3",
+          "output": "2"
+        },
+        {
+          "input": "7 3",
+          "output": "1"
+        },
+        {
+          "input": "-6 3",
+          "output": "0"
+        }
+      ],
+      "hint": "Gotowy wzór z lekcji: ((a % n) + n) % n. Pierwsze % daje liczbę od −(n − 1) do n − 1, dodanie n przenosi ją na plus, a drugie % poprawia przypadek, gdy a było dodatnie. Użyj long long.",
+      "tests_count": 12
+    },
+    {
+      "id": "mod-nieparzyste-ujemne",
+      "number": 621,
+      "title": "Ile nieparzystych?",
+      "category": "Modulo / krok 6: liczby ujemne",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb całkowitych — dodatnich, ujemnych albo zer — i wypisz, ile z nich jest nieparzystych."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n, w drugim n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jedna liczba."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "5\n3 -3 4 -8 -1",
+          "output": "3",
+          "note": "Nieparzyste są 3, −3 i −1."
+        }
+      ],
+      "hint": "Pułapka z lekcji: dla liczb ujemnych x % 2 daje −1, a nie 1, więc warunek x % 2 == 1 nie wykryje −3. Pisz x % 2 != 0.",
+      "tests_count": 7
+    },
+    {
+      "id": "mod-bezpieczne-modulo",
+      "number": 622,
+      "title": "Bezpieczne modulo",
+      "category": "Modulo / krok 6: liczby ujemne",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj q par liczb a i b. Dla każdej pary wypisz w osobnym wierszu wynik wyrażenia a % b obliczony przez C++ — albo słowo BLAD, jeśli b = 0 (dzielenie przez zero wysypałoby program)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q, w każdym z kolejnych q wierszy dwie liczby całkowite a i b."
+      ],
+      "output_format": [
+        "q wierszy: reszta albo słowo BLAD."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 100",
+        "−10¹⁸ ≤ a, b ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "4\n17 5\n-17 5\n17 -5\n10 0",
+          "output": "2\n-2\n2\nBLAD",
+          "note": "Reszta ma w C++ znak liczby dzielonej: −17 % 5 to −2, a 17 % −5 to 2."
+        }
+      ],
+      "hint": "Najpierw if (b == 0) — dopiero w else wolno policzyć a % b. Liczby mają do 19 cyfr, więc long long.",
+      "tests_count": 5
+    },
+    {
+      "id": "mod-cofnij-zegarek",
+      "number": 623,
+      "title": "Cofamy zegarek",
+      "category": "Modulo / krok 6: liczby ujemne",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Zegarek pokazuje godzinę HH:MM. Cofamy go o k minut. Jaką godzinę pokaże? Przy cofaniu po 00:00 jest 23:59."
+      ],
+      "input_format": [
+        "Jeden wiersz: godzina w formacie HH:MM i liczba całkowita k."
+      ],
+      "output_format": [
+        "Godzina w formacie HH:MM."
+      ],
+      "constraints": [
+        "0 ≤ k ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "00:10 15",
+          "output": "23:55"
+        },
+        {
+          "input": "12:00 1440",
+          "output": "12:00",
+          "note": "Cofnięcie o pełną dobę nie zmienia godziny."
+        }
+      ],
+      "hint": "Zamień godzinę na minuty od północy: t = h · 60 + m. Odejmij k i zawiń do doby z poprawką na liczby ujemne: ((t − k) % 1440 + 1440) % 1440. Wynik rozłóż na godziny i minuty z zerami z przodu.",
+      "tests_count": 9
+    },
+    {
+      "id": "mod-seans-przez-polnoc",
+      "number": 624,
+      "title": "Seans przez północ",
+      "category": "Modulo / krok 6: liczby ujemne",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Seans zaczyna się o godzinie HH:MM i kończy o HH:MM — być może już następnego dnia. Wiadomo, że trwa co najmniej minutę i krócej niż dobę. Ile trwa? Wypisz w postaci G h M min."
+      ],
+      "input_format": [
+        "Jeden wiersz: godzina rozpoczęcia i godzina zakończenia w formacie HH:MM."
+      ],
+      "output_format": [
+        "Jeden wiersz w postaci G h M min."
+      ],
+      "constraints": [
+        "godziny rozpoczęcia i zakończenia są różne"
+      ],
+      "examples": [
+        {
+          "input": "22:30 01:15",
+          "output": "2 h 45 min"
+        },
+        {
+          "input": "10:00 12:05",
+          "output": "2 h 5 min"
+        },
+        {
+          "input": "23:59 23:58",
+          "output": "23 h 59 min",
+          "note": "Koniec jest „wcześniej” niż początek — czyli następnego dnia."
+        }
+      ],
+      "hint": "Odejmij minuty od północy: koniec − początek. Jeśli seans przechodzi przez północ, różnica wychodzi ujemna — wtedy trzeba dodać pełną dobę. Jednym wzorem: (koniec − początek + 1440) % 1440.",
+      "tests_count": 10
+    },
+    {
+      "id": "mod-dni-temu",
+      "number": 625,
+      "title": "Jaki dzień był k dni temu?",
+      "category": "Modulo / krok 6: liczby ujemne",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dziś jest dzień tygodnia numer d (1 — poniedziałek, 2 — wtorek, …, 7 — niedziela). Jaki dzień tygodnia był k dni temu? Wypisz jego numer."
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami d i k."
+      ],
+      "output_format": [
+        "Jedna liczba od 1 do 7."
+      ],
+      "constraints": [
+        "1 ≤ d ≤ 7",
+        "0 ≤ k ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "1 1",
+          "output": "7",
+          "note": "Dzień przed poniedziałkiem była niedziela."
+        },
+        {
+          "input": "3 10",
+          "output": "7"
+        }
+      ],
+      "hint": "Dwa triki naraz: numeracja od 1 (przejdź na 0…6, odejmując 1) i liczby ujemne (poprawka + 7). Wzór: ((d − 1 − k) % 7 + 7) % 7 + 1. k sięga 10^18 — long long.",
+      "tests_count": 10
+    },
+    {
+      "id": "mod-kolo-w-obie-strony",
+      "number": 626,
+      "title": "Koło w obie strony",
+      "category": "Modulo / krok 6: liczby ujemne",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Pionek stoi na polu 0 okrągłej planszy z polami od 0 do n − 1 (po polu n − 1 jest znowu pole 0). Wykonuje q ruchów: ruch x > 0 to x pól do przodu, a ruch x < 0 — |x| pól do tyłu. Wypisz numer pola po każdym ruchu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n i q, w drugim q liczb całkowitych — ruchy."
+      ],
+      "output_format": [
+        "Jeden wiersz z q numerami pól."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10⁹",
+        "1 ≤ q ≤ 1000",
+        "−10¹⁸ ≤ x ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "10 5\n3 -5 12 -100 7",
+          "output": "3 8 0 0 7",
+          "note": "0 → 3 → 8 → 0 → 0 → 7."
+        }
+      ],
+      "hint": "Po każdym ruchu: p = ((p + x) % n + n) % n;. Pole p jest mniejsze od n, więc p + x mieści się w long long. Bez poprawki na liczby ujemne pionek „wylądowałby” na polu −2.",
+      "tests_count": 6
+    },
+    {
+      "id": "mod-iloraz-matematyczny",
+      "number": 627,
+      "title": "Iloraz i reszta po matematycznemu",
+      "category": "Modulo / krok 6: liczby ujemne",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla liczb całkowitych a i b > 0 istnieje dokładnie jedna para liczb q i r, dla której a = b · q + r oraz 0 ≤ r < b. Dla a ≥ 0 to zwykłe a / b i a % b, ale dla ujemnego a C++ liczy inaczej: −7 / 2 daje −3, a −7 % 2 daje −1. Matematycznie q = −4 i r = 1, bo −7 = 2 · (−4) + 1. Wczytaj a i b i wypisz matematyczne q i r."
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami całkowitymi a i b."
+      ],
+      "output_format": [
+        "Dwie liczby: q i r."
+      ],
+      "constraints": [
+        "−10¹⁸ ≤ a ≤ 10¹⁸",
+        "1 ≤ b ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "-7 2",
+          "output": "-4 1"
+        },
+        {
+          "input": "7 2",
+          "output": "3 1"
+        },
+        {
+          "input": "-6 3",
+          "output": "-2 0",
+          "note": "Dzieli się bez reszty — nic nie trzeba poprawiać."
+        }
+      ],
+      "hint": "Zacznij od q = a / b i r = a % b policzonych przez C++. Jeśli r wyszło ujemne, popraw oba naraz: r += b; q--;. Równość a = b · q + r nadal się zgadza, a reszta wskoczyła do przedziału od 0 do b − 1.",
+      "tests_count": 11
+    },
+    {
+      "id": "mod-ostatnia-cyfra-iloczynu",
+      "number": 628,
+      "title": "Ostatnia cyfra iloczynu",
+      "category": "Modulo / krok 7: działania modulo",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb naturalnych i wypisz ostatnią cyfrę ich iloczynu. Sam iloczyn może mieć tysiące cyfr — nie da się go policzyć wprost."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n, w drugim n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jedna cyfra."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "0 ≤ każda liczba ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "3\n47 85 13",
+          "output": "5",
+          "note": "7 · 5 = 35 → 5, potem 5 · 3 = 15 → 5."
+        },
+        {
+          "input": "2\n123456789 987654321",
+          "output": "9"
+        }
+      ],
+      "hint": "Ostatnia cyfra iloczynu zależy tylko od ostatnich cyfr czynników. Trzymaj w zmiennej w tylko ostatnią cyfrę wyniku: zacznij od 1 i po każdej liczbie x rób w = w * (x % 10) % 10.",
+      "tests_count": 8
+    },
+    {
+      "id": "mod-suma-modulo",
+      "number": 629,
+      "title": "Suma modulo m",
+      "category": "Modulo / krok 7: działania modulo",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb i liczbę m. Wypisz resztę z dzielenia ich sumy przez m. Liczby są tak duże, że ich suma nie zmieściłaby się nawet w long long."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n i m, w drugim n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jedna liczba."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "0 ≤ każda liczba ≤ 10¹⁸",
+        "1 ≤ m ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "3 10\n15 27 9",
+          "output": "1"
+        },
+        {
+          "input": "2 1000000000000000000\n999999999999999999 999999999999999999",
+          "output": "999999999999999998"
+        }
+      ],
+      "hint": "Reszta z sumy to reszta z sumy reszt. Po każdej liczbie: s = (s + x % m) % m;. Obie reszty są mniejsze od m ≤ 10^18, więc ich suma (mniej niż 2 · 10^18) mieści się w long long.",
+      "tests_count": 7
+    },
+    {
+      "id": "mod-silnia-modulo",
+      "number": 630,
+      "title": "Silnia modulo 10⁹ + 7",
+      "category": "Modulo / krok 7: działania modulo",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Silnia n! to iloczyn 1 · 2 · 3 · … · n (a 0! = 1). Już 21! nie mieści się w long long. Wypisz resztę z dzielenia n! przez 1 000 000 007."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jedna liczba."
+      ],
+      "constraints": [
+        "0 ≤ n ≤ 10⁷"
+      ],
+      "examples": [
+        {
+          "input": "10",
+          "output": "3628800",
+          "note": "10! = 3 628 800 — mniej niż modulo, więc reszta to sama silnia."
+        },
+        {
+          "input": "20",
+          "output": "146326063"
+        },
+        {
+          "input": "0",
+          "output": "1"
+        }
+      ],
+      "hint": "const long long MOD = 1000000007; long long w = 1; i w pętli od 1 do n: w = w * i % MOD;. Zmienna w musi być typu long long — iloczyn w · i sięga 10^16, a w int by się nie zmieścił.",
+      "tests_count": 9
+    },
+    {
+      "id": "mod-potega-modulo",
+      "number": 631,
+      "title": "Potęga modulo",
+      "category": "Modulo / krok 7: działania modulo",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj a, n i m i wypisz resztę z dzielenia aⁿ przez m. Przyjmujemy, że a⁰ = 1 (także dla a = 0)."
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami a, n i m."
+      ],
+      "output_format": [
+        "Jedna liczba."
+      ],
+      "constraints": [
+        "0 ≤ a ≤ 10¹⁸",
+        "0 ≤ n ≤ 10⁷",
+        "1 ≤ m ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "2 10 1000",
+          "output": "24",
+          "note": "2¹⁰ = 1024."
+        },
+        {
+          "input": "3 0 5",
+          "output": "1"
+        },
+        {
+          "input": "7 5 1",
+          "output": "0",
+          "note": "Każda liczba dzieli się przez 1 bez reszty."
+        }
+      ],
+      "hint": "Najpierw zmniejsz a: a %= m — inaczej już pierwszy iloczyn się przepełni. Potem pętla n razy: w = w * a % m. Zacznij od w = 1 % m, a nie od 1: dla m = 1 każda reszta to 0, nawet a⁰.",
+      "tests_count": 10
+    },
+    {
+      "id": "mod-trzy-ostatnie-cyfry",
+      "number": 632,
+      "title": "Trzy ostatnie cyfry potęgi",
+      "category": "Modulo / krok 7: działania modulo",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj a i n i wypisz trzy ostatnie cyfry liczby aⁿ — zawsze trzy, z zerami z przodu, jeśli trzeba: dla 2¹⁰ = 1024 wypisz 024, a dla 2³ = 8 wypisz 008."
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami a i n."
+      ],
+      "output_format": [
+        "Trzy cyfry."
+      ],
+      "constraints": [
+        "0 ≤ a ≤ 10⁹",
+        "1 ≤ n ≤ 10⁷"
+      ],
+      "examples": [
+        {
+          "input": "2 10",
+          "output": "024"
+        },
+        {
+          "input": "2 3",
+          "output": "008"
+        },
+        {
+          "input": "5 4",
+          "output": "625"
+        }
+      ],
+      "hint": "Trzy ostatnie cyfry to reszta z dzielenia przez 1000. Mnóż n razy, biorąc % 1000 po każdym kroku (zacznij od a % 1000), a wynik wypisz przez setw(3) i setfill('0').",
+      "tests_count": 10
+    },
+    {
+      "id": "mod-reszta-z-olbrzyma",
+      "number": 633,
+      "title": "Reszta z olbrzyma",
+      "category": "Modulo / krok 7: działania modulo",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj liczbę naturalną, która może mieć nawet 100 000 cyfr, oraz liczbę m. Wypisz resztę z dzielenia tej ogromnej liczby przez m."
+      ],
+      "input_format": [
+        "Jeden wiersz: ogromna liczba (bez zer z przodu) i liczba m."
+      ],
+      "output_format": [
+        "Jedna liczba."
+      ],
+      "constraints": [
+        "ogromna liczba ma od 1 do 100 000 cyfr",
+        "1 ≤ m ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "1234 7",
+          "output": "2",
+          "note": "1 → 12 % 7 = 5 → 53 % 7 = 4 → 44 % 7 = 2."
+        },
+        {
+          "input": "123456789123456789123456789 1000000007",
+          "output": "308641892"
+        }
+      ],
+      "hint": "Wczytaj liczbę do zmiennej string i idź po cyfrach od lewej, tak jak w lekcji: r = (r * 10 + (c - '0')) % m;. r jest mniejsze od m ≤ 10^9, więc r · 10 + 9 mieści się w long long.",
+      "tests_count": 9
+    },
+    {
+      "id": "mod-fibonacci-modulo",
+      "number": 634,
+      "title": "Fibonacci modulo 10⁹ + 7",
+      "category": "Modulo / krok 7: działania modulo",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ciąg Fibonacciego: F₀ = 0, F₁ = 1, a każdy kolejny wyraz to suma dwóch poprzednich: 1, 2, 3, 5, 8, 13, … Wyrazy rosną bardzo szybko — F₁₀₀ ma 21 cyfr. Wczytaj n i wypisz resztę z dzielenia Fₙ przez 1 000 000 007."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jedna liczba."
+      ],
+      "constraints": [
+        "0 ≤ n ≤ 10⁷"
+      ],
+      "examples": [
+        {
+          "input": "10",
+          "output": "55"
+        },
+        {
+          "input": "100",
+          "output": "687995182"
+        },
+        {
+          "input": "0",
+          "output": "0"
+        }
+      ],
+      "hint": "Trzymaj dwa ostatnie wyrazy a i b (już jako reszty) i w pętli licz c = (a + b) % MOD; a = b; b = c;. Reszta z sumy to reszta z sumy reszt, więc wynik się zgadza, choć prawdziwe liczby są gigantyczne.",
+      "tests_count": 8
+    },
+    {
+      "id": "mod-suma-poteg",
+      "number": 635,
+      "title": "Suma potęg modulo",
+      "category": "Modulo / krok 7: działania modulo",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj a, n i m i wypisz resztę z dzielenia sumy 1 + a + a² + … + aⁿ przez m."
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami a, n i m."
+      ],
+      "output_format": [
+        "Jedna liczba."
+      ],
+      "constraints": [
+        "0 ≤ a ≤ 10⁹",
+        "0 ≤ n ≤ 10⁷",
+        "1 ≤ m ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "2 3 100",
+          "output": "15",
+          "note": "1 + 2 + 4 + 8 = 15."
+        },
+        {
+          "input": "10 5 7",
+          "output": "0",
+          "note": "111 111 = 7 · 15 873."
+        }
+      ],
+      "hint": "Dwie zmienne: p — bieżąca potęga (zaczyna od 1 % m) i s — suma (zaczyna od 0). W każdym obrocie dodaj p do sumy, a potem pomnóż p przez a — za każdym razem biorąc % m. Pierwszy składnik to a⁰ = 1, ostatni to aⁿ, więc obrotów jest n + 1.",
+      "tests_count": 10
+    },
+    {
+      "id": "mod-nwd-olbrzymow",
+      "number": 636,
+      "title": "NWD olbrzymów",
+      "category": "Modulo / krok 8: modulo na olimpiadzie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj dwie liczby a i b i wypisz ich największy wspólny dzielnik. Liczby mają do 19 cyfr — wersja algorytmu Euklidesa z odejmowaniem mogłaby tu wykonać biliony kroków, a wersja z resztą wykona najwyżej kilkadziesiąt."
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami a i b."
+      ],
+      "output_format": [
+        "Jedna liczba — NWD(a, b)."
+      ],
+      "constraints": [
+        "1 ≤ a, b ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "48 18",
+          "output": "6"
+        },
+        {
+          "input": "1071 462",
+          "output": "21"
+        },
+        {
+          "input": "1000000000000000000 1",
+          "output": "1"
+        }
+      ],
+      "hint": "while (b != 0) { long long r = a % b; a = b; b = r; } — po pętli wynik jest w a. Każdy obrót zastępuje parę (a, b) parą (b, a % b), która ma ten sam NWD, ale mniejsze liczby.",
+      "tests_count": 9
+    },
+    {
+      "id": "mod-skracanie-ulamka",
+      "number": 637,
+      "title": "Skracanie ułamka",
+      "category": "Modulo / krok 8: modulo na olimpiadzie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj ułamek a/b i wypisz go w postaci nieskracalnej, czyli po podzieleniu licznika i mianownika przez ich największy wspólny dzielnik."
+      ],
+      "input_format": [
+        "Jeden wiersz: a/b — dwie liczby oddzielone ukośnikiem, bez spacji."
+      ],
+      "output_format": [
+        "Ułamek w postaci p/q."
+      ],
+      "constraints": [
+        "1 ≤ a, b ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "12/18",
+          "output": "2/3"
+        },
+        {
+          "input": "100/25",
+          "output": "4/1",
+          "note": "Wynik to liczba całkowita, ale wypisujemy ją jako ułamek z mianownikiem 1."
+        }
+      ],
+      "hint": "Ukośnik wczytasz do zmiennej typu char: cin >> a >> z >> b;. Policz g = NWD(a, b) algorytmem Euklidesa — na kopiach a i b, bo pętla je zmienia — i wypisz a / g, ukośnik i b / g.",
+      "tests_count": 10
+    },
+    {
+      "id": "mod-autobusy-nww",
+      "number": 638,
+      "title": "Kiedy autobusy znów się spotkają?",
+      "category": "Modulo / krok 8: modulo na olimpiadzie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dwa autobusy odjechały z pętli jednocześnie w minucie 0. Pierwszy wraca na pętlę co a minut, drugi co b minut. Po ilu minutach znowu będą na pętli razem? Ile razy (licząc chwilę 0) będą na pętli razem w chwilach od 0 do T?"
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami a, b i T."
+      ],
+      "output_format": [
+        "Dwie liczby: czas pierwszego ponownego spotkania i liczba spotkań w chwilach od 0 do T."
+      ],
+      "constraints": [
+        "1 ≤ a, b ≤ 10⁹",
+        "0 ≤ T ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "4 6 30",
+          "output": "12 3",
+          "note": "Spotykają się w minutach 0, 12 i 24."
+        },
+        {
+          "input": "1000000000 999999999 1000000000000000000",
+          "output": "999999999000000000 2"
+        }
+      ],
+      "hint": "Spotykają się w chwilach, które są wielokrotnościami a i b jednocześnie — czyli co NWW(a, b) minut. Licz NWW jako a / NWD(a, b) * b: najpierw dzielenie, żeby nie przepełnić long long. Spotkań w chwilach 0, nww, 2 · nww, … nie większych niż T jest T / nww + 1.",
+      "tests_count": 9
+    },
+    {
+      "id": "mod-dzielenie-pisemne",
+      "number": 639,
+      "title": "Dzielenie pisemne",
+      "category": "Modulo / krok 8: modulo na olimpiadzie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj a, b i k i wypisz wynik dzielenia a / b z dokładnie k cyframi po kropce — bez zaokrąglania, po prostu obcinając dalsze cyfry. Typ double daje tylko kilkanaście dokładnych cyfr, a tu k może sięgać 10 000, więc licz tak jak przy dzieleniu pisemnym."
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami a, b i k."
+      ],
+      "output_format": [
+        "Część całkowita, kropka i dokładnie k cyfr."
+      ],
+      "constraints": [
+        "0 ≤ a ≤ 10⁹",
+        "1 ≤ b ≤ 10⁹",
+        "1 ≤ k ≤ 10 000"
+      ],
+      "examples": [
+        {
+          "input": "1 7 20",
+          "output": "0.14285714285714285714"
+        },
+        {
+          "input": "22 7 10",
+          "output": "3.1428571428"
+        },
+        {
+          "input": "5 2 3",
+          "output": "2.500"
+        }
+      ],
+      "hint": "Część całkowita to a / b. Potem r = a % b i k razy: r *= 10; cout << r / b; r %= b;. r jest mniejsze od b ≤ 10^9, więc r · 10 mieści się w long long.",
+      "tests_count": 10
+    },
+    {
+      "id": "mod-k-ta-cyfra-ulamka",
+      "number": 640,
+      "title": "k-ta cyfra po przecinku",
+      "category": "Modulo / krok 8: modulo na olimpiadzie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj a, b i k i wypisz k-tą cyfrę po przecinku w rozwinięciu dziesiętnym ułamka a / b (cyfry po przecinku numerujemy od 1). Na przykład 1/7 = 0,142857142857…, więc trzecia cyfra to 2."
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami a, b i k."
+      ],
+      "output_format": [
+        "Jedna cyfra."
+      ],
+      "constraints": [
+        "0 ≤ a ≤ 10⁹",
+        "1 ≤ b ≤ 10⁹",
+        "1 ≤ k ≤ 10⁷"
+      ],
+      "examples": [
+        {
+          "input": "1 7 3",
+          "output": "2"
+        },
+        {
+          "input": "1 4 5",
+          "output": "0",
+          "note": "1/4 = 0,25000… — dalej same zera."
+        }
+      ],
+      "hint": "Dzielenie pisemne bez wypisywania: r = a % b, potem k − 1 razy r = r * 10 % b. W k-tym kroku zamiast reszty potrzebujesz cyfry: r * 10 / b. Pętla wykona do 10 milionów obrotów — zdąży.",
+      "tests_count": 9
+    },
+    {
+      "id": "mod-wzglednie-pierwsze",
+      "number": 641,
+      "title": "Ile liczb względnie pierwszych?",
+      "category": "Modulo / krok 8: modulo na olimpiadzie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dwie liczby są względnie pierwsze, gdy ich NWD wynosi 1 — nie mają wspólnego dzielnika większego od 1. Wczytaj n i wypisz, ile liczb od 1 do n jest względnie pierwszych z n."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jedna liczba."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "12",
+          "output": "4",
+          "note": "1, 5, 7 i 11."
+        },
+        {
+          "input": "1",
+          "output": "1",
+          "note": "NWD(1, 1) = 1."
+        },
+        {
+          "input": "7",
+          "output": "6"
+        }
+      ],
+      "hint": "Dla każdego k od 1 do n policz NWD(k, n) algorytmem Euklidesa — na kopiach, bo pętla zmienia liczby — i zlicz te k, dla których wyszło 1. Euklides potrzebuje kilkunastu kroków, więc całość to kilkanaście milionów operacji.",
+      "tests_count": 10
+    },
+    {
+      "id": "mod-szybka-potega",
+      "number": 642,
+      "title": "Szybkie potęgowanie",
+      "category": "Modulo / krok 8: modulo na olimpiadzie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj a, n i m i wypisz resztę z dzielenia aⁿ przez m. Tym razem n może sięgać 10¹⁸ — zwykła pętla wykonywałaby się setki lat. Użyj szybkiego potęgowania z lekcji. Przyjmujemy, że a⁰ = 1."
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami a, n i m."
+      ],
+      "output_format": [
+        "Jedna liczba."
+      ],
+      "constraints": [
+        "0 ≤ a ≤ 10¹⁸",
+        "0 ≤ n ≤ 10¹⁸",
+        "1 ≤ m ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "3 13 1000",
+          "output": "323",
+          "note": "3¹³ = 1 594 323."
+        },
+        {
+          "input": "2 1000000000000000000 1000000007",
+          "output": "719476260"
+        },
+        {
+          "input": "5 0 3",
+          "output": "1"
+        }
+      ],
+      "hint": "wynik = 1 % m, pot = a % m. Dopóki n > 0: jeśli n % 2 == 1, to wynik = wynik * pot % m; potem pot = pot * pot % m; i n /= 2;. Pętla obróci się najwyżej około 60 razy — tyle, ile cyfr ma n w systemie dwójkowym.",
+      "tests_count": 10
+    },
+    {
+      "id": "mod-b-liczby-z-reszta",
+      "number": 643,
+      "title": "Liczby z resztą r",
+      "category": "Modulo / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wypisz w jednym wierszu wszystkie liczby z przedziału od a do b (włącznie), które przy dzieleniu przez k dają resztę r. Jeśli nie ma ani jednej takiej liczby, wypisz BRAK."
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami a, b, k i r."
+      ],
+      "output_format": [
+        "Liczby oddzielone spacjami albo słowo BRAK."
+      ],
+      "constraints": [
+        "0 ≤ a ≤ b ≤ 10⁹",
+        "b − a ≤ 10 000",
+        "1 ≤ k ≤ 10⁹",
+        "0 ≤ r < k"
+      ],
+      "examples": [
+        {
+          "input": "10 30 7 3",
+          "output": "10 17 24",
+          "note": "10 = 7 + 3, 17 = 14 + 3, 24 = 21 + 3."
+        },
+        {
+          "input": "1 5 10 7",
+          "output": "BRAK"
+        }
+      ],
+      "hint": "Najprościej: pętla od a do b i warunek x % k == r. Zapamiętaj w zmiennej bool, czy cokolwiek zostało wypisane — jeśli nie, po pętli wypisz BRAK.",
+      "tests_count": 9
+    },
+    {
+      "id": "mod-b-suma-ostatnich-cyfr",
+      "number": 644,
+      "title": "Suma ostatnich cyfr",
+      "category": "Modulo / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb całkowitych nieujemnych i wypisz sumę ich ostatnich cyfr."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n, w drugim n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jedna liczba."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "0 ≤ każda liczba ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "4\n15 27 100 9",
+          "output": "21",
+          "note": "5 + 7 + 0 + 9 = 21."
+        }
+      ],
+      "hint": "Ostatnia cyfra liczby x to x % 10. Liczby mogą mieć 19 cyfr, więc wczytuj je do long long. Suma to najwyżej 9 · 1000 — zmieści się w int.",
+      "tests_count": 6
+    },
+    {
+      "id": "mod-b-co-k-ty-gratis",
+      "number": 645,
+      "title": "Co k-ty gratis",
+      "category": "Modulo / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W sklepie trwa promocja: co k-ty kupiony produkt jest gratis. Ala kupuje n jednakowych produktów po c groszy za sztukę. Ile zapłaci? Wypisz kwotę w złotych w formacie Z.GG — zawsze z dwiema cyframi groszy."
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami n, k i c."
+      ],
+      "output_format": [
+        "Kwota w formacie Z.GG."
+      ],
+      "constraints": [
+        "1 ≤ n, k ≤ 10⁹",
+        "1 ≤ c ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "10 3 250",
+          "output": "17.50",
+          "note": "Gratis są 3., 6. i 9. produkt — płaci za 7 · 250 = 1750 groszy."
+        },
+        {
+          "input": "5 1 100",
+          "output": "0.00",
+          "note": "Co pierwszy produkt gratis, czyli wszystkie."
+        }
+      ],
+      "hint": "Darmowych produktów jest n / k (k-ty, 2k-ty, 3k-ty, …), więc płaci się za n − n / k produktów. Kwota w groszach może sięgać 10^15 — long long. Wypisz ją jako kwota / 100, kropka i kwota % 100 przez setw(2) z setfill('0').",
+      "tests_count": 9
+    },
+    {
+      "id": "mod-b-numer-mieszkania",
+      "number": 646,
+      "title": "Numer mieszkania",
+      "category": "Modulo / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W bloku na każdym piętrze jest k mieszkań. Numeracja zaczyna się na parterze, czyli na piętrze 0: mieszkania od 1 do k są na parterze, od k + 1 do 2k — na pierwszym piętrze i tak dalej. Na każdym piętrze mieszkania mają też numer „na korytarzu” od 1 do k, licząc od windy. Wypisz piętro i numer na korytarzu mieszkania numer x."
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami k i x."
+      ],
+      "output_format": [
+        "Dwie liczby: piętro i numer na korytarzu."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ 10⁹",
+        "1 ≤ x ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "4 13",
+          "output": "3 1"
+        },
+        {
+          "input": "4 4",
+          "output": "0 4",
+          "note": "Mieszkanie 4 to ostatnie na parterze."
+        }
+      ],
+      "hint": "Przejdź na numerację od zera: x − 1. Piętro to (x − 1) / k — parter ma numer 0, więc tu już nie dodajesz jedynki. Numer na korytarzu to (x − 1) % k + 1.",
+      "tests_count": 9
+    },
+    {
+      "id": "mod-b-kukulka",
+      "number": 647,
+      "title": "Zegar z kukułką",
+      "category": "Modulo / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Zegar z kukułką ma tarczę z liczbami od 1 do 12. O każdej pełnej godzinie kukułka kuka tyle razy, ile wskazuje mała wskazówka: o 13:00 — raz, a o 0:00 i o 12:00 — dwanaście razy. Ile razy kukułka zakuka od godziny a:00 do godziny b:00 tego samego dnia, licząc obie te godziny?"
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami a i b."
+      ],
+      "output_format": [
+        "Jedna liczba."
+      ],
+      "constraints": [
+        "0 ≤ a ≤ b ≤ 23"
+      ],
+      "examples": [
+        {
+          "input": "11 13",
+          "output": "24",
+          "note": "11 + 12 + 1 = 24."
+        },
+        {
+          "input": "0 23",
+          "output": "156"
+        }
+      ],
+      "hint": "Dla godziny h kukułka kuka h % 12 razy — z wyjątkiem sytuacji, gdy wyjdzie 0: wtedy 12. Ten sam efekt daje jeden wzór: (h + 11) % 12 + 1. Sprawdź go dla h = 0, 12 i 13, a potem zsumuj w pętli od a do b.",
+      "tests_count": 9
+    },
+    {
+      "id": "mod-b-dzien-w-roku",
+      "number": 648,
+      "title": "Który dzień tygodnia?",
+      "category": "Modulo / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "1 stycznia pewnego roku wypadł w dzień tygodnia podany słowem (poniedzialek, wtorek, sroda, czwartek, piatek, sobota albo niedziela). Jakim dniem tygodnia jest d-ty dzień tego roku? 1 stycznia to dzień numer 1. Wypisz nazwę bez polskich znaków."
+      ],
+      "input_format": [
+        "Jeden wiersz: nazwa dnia tygodnia i liczba d."
+      ],
+      "output_format": [
+        "Nazwa dnia tygodnia."
+      ],
+      "constraints": [
+        "1 ≤ d ≤ 366"
+      ],
+      "examples": [
+        {
+          "input": "czwartek 32",
+          "output": "niedziela",
+          "note": "W 2026 roku 1 stycznia był czwartkiem, a 1 lutego (dzień 32.) — niedzielą."
+        },
+        {
+          "input": "czwartek 365",
+          "output": "czwartek"
+        }
+      ],
+      "hint": "Między dniem 1 a dniem d mija d − 1 dni. Zamień nazwę na numer od 0 do 6, dodaj d − 1, weź % 7 i zamień numer z powrotem na nazwę.",
+      "tests_count": 12
+    },
+    {
+      "id": "mod-b-czas-slownie",
+      "number": 649,
+      "title": "Czas w słowach",
+      "category": "Modulo / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj liczbę sekund t i zapisz ją jako dni, godziny, minuty i sekundy w postaci D d H h M min S s — ale pomiń te części, które wynoszą zero. Jeśli t = 0, wypisz 0 s."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita t."
+      ],
+      "output_format": [
+        "Jeden wiersz — części oddzielone pojedynczymi spacjami."
+      ],
+      "constraints": [
+        "0 ≤ t ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "90061",
+          "output": "1 d 1 h 1 min 1 s",
+          "note": "86 400 + 3600 + 60 + 1."
+        },
+        {
+          "input": "3600",
+          "output": "1 h"
+        },
+        {
+          "input": "86460",
+          "output": "1 d 1 min"
+        },
+        {
+          "input": "0",
+          "output": "0 s"
+        }
+      ],
+      "hint": "Rozłóż t: dni = t / 86400, godziny = t % 86400 / 3600, minuty = t % 3600 / 60, sekundy = t % 60. Każdą część wypisz w if-ie tylko wtedy, gdy nie jest zerem. Spacje: zmienna bool pierwsza mówi, czy przed kolejną częścią trzeba wstawić spację.",
+      "tests_count": 11
+    },
+    {
+      "id": "mod-b-zamiana-cyfr",
+      "number": 650,
+      "title": "Zamiana dwóch ostatnich cyfr",
+      "category": "Modulo / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj liczbę n, która ma co najmniej dwie cyfry, i zamień miejscami jej cyfrę jedności z cyfrą dziesiątek. Wypisz wynik jako liczbę — zera z przodu znikają: z 10 powstaje 01, czyli 1."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jedna liczba."
+      ],
+      "constraints": [
+        "10 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "1234",
+          "output": "1243"
+        },
+        {
+          "input": "10",
+          "output": "1"
+        },
+        {
+          "input": "5550",
+          "output": "5505"
+        }
+      ],
+      "hint": "Rozbierz liczbę na trzy części: reszta = n / 100 (wszystko przed dwiema ostatnimi cyframi), d = n / 10 % 10 i j = n % 10. Złóż z powrotem z zamienionymi cyframi: reszta * 100 + j * 10 + d.",
+      "tests_count": 9
+    },
+    {
+      "id": "mod-b-batony",
+      "number": 651,
+      "title": "Batony w paczkach",
+      "category": "Modulo / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Batonik kosztuje s groszy, a paczka k batoników — p groszy. Chcesz mieć co najmniej n batoników i wydać jak najmniej. Ile najmniej zapłacisz? Możesz kupić dowolnie wiele paczek i pojedynczych batoników — nadmiar batoników Ci nie przeszkadza."
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami n, k, s i p."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejsza kwota w groszach."
+      ],
+      "constraints": [
+        "1 ≤ n, k ≤ 10⁹",
+        "1 ≤ s, p ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "10 3 100 350",
+          "output": "1000",
+          "note": "Paczka jest droższa niż 3 batoniki osobno — najtaniej kupić 10 pojedynczych."
+        },
+        {
+          "input": "11 3 150 220",
+          "output": "880",
+          "note": "4 paczki (12 batoników) za 880 są tańsze niż 3 paczki i 2 batoniki (960)."
+        }
+      ],
+      "hint": "Opłaca się tylko jedna z trzech możliwości: same pojedyncze batoniki (n · s), n / k paczek i n % k batoników osobno albo n / k + 1 paczek. Policz wszystkie trzy i wybierz najmniejszą. Iloczyny mogą sięgać 10^18 — long long.",
+      "tests_count": 11
+    },
+    {
+      "id": "mod-b-obracanie-liczby",
+      "number": 652,
+      "title": "Obracanie liczby",
+      "category": "Modulo / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Obrót liczby to przeniesienie jej ostatniej cyfry na początek: 1234 → 4123 → 3412 → 2341 → 1234 → … Wczytaj liczbę n (w jej zapisie nie ma zer) i liczbę k i wypisz, jak będzie wyglądać n po k obrotach."
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami n i k."
+      ],
+      "output_format": [
+        "Jedna liczba."
+      ],
+      "constraints": [
+        "1 ≤ n < 10¹⁸, w zapisie n nie ma zer",
+        "0 ≤ k ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "1234 1",
+          "output": "4123"
+        },
+        {
+          "input": "1234 6",
+          "output": "3412",
+          "note": "Po 4 obrotach liczba wraca do siebie, więc 6 obrotów to tyle samo co 2."
+        }
+      ],
+      "hint": "Po tylu obrotach, ile liczba ma cyfr (d), wraca do siebie — wystarczy więc wykonać k % d obrotów. Jeden obrót to n = n % 10 * p + n / 10, gdzie p to 10 do potęgi d − 1. Najpierw policz pętlą d i p.",
+      "tests_count": 9
+    },
+    {
+      "id": "mod-b-system-na-system",
+      "number": 653,
+      "title": "Z systemu b na system c",
+      "category": "Modulo / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj liczbę zapisaną w systemie o podstawie b oraz podstawę c i wypisz tę samą liczbę zapisaną w systemie o podstawie c (bez zer z przodu)."
+      ],
+      "input_format": [
+        "Jeden wiersz: podstawa b, zapis liczby w tym systemie i podstawa c."
+      ],
+      "output_format": [
+        "Zapis liczby w systemie o podstawie c."
+      ],
+      "constraints": [
+        "2 ≤ b, c ≤ 10",
+        "wartość liczby ≤ 10¹⁸",
+        "zapis nie ma zer z przodu (chyba że to po prostu 0)"
+      ],
+      "examples": [
+        {
+          "input": "2 1101 10",
+          "output": "13"
+        },
+        {
+          "input": "10 100 8",
+          "output": "144"
+        },
+        {
+          "input": "8 777 2",
+          "output": "111111111"
+        }
+      ],
+      "hint": "Najpierw zamień zapis na zwykłą liczbę, idąc po znakach od lewej: x = x * b + (znak - '0'). Potem rozłóż x na cyfry w systemie c przez x % c i x /= c, doklejając je na początek napisu — w do … while, żeby zero dało \"0\".",
+      "tests_count": 11
+    },
+    {
+      "id": "mod-b-przez-7-11-13",
+      "number": 654,
+      "title": "Przez 7, 11 i 13",
+      "category": "Modulo / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj liczbę naturalną, która może mieć do 10 000 cyfr, i sprawdź, czy dzieli się przez 7, przez 11 i przez 13. Wypisz te z liczb 7, 11 i 13, przez które się dzieli — w kolejności rosnącej, oddzielone spacjami — albo BRAK, jeśli nie dzieli się przez żadną z nich."
+      ],
+      "input_format": [
+        "Jedna liczba naturalna bez zer z przodu."
+      ],
+      "output_format": [
+        "Liczby oddzielone spacjami albo słowo BRAK."
+      ],
+      "constraints": [
+        "liczba ma od 1 do 10 000 cyfr"
+      ],
+      "examples": [
+        {
+          "input": "1001",
+          "output": "7 11 13",
+          "note": "1001 = 7 · 11 · 13."
+        },
+        {
+          "input": "77",
+          "output": "7 11"
+        },
+        {
+          "input": "10",
+          "output": "BRAK"
+        }
+      ],
+      "hint": "Dla każdego dzielnika licz resztę metodą z lekcji: r = (r * 10 + cyfra) % m, idąc po cyfrach od lewej. Trzy reszty (dla 7, 11 i 13) możesz liczyć naraz, w jednej pętli po napisie.",
+      "tests_count": 11
+    },
+    {
+      "id": "mod-b-ean13",
+      "number": 655,
+      "title": "Kod kreskowy EAN-13",
+      "category": "Modulo / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Kod kreskowy EAN-13 (ten z opakowań w sklepie) ma 13 cyfr, a ostatnia z nich to cyfra kontrolna — dzięki niej kasa wykrywa pomyłkę przy odczycie. Liczy się ją tak: cyfry na pozycjach 1., 3., 5., …, 11. mnożymy przez 1, cyfry na pozycjach 2., 4., …, 12. — przez 3, i wszystko sumujemy. Cyfra kontrolna to liczba, którą trzeba dodać do tej sumy, żeby dostać najbliższą wielokrotność 10 (0, jeśli suma już jest wielokrotnością 10).",
+        "Wczytaj 12 pierwszych cyfr kodu i wypisz cały, 13-cyfrowy kod."
+      ],
+      "input_format": [
+        "Jeden wiersz — 12 cyfr (pierwsza może być zerem)."
+      ],
+      "output_format": [
+        "13 cyfr."
+      ],
+      "constraints": [
+        "dokładnie 12 cyfr"
+      ],
+      "examples": [
+        {
+          "input": "590123412345",
+          "output": "5901234123457",
+          "note": "Suma: 5 + 0 + 2 + 4 + 2 + 4 = 17 oraz 3 · (9 + 1 + 3 + 1 + 3 + 5) = 66, razem 83. Do 90 brakuje 7."
+        },
+        {
+          "input": "400638133393",
+          "output": "4006381333931"
+        }
+      ],
+      "hint": "Wczytaj kod do zmiennej string. Znak s[i] (i liczone od 0) stoi na pozycji i + 1, więc waga to 1, gdy i % 2 == 0, a 3 w przeciwnym razie. Cyfra kontrolna to (10 − suma % 10) % 10 — drugie modulo zamienia 10 na 0. Wypisz s, a za nim tę cyfrę.",
+      "tests_count": 10
+    },
+    {
+      "id": "mod-b-zera-silni",
+      "number": 656,
+      "title": "Zera na końcu silni",
+      "category": "Modulo / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ile zer jest na końcu liczby n! = 1 · 2 · 3 · … · n? Na przykład 10! = 3 628 800 kończy się dwoma zerami. Liczba n jest tak duża, że silni nie da się policzyć — trzeba sprytniej."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jedna liczba."
+      ],
+      "constraints": [
+        "0 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "10",
+          "output": "2"
+        },
+        {
+          "input": "25",
+          "output": "6",
+          "note": "25 = 5 · 5 daje od razu dwie piątki — dlatego wynik to 6, a nie 5."
+        }
+      ],
+      "hint": "Każde zero na końcu to czynnik 10 = 2 · 5, a dwójek w silni jest zawsze więcej niż piątek — wystarczy policzyć piątki. Liczb podzielnych przez 5 jest n / 5, przez 25 (dają drugą piątkę) — n / 25, przez 125 — n / 125 … Najprościej: while (n > 0) { n /= 5; wynik += n; }.",
+      "tests_count": 10
+    },
+    {
+      "id": "mod-b-lata-szybko",
+      "number": 657,
+      "title": "Lata przestępne — szybko",
+      "category": "Modulo / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Rok jest przestępny, gdy dzieli się przez 4, ale nie przez 100 — albo gdy dzieli się przez 400. Wczytaj a i b i wypisz, ile lat od a do b (włącznie) jest przestępnych. Tym razem przedział jest ogromny i pętla nie zdąży."
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami a i b."
+      ],
+      "output_format": [
+        "Jedna liczba."
+      ],
+      "constraints": [
+        "1 ≤ a ≤ b ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "1896 1912",
+          "output": "4"
+        },
+        {
+          "input": "1 2026",
+          "output": "491"
+        }
+      ],
+      "hint": "Lat przestępnych od 1 do y jest y / 4 − y / 100 + y / 400: wszystkie podzielne przez 4, minus podzielne przez 100, plus z powrotem podzielne przez 400. Odpowiedź to ta liczba dla b minus ta liczba dla a − 1.",
+      "tests_count": 9
+    },
+    {
+      "id": "mod-b-szczesliwe",
+      "number": 658,
+      "title": "Liczby szczęśliwe",
+      "category": "Modulo / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Weź liczbę i zastąp ją sumą kwadratów jej cyfr. Powtarzaj. Jeśli w końcu dojdziesz do 1, liczba jest szczęśliwa — na przykład 19 → 82 → 68 → 100 → 1. Jeśli nie, wpadniesz w cykl, który zawsze przechodzi przez 4: 4 → 16 → 37 → 58 → 89 → 145 → 42 → 20 → 4. Wczytaj n i wypisz TAK, jeśli jest szczęśliwa, albo NIE — a po spacji liczbę kroków, po których liczba stała się równa 1 albo 4."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jeden wiersz: TAK albo NIE i liczba kroków."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "19",
+          "output": "TAK 4"
+        },
+        {
+          "input": "2",
+          "output": "NIE 1",
+          "note": "2 → 4 — po jednym kroku jesteśmy w cyklu."
+        },
+        {
+          "input": "1",
+          "output": "TAK 0"
+        }
+      ],
+      "hint": "Pętla while (n != 1 && n != 4): policz sumę kwadratów cyfr n (para n % 10 i n /= 10 na kopii albo w pętli wewnętrznej), podstaw ją pod n i zwiększ licznik kroków. Po pętli sprawdź, czy n == 1. Już po pierwszym kroku liczba jest mniejsza niż 19 · 81, więc kroków będzie niewiele.",
+      "tests_count": 11
+    },
+    {
+      "id": "mod-b-zegar-w-lustrze",
+      "number": 659,
+      "title": "Zegar w lustrze",
+      "category": "Modulo / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Tomek patrzy na zegar ze wskazówkami (tarcza od 1 do 12) odbity w lustrze. W lustrze wskazówki są odbite względem pionowej osi tarczy — wskazówka, która naprawdę wskazuje 3, w lustrze wskazuje 9. Tomek odczytuje z lustra godzinę HH:MM (HH od 01 do 12). Która godzina jest naprawdę? Wypisz ją tak samo — HH od 01 do 12."
+      ],
+      "input_format": [
+        "Jeden wiersz: godzina w formacie HH:MM."
+      ],
+      "output_format": [
+        "Godzina w formacie HH:MM."
+      ],
+      "constraints": [
+        "01 ≤ HH ≤ 12",
+        "00 ≤ MM ≤ 59"
+      ],
+      "examples": [
+        {
+          "input": "03:00",
+          "output": "09:00"
+        },
+        {
+          "input": "02:40",
+          "output": "09:20",
+          "note": "Naprawdę jest 9:20: mała wskazówka między 9 a 10 odbija się między 2 a 3, a duża na 4 — na 8."
+        },
+        {
+          "input": "12:00",
+          "output": "12:00"
+        }
+      ],
+      "hint": "Zamień godzinę na minuty od dwunastej: t = (HH % 12) · 60 + MM (dwunasta to 0). Odbicie zamienia czas t na (720 − t) % 720, bo tarcza ma 12 · 60 = 720 minut. Wynik zamień z powrotem na HH:MM — z tym, że godzinę 0 wypisz jako 12.",
+      "tests_count": 11
+    },
+    {
+      "id": "mod-b-grafik",
+      "number": 660,
+      "title": "Grafik dyżurów",
+      "category": "Modulo / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Pielęgniarka zapisuje w grafiku swoje dyżury: każdy jako godzinę rozpoczęcia i zakończenia HH:MM HH:MM. Dyżur może kończyć się następnego dnia (np. 22:00 06:00); każdy trwa co najmniej minutę i krócej niż dobę. Ile godzin i minut przepracowała łącznie? Wypisz wynik w postaci G h M min."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n, w każdym z kolejnych n wierszy dwie godziny w formacie HH:MM."
+      ],
+      "output_format": [
+        "Jeden wiersz w postaci G h M min."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "godzina rozpoczęcia i zakończenia dyżuru są różne"
+      ],
+      "examples": [
+        {
+          "input": "3\n22:00 06:00\n07:30 15:30\n23:45 00:15",
+          "output": "16 h 30 min",
+          "note": "8 h + 8 h + 30 min."
+        }
+      ],
+      "hint": "Dla każdego dyżuru policz minuty: (koniec − początek + 1440) % 1440. Zsumuj je, a na końcu rozłóż sumę: suma / 60 godzin i suma % 60 minut. Godziny mogą przekroczyć 24 — tu nic nie zawijamy.",
+      "tests_count": 7
+    },
+    {
+      "id": "mod-b-generator",
+      "number": 661,
+      "title": "Generator liczb pseudolosowych",
+      "category": "Modulo / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Komputery często „losują” liczby wzorem xᵢ₊₁ = (a · xᵢ + c) mod m: każda kolejna liczba powstaje z poprzedniej. Wczytaj ziarno x₀ oraz a, c, m i n. Wypisz xₙ oraz to, ile spośród liczb x₁, x₂, …, xₙ jest parzystych."
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami x₀, a, c, m i n."
+      ],
+      "output_format": [
+        "Dwie liczby: xₙ i liczba parzystych wśród x₁, …, xₙ."
+      ],
+      "constraints": [
+        "1 ≤ m ≤ 10⁹",
+        "0 ≤ x₀, a, c < m",
+        "1 ≤ n ≤ 10⁷"
+      ],
+      "examples": [
+        {
+          "input": "1 5 3 16 5",
+          "output": "12 3",
+          "note": "x₁, …, x₅ to 8, 11, 10, 5, 12 — trzy parzyste."
+        }
+      ],
+      "hint": "Pętla n razy: x = (a * x + c) % m, a po każdym kroku sprawdź, czy x % 2 == 0. Iloczyn a · x może sięgać 10^18 — wszystkie zmienne long long.",
+      "tests_count": 7
+    },
+    {
+      "id": "mod-b-malowanie-plotu",
+      "number": 662,
+      "title": "Malowanie płotu",
+      "category": "Modulo / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Płot ma n sztachet ponumerowanych od 1 do n. Ala maluje na czerwono co a-tą sztachetę (a, 2a, 3a, …), a Bartek na niebiesko co b-tą. Sztachety, które pomalowali oboje, są fioletowe. Ile sztachet jest czerwonych, ile niebieskich, ile fioletowych i ile niepomalowanych?"
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami n, a i b."
+      ],
+      "output_format": [
+        "Cztery liczby: czerwone, niebieskie, fioletowe i niepomalowane."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10¹⁸",
+        "1 ≤ a, b ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "20 2 3",
+          "output": "7 3 3 7",
+          "note": "Fioletowe są 6, 12 i 18; czerwone 2, 4, 8, 10, 14, 16, 20; niebieskie 3, 9, 15."
+        }
+      ],
+      "hint": "Ala pomalowała n / a sztachet, Bartek n / b, a oboje — te o numerach podzielnych przez NWW(a, b). Fioletowych jest n / nww, czerwonych n / a − n / nww, niebieskich n / b − n / nww, a resztę dopełnia n. NWW = a / NWD(a, b) * b — może przekroczyć n, wtedy fioletowych jest po prostu 0.",
+      "tests_count": 9
+    },
+    {
+      "id": "mod-b-dwie-linie",
+      "number": 663,
+      "title": "Dwie linie autobusowe",
+      "category": "Modulo / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Autobus linii A odjeżdża z przystanku w minutach s₁, s₁ + p₁, s₁ + 2p₁, …, a autobus linii B — w minutach s₂, s₂ + p₂, s₂ + 2p₂, … W której minucie po raz pierwszy oba autobusy odjadą jednocześnie? Jeśli to się nigdy nie zdarzy, wypisz NIGDY."
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami s₁, p₁, s₂ i p₂."
+      ],
+      "output_format": [
+        "Jedna liczba albo słowo NIGDY."
+      ],
+      "constraints": [
+        "0 ≤ s₁, s₂ ≤ 10⁶",
+        "1 ≤ p₁, p₂ ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "0 4 2 6",
+          "output": "8"
+        },
+        {
+          "input": "1 4 2 6",
+          "output": "NIGDY",
+          "note": "A odjeżdża w minutach nieparzystych, a B — w parzystych."
+        },
+        {
+          "input": "10 7 3 5",
+          "output": "38"
+        }
+      ],
+      "hint": "Minuta t jest dobra, gdy t ≥ s₁, t ≥ s₂, (t − s₁) % p₁ == 0 i (t − s₂) % p₂ == 0. Sprawdzaj kolejne odjazdy A, zaczynając od pierwszego, który nie jest wcześniejszy niż s₂. Jak daleko? Reszta (t − s₂) % p₂ przy kolejnych odjazdach A powtarza się w kółko co najwyżej co p₂ odjazdów — jeśli w p₂ kolejnych odjazdach nic nie znalazłeś, odpowiedź to NIGDY.",
+      "tests_count": 11
+    },
+    {
+      "id": "mod-b-ostatnia-cyfra-giganta",
+      "number": 664,
+      "title": "Ostatnia cyfra giganta",
+      "category": "Modulo / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj dwie ogromne liczby a i n — każda może mieć do 1000 cyfr — i wypisz ostatnią cyfrę liczby aⁿ."
+      ],
+      "input_format": [
+        "Jeden wiersz: liczby a i n (bez zer z przodu)."
+      ],
+      "output_format": [
+        "Jedna cyfra."
+      ],
+      "constraints": [
+        "0 ≤ a, 1 ≤ n",
+        "każda z liczb ma od 1 do 1000 cyfr"
+      ],
+      "examples": [
+        {
+          "input": "2 10",
+          "output": "4"
+        },
+        {
+          "input": "7 1000000000000000000000",
+          "output": "1",
+          "note": "Ostatnie cyfry potęg siódemki: 7, 9, 3, 1, 7, 9, 3, 1, … — a n dzieli się przez 4."
+        }
+      ],
+      "hint": "Ostatnia cyfra aⁿ zależy tylko od ostatniej cyfry a i od reszty z dzielenia n przez 4, bo ostatnie cyfry potęg każdej cyfry powtarzają się co 4 (np. 2, 4, 8, 6, 2, …). Resztę n % 4 policz metodą „reszta z olbrzyma”. Jeśli wyszło 0, weź 4. Potem pomnóż ostatnią cyfrę a przez siebie tyle razy (modulo 10).",
+      "tests_count": 11
+    },
+    {
+      "id": "mod-b-iban",
+      "number": 665,
+      "title": "Numer konta IBAN",
+      "category": "Modulo / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Polski numer konta w formacie IBAN ma postać PL i 26 cyfr, na przykład PL04123456789012345678901234. Dwie cyfry tuż po PL to suma kontrolna. Numer sprawdza się tak:",
+        "1. Cztery pierwsze znaki (PL i dwie cyfry kontrolne) przenieś na koniec napisu.",
+        "2. Każdą literę zamień na liczbę: A = 10, B = 11, …, Z = 35 (P to 25, a L to 21).",
+        "3. Powstaje ogromna, 30-cyfrowa liczba. Numer jest poprawny, gdy jej reszta z dzielenia przez 97 wynosi 1.",
+        "Wczytaj numer i wypisz POPRAWNY albo BLEDNY."
+      ],
+      "input_format": [
+        "Jeden wiersz: PL i 26 cyfr, bez spacji."
+      ],
+      "output_format": [
+        "POPRAWNY albo BLEDNY."
+      ],
+      "constraints": [
+        "napis ma dokładnie 28 znaków: PL i 26 cyfr"
+      ],
+      "examples": [
+        {
+          "input": "PL04123456789012345678901234",
+          "output": "POPRAWNY"
+        },
+        {
+          "input": "PL04123456789012345678901235",
+          "output": "BLEDNY",
+          "note": "Wystarczy zmienić jedną cyfrę, a suma kontrolna przestaje się zgadzać."
+        }
+      ],
+      "hint": "Nie musisz budować ogromnej liczby. Licz resztę na bieżąco, jak w lekcji: najpierw znaki od indeksu 4 do końca, potem znaki 0–3. Cyfrę dokładasz przez r = (r * 10 + cyfra) % 97, a literę — jako dwie cyfry naraz: r = (r * 100 + (litera - 'A' + 10)) % 97.",
+      "tests_count": 11
+    },
+    {
+      "id": "mod-b-wyliczanka",
+      "number": 666,
+      "title": "Wyliczanka",
+      "category": "Modulo / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "n dzieci stoi w kółku, ponumerowanych od 1 do n zgodnie z ruchem wskazówek zegara. Wyliczanka zaczyna się od dziecka nr 1 i odlicza k dzieci — k-te dziecko odpada z kółka, a liczenie zaczyna się od następnego. Dzieci odpadają, aż zostanie jedno. Które?"
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami n i k."
+      ],
+      "output_format": [
+        "Numer dziecka, które zostanie."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10⁶",
+        "1 ≤ k ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "5 2",
+          "output": "3",
+          "note": "Odpadają kolejno 2, 4, 1 i 5 — zostaje 3."
+        },
+        {
+          "input": "7 3",
+          "output": "4"
+        }
+      ],
+      "hint": "Symulacja jest za wolna, ale jest piękny wzór. Ponumeruj dzieci od 0 i niech w to numer zwycięzcy, gdy w kółku jest i dzieci. Dla jednego dziecka w = 0. Gdy dzieci jest i, pierwsze odpada dziecko (k − 1) % i, a dalej gra toczy się jak w kółku z i − 1 dzieci — tylko z numerami przesuniętymi o k. Stąd w = (w + k) % i dla i = 2, 3, …, n. Odpowiedź to w + 1.",
+      "tests_count": 10
+    },
+    {
+      "id": "mod-b-ulamek-okresowy",
+      "number": 667,
+      "title": "Ułamek okresowy",
+      "category": "Modulo / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Każdy ułamek a/b ma rozwinięcie dziesiętne skończone albo okresowe, np. 1/4 = 0.25, 1/3 = 0.(3), 1/6 = 0.1(6), 1/7 = 0.(142857). Wczytaj a i b i wypisz rozwinięcie ułamka a/b: część całkowitą, a po kropce kolejne cyfry, przy czym okres — powtarzający się bez końca fragment — zapisz w nawiasie. Jeśli rozwinięcie jest skończone, nawiasu nie ma, a jeśli ułamek jest liczbą całkowitą — nie ma też kropki."
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami a i b."
+      ],
+      "output_format": [
+        "Rozwinięcie dziesiętne ułamka a/b."
+      ],
+      "constraints": [
+        "0 ≤ a ≤ 10⁹",
+        "1 ≤ b ≤ 10 000"
+      ],
+      "examples": [
+        {
+          "input": "1 6",
+          "output": "0.1(6)"
+        },
+        {
+          "input": "22 7",
+          "output": "3.(142857)"
+        },
+        {
+          "input": "1 4",
+          "output": "0.25"
+        },
+        {
+          "input": "6 3",
+          "output": "2"
+        }
+      ],
+      "hint": "Dzielenie pisemne daje kolejne reszty: r *= 10, cyfra r / b, r %= b. Okres zaczyna się, gdy reszta powtórzy się po raz pierwszy. Bez tablic wykryjesz to tak: skróć ułamek (a % b)/b przez NWD i policz, ile razy skrócony mianownik dzieli się przez 2, a ile przez 5 — większa z tych liczb to liczba cyfr przed okresem. Wypisz tyle cyfr. Jeśli reszta jest wtedy zerem — koniec. W przeciwnym razie zapamiętaj ją i wypisuj kolejne cyfry w nawiasie, aż ta sama reszta wróci.",
+      "tests_count": 15
+    },
+    {
+      "id": "mod-b-cyfra-daleko",
+      "number": 668,
+      "title": "Cyfra daleko po przecinku",
+      "category": "Modulo / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj a, b i k i wypisz k-tą cyfrę po przecinku w rozwinięciu dziesiętnym ułamka a / b. Tym razem k może sięgać 10¹⁸ — dzielenia pisemnego nie da się przeprowadzić krok po kroku."
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami a, b i k."
+      ],
+      "output_format": [
+        "Jedna cyfra."
+      ],
+      "constraints": [
+        "0 ≤ a ≤ 10⁹",
+        "1 ≤ b ≤ 10⁹",
+        "1 ≤ k ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "1 7 3",
+          "output": "2"
+        },
+        {
+          "input": "1 7 1000000000000000000",
+          "output": "8"
+        }
+      ],
+      "hint": "Każdy krok dzielenia pisemnego mnoży resztę przez 10 i bierze modulo b. Po k − 1 krokach reszta wynosi więc (a % b) · 10^(k−1) mod b. Potęgę 10^(k−1) mod b policz szybkim potęgowaniem, pomnóż przez a % b i weź % b. Wtedy k-ta cyfra to r · 10 / b.",
+      "tests_count": 10
+    },
+    {
+      "id": "mod-b-lot",
+      "number": 669,
+      "title": "Lot przez strefy czasowe",
+      "category": "Modulo / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Samolot startuje w dzień tygodnia D o godzinie HH:MM czasu lokalnego. Lot trwa t minut, a w mieście docelowym zegary pokazują o z godzin więcej niż w mieście startu (z może być ujemne). Jaki dzień tygodnia i która godzina będą w mieście docelowym w chwili lądowania? Dni tygodnia podawaj bez polskich znaków: poniedzialek, wtorek, sroda, czwartek, piatek, sobota, niedziela."
+      ],
+      "input_format": [
+        "Jeden wiersz: dzień tygodnia, godzina HH:MM oraz liczby całkowite t i z."
+      ],
+      "output_format": [
+        "Jeden wiersz: dzień tygodnia i godzina w formacie HH:MM."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 10⁵",
+        "−12 ≤ z ≤ 14"
+      ],
+      "examples": [
+        {
+          "input": "piatek 22:30 600 -6",
+          "output": "sobota 02:30",
+          "note": "Po 10 godzinach lotu w mieście startu jest sobota 8:30, a tam — 6 godzin wcześniej."
+        },
+        {
+          "input": "poniedzialek 01:00 30 -3",
+          "output": "niedziela 22:30",
+          "note": "Lądujemy „przed” startem: jeszcze w niedzielę."
+        }
+      ],
+      "hint": "Licz wszystko w minutach od początku tygodnia (poniedziałek 0:00 to 0): numer dnia · 1440 + HH · 60 + MM + t + z · 60. Wynik może wyjść ujemny albo przekroczyć tydzień, więc zawiń go do tygodnia: ((x % 10080) + 10080) % 10080 — tydzień ma 7 · 1440 = 10 080 minut. Potem dzień to x / 1440, a x % 1440 to godzina i minuta.",
+      "tests_count": 11
+    },
+    {
+      "id": "mod-b-kwadraty-reszty",
+      "number": 670,
+      "title": "Kwadraty i reszty",
+      "category": "Modulo / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n, m i r. Ile jest liczb x od 1 do n, dla których x² daje przy dzieleniu przez m resztę r? Liczba n jest ogromna."
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami n, m i r."
+      ],
+      "output_format": [
+        "Jedna liczba."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10¹⁸",
+        "1 ≤ m ≤ 10⁶",
+        "0 ≤ r < m"
+      ],
+      "examples": [
+        {
+          "input": "10 5 4",
+          "output": "4",
+          "note": "Pasują 2, 3, 7 i 8: ich kwadraty 4, 9, 49, 64 dają resztę 4 z dzielenia przez 5."
+        },
+        {
+          "input": "1000000000000000000 10 6",
+          "output": "200000000000000000",
+          "note": "Kwadrat kończy się szóstką dokładnie wtedy, gdy liczba kończy się 4 albo 6."
+        }
+      ],
+      "hint": "Reszta x² % m zależy tylko od reszty x % m: liczby x i x + m dają tę samą resztę z kwadratu. Wystarczy więc sprawdzić x = 1, 2, …, m — jeden pełny „okres” — i policzyć, ile z nich pasuje. Pełnych okresów w przedziale od 1 do n jest n / m, a na końcu zostaje „ogon” n % m liczb, które sprawdzasz osobno (to te same x = 1, …, n % m). x · x dla x ≤ 10^6 mieści się w long long.",
+      "tests_count": 10
+    },
+    {
+      "id": "mod-b-dzien-tygodnia-daty",
+      "number": 671,
+      "title": "Wielki finał: jaki to dzień tygodnia?",
+      "category": "Modulo / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W ostatnim zadaniu lekcji przyda się prawie wszystko: podzielność, lata przestępne, liczenie dni, długie liczby i zawijanie w kółko. Wczytaj datę w formacie DD.MM.RRRR i wypisz, jakim dniem tygodnia jest.",
+        "Korzystamy z kalendarza gregoriańskiego, którego używamy dziś: rok jest przestępny, gdy dzieli się przez 4, ale nie przez 100 — albo gdy dzieli się przez 400. Gdyby ten kalendarz obowiązywał od zawsze, 1 stycznia roku 1 byłby poniedziałkiem. Dni tygodnia wypisuj bez polskich znaków: poniedzialek, wtorek, sroda, czwartek, piatek, sobota, niedziela."
+      ],
+      "input_format": [
+        "Jeden wiersz: data w formacie DD.MM.RRRR."
+      ],
+      "output_format": [
+        "Nazwa dnia tygodnia."
+      ],
+      "constraints": [
+        "1583 ≤ RRRR ≤ 9999",
+        "data jest poprawna"
+      ],
+      "examples": [
+        {
+          "input": "07.11.2026",
+          "output": "sobota"
+        },
+        {
+          "input": "01.01.2000",
+          "output": "sobota"
+        },
+        {
+          "input": "29.02.2024",
+          "output": "czwartek"
+        }
+      ],
+      "hint": "Policz, ile dni minęło od 1 stycznia roku 1 do podanej daty. Pełne lata przed rokiem R to (R − 1) · 365 dni plus jeden dzień za każdy rok przestępny — tych jest (R − 1) / 4 − (R − 1) / 100 + (R − 1) / 400. Do tego dni pełnych miesięcy roku R (luty ma 29 dni w roku przestępnym) i jeszcze DD − 1. Reszta z dzielenia tej liczby przez 7 to numer dnia tygodnia: 0 — poniedziałek, 1 — wtorek, …, 6 — niedziela.",
+      "tests_count": 15
     }
   ]
 }

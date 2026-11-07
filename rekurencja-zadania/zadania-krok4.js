@@ -74,12 +74,12 @@ int main() {
             ],
             input_format: ['W jedynym wierszu wejścia znajdują się dwie liczby całkowite n i k.'],
             output_format: ['Wypisz kⁿ wierszy — każdy z jednym ciągiem cyfr (bez spacji), w kolejności rosnącej.'],
-            constraints: ['1 ≤ n ≤ 12', '1 ≤ k ≤ 9', 'kⁿ ≤ 5000'],
+            constraints: ['1 ≤ n ≤ 12', '1 ≤ k ≤ 9', 'kⁿ ≤ 4000'],
             examples: [{ input: '2 3', note: 'Na pierwszej pozycji 1, 2 albo 3, na drugiej tak samo — razem 3 · 3 = 9 ciągów.' }],
             hint: 'void generuj(int i): if (i == n) { wypisz; return; } for (char c = \'1\'; c < \'1\' + k; c++) { s[i] = c; generuj(i + 1); }. Pętla jest tu w porządku — to ona wybiera kolejne możliwości, a rekurencja schodzi do następnej pozycji.',
-            tests: () => ['1 1', '1 9', '5 1', '3 2', '3 5', '4 4', '2 9', '12 2', '6 4', '3 9'],
+            tests: () => ['1 1', '1 9', '5 1', '3 2', '3 5', '4 4', '2 9', '11 2', '5 5', '3 9', '12 1'],
             solve: (inp) => { const [n, k] = h.nums(inp); return products(n, Array.from({ length: k }, (_, i) => String(i + 1))).join('\n'); },
-            check: (inp) => { const [n, k] = h.nums(inp); return k ** n > 5000 ? 'k^n > 5000' : null; },
+            check: (inp) => { const [n, k] = h.nums(inp); return n < 1 || n > 12 || k < 1 || k > 9 ? 'n albo k poza zakresem' : k ** n > 4000 ? 'k^n > 4000' : null; },
             cpp: String.raw`
 #include <bits/stdc++.h>
 using namespace std;
@@ -333,10 +333,11 @@ int main() {
             ],
             input_format: ['W jedynym wierszu wejścia znajduje się jedna liczba całkowita n.'],
             output_format: ['Wypisz n! wierszy — każdy z jedną permutacją (liczby oddzielone spacjami) — w kolejności leksykograficznej.'],
-            constraints: ['1 ≤ n ≤ 7'],
+            constraints: ['1 ≤ n ≤ 6'],
             examples: [{ input: '3', note: 'Na pierwszą pozycję 3 możliwości, na drugą 2, na trzecią 1 — razem 3! = 6 permutacji.' }],
             hint: 'void permutuj(int i): if (i == n) { wypisz; return; } for (int x = 1; x <= n; x++) if (!uzyta[x]) { uzyta[x] = true; perm[i] = x; permutuj(i + 1); uzyta[x] = false; }. Linijka uzyta[x] = false to cofnięcie wyboru — bez niej liczba x zostałaby zablokowana na zawsze.',
-            tests: () => ['1', '2', '4', '5', '6', '7'],
+            tests: () => ['1', '2', '4', '5', '6'],
+            check: (inp) => { const n = Number(inp); return Number.isInteger(n) && n >= 1 && n <= 6 ? null : 'n poza 1..6'; },
             solve: (inp) => { const n = Number(inp); const o = []; const cur = []; const used = Array(n + 1).fill(false); const go = () => { if (cur.length === n) { o.push(cur.join(' ')); return; } for (let x = 1; x <= n; x++) if (!used[x]) { used[x] = true; cur.push(x); go(); cur.pop(); used[x] = false; } }; go(); return o.join('\n'); },
             cpp: String.raw`
 #include <bits/stdc++.h>
@@ -375,10 +376,11 @@ int main() {
             ],
             input_format: ['W jedynym wierszu wejścia znajduje się słowo s złożone z małych liter alfabetu angielskiego.'],
             output_format: ['Wypisz wszystkie różne słowa powstałe z przestawienia liter s, każde w osobnym wierszu, w kolejności alfabetycznej.'],
-            constraints: ['1 ≤ długość s ≤ 7'],
+            constraints: ['1 ≤ długość s ≤ 6'],
             examples: [{ input: 'aab' }, { input: 'abc' }],
             hint: 'int ile[26] — ile zostało każdej litery. void generuj(int i): if (i == n) { wypisz; return; } for (int c = 0; c < 26; c++) if (ile[c] > 0) { ile[c]--; slowo[i] = \'a\' + c; generuj(i + 1); ile[c]++; }. Pętla przechodzi po różnych literach (a nie po pozycjach w s), więc dwie jednakowe litery nigdy nie dadzą dwa razy tego samego słowa — a pętla od a do z daje od razu kolejność alfabetyczną.',
-            tests: (r) => ['a', 'zz', 'ba', 'abcd', 'aabb', 'banana', 'mississ', 'abcdefg', 'aaaaaaa', r.word(7, 'abc'), r.word(6, 'xyz')],
+            tests: (r) => ['a', 'zz', 'ba', 'abcd', 'aabb', 'banana', 'missis', 'abcdef', 'aaaaaa', 'fedcba', r.word(6, 'abc'), r.word(6, 'xyz')],
+            check: (inp) => (/^[a-z]{1,6}$/.test(inp) ? null : 'słowo spoza 1..6 małych liter'),
             solve: (inp) => { const s = inp.trim(); const cnt = {}; for (const c of s) cnt[c] = (cnt[c] || 0) + 1; const letters = Object.keys(cnt).sort(); const o = []; const cur = []; const go = () => { if (cur.length === s.length) { o.push(cur.join('')); return; } for (const c of letters) if (cnt[c] > 0) { cnt[c]--; cur.push(c); go(); cur.pop(); cnt[c]++; } }; go(); return o.join('\n'); },
             cpp: String.raw`
 #include <bits/stdc++.h>

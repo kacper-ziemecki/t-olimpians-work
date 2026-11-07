@@ -33,6 +33,9 @@ const args = process.argv.slice(2);
 const SPRAWDZ = args.includes('--sprawdz');
 const WYBRANE = args.filter((a) => !a.startsWith('--'));
 const LEVELS = { latwe: 'łatwe', srednie: 'średnie', trudne: 'trudne' };
+// Sprawdzarka (zadania.html) uruchamia programy na Compiler Explorerze, a ten oddaje najwyżej 32 768 znaków
+// wyjścia programu — test z dłuższym wyjściem oblałby każdy program. Zapas zostaje na spacje na końcach wierszy.
+const MAX_WYJSCIE = 30000;
 
 // ------------------------------------------------------------------ wczytanie zadań
 
@@ -104,7 +107,14 @@ function buildTask(t) {
             const err = t.check(inp);
             if (err) throw new Error(`${t.id}: test łamie ograniczenia (${err}): ${JSON.stringify(inp.slice(0, 80))}`);
         }
-        tests.push({ input: inp, output: run(inp) });
+        const output = run(inp);
+        const size = Buffer.byteLength(output, 'utf8');
+        if (size >= MAX_WYJSCIE) {
+            throw new Error(`${t.id}: wyjście testu ma ${size} bajtów, a musi mieć mniej niż ${MAX_WYJSCIE} ` +
+                `(Compiler Explorer ucina wyjście na 32 768 znakach) — zmniejsz test, a jeśli trzeba, także ograniczenia: ` +
+                JSON.stringify(inp.slice(0, 80)));
+        }
+        tests.push({ input: inp, output });
     };
     examples.forEach((ex) => add(ex.input));
     t.tests(h.rng(hashSeed(t.id))).forEach(add);

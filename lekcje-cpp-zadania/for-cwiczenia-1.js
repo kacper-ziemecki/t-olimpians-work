@@ -242,11 +242,11 @@ int main() {
             statement: ['Wczytaj a, b i k. Wypisz w jednym wierszu liczby a, a + k, a + 2k, … — wszystkie, które nie są większe od b.'],
             input_format: ['Jeden wiersz z liczbami a, b i k.'],
             output_format: ['Jeden wiersz z liczbami oddzielonymi spacjami.'],
-            constraints: ['−10 000 ≤ a ≤ b ≤ 10 000', '1 ≤ k ≤ 20 000'],
+            constraints: ['−2000 ≤ a ≤ b ≤ 2000', '1 ≤ k ≤ 4000'],
             examples: [{ input: '1 20 4' }, { input: '-5 5 5' }],
             hint: R`Zmiana w nawiasie for nie musi być i++: for (int i = a; i <= b; i += k). Pierwsza liczba, a, wypisze się zawsze, bo a ≤ b.`,
-            tests: (r) => ['1 20 4', '-5 5 5', '7 7 3', '0 10000 1', '-10000 10000 20000', '-10000 10000 7', `${r.int(-5000, 0)} ${r.int(0, 5000)} ${r.int(2, 300)}`],
-            check: (inp) => { const [a, b] = nums(inp); return a <= b ? null : 'a > b'; },
+            tests: (r) => ['1 20 4', '-5 5 5', '7 7 3', '0 2000 1', '-2000 2000 1', '-2000 2000 4000', '-2000 2000 7', `${r.int(-2000, 0)} ${r.int(0, 2000)} ${r.int(2, 300)}`],
+            check: (inp) => { const [a, b, k] = nums(inp); return a > b ? 'a > b' : a < -2000 || b > 2000 || k < 1 || k > 4000 ? 'a, b albo k poza zakresem' : null; },
             solve: (inp) => { const [a, b, k] = nums(inp); return range(a, b, k).join(' '); },
             cpp: R`
 #include <iostream>

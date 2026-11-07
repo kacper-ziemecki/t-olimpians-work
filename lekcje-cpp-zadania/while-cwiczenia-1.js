@@ -247,10 +247,11 @@ int main() {
             statement: ['Wczytaj liczby n i k. Wypisz w jednym wierszu liczby 0, k, 2k, 3k, … — wszystkie, które nie są większe od n.'],
             input_format: ['Jeden wiersz z liczbami n i k.'],
             output_format: ['Jeden wiersz z liczbami oddzielonymi spacjami.'],
-            constraints: ['0 ≤ n ≤ 10 000', '1 ≤ k ≤ 10 000'],
+            constraints: ['0 ≤ n ≤ 5000', '1 ≤ k ≤ 5000'],
             examples: [{ input: '20 5' }, { input: '17 4' }],
             hint: R`Start: int x = 0;, warunek: x <= n, zmiana: x += k;. To ta sama pętla co zawsze, tylko krok jest inny niż 1.`,
-            tests: (r) => ['20 5', '17 4', '0 3', '5 10', '10000 1', '10000 10000', '9999 10000', `${r.int(100, 10000)} ${r.int(7, 300)}`],
+            tests: (r) => ['20 5', '17 4', '0 3', '5 10', '5000 1', '5000 5000', '4999 5000', `${r.int(100, 5000)} ${r.int(7, 300)}`],
+            check: (inp) => { const [n, k] = nums(inp); return n >= 0 && n <= 5000 && k >= 1 && k <= 5000 ? null : 'n albo k poza zakresem'; },
             solve: (inp) => { const [n, k] = nums(inp); return range(0, n, k).join(' '); },
             cpp: R`
 #include <iostream>
@@ -303,10 +304,11 @@ int main() {
             statement: ['Winda towarowa stoi na piętrze n i zjeżdża w dół, za każdym razem o k pięter. Zatrzymuje się na każdym piętrze, na które dojedzie, dopóki jest to piętro powyżej parteru (piętro większe od 0).', 'Wypisz w jednym wierszu numery wszystkich pięter, na których stoi winda, zaczynając od n.'],
             input_format: ['Jeden wiersz z liczbami n i k.'],
             output_format: ['Jeden wiersz: n, n − k, n − 2k, … (tylko liczby większe od 0).'],
-            constraints: ['1 ≤ n ≤ 10 000', '1 ≤ k ≤ 10 000'],
+            constraints: ['1 ≤ n ≤ 5000', '1 ≤ k ≤ 5000'],
             examples: [{ input: '20 6' }, { input: '9 3' }],
             hint: R`Start: p = n, warunek: p > 0, zmiana: p -= k;. Dla 9 3 winda staje na 9, 6 i 3 — kolejny krok dałby 0, a to już nie jest piętro powyżej parteru.`,
-            tests: (r) => ['20 6', '9 3', '1 1', '5 10', '10000 1', '10000 9999', `${r.int(100, 10000)} ${r.int(3, 200)}`],
+            tests: (r) => ['20 6', '9 3', '1 1', '5 10', '5000 1', '5000 4999', `${r.int(100, 5000)} ${r.int(3, 200)}`],
+            check: (inp) => { const [n, k] = nums(inp); return n >= 1 && n <= 5000 && k >= 1 && k <= 5000 ? null : 'n albo k poza zakresem'; },
             solve: (inp) => { const [n, k] = nums(inp); return range(n, 1, -k).join(' '); },
             cpp: R`
 #include <iostream>

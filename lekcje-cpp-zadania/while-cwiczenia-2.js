@@ -510,10 +510,11 @@ int main() {
             statement: ['Wczytaj n i k. Wypisz w jednym wierszu wszystkie liczby od 1 do n oprócz tych, które dzielą się przez k. Jest pewne, że wypiszesz co najmniej jedną liczbę.'],
             input_format: ['Jeden wiersz z liczbami n i k.'],
             output_format: ['Jeden wiersz z liczbami oddzielonymi spacjami.'],
-            constraints: ['1 ≤ n ≤ 10 000', '2 ≤ k ≤ 10 000'],
+            constraints: ['1 ≤ n ≤ 5000', '2 ≤ k ≤ 5000'],
             examples: [{ input: '10 3' }, { input: '7 2' }],
             hint: R`Najpierw zwiększ licznik, potem decyduj: int i = 0; while (i < n) { i++; if (i % k == 0) continue; wypisz i; }. Gdyby i++ stało na końcu, continue by je przeskoczyło i pętla kręciłaby się w nieskończoność na tej samej liczbie.`,
-            tests: (r) => ['10 3', '7 2', '1 2', '10000 2', '10000 10000', '5 7', `${r.int(100, 10000)} ${r.int(2, 50)}`],
+            tests: (r) => ['10 3', '7 2', '1 2', '5000 2', '5000 5000', '5 7', `${r.int(100, 5000)} ${r.int(2, 50)}`],
+            check: (inp) => { const [n, k] = nums(inp); return n >= 1 && n <= 5000 && k >= 2 && k <= 5000 ? null : 'n albo k poza zakresem'; },
             solve: (inp) => { const [n, k] = nums(inp); const o = []; for (let i = 1; i <= n; i++) if (i % k) o.push(i); return o.join(' '); },
             cpp: R`
 #include <iostream>

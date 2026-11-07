@@ -21962,6 +21962,3008 @@
       ],
       "hint": "Policz, ile dni minęło od 1 stycznia roku 1 do podanej daty. Pełne lata przed rokiem R to (R − 1) · 365 dni plus jeden dzień za każdy rok przestępny — tych jest (R − 1) / 4 − (R − 1) / 100 + (R − 1) / 400. Do tego dni pełnych miesięcy roku R (luty ma 29 dni w roku przestępnym) i jeszcze DD − 1. Reszta z dzielenia tej liczby przez 7 to numer dnia tygodnia: 0 — poniedziałek, 1 — wtorek, …, 6 — niedziela.",
       "tests_count": 15
+    },
+    {
+      "id": "tab-piec-od-tylu",
+      "number": 672,
+      "title": "Pięć liczb od tyłu",
+      "category": "Tablice / krok 1: pierwsza tablica",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj pięć liczb całkowitych do tablicy int t[5], a potem wypisz je w jednym wierszu w odwrotnej kolejności — od ostatniej do pierwszej, oddzielone spacjami."
+      ],
+      "input_format": [
+        "Jeden wiersz z pięcioma liczbami całkowitymi."
+      ],
+      "output_format": [
+        "Jeden wiersz: te same liczby od ostatniej do pierwszej."
+      ],
+      "constraints": [
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "1 2 3 4 5",
+          "output": "5 4 3 2 1"
+        },
+        {
+          "input": "10 -3 7 7 0",
+          "output": "0 7 7 -3 10"
+        }
+      ],
+      "hint": "Wczytaj liczby pętlą: for (int i = 0; i < 5; i++) cin >> t[i];. Wypisuj od t[4] w dół do t[0]: for (int i = 4; i >= 0; i--). Ostatni element tablicy o rozmiarze 5 ma indeks 4, a nie 5.",
+      "tests_count": 9
+    },
+    {
+      "id": "tab-k-ty-element",
+      "number": 673,
+      "title": "K-ta od początku i od końca",
+      "category": "Tablice / krok 1: pierwsza tablica",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj dziesięć liczb całkowitych, a potem liczbę k. Wypisz w jednym wierszu dwie liczby: k-tą liczbę od początku i k-tą liczbę od końca. Liczby numerujemy od 1: pierwsza od początku to ta wczytana jako pierwsza, a pierwsza od końca — ta wczytana jako ostatnia."
+      ],
+      "input_format": [
+        "W pierwszym wierszu dziesięć liczb całkowitych.",
+        "W drugim wierszu liczba k."
+      ],
+      "output_format": [
+        "Dwie liczby oddzielone spacją: k-ta od początku i k-ta od końca."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ 10",
+        "−10⁶ ≤ każda liczba ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "5 8 1 9 3 7 2 6 4 0\n3",
+          "output": "1 6",
+          "note": "Trzecia od początku to 1 (pudełko t[2]), a trzecia od końca to 2 (pudełko t[7])."
+        }
+      ],
+      "hint": "k-ta od początku leży w pudełku k - 1. Ostatnia liczba (pierwsza od końca) leży w pudełku 9, przedostatnia w pudełku 8 — czyli k-ta od końca w pudełku 10 - k. Sprawdź oba wzory dla k = 1 i k = 10.",
+      "tests_count": 8
+    },
+    {
+      "id": "tab-pierwszy-srodkowy-ostatni",
+      "number": 674,
+      "title": "Pierwsza, środkowa, ostatnia",
+      "category": "Tablice / krok 1: pierwsza tablica",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj nieparzystą liczbę n, a potem n liczb całkowitych. Wypisz w jednym wierszu trzy liczby: pierwszą, środkową i ostatnią. Środkowa to ta, przed którą i za którą stoi tyle samo liczb."
+      ],
+      "input_format": [
+        "W pierwszym wierszu nieparzysta liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Trzy liczby oddzielone spacjami: pierwsza, środkowa i ostatnia."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 99, n jest nieparzyste",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "5\n4 8 15 16 23",
+          "output": "4 15 23",
+          "note": "Środkowa jest 15: przed nią stoją dwie liczby i za nią dwie. Leży w pudełku 2, czyli 5 / 2."
+        },
+        {
+          "input": "1\n7",
+          "output": "7 7 7",
+          "note": "Gdy liczba jest tylko jedna, jest naraz pierwsza, środkowa i ostatnia."
+        }
+      ],
+      "hint": "Pierwsza to t[0], ostatnia t[n - 1]. Dla n = 5 środkowa leży w pudełku 2, dla n = 7 — w pudełku 3: to zawsze n / 2 (dzielenie całkowite). Zrób tablicę z zapasem, np. int t[100];.",
+      "tests_count": 7
+    },
+    {
+      "id": "tab-dyzury",
+      "number": 675,
+      "title": "Grafik dyżurów",
+      "category": "Tablice / krok 1: pierwsza tablica",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W klasie ustalono grafik dyżurów na cały tydzień: w poniedziałek dyżur ma jedna osoba, we wtorek druga i tak dalej, aż do niedzieli. W pierwszym wierszu wejścia jest siedem imion — kolejno dyżurni od poniedziałku (dzień 1) do niedzieli (dzień 7). Potem jest liczba q i q numerów dni. Dla każdego numeru wypisz w osobnym wierszu imię dyżurnego."
+      ],
+      "input_format": [
+        "W pierwszym wierszu siedem imion.",
+        "W drugim wierszu liczba q.",
+        "W trzecim wierszu q numerów dni (od 1 do 7)."
+      ],
+      "output_format": [
+        "q wierszy z imionami dyżurnych."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 100",
+        "Imiona mają od 1 do 20 liter, bez spacji."
+      ],
+      "examples": [
+        {
+          "input": "Ola Jan Ewa Igor Zosia Adam Basia\n3\n1 7 3",
+          "output": "Ola\nBasia\nEwa",
+          "note": "Dzień 1 to pudełko 0 (Ola), dzień 7 — pudełko 6 (Basia)."
+        }
+      ],
+      "hint": "Wczytaj imiona do tablicy string dyzur[7] pętlą od 0 do 6. Dzień numer d leży w pudełku d - 1, więc wypisujesz dyzur[d - 1].",
+      "tests_count": 7
+    },
+    {
+      "id": "tab-punkty-f1",
+      "number": 676,
+      "title": "Punkty w Formule 1",
+      "category": "Tablice / krok 1: pierwsza tablica",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W wyścigu Formuły 1 punkty dostaje pierwszych dziesięciu kierowców: za 1. miejsce 25 punktów, a za kolejne miejsca 18, 15, 12, 10, 8, 6, 4, 2 i 1. Od 11. miejsca w dół punktów nie ma. Wczytaj liczbę wyścigów n i miejsca, które kierowca zajął w kolejnych wyścigach. Wypisz, ile punktów zdobył w sumie."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb — miejsca w kolejnych wyścigach."
+      ],
+      "output_format": [
+        "Jedna liczba — suma punktów."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 100",
+        "1 ≤ każde miejsce ≤ 20"
+      ],
+      "examples": [
+        {
+          "input": "4\n1 3 12 10",
+          "output": "41",
+          "note": "25 + 15 + 0 + 1 = 41."
+        }
+      ],
+      "hint": "Punkty zapisz w tablicy int pkt[10] = {25, 18, 15, 12, 10, 8, 6, 4, 2, 1};. Za miejsce m dostajesz pkt[m - 1] — ale tylko wtedy, gdy m <= 10. Bez tego sprawdzenia dla m = 12 sięgniesz po pudełko pkt[11], którego nie ma!",
+      "tests_count": 8
+    },
+    {
+      "id": "tab-chinski-zodiak",
+      "number": 677,
+      "title": "Chiński zodiak",
+      "category": "Tablice / krok 1: pierwsza tablica",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W kalendarzu chińskim każdy rok ma swoje zwierzę, a zwierzęta powtarzają się co 12 lat w stałej kolejności: szczur, bawol, tygrys, krolik, smok, waz, kon, koza, malpa, kogut, pies, swinia.",
+        "Rok 2020 był rokiem szczura, 2021 — bawołu, 2024 — smoka, a 2032 znów będzie rokiem szczura. Dla każdego z q lat wypisz jego zwierzę — małymi literami i bez polskich znaków, dokładnie jak w nazwach powyżej."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W drugim wierszu q lat."
+      ],
+      "output_format": [
+        "q wierszy z nazwami zwierząt."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 100",
+        "1 ≤ każdy rok ≤ 10 000"
+      ],
+      "examples": [
+        {
+          "input": "4\n2020 2024 2026 1999",
+          "output": "szczur\nsmok\nkon\nkrolik",
+          "note": "2026 to rok konia, a 1999 — królika."
+        }
+      ],
+      "hint": "Zwierzęta zapisz w tablicy string zw[12] w podanej kolejności. Rok 2020 to pudełko 0, 2021 — pudełko 1 i tak dalej, w kółko co 12. Potrzebujesz reszty z dzielenia przez 12, ale przesuniętej tak, żeby dla 2020 wyszło 0: dodaj do roku taką liczbę, żeby 2020 + ta liczba dzieliło się przez 12.",
+      "tests_count": 6
+    },
+    {
+      "id": "tab-data-slownie",
+      "number": 678,
+      "title": "Data słownie",
+      "category": "Tablice / krok 1: pierwsza tablica",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj datę w formacie DD.MM.RRRR i wypisz ją słownie: dzień bez zera z przodu, nazwę miesiąca w takiej formie, jak mówimy „7 listopada”, i rok.",
+        "Nazwy miesięcy pisz małymi literami i bez polskich znaków: stycznia, lutego, marca, kwietnia, maja, czerwca, lipca, sierpnia, wrzesnia, pazdziernika, listopada, grudnia."
+      ],
+      "input_format": [
+        "Jeden wiersz z datą w formacie DD.MM.RRRR — dzień i miesiąc są zawsze dwucyfrowe."
+      ],
+      "output_format": [
+        "Dzień, nazwa miesiąca i rok oddzielone spacjami."
+      ],
+      "constraints": [
+        "Data jest poprawna.",
+        "1000 ≤ RRRR ≤ 9999"
+      ],
+      "examples": [
+        {
+          "input": "07.11.2026",
+          "output": "7 listopada 2026"
+        },
+        {
+          "input": "31.12.1999",
+          "output": "31 grudnia 1999"
+        }
+      ],
+      "hint": "Z lekcji o wejściu i wyjściu: int d, m, r; char k1, k2; cin >> d >> k1 >> m >> k2 >> r; wczyta liczby, a kropki trafią do k1 i k2. Liczba 07 wczytana do int to po prostu 7. Nazwy miesięcy trzymaj w tablicy string miesiac[12] i wypisz miesiac[m - 1].",
+      "tests_count": 12
+    },
+    {
+      "id": "tab-cennik",
+      "number": 679,
+      "title": "Cennik w sklepiku",
+      "category": "Tablice / krok 1: pierwsza tablica",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Sklepik szkolny sprzedaje pięć produktów ponumerowanych od 1 do 5. W pierwszym wierszu wejścia są ich ceny w groszach. Potem jest liczba k i numery k kupionych produktów — ten sam produkt może być kupiony kilka razy. Wypisz łączną kwotę w złotych w postaci ZŁ.GR, z dokładnie dwiema cyframi groszy, na przykład 12.05."
+      ],
+      "input_format": [
+        "W pierwszym wierszu pięć liczb: ceny produktów 1–5 w groszach.",
+        "W drugim wierszu liczba k.",
+        "W trzecim wierszu k numerów produktów (od 1 do 5)."
+      ],
+      "output_format": [
+        "Łączna kwota w postaci ZŁ.GR."
+      ],
+      "constraints": [
+        "1 ≤ cena ≤ 100 000",
+        "1 ≤ k ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "250 199 1000 75 330\n4\n1 4 4 2",
+          "output": "5.99",
+          "note": "250 + 75 + 75 + 199 = 599 groszy, czyli 5.99 zł."
+        },
+        {
+          "input": "1 2 3 4 5\n2\n1 1",
+          "output": "0.02",
+          "note": "2 grosze to 0.02 zł."
+        }
+      ],
+      "hint": "Ceny wczytaj do tablicy int cena[5]. Dla każdego numeru p dodaj cena[p - 1] do sumy. Na koniec złote to suma / 100, a grosze to suma % 100 — wypisane z setw(2) i setfill('0') (biblioteka iomanip), żeby 5 groszy wyszło jako 05.",
+      "tests_count": 7
+    },
+    {
+      "id": "tab-tam-i-z-powrotem",
+      "number": 680,
+      "title": "Tam i z powrotem",
+      "category": "Tablice / krok 2: tablica i pętla",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj liczbę n, a potem n liczb całkowitych. W pierwszym wierszu wypisz je w tej samej kolejności, w jakiej je wczytałeś, a w drugim — od ostatniej do pierwszej."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Dwa wiersze po n liczb oddzielonych spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "4\n10 20 30 40",
+          "output": "10 20 30 40\n40 30 20 10"
+        }
+      ],
+      "hint": "Zrób tablicę z zapasem, int t[1000];, i trzy pętle: wczytującą (od 0 do n - 1), wypisującą po kolei i wypisującą od tyłu: for (int i = n - 1; i >= 0; i--). Między wierszami wypisz \"\\n\".",
+      "tests_count": 6
+    },
+    {
+      "id": "tab-co-drugi",
+      "number": 681,
+      "title": "Najpierw co druga",
+      "category": "Tablice / krok 2: tablica i pętla",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb. W pierwszym wierszu wypisz liczby stojące na pozycjach nieparzystych — pierwszą, trzecią, piątą i tak dalej. W drugim wierszu wypisz liczby z pozycji parzystych — drugą, czwartą, szóstą i tak dalej. Pozycje liczymy od 1, tak jak ludzie."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Dwa wiersze: liczby z pozycji nieparzystych i liczby z pozycji parzystych."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 1000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "6\n5 8 2 7 4 1",
+          "output": "5 2 4\n8 7 1",
+          "note": "Pozycje 1, 3 i 5 to pudełka t[0], t[2] i t[4] — liczby 5, 2 i 4."
+        },
+        {
+          "input": "3\n9 9 1",
+          "output": "9 1\n9"
+        }
+      ],
+      "hint": "Pozycja p (od 1) to pudełko p - 1. Pozycje nieparzyste 1, 3, 5, … to więc pudełka 0, 2, 4, …: for (int i = 0; i < n; i += 2). Pozycje parzyste to pudełka 1, 3, 5, …: ta sama pętla, ale od i = 1.",
+      "tests_count": 6
+    },
+    {
+      "id": "tab-fragment",
+      "number": 682,
+      "title": "Fragment listy",
+      "category": "Tablice / krok 2: tablica i pętla",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb, a potem q pytań. Każde pytanie to dwie liczby a i b. Dla każdego pytania wypisz w osobnym wierszu liczby od a-tej do b-tej włącznie (liczby numerujemy od 1)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n, w drugim n liczb.",
+        "W trzecim wierszu q, a w każdym z kolejnych q wierszy dwie liczby a i b."
+      ],
+      "output_format": [
+        "q wierszy — wybrane fragmenty."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "1 ≤ q ≤ 100",
+        "1 ≤ a ≤ b ≤ n"
+      ],
+      "examples": [
+        {
+          "input": "6\n5 8 2 7 4 1\n3\n2 4\n1 6\n5 5",
+          "output": "8 2 7\n5 8 2 7 4 1\n4"
+        }
+      ],
+      "hint": "Pytanie o liczby od a-tej do b-tej to pudełka od a - 1 do b - 1 włącznie: for (int i = a - 1; i <= b - 1; i++). Liczby wczytujesz raz, a potem w pętli po pytaniach wiele razy korzystasz z tej samej tablicy.",
+      "tests_count": 5
+    },
+    {
+      "id": "tab-w-nawiasach",
+      "number": 683,
+      "title": "Lista w nawiasach",
+      "category": "Tablice / krok 2: tablica i pętla",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb i wypisz je od ostatniej do pierwszej w postaci listy: w nawiasach kwadratowych, oddzielone przecinkiem i spacją. Po ostatniej liczbie nie ma przecinka. Na przykład dla 1 2 3 wypisz [3, 2, 1]."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jeden wiersz z listą."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "3\n1 2 3",
+          "output": "[3, 2, 1]"
+        },
+        {
+          "input": "1\n42",
+          "output": "[42]",
+          "note": "Jedna liczba — bez żadnego przecinka."
+        }
+      ],
+      "hint": "Pętla idzie od i = n - 1 w dół do 0, więc pierwsza wypisywana liczba to ta z i = n - 1. Przecinek wypisuj przed każdą liczbą oprócz pierwszej wypisywanej: if (i < n - 1) cout << \", \";.",
+      "tests_count": 6
+    },
+    {
+      "id": "tab-potegi-dwojki",
+      "number": 684,
+      "title": "Potęgi dwójki z tablicy",
+      "category": "Tablice / krok 2: tablica i pętla",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wypełnij tablicę long long p[63] tak, żeby p[k] było równe 2 do potęgi k: p[0] = 1, a każde kolejne pudełko jest dwa razy większe od poprzedniego. Potem wczytaj q pytań — w każdym jedną liczbę k — i dla każdego wypisz 2 do potęgi k."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W drugim wierszu q liczb k."
+      ],
+      "output_format": [
+        "q wierszy — kolejne potęgi dwójki."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "0 ≤ k ≤ 62"
+      ],
+      "examples": [
+        {
+          "input": "4\n0 1 10 62",
+          "output": "1\n2\n1024\n4611686018427387904"
+        }
+      ],
+      "hint": "p[0] = 1; a potem for (int i = 1; i < 63; i++) p[i] = p[i - 1] * 2;. Tablica musi być typu long long — 2 do potęgi 62 to ponad 4 · 10¹⁸, a int mieści tylko około 2 · 10⁹. Na każde pytanie odpowiadasz jednym odczytem: cout << p[k].",
+      "tests_count": 6
+    },
+    {
+      "id": "tab-schody",
+      "number": 685,
+      "title": "Schody po jednym, dwa, trzy",
+      "category": "Tablice / krok 2: tablica i pętla",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na schody o n stopniach wchodzimy, przeskakując za każdym razem o 1, 2 albo 3 stopnie. Na ile różnych sposobów można wejść na samą górę? Na przykład na 3 stopnie da się wejść na 4 sposoby: 1+1+1, 1+2, 2+1 i 3.",
+        "Podpowiedź z matematyki: ostatni krok na górę był o 1, 2 albo 3 stopnie. Dlatego liczba sposobów dla n stopni to suma liczb sposobów dla n − 1, n − 2 i n − 3 stopni. Przyjmij, że na 0 stopni można wejść na 1 sposób (nic nie robiąc), na 1 stopień — na 1 sposób, a na 2 stopnie — na 2 sposoby (1+1 i 2).",
+        "Odpowiedz na q pytań."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W drugim wierszu q liczb n."
+      ],
+      "output_format": [
+        "q wierszy — liczby sposobów dla kolejnych n."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "0 ≤ n ≤ 70"
+      ],
+      "examples": [
+        {
+          "input": "5\n3 4 5 10 0",
+          "output": "4\n7\n13\n274\n1",
+          "note": "s[4] = s[3] + s[2] + s[1] = 4 + 2 + 1 = 7, a s[5] = 7 + 4 + 2 = 13."
+        }
+      ],
+      "hint": "Ustaw s[0] = 1, s[1] = 1, s[2] = 2, a potem w pętli od i = 3 do 70: s[i] = s[i - 1] + s[i - 2] + s[i - 3]. Policz całą tablicę raz, przed pytaniami. Wyniki szybko rosną — tablica musi być long long.",
+      "tests_count": 5
+    },
+    {
+      "id": "tab-skladanie-paska",
+      "number": 686,
+      "title": "Składanie paska",
+      "category": "Tablice / krok 2: tablica i pętla",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na pasku papieru zapisano n liczb. Składamy pasek na pół tak, że pierwsza liczba trafia na ostatnią, druga na przedostatnią i tak dalej. Wypisz w jednym wierszu sumy liczb, które się nałożyły: najpierw pierwszej z ostatnią, potem drugiej z przedostatnią itd. Jeśli n jest nieparzyste, środkowa liczba nie ma pary — wypisz ją na końcu bez zmian."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jeden wiersz z sumami (i ewentualnie środkową liczbą na końcu)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "−10⁶ ≤ każda liczba ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "6\n1 2 3 4 5 6",
+          "output": "7 7 7",
+          "note": "1 + 6, 2 + 5 i 3 + 4."
+        },
+        {
+          "input": "5\n10 20 30 40 50",
+          "output": "60 60 30",
+          "note": "Trzydziestka leży na środku i zostaje sama."
+        }
+      ],
+      "hint": "Liczba „i-ta od końca” leży w pudełku n - 1 - i. Pętla for (int i = 0; i < n / 2; i++) wypisuje t[i] + t[n - 1 - i]. Jeśli n % 2 == 1, dopisz na końcu t[n / 2].",
+      "tests_count": 7
+    },
+    {
+      "id": "tab-skoki",
+      "number": 687,
+      "title": "Skoki po tablicy",
+      "category": "Tablice / krok 2: tablica i pętla",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W tablicy jest n liczb, a każda z nich jest numerem pozycji od 1 do n. Pionek stoi na pozycji 1. W jednym skoku pionek odczytuje liczbę zapisaną na swojej pozycji i przeskakuje na pozycję o tym numerze. Wypisz w jednym wierszu numery pozycji, na których pionek wylądował po każdym z k skoków."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n liczb od 1 do n."
+      ],
+      "output_format": [
+        "k liczb — pozycje po kolejnych skokach."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "1 ≤ k ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "5 4\n3 1 4 5 2",
+          "output": "3 4 5 2",
+          "note": "Z pozycji 1 skok na 3, z 3 na 4, z 4 na 5, a z 5 na 2."
+        }
+      ],
+      "hint": "Najwygodniej numerować pudełka od 1: zrób int t[1001]; i wczytuj do t[1] … t[n]. Wtedy skok to po prostu poz = t[poz];. Jeśli wolisz pudełka od 0, skok to poz = t[poz - 1];.",
+      "tests_count": 7
+    },
+    {
+      "id": "tab-powyzej-sredniej",
+      "number": 688,
+      "title": "Lepsze od średniej",
+      "category": "Tablice / krok 3: przeglądanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb całkowitych i policz ich średnią. W pierwszym wierszu wypisz, ile liczb jest od niej większych (ściśle większych), a w drugim — te liczby w kolejności z wejścia. Jeśli żadna liczba nie jest większa od średniej, drugi wiersz zostaw pusty."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "W pierwszym wierszu liczba, w drugim — liczby większe od średniej."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "−10⁶ ≤ każda liczba ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "5\n4 8 15 16 23",
+          "output": "3\n15 16 23",
+          "note": "Średnia to 13,2 — większe od niej są 15, 16 i 23."
+        },
+        {
+          "input": "4\n5 5 5 5",
+          "output": "0",
+          "note": "Średnia to 5 i żadna piątka nie jest od niej większa."
+        }
+      ],
+      "hint": "Pierwsze przejście liczy sumę (w long long), drugie porównuje każdą liczbę ze średnią. Możesz policzyć double sr = (double)suma / n; albo obejść się bez ułamków i sprawdzać t[i] * n > suma — wtedy mnóż w long long: (long long)t[i] * n.",
+      "tests_count": 8
+    },
+    {
+      "id": "tab-gdzie-rekordy",
+      "number": 689,
+      "title": "Gdzie są rekordy?",
+      "category": "Tablice / krok 3: przeglądanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb. Wypisz dwie liczby: pozycję, na której po raz pierwszy stoi największa wartość, i pozycję, na której po raz ostatni stoi najmniejsza wartość. Pozycje liczymy od 1."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Dwie liczby oddzielone spacją."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "7\n4 9 2 9 -1 7 -1",
+          "output": "2 7",
+          "note": "Największa jest 9 — pierwszy raz na pozycji 2. Najmniejsza jest −1 — ostatni raz na pozycji 7."
+        }
+      ],
+      "hint": "Pamiętaj indeksy, nie wartości: gdzieMax = 0 i gdzieMin = 0, a potem pętla od i = 1. Dla pierwszego maksimum warunek t[i] > t[gdzieMax], dla ostatniego minimum t[i] <= t[gdzieMin] — znak równości przesuwa wynik na późniejsze wystąpienia. Na końcu wypisz indeksy powiększone o 1.",
+      "tests_count": 8
+    },
+    {
+      "id": "tab-szukaj",
+      "number": 690,
+      "title": "Gdzie jest ta liczba?",
+      "category": "Tablice / krok 3: przeglądanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb, a potem q pytań. W każdym pytaniu jest jedna liczba x. Dla każdego pytania wypisz w osobnym wierszu pozycję (od 1), na której x stoi po raz pierwszy, albo słowo BRAK, jeśli x nie ma wśród liczb."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n, w drugim n liczb.",
+        "W trzecim wierszu q, w czwartym q liczb x."
+      ],
+      "output_format": [
+        "q wierszy — pozycja albo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "1 ≤ q ≤ 1000",
+        "−10⁹ ≤ wszystkie liczby ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "6\n5 3 8 3 9 1\n3\n3 7 1",
+          "output": "2\nBRAK\n6"
+        }
+      ],
+      "hint": "Dla każdego pytania ustaw gdzie = -1 i przejdź po tablicy. Przy pierwszym t[i] == x zapisz gdzie = i i przerwij pętlę przez break. Jeśli po pętli gdzie wciąż jest -1, wypisz BRAK, a w przeciwnym razie gdzie + 1.",
+      "tests_count": 5
+    },
+    {
+      "id": "tab-wszystkie-rozne",
+      "number": 691,
+      "title": "Bez powtórzeń?",
+      "category": "Tablice / krok 3: przeglądanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb i wypisz TAK, jeśli wszystkie są różne, albo NIE, jeśli któraś wartość się powtarza. W drugim przypadku wypisz w drugim wierszu pozycje (od 1) pierwszej znalezionej pary równych liczb: i oraz j, gdzie i < j. Szukaj w kolejności: najpierw najmniejsze i, a przy nim najmniejsze j."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "TAK albo NIE, a przy NIE w drugim wierszu dwie pozycje."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "5\n4 1 7 3 9",
+          "output": "TAK"
+        },
+        {
+          "input": "6\n5 2 8 2 5 1",
+          "output": "NIE\n1 5",
+          "note": "Pierwsza para w kolejności sprawdzania to pozycje 1 i 5 (dwie piątki) — para dwójek (2, 4) ma większe i."
+        }
+      ],
+      "hint": "Dwie pętle: for (int i = 0; i < n; i++) i w niej for (int j = i + 1; j < n; j++). Przy pierwszym t[i] == t[j] zapamiętaj i oraz j i ustaw flagę bool znaleziono = true. Żeby zatrzymać obie pętle, dopisz do ich warunków && !znaleziono.",
+      "tests_count": 8
+    },
+    {
+      "id": "tab-czy-rosnacy",
+      "number": 692,
+      "title": "Jak zmienia się ciąg?",
+      "category": "Tablice / krok 3: przeglądanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb. Wypisz ROSNACY, jeśli każda liczba (oprócz pierwszej) jest większa od poprzedniej; MALEJACY — jeśli każda jest mniejsza od poprzedniej; STALY — jeśli wszystkie są równe; a w każdym innym przypadku INNY."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jedno słowo: ROSNACY, MALEJACY, STALY albo INNY."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 1000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "4\n1 3 7 8",
+          "output": "ROSNACY"
+        },
+        {
+          "input": "3\n5 5 5",
+          "output": "STALY"
+        },
+        {
+          "input": "4\n1 2 2 3",
+          "output": "INNY",
+          "note": "Druga dwójka nie jest większa od pierwszej — to nie jest ciąg rosnący."
+        }
+      ],
+      "hint": "Trzy flagi, na start wszystkie true: rosnacy, malejacy, staly. W pętli po parach sąsiadów (i od 0 do n - 2) każda para może zepsuć niektóre flagi: jeśli t[i + 1] <= t[i], ciąg nie jest rosnący; jeśli t[i + 1] >= t[i] — nie jest malejący; jeśli t[i + 1] != t[i] — nie jest stały. Na końcu sprawdź flagi po kolei.",
+      "tests_count": 12
+    },
+    {
+      "id": "tab-szczyty",
+      "number": 693,
+      "title": "Szczyty górskie",
+      "category": "Tablice / krok 3: przeglądanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wysokości kolejnych punktów na trasie to n liczb. Szczyt to punkt, który jest wyższy (ściśle) od obu swoich sąsiadów — od punktu przed nim i od punktu za nim. Pierwszy i ostatni punkt trasy nie są szczytami, bo mają tylko jednego sąsiada. W pierwszym wierszu wypisz liczbę szczytów, a w drugim ich pozycje (od 1) w kolejności rosnącej."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n wysokości."
+      ],
+      "output_format": [
+        "W pierwszym wierszu liczba szczytów, w drugim ich pozycje (pusty wiersz, gdy szczytów nie ma)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "0 ≤ wysokość ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "8\n1 3 2 5 5 4 6 1",
+          "output": "2\n2 7",
+          "note": "Szczyty są na pozycjach 2 (3 > 1 i 3 > 2) oraz 7 (6 > 4 i 6 > 1). Dwie piątki nie są szczytami — żadna nie jest wyższa od sąsiadki."
+        }
+      ],
+      "hint": "Sprawdzaj tylko punkty od i = 1 do i = n - 2 — wtedy t[i - 1] i t[i + 1] zawsze istnieją. Warunek szczytu: t[i] > t[i - 1] && t[i] > t[i + 1]. Pozycje zbierz w drugiej pętli albo w osobnej tablicy.",
+      "tests_count": 9
+    },
+    {
+      "id": "tab-najwiekszy-skok",
+      "number": 694,
+      "title": "Największy skok temperatury",
+      "category": "Tablice / krok 3: przeglądanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj temperatury z n kolejnych dni. Znajdź dwa sąsiednie dni, między którymi temperatura zmieniła się najbardziej — wszystko jedno, czy wzrosła, czy spadła. Wypisz wielkość tej zmiany (liczbę nieujemną) i numer pierwszego z tych dwóch dni (dni numerujemy od 1). Jeśli takich par jest kilka, wybierz najwcześniejszą."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n temperatur."
+      ],
+      "output_format": [
+        "Dwie liczby: wielkość zmiany i numer dnia."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 1000",
+        "−50 ≤ temperatura ≤ 50"
+      ],
+      "examples": [
+        {
+          "input": "6\n3 5 -2 0 8 7",
+          "output": "8 4",
+          "note": "Zmiany to 2, 7, 2, 8 i 1. Największa, 8, jest między dniem 4 a dniem 5."
+        }
+      ],
+      "hint": "Dla każdej pary sąsiadów policz d = t[i + 1] - t[i], a jeśli d < 0, zamień je na -d (tak liczyłeś wartość bezwzględną w lekcji o if). Największe d szukaj schematem maksimum z pozycją — znak > zostawi najwcześniejszą parę.",
+      "tests_count": 7
+    },
+    {
+      "id": "tab-pary-o-sumie",
+      "number": 695,
+      "title": "Pary o sumie k",
+      "category": "Tablice / krok 3: przeglądanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb i liczbę k. Policz, ile jest par pozycji i < j takich, że liczba z pozycji i plus liczba z pozycji j daje dokładnie k. Każdą parę pozycji liczymy raz."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba par."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "−10⁹ ≤ wszystkie liczby, także k ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "5 10\n3 7 5 5 7",
+          "output": "3",
+          "note": "Pary pozycji: (1, 2), (1, 5) i (3, 4)."
+        }
+      ],
+      "hint": "Dwie pętle: i od 0, j od i + 1. Uwaga na zakres: suma dwóch liczb do 10⁹ może nie zmieścić się w int — porównuj (long long)t[i] + t[j] == k albo trzymaj liczby w long long.",
+      "tests_count": 8
+    },
+    {
+      "id": "tab-przytnij",
+      "number": 696,
+      "title": "Przytnij do skali",
+      "category": "Tablice / krok 4: zmiany",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Automat wpisał wyniki testu w punktach, ale czasem się myli: zdarzają się liczby ujemne i liczby większe od 100. Popraw tablicę: każdy wynik mniejszy od 0 zamień na 0, a każdy większy od 100 — na 100. W pierwszym wierszu wypisz poprawioną tablicę, a w drugim, ile liczb trzeba było zmienić."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n wyników."
+      ],
+      "output_format": [
+        "W pierwszym wierszu poprawione wyniki, w drugim liczba poprawek."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "−1000 ≤ wynik ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "6\n55 -3 100 120 0 101",
+          "output": "55 0 100 100 0 100\n3",
+          "note": "Zmieniają się trzy liczby: −3, 120 i 101. Setka i zero są w skali."
+        }
+      ],
+      "hint": "W jednej pętli: if (t[i] < 0) { t[i] = 0; zmiany++; } i drugi if dla t[i] > 100. Potem osobna pętla, która wypisze całą tablicę, i na końcu licznik zmian.",
+      "tests_count": 6
+    },
+    {
+      "id": "tab-zamien-min-max",
+      "number": 697,
+      "title": "Zamień najmniejszą z największą",
+      "category": "Tablice / krok 4: zmiany",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb. Znajdź pozycję pierwszego wystąpienia największej liczby i pozycję pierwszego wystąpienia najmniejszej liczby, zamień te dwie liczby miejscami i wypisz całą tablicę. Jeśli wszystkie liczby są równe, tablica się nie zmieni."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Tablica po zamianie."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "6\n4 9 2 9 1 1",
+          "output": "4 1 2 9 9 1",
+          "note": "Pierwsza dziewiątka (pozycja 2) zamienia się z pierwszą jedynką (pozycja 5)."
+        }
+      ],
+      "hint": "Najpierw znajdź oba indeksy: gdzieMax i gdzieMin (start od 0, pętla od 1, znaki > i <). Dopiero potem jedna zamiana: swap(t[gdzieMax], t[gdzieMin]);.",
+      "tests_count": 8
+    },
+    {
+      "id": "tab-krok-w-bok",
+      "number": 698,
+      "title": "Krok w lewo, krok w prawo",
+      "category": "Tablice / krok 4: zmiany",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb. W pierwszym wierszu wypisz tablicę przesuniętą w kółko o jedno miejsce w lewo — pierwsza liczba trafia na koniec. W drugim wierszu wypisz pierwotną tablicę przesuniętą w kółko o jedno miejsce w prawo — ostatnia liczba trafia na początek."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Dwa wiersze: przesunięcie w lewo i przesunięcie w prawo."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "5\n1 2 3 4 5",
+          "output": "2 3 4 5 1\n5 1 2 3 4"
+        }
+      ],
+      "hint": "Uważaj, żeby drugie przesunięcie zrobić na pierwotnej tablicy! Najprościej skopiuj ją pętlą do drugiej tablicy i każdą przesuń osobno. W lewo: zapamiętaj t[0], przesuń od lewej (t[i] = t[i + 1]) i wpisz zapamiętaną liczbę na koniec. W prawo: zapamiętaj ostatnią i przesuwaj od końca (t[i] = t[i - 1]).",
+      "tests_count": 5
+    },
+    {
+      "id": "tab-obrot-w-lewo-o-k",
+      "number": 699,
+      "title": "Karuzela w lewo",
+      "category": "Tablice / krok 4: zmiany",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb i liczbę k. Przesuń tablicę w kółko o k miejsc w lewo: każdy element przesuwa się o k pozycji w stronę początku, a elementy, które „wypadają” z początku, wracają na koniec. Wypisz wynik."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Tablica po przesunięciu."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "0 ≤ k ≤ 10⁹",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "5 2\n1 2 3 4 5",
+          "output": "3 4 5 1 2"
+        },
+        {
+          "input": "3 1000000000\n7 8 9",
+          "output": "8 9 7",
+          "note": "10⁹ = 3 · 333333333 + 1, więc to tak, jakby przesunąć o 1."
+        }
+      ],
+      "hint": "Pełne obroty niczego nie zmieniają, więc zacznij od k = k % n. Po przesunięciu w lewo o k na pozycji i stoi element, który był k miejsc dalej: w[i] = t[(i + k) % n]. Możesz też niczego nie przestawiać, tylko od razu wypisać t[(i + k) % n] dla i od 0 do n - 1.",
+      "tests_count": 8
+    },
+    {
+      "id": "tab-odwroc-fragment",
+      "number": 700,
+      "title": "Odwróć fragment",
+      "category": "Tablice / krok 4: zmiany",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb, a potem q poleceń. Każde polecenie to dwie liczby a i b: odwróć kolejność elementów od a-tego do b-tego włącznie (pozycje od 1). Polecenia wykonuj po kolei, każde na tablicy zmienionej przez poprzednie. Na koniec wypisz tablicę."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n, w drugim n liczb.",
+        "W trzecim wierszu q, a w każdym z kolejnych q wierszy dwie liczby a i b."
+      ],
+      "output_format": [
+        "Tablica po wszystkich poleceniach."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "1 ≤ q ≤ 1000",
+        "1 ≤ a ≤ b ≤ n"
+      ],
+      "examples": [
+        {
+          "input": "6\n1 2 3 4 5 6\n2\n2 5\n1 3",
+          "output": "4 5 1 3 2 6",
+          "note": "Po pierwszym poleceniu: 1 5 4 3 2 6. Po drugim: 4 5 1 3 2 6."
+        }
+      ],
+      "hint": "Dla każdego polecenia ustaw l = a - 1 i r = b - 1 (indeksy od 0), a potem: while (l < r) { swap(t[l], t[r]); l++; r--; }.",
+      "tests_count": 6
+    },
+    {
+      "id": "tab-zera-na-koniec",
+      "number": 701,
+      "title": "Zera na koniec",
+      "category": "Tablice / krok 4: zmiany",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb. Przestaw je tak, żeby wszystkie zera znalazły się na końcu, a pozostałe liczby stały na początku w takiej samej kolejności jak na wejściu. Wypisz wynik."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Tablica z zerami na końcu."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "8\n0 3 0 0 5 1 0 2",
+          "output": "3 5 1 2 0 0 0 0"
+        }
+      ],
+      "hint": "Schemat z lekcji: k = 0, a w pętli po i każdą niezerową liczbę przepisz do t[k] i zwiększ k. Po pętli pudełka od k do n - 1 wypełnij zerami — tyle właśnie było zer.",
+      "tests_count": 9
+    },
+    {
+      "id": "tab-wykreslanka",
+      "number": 702,
+      "title": "Wykreślanka",
+      "category": "Tablice / krok 4: zmiany",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb, a potem q poleceń. Każde polecenie to jedna liczba p: usuń z listy element stojący w tej chwili na pozycji p (pozycje od 1). Elementy za nim przesuwają się o jedno miejsce do przodu. Po wykonaniu wszystkich poleceń wypisz, co zostało z listy. Jeśli lista jest pusta, wypisz PUSTA."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n, w drugim n liczb.",
+        "W trzecim wierszu q, w czwartym q liczb p."
+      ],
+      "output_format": [
+        "Lista po usunięciach albo PUSTA."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "1 ≤ q ≤ n",
+        "p nigdy nie jest większe od obecnej długości listy."
+      ],
+      "examples": [
+        {
+          "input": "5\n5 6 7 8 9\n2\n2 3",
+          "output": "5 7 9",
+          "note": "Po usunięciu 2. elementu zostaje 5 7 8 9. Teraz 3. element to 8 — zostaje 5 7 9."
+        }
+      ],
+      "hint": "Trzymaj obecną długość listy w zmiennej n. Usunięcie pozycji p: for (int i = p - 1; i < n - 1; i++) t[i] = t[i + 1]; a potem n--;. Na koniec sprawdź, czy n == 0.",
+      "tests_count": 7
+    },
+    {
+      "id": "tab-wstawianie",
+      "number": 703,
+      "title": "Wstawianie do listy",
+      "category": "Tablice / krok 4: zmiany",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na początku lista jest pusta. Wykonaj q poleceń. Każde polecenie to dwie liczby p i x: wstaw liczbę x tak, żeby stanęła na pozycji p (pozycje od 1), a elementy od dotychczasowej p-tej pozycji dalej przesuwają się o jedno miejsce w prawo. Pozycja p jest zawsze od 1 do obecnej długości listy powiększonej o 1 — największe p oznacza wstawienie na sam koniec. Wypisz listę po wszystkich poleceniach."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy dwie liczby p i x."
+      ],
+      "output_format": [
+        "Lista po wszystkich wstawieniach."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "−10⁹ ≤ x ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "4\n1 5\n1 3\n3 9\n2 7",
+          "output": "3 7 5 9",
+          "note": "Kolejno: 5, potem 3 5, potem 3 5 9, a na koniec 3 7 5 9."
+        }
+      ],
+      "hint": "Zrób tablicę z zapasem (1000 pudełek) i trzymaj obecną długość n, na start 0. Wstawienie: najpierw zrób miejsce — for (int i = n; i > p - 1; i--) t[i] = t[i - 1]; — potem t[p - 1] = x; i n++;. Przesuwasz w prawo, więc idziesz od końca.",
+      "tests_count": 8
+    },
+    {
+      "id": "tab-lepsi-od-sredniej",
+      "number": 704,
+      "title": "Powyżej średniej klasy",
+      "category": "Tablice / krok 5: kilka tablic",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W klasie jest n uczniów. Dla każdego znasz imię i liczbę punktów ze sprawdzianu. Wypisz imiona uczniów, którzy mają więcej punktów, niż wynosi średnia całej klasy — każde w osobnym wierszu, w kolejności z wejścia. Jeśli nikt nie przekroczył średniej, wypisz BRAK."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z kolejnych n wierszy imię i liczba punktów."
+      ],
+      "output_format": [
+        "Imiona uczniów powyżej średniej, każde w osobnym wierszu, albo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 100",
+        "0 ≤ punkty ≤ 100",
+        "Imiona mają od 1 do 20 liter."
+      ],
+      "examples": [
+        {
+          "input": "4\nOla 17\nJan 23\nEwa 19\nIgor 23",
+          "output": "Jan\nIgor",
+          "note": "Średnia to 20,5 — więcej mają Jan i Igor."
+        },
+        {
+          "input": "2\nAla 5\nBob 5",
+          "output": "BRAK"
+        }
+      ],
+      "hint": "Dwie tablice równoległe: string imie[100] i int pkt[100]. Pierwsza pętla wczytuje dane i liczy sumę. Druga sprawdza pkt[i] * n > suma (to samo co pkt[i] > średnia, ale bez ułamków) i wypisuje imie[i]. Licz po drodze wypisane imiona, żeby wiedzieć, czy na końcu wypisać BRAK.",
+      "tests_count": 7
+    },
+    {
+      "id": "tab-najpierw-parzyste",
+      "number": 705,
+      "title": "Najpierw parzyste",
+      "category": "Tablice / krok 5: kilka tablic",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb całkowitych. Wypisz w jednym wierszu najpierw wszystkie liczby parzyste, a potem wszystkie nieparzyste — w obu grupach w takiej kolejności, w jakiej stały na wejściu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jeden wiersz: liczby parzyste, a za nimi nieparzyste."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "8\n5 8 2 7 4 1 6 3",
+          "output": "8 2 4 6 5 7 1 3"
+        },
+        {
+          "input": "4\n-3 -2 0 7",
+          "output": "-2 0 -3 7",
+          "note": "Zero i −2 są parzyste."
+        }
+      ],
+      "hint": "Rozłóż liczby do dwóch nowych tablic, każdej z własnym licznikiem: parz[ileP] = x; ileP++; albo niep[ileN] = x; ileN++;. Parzystość sprawdzaj przez x % 2 == 0 — z lekcji o if pamiętasz, że dla ujemnych nieparzystych reszta to −1, a nie 1. Na koniec wypisz całą tablicę parz, a za nią niep.",
+      "tests_count": 8
+    },
+    {
+      "id": "tab-klucz-odpowiedzi",
+      "number": 706,
+      "title": "Sprawdzian z kluczem",
+      "category": "Tablice / krok 5: kilka tablic",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Test ma n pytań, a w każdym poprawna odpowiedź to jedna z liter A, B, C albo D. Na wejściu jest najpierw klucz — n liter oddzielonych spacjami. Potem jest liczba uczniów k, a dla każdego ucznia wiersz z imieniem i jego n odpowiedziami. Za każdą odpowiedź zgodną z kluczem uczeń dostaje 1 punkt. Wypisz dla każdego ucznia jego imię i liczbę punktów, a w ostatnim wierszu imię najlepszego ucznia (przy remisie — tego, który był wcześniej na liście)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n, w drugim n liter klucza.",
+        "W trzecim wierszu liczba k.",
+        "W każdym z kolejnych k wierszy imię i n liter."
+      ],
+      "output_format": [
+        "k wierszy z imieniem i punktami, a potem wiersz z imieniem najlepszego ucznia."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 100",
+        "1 ≤ k ≤ 100"
+      ],
+      "examples": [
+        {
+          "input": "5\nA C B D A\n3\nOla A C B D B\nJan A A A A A\nEwa A C B D A",
+          "output": "Ola 4\nJan 2\nEwa 5\nEwa",
+          "note": "Ola ma 4 punkty, Jan 2 (pytania 1 i 5), a Ewa wszystkie 5."
+        }
+      ],
+      "hint": "Klucz wczytaj do tablicy char klucz[100] — cin >> c przeskakuje spacje, więc litery wczytasz po kolei. Dla każdego ucznia wczytaj imię, a potem w pętli jego n odpowiedzi i każdą od razu porównaj z klucz[i]. Najlepszego szukaj na bieżąco: zapamiętaj jego imię i punkty i podmieniaj, gdy ktoś ma ściśle więcej.",
+      "tests_count": 5
+    },
+    {
+      "id": "tab-scrabble",
+      "number": 707,
+      "title": "Najlepsze słowo w Scrabble",
+      "category": "Tablice / krok 5: kilka tablic",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W angielskiej wersji gry Scrabble litery mają takie wartości: a, e, i, l, n, o, r, s, t, u — po 1 punkcie; d, g — po 2; b, c, m, p — po 3; f, h, v, w, y — po 4; k — 5; j, x — po 8; q, z — po 10. Wartość słowa to suma wartości jego liter. Wczytaj n słów i wypisz słowo o największej wartości oraz tę wartość. Jeśli kilka słów ma tyle samo punktów, wypisz to, które było pierwsze."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z kolejnych n wierszy jedno słowo z małych liter angielskich."
+      ],
+      "output_format": [
+        "Najlepsze słowo i jego wartość oddzielone spacją."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "Każde słowo ma od 1 do 20 liter."
+      ],
+      "examples": [
+        {
+          "input": "4\nkot\nquiz\npies\njazz",
+          "output": "jazz 29",
+          "note": "kot = 7, quiz = 22, pies = 6, a jazz = 8 + 1 + 10 + 10 = 29."
+        }
+      ],
+      "hint": "Zapisz wartości w tablicy int pkt[26] w kolejności alfabetu, od a do z (jak w przykładzie z lekcji). Wartość litery c to pkt[c - 'a']. Dla każdego słowa zsumuj wartości liter i porównaj z najlepszym dotąd wynikiem — znakiem >, żeby przy remisie zostało pierwsze słowo.",
+      "tests_count": 7
+    },
+    {
+      "id": "tab-rzymskie-na-arabskie",
+      "number": 708,
+      "title": "Z rzymskich na arabskie",
+      "category": "Tablice / krok 5: kilka tablic",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Zamień liczby zapisane cyframi rzymskimi na zwykłe. Cyfry rzymskie to I = 1, V = 5, X = 10, L = 50, C = 100, D = 500 i M = 1000. Zwykle wartości cyfr się dodaje (XVI = 10 + 5 + 1 = 16), ale gdy mniejsza cyfra stoi przed większą, odejmuje się ją (IV = 5 − 1 = 4, XC = 100 − 10 = 90). Wszystkie liczby na wejściu są zapisane poprawnie."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy jedna liczba rzymska."
+      ],
+      "output_format": [
+        "q wierszy — wartości kolejnych liczb."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 100",
+        "Każda liczba jest od 1 do 3999."
+      ],
+      "examples": [
+        {
+          "input": "4\nXVI\nIV\nMCMXCIV\nMMXXVI",
+          "output": "16\n4\n1994\n2026",
+          "note": "MCMXCIV = 1000 + (1000 − 100) + (100 − 10) + (5 − 1) = 1994."
+        }
+      ],
+      "hint": "Zrób ściągę indeksowaną literą: int w[26] = {};, a potem w['I' - 'A'] = 1; w['V' - 'A'] = 5; i tak dalej. Idź po napisie od lewej: jeśli wartość cyfry jest mniejsza od wartości następnej cyfry, odejmij ją od wyniku, a w przeciwnym razie dodaj. Ostatnią cyfrę zawsze dodajesz — nie ma za nią następnej, więc uważaj, żeby nie sięgnąć poza napis.",
+      "tests_count": 6
+    },
+    {
+      "id": "tab-szyfr-podstawieniowy",
+      "number": 709,
+      "title": "Szyfr podstawieniowy",
+      "category": "Tablice / krok 5: kilka tablic",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Klucz szyfru to napis z 26 różnych małych liter: pierwsza litera klucza zastępuje literę a, druga — literę b, i tak dalej aż do z. Na przykład dla klucza zebrascdfghijklmnopqtuvwxy słowo abc zaszyfrujesz jako zeb.",
+        "Wczytaj klucz, a potem q poleceń. Każde polecenie to litera S i wyraz albo litera D i wyraz: S oznacza „zaszyfruj”, a D — „odszyfruj”. Dla każdego polecenia wypisz wynik w osobnym wierszu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu klucz.",
+        "W drugim wierszu liczba q.",
+        "W każdym z kolejnych q wierszy litera S albo D i wyraz z małych liter."
+      ],
+      "output_format": [
+        "q wierszy — zaszyfrowane albo odszyfrowane wyrazy."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 100",
+        "Wyrazy mają od 1 do 100 liter."
+      ],
+      "examples": [
+        {
+          "input": "zebrascdfghijklmnopqtuvwxy\n3\nS abc\nS tablica\nD qzeifbz",
+          "output": "zeb\nqzeifbz\ntablica"
+        }
+      ],
+      "hint": "Szyfrowanie to ściąga: litera c zamienia się w klucz[c - 'a']. Do odszyfrowania zbuduj odwrotną ściągę — tablicę char odw[26], w której dla każdego i od 0 do 25: odw[klucz[i] - 'a'] = 'a' + i. Wtedy zaszyfrowana litera c zamienia się z powrotem w odw[c - 'a'].",
+      "tests_count": 5
+    },
+    {
+      "id": "tab-scalanie",
+      "number": 710,
+      "title": "Scalanie dwóch list",
+      "category": "Tablice / krok 5: kilka tablic",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dwie listy liczb są uporządkowane niemalejąco (każda liczba jest nie mniejsza od poprzedniej). Połącz je w jedną listę uporządkowaną niemalejąco i wypisz ją. Nie potrzebujesz żadnego sortowania — skorzystaj z tego, że obie listy już są uporządkowane."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n, w drugim n liczb pierwszej listy.",
+        "W trzecim wierszu m, w czwartym m liczb drugiej listy."
+      ],
+      "output_format": [
+        "Jeden wiersz — n + m liczb w kolejności niemalejącej."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 1000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "5\n1 4 6 9 12\n4\n2 3 10 15",
+          "output": "1 2 3 4 6 9 10 12 15"
+        },
+        {
+          "input": "3\n1 1 2\n2\n1 3",
+          "output": "1 1 1 2 3"
+        }
+      ],
+      "hint": "Indeks i chodzi po pierwszej liście, j po drugiej. Dopóki obie listy mają jeszcze elementy (i < n && j < m), wypisz mniejszy z a[i] i b[j] i przesuń jego indeks. Gdy jedna lista się skończy, dopisz resztę drugiej — dwiema pętlami while, z których zadziała tylko jedna.",
+      "tests_count": 8
+    },
+    {
+      "id": "tab-wspolne",
+      "number": 711,
+      "title": "Wspólne elementy",
+      "category": "Tablice / krok 5: kilka tablic",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dwie listy liczb są uporządkowane rosnąco, a w żadnej z nich liczby się nie powtarzają. Wypisz w jednym wierszu, rosnąco, liczby, które są na obu listach. Jeśli takich nie ma, wypisz BRAK. Spróbuj zrobić to jednym przejściem z dwoma indeksami, tak jak przy scalaniu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n, w drugim n liczb pierwszej listy.",
+        "W trzecim wierszu m, w czwartym m liczb drugiej listy."
+      ],
+      "output_format": [
+        "Wspólne liczby rosnąco albo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 1000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "5\n1 3 4 7 9\n4\n2 3 9 10",
+          "output": "3 9"
+        },
+        {
+          "input": "2\n1 2\n2\n3 4",
+          "output": "BRAK"
+        }
+      ],
+      "hint": "Indeks i chodzi po pierwszej liście, j po drugiej. Jeśli a[i] == b[j], znalazłeś wspólną liczbę — wypisz ją i przesuń oba indeksy. Jeśli a[i] < b[j], liczby a[i] nie ma dalej w drugiej liście (tam są już tylko większe), więc przesuń i. W przeciwnym razie przesuń j.",
+      "tests_count": 8
+    },
+    {
+      "id": "tab-oceny-statystyka",
+      "number": 712,
+      "title": "Oceny w dzienniku",
+      "category": "Tablice / krok 6: liczniki",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n ocen (liczby od 1 do 6). Wypisz sześć wierszy w postaci ocena: liczba — ile razy wystąpiła każda ocena, od 1 do 6. W siódmym wierszu wypisz najczęstszą ocenę (jeśli kilka ocen wystąpiło tyle samo razy, wybierz najwyższą z nich)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n ocen."
+      ],
+      "output_format": [
+        "Sześć wierszy „ocena: liczba” i siódmy z najczęstszą oceną."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "1 ≤ każda ocena ≤ 6"
+      ],
+      "examples": [
+        {
+          "input": "8\n5 3 6 5 2 5 3 4",
+          "output": "1: 0\n2: 1\n3: 2\n4: 1\n5: 3\n6: 1\n5"
+        },
+        {
+          "input": "4\n2 6 2 6",
+          "output": "1: 0\n2: 2\n3: 0\n4: 0\n5: 0\n6: 2\n6",
+          "note": "Dwójka i szóstka wystąpiły po dwa razy — wygrywa wyższa."
+        }
+      ],
+      "hint": "Tablica liczników int ile[7] = {}; i dla każdej oceny ile[ocena]++. Szukając najczęstszej, idź od 1 do 6 i podmieniaj wynik, gdy ile[o] >= ile[naj] — znak równości sprawi, że przy remisie wygra wyższa ocena.",
+      "tests_count": 7
+    },
+    {
+      "id": "tab-litery-w-tekscie",
+      "number": 713,
+      "title": "Ile razy każda litera",
+      "category": "Tablice / krok 6: liczniki",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj wiersz tekstu złożony z małych liter angielskich i spacji. Dla każdej litery, która występuje w tekście, wypisz w osobnym wierszu tę literę, spację i liczbę jej wystąpień. Litery wypisuj w kolejności alfabetycznej. Spacji nie licz."
+      ],
+      "input_format": [
+        "Jeden wiersz tekstu — może zawierać spacje."
+      ],
+      "output_format": [
+        "Dla każdej występującej litery wiersz: litera i liczba wystąpień."
+      ],
+      "constraints": [
+        "Tekst ma od 1 do 10 000 znaków i co najmniej jedną literę."
+      ],
+      "examples": [
+        {
+          "input": "ala ma kota",
+          "output": "a 4\nk 1\nl 1\nm 1\no 1\nt 1"
+        }
+      ],
+      "hint": "Wiersz ze spacjami wczytasz przez getline(cin, s). Dla każdego znaku, który nie jest spacją, zwiększ ile[s[i] - 'a']. Potem pętla po k od 0 do 25: jeśli ile[k] > 0, wypisz (char)('a' + k) i ile[k].",
+      "tests_count": 8
+    },
+    {
+      "id": "tab-najczestsza",
+      "number": 714,
+      "title": "Najczęstsza liczba",
+      "category": "Tablice / krok 6: liczniki",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb całkowitych od 0 do 1000. Wypisz liczbę, która występuje najczęściej, i ile razy wystąpiła. Jeśli kilka liczb występuje tyle samo razy, wypisz najmniejszą z nich."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb."
+      ],
+      "output_format": [
+        "Dwie liczby: najczęstsza wartość i liczba jej wystąpień."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 100 000",
+        "0 ≤ każda liczba ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "10\n7 3 7 100 3 0 7 3 50 2",
+          "output": "3 3",
+          "note": "Trójka i siódemka wystąpiły po trzy razy — wygrywa mniejsza."
+        }
+      ],
+      "hint": "int ile[1001] = {}; — po jednym pudełku dla każdej możliwej liczby. Po zliczeniu szukaj indeksu największego licznika od 0 do 1000, znakiem >, żeby przy remisie została mniejsza liczba.",
+      "tests_count": 7
+    },
+    {
+      "id": "tab-brakujace",
+      "number": 715,
+      "title": "Brakujące numery",
+      "category": "Tablice / krok 6: liczniki",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na liście obecności powinny być wpisane numery od 1 do n, ale część uczniów się nie wpisała, a niektórzy wpisali się kilka razy. Wczytaj n oraz m wpisanych numerów i wypisz w jednym wierszu, rosnąco, numery, których brakuje. Jeśli nikogo nie brakuje, wypisz KOMPLET."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W drugim wierszu m numerów od 1 do n."
+      ],
+      "output_format": [
+        "Brakujące numery rosnąco albo KOMPLET."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "1 ≤ m ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "6 5\n3 1 3 6 1",
+          "output": "2 4 5",
+          "note": "Brakuje uczniów 2, 4 i 5."
+        },
+        {
+          "input": "3 4\n3 2 1 2",
+          "output": "KOMPLET"
+        }
+      ],
+      "hint": "Tablica bool jest[1001] = {}; — dla każdego wpisanego numeru x ustaw jest[x] = true. Potem przejdź po numerach od 1 do n i wypisz te, dla których jest[x] zostało false. Licz je po drodze, żeby wiedzieć, czy wypisać KOMPLET.",
+      "tests_count": 8
+    },
+    {
+      "id": "tab-pierwsza-powtorka",
+      "number": 716,
+      "title": "Pierwsza powtórka",
+      "category": "Tablice / krok 6: liczniki",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb. Znajdź pierwszą liczbę (licząc od początku), która już wcześniej się pojawiła, i wypisz ją oraz jej pozycję (od 1). Jeśli żadna liczba się nie powtarza, wypisz BRAK."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb."
+      ],
+      "output_format": [
+        "Liczba i jej pozycja oddzielone spacją albo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 100 000",
+        "0 ≤ każda liczba ≤ 100 000"
+      ],
+      "examples": [
+        {
+          "input": "8\n4 9 1 9 4 2 4 1",
+          "output": "9 4",
+          "note": "Dziewiątka na pozycji 4 to pierwsza liczba, która już była (na pozycji 2). Czwórka powtarza się dopiero na pozycji 5."
+        },
+        {
+          "input": "3\n1 2 3",
+          "output": "BRAK"
+        }
+      ],
+      "hint": "Tablica bool bylo[100001] = {}; — ma 100 001 pudełek, bo liczby mogą być od 0 do 100 000. Idź po liczbach po kolei: jeśli bylo[x] jest już true, to jest odpowiedź (możesz przerwać). W przeciwnym razie ustaw bylo[x] = true. Wczytuj liczby w tej samej pętli, w której sprawdzasz.",
+      "tests_count": 8
+    },
+    {
+      "id": "tab-sortowanie-zliczanie",
+      "number": 717,
+      "title": "Uporządkuj wyniki",
+      "category": "Tablice / krok 6: liczniki",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n wyników zawodników — liczby całkowite od 0 do 1000 — i wypisz je w jednym wierszu w kolejności od najmniejszego do największego. Użyj tablicy liczników: zadanie da się zrobić bez porównywania liczb między sobą."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n wyników."
+      ],
+      "output_format": [
+        "Jeden wiersz — wyniki w kolejności niemalejącej."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 100 000",
+        "0 ≤ wynik ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "8\n42 7 42 0 100 7 7 13",
+          "output": "0 7 7 7 13 42 42 100"
+        }
+      ],
+      "hint": "Policz wystąpienia w int ile[1001] = {};. Potem przejdź po wartościach v od 0 do 1000 i każdą wypisz ile[v] razy — wewnętrzną pętlą for (int k = 0; k < ile[v]; k++).",
+      "tests_count": 6
+    },
+    {
+      "id": "tab-wycinanka",
+      "number": 718,
+      "title": "Wycinanka z gazety",
+      "category": "Tablice / krok 6: liczniki",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Bajtek chce ułożyć list z liter wyciętych z gazety. Każdą literę z gazety może wyciąć tylko raz — jeśli w gazecie są dwie litery a, to w liście może użyć co najwyżej dwóch. Wczytaj tekst z gazety i treść listu (oba to słowa z małych liter angielskich) i wypisz TAK, jeśli list da się ułożyć, albo NIE. Przy odpowiedzi NIE wypisz w drugim wierszu, ilu liter brakuje w sumie."
+      ],
+      "input_format": [
+        "W pierwszym wierszu słowo z gazety.",
+        "W drugim wierszu treść listu."
+      ],
+      "output_format": [
+        "TAK albo NIE, a przy NIE w drugim wierszu liczba brakujących liter."
+      ],
+      "constraints": [
+        "Każde słowo ma od 1 do 100 000 liter."
+      ],
+      "examples": [
+        {
+          "input": "abrakadabra\nkabaret",
+          "output": "NIE\n2",
+          "note": "W gazecie nie ma liter e i t — brakuje 2 liter."
+        },
+        {
+          "input": "programowanie\nmapa",
+          "output": "TAK"
+        }
+      ],
+      "hint": "Policz litery gazety w tablicy int ile[26] = {};. Potem idź po literach listu i każdą „wycinaj”: ile[c - 'a']--. Jeśli licznik spadł poniżej zera, tej litery zabrakło — zwiększ licznik braków. Zero braków to odpowiedź TAK.",
+      "tests_count": 8
+    },
+    {
+      "id": "tab-temperatury",
+      "number": 719,
+      "title": "Pamiętnik pogody",
+      "category": "Tablice / krok 6: liczniki",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n dziennych temperatur — liczby całkowite od −50 do 50. Wypisz trzy wiersze: w pierwszym najczęstszą temperaturę (przy remisie najniższą z nich), w drugim liczbę różnych temperatur, a w trzecim, rosnąco, wszystkie temperatury, które wystąpiły dokładnie raz — albo BRAK, jeśli takich nie ma."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n temperatur."
+      ],
+      "output_format": [
+        "Trzy wiersze opisane w treści."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "−50 ≤ każda temperatura ≤ 50"
+      ],
+      "examples": [
+        {
+          "input": "7\n-3 2 -3 -12 2 -3 5",
+          "output": "-3\n4\n-12 5"
+        }
+      ],
+      "hint": "Temperatura x trafia do pudełka x + 50, więc wystarczy int ile[101] = {};. Wszystkie trzy odpowiedzi odczytasz z liczników w pętlach po k od 0 do 100 — a temperaturę odzyskasz jako k - 50.",
+      "tests_count": 7
+    },
+    {
+      "id": "tab-2d-sumy-wierszy",
+      "number": 720,
+      "title": "Sumy wierszy",
+      "category": "Tablice / krok 7: tablice 2D",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj tabelkę liczb o n wierszach i m kolumnach. Dla każdego wiersza wypisz w osobnym wierszu sumę liczb w tym wierszu. W ostatnim wierszu wypisz numer (od 1) wiersza o największej sumie — przy remisie pierwszego z nich."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z kolejnych n wierszy m liczb."
+      ],
+      "output_format": [
+        "n wierszy z sumami i wiersz z numerem najlepszego wiersza."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 100",
+        "−10⁶ ≤ każda liczba ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "3 4\n3 1 4 1\n5 9 2 6\n5 3 5 8",
+          "output": "9\n22\n21\n2"
+        }
+      ],
+      "hint": "Tablica int t[100][100], wczytywanie dwiema pętlami. Dla sum: zewnętrzna pętla po wierszach, a w niej najpierw s = 0, potem wewnętrzna pętla po kolumnach. Suma wiersza zmieści się w int: 100 · 10⁶ = 10⁸.",
+      "tests_count": 6
+    },
+    {
+      "id": "tab-2d-sumy-kolumn",
+      "number": 721,
+      "title": "Sumy kolumn",
+      "category": "Tablice / krok 7: tablice 2D",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj tabelkę liczb o n wierszach i m kolumnach i wypisz w jednym wierszu sumy kolejnych kolumn — od pierwszej do ostatniej."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z kolejnych n wierszy m liczb."
+      ],
+      "output_format": [
+        "Jeden wiersz z m sumami."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 100",
+        "−10⁶ ≤ każda liczba ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "3 4\n3 1 4 1\n5 9 2 6\n5 3 5 8",
+          "output": "13 13 11 15"
+        }
+      ],
+      "hint": "Zamień pętle miejscami: zewnętrzna po kolumnach k, a w niej s = 0 i wewnętrzna po wierszach w: s += t[w][k];. Po każdej kolumnie wypisz s i spację.",
+      "tests_count": 6
+    },
+    {
+      "id": "tab-2d-przekatne",
+      "number": 722,
+      "title": "Przekątne kwadratu",
+      "category": "Tablice / krok 7: tablice 2D",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj kwadratową tabelkę n × n. Wypisz sumę liczb na głównej przekątnej (od lewego górnego do prawego dolnego rogu) i sumę liczb na drugiej przekątnej (od prawego górnego do lewego dolnego rogu)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z kolejnych n wierszy n liczb."
+      ],
+      "output_format": [
+        "Dwie liczby: suma na głównej i na drugiej przekątnej."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 100",
+        "−10⁶ ≤ każda liczba ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "3\n1 2 3\n4 5 6\n7 8 9",
+          "output": "15 15",
+          "note": "Główna: 1 + 5 + 9 = 15, druga: 3 + 5 + 7 = 15. Środkowa piątka należy do obu przekątnych."
+        }
+      ],
+      "hint": "Wczytaj tabelkę dwiema pętlami, a sumy policz jedną pętlą po i: główna przekątna to t[i][i], druga — t[i][n - 1 - i].",
+      "tests_count": 6
+    },
+    {
+      "id": "tab-2d-transpozycja",
+      "number": 723,
+      "title": "Transpozycja",
+      "category": "Tablice / krok 7: tablice 2D",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj tabelkę o n wierszach i m kolumnach i wypisz ją „obróconą na bok”: pierwsza kolumna staje się pierwszym wierszem, druga kolumna drugim wierszem i tak dalej. Wynik ma m wierszy i n kolumn."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z kolejnych n wierszy m liczb."
+      ],
+      "output_format": [
+        "m wierszy po n liczb."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 100",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "2 3\n1 2 3\n4 5 6",
+          "output": "1 4\n2 5\n3 6"
+        }
+      ],
+      "hint": "Wczytaj normalnie, a przy wypisywaniu zamień pętle: zewnętrzna po kolumnach k (od 0 do m - 1), wewnętrzna po wierszach w — wypisujesz t[w][k], a po każdej kolumnie przejście do nowej linii.",
+      "tests_count": 6
+    },
+    {
+      "id": "tab-2d-najwyzszy",
+      "number": 724,
+      "title": "Najwyższy szczyt na mapie",
+      "category": "Tablice / krok 7: tablice 2D",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Mapa wysokości to tabelka o n wierszach i m kolumnach. Znajdź najwyższy punkt i wypisz jego wysokość oraz numer wiersza i numer kolumny (od 1). Jeśli najwyższych punktów jest kilka, wybierz ten, który pojawia się pierwszy, gdy czytamy mapę wiersz po wierszu, od lewej do prawej."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z kolejnych n wierszy m wysokości."
+      ],
+      "output_format": [
+        "Trzy liczby: wysokość, numer wiersza i numer kolumny."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 100",
+        "0 ≤ wysokość ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "3 4\n1 5 2 9\n9 3 0 4\n2 8 9 1",
+          "output": "9 1 4",
+          "note": "Wysokość 9 występuje trzy razy — pierwsza przy czytaniu jest w wierszu 1, kolumnie 4."
+        }
+      ],
+      "hint": "Zapamiętuj dwa indeksy: bw i bk (na start 0 i 0). Przejdź po całej tabelce i podmieniaj je, gdy t[w][k] > t[bw][bk]. Znak > (a nie >=) zostawi pierwsze wystąpienie.",
+      "tests_count": 6
+    },
+    {
+      "id": "tab-2d-saper",
+      "number": 725,
+      "title": "Saper",
+      "category": "Tablice / krok 7: tablice 2D",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Plansza gry Saper ma n wierszy i m kolumn. Pole z miną oznaczono gwiazdką *, a puste pole kropką. Dla każdego pustego pola policz, ile min leży na sąsiednich polach — sąsiadów jest najwyżej ośmiu: przez bok i po skosie. Wypisz planszę, w której miny zostają gwiazdkami, puste pola z co najmniej jedną miną obok zamieniają się w cyfrę, a puste pola bez min dookoła zostają kropkami."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z kolejnych n wierszy m znaków: * albo kropka."
+      ],
+      "output_format": [
+        "n wierszy planszy z cyframi."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 100"
+      ],
+      "examples": [
+        {
+          "input": "3 4\n*...\n..*.\n....",
+          "output": "*211\n12*1\n.111"
+        }
+      ],
+      "hint": "Wczytaj planszę jako tablicę napisów string p[100]. Dla każdego pustego pola przejdź po przesunięciach dw i dk od −1 do 1 i licz miny — ale najpierw sprawdź, czy sąsiad jest na planszy: nw >= 0 && nw < n && nk >= 0 && nk < m. Liczbę min zamień na znak cyfry: (char)('0' + miny).",
+      "tests_count": 9
+    },
+    {
+      "id": "tab-2d-obrot",
+      "number": 726,
+      "title": "Obrót o 90 stopni",
+      "category": "Tablice / krok 7: tablice 2D",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj tabelkę o n wierszach i m kolumnach i wypisz ją obróconą o 90 stopni w prawo (zgodnie z ruchem wskazówek zegara). Wynik ma m wierszy i n kolumn: pierwszy wiersz wyniku to pierwsza kolumna oryginału czytana od dołu do góry."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z kolejnych n wierszy m liczb."
+      ],
+      "output_format": [
+        "m wierszy po n liczb."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 100",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "2 3\n1 2 3\n4 5 6",
+          "output": "4 1\n5 2\n6 3",
+          "note": "Pierwsza kolumna (1, 4) czytana od dołu daje pierwszy wiersz: 4 1."
+        }
+      ],
+      "hint": "Wiersz numer k wyniku (k od 0 do m - 1) to kolumna k oryginału czytana od ostatniego wiersza do pierwszego: for (int w = n - 1; w >= 0; w--) cout << t[w][k] << \" \";.",
+      "tests_count": 6
+    },
+    {
+      "id": "tab-2d-kolko-krzyzyk",
+      "number": 727,
+      "title": "Kółko i krzyżyk",
+      "category": "Tablice / krok 7: tablice 2D",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na planszy 3 × 3 rozegrano partię kółka i krzyżyka. Plansza to trzy wiersze po trzy znaki: X, O albo kropka (puste pole). Gracz wygrywa, gdy ma trzy swoje znaki w jednym wierszu, w jednej kolumnie albo na jednej z przekątnych. Wypisz X, jeśli wygrał krzyżyk, O — jeśli wygrało kółko, albo NIKT, jeśli nikt nie ma trzech znaków w linii. Gwarantujemy, że nie wygrali obaj gracze naraz."
+      ],
+      "input_format": [
+        "Trzy wiersze po trzy znaki."
+      ],
+      "output_format": [
+        "X, O albo NIKT."
+      ],
+      "constraints": [
+        "Na planszy są tylko znaki X, O i kropki."
+      ],
+      "examples": [
+        {
+          "input": "XOX\nOXO\nO.X",
+          "output": "X",
+          "note": "Krzyżyk ma całą główną przekątną."
+        },
+        {
+          "input": "XO.\n.O.\nXOX",
+          "output": "O",
+          "note": "Kółko ma środkową kolumnę."
+        },
+        {
+          "input": "XOX\nXOO\nOXX",
+          "output": "NIKT"
+        }
+      ],
+      "hint": "Wczytaj trzy napisy p[0], p[1], p[2]. Sprawdź osiem linii: trzy wiersze (p[i][0], p[i][1], p[i][2]), trzy kolumny (p[0][k], p[1][k], p[2][k]) i dwie przekątne. Linia jest wygrana, gdy jej trzy znaki są równe i nie są kropką — wtedy zwycięzcą jest ten znak.",
+      "tests_count": 19
+    },
+    {
+      "id": "tab-sumy-przedzialow",
+      "number": 728,
+      "title": "Sumy na przedziałach",
+      "category": "Tablice / krok 8: olimpiada",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb i q pytań. Każde pytanie to dwie liczby a i b, a odpowiedzią jest suma liczb od a-tej do b-tej włącznie (liczby numerujemy od 1). Liczb i pytań może być bardzo dużo, więc nie licz każdej sumy pętlą — przygotuj sumy prefiksowe."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i q.",
+        "W drugim wierszu n liczb.",
+        "W każdym z kolejnych q wierszy dwie liczby a i b."
+      ],
+      "output_format": [
+        "q wierszy — sumy kolejnych przedziałów."
+      ],
+      "constraints": [
+        "1 ≤ n, q ≤ 200 000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹",
+        "1 ≤ a ≤ b ≤ n"
+      ],
+      "examples": [
+        {
+          "input": "7 3\n3 1 4 1 5 9 2\n3 5\n1 7\n6 6",
+          "output": "10\n25\n9"
+        }
+      ],
+      "hint": "Globalnie: int t[200005]; long long p[200005];. Numeruj od 1: p[0] = 0 i p[i] = p[i - 1] + t[i]. Odpowiedź na pytanie to p[b] - p[a - 1]. Sumy muszą być w long long — 200 000 liczb po miliard to 2 · 10¹⁴.",
+      "tests_count": 6
+    },
+    {
+      "id": "tab-parzyste-w-przedziale",
+      "number": 729,
+      "title": "Ile parzystych w przedziale",
+      "category": "Tablice / krok 8: olimpiada",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb i q pytań. W każdym pytaniu podane są dwie pozycje a i b, a odpowiedzią jest liczba parzystych liczb wśród liczb od a-tej do b-tej włącznie. Przygotuj tablicę c, w której c[i] mówi, ile parzystych liczb jest wśród pierwszych i liczb — to też suma prefiksowa, tylko za każdą parzystą liczbę dodajemy 1."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i q.",
+        "W drugim wierszu n liczb.",
+        "W każdym z kolejnych q wierszy dwie liczby a i b."
+      ],
+      "output_format": [
+        "q wierszy z odpowiedziami."
+      ],
+      "constraints": [
+        "1 ≤ n, q ≤ 200 000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹",
+        "1 ≤ a ≤ b ≤ n"
+      ],
+      "examples": [
+        {
+          "input": "6 3\n5 8 2 7 4 1\n1 6\n2 3\n4 4",
+          "output": "3\n2\n0"
+        }
+      ],
+      "hint": "c[0] = 0, a dla i od 1 do n: c[i] = c[i - 1] + (x % 2 == 0 ? 1 : 0), gdzie x to i-ta liczba. Odpowiedź to c[b] - c[a - 1]. Samych liczb nie musisz nawet trzymać w tablicy — wystarczy c. Tablicę zrób globalną.",
+      "tests_count": 6
+    },
+    {
+      "id": "tab-najlepszy-tydzien",
+      "number": 730,
+      "title": "Najlepsze k dni sklepu",
+      "category": "Tablice / krok 8: olimpiada",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Sklep zapisywał utarg z każdego z n dni. Znajdź k kolejnych dni, w których łączny utarg był największy. Wypisz ten największy łączny utarg i numer pierwszego z tych k dni (dni numerujemy od 1). Jeśli kilka odcinków daje tyle samo, wybierz najwcześniejszy."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n utargów."
+      ],
+      "output_format": [
+        "Dwie liczby: największy łączny utarg i numer pierwszego dnia."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 200 000",
+        "0 ≤ utarg ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "10 3\n2 0 5 1 1 7 3 0 4 4",
+          "output": "11 5",
+          "note": "Najwięcej, 11, w dniach 5–7."
+        },
+        {
+          "input": "5 5\n1 2 3 4 5",
+          "output": "15 1"
+        }
+      ],
+      "hint": "Sumy prefiksowe p[i] w long long (tablica globalna). Odcinek k dni kończący się w dniu i ma sumę p[i] - p[i - k]. Sprawdź wszystkie końce i od k do n i zapamiętaj najlepszy — znakiem >, żeby przy remisie został najwcześniejszy.",
+      "tests_count": 8
+    },
+    {
+      "id": "tab-sito-pierwsze",
+      "number": 731,
+      "title": "Liczby pierwsze do n",
+      "category": "Tablice / krok 8: olimpiada",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wypisz w jednym wierszu wszystkie liczby pierwsze, które nie są większe od n, w kolejności rosnącej, a w drugim wierszu — ile ich jest. Użyj sita Eratostenesa."
+      ],
+      "input_format": [
+        "Jedna liczba n."
+      ],
+      "output_format": [
+        "W pierwszym wierszu liczby pierwsze, w drugim ich liczba."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 30 000"
+      ],
+      "examples": [
+        {
+          "input": "30",
+          "output": "2 3 5 7 11 13 17 19 23 29\n10"
+        },
+        {
+          "input": "1",
+          "output": "0",
+          "note": "Nie ma liczb pierwszych nie większych od 1 — pierwszy wiersz jest pusty, a w drugim jest 0."
+        }
+      ],
+      "hint": "bool zlozona[30001] — najlepiej globalnie, wtedy na start jest wyzerowana. Dla każdego i od 2 do n: jeśli zlozona[i] jest false, i jest pierwsza — wykreśl jej wielokrotności 2i, 3i, … aż do n. Potem wypisz liczby od 2 do n, które nie zostały wykreślone.",
+      "tests_count": 10
+    },
+    {
+      "id": "tab-sito-zapytania",
+      "number": 732,
+      "title": "Czy to liczba pierwsza?",
+      "category": "Tablice / krok 8: olimpiada",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Odpowiedz na q pytań: czy liczba x jest pierwsza? Dla każdego pytania wypisz w osobnym wierszu TAK albo NIE. Pytań może być bardzo dużo, więc przygotuj sito Eratostenesa raz, a potem odpowiadaj jednym odczytem z tablicy."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W drugim wierszu q liczb x."
+      ],
+      "output_format": [
+        "q wierszy: TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 100 000",
+        "1 ≤ x ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "5\n1 2 9 97 1000000",
+          "output": "NIE\nTAK\nNIE\nTAK\nNIE",
+          "note": "Jedynka nie jest liczbą pierwszą."
+        }
+      ],
+      "hint": "Sito do miliona: globalna tablica bool zlozona[1000001];. Pamiętaj, że 0 i 1 nie są pierwsze — sito ich nie wykreśla, więc oznacz je ręcznie (zlozona[0] = zlozona[1] = true) albo sprawdzaj osobno.",
+      "tests_count": 6
+    },
+    {
+      "id": "tab-pierwsze-w-przedziale",
+      "number": 733,
+      "title": "Liczby pierwsze w przedziałach",
+      "category": "Tablice / krok 8: olimpiada",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Odpowiedz na q pytań: ile liczb pierwszych jest w przedziale od a do b włącznie? Połącz dwie sztuczki z lekcji: sito Eratostenesa i sumy prefiksowe."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy dwie liczby a i b."
+      ],
+      "output_format": [
+        "q wierszy z odpowiedziami."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 100 000",
+        "1 ≤ a ≤ b ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "3\n1 10\n10 20\n14 16",
+          "output": "4\n4\n0",
+          "note": "Do 10: 2, 3, 5, 7. Między 10 a 20: 11, 13, 17, 19. Między 14 a 16 nie ma żadnej."
+        }
+      ],
+      "hint": "Po przesianiu policz c[x] — ile liczb pierwszych jest nie większych od x: c[x] = c[x - 1] + (x jest pierwsza ? 1 : 0). Odpowiedź na pytanie to c[b] - c[a - 1]. Obie tablice, sito i c, zrób globalne.",
+      "tests_count": 6
+    },
+    {
+      "id": "tab-duze-liczniki",
+      "number": 734,
+      "title": "Najczęstsza liczba — wersja duża",
+      "category": "Tablice / krok 8: olimpiada",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb całkowitych od 1 do 1 000 000. Wypisz liczbę, która występuje najczęściej, i ile razy wystąpiła — przy remisie najmniejszą z nich. Danych jest tak dużo, że podwójna pętla „każdy z każdym” byłaby za wolna, a tablica liczników na milion pudełek nie zmieści się wewnątrz main."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb."
+      ],
+      "output_format": [
+        "Dwie liczby: najczęstsza wartość i liczba jej wystąpień."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1 000 000",
+        "1 ≤ każda liczba ≤ 1 000 000"
+      ],
+      "examples": [
+        {
+          "input": "6\n1000000 5 1000000 7 5 1000000",
+          "output": "1000000 3"
+        }
+      ],
+      "hint": "Zrób globalną tablicę int ile[1000001]; — przed main jest wyzerowana i spokojnie mieści się w pamięci (4 MB). Dalej tak samo jak w części 6: zliczanie, a potem szukanie największego licznika od najmniejszej wartości, znakiem >.",
+      "tests_count": 7
+    },
+    {
+      "id": "tab-b-zamiana-sasiadow",
+      "number": 735,
+      "title": "Zamień sąsiadów",
+      "category": "Tablice / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb i zamień miejscami pary sąsiadów: pierwszą liczbę z drugą, trzecią z czwartą, piątą z szóstą i tak dalej. Jeśli n jest nieparzyste, ostatnia liczba nie ma pary i zostaje na miejscu. Wypisz wynik."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Tablica po zamianach."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "6\n1 2 3 4 5 6",
+          "output": "2 1 4 3 6 5"
+        },
+        {
+          "input": "5\n7 8 9 10 11",
+          "output": "8 7 10 9 11",
+          "note": "Jedenastka nie ma pary."
+        }
+      ],
+      "hint": "Pętla co dwa: for (int i = 0; i + 1 < n; i += 2) swap(t[i], t[i + 1]);. Warunek i + 1 < n pilnuje, żeby przy nieparzystym n nie sięgnąć po pudełko t[n].",
+      "tests_count": 7
+    },
+    {
+      "id": "tab-b-palindrom",
+      "number": 736,
+      "title": "Ciąg-palindrom",
+      "category": "Tablice / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ciąg liczb jest palindromem, gdy czytany od końca wygląda tak samo jak od początku — na przykład 1 2 3 2 1 albo 5 5. Wczytaj z zestawów danych i dla każdego wypisz w osobnym wierszu TAK, jeśli ciąg jest palindromem, albo NIE."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba z.",
+        "Każdy zestaw to dwa wiersze: długość ciągu n i n liczb."
+      ],
+      "output_format": [
+        "z wierszy: TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ z ≤ 100",
+        "1 ≤ n ≤ 1000",
+        "Suma długości wszystkich ciągów ≤ 10 000",
+        "−10⁹ ≤ liczby ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "3\n5\n1 2 3 2 1\n4\n1 2 2 3\n1\n7",
+          "output": "TAK\nNIE\nTAK"
+        }
+      ],
+      "hint": "Dla każdego zestawu wczytaj ciąg do tej samej tablicy — stare liczby zostaną nadpisane, a liczy się tylko pierwsze n pudełek. Porównuj pary od końców: t[i] z t[n - 1 - i] dla i < n / 2. Wystarczy jedna różna para, żeby odpowiedź brzmiała NIE.",
+      "tests_count": 4
+    },
+    {
+      "id": "tab-b-podlewanie",
+      "number": 737,
+      "title": "Podlewanie ogrodu",
+      "category": "Tablice / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W ogrodzie jest n grządek ustawionych w rzędzie i ponumerowanych od 1 do n. Włączono q zraszaczy; każdy podlewa grządki od a-tej do b-tej włącznie. Zraszacze mogą się nakładać. W pierwszym wierszu wypisz, ile grządek zostało podlanych, a w drugim numery suchych grządek rosnąco — albo BRAK, jeśli wszystkie są mokre."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i q.",
+        "W każdym z kolejnych q wierszy dwie liczby a i b."
+      ],
+      "output_format": [
+        "W pierwszym wierszu liczba mokrych grządek, w drugim suche grządki albo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "1 ≤ q ≤ 1000",
+        "1 ≤ a ≤ b ≤ n"
+      ],
+      "examples": [
+        {
+          "input": "10 3\n2 4\n3 6\n9 9",
+          "output": "6\n1 7 8 10",
+          "note": "Mokre są grządki 2–6 i 9, czyli 6 grządek. Suche: 1, 7, 8 i 10."
+        }
+      ],
+      "hint": "Tablica bool mokra[1001] = {};. Dla każdego zraszacza zaznacz w pętli grządki od a do b: mokra[i] = true. Potem jedno przejście od 1 do n: policz zaznaczone grządki i wypisz niezaznaczone.",
+      "tests_count": 8
+    },
+    {
+      "id": "tab-b-sto-drzwi",
+      "number": 738,
+      "title": "Sto drzwi",
+      "category": "Tablice / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W długim korytarzu jest n zamkniętych drzwi ponumerowanych od 1 do n. Korytarzem przechodzi k osób. Osoba numer i przełącza drzwi numer i, 2i, 3i i tak dalej — zamknięte otwiera, a otwarte zamyka. Wypisz rosnąco numery drzwi, które po przejściu wszystkich osób są otwarte, albo BRAK, jeśli wszystkie są zamknięte."
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami n i k."
+      ],
+      "output_format": [
+        "Numery otwartych drzwi albo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "1 ≤ k ≤ 10 000"
+      ],
+      "examples": [
+        {
+          "input": "10 10",
+          "output": "1 4 9",
+          "note": "Otwarte zostają drzwi 1, 4 i 9 — każde z nich przełączono nieparzystą liczbę razy."
+        },
+        {
+          "input": "10 3",
+          "output": "1 5 6 7"
+        }
+      ],
+      "hint": "Tablica bool otwarte[10001] = {};. Dla każdej osoby i od 1 do k przejdź po j = i, 2i, 3i, … aż do n i przełącz: otwarte[j] = !otwarte[j];. Obrotów jest około n / 1 + n / 2 + … + n / k — nawet dla 10 000 to chwila.",
+      "tests_count": 9
+    },
+    {
+      "id": "tab-b-waga",
+      "number": 739,
+      "title": "Waga szalkowa",
+      "category": "Tablice / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na listwie leży n odważników o masach podanych po kolei. Szukamy punktu podparcia: odważnika, dla którego suma mas wszystkich odważników na lewo od niego jest równa sumie mas wszystkich odważników na prawo od niego (sam odważnik w punkcie podparcia się nie liczy). Wypisz numer (od 1) pierwszego takiego odważnika albo BRAK."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n mas."
+      ],
+      "output_format": [
+        "Numer odważnika albo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "0 ≤ masa ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "7\n1 7 3 6 5 6 0",
+          "output": "4",
+          "note": "Na lewo od czwartego odważnika: 1 + 7 + 3 = 11, na prawo: 5 + 6 + 0 = 11."
+        },
+        {
+          "input": "3\n1 2 3",
+          "output": "BRAK"
+        }
+      ],
+      "hint": "Najpierw policz sumę wszystkich mas (long long). Potem idź od lewej, trzymając sumę lewej strony: prawa strona to cała suma minus lewa strona minus bieżący odważnik. Po sprawdzeniu dodaj bieżący odważnik do lewej strony i idź dalej.",
+      "tests_count": 9
+    },
+    {
+      "id": "tab-b-wybory",
+      "number": 740,
+      "title": "Wybory samorządu",
+      "category": "Tablice / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W wyborach do samorządu startuje k kandydatów ponumerowanych od 1 do k. Każdy z n uczniów oddał jeden głos — numer kandydata. Jeśli jeden kandydat dostał więcej głosów niż każdy inny, wypisz jego numer i liczbę głosów. Jeśli kilku kandydatów ma tyle samo głosów i jest to najwięcej, wypisz DOGRYWKA, a w drugim wierszu rosnąco numery tych kandydatów."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby k i n.",
+        "W drugim wierszu n głosów."
+      ],
+      "output_format": [
+        "Numer zwycięzcy i liczba głosów albo DOGRYWKA i numery kandydatów."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ 100",
+        "1 ≤ n ≤ 10 000",
+        "Każdy głos to liczba od 1 do k."
+      ],
+      "examples": [
+        {
+          "input": "4 7\n2 1 2 4 2 1 4",
+          "output": "2 3",
+          "note": "Kandydat 2 dostał 3 głosy, a pozostali mniej."
+        },
+        {
+          "input": "3 4\n1 3 3 1",
+          "output": "DOGRYWKA\n1 3"
+        }
+      ],
+      "hint": "Tablica liczników int glosy[101] = {}; i glosy[x]++ dla każdego głosu. Potem znajdź największą liczbę głosów i policz, ilu kandydatów ją ma: jeden — mamy zwycięzcę, więcej — dogrywka.",
+      "tests_count": 9
+    },
+    {
+      "id": "tab-b-wieze",
+      "number": 741,
+      "title": "Wieże na szachownicy",
+      "category": "Tablice / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na szachownicy 8 × 8 stoją same wieże (znak W), a puste pola to kropki. Wieża atakuje tę wieżę, która stoi najbliżej niej w tym samym wierszu albo w tej samej kolumnie — dalsze wieże są zasłonięte przez bliższe. Policz, ile par wież się atakuje. Zauważ, że jeśli w jednym wierszu stoi c wież (c ≥ 1), to tworzą one c − 1 atakujących się par sąsiadów — tak samo w kolumnie."
+      ],
+      "input_format": [
+        "Osiem wierszy po osiem znaków: W albo kropka."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba atakujących się par."
+      ],
+      "constraints": [
+        "Na szachownicy jest od 0 do 64 wież."
+      ],
+      "examples": [
+        {
+          "input": "W..W....\n........\n...W....\n........\n........\n........\nW.......\n........",
+          "output": "3",
+          "note": "Para w pierwszym wierszu, para w pierwszej kolumnie (wiersze 1 i 7) i para w czwartej kolumnie (wiersze 1 i 3) — razem 3."
+        }
+      ],
+      "hint": "Policz wieże w każdym wierszu (int wiersz[8] = {};) i w każdej kolumnie (int kolumna[8] = {};) — pole (w, k) z wieżą zwiększa wiersz[w] i kolumna[k]. Każdy wiersz z c > 0 wieżami daje c - 1 par; tak samo każda kolumna. Zsumuj wszystko.",
+      "tests_count": 7
+    },
+    {
+      "id": "tab-b-kino",
+      "number": 742,
+      "title": "Rezerwacje w kinie",
+      "category": "Tablice / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Sala kinowa ma r rzędów po s miejsc; rzędy i miejsca numerujemy od 1. Na początku wszystkie miejsca są wolne. Przychodzi q próśb o rezerwację, każda z numerem rzędu i miejsca. Dla każdej prośby wypisz OK, jeśli miejsce było wolne (od teraz jest zajęte), albo ZAJETE, jeśli ktoś już je zarezerwował. Na końcu wypisz, ile miejsc zostało wolnych."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby r, s i q.",
+        "W każdym z kolejnych q wierszy numer rzędu i numer miejsca."
+      ],
+      "output_format": [
+        "q wierszy OK albo ZAJETE, a na końcu liczba wolnych miejsc."
+      ],
+      "constraints": [
+        "1 ≤ r, s ≤ 100",
+        "1 ≤ q ≤ 10 000"
+      ],
+      "examples": [
+        {
+          "input": "3 4 4\n1 1\n2 3\n1 1\n3 4",
+          "output": "OK\nOK\nZAJETE\nOK\n9"
+        }
+      ],
+      "hint": "bool zajete[101][101] = {}; — numeruj od 1, wtedy rząd i miejsce wskazują pudełko bez odejmowania. Przy każdej prośbie: jeśli zajete[rz][m], wypisz ZAJETE; w przeciwnym razie zaznacz miejsce, wypisz OK i zmniejsz licznik wolnych miejsc (na start r · s).",
+      "tests_count": 6
+    },
+    {
+      "id": "tab-b-lista-zakupow",
+      "number": 743,
+      "title": "Lista zakupów",
+      "category": "Tablice / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W sklepie jest n produktów — każdy ma nazwę i cenę w groszach. Na liście zakupów jest m nazw (każda pozycja listy to jedna sztuka, a ta sama nazwa może pojawić się na liście kilka razy). Policz łączny koszt zakupów i wypisz go w postaci ZŁ.GR, z dwiema cyframi groszy. Jeśli jakiegoś produktu z listy nie ma w sklepie, wypisz zamiast tego słowo BRAK i nazwę pierwszego takiego produktu z listy."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n, a w każdym z kolejnych n wierszy nazwa produktu i cena.",
+        "Potem liczba m i m nazw z listy, każda w osobnym wierszu."
+      ],
+      "output_format": [
+        "Kwota ZŁ.GR albo BRAK i nazwa brakującego produktu."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 100",
+        "1 ≤ cena ≤ 100 000",
+        "Nazwy produktów w sklepie są różne i mają od 1 do 20 małych liter."
+      ],
+      "examples": [
+        {
+          "input": "3\nchleb 450\nmleko 329\nser 1299\n4\nmleko\nchleb\nmleko\nser",
+          "output": "24.07",
+          "note": "329 + 450 + 329 + 1299 = 2407 groszy."
+        },
+        {
+          "input": "2\njablko 99\ngruszka 120\n2\ngruszka\nkiwi",
+          "output": "BRAK kiwi"
+        }
+      ],
+      "hint": "Dwie tablice równoległe: string nazwa[100] i int cena[100]. Dla każdej pozycji z listy szukaj jej nazwy w tablicy nazwa (napisy porównujesz znakiem ==). Gdy jej nie ma, zapamiętaj ją jako pierwszą brakującą — jeśli żadnej jeszcze nie zapamiętałeś. Kwotę wypisz jak w zadaniu z cennikiem: złote, kropka i dwie cyfry groszy.",
+      "tests_count": 7
+    },
+    {
+      "id": "tab-b-pionek",
+      "number": 744,
+      "title": "Pionek na planszy",
+      "category": "Tablice / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Plansza ma n wierszy i m kolumn: kropka to wolne pole, # to ściana, a S to pole startowe pionka (też wolne). Pionek wykonuje po kolei ruchy zapisane w napisie z liter: G — w górę, D — w dół, L — w lewo, P — w prawo. Jeśli pole, na które pionek ma wejść, jest ścianą albo leży poza planszą, pionek stoi w miejscu i przechodzi do następnego ruchu. Wypisz numer wiersza i kolumny (od 1) pola, na którym pionek kończy, oraz ile ruchów udało się wykonać."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z kolejnych n wierszy m znaków planszy (dokładnie jedno S).",
+        "W ostatnim wierszu napis z ruchami."
+      ],
+      "output_format": [
+        "Trzy liczby: wiersz, kolumna i liczba udanych ruchów."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 100",
+        "Napis z ruchami ma od 1 do 10 000 liter."
+      ],
+      "examples": [
+        {
+          "input": "3 4\nS..#\n.#..\n....\nPPPDDLG",
+          "output": "3 2 5",
+          "note": "Trzeci ruch (P) i ostatni (G) trafiają na ściany. Pionek kończy w wierszu 3, kolumnie 2 po 5 udanych ruchach."
+        }
+      ],
+      "hint": "Plansza jako string p[100]; najpierw znajdź pole S. Dla każdego ruchu policz nowe pole (nw, nk) — dla G to wiersz o jeden mniej, dla D o jeden więcej, dla L i P zmienia się kolumna. Przesuń pionek tylko wtedy, gdy nw >= 0 && nw < n && nk >= 0 && nk < m && p[nw][nk] != '#'.",
+      "tests_count": 7
+    },
+    {
+      "id": "tab-b-medalisci",
+      "number": 745,
+      "title": "Medaliści",
+      "category": "Tablice / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W konkursie wzięło udział n zawodników; każdy ma imię i wynik w punktach, a wszystkie wyniki są różne. Wypisz podium: w pierwszym wierszu 1. i imię zwycięzcy, w drugim 2. i imię zawodnika z drugim wynikiem, a w trzecim 3. i imię trzeciego."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z kolejnych n wierszy imię i wynik."
+      ],
+      "output_format": [
+        "Trzy wiersze: 1. imię, 2. imię, 3. imię."
+      ],
+      "constraints": [
+        "3 ≤ n ≤ 1000",
+        "0 ≤ wynik ≤ 10⁹",
+        "Wszystkie wyniki są różne."
+      ],
+      "examples": [
+        {
+          "input": "5\nOla 17\nJan 23\nEwa 19\nIgor 5\nZosia 21",
+          "output": "1. Jan\n2. Zosia\n3. Ewa"
+        }
+      ],
+      "hint": "Imiona i wyniki trzymaj w tablicach równoległych, a do tego tablica bool wybrany[1000] = {};. Trzy razy powtórz: znajdź indeks największego wyniku wśród niewybranych zawodników, wypisz go z numerem miejsca i zaznacz wybrany[naj] = true.",
+      "tests_count": 6
+    },
+    {
+      "id": "tab-b-statki",
+      "number": 746,
+      "title": "Statki",
+      "category": "Tablice / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na planszy n × m rozstawiono statki. Każdy statek to prosty odcinek pól oznaczonych # — poziomy albo pionowy, o długości co najmniej 1. Statki nie stykają się ze sobą ani bokami, ani rogami. Policz statki. Wskazówka: każdy statek ma dokładnie jedno pole, nad którym i na lewo od którego nie ma innego pola tego statku."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z kolejnych n wierszy m znaków: # albo kropka."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba statków."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 100"
+      ],
+      "examples": [
+        {
+          "input": "4 5\n##..#\n....#\n.#...\n...##",
+          "output": "4",
+          "note": "Statki: poziomy w wierszu 1 (dwa pola), pionowy w kolumnie 5 (dwa pola), jednomasztowiec w wierszu 3 i poziomy w wierszu 4."
+        }
+      ],
+      "hint": "Pole (w, k) z # jest początkiem statku, gdy pole nad nim (jeśli w ogóle istnieje) i pole na lewo od niego (jeśli istnieje) nie są #. Policz takie pola. Pamiętaj, żeby przy w = 0 albo k = 0 nie zaglądać poza planszę — z lekcji wiesz, że najpierw sprawdzasz brzeg.",
+      "tests_count": 8
+    },
+    {
+      "id": "tab-b-kwadrat-magiczny",
+      "number": 747,
+      "title": "Kwadrat magiczny",
+      "category": "Tablice / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Kwadrat magiczny to tabelka n × n, w której stoją wszystkie liczby od 1 do n², każda dokładnie raz, a sumy w każdym wierszu, w każdej kolumnie i na obu przekątnych są równe. Wczytaj tabelkę i wypisz TAK, jeśli to kwadrat magiczny, albo NIE."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z kolejnych n wierszy n liczb."
+      ],
+      "output_format": [
+        "TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 100",
+        "1 ≤ każda liczba ≤ 10 000"
+      ],
+      "examples": [
+        {
+          "input": "3\n2 7 6\n9 5 1\n4 3 8",
+          "output": "TAK",
+          "note": "Każda suma to 15."
+        },
+        {
+          "input": "3\n5 5 5\n5 5 5\n5 5 5",
+          "output": "NIE",
+          "note": "Sumy są równe, ale liczby od 1 do 9 nie są użyte."
+        }
+      ],
+      "hint": "Dwie rzeczy do sprawdzenia. Liczby: tablica bool uzyta[10001] = {}; — każda liczba musi być od 1 do n² i nie może się powtórzyć. Sumy: policz sumę pierwszego wiersza jako wzór i porównaj z nią każdy wiersz, każdą kolumnę i obie przekątne.",
+      "tests_count": 12
+    },
+    {
+      "id": "tab-b-sudoku",
+      "number": 748,
+      "title": "Sprawdź sudoku",
+      "category": "Tablice / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj całkowicie wypełnioną planszę sudoku: 9 wierszy po 9 cyfr od 1 do 9. Plansza jest poprawna, gdy w każdym wierszu, w każdej kolumnie i w każdym z dziewięciu kwadratów 3 × 3 każda cyfra od 1 do 9 występuje dokładnie raz. Wypisz TAK albo NIE."
+      ],
+      "input_format": [
+        "9 wierszy po 9 cyfr oddzielonych spacjami."
+      ],
+      "output_format": [
+        "TAK albo NIE."
+      ],
+      "constraints": [
+        "Każda liczba na planszy to cyfra od 1 do 9."
+      ],
+      "examples": [
+        {
+          "input": "5 3 4 6 7 8 9 1 2\n6 7 2 1 9 5 3 4 8\n1 9 8 3 4 2 5 6 7\n8 5 9 7 6 1 4 2 3\n4 2 6 8 5 3 7 9 1\n7 1 3 9 2 4 8 5 6\n9 6 1 5 3 7 2 8 4\n2 8 7 4 1 9 6 3 5\n3 4 5 2 8 6 1 7 9",
+          "output": "TAK"
+        },
+        {
+          "input": "1 2 3 4 5 6 7 8 9\n2 3 4 5 6 7 8 9 1\n3 4 5 6 7 8 9 1 2\n4 5 6 7 8 9 1 2 3\n5 6 7 8 9 1 2 3 4\n6 7 8 9 1 2 3 4 5\n7 8 9 1 2 3 4 5 6\n8 9 1 2 3 4 5 6 7\n9 1 2 3 4 5 6 7 8",
+          "output": "NIE",
+          "note": "Wiersze i kolumny są dobre, ale w lewym górnym kwadracie 3 × 3 powtarzają się cyfry."
+        }
+      ],
+      "hint": "Dla każdego z 27 obszarów (9 wierszy, 9 kolumn i 9 kwadratów) wyzeruj tablicę bool bylo[10] i przejdź po jego polach: jeśli cyfra już była — plansza jest zła. Kwadrat numer (kw, kk), gdzie kw i kk są od 0 do 2, zaczyna się w wierszu 3 · kw i kolumnie 3 · kk.",
+      "tests_count": 9
+    },
+    {
+      "id": "tab-b-lider",
+      "number": 749,
+      "title": "Lider ciągu",
+      "category": "Tablice / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Liderem ciągu n liczb nazywamy wartość, która występuje w nim więcej niż n / 2 razy — ściśle więcej niż połowa wszystkich liczb. Ciąg może mieć co najwyżej jednego lidera. Wypisz lidera albo BRAK."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb."
+      ],
+      "output_format": [
+        "Lider albo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "7\n3 9 3 3 5 3 9",
+          "output": "3",
+          "note": "Trójka występuje 4 razy, a 4 to więcej niż połowa z 7."
+        },
+        {
+          "input": "4\n1 1 2 2",
+          "output": "BRAK",
+          "note": "Jedynka występuje 2 razy — to dokładnie połowa, a nie więcej."
+        }
+      ],
+      "hint": "Liczby są za duże na tablicę liczników, ale n jest małe: dla każdej liczby t[i] policz pętlą, ile razy występuje w całym ciągu. Jeśli więcej niż połowa (sprawdzaj ile * 2 > n, żeby uniknąć dzielenia), to jest lider. Dla ciekawych: istnieje sprytny sposób jednym przejściem — algorytm Boyera i Moore’a.",
+      "tests_count": 9
+    },
+    {
+      "id": "tab-b-cieplejszy-dzien",
+      "number": 750,
+      "title": "Kiedy będzie cieplej?",
+      "category": "Tablice / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj temperatury z n kolejnych dni. Dla każdego dnia wypisz, ile dni trzeba czekać na pierwszy dzień z temperaturą ściśle wyższą. Jeśli taki dzień już nie nastąpi, wypisz 0."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n temperatur."
+      ],
+      "output_format": [
+        "Jeden wiersz z n liczbami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "−50 ≤ temperatura ≤ 50"
+      ],
+      "examples": [
+        {
+          "input": "8\n3 1 4 1 5 9 2 6",
+          "output": "2 1 2 1 1 0 1 0",
+          "note": "Po dniu 1 (3 stopnie) cieplej jest dopiero w dniu 3 — czekamy 2 dni. Po dniu 6 (9 stopni) cieplej już nie będzie."
+        }
+      ],
+      "hint": "Dla każdego dnia i przejdź pętlą po dniach j = i + 1, i + 2, …, aż trafisz na t[j] > t[i] — wtedy odpowiedź to j - i i przerywasz pętlę przez break. Jeśli pętla dojdzie do końca bez trafienia, odpowiedź to 0. Przy n ≤ 1000 to najwyżej pół miliona obrotów.",
+      "tests_count": 8
+    },
+    {
+      "id": "tab-b-blizniacze",
+      "number": 751,
+      "title": "Liczby bliźniacze",
+      "category": "Tablice / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Liczby bliźniacze to dwie liczby pierwsze różniące się o 2, na przykład 3 i 5, 11 i 13 albo 17 i 19. Wczytaj n i wypisz, ile jest par liczb bliźniaczych p, p + 2, w których obie liczby są nie większe od n. W drugim wierszu wypisz największą taką parę albo BRAK, jeśli nie ma żadnej."
+      ],
+      "input_format": [
+        "Jedna liczba n."
+      ],
+      "output_format": [
+        "W pierwszym wierszu liczba par, w drugim największa para albo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "20",
+          "output": "4\n17 19",
+          "note": "Pary: (3, 5), (5, 7), (11, 13) i (17, 19)."
+        },
+        {
+          "input": "4",
+          "output": "0\nBRAK"
+        }
+      ],
+      "hint": "Przesiej liczby do n sitem Eratostenesa (globalna tablica bool). Potem dla każdego p od 2 do n - 2 sprawdź, czy p i p + 2 są pierwsze — licz takie pary i zapamiętuj ostatnią znalezioną.",
+      "tests_count": 10
+    },
+    {
+      "id": "tab-b-mediana",
+      "number": 752,
+      "title": "Mediana z liczników",
+      "category": "Tablice / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Mediana nieparzystej liczby wartości to wartość, która stanęłaby na środku, gdyby ustawić je od najmniejszej do największej. Wczytaj n wyników (n jest nieparzyste) — liczby od 0 do 1000 — i wypisz ich medianę."
+      ],
+      "input_format": [
+        "W pierwszym wierszu nieparzysta liczba n.",
+        "W drugim wierszu n wyników."
+      ],
+      "output_format": [
+        "Jedna liczba — mediana."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 100 000, n nieparzyste",
+        "0 ≤ wynik ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "7\n5 1 9 1 7 3 8",
+          "output": "5",
+          "note": "Po uporządkowaniu: 1 1 3 5 7 8 9 — na środku stoi 5."
+        }
+      ],
+      "hint": "Policz wystąpienia w tablicy int ile[1001] = {};. Mediana to element numer (n + 1) / 2 w kolejności rosnącej. Idź po wartościach od 0 w górę, dodając ich liczniki do sumy — pierwsza wartość, przy której suma osiągnie (n + 1) / 2, jest medianą.",
+      "tests_count": 8
+    },
+    {
+      "id": "tab-b-wywiadowka",
+      "number": 753,
+      "title": "Wywiadówka",
+      "category": "Tablice / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wychowawca ma tabelkę ocen: n uczniów, a każdy ma po jednej ocenie (od 1 do 6) z każdego z m przedmiotów. Wypisz trzy wiersze:",
+        "1) imię ucznia z największą sumą ocen (przy remisie — pierwszego z listy);",
+        "2) numer przedmiotu (od 1) z najmniejszą sumą ocen, czyli najtrudniejszego (przy remisie — pierwszego);",
+        "3) imiona uczniów, którzy mają co najmniej jedną jedynkę, w kolejności z listy — albo BRAK."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z kolejnych n wierszy imię ucznia i m ocen."
+      ],
+      "output_format": [
+        "Trzy wiersze opisane w treści."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 100",
+        "1 ≤ m ≤ 20"
+      ],
+      "examples": [
+        {
+          "input": "3 4\nOla 5 4 6 5\nJan 3 1 4 2\nEwa 6 2 5 1",
+          "output": "Ola\n2\nJan Ewa",
+          "note": "Sumy uczniów: 20, 10 i 14. Sumy przedmiotów: 14, 7, 15 i 8 — najtrudniejszy jest drugi."
+        }
+      ],
+      "hint": "Imiona w string imie[100], oceny w int t[100][20]. Sumy wierszy dają najlepszego ucznia, sumy kolumn — najtrudniejszy przedmiot (pętle zamienione miejscami). Do jedynek wystarczy flaga bool ustawiana w pętli po przedmiotach jednego ucznia.",
+      "tests_count": 6
+    },
+    {
+      "id": "tab-b-wykres",
+      "number": 754,
+      "title": "Wykres słupkowy",
+      "category": "Tablice / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n rzutów kostką (liczby od 1 do 6) i narysuj pionowy wykres słupkowy: kolumna numer i (od lewej) to słupek dla oczka i, a jego wysokość to liczba rzutów z tym oczkiem. Wykres ma tyle wierszy, ile wynosi najwyższy słupek. W każdym wierszu jest 6 znaków: #, jeśli słupek sięga tej wysokości, albo kropka. Pod wykresem wypisz wiersz 123456."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n rzutów."
+      ],
+      "output_format": [
+        "Wiersze wykresu od góry i wiersz 123456."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "7\n3 6 3 1 3 6 4",
+          "output": "..#...\n..#..#\n#.##.#\n123456"
+        }
+      ],
+      "hint": "Najpierw policz liczniki ile[1] … ile[6] i największy z nich, H. Potem pętla po wysokościach od h = H w dół do 1, a w niej pętla po oczkach od 1 do 6: wypisz #, gdy ile[oczko] >= h, a w przeciwnym razie kropkę.",
+      "tests_count": 7
+    },
+    {
+      "id": "tab-b-szyfr-kolumnowy",
+      "number": 755,
+      "title": "Szyfr kolumnowy",
+      "category": "Tablice / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Szyfr kolumnowy działa tak: tekst wpisujemy do tabelki o szerokości k, wiersz po wierszu, od lewej do prawej (ostatni wiersz może być niepełny). Szyfrogram powstaje przez odczytanie tabelki kolumnami: najpierw cała pierwsza kolumna z góry na dół, potem druga i tak dalej — puste pola ostatniego wiersza pomijamy. Na przykład słowo algorytmika przy k = 4 zapisujemy w trzech wierszach: algo, rytm i ika — a szyfrogram to arilykgtaom. Wczytaj k i słowo, i wypisz szyfrogram."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba k.",
+        "W drugim wierszu słowo z małych liter."
+      ],
+      "output_format": [
+        "Jeden wiersz — szyfrogram."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ 100",
+        "Słowo ma od 1 do 10 000 liter."
+      ],
+      "examples": [
+        {
+          "input": "4\nalgorytmika",
+          "output": "arilykgtaom"
+        },
+        {
+          "input": "1\nkot",
+          "output": "kot",
+          "note": "Przy szerokości 1 każda litera jest w osobnym wierszu, więc szyfrogram to samo słowo."
+        }
+      ],
+      "hint": "Litera z pozycji i (od 0) trafia do wiersza i / k i kolumny i % k — znasz to z lekcji o modulo. Możesz zbudować tabelkę znaków, ale nie musisz: kolumna c to litery z pozycji c, c + k, c + 2k, … — wystarczy pętla po kolumnach, a w niej pętla co k po napisie.",
+      "tests_count": 8
+    },
+    {
+      "id": "tab-b-spirala",
+      "number": 756,
+      "title": "Spirala",
+      "category": "Tablice / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wypełnij tabelkę o n wierszach i m kolumnach kolejnymi liczbami od 1 do n · m, idąc po spirali: zaczynasz w lewym górnym rogu i idziesz w prawo, a gdy następne pole wychodzi poza tabelkę albo jest już wypełnione, skręcasz w prawo (w prawo → w dół → w lewo → w górę → w prawo…). Wypisz tabelkę — liczby w wierszu oddzielone spacjami."
+      ],
+      "input_format": [
+        "Jeden wiersz z liczbami n i m."
+      ],
+      "output_format": [
+        "n wierszy po m liczb."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 70"
+      ],
+      "examples": [
+        {
+          "input": "3 4",
+          "output": "1 2 3 4\n10 11 12 5\n9 8 7 6"
+        },
+        {
+          "input": "1 3",
+          "output": "1 2 3"
+        }
+      ],
+      "hint": "Kierunki w tablicach: int dw[4] = {0, 1, 0, -1}, dk[4] = {1, 0, -1, 0}; — prawo, dół, lewo, góra. Trzymaj pozycję (w, k) i numer kierunku d. Dla każdej liczby: wpisz ją, a potem sprawdź następne pole w kierunku d — jeśli wychodzi poza tabelkę albo nie jest zerem (już wypełnione), skręć: d = (d + 1) % 4. Dopiero potem zrób krok.",
+      "tests_count": 9
+    },
+    {
+      "id": "tab-b-gra-w-zycie",
+      "number": 757,
+      "title": "Gra w życie",
+      "category": "Tablice / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Gra w życie toczy się na planszy n × m. Każda komórka jest żywa (#) albo martwa (kropka). W każdym pokoleniu wszystkie komórki zmieniają się jednocześnie, zależnie od liczby żywych sąsiadów — sąsiadów jest najwyżej ośmiu, przez bok i po skosie, a pola spoza planszy są martwe:",
+        "żywa komórka z 2 albo 3 żywymi sąsiadami przeżywa, a z inną liczbą umiera;",
+        "martwa komórka z dokładnie 3 żywymi sąsiadami ożywa, a w przeciwnym razie zostaje martwa.",
+        "Wypisz planszę po k pokoleniach."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n, m i k.",
+        "W każdym z kolejnych n wierszy m znaków: # albo kropka."
+      ],
+      "output_format": [
+        "Plansza po k pokoleniach."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 50",
+        "0 ≤ k ≤ 100"
+      ],
+      "examples": [
+        {
+          "input": "5 5 1\n.....\n..#..\n..#..\n..#..\n.....",
+          "output": ".....\n.....\n.###.\n.....\n.....",
+          "note": "Pionowa kreska z trzech komórek po jednym pokoleniu staje się poziomą — i tak w kółko."
+        }
+      ],
+      "hint": "Kluczowe słowo: jednocześnie. Nowe pokolenie zapisuj do drugiej tablicy, licząc sąsiadów w starej — a dopiero gdy cała nowa plansza jest gotowa, przepisz ją do starej. Gdybyś zmieniał komórki w miejscu, kolejne komórki liczyłyby sąsiadów z pomieszanych pokoleń.",
+      "tests_count": 9
+    },
+    {
+      "id": "tab-b-skarbonki",
+      "number": 758,
+      "title": "Skarbonki",
+      "category": "Tablice / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na półce stoi n skarbonek ponumerowanych od 1 do n, na początku wszystkie puste. Wykonano q operacji; każda operacja to trzy liczby a, b, x: do każdej skarbonki od a-tej do b-tej włącznie wrzucono x groszy (x może być ujemne — wtedy z każdej z nich tyle wyjęto). Wypisz, ile groszy jest w każdej skarbonce po wszystkich operacjach — liczby mogą wyjść ujemne, to taki „dług”.",
+        "Operacji i skarbonek może być bardzo dużo, więc dopisywanie do każdej skarbonki osobno jest za wolne. Użyj tablicy różnic: dla operacji (a, b, x) zrób d[a] += x i d[b + 1] −= x, a na końcu policz sumy prefiksowe tablicy d — suma d[1] + d[2] + … + d[i] to właśnie zawartość skarbonki i."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i q.",
+        "W każdym z kolejnych q wierszy trzy liczby a, b i x."
+      ],
+      "output_format": [
+        "Jeden wiersz z n liczbami — zawartość kolejnych skarbonek."
+      ],
+      "constraints": [
+        "1 ≤ n, q ≤ 200 000",
+        "1 ≤ a ≤ b ≤ n",
+        "−10⁹ ≤ x ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "6 3\n1 4 2\n3 6 5\n2 2 -1",
+          "output": "2 1 7 7 5 5",
+          "note": "Skarbonki 1–4 dostają po 2 grosze, 3–6 po 5, a ze skarbonki 2 wyjęto grosz: 2 1 7 7 5 5."
+        }
+      ],
+      "hint": "Globalna tablica long long d[200005] — o jedno pudełko większa niż n, bo piszesz do d[b + 1]. Po wczytaniu wszystkich operacji idź od 1 do n, trzymając bieżącą sumę: s += d[i], i wypisuj s. Wyniki nie zmieszczą się w int — już trzy wrzutki po miliard groszy dają 3 miliardy — dlatego long long.",
+      "tests_count": 8
+    },
+    {
+      "id": "tab-b-sumy-prostokatow",
+      "number": 759,
+      "title": "Sumy prostokątów",
+      "category": "Tablice / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj tabelkę n × m i odpowiedz na q pytań. Każde pytanie to cztery liczby w1, k1, w2, k2: górny lewy róg (wiersz w1, kolumna k1) i dolny prawy róg (w2, k2) prostokąta, a odpowiedzią jest suma liczb w tym prostokącie. Wiersze i kolumny numerujemy od 1.",
+        "Przygotuj sumy prefiksowe w dwóch wymiarach: P[w][k] to suma prostokąta od rogu (1, 1) do rogu (w, k). Liczysz je wzorem P[w][k] = t[w][k] + P[w − 1][k] + P[w][k − 1] − P[w − 1][k − 1] — odejmujemy, bo górny lewy kawałek został dodany dwa razy. Suma dowolnego prostokąta to P[w2][k2] − P[w1 − 1][k2] − P[w2][k1 − 1] + P[w1 − 1][k1 − 1]."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n, m i q.",
+        "W każdym z kolejnych n wierszy m liczb.",
+        "W każdym z kolejnych q wierszy cztery liczby w1, k1, w2, k2."
+      ],
+      "output_format": [
+        "q wierszy z sumami."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 1000",
+        "1 ≤ q ≤ 100 000",
+        "1 ≤ w1 ≤ w2 ≤ n, 1 ≤ k1 ≤ k2 ≤ m",
+        "−10⁶ ≤ każda liczba ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "3 4 2\n1 2 3 4\n5 6 7 8\n9 10 11 12\n2 2 3 3\n1 1 3 4",
+          "output": "34\n78",
+          "note": "6 + 7 + 10 + 11 = 34, a cała tabelka to 78."
+        }
+      ],
+      "hint": "Tablica long long P[1001][1001] musi być globalna (8 MB). Numeruj od 1 — wtedy wiersz 0 i kolumna 0 tablicy P to same zera i wzory działają także przy brzegu. Narysuj sobie prostokąty na kartce, żeby zobaczyć, czemu odejmujemy i dodajemy właśnie te cztery kawałki.",
+      "tests_count": 6
+    },
+    {
+      "id": "tab-b-dodawanie-olbrzymow",
+      "number": 760,
+      "title": "Dodawanie olbrzymów",
+      "category": "Tablice / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj dwie nieujemne liczby całkowite, z których każda może mieć nawet 1000 cyfr — takie liczby nie zmieszczą się w żadnym typie. Wypisz ich sumę. Licz tak, jak dodaje się pisemnie: od ostatnich cyfr, z przeniesieniem jedynki do następnej kolumny."
+      ],
+      "input_format": [
+        "Dwa wiersze, w każdym jedna liczba bez zer na początku (oprócz samego zera)."
+      ],
+      "output_format": [
+        "Suma obu liczb."
+      ],
+      "constraints": [
+        "Każda liczba ma od 1 do 1000 cyfr."
+      ],
+      "examples": [
+        {
+          "input": "999\n1",
+          "output": "1000"
+        },
+        {
+          "input": "12345678901234567890\n98765432109876543210",
+          "output": "111111111011111111100"
+        }
+      ],
+      "hint": "Wczytaj liczby jako napisy. Cyfry przepisz do tablic int od końca: a[0] to cyfra jedności, a[1] dziesiątek i tak dalej — a[i] = s[dl - 1 - i] - '0', a brakujące wyższe cyfry krótszej liczby to zera. Potem w pętli po kolumnach: suma = a[i] + b[i] + przeniesienie, cyfra wyniku to suma % 10, a nowe przeniesienie to suma / 10. Na koniec dopisz ostatnie przeniesienie i wypisz cyfry wyniku od najstarszej.",
+      "tests_count": 9
+    },
+    {
+      "id": "tab-b-silnia-olbrzym",
+      "number": 761,
+      "title": "Silnia ze wszystkimi cyframi",
+      "category": "Tablice / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Silnia n! = 1 · 2 · 3 · … · n rośnie tak szybko, że już 21! nie mieści się w long long. Wczytaj n i wypisz n! ze wszystkimi cyframi. Trzymaj liczbę w tablicy cyfr (od cyfry jedności) i mnóż ją po kolei przez 2, 3, …, n — tak jak mnoży się pisemnie przez liczbę jednocyfrową, tylko tutaj mnożnik może mieć do trzech cyfr."
+      ],
+      "input_format": [
+        "Jedna liczba n."
+      ],
+      "output_format": [
+        "Wszystkie cyfry n!."
+      ],
+      "constraints": [
+        "0 ≤ n ≤ 500"
+      ],
+      "examples": [
+        {
+          "input": "5",
+          "output": "120"
+        },
+        {
+          "input": "25",
+          "output": "15511210043330985984000000"
+        },
+        {
+          "input": "0",
+          "output": "1",
+          "note": "Z umowy 0! = 1."
+        }
+      ],
+      "hint": "Tablica int c[2000] z cyframi (c[0] to jedności) i jej długość dl; na start c[0] = 1 i dl = 1. Mnożenie przez x: dla każdej cyfry iloczyn = c[i] * x + przeniesienie, nowa cyfra to iloczyn % 10, a przeniesienie to iloczyn / 10. Na końcu, dopóki przeniesienie > 0, dopisuj jego ostatnią cyfrę na nowej pozycji. 500! ma 1135 cyfr.",
+      "tests_count": 10
+    },
+    {
+      "id": "tab-b-rekordzista-dzielnikow",
+      "number": 762,
+      "title": "Rekordzista dzielników",
+      "category": "Tablice / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n i znajdź liczbę od 1 do n, która ma najwięcej dzielników. Wypisz ją i liczbę jej dzielników; przy remisie wybierz najmniejszą taką liczbę.",
+        "Sprawdzanie każdej liczby osobno pętlą do pierwiastka byłoby dla miliona liczb za wolne. Odwróć pytanie, jak w sicie Eratostenesa: zamiast szukać dzielników liczby j, dla każdego i od 1 do n przejdź po jego wielokrotnościach j = i, 2i, 3i, … i każdej z nich dolicz jeden dzielnik."
+      ],
+      "input_format": [
+        "Jedna liczba n."
+      ],
+      "output_format": [
+        "Dwie liczby: rekordzista i liczba jego dzielników."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "10",
+          "output": "6 4",
+          "note": "Najwięcej dzielników, po 4, mają 6, 8 i 10. Najmniejsza z nich to 6."
+        },
+        {
+          "input": "1000000",
+          "output": "720720 240"
+        }
+      ],
+      "hint": "Globalna tablica int d[1000001];. Dla każdego i od 1 do n: for (int j = i; j <= n; j += i) d[j]++;. Obrotów jest około n · (1 + 1/2 + 1/3 + …) — dla miliona to około 14 milionów, czyli chwila. Potem znajdź największe d[x] znakiem >.",
+      "tests_count": 10
+    },
+    {
+      "id": "tab-b-turniej",
+      "number": 763,
+      "title": "Wielki finał: tabela turnieju",
+      "category": "Tablice / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wielki finał! W turnieju szachowym n zawodników zagrało „każdy z każdym”. Wyniki zapisano w tabelce n × n: w wierszu i, kolumnie j stoi W, jeśli zawodnik i wygrał z zawodnikiem j, P — jeśli przegrał, R — jeśli był remis, a na przekątnej (zawodnik sam ze sobą) stoi kreska. Tabelka jest zgodna: gdy w polu (i, j) jest W, to w polu (j, i) jest P, i odwrotnie.",
+        "Za zwycięstwo zawodnik dostaje 3 punkty, za remis 1, za porażkę 0. Ułóż ranking: wyżej stoi zawodnik z większą liczbą punktów; przy równych punktach — ten z większą liczbą zwycięstw; a gdy i to jest równe — ten, którego imię jest wcześniej w kolejności słownikowej (porównanie napisów znakiem <).",
+        "Wypisz n wierszy: miejsce, kropkę, imię, liczbę punktów i liczbę zwycięstw — na przykład 1. Ola 7 2."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n różnych imion — zawodnicy w kolejności wierszy tabelki.",
+        "W każdym z kolejnych n wierszy n znaków tabelki (bez spacji)."
+      ],
+      "output_format": [
+        "n wierszy rankingu."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 100",
+        "Imiona zaczynają się wielką literą, dalej są małe litery angielskie (od 2 do 8 liter)."
+      ],
+      "examples": [
+        {
+          "input": "4\nOla Jan Ewa Igor\n-WRW\nP-WR\nRP-W\nPRP-",
+          "output": "1. Ola 7 2\n2. Ewa 4 1\n3. Jan 4 1\n4. Igor 1 0",
+          "note": "Jan i Ewa mają po 4 punkty i po jednym zwycięstwie — wyżej jest Ewa, bo napis „Ewa” jest mniejszy od „Jan”."
+        }
+      ],
+      "hint": "Najpierw policz dla każdego zawodnika punkty i zwycięstwa (tablice równoległe), przechodząc po jego wierszu tabelki. Potem n razy wybierz najlepszego wśród jeszcze niewybranych — jak przy medalistach — porównując trzy rzeczy po kolei: punkty, zwycięstwa, imię. Zawodnik i jest lepszy od j, gdy pkt[i] > pkt[j] || (pkt[i] == pkt[j] && (wyg[i] > wyg[j] || (wyg[i] == wyg[j] && imie[i] < imie[j]))).",
+      "tests_count": 8
     }
   ]
 }

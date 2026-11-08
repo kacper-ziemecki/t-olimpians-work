@@ -630,6 +630,84 @@ const LEKCJE = [
             },
         ],
     },
+    {
+        temat: 'Pair',
+        prefix: 'pair-',
+        plik: 'c++_logika/pair.html',
+        pliki: ['pair-cwiczenia-1.js', 'pair-cwiczenia-2.js', 'pair-baza.js'],
+        note: 'Dziewiąta lekcja C++: pary (pair). Dwie wartości w jednym pudełku, first i second, klamry i make_pair, pary z życia ' +
+            '(punkty, godziny, ułamki, przedziały), porównywanie par i sztuczka z minusem, tablica par zamiast dwóch tablic, rozpakowywanie ' +
+            'i pary w parach, kierunki na planszy, sortowanie par jedną linijką, a na koniec olimpijskie zastosowania: scalanie przedziałów, ' +
+            'zdarzenia i zachłanne wybieranie. Wystarczy to, co znasz z poprzednich lekcji.',
+        bazaOpisy: {
+            latwe: 'Jeden pomysł naraz: czwarty wierzchołek, aukcja, trasa kuriera, wspólna część przedziałów, dzwonki, pociągi, wieże, kino, szachownica Polibiusza i skok w dal.',
+            srednie: 'Kilka sztuczek naraz: przecięcie prostokątów, punkty od najbliższego, punkty niezdominowane, symetria, najbliższe miasto, pole figury, balony, kolizje w planie i pole działki.',
+            trudne: 'Mrówka Langtona, największy trójkąt, pokrycie odcinka, gdzie zbudować sklep, prostokąty z punktów, robot z przeszkodami — a na koniec wielki finał: klasyfikacja olimpiady.',
+        },
+        kroki: [
+            {
+                nr: 1, kotwica: 'pierwsza-para', spis: 'Pierwsza para',
+                nazwa: 'Krok 1 · Pierwsza para — first i second',
+                kategoria: 'Pair / krok 1: pierwsza para',
+                note: 'Dwie wartości w jednym pudełku, pair<A, B>, first i second, klamry i make_pair, różne typy w parze, nowa para ma zera, ' +
+                    'wczytywanie i wypisywanie, kopiowanie, == i swap.',
+            },
+            {
+                nr: 2, kotwica: 'pary-z-zycia', spis: 'Pary z życia',
+                nazwa: 'Krok 2 · Pary z życia — punkty, godziny, ułamki, przedziały',
+                kategoria: 'Pair / krok 2: pary z życia',
+                note: 'Punkt (x, y) i odległość, abs, godzina (h, m) i dodawanie minut, ułamek i skracanie, przedział (od, do) i część wspólna, max i min.',
+            },
+            {
+                nr: 3, kotwica: 'porownywanie', spis: 'Porównywanie par',
+                nazwa: 'Krok 3 · Porównywanie par — najpierw first, potem second',
+                kategoria: 'Pair / krok 3: porównywanie',
+                note: 'Kolejność par jak w słowniku, godziny porównują się same, kolejność w parze ma znaczenie, sztuczka z minusem, max i min na parach, ' +
+                    'porządkowanie trzech par.',
+            },
+            {
+                nr: 4, kotwica: 'tablica-par', spis: 'Tablica par',
+                nazwa: 'Krok 4 · Tablica par — rząd par zamiast dwóch tablic',
+                kategoria: 'Pair / krok 4: tablica par',
+                note: 'pair<int, int> t[1005], wczytywanie i wypisywanie, szukanie po first, najlepsza para, para (wartość, pozycja), tablica-ściąga par, ' +
+                    'każda para z każdą.',
+            },
+            {
+                nr: 5, kotwica: 'rozpakowywanie', spis: 'Rozpakowywanie i pary w parach',
+                nazwa: 'Krok 5 · Rozpakowywanie i pary w parach',
+                kategoria: 'Pair / krok 5: rozpakowywanie',
+                note: 'auto [a, b] = p, auto &[a, b] do zmian, pętla po tablicy par, para w parze jako trójka, daty i czasy porównywane chronologicznie.',
+            },
+            {
+                nr: 6, kotwica: 'plansza', spis: 'Pary na planszy',
+                nazwa: 'Krok 6 · Pary na planszy — kierunki i ruchy',
+                kategoria: 'Pair / krok 6: plansza',
+                note: 'Kierunki jako pary (dw, dk), robot na planszy, sąsiedzi pętlą po kierunkach, osiem kierunków i skoczek, odwiedzone kratki, ' +
+                    'skręt w prawo z modulo.',
+            },
+            {
+                nr: 7, kotwica: 'sortowanie', spis: 'Sortowanie par',
+                nazwa: 'Krok 7 · Sortowanie par — sort i klucz na pierwszym miejscu',
+                kategoria: 'Pair / krok 7: sortowanie',
+                note: 'sort(t, t + n), pary układają się po first, a przy remisie po second, klucz na pierwsze miejsce, malejąco z minusem, ' +
+                    'para (wartość, numer), ranking i miejsca ex aequo.',
+            },
+            {
+                nr: 8, kotwica: 'olimpiada', spis: 'Pary na olimpiadzie',
+                nazwa: 'Krok 8 · Pary na olimpiadzie — przedziały i zdarzenia',
+                kategoria: 'Pair / krok 8: olimpiada',
+                note: 'Scalanie przedziałów, zdarzenia (czas, +1/−1), najbliższa para po sortowaniu, zachłanny wybór przedziałów, serie jako pary, ' +
+                    'koszt sortowania.',
+            },
+            {
+                nr: 9, kotwica: 'baza', spis: 'Baza zadań', baza: true,
+                nazwa: 'Baza zadań — podsumowanie tematu',
+                kategoria: 'Pair / baza zadań',
+                note: 'Zadania na cały temat, od najłatwiejszego do najtrudniejszego: czwarty wierzchołek, aukcja, dzwonki, wieże, przecięcie prostokątów, ' +
+                    'punkty niezdominowane, balony, pole działki, mrówka Langtona — a na koniec wielki finał: klasyfikacja olimpiady.',
+            },
+        ],
+    },
 ];
 
 module.exports = { SITE, KATEGORIA, LEKCJE };

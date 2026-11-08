@@ -550,6 +550,86 @@ const LEKCJE = [
             },
         ],
     },
+    {
+        temat: 'String',
+        prefix: 'str-',
+        plik: 'c++_logika/string.html',
+        pliki: ['string-cwiczenia-1.js', 'string-cwiczenia-2.js', 'string-baza.js'],
+        note: 'Ósma lekcja C++: napisy (string) od środka. Znaki w pudełkach z numerami, długość i pusty napis, wczytywanie słów, ' +
+            'wierszy i tekstu do końca danych, rodzaje znaków (isdigit, isalpha, toupper), budowanie i zmienianie napisów, porównywanie ' +
+            'słownikowe, substr, find, erase, insert i replace, liczby zapisane jako napisy i olbrzymy cyfra po cyfrze, a na koniec ' +
+            'olimpijskie sztuczki: liczniki liter, szyfry, okna i sumy prefiksowe na napisach. Wystarczy to, co znasz z poprzednich lekcji.',
+        bazaOpisy: {
+            latwe: 'Jeden pomysł naraz: akronimy, hashtagi, język P, rymy, łańcuch słów, wisielec, litery po kolei i SMS na starym telefonie.',
+            srednie: 'Kilka sztuczek naraz: GA-DE-RY-PO-LU-KI, czas trwania filmu, nawiasy, liczby rzymskie, kalkulator, PESEL, alfabet Morse’a, krzyżówka, obroty napisu i numer konta IBAN.',
+            trudne: 'Okres napisu, zawijanie wierszy, wzorce z pytajnikami, najdłuższy palindrom, odejmowanie i mnożenie olbrzymów, najdłuższy fragment bez powtórzeń, kwota słownie — a na koniec wielki finał: edytor tekstu.',
+        },
+        kroki: [
+            {
+                nr: 1, kotwica: 'od-srodka', spis: 'Napis od środka',
+                nazwa: 'Krok 1 · Napis od środka — znaki w pudełkach',
+                kategoria: 'String / krok 1: napis od środka',
+                note: 'Napis jako rząd znaków z numerami od zera, length i size, pusty napis i empty, pierwszy, ostatni i środkowy znak, ' +
+                    'zmiana jednego znaku, tworzenie i kopiowanie napisów, wyjście poza napis i at, pułapka length() − 1, polskie litery.',
+            },
+            {
+                nr: 2, kotwica: 'wczytywanie', spis: 'Wczytywanie tekstu',
+                nazwa: 'Krok 2 · Wczytywanie tekstu — słowa, wiersze, do końca danych',
+                kategoria: 'String / krok 2: wczytywanie',
+                note: 'cin >> s i getline, słowa i wiersze aż do końca danych, liczba, a potem wiersz (cin.ignore i ws), puste wiersze, ' +
+                    'tablica napisów i t[i][j], wiersz pocięty przecinkami.',
+            },
+            {
+                nr: 3, kotwica: 'znaki', spis: 'Znak po znaku',
+                nazwa: 'Krok 3 · Znak po znaku — rodzaje znaków i liczniki',
+                kategoria: 'String / krok 3: znak po znaku',
+                note: 'Warunki na przedziałach znaków, isdigit, isalpha, isupper, islower, isspace, toupper i tolower, kilka liczników naraz, ' +
+                    'pierwsze i ostatnie wystąpienie, sąsiednie znaki, serie i flagi.',
+            },
+            {
+                nr: 4, kotwica: 'budowanie', spis: 'Zmienianie i budowanie',
+                nazwa: 'Krok 4 · Zmieniamy i budujemy napisy',
+                kategoria: 'String / krok 4: budowanie napisów',
+                note: 'Zmiana w miejscu i for (char &c : s), budowanie od pustego napisu, += i push_back, doklejanie z przodu, pop_back i clear, ' +
+                    'filtrowanie i powtarzanie, pułapki sklejania, odwracanie.',
+            },
+            {
+                nr: 5, kotwica: 'porownywanie', spis: 'Porównywanie napisów',
+                nazwa: 'Krok 5 · Porównywanie napisów — kolejność słownikowa',
+                kategoria: 'String / krok 5: porównywanie',
+                note: '== i !=, kolejność słownikowa < i >, wielkie litery przed małymi, liczby zapisane jako napisy, najmniejszy i największy napis, ' +
+                    'swap i porządkowanie, wspólny początek.',
+            },
+            {
+                nr: 6, kotwica: 'fragmenty', spis: 'Fragmenty i szukanie',
+                nazwa: 'Krok 6 · Fragmenty i szukanie — substr, find, erase, insert, replace',
+                kategoria: 'String / krok 6: fragmenty i szukanie',
+                note: 'substr, przedrostek i przyrostek, find i string::npos, szukanie od pozycji i wszystkie wystąpienia, rfind, rozcinanie napisu, ' +
+                    'erase, insert i replace, zamiana wszystkich wystąpień.',
+            },
+            {
+                nr: 7, kotwica: 'liczby', spis: 'Napisy i liczby',
+                nazwa: 'Krok 7 · Napisy i liczby — cyfry, zamiany i olbrzymy',
+                kategoria: 'String / krok 7: napisy i liczby',
+                note: 'Cyfra jako znak i jako liczba, to_string, stoi i stoll, olbrzymy cyfra po cyfrze, reszta z dzielenia olbrzyma, ' +
+                    'dodawanie pisemne, system dwójkowy na napisach, liczby ukryte w tekście.',
+            },
+            {
+                nr: 8, kotwica: 'olimpiada', spis: 'Napisy na olimpiadzie',
+                nazwa: 'Krok 8 · Napisy na olimpiadzie — liczniki, szyfry, okna',
+                kategoria: 'String / krok 8: olimpiada',
+                note: 'Tablica liczników liter, szyfry z modulo, okno o stałej długości, sumy prefiksowe na napisie, szybkość operacji na napisach, ' +
+                    'tablica napisów i liczenie słów.',
+            },
+            {
+                nr: 9, kotwica: 'baza', spis: 'Baza zadań', baza: true,
+                nazwa: 'Baza zadań — podsumowanie tematu',
+                kategoria: 'String / baza zadań',
+                note: 'Zadania na cały temat, od najłatwiejszego do najtrudniejszego: akronimy, wisielec, GA-DE-RY-PO-LU-KI, PESEL, Morse, krzyżówka, ' +
+                    'IBAN, palindromy, olbrzymy, kwota słownie — a na koniec wielki finał: edytor tekstu.',
+            },
+        ],
+    },
 ];
 
 module.exports = { SITE, KATEGORIA, LEKCJE };

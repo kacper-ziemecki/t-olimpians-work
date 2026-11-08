@@ -708,6 +708,89 @@ const LEKCJE = [
             },
         ],
     },
+    {
+        temat: 'Vector',
+        prefix: 'vec-',
+        plik: 'c++_logika/vector.html',
+        pliki: ['vector-cwiczenia-1.js', 'vector-cwiczenia-2.js', 'vector-baza.js'],
+        note: 'Dziesiąta lekcja C++: vector — tablica, która sama rośnie. Tworzenie, indeksowanie i size, push_back, pop_back i back, ' +
+            'pętla for-each z referencją &, vector jako całość, iteratory begin i end, erase, insert, sort, reverse, count i find, ' +
+            'vector 2D i grupy, a potem pojęcia olimpijskie: podtablica, prefiks, sufiks, podzbiór, permutacja i palindrom. ' +
+            'Wystarczy to, co znasz z poprzednich lekcji.',
+        bazaOpisy: {
+            latwe: 'Jeden pomysł naraz: parzyste czy nieparzyste, pierwszy i ostatni po obrotach, szczyty i doliny, przesunięcie w kółko, zera na koniec, ' +
+                'bez powtórzeń, lista zakupów, bilans konta, następne ustawienie i kolejka do lekarza.',
+            srednie: 'Kilka sztuczek naraz: wyliczanka, scalanie list, wspólne elementy, wycieczka z budżetem, prawie palindrom, obrót w palindrom, ' +
+                'drużyna marzeń, tasowanie kart, sumy prostokątów i najdłuższy palindromiczny podzbiór.',
+            trudne: 'Sumy podzielne przez k, grupy anagramów, najmniej zamian, k-ta permutacja, najdłuższy rosnący podzbiór, wyspy, sklejane palindromy — ' +
+                'a na koniec wielki finał: edytor ciągu.',
+        },
+        kroki: [
+            {
+                nr: 1, kotwica: 'pierwszy-vector', spis: 'Pierwszy vector',
+                nazwa: 'Krok 1 · Pierwszy vector — tablica, która zna swoją długość',
+                kategoria: 'Vector / krok 1: pierwszy vector',
+                note: 'vector<int>, cztery sposoby tworzenia (pusty, klamry, (n, x), (n)), nawiasy okrągłe a klamry, indeksowanie v[i], size() i ostatni element, ' +
+                    'wczytywanie n liczb, wypisywanie pętlą, vector znaków, napisów i par.',
+            },
+            {
+                nr: 2, kotwica: 'rosnie-i-maleje', spis: 'Vector rośnie i maleje',
+                nazwa: 'Krok 2 · Vector rośnie i maleje — push_back, pop_back, back',
+                kategoria: 'Vector / krok 2: push_back i pop_back',
+                note: 'push_back w pętli, zbieranie wybranych elementów, wczytywanie do końca danych, back, front i pop_back, empty, pułapka size() - 1, ' +
+                    'cyfry liczby w vectorze, clear, resize i assign.',
+            },
+            {
+                nr: 3, kotwica: 'for-each', spis: 'Pętla for-each i &',
+                nazwa: 'Krok 3 · Pętla for-each, referencja & i vector jako całość',
+                kategoria: 'Vector / krok 3: for-each i &',
+                note: 'for (auto x : v), kopia a referencja &, wczytywanie z &, napisy i pary w pętli for-each, kopiowanie, porównywanie (== i <) i swap całych vectorów, ' +
+                    'nowa runda symulacji na kopii.',
+            },
+            {
+                nr: 4, kotwica: 'iteratory', spis: 'Iteratory i gotowe polecenia',
+                nazwa: 'Krok 4 · Iteratory — begin, end, erase, insert, sort, reverse',
+                kategoria: 'Vector / krok 4: iteratory',
+                note: 'begin() i *it, end() za ostatnim elementem, zakres [od, do), erase i insert, sort, reverse, count, find, max_element i min_element, ' +
+                    'polecenia na kawałku vectora, usuwanie wszystkich wystąpień.',
+            },
+            {
+                nr: 5, kotwica: 'vector-2d', spis: 'Vector 2D',
+                nazwa: 'Krok 5 · Vector 2D — tabele, wiersze różnej długości i grupy',
+                kategoria: 'Vector / krok 5: vector 2D',
+                note: 'vector<vector<int>> m(n, vector<int>(k)), m[w][k], pętle for-each w dwóch wymiarach, wiersze różnej długości (trójkąt Pascala), ' +
+                    'grupy i listy sąsiedztwa, vector<string> jako plansza.',
+            },
+            {
+                nr: 6, kotwica: 'podtablice', spis: 'Podtablice, prefiksy i sufiksy',
+                nazwa: 'Krok 6 · Podtablice, prefiksy i sufiksy',
+                kategoria: 'Vector / krok 6: podtablice',
+                note: 'Podtablica jako para (I, J), ile jest podtablic, wypisywanie wszystkich, sumy bez trzeciej pętli, prefiksy i sufiksy, sumy prefiksowe, ' +
+                    'liderzy (maksimum sufiksu), okno o stałej długości.',
+            },
+            {
+                nr: 7, kotwica: 'podzbiory-permutacje', spis: 'Podzbiory i permutacje',
+                nazwa: 'Krok 7 · Podzbiory i permutacje',
+                kategoria: 'Vector / krok 7: podzbiory i permutacje',
+                note: 'Podzbiór (bierzemy albo nie), 2 do potęgi n, czy b jest podzbiorem a (dwa palce), wszystkie podzbiory przez maski dwójkowe, ' +
+                    'permutacja i n!, czy to permutacja, sortuj i porównaj, next_permutation, permutacja odwrotna.',
+            },
+            {
+                nr: 8, kotwica: 'palindromy', spis: 'Palindromy i dwa wskaźniki',
+                nazwa: 'Krok 8 · Palindromy i dwa wskaźniki',
+                kategoria: 'Vector / krok 8: palindromy',
+                note: 'Lustrzane pary, ile zmian do palindromu, palindromiczne podtablice (rozszerzanie od środka), dopisywanie do palindromu, ' +
+                    'permutacja, która jest palindromem, dwa wskaźniki na posortowanym vectorze.',
+            },
+            {
+                nr: 9, kotwica: 'baza', spis: 'Baza zadań', baza: true,
+                nazwa: 'Baza zadań — podsumowanie tematu',
+                kategoria: 'Vector / baza zadań',
+                note: 'Zadania na cały temat, od najłatwiejszego do najtrudniejszego: obroty, szczyty i doliny, lista zakupów, kolejka, wyliczanka, scalanie list, ' +
+                    'prawie palindrom, drużyna marzeń, tasowanie kart, grupy anagramów, k-ta permutacja, wyspy — a na koniec wielki finał: edytor ciągu.',
+            },
+        ],
+    },
 ];
 
 module.exports = { SITE, KATEGORIA, LEKCJE };

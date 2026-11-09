@@ -34165,6 +34165,3139 @@
       ],
       "hint": "Każde polecenie to coś, co już umiesz: push_back, insert(v.begin() + p - 1, x), erase(v.begin() + p - 1), reverse(v.begin() + a - 1, v.begin() + b), suma pętlą w long long, lustrzane pary od a - 1 do b - 1 i vector liczników o rozmiarze L + 1 dla permutacji (sprawdzaj zakres przed indeksem!). Ciąg ma najwyżej 2000 elementów, więc każde polecenie może przejrzeć cały ciąg.",
       "tests_count": 8
+    },
+    {
+      "id": "sort-rosnaco",
+      "number": 1046,
+      "title": "Od najmniejszej",
+      "category": "Sortowanie / krok 1: pierwsze sortowanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb całkowitych i wypisz je w jednym wierszu w kolejności od najmniejszej do największej (niemalejąco). Równe liczby stoją obok siebie."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jeden wiersz: te same n liczb, posortowane niemalejąco, oddzielone spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "6\n7 -3 9 1 5 1",
+          "output": "-3 1 1 5 7 9",
+          "note": "Dwie jedynki stają obok siebie, a −3 jest najmniejsza."
+        }
+      ],
+      "hint": "Trzy kroki: wczytaj liczby do vector<int> v(n); posortuj jedną linijką sort(v.begin(), v.end()); i wypisz pętlą „dla każdego” ze spacją po każdej liczbie.",
+      "tests_count": 9
+    },
+    {
+      "id": "sort-lista-obecnosci",
+      "number": 1047,
+      "title": "Lista obecności",
+      "category": "Sortowanie / krok 1: pierwsze sortowanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na zajęcia przychodzi n uczniów. Nauczyciel zapisał ich imiona w kolejności przychodzenia. Wypisz te imiona alfabetycznie (w porządku słownikowym), każde w osobnym wierszu. Każde imię zaczyna się wielką literą, a dalej ma tylko małe litery angielskie. Imiona mogą się powtarzać — wtedy wypisujesz je tyle razy, ile razy występują."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W kolejnych n wierszach imiona."
+      ],
+      "output_format": [
+        "n wierszy: imiona alfabetycznie."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "Każde imię ma od 2 do 12 liter."
+      ],
+      "examples": [
+        {
+          "input": "5\nOla\nJan\nAla\nOlek\nJan",
+          "output": "Ala\nJan\nJan\nOla\nOlek",
+          "note": "„Ola” stoi przed „Olek”, bo jest jego początkiem."
+        }
+      ],
+      "hint": "Wczytaj imiona do vector<string> s(n); i posortuj zwykłym sort. Napisy porównują się litera po literze, a gdy jedno jest początkiem drugiego — krótsze stoi wcześniej. Wszystkie imiona zaczynają się wielką literą, więc pułapka „wielkie przed małymi” tu nie przeszkadza.",
+      "tests_count": 7
+    },
+    {
+      "id": "sort-litery",
+      "number": 1048,
+      "title": "Litery po kolei",
+      "category": "Sortowanie / krok 1: pierwsze sortowanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj słowo złożone z małych liter angielskich. Wypisz to samo słowo, ale z literami ustawionymi alfabetycznie."
+      ],
+      "input_format": [
+        "Jedno słowo."
+      ],
+      "output_format": [
+        "Słowo z literami ułożonymi alfabetycznie."
+      ],
+      "constraints": [
+        "Słowo ma od 1 do 20 000 liter."
+      ],
+      "examples": [
+        {
+          "input": "banan",
+          "output": "aabnn"
+        },
+        {
+          "input": "informatyka",
+          "output": "aafikmnorty"
+        }
+      ],
+      "hint": "Napis sortuje się tak samo jak vector: sort(s.begin(), s.end());. Potem wypisz cały napis jednym cout.",
+      "tests_count": 10
+    },
+    {
+      "id": "sort-czy-posortowane",
+      "number": 1049,
+      "title": "Czy już po kolei?",
+      "category": "Sortowanie / krok 1: pierwsze sortowanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj ciąg n liczb całkowitych a₁, a₂, …, aₙ. Jeśli jest posortowany niemalejąco (każda liczba jest większa albo równa poprzedniej), wypisz TAK. W przeciwnym razie wypisz NIE, a w drugim wierszu najmniejszy numer i (licząc od 1), dla którego aᵢ > aᵢ₊₁."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "TAK albo NIE; po NIE w drugim wierszu numer i."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "−10⁹ ≤ aᵢ ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "6\n1 3 3 8 6 9",
+          "output": "NIE\n4",
+          "note": "a₄ = 8 > a₅ = 6."
+        },
+        {
+          "input": "4\n2 2 5 5",
+          "output": "TAK"
+        }
+      ],
+      "hint": "Przejdź pętlą po sąsiadach: dla i od 0, dopóki i + 1 < n, sprawdzaj v[i] > v[i + 1]. Przy pierwszym takim miejscu wypisz NIE i i + 1 (numery od 1!) i przerwij. Samo „czy posortowane” sprawdzi też is_sorted(v.begin(), v.end()).",
+      "tests_count": 12
+    },
+    {
+      "id": "sort-kawalek",
+      "number": 1050,
+      "title": "Posortuj kawałek",
+      "category": "Sortowanie / krok 1: pierwsze sortowanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj ciąg n liczb oraz dwie liczby a i b. Posortuj niemalejąco tylko kawałek ciągu od pozycji a do pozycji b włącznie (pozycje numerujemy od 1). Pozostałe liczby mają zostać na swoich miejscach. Wypisz cały ciąg."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n, a i b.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jeden wiersz: n liczb po posortowaniu kawałka."
+      ],
+      "constraints": [
+        "1 ≤ a ≤ b ≤ n ≤ 2000",
+        "−10⁶ ≤ każda liczba ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "7 2 5\n9 7 5 3 1 8 6",
+          "output": "9 1 3 5 7 8 6",
+          "note": "Sortujemy pozycje 2–5: liczby 7 5 3 1 stają się 1 3 5 7."
+        }
+      ],
+      "hint": "Pozycja a (od 1) to w vectorze pudełko a − 1, a pozycja b — pudełko b − 1. Druga strzałka ma pokazywać miejsce ZA kawałkiem, czyli pudełko b: sort(v.begin() + a - 1, v.begin() + b);",
+      "tests_count": 9
+    },
+    {
+      "id": "sort-na-swoim-miejscu",
+      "number": 1051,
+      "title": "Na swoim miejscu",
+      "category": "Sortowanie / krok 1: pierwsze sortowanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj ciąg n liczb całkowitych. Wyobraź sobie, że sortujemy go niemalejąco. Policz, na ilu pozycjach liczba przed sortowaniem jest taka sama jak liczba po sortowaniu — czyli ile pozycji „już się zgadza”."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jedna liczba — ile pozycji się zgadza."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "5\n3 1 2 4 5",
+          "output": "2",
+          "note": "Po sortowaniu: 1 2 3 4 5. Zgadzają się pozycje 4 i 5."
+        },
+        {
+          "input": "4\n2 1 2 1",
+          "output": "2"
+        }
+      ],
+      "hint": "Zrób kopię: vector<int> w = v; i posortuj tylko kopię. Potem jedną pętlą policz pozycje, na których v[i] == w[i].",
+      "tests_count": 9
+    },
+    {
+      "id": "sort-slowo-klucz",
+      "number": 1052,
+      "title": "Słowo-klucz",
+      "category": "Sortowanie / krok 1: pierwsze sortowanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dane jest słowo-klucz oraz lista n słów. Słowo jest anagramem klucza, jeśli składa się z dokładnie tych samych liter co klucz, każdej tyle samo razy (kolejność może być dowolna; samo słowo-klucz też jest swoim anagramem). Wypisz wszystkie anagramy klucza z listy, w kolejności, w jakiej występują na liście, każde w osobnym wierszu. Jeśli na liście nie ma żadnego anagramu, wypisz BRAK."
+      ],
+      "input_format": [
+        "W pierwszym wierszu słowo-klucz i liczba n.",
+        "W drugim wierszu n słów."
+      ],
+      "output_format": [
+        "Anagramy klucza w kolejności z listy, każdy w osobnym wierszu, albo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "Wszystkie słowa mają od 1 do 10 małych liter angielskich."
+      ],
+      "examples": [
+        {
+          "input": "kajak 5\njakak kajko kajak akk kaajk",
+          "output": "jakak\nkajak\nkaajk",
+          "note": "„kajko” ma literę o zamiast a, a „akk” jest za krótkie."
+        },
+        {
+          "input": "kot 3\npies kotek ok",
+          "output": "BRAK"
+        }
+      ],
+      "hint": "Posortuj litery kopii klucza: string k = klucz; sort(k.begin(), k.end());. Dla każdego słowa z listy zrób to samo z jego kopią i porównaj kopie przez ==. Wypisuj oryginalne słowo, nie posortowane.",
+      "tests_count": 9
+    },
+    {
+      "id": "sort-slownikowo-liczbowo",
+      "number": 1053,
+      "title": "Słownikowo czy liczbowo?",
+      "category": "Sortowanie / krok 1: pierwsze sortowanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb naturalnych (bez zer na początku). W pierwszym wierszu wypisz je posortowane według wartości, niemalejąco. W drugim wierszu wypisz je posortowane tak, jakby były słowami w słowniku — czyli porównując ich zapisy znak po znaku (wtedy na przykład 10 stoi przed 9, a 100 przed 20)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb naturalnych."
+      ],
+      "output_format": [
+        "Dwa wiersze po n liczb."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "0 ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "5\n9 10 100 20 3",
+          "output": "3 9 10 20 100\n10 100 20 3 9",
+          "note": "Słownikowo: „10” < „100” (krótszy początek), „100” < „20” (pierwsze znaki 1 i 2)."
+        }
+      ],
+      "hint": "Wczytaj liczby do vector<string> — wtedy sort ustawi je słownikowo. Do sortowania według wartości wczytaj je jeszcze raz do int albo zamień napisy na liczby (stoll). Najprościej: wczytaj jako napisy, zrób kopię do vector<long long> przez stoll i posortuj oba vectory.",
+      "tests_count": 8
+    },
+    {
+      "id": "sort-malejaco",
+      "number": 1054,
+      "title": "Od największej",
+      "category": "Sortowanie / krok 2: malejąco i mediana",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb całkowitych i wypisz je w jednym wierszu od największej do najmniejszej (nierosnąco)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jeden wiersz: n liczb nierosnąco."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "5\n4 9 1 7 3",
+          "output": "9 7 4 3 1"
+        },
+        {
+          "input": "4\n-2 5 -2 0",
+          "output": "5 0 -2 -2"
+        }
+      ],
+      "hint": "Wybierz jeden z trzech sposobów: sort(v.rbegin(), v.rend()); albo sort(v.begin(), v.end(), greater<int>()); albo sort, a potem reverse(v.begin(), v.end());.",
+      "tests_count": 8
+    },
+    {
+      "id": "sort-k-ty",
+      "number": 1055,
+      "title": "K-ta od dołu i od góry",
+      "category": "Sortowanie / krok 2: malejąco i mediana",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb całkowitych i liczbę k. Wyobraź sobie te liczby posortowane niemalejąco. Wypisz liczbę, która stoi na k-tym miejscu od początku (k-ta najmniejsza), i liczbę, która stoi na k-tym miejscu od końca (k-ta największa). Jeśli liczby się powtarzają, każda zajmuje osobne miejsce."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Dwie liczby w jednym wierszu: k-ta najmniejsza i k-ta największa."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 10 000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "7 3\n40 85 72 91 66 85 58",
+          "output": "66 85",
+          "note": "Po sortowaniu: 40 58 66 72 85 85 91. Trzecia od początku to 66, trzecia od końca to 85."
+        }
+      ],
+      "hint": "Po sort(v.begin(), v.end()); k-ta najmniejsza stoi w pudełku k − 1, a k-ta największa w pudełku n − k. Sprawdź wzór dla k = 1: dostajesz v[0] i v[n − 1].",
+      "tests_count": 9
+    },
+    {
+      "id": "sort-mediana",
+      "number": 1056,
+      "title": "Mediana",
+      "category": "Sortowanie / krok 2: malejąco i mediana",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb całkowitych i wypisz ich medianę z dokładnie jedną cyfrą po kropce. Mediana to liczba stojąca w środku po posortowaniu. Gdy n jest nieparzyste, środek jest jeden. Gdy n jest parzyste, medianą jest średnia dwóch środkowych liczb."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Mediana z jedną cyfrą po kropce."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "5\n2500 2000 50000 2300 2100",
+          "output": "2300.0"
+        },
+        {
+          "input": "6\n9 1 12 4 3 8",
+          "output": "6.0",
+          "note": "Środkowe liczby to 4 i 8, mediana to 6.0."
+        },
+        {
+          "input": "2\n3 4",
+          "output": "3.5"
+        }
+      ],
+      "hint": "Po sortowaniu: dla nieparzystego n mediana to v[n / 2], dla parzystego — (v[n / 2 - 1] + v[n / 2]) / 2.0. Suma dwóch liczb rzędu miliarda nie mieści się w int — trzymaj liczby w long long. Wypisuj z cout << fixed << setprecision(1).",
+      "tests_count": 13
+    },
+    {
+      "id": "sort-prog-awansu",
+      "number": 1057,
+      "title": "Próg awansu",
+      "category": "Sortowanie / krok 2: malejąco i mediana",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W eliminacjach n zawodników zdobyło punkty. Do finału awansuje k najlepszych, ale jeśli ktoś ma tyle samo punktów co k-ty najlepszy zawodnik, też awansuje. Wypisz próg — liczbę punktów k-tego najlepszego zawodnika — oraz liczbę osób, które awansują."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n liczb — punkty zawodników."
+      ],
+      "output_format": [
+        "Dwie liczby w jednym wierszu: próg i liczba finalistów."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 10 000",
+        "0 ≤ punkty ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "7 3\n70 85 90 85 60 85 95",
+          "output": "85 5",
+          "note": "Trzeci najlepszy wynik to 85, a 85 punktów ma aż trzech zawodników — awansuje 5 osób."
+        }
+      ],
+      "hint": "Po sortowaniu rosnąco k-ty najlepszy wynik stoi w pudełku n − k. Potem policz wszystkich z wynikiem ≥ progu — może ich być więcej niż k.",
+      "tests_count": 9
+    },
+    {
+      "id": "sort-najlepsze-k",
+      "number": 1058,
+      "title": "Najlepsze k",
+      "category": "Sortowanie / krok 2: malejąco i mediana",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb całkowitych i liczbę k. W pierwszym wierszu wypisz k największych liczb, od największej (jeśli największa liczba powtarza się kilka razy, wypisujesz ją tyle razy, ile mieści się w tych k). W drugim wierszu wypisz ich sumę."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "W pierwszym wierszu k liczb, w drugim ich suma."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 10 000",
+        "k ≤ 2000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "6 3\n5 1 9 5 3 9",
+          "output": "9 9 5\n23"
+        }
+      ],
+      "hint": "Posortuj malejąco i wypisz pudełka 0 … k − 1. Sumę licz w long long — 2000 liczb po miliard to 2·10¹².",
+      "tests_count": 8
+    },
+    {
+      "id": "sort-cyfry-max-min",
+      "number": 1059,
+      "title": "Największa i najmniejsza z cyfr",
+      "category": "Sortowanie / krok 2: malejąco i mediana",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dana jest liczba naturalna zapisana bez zer na początku (może mieć nawet 100 cyfr). Przestawiając jej cyfry, ułóż największą i najmniejszą możliwą liczbę. Liczba nie może zaczynać się od zera — chyba że jest to po prostu liczba 0."
+      ],
+      "input_format": [
+        "Jedna liczba naturalna."
+      ],
+      "output_format": [
+        "Dwie liczby w jednym wierszu: największa i najmniejsza."
+      ],
+      "constraints": [
+        "Liczba ma od 1 do 100 cyfr i nie zaczyna się od zera (wyjątek: liczba 0)."
+      ],
+      "examples": [
+        {
+          "input": "30521",
+          "output": "53210 10235",
+          "note": "Rosnąco cyfry dają 01235, ale zero nie może stać na początku — zamieniamy je z pierwszą niezerową cyfrą: 10235."
+        },
+        {
+          "input": "1000",
+          "output": "1000 1000"
+        }
+      ],
+      "hint": "Wczytaj liczbę do string. Największa: sort(s.rbegin(), s.rend()). Najmniejsza: posortuj rosnąco, znajdź pierwszą cyfrę różną od '0' i zamień ją ze znakiem na początku (swap). Pilnuj, żeby pętla szukająca nie wyszła za napis.",
+      "tests_count": 12
+    },
+    {
+      "id": "sort-noty-sedziow",
+      "number": 1060,
+      "title": "Noty sędziów",
+      "category": "Sortowanie / krok 2: malejąco i mediana",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W konkursie skoków n sędziów wystawia noty. Żeby żaden sędzia nie mógł za bardzo pomóc ani zaszkodzić, odrzuca się k najniższych i k najwyższych not. Wynik zawodnika to suma pozostałych not. Oblicz go."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n not — liczb całkowitych."
+      ],
+      "output_format": [
+        "Jedna liczba — suma not, które zostały."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "0 ≤ k i 2k < n",
+        "0 ≤ każda nota ≤ 200"
+      ],
+      "examples": [
+        {
+          "input": "5 1\n170 185 180 120 175",
+          "output": "525",
+          "note": "Odrzucamy 120 i 185, zostaje 170 + 175 + 180 = 525."
+        }
+      ],
+      "hint": "Po posortowaniu najniższe noty stoją w pudełkach 0 … k − 1, a najwyższe w n − k … n − 1. Sumuj pętlą od i = k do i < n − k.",
+      "tests_count": 9
+    },
+    {
+      "id": "sort-wicemistrz",
+      "number": 1061,
+      "title": "Wicemistrz",
+      "category": "Sortowanie / krok 2: malejąco i mediana",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Zawodnicy zdobyli punkty. Mistrzami są wszyscy, którzy mają najwięcej punktów. Wicemistrzami są wszyscy, którzy mają drugi najlepszy wynik — największą liczbę punktów mniejszą od wyniku mistrzów. Wypisz wynik wicemistrzów i ich liczbę. Jeśli wszyscy mają tyle samo punktów, wicemistrzów nie ma — wypisz BRAK."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb — punkty zawodników."
+      ],
+      "output_format": [
+        "Dwie liczby w jednym wierszu (wynik wicemistrzów i ich liczba) albo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "0 ≤ punkty ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "6\n90 75 90 80 80 60",
+          "output": "80 2",
+          "note": "Mistrzowie mają 90 punktów, wicemistrzowie 80 — jest ich dwóch."
+        },
+        {
+          "input": "3\n5 5 5",
+          "output": "BRAK"
+        }
+      ],
+      "hint": "Posortuj malejąco. Pomiń wszystkie wyniki równe v[0] (mistrzów). Jeśli doszedłeś do końca — BRAK. W przeciwnym razie bieżąca liczba to wynik wicemistrzów; policz, ile razy występuje.",
+      "tests_count": 11
+    },
+    {
+      "id": "sort-dwie-druzyny",
+      "number": 1062,
+      "title": "Silni na słabych",
+      "category": "Sortowanie / krok 2: malejąco i mediana",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na boisku jest 2n graczy, każdy ma swoją siłę. Trzeba ich podzielić na dwie drużyny po n graczy. Siła drużyny to suma sił jej graczy. Organizator chce, żeby mecz był jak najbardziej jednostronny: różnica między siłą silniejszej a słabszej drużyny ma być jak największa. Wypisz tę największą możliwą różnicę."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu 2n liczb — siły graczy."
+      ],
+      "output_format": [
+        "Jedna liczba — największa możliwa różnica."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "0 ≤ siła ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "2\n5 1 8 3",
+          "output": "9",
+          "note": "Drużyna 8 + 5 = 13 przeciwko 3 + 1 = 4: różnica 9."
+        }
+      ],
+      "hint": "Silniejsza drużyna powinna dostać n najsilniejszych graczy, a słabsza — n najsłabszych. Po sortowaniu to po prostu druga i pierwsza połowa vectora. Sumy mogą sięgać 5·10¹² — użyj long long.",
+      "tests_count": 7
+    },
+    {
+      "id": "sort-ile-roznych",
+      "number": 1063,
+      "title": "Ile różnych?",
+      "category": "Sortowanie / krok 3: grupy i sąsiedzi",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb całkowitych i wypisz, ile jest wśród nich różnych wartości."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba różnych wartości."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "6\n5 2 8 2 5 5",
+          "output": "3",
+          "note": "Różne wartości to 2, 5 i 8."
+        }
+      ],
+      "hint": "Tablica liczników nie zadziała — liczby są za duże. Posortuj i licz miejsca, w których wartość zmienia się względem poprzedniej: różnych jest 1 + liczba takich miejsc.",
+      "tests_count": 9
+    },
+    {
+      "id": "sort-bez-powtorzen",
+      "number": 1064,
+      "title": "Bez powtórzeń, po kolei",
+      "category": "Sortowanie / krok 3: grupy i sąsiedzi",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb całkowitych. Usuń powtórzenia tak, żeby każda wartość została dokładnie raz. W pierwszym wierszu wypisz, ile wartości zostało, a w drugim — te wartości rosnąco."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "W pierwszym wierszu liczba k, w drugim k różnych wartości rosnąco."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "Różnych wartości jest najwyżej 2000.",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "6\n5 2 8 2 5 5",
+          "output": "3\n2 5 8"
+        }
+      ],
+      "hint": "Najpierw sort(v.begin(), v.end());, potem v.erase(unique(v.begin(), v.end()), v.end());. Po tej linijce v.size() to od razu liczba różnych wartości.",
+      "tests_count": 8
+    },
+    {
+      "id": "sort-ile-razy-kazda",
+      "number": 1065,
+      "title": "Ile razy każda?",
+      "category": "Sortowanie / krok 3: grupy i sąsiedzi",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb całkowitych. Dla każdej różnej wartości wypisz w osobnym wierszu tę wartość i liczbę jej wystąpień. Wiersze mają iść rosnąco według wartości."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Tyle wierszy, ile różnych wartości: wartość i liczba wystąpień."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "Różnych wartości jest najwyżej 1500.",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "6\n5 2 8 2 5 5",
+          "output": "2 2\n5 3\n8 1"
+        }
+      ],
+      "hint": "Po sortowaniu idź grupa po grupie: i to początek grupy, j przesuwa się w prawo, dopóki v[j] == v[i]. Wypisz v[i] i j − i, a potem i = j. Pamiętaj, żeby w warunku najpierw sprawdzać j < n.",
+      "tests_count": 8
+    },
+    {
+      "id": "sort-najczestsza",
+      "number": 1066,
+      "title": "Najczęstsza wartość",
+      "category": "Sortowanie / krok 3: grupy i sąsiedzi",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb całkowitych. Znajdź wartość, która występuje najwięcej razy, i wypisz ją razem z liczbą wystąpień. Jeśli kilka wartości występuje tyle samo razy, wybierz najmniejszą z nich."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Dwie liczby: najczęstsza wartość i liczba jej wystąpień."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "8\n4 7 4 1 7 9 7 4",
+          "output": "4 3",
+          "note": "Czwórki i siódemki występują po 3 razy — wybieramy mniejszą wartość, 4."
+        }
+      ],
+      "hint": "Idź grupa po grupie i zapamiętuj najdłuższą. Zmieniaj zapamiętaną wartość tylko wtedy, gdy nowa grupa jest ściśle dłuższa (j − i > najIle) — wtedy przy remisie zostanie wcześniejsza, czyli mniejsza wartość.",
+      "tests_count": 9
+    },
+    {
+      "id": "sort-najblizsze-liczby",
+      "number": 1067,
+      "title": "Najbliższe liczby",
+      "category": "Sortowanie / krok 3: grupy i sąsiedzi",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb całkowitych (n ≥ 2). Znajdź dwie liczby (stojące na różnych pozycjach), których różnica jest najmniejsza. W pierwszym wierszu wypisz tę najmniejszą różnicę. W drugim wierszu wypisz te dwie liczby, mniejszą pierwszą. Jeśli jest kilka takich par, wybierz tę, w której mniejsza liczba jest najmniejsza."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "W pierwszym wierszu najmniejsza różnica, w drugim dwie liczby."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 10 000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "6\n40 7 22 31 12 60",
+          "output": "5\n7 12",
+          "note": "Po sortowaniu: 7 12 22 31 40 60. Najmniejsza różnica sąsiadów to 5 (7 i 12)."
+        },
+        {
+          "input": "4\n10 3 10 3",
+          "output": "0\n3 3",
+          "note": "Różnica 0 mają dwie trójki i dwie dziesiątki — wybieramy trójki."
+        }
+      ],
+      "hint": "Po sortowaniu najbliższe liczby zawsze stoją obok siebie. Przejdź po sąsiadach i zapamiętaj pierwszą parę z najmniejszą różnicą (zmieniaj ją tylko przy ściśle mniejszej różnicy). Różnica dwóch liczb rzędu miliarda może przekroczyć int — licz ją w long long.",
+      "tests_count": 9
+    },
+    {
+      "id": "sort-najwieksza-przerwa",
+      "number": 1068,
+      "title": "Największa przerwa",
+      "category": "Sortowanie / krok 3: grupy i sąsiedzi",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Przy prostej drodze rośnie n drzew; znasz ich pozycje (w dowolnej kolejności, kilka drzew może rosnąć w tym samym miejscu). Znajdź najdłuższy odcinek drogi między dwoma sąsiednimi drzewami. Wypisz jego długość oraz pozycje drzew na jego końcach. Jeśli takich odcinków jest kilka, wybierz ten, który leży najbardziej na lewo."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n pozycji drzew."
+      ],
+      "output_format": [
+        "Trzy liczby w jednym wierszu: długość przerwy, pozycja lewego i prawego drzewa."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 10 000",
+        "0 ≤ pozycja ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "6\n40 7 22 31 12 60",
+          "output": "20 40 60",
+          "note": "Najdłuższa przerwa jest między drzewami w punktach 40 i 60."
+        }
+      ],
+      "hint": "Posortuj pozycje i przejdź po sąsiadach, szukając największej różnicy v[i + 1] − v[i]. Zmieniaj zapamiętaną przerwę tylko przy ściśle większej różnicy — wtedy przy remisie zostanie ta bardziej na lewo.",
+      "tests_count": 8
+    },
+    {
+      "id": "sort-podobny-wzrost",
+      "number": 1069,
+      "title": "Podobny wzrost",
+      "category": "Sortowanie / krok 3: grupy i sąsiedzi",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Do zdjęcia w pierwszym rzędzie trzeba wybrać k spośród n dzieci. Fotograf chce, żeby wyglądały równo: różnica między najwyższym a najniższym wybranym dzieckiem ma być jak najmniejsza. Wypisz tę najmniejszą możliwą różnicę."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n liczb — wzrost dzieci w centymetrach."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejsza możliwa różnica."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 10 000",
+        "50 ≤ wzrost ≤ 250"
+      ],
+      "examples": [
+        {
+          "input": "6 3\n150 141 163 147 158 144",
+          "output": "6",
+          "note": "Najlepiej wybrać 141, 144 i 147 (albo 144, 147 i 150) — różnica 6."
+        }
+      ],
+      "hint": "Po sortowaniu najlepiej wybrać k dzieci stojących kolejno obok siebie. Sprawdź wszystkie takie okna: dla i od 0, dopóki i + k − 1 < n, różnica to v[i + k − 1] − v[i]. Wybierz najmniejszą.",
+      "tests_count": 9
+    },
+    {
+      "id": "sort-brakujace-numery",
+      "number": 1070,
+      "title": "Brakujące numery",
+      "category": "Sortowanie / krok 3: grupy i sąsiedzi",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na loterii sprzedano losy o podanych numerach (numery mogą się powtarzać, bo niektórzy kupili duplikaty). Policz, ile liczb całkowitych z przedziału od najmniejszego do największego sprzedanego numeru nie wystąpiło ani razu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n numerów losów."
+      ],
+      "output_format": [
+        "Jedna liczba — ile numerów brakuje."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "−10⁹ ≤ numer ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "6\n5 2 9 5 4 2",
+          "output": "4",
+          "note": "Między 2 a 9 brakuje numerów 3, 6, 7 i 8."
+        }
+      ],
+      "hint": "Tablica liczników nie zadziała dla numerów do miliarda. Posortuj: między sąsiadami v[i] < v[i + 1] brakuje dokładnie v[i + 1] − v[i] − 1 liczb, a równi sąsiedzi niczego nie dokładają. Suma może przekroczyć int — użyj long long.",
+      "tests_count": 9
+    },
+    {
+      "id": "sort-wybieranie-kroki",
+      "number": 1071,
+      "title": "Wybieranie krok po kroku",
+      "category": "Sortowanie / krok 4: sortowanie ręcznie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Posortuj ciąg n liczb metodą przez wybieranie: w rundzie numer i (i = 0, 1, …, n − 2) znajdź najmniejszą liczbę w kawałku od pozycji i do końca (jeśli najmniejsza występuje kilka razy — tę najbardziej na lewo) i zamień ją z liczbą na pozycji i (jeśli to ta sama pozycja, nic się nie zmienia). Po każdej rundzie wypisz cały ciąg w osobnym wierszu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "n − 1 wierszy — ciąg po każdej rundzie."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 50",
+        "−1000 ≤ każda liczba ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "5\n5 2 4 1 3",
+          "output": "1 2 4 5 3\n1 2 4 5 3\n1 2 3 5 4\n1 2 3 4 5",
+          "note": "W rundzie 1 (drugi wiersz) najmniejsza z 2 4 5 3 już stoi na miejscu, więc ciąg się nie zmienia."
+        }
+      ],
+      "hint": "Dla każdego i od 0 do n − 2: int m = i; potem pętla j od i + 1 do n − 1 i if (v[j] < v[m]) m = j; (znak < zostawia najbardziej lewą z równych). Po pętli swap(v[i], v[m]); i wypisz cały vector.",
+      "tests_count": 8
+    },
+    {
+      "id": "sort-babelki-rundy",
+      "number": 1072,
+      "title": "Rundy bąbelków",
+      "category": "Sortowanie / krok 4: sortowanie ręcznie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Posortuj ciąg n liczb metodą bąbelkową. W rundzie numer r (r = 0, 1, 2, …) porównujesz po kolei pary sąsiadów na pozycjach (0, 1), (1, 2), …, (n − 2 − r, n − 1 − r) i zamieniasz parę, jeśli lewa liczba jest większa od prawej. Po każdej rundzie wypisz cały ciąg. Algorytm kończy się po rundzie, w której nie było żadnej zamiany (ta runda też jest wypisywana), albo po n − 1 rundach. Na koniec wypisz liczbę wykonanych rund."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Ciąg po każdej wykonanej rundzie (każdy w osobnym wierszu), a w ostatnim wierszu liczba rund."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 50",
+        "−1000 ≤ każda liczba ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "5\n5 1 4 2 8",
+          "output": "1 4 2 5 8\n1 2 4 5 8\n1 2 4 5 8\n3",
+          "note": "W trzeciej rundzie nie ma już zamian — wypisujemy ją i kończymy."
+        },
+        {
+          "input": "3\n3 2 1",
+          "output": "2 1 3\n1 2 3\n2",
+          "note": "Każda z n − 1 = 2 rund ma zamiany, więc algorytm kończy się po nich."
+        }
+      ],
+      "hint": "Zewnętrzna pętla: for (int runda = 0; runda < n - 1; runda++), w niej bool bylaZamiana = false; i wewnętrzna pętla po j, dopóki j + 1 < n - runda. Po wewnętrznej pętli wypisz vector i zwiększ licznik rund, a dopiero potem if (!bylaZamiana) break;.",
+      "tests_count": 10
+    },
+    {
+      "id": "sort-ile-zamian",
+      "number": 1073,
+      "title": "Ile zamian zrobią bąbelki?",
+      "category": "Sortowanie / krok 4: sortowanie ręcznie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Sortowanie bąbelkowe zamienia sąsiadów, którzy stoją w złej kolejności (lewy większy od prawego), aż cały ciąg będzie posortowany niemalejąco. Wypisz, ile zamian wykona dla podanego ciągu. Równe sąsiednie liczby nie są zamieniane."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba zamian."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "5\n5 1 4 2 8",
+          "output": "4",
+          "note": "Pary w złej kolejności: (5, 1), (5, 4), (5, 2), (4, 2)."
+        }
+      ],
+      "hint": "Napisz zwykłe sortowanie bąbelkowe i zwiększaj licznik przy każdym swap. Dla n = 2000 to około 2 miliony porównań — zdąży. (Ciekawostka: wynik to liczba par i < j, w których v[i] > v[j].)",
+      "tests_count": 10
+    },
+    {
+      "id": "sort-karty-w-rece",
+      "number": 1074,
+      "title": "Karty w ręce",
+      "category": "Sortowanie / krok 4: sortowanie ręcznie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz po kolei n kart z liczbami. Układasz je w ręce metodą przez wstawianie: lewa część ręki jest już ułożona niemalejąco, a każdą nową kartę wsuwasz na właściwe miejsce, przesuwając w prawo wszystkie karty z większymi liczbami. Karta z równą liczbą zostaje przed nową kartą. Po wsunięciu każdej karty od drugiej do ostatniej wypisz cały ciąg (wraz z kartami, które jeszcze czekają)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb — karty w kolejności dostawania."
+      ],
+      "output_format": [
+        "n − 1 wierszy — ciąg po każdym wsunięciu."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 50",
+        "1 ≤ każda liczba ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "5\n7 3 5 1 6",
+          "output": "3 7 5 1 6\n3 5 7 1 6\n1 3 5 7 6\n1 3 5 6 7"
+        }
+      ],
+      "hint": "Dla i od 1 do n − 1: int x = v[i], j = i - 1; dopóki j >= 0 i v[j] > x, przepisuj v[j + 1] = v[j] i zmniejszaj j. Na koniec v[j + 1] = x; i wypisz vector.",
+      "tests_count": 8
+    },
+    {
+      "id": "sort-oceny-zliczanie",
+      "number": 1075,
+      "title": "Oceny od 1 do 6",
+      "category": "Sortowanie / krok 4: sortowanie ręcznie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Klasa dostała n ocen od 1 do 6. W pierwszym wierszu wypisz wszystkie oceny niemalejąco. W drugim wierszu wypisz sześć liczb: ile było jedynek, dwójek, …, szóstek."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n ocen."
+      ],
+      "output_format": [
+        "W pierwszym wierszu n ocen niemalejąco, w drugim sześć liczb."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "1 ≤ każda ocena ≤ 6"
+      ],
+      "examples": [
+        {
+          "input": "8\n4 6 3 4 5 2 4 6",
+          "output": "2 3 4 4 4 5 6 6\n0 1 1 3 1 2"
+        }
+      ],
+      "hint": "Zrób vector<int> licznik(7, 0); i dla każdej oceny x zrób licznik[x]++. Potem dla w od 1 do 6 wypisz w dokładnie licznik[w] razy. Drugi wiersz to same liczniki.",
+      "tests_count": 7
+    },
+    {
+      "id": "sort-wybieranie-czy-babelki",
+      "number": 1076,
+      "title": "Wybieranie czy bąbelki?",
+      "category": "Sortowanie / krok 4: sortowanie ręcznie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ten sam ciąg n liczb sortujemy niemalejąco dwiema metodami. Sortowanie przez wybieranie (jak w lekcji: w rundzie i wybieramy najmniejszą liczbę z kawałka od i do końca — przy remisie najbardziej na lewo — i zamieniamy ją z liczbą na pozycji i) liczy zamianę tylko wtedy, gdy zamienia dwie różne pozycje. Sortowanie bąbelkowe liczy każdą zamianę sąsiadów. Wypisz liczbę zamian obu metod, a w drugim wierszu WYBIERANIE, BABELKI albo REMIS — która metoda wykonała mniej zamian."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "W pierwszym wierszu dwie liczby: zamiany wybierania i bąbelków.",
+        "W drugim wierszu WYBIERANIE, BABELKI albo REMIS."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "5\n5 1 4 2 8",
+          "output": "2 4\nWYBIERANIE",
+          "note": "Wybieranie: zamiany 5↔1 i 5↔2 (dwie). Bąbelki: cztery."
+        }
+      ],
+      "hint": "Zrób dwie kopie wczytanego vectora i posortuj każdą swoją metodą, licząc zamiany. W wybieraniu zwiększaj licznik tylko wtedy, gdy m != i. Wybieranie robi najwyżej n − 1 zamian, a bąbelki — tyle, ile par w złej kolejności.",
+      "tests_count": 10
+    },
+    {
+      "id": "sort-nalesniki",
+      "number": 1077,
+      "title": "Sortowanie naleśnikowe",
+      "category": "Sortowanie / krok 4: sortowanie ręcznie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na talerzu leży stos n naleśników o różnych rozmiarach 1, 2, …, n (podanych od góry do dołu). Jedyny dozwolony ruch to przewrót: wsuwasz łopatkę pod k-ty naleśnik od góry i odwracasz całą górną część — kolejność k górnych naleśników się odwraca. Chcemy, żeby na górze leżał najmniejszy, a na dole największy. Postępuj tak: dla rozmiaru s = n, n − 1, …, 2 znajdź pozycję p (licząc od 1, od góry) naleśnika o rozmiarze s. Jeśli p = s, naleśnik już leży na miejscu — nic nie rób. W przeciwnym razie: jeśli p > 1, przewróć p górnych naleśników (największy z nich trafi na górę), a potem przewróć s górnych (trafi na pozycję s). Wypisz liczbę przewrotów i ich rozmiary k w kolejności wykonywania."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n różnych liczb od 1 do n — rozmiary naleśników od góry do dołu."
+      ],
+      "output_format": [
+        "W pierwszym wierszu liczba przewrotów m.",
+        "W drugim wierszu m liczb — rozmiary kolejnych przewrotów (gdy m = 0, drugi wiersz jest pusty)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 30"
+      ],
+      "examples": [
+        {
+          "input": "4\n3 1 4 2",
+          "output": "4\n3 4 2 3",
+          "note": "s = 4 jest na pozycji 3: przewroty 3 (4 1 3 2) i 4 (2 3 1 4). s = 3 na pozycji 2: przewroty 2 (3 2 1 4) i 3 (1 2 3 4). s = 2 już leży na miejscu."
+        }
+      ],
+      "hint": "Trzymaj stos w vectorze (pozycja p to pudełko p − 1). Przewrót k górnych to reverse(v.begin(), v.begin() + k);. Pozycję naleśnika s znajdziesz przez find(v.begin(), v.end(), s) - v.begin() + 1. Zapisuj rozmiary przewrotów w osobnym vectorze, a na końcu wypisz jego rozmiar i zawartość.",
+      "tests_count": 11
+    },
+    {
+      "id": "sort-ostatnia-cyfra",
+      "number": 1078,
+      "title": "Według ostatniej cyfry",
+      "category": "Sortowanie / krok 5: własna reguła",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb naturalnych i wypisz je posortowane według ostatniej cyfry (od 0 do 9). Liczby z tą samą ostatnią cyfrą mają stać rosnąco."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb naturalnych."
+      ],
+      "output_format": [
+        "Jeden wiersz: n liczb w wymaganej kolejności."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "0 ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "7\n23 15 42 11 30 21 5",
+          "output": "30 11 21 42 23 5 15"
+        }
+      ],
+      "hint": "Reguła: if (a % 10 != b % 10) return a % 10 < b % 10; a potem return a < b;. Cała reguła to trzeci argument sort: sort(v.begin(), v.end(), [](int a, int b) { … });.",
+      "tests_count": 7
+    },
+    {
+      "id": "sort-najblizej-zera",
+      "number": 1079,
+      "title": "Najbliżej zera",
+      "category": "Sortowanie / krok 5: własna reguła",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb całkowitych i wypisz je posortowane według odległości od zera (wartości bezwzględnej), od najmniejszej. Jeśli dwie liczby są tak samo daleko od zera (na przykład −3 i 3), ujemna stoi pierwsza."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jeden wiersz: n liczb w wymaganej kolejności."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "6\n3 -2 2 -5 0 -3",
+          "output": "0 -2 2 -3 3 -5"
+        }
+      ],
+      "hint": "Reguła: if (abs(a) != abs(b)) return abs(a) < abs(b); return a < b;. Przy remisie odległości wygrywa mniejsza liczba, czyli ujemna.",
+      "tests_count": 7
+    },
+    {
+      "id": "sort-parzyste-przodem",
+      "number": 1080,
+      "title": "Parzyste przodem",
+      "category": "Sortowanie / krok 5: własna reguła",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb całkowitych i wypisz je tak: najpierw wszystkie liczby parzyste, od najmniejszej do największej, a potem wszystkie nieparzyste, od największej do najmniejszej."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jeden wiersz: n liczb w wymaganej kolejności."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "7\n7 4 -3 10 1 -6 8",
+          "output": "-6 4 8 10 7 1 -3"
+        }
+      ],
+      "hint": "W regule zapisz bool pa = (a % 2 == 0), pb = (b % 2 == 0);. Gdy pa != pb, zwróć pa. Gdy obie są parzyste — a < b, gdy obie nieparzyste — a > b. Warunek x % 2 == 0 działa też dla liczb ujemnych.",
+      "tests_count": 7
+    },
+    {
+      "id": "sort-od-najkrotszego",
+      "number": 1081,
+      "title": "Od najkrótszego",
+      "category": "Sortowanie / krok 5: własna reguła",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n słów i wypisz je w jednym wierszu, od najkrótszego do najdłuższego. Słowa tej samej długości mają stać alfabetycznie. Słowa składają się z małych liter angielskich i mogą się powtarzać."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n słów."
+      ],
+      "output_format": [
+        "Jeden wiersz: n słów w wymaganej kolejności."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "Każde słowo ma od 1 do 10 liter."
+      ],
+      "examples": [
+        {
+          "input": "6\npies kot zebra mysz lew ara",
+          "output": "ara kot lew mysz pies zebra"
+        }
+      ],
+      "hint": "Reguła dla napisów: [](string a, string b) { if (a.size() != b.size()) return a.size() < b.size(); return a < b; }.",
+      "tests_count": 6
+    },
+    {
+      "id": "sort-suma-cyfr",
+      "number": 1082,
+      "title": "Według sumy cyfr",
+      "category": "Sortowanie / krok 5: własna reguła",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb naturalnych i wypisz je posortowane według sumy cyfr, rosnąco. Liczby o tej samej sumie cyfr mają stać rosnąco według wartości."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb naturalnych."
+      ],
+      "output_format": [
+        "Jeden wiersz: n liczb w wymaganej kolejności."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "0 ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "6\n91 8 125 44 70 17",
+          "output": "70 8 17 44 125 91",
+          "note": "Sumy cyfr: 10, 8, 8, 8, 7, 8."
+        }
+      ],
+      "hint": "W regule policz sumy cyfr a i b pętlą while (x > 0) { s += x % 10; x /= 10; } — na osobnej zmiennej x. Potem: if (sa != sb) return sa < sb; return a < b;. Liczba 0 ma sumę cyfr 0.",
+      "tests_count": 7
+    },
+    {
+      "id": "sort-najblizej-celu",
+      "number": 1083,
+      "title": "Najbliżej celu",
+      "category": "Sortowanie / krok 5: własna reguła",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj liczbę k oraz n liczb całkowitych. Wypisz te liczby posortowane według odległości od k, od najbliższej. Jeśli dwie liczby są tak samo daleko od k, mniejsza stoi pierwsza."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jeden wiersz: n liczb w wymaganej kolejności."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "−10⁸ ≤ k ≤ 10⁸",
+        "−10⁸ ≤ każda liczba ≤ 10⁸"
+      ],
+      "examples": [
+        {
+          "input": "6 10\n1 12 8 20 10 15",
+          "output": "10 8 12 15 1 20"
+        }
+      ],
+      "hint": "Reguła z pustymi nawiasami [] nie widzi k. Napisz [&](int a, int b) { if (abs(a - k) != abs(b - k)) return abs(a - k) < abs(b - k); return a < b; }.",
+      "tests_count": 8
+    },
+    {
+      "id": "sort-bez-wielkosci-liter",
+      "number": 1084,
+      "title": "Alfabet bez wielkich liter",
+      "category": "Sortowanie / krok 5: własna reguła",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n słów złożonych z wielkich i małych liter angielskich. Wypisz je posortowane alfabetycznie bez względu na wielkość liter — tak, jakby wszystkie litery były małe (wtedy „ala” stoi przed „Zosia”). Jeśli dwa słowa po zamianie na małe litery są identyczne (np. „Kot” i „kot”), rozstrzyga zwykłe porównanie napisów, w którym wielkie litery są przed małymi."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n słów."
+      ],
+      "output_format": [
+        "Jeden wiersz: n słów w wymaganej kolejności."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "Każde słowo ma od 1 do 10 liter."
+      ],
+      "examples": [
+        {
+          "input": "5\nZosia ala Kot kot Ala",
+          "output": "Ala ala Kot kot Zosia",
+          "note": "Bez wielkości liter: ala = Ala, kot = Kot, potem zosia. Remisy: „Ala” przed „ala”, „Kot” przed „kot”."
+        }
+      ],
+      "hint": "W regule zrób kopie: string x = a, y = b; i zamień w nich litery na małe pętlą for (auto &c : x) c = tolower(c);. Jeśli x != y — zwróć x < y, w przeciwnym razie a < b.",
+      "tests_count": 7
+    },
+    {
+      "id": "sort-reszta",
+      "number": 1085,
+      "title": "Reszta z dzielenia",
+      "category": "Sortowanie / krok 5: własna reguła",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj liczbę k oraz n liczb naturalnych. Wypisz te liczby posortowane według reszty z dzielenia przez k, rosnąco. Liczby z tą samą resztą mają stać od największej do najmniejszej."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n liczb naturalnych."
+      ],
+      "output_format": [
+        "Jeden wiersz: n liczb w wymaganej kolejności."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "1 ≤ k ≤ 1000",
+        "0 ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "6 3\n4 9 5 12 7 1",
+          "output": "12 9 7 4 1 5",
+          "note": "Reszty: 4 → 1, 9 → 0, 5 → 2, 12 → 0, 7 → 1, 1 → 1."
+        }
+      ],
+      "hint": "Reguła potrzebuje k, więc [&]: if (a % k != b % k) return a % k < b % k; return a > b;.",
+      "tests_count": 7
+    },
+    {
+      "id": "sort-minus",
+      "number": 1086,
+      "title": "Sztuczka z minusem",
+      "category": "Sortowanie / krok 6: kilka kryteriów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Zawodnicy zdobyli punkty i mieli swoje czasy. W rankingu wyżej stoi zawodnik z większą liczbą punktów, a przy równych punktach — ten z krótszym czasem. Wypisz pary „punkty czas” w kolejności rankingu, od najlepszego."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z kolejnych n wierszy dwie liczby: punkty i czas."
+      ],
+      "output_format": [
+        "n wierszy „punkty czas” w kolejności rankingu."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "0 ≤ punkty ≤ 1000",
+        "1 ≤ czas ≤ 100 000"
+      ],
+      "examples": [
+        {
+          "input": "5\n75 300\n90 410\n75 250\n60 120\n90 380",
+          "output": "90 380\n90 410\n75 250\n75 300\n60 120"
+        }
+      ],
+      "hint": "Zapisz każdego zawodnika jako parę (-punkty, czas) i posortuj zwykłym sort. Rosnąco po minus punktach to malejąco po punktach, a przy remisie pary porównują second — czas rosnąco. Wypisując, zmień znak z powrotem.",
+      "tests_count": 7
+    },
+    {
+      "id": "sort-punkty-od-lewej",
+      "number": 1087,
+      "title": "Punkty od lewej",
+      "category": "Sortowanie / krok 6: kilka kryteriów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na płaszczyźnie leży n punktów. Wypisz je od lewej do prawej, czyli według x rosnąco. Punkty o tym samym x (leżące jeden nad drugim) wypisz od góry do dołu, czyli według y malejąco."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z kolejnych n wierszy dwie liczby całkowite x i y."
+      ],
+      "output_format": [
+        "n wierszy „x y” w wymaganej kolejności."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "−1000 ≤ x, y ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "5\n2 1\n0 5\n2 7\n-1 3\n0 -2",
+          "output": "-1 3\n0 5\n0 -2\n2 7\n2 1"
+        }
+      ],
+      "hint": "Reguła dla par: if (a.first != b.first) return a.first < b.first; return a.second > b.second;. Można też zapisać parę (x, -y) i posortować zwykłym sort.",
+      "tests_count": 7
+    },
+    {
+      "id": "sort-lista-klas",
+      "number": 1088,
+      "title": "Lista według klas",
+      "category": "Sortowanie / krok 6: kilka kryteriów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Uczniowie zapisywali się na wycieczkę po kolei, podając imię i klasę (np. 2b). Wypisz listę pogrupowaną według klas: klasy w porządku słownikowym (1a, 1b, 2a, …), a uczniów z tej samej klasy — w kolejności, w jakiej się zapisywali. Każdy wiersz ma postać „klasa imię”."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z kolejnych n wierszy imię i klasa."
+      ],
+      "output_format": [
+        "n wierszy „klasa imię”."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "Klasa to cyfra od 1 do 8 i mała litera.",
+        "Imię ma od 2 do 9 liter."
+      ],
+      "examples": [
+        {
+          "input": "5\nZosia 2a\nAdam 1b\nOla 2a\nBartek 1b\nAla 2a",
+          "output": "1b Adam\n1b Bartek\n2a Zosia\n2a Ola\n2a Ala",
+          "note": "W klasie 2a kolejność zapisów to Zosia, Ola, Ala — choć alfabetycznie byłoby inaczej."
+        }
+      ],
+      "hint": "Zapisz pary (imię, klasa) i użyj stable_sort z regułą, która porównuje tylko klasy: return a.second < b.second;. Stabilne sortowanie zostawi uczniów z tej samej klasy w kolejności z wejścia.",
+      "tests_count": 7
+    },
+    {
+      "id": "sort-tabela-wynikow",
+      "number": 1089,
+      "title": "Tabela wyników",
+      "category": "Sortowanie / krok 6: kilka kryteriów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Zawodnicy mają imię, liczbę punktów i czas. Ułóż tabelę wyników: wyżej stoi zawodnik z większą liczbą punktów; przy równych punktach — z krótszym czasem; a przy równych punktach i czasach — z imieniem wcześniejszym w alfabecie. Wypisz tabelę w postaci „miejsce. imię punkty czas”, gdzie miejsca to kolejne liczby od 1."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z kolejnych n wierszy imię, punkty i czas."
+      ],
+      "output_format": [
+        "n wierszy tabeli wyników."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 800",
+        "0 ≤ punkty ≤ 500",
+        "1 ≤ czas ≤ 9999",
+        "Imię ma od 2 do 9 liter."
+      ],
+      "examples": [
+        {
+          "input": "5\nOla 300 95\nJan 300 80\nEwa 250 60\nAla 300 80\nIgor 280 70",
+          "output": "1. Ala 300 80\n2. Jan 300 80\n3. Ola 300 95\n4. Igor 280 70\n5. Ewa 250 60"
+        }
+      ],
+      "hint": "Trzymaj zawodnika jako pair<string, pair<int, int>> albo w trzech vectorach z sortowaniem numerów (część 7). Reguła to schodki: if (punkty różne) return punkty a > punkty b; if (czasy różne) return czas a < czas b; return imię a < imię b;.",
+      "tests_count": 7
+    },
+    {
+      "id": "sort-najblizej-srodka",
+      "number": 1090,
+      "title": "Najbliżej środka",
+      "category": "Sortowanie / krok 6: kilka kryteriów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na płaszczyźnie leży n punktów o współrzędnych całkowitych. Wypisz je od najbliższego do najdalszego od początku układu współrzędnych (0, 0). Punkty tak samo odległe wypisz według x rosnąco, a przy tym samym x — według y rosnąco."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z kolejnych n wierszy dwie liczby całkowite x i y."
+      ],
+      "output_format": [
+        "n wierszy „x y” w wymaganej kolejności."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "−10⁹ ≤ x, y ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "5\n3 4\n-1 1\n0 2\n-5 0\n1 -1",
+          "output": "-1 1\n1 -1\n0 2\n-5 0\n3 4"
+        }
+      ],
+      "hint": "Do porównywania odległości nie potrzeba pierwiastka — wystarczy x² + y². Dla współrzędnych do miliarda kwadrat ma 18 cyfr: licz go jako 1LL * x * x + 1LL * y * y. Przy remisie zwróć a < b — porównanie całych par to dokładnie „według x, potem według y”.",
+      "tests_count": 7
+    },
+    {
+      "id": "sort-czeste-slowa",
+      "number": 1091,
+      "title": "Najczęstsze słowa",
+      "category": "Sortowanie / krok 6: kilka kryteriów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n słów. Policz, ile razy występuje każde słowo, i wypisz k najczęstszych: od najczęstszego, a przy tej samej liczbie wystąpień — alfabetycznie. Każdy wiersz ma postać „słowo liczba”. Jeśli różnych słów jest mniej niż k, wypisz wszystkie."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n słów z małych liter angielskich."
+      ],
+      "output_format": [
+        "Najwyżej k wierszy „słowo liczba”."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "1 ≤ k ≤ 100",
+        "Każde słowo ma od 1 do 10 liter."
+      ],
+      "examples": [
+        {
+          "input": "9 3\nala ma kota a kot ma ale ala ma",
+          "output": "ma 3\nala 2\na 1",
+          "note": "„ma” — 3 razy, „ala” — 2 razy, a potem pięć słów po 1 razie: z nich alfabetycznie pierwsze jest „a”."
+        }
+      ],
+      "hint": "Posortuj słowa i przejdź grupa po grupie (jak liczby w części 3), zapisując pary (liczba wystąpień, słowo). Potem posortuj pary regułą: if (a.first != b.first) return a.first > b.first; return a.second < b.second; i wypisz pierwsze min(k, liczba par).",
+      "tests_count": 8
+    },
+    {
+      "id": "sort-wyniki-biegu",
+      "number": 1092,
+      "title": "Wyniki biegu",
+      "category": "Sortowanie / krok 6: kilka kryteriów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Biegacze przebiegli trasę. Czas każdego zapisano w postaci m:ss (minuty bez zer na początku, sekundy zawsze dwiema cyframi, np. 3:07). Wypisz ranking: od najkrótszego czasu, a przy równych czasach — alfabetycznie według imion. Każdy wiersz ma postać „miejsce. imię m:ss”, gdzie miejsca to kolejne liczby od 1, a czas jest zapisany tak samo jak na wejściu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z kolejnych n wierszy imię i czas m:ss."
+      ],
+      "output_format": [
+        "n wierszy rankingu."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "0 ≤ minuty ≤ 59",
+        "0 ≤ sekundy ≤ 59"
+      ],
+      "examples": [
+        {
+          "input": "4\nOla 3:07\nJan 2:59\nEwa 3:07\nIgor 10:00",
+          "output": "1. Jan 2:59\n2. Ewa 3:07\n3. Ola 3:07\n4. Igor 10:00",
+          "note": "Ewa i Ola mają ten sam czas — wyżej Ewa (alfabet)."
+        }
+      ],
+      "hint": "Czas wczytasz jak godzinę z lekcji o wejściu: cin >> imie >> m >> dwukropek >> s; (dwukropek to char). Zamień go na sekundy m * 60 + s i sortuj pary (sekundy, imię) — zwykły sort da czas rosnąco, a przy remisie imię alfabetycznie. Sekundy wypisz z zerem na początku: setw(2) i setfill('0').",
+      "tests_count": 7
+    },
+    {
+      "id": "sort-skad-przyszly",
+      "number": 1093,
+      "title": "Skąd przyszły?",
+      "category": "Sortowanie / krok 7: numery i rankingi",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb całkowitych; pozycje numerujemy od 1. Wyobraź sobie, że ustawiamy liczby niemalejąco, a równe liczby — w kolejności ich pozycji. Wypisz numery pozycji, z których pochodzą kolejne liczby tego ustawienia."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jeden wiersz: n numerów pozycji."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "5\n150 142 150 138 142",
+          "output": "4 2 5 1 3",
+          "note": "Najmniejsza liczba (138) stoi na pozycji 4, potem dwie liczby 142 z pozycji 2 i 5, potem 150 z pozycji 1 i 3."
+        }
+      ],
+      "hint": "Zrób vector numerów nr = {0, 1, …, n − 1} i posortuj go regułą [&](int a, int b) { if (v[a] != v[b]) return v[a] < v[b]; return a < b; }. Wypisuj nr[k] + 1, bo pozycje liczymy od 1.",
+      "tests_count": 8
+    },
+    {
+      "id": "sort-wedlug-wzrostu",
+      "number": 1094,
+      "title": "Ustaw się według wzrostu",
+      "category": "Sortowanie / krok 7: numery i rankingi",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dzieci podały swoje imiona i wzrost — ale osobno: w jednym wierszu są imiona, a w drugim wzrost w tej samej kolejności (k-ty wzrost należy do k-tego imienia). Wypisz imiona od najwyższego dziecka do najniższego. Dzieci tego samego wzrostu wypisz w kolejności z wejścia."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n imion.",
+        "W trzecim wierszu n liczb — wzrost w centymetrach."
+      ],
+      "output_format": [
+        "Jeden wiersz: n imion w wymaganej kolejności."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "80 ≤ wzrost ≤ 200"
+      ],
+      "examples": [
+        {
+          "input": "4\nOla Jan Ewa Igor\n150 162 150 171",
+          "output": "Igor Jan Ola Ewa"
+        }
+      ],
+      "hint": "Wczytaj imiona do vector<string> imie(n), a wzrost do vector<int> w(n). Posortuj numery regułą [&]: if (w[a] != w[b]) return w[a] > w[b]; return a < b;. Wypisz imie[nr[k]].",
+      "tests_count": 7
+    },
+    {
+      "id": "sort-gdzie-k-ta",
+      "number": 1095,
+      "title": "Gdzie stoi k-ta?",
+      "category": "Sortowanie / krok 7: numery i rankingi",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb całkowitych (pozycje od 1) i q pytań. Ustawiamy liczby niemalejąco, a równe — w kolejności ich pozycji. Każde pytanie to liczba k; odpowiedz, na której pozycji w danych wejściowych stoi liczba, która w tym ustawieniu jest k-ta."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i q.",
+        "W drugim wierszu n liczb całkowitych.",
+        "W trzecim wierszu q liczb k."
+      ],
+      "output_format": [
+        "q wierszy — odpowiedzi na pytania."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "1 ≤ q ≤ 3000",
+        "1 ≤ k ≤ n",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "5 3\n150 142 150 138 142\n1 3 5",
+          "output": "4\n5\n3",
+          "note": "Ustawienie pozycji: 4, 2, 5, 1, 3."
+        }
+      ],
+      "hint": "Posortuj raz vector numerów (z remisem po numerze), a potem na każde pytanie odpowiadaj nr[k - 1] + 1. Nie sortuj od nowa przy każdym pytaniu!",
+      "tests_count": 7
+    },
+    {
+      "id": "sort-miejsca-ex-aequo",
+      "number": 1096,
+      "title": "Miejsca ex aequo",
+      "category": "Sortowanie / krok 7: numery i rankingi",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "n zawodników zdobyło punkty. Miejsca przyznaje się jak w sporcie: zawodnik ma miejsce o 1 większe od liczby zawodników, którzy mają od niego więcej punktów. Dlatego remisujący dzielą miejsce, a następne miejsca są pomijane (np. 1, 2, 2, 4). Wypisz miejsca wszystkich zawodników w kolejności z wejścia."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb — punkty zawodników."
+      ],
+      "output_format": [
+        "Jeden wiersz: n miejsc w kolejności z wejścia."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "0 ≤ punkty ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "6\n70 85 90 85 60 90",
+          "output": "5 3 1 3 6 1"
+        }
+      ],
+      "hint": "Posortuj numery malejąco według punktów. Idź po kolei: zawodnik na pozycji k dostaje k + 1, chyba że ma tyle samo punktów co zawodnik na pozycji k − 1 — wtedy to samo miejsce co on. Zapisuj do miejsce[nr[k]], a na końcu wypisz miejsce[0], miejsce[1], ….",
+      "tests_count": 8
+    },
+    {
+      "id": "sort-kompresja",
+      "number": 1097,
+      "title": "Numery zamiast liczb",
+      "category": "Sortowanie / krok 7: numery i rankingi",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb całkowitych. Zamień każdą liczbę na jej numer w uporządkowanej liście różnych wartości: najmniejsza wartość dostaje numer 1, następna 2 i tak dalej. Równe liczby dostają ten sam numer. Wypisz numery w kolejności z wejścia."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jeden wiersz: n numerów."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "5\n1000 5 1000000 5 70",
+          "output": "3 1 4 1 2"
+        }
+      ],
+      "hint": "Posortuj numery według wartości. Idź po kolei z licznikiem: zwiększ go, gdy k == 0 albo wartość różni się od poprzedniej w ustawieniu, i zapisz kod[nr[k]] = licznik. Inny sposób: posortuj kopię, usuń powtórzenia (unique) i dla każdej liczby znajdź jej pozycję przez lower_bound — to z części 8.",
+      "tests_count": 8
+    },
+    {
+      "id": "sort-lista-startowa",
+      "number": 1098,
+      "title": "Lista startowa",
+      "category": "Sortowanie / krok 7: numery i rankingi",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Każdy zawodnik ma imię, kod kraju (trzy wielkie litery, np. POL) i liczbę punktów z kwalifikacji. Ułóż listę startową: zawodnicy pogrupowani według kraju (kody krajów alfabetycznie), w każdym kraju od największej liczby punktów, a przy równych punktach — alfabetycznie według imion. Każdy wiersz ma postać „kraj imię punkty”."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z kolejnych n wierszy imię, kod kraju i punkty."
+      ],
+      "output_format": [
+        "n wierszy listy startowej."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "0 ≤ punkty ≤ 1000",
+        "Imię ma od 2 do 9 liter."
+      ],
+      "examples": [
+        {
+          "input": "5\nOla POL 80\nHans GER 95\nJan POL 92\nEwa POL 80\nLars NOR 70",
+          "output": "GER Hans 95\nNOR Lars 70\nPOL Jan 92\nPOL Ewa 80\nPOL Ola 80"
+        }
+      ],
+      "hint": "Trzymaj dane w trzech vectorach: imie, kraj, pkt. Posortuj numery regułą [&]: if (kraj[a] != kraj[b]) return kraj[a] < kraj[b]; if (pkt[a] != pkt[b]) return pkt[a] > pkt[b]; return imie[a] < imie[b];.",
+      "tests_count": 7
+    },
+    {
+      "id": "sort-kto-awansowal",
+      "number": 1099,
+      "title": "Kto awansował najwięcej?",
+      "category": "Sortowanie / krok 7: numery i rankingi",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W zawodach startuje n zawodników ponumerowanych od 1. W pierwszej rundzie zawodnik i zdobył aᵢ punktów, w drugiej bᵢ. Ranking po pierwszej rundzie układamy według aᵢ malejąco, a ranking końcowy — według aᵢ + bᵢ malejąco; w obu rankingach przy remisie wyżej stoi zawodnik z mniejszym numerem, więc miejsca są różne (od 1 do n). Awans zawodnika to (miejsce po pierwszej rundzie) − (miejsce końcowe). Wypisz numer zawodnika z największym awansem i ten awans. Jeśli kilku ma ten sam największy awans, wybierz najmniejszy numer."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z kolejnych n wierszy dwie liczby aᵢ i bᵢ."
+      ],
+      "output_format": [
+        "Dwie liczby: numer zawodnika i jego awans."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "0 ≤ aᵢ, bᵢ ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "4\n10 0\n8 5\n9 1\n5 9",
+          "output": "4 3",
+          "note": "Po rundzie 1: zawodnicy 1, 3, 2, 4. Końcowo (sumy 10, 13, 10, 14): 4, 2, 1, 3. Zawodnik 4 awansował z miejsca 4 na 1."
+        }
+      ],
+      "hint": "Policz dwa vectory miejsc. Dla każdego rankingu posortuj numery (reguła [&] z remisem po numerze) i zapisz miejsce[nr[k]] = k + 1. Potem jedną pętlą znajdź największą różnicę miejsce1[i] − miejsce2[i] — zmieniaj ją tylko przy ściśle większej wartości.",
+      "tests_count": 8
+    },
+    {
+      "id": "sort-czy-jest",
+      "number": 1100,
+      "title": "Czy jest na liście?",
+      "category": "Sortowanie / krok 8: szukanie w posortowanym",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na liście jest n numerów biletów, które już wygrały. Przychodzi q osób; każda pyta, czy jej numer jest na liście. Na każde pytanie odpowiedz TAK albo NIE."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i q.",
+        "W drugim wierszu n numerów z listy.",
+        "W trzecim wierszu q numerów z pytań."
+      ],
+      "output_format": [
+        "q wierszy: TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 8000",
+        "1 ≤ q ≤ 4000",
+        "0 ≤ każdy numer ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "6 4\n40 7 22 31 12 60\n22 23 60 1",
+          "output": "TAK\nNIE\nTAK\nNIE"
+        }
+      ],
+      "hint": "Posortuj listę jeden raz, przed pytaniami. Potem binary_search(v.begin(), v.end(), x) odpowiada na pytanie w kilkunastu krokach.",
+      "tests_count": 6
+    },
+    {
+      "id": "sort-ile-mniejszych",
+      "number": 1101,
+      "title": "Ile mniejszych?",
+      "category": "Sortowanie / krok 8: szukanie w posortowanym",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb całkowitych i q pytań. Każde pytanie to liczba x — odpowiedz, ile spośród n liczb jest ściśle mniejszych od x."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i q.",
+        "W drugim wierszu n liczb.",
+        "W trzecim wierszu q liczb x."
+      ],
+      "output_format": [
+        "q wierszy z odpowiedziami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 8000",
+        "1 ≤ q ≤ 4000",
+        "−10⁶ ≤ każda liczba ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "6 4\n2 4 4 4 7 9\n4 5 1 10",
+          "output": "1\n4\n0\n6"
+        }
+      ],
+      "hint": "Po sortowaniu lower_bound(v.begin(), v.end(), x) - v.begin() to numer pierwszego elementu ≥ x — a zarazem liczba elementów mniejszych od x.",
+      "tests_count": 6
+    },
+    {
+      "id": "sort-ile-w-przedziale",
+      "number": 1102,
+      "title": "Ile w przedziale?",
+      "category": "Sortowanie / krok 8: szukanie w posortowanym",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb całkowitych i q pytań. Każde pytanie to dwie liczby a ≤ b — odpowiedz, ile spośród n liczb leży w przedziale od a do b (włącznie z końcami)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i q.",
+        "W drugim wierszu n liczb.",
+        "W każdym z kolejnych q wierszy liczby a i b."
+      ],
+      "output_format": [
+        "q wierszy z odpowiedziami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 6000",
+        "1 ≤ q ≤ 3000",
+        "−10⁶ ≤ każda liczba, a, b ≤ 10⁶",
+        "a ≤ b"
+      ],
+      "examples": [
+        {
+          "input": "7 3\n15 3 9 27 9 20 1\n5 15\n10 14\n0 100",
+          "output": "3\n0\n7"
+        }
+      ],
+      "hint": "Liczba elementów w [a, b] to (ile ≤ b) − (ile < a), czyli upper_bound(v.begin(), v.end(), b) - lower_bound(v.begin(), v.end(), a). Posortuj tylko raz.",
+      "tests_count": 6
+    },
+    {
+      "id": "sort-ile-razy-wystapilo",
+      "number": 1103,
+      "title": "Ile razy wystąpiło?",
+      "category": "Sortowanie / krok 8: szukanie w posortowanym",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb całkowitych i q pytań. Każde pytanie to liczba x — odpowiedz, ile razy x występuje wśród n liczb."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i q.",
+        "W drugim wierszu n liczb.",
+        "W trzecim wierszu q liczb x."
+      ],
+      "output_format": [
+        "q wierszy z odpowiedziami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 8000",
+        "1 ≤ q ≤ 4000",
+        "−10⁶ ≤ każda liczba ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "6 3\n2 4 4 4 7 9\n4 5 9",
+          "output": "3\n0\n1"
+        }
+      ],
+      "hint": "Wszystkie liczby równe x leżą między lower_bound(x) (wliczamy) a upper_bound(x) (nie wliczamy). Ich liczba to różnica tych dwóch strzałek.",
+      "tests_count": 6
+    },
+    {
+      "id": "sort-zgadnij-liczbe",
+      "number": 1104,
+      "title": "Zgadnij liczbę",
+      "category": "Sortowanie / krok 8: szukanie w posortowanym",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ktoś pomyślał liczbę x od 1 do n. Zgadujący pilnuje przedziału [l, r], w którym może być liczba (na początku l = 1, r = n), i zawsze pyta o s = (l + r) / 2 (dzielenie całkowite). Jeśli s = x — koniec. Jeśli s < x, zgadujący ustawia l = s + 1, a jeśli s > x — ustawia r = s − 1. Wypisz wszystkie kolejne strzały, a w drugim wierszu ich liczbę."
+      ],
+      "input_format": [
+        "Dwie liczby n i x."
+      ],
+      "output_format": [
+        "W pierwszym wierszu kolejne strzały, w drugim ich liczba."
+      ],
+      "constraints": [
+        "1 ≤ x ≤ n ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "100 71",
+          "output": "50 75 62 68 71\n5"
+        },
+        {
+          "input": "100 50",
+          "output": "50\n1"
+        }
+      ],
+      "hint": "Pętla while (true): policz s = (l + r) / 2, wypisz s i zwiększ licznik; jeśli s == x — break; jeśli s < x — l = s + 1; inaczej r = s − 1. Dla n do miliarda l + r mieści się w int (2·10⁹ < 2 147 483 647), ale long long nie zaszkodzi.",
+      "tests_count": 14
+    },
+    {
+      "id": "sort-nastepny-rozmiar",
+      "number": 1105,
+      "title": "Następny rozmiar",
+      "category": "Sortowanie / krok 8: szukanie w posortowanym",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W sklepie jest n par butów; znasz ich rozmiary (mogą się powtarzać). Przychodzi q klientów. Klient z rozmiarem x zadowoli się butami w rozmiarze x albo większym. Dla każdego klienta wypisz najmniejszy rozmiar dostępny w sklepie, który jest co najmniej x, albo BRAK, jeśli wszystkie buty są za małe. Klienci tylko pytają — niczego nie kupują."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i q.",
+        "W drugim wierszu n rozmiarów.",
+        "W trzecim wierszu q rozmiarów klientów."
+      ],
+      "output_format": [
+        "q wierszy: rozmiar albo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "1 ≤ q ≤ 3000",
+        "15 ≤ każdy rozmiar ≤ 50"
+      ],
+      "examples": [
+        {
+          "input": "5 4\n38 42 40 44 40\n40 41 45 20",
+          "output": "40\n42\nBRAK\n38"
+        }
+      ],
+      "hint": "Po sortowaniu int i = lower_bound(v.begin(), v.end(), x) - v.begin(); pokazuje najmniejszy rozmiar ≥ x. Gdy i == n, takiego rozmiaru nie ma — wypisz BRAK (nie czytaj v[n]!).",
+      "tests_count": 6
+    },
+    {
+      "id": "sort-najblizsza-cena",
+      "number": 1106,
+      "title": "Najbliższa cena",
+      "category": "Sortowanie / krok 8: szukanie w posortowanym",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W cenniku jest n cen. Na każde z q pytań — kwotę x — wypisz cenę z cennika, która jest najbliżej x. Jeśli dwie ceny są tak samo blisko, wybierz tańszą."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i q.",
+        "W drugim wierszu n cen.",
+        "W trzecim wierszu q kwot."
+      ],
+      "output_format": [
+        "q wierszy z cenami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 8000",
+        "1 ≤ q ≤ 3000",
+        "1 ≤ cena, kwota ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "5 5\n10 25 40 60 95\n30 34 5 120 50",
+          "output": "25\n40\n10\n95\n40"
+        }
+      ],
+      "hint": "lower_bound daje najmniejszą cenę ≥ x (numer i). Drugi kandydat to cena tuż przed nią (numer i − 1). Obsłuż brzegi: gdy i == n — tylko c[n − 1], gdy i == 0 — tylko c[0]. W pozostałych przypadkach porównaj x − c[i − 1] z c[i] − x; przy remisie wybierz c[i − 1].",
+      "tests_count": 7
+    },
+    {
+      "id": "sort-pary-o-sumie",
+      "number": 1107,
+      "title": "Pary o sumie S",
+      "category": "Sortowanie / krok 8: szukanie w posortowanym",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb całkowitych i liczbę S. Policz, ile jest par pozycji i < j, dla których aᵢ + aⱼ = S."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i S.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba par."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 8000",
+        "−10⁶ ≤ aᵢ ≤ 10⁶",
+        "−2·10⁶ ≤ S ≤ 2·10⁶"
+      ],
+      "examples": [
+        {
+          "input": "6 10\n5 3 7 5 2 8",
+          "output": "3",
+          "note": "Pary: 5 + 5, 3 + 7 i 2 + 8."
+        }
+      ],
+      "hint": "Posortuj. Dla każdego i policz, ile razy liczba S − v[i] występuje na prawo od i: upper_bound(v.begin() + i + 1, v.end(), S - v[i]) - lower_bound(v.begin() + i + 1, v.end(), S - v[i]). Szukając tylko na prawo, każdą parę liczysz dokładnie raz. Wynik może przekroczyć int — sumuj w long long.",
+      "tests_count": 10
+    },
+    {
+      "id": "sort-prezenty",
+      "number": 1108,
+      "title": "Jak najwięcej prezentów",
+      "category": "Sortowanie / krok 9: pomysły zachłanne",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz B złotych i listę cen n prezentów. Każdy prezent możesz kupić najwyżej raz. Kup jak najwięcej prezentów. Wypisz, ile ich kupisz, i ile najmniej złotych na to wydasz."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i B.",
+        "W drugim wierszu n cen."
+      ],
+      "output_format": [
+        "Dwie liczby: największa liczba prezentów i najmniejsza kwota, za którą da się je kupić."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "0 ≤ B ≤ 10¹²",
+        "1 ≤ cena ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "6 50\n20 7 35 12 9 15",
+          "output": "4 43"
+        }
+      ],
+      "hint": "Posortuj ceny rosnąco i kupuj po kolei, dopóki starcza pieniędzy. Najtańsze prezenty dają jednocześnie największą liczbę i najmniejszą kwotę. Budżet nie mieści się w int — long long.",
+      "tests_count": 8
+    },
+    {
+      "id": "sort-kolejka-do-kasy",
+      "number": 1109,
+      "title": "Kolejka do kasy",
+      "category": "Sortowanie / krok 9: pomysły zachłanne",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Do jednej kasy przyszło jednocześnie n klientów. Obsługa klienta i trwa tᵢ minut, a kasjer obsługuje ich jednego po drugim, bez przerw. Czas czekania klienta to liczba minut od chwili 0 do końca jego obsługi. Ustaw klientów tak, by suma czasów czekania wszystkich była jak najmniejsza, i wypisz tę sumę."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n czasów obsługi."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejsza suma czasów czekania."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "1 ≤ tᵢ ≤ 10⁴"
+      ],
+      "examples": [
+        {
+          "input": "3\n5 1 3",
+          "output": "14",
+          "note": "Kolejność 1, 3, 5: klienci kończą po 1, 4 i 9 minutach."
+        }
+      ],
+      "hint": "Obsługuj od najkrótszego. Po sortowaniu trzymaj zegar (koniec obsługi bieżącego klienta) i dodawaj go do sumy. Suma może sięgnąć 5·10¹¹ — long long.",
+      "tests_count": 7
+    },
+    {
+      "id": "sort-rowne-pary",
+      "number": 1110,
+      "title": "Równe pary",
+      "category": "Sortowanie / krok 9: pomysły zachłanne",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na turniej przyszło 2n graczy; każdy ma swoją siłę. Trzeba ich połączyć w n par. Siła pary to suma sił obu graczy. Organizator chce, by pary były jak najbardziej wyrównane: największa siła pary ma być jak najmniejsza. Wypisz tę najmniejszą możliwą wartość."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu 2n liczb — siły graczy."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejsza możliwa siła najsilniejszej pary."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "1 ≤ siła ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "2\n1 9 3 7",
+          "output": "10",
+          "note": "Pary (1, 9) i (3, 7) mają siłę 10."
+        }
+      ],
+      "hint": "Posortuj i łącz najsłabszego z najsilniejszym, drugiego najsłabszego z drugim najsilniejszym itd.: pary v[i] i v[2n − 1 − i]. Odpowiedź to największa z tych sum.",
+      "tests_count": 8
+    },
+    {
+      "id": "sort-lodki",
+      "number": 1111,
+      "title": "Łódki",
+      "category": "Sortowanie / krok 9: pomysły zachłanne",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "n osób chce przepłynąć rzekę. Każda łódka mieści najwyżej dwie osoby, a ich łączna waga nie może przekroczyć L. Wagi wszystkich osób są nie większe niż L. Ile najmniej łódek potrzeba?"
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i L.",
+        "W drugim wierszu n wag."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejsza liczba łódek."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "1 ≤ waga ≤ L ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "6 120\n70 50 80 30 60 90",
+          "output": "4"
+        }
+      ],
+      "hint": "Posortuj wagi i ustaw i na najlżejszej, j na najcięższej osobie. Dopóki i <= j: jeśli i < j i v[i] + v[j] <= L, najlżejszy płynie z najcięższym (i++); w każdym przypadku najcięższy odpływa (j--) i zużywamy jedną łódkę.",
+      "tests_count": 10
+    },
+    {
+      "id": "sort-suma-iloczynow",
+      "number": 1112,
+      "title": "Suma iloczynów",
+      "category": "Sortowanie / krok 9: pomysły zachłanne",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz dwie listy po n liczb całkowitych: a i b. Każdą liczbę z listy a łączysz w parę z inną liczbą z listy b (każda liczba z b jest użyta dokładnie raz). Wynik to suma iloczynów w parach. Wypisz największy i najmniejszy możliwy wynik."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb listy a.",
+        "W trzecim wierszu n liczb listy b."
+      ],
+      "output_format": [
+        "Dwie liczby: największy i najmniejszy wynik."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "−10⁴ ≤ każda liczba ≤ 10⁴"
+      ],
+      "examples": [
+        {
+          "input": "3\n3 1 2\n10 30 20",
+          "output": "140 100"
+        },
+        {
+          "input": "2\n-1 2\n3 -4",
+          "output": "10 -11",
+          "note": "Największy: (−1)·(−4) + 2·3 = 10. Najmniejszy: (−1)·3 + 2·(−4) = −11."
+        }
+      ],
+      "hint": "Posortuj obie listy rosnąco. Największy wynik: a[i] · b[i] (największy z największym — działa też dla liczb ujemnych). Najmniejszy: a[i] · b[n − 1 − i]. Sumy mogą sięgać 5·10¹¹ — long long.",
+      "tests_count": 8
+    },
+    {
+      "id": "sort-ciastka",
+      "number": 1113,
+      "title": "Ciastka dla dzieci",
+      "category": "Sortowanie / krok 9: pomysły zachłanne",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz n dzieci i m ciastek. Dziecko i ma apetyt aᵢ — zadowoli je ciastko o rozmiarze co najmniej aᵢ. Każde dziecko dostaje najwyżej jedno ciastko, a każde ciastko może dostać najwyżej jedno dziecko. Ile najwięcej dzieci możesz zadowolić?"
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W drugim wierszu n apetytów.",
+        "W trzecim wierszu m rozmiarów ciastek."
+      ],
+      "output_format": [
+        "Jedna liczba — największa liczba zadowolonych dzieci."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 5000",
+        "1 ≤ apetyt, rozmiar ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "4 5\n5 2 8 3\n4 1 3 9 2",
+          "output": "3"
+        }
+      ],
+      "hint": "Posortuj obie listy. Idź po ciastkach od najmniejszego; d to numer najmniej wymagającego niezadowolonego dziecka. Jeśli ciastko >= apetyt[d] — dziecko d je dostaje (d++), w przeciwnym razie ciastko jest za małe dla wszystkich pozostałych i je pomijasz.",
+      "tests_count": 9
+    },
+    {
+      "id": "sort-zmiana-znakow",
+      "number": 1114,
+      "title": "Zmiana znaków",
+      "category": "Sortowanie / krok 9: pomysły zachłanne",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz n liczb całkowitych. Musisz wykonać dokładnie k ruchów; w jednym ruchu wybierasz dowolną liczbę i zmieniasz jej znak (x staje się −x). Tę samą liczbę możesz wybrać wiele razy. Wypisz największą możliwą sumę wszystkich liczb po k ruchach."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jedna liczba — największa możliwa suma."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "1 ≤ k ≤ 10⁹",
+        "−10⁶ ≤ każda liczba ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "5 3\n-4 -1 3 -2 5",
+          "output": "15",
+          "note": "Zmieniamy −4, −2 i −1: suma 4 + 1 + 3 + 2 + 5 = 15."
+        },
+        {
+          "input": "3 3\n-5 2 4",
+          "output": "11",
+          "note": "Zmieniamy −5 na 5, a pozostałe dwa ruchy wykonujemy na dwójce (2 → −2 → 2): suma 11."
+        }
+      ],
+      "hint": "Posortuj rosnąco i zmieniaj znaki ujemnych liczb od najmniejszej, dopóki są ruchy i ujemne liczby. Jeśli zostały ruchy: parzysta liczba ruchów nic nie zmienia (dwa razy ta sama liczba), a przy nieparzystej jeden ruch musi trafić w liczbę o najmniejszej wartości bezwzględnej — odejmij od sumy 2·min|x|.",
+      "tests_count": 12
+    },
+    {
+      "id": "sort-b-szereg",
+      "number": 1115,
+      "title": "Szereg na WF-ie",
+      "category": "Sortowanie / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dzieci stanęły w szeregu w przypadkowej kolejności. Nauczyciel chce, żeby stały od najwyższego do najniższego. W pierwszym wierszu wypisz wzrost dzieci w poprawnej kolejności. W drugim wierszu wypisz, ile dzieci musi zmienić miejsce — czyli na ilu pozycjach wzrost dziecka, które tam stoi, różni się od wzrostu, który powinien tam być."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb — wzrost dzieci w kolejności w szeregu."
+      ],
+      "output_format": [
+        "W pierwszym wierszu n liczb, w drugim jedna liczba."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "100 ≤ wzrost ≤ 200"
+      ],
+      "examples": [
+        {
+          "input": "5\n150 170 140 160 130",
+          "output": "170 160 150 140 130\n4",
+          "note": "Poprawnie: 170 160 150 140 130. Na swoich miejscach stoją tylko dzieci o wzroście 150 i 130."
+        }
+      ],
+      "hint": "Zrób kopię vectora i posortuj ją malejąco. Potem porównaj oryginał z kopią pozycja po pozycji i policz różnice.",
+      "tests_count": 8
+    },
+    {
+      "id": "sort-b-maly-slownik",
+      "number": 1116,
+      "title": "Mały słownik",
+      "category": "Sortowanie / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj tekst złożony z n słów (tylko małe litery angielskie). Zrób z niego słownik: wypisz każde różne słowo dokładnie raz, w porządku alfabetycznym, a obok liczbę jego wystąpień w tekście."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n słów."
+      ],
+      "output_format": [
+        "Dla każdego różnego słowa wiersz „słowo liczba”, alfabetycznie."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "Różnych słów jest najwyżej 1500.",
+        "Każde słowo ma od 1 do 10 liter."
+      ],
+      "examples": [
+        {
+          "input": "9\nala ma kota a kot ma ale ala ma",
+          "output": "a 1\nala 2\nale 1\nkot 1\nkota 1\nma 3"
+        }
+      ],
+      "hint": "Posortuj słowa — takie same staną obok siebie. Potem idź grupa po grupie: i to początek grupy, j przesuwa się, dopóki s[j] == s[i]. Wypisz s[i] i j − i.",
+      "tests_count": 7
+    },
+    {
+      "id": "sort-b-skarpetki",
+      "number": 1117,
+      "title": "Skarpetki do pary",
+      "category": "Sortowanie / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W szufladzie leży n skarpetek; kolor każdej opisuje liczba (mogą być ogromne). Parę tworzą dwie skarpetki tego samego koloru. Wypisz, ile najwięcej par da się złożyć i ile skarpetek zostanie bez pary."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb — kolory skarpetek."
+      ],
+      "output_format": [
+        "Dwie liczby: liczba par i liczba skarpetek bez pary."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "1 ≤ kolor ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "7\n5 3 5 5 3 9 5",
+          "output": "3 1",
+          "note": "Cztery piątki dają 2 pary, dwie trójki — 1 parę, a dziewiątka zostaje sama."
+        }
+      ],
+      "hint": "Kolory są za duże na tablicę liczników — posortuj je. W każdej grupie jednakowych kolorów o długości c są c / 2 pary i c % 2 samotne skarpetki.",
+      "tests_count": 8
+    },
+    {
+      "id": "sort-b-ciag-arytmetyczny",
+      "number": 1118,
+      "title": "Ciąg arytmetyczny?",
+      "category": "Sortowanie / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ciąg jest arytmetyczny, gdy różnica między każdymi dwoma kolejnymi wyrazami jest taka sama (np. 3, 7, 11, 15 — różnica 4). Sprawdź, czy podane n liczb da się ustawić w ciąg arytmetyczny niemalejący. Jeśli tak, wypisz TAK, a w drugim wierszu jego różnicę. Jeśli nie — wypisz NIE."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "TAK i w drugim wierszu różnica albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "4\n15 3 11 7",
+          "output": "TAK\n4"
+        },
+        {
+          "input": "4\n1 2 4 8",
+          "output": "NIE"
+        },
+        {
+          "input": "1\n5",
+          "output": "TAK\n0",
+          "note": "Jedna liczba to też ciąg arytmetyczny — z różnicą 0."
+        }
+      ],
+      "hint": "Jeśli da się ustawić, to tylko rosnąco — więc posortuj. Różnica to v[1] − v[0] (dla n = 1 przyjmij 0). Sprawdź, czy wszystkie różnice sąsiadów są takie same. Różnica dwóch liczb do miliarda może przekroczyć int — użyj long long.",
+      "tests_count": 11
+    },
+    {
+      "id": "sort-b-wolny-numer",
+      "number": 1119,
+      "title": "Najmniejszy wolny numer",
+      "category": "Sortowanie / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W systemie są zajęte numery kont — lista n liczb całkowitych (mogą się powtarzać, mogą być też ujemne lub równe zero). Nowe konto dostaje najmniejszą dodatnią liczbę całkowitą, której nie ma na liście. Wypisz ją."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejszy wolny numer."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "6\n3 1 -2 2 7 1",
+          "output": "4",
+          "note": "Zajęte są 1, 2 i 3, więc wolny jest 4."
+        },
+        {
+          "input": "3\n5 6 7",
+          "output": "1"
+        }
+      ],
+      "hint": "Posortuj i zacznij od kandydata 1. Idź po liczbach: gdy liczba jest równa kandydatowi, kandydat rośnie o 1. Mniejsze liczby (także powtórzenia) pomijasz, a większa oznacza, że kandydat jest wolny.",
+      "tests_count": 11
+    },
+    {
+      "id": "sort-b-brazowy-medal",
+      "number": 1120,
+      "title": "Brązowy medal",
+      "category": "Sortowanie / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W zawodach złoto dostają wszyscy z najlepszym wynikiem, srebro — wszyscy z drugim najlepszym różnym wynikiem, a brąz — wszyscy z trzecim najlepszym różnym wynikiem. Wypisz wynik brązowych medalistów i ich liczbę. Jeśli różnych wyników jest mniej niż trzy, brązu nikt nie dostaje — wypisz BRAK."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n wyników."
+      ],
+      "output_format": [
+        "Dwie liczby (wynik i liczba medalistów) albo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "0 ≤ wynik ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "7\n90 85 90 70 85 70 60",
+          "output": "70 2",
+          "note": "Złoto: 90, srebro: 85, brąz: 70 — dla dwóch osób."
+        },
+        {
+          "input": "3\n5 5 7",
+          "output": "BRAK"
+        }
+      ],
+      "hint": "Zrób kopię, posortuj ją malejąco i usuń powtórzenia (unique + erase). Jeśli zostały mniej niż 3 wartości — BRAK. W przeciwnym razie wynik brązowy to trzecia wartość; policz, ile razy występuje w danych.",
+      "tests_count": 9
+    },
+    {
+      "id": "sort-b-najcieplejsze-dni",
+      "number": 1121,
+      "title": "Najcieplejsze dni",
+      "category": "Sortowanie / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Przez n dni (ponumerowanych od 1) mierzono temperaturę. Wybierz k najcieplejszych dni; jeśli kilka dni ma tę samą temperaturę, a nie wszystkie się zmieszczą, wybierz wcześniejsze. Wypisz numery wybranych dni w kolejności rosnącej."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n temperatur."
+      ],
+      "output_format": [
+        "Jeden wiersz: k numerów dni rosnąco."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 5000",
+        "−50 ≤ temperatura ≤ 50"
+      ],
+      "examples": [
+        {
+          "input": "6 3\n12 25 18 25 30 18",
+          "output": "2 4 5",
+          "note": "Najcieplejsze: dzień 5 (30) i dni 2, 4 (po 25)."
+        }
+      ],
+      "hint": "Posortuj numery dni regułą [&]: wyższa temperatura wcześniej, przy remisie mniejszy numer. Weź pierwsze k numerów do nowego vectora, posortuj go rosnąco i wypisz (pamiętaj o + 1).",
+      "tests_count": 8
+    },
+    {
+      "id": "sort-b-patyczki",
+      "number": 1122,
+      "title": "Patyczki na trójkąt",
+      "category": "Sortowanie / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz n patyczków o podanych długościach. Trzy patyczki o długościach a ≤ b ≤ c tworzą trójkąt, gdy a + b > c. Sprawdź, czy da się wybrać trzy patyczki, z których powstanie trójkąt. Wypisz TAK albo NIE."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n długości."
+      ],
+      "output_format": [
+        "TAK albo NIE."
+      ],
+      "constraints": [
+        "3 ≤ n ≤ 10 000",
+        "1 ≤ długość ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "5\n10 2 5 1 8",
+          "output": "TAK",
+          "note": "Patyczki 5, 8 i 10 tworzą trójkąt, bo 5 + 8 > 10. Z patyczków 2, 8 i 10 trójkąta nie będzie, bo 2 + 8 = 10."
+        },
+        {
+          "input": "4\n1 2 4 8",
+          "output": "NIE",
+          "note": "Każdy patyczek jest co najmniej tak długi jak dwa krótsze razem."
+        }
+      ],
+      "hint": "Posortuj. Wystarczy sprawdzić trójki sąsiadów v[i], v[i + 1], v[i + 2]: jeśli jakikolwiek trójkąt istnieje, to dla jego najdłuższego boku c dwa najdłuższe patyczki stojące przed c też go dadzą. Suma dwóch długości może przekroczyć int — long long.",
+      "tests_count": 11
+    },
+    {
+      "id": "sort-b-kaprekar",
+      "number": 1123,
+      "title": "Liczba Kaprekara",
+      "category": "Sortowanie / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Weź liczbę czterocyfrową (zapisaną zawsze czterema cyframi, więc może zaczynać się od zer), w której są co najmniej dwie różne cyfry. Krok wygląda tak: ustaw jej cyfry malejąco — to liczba duża; ustaw cyfry rosnąco — to liczba mała (może zaczynać się od zer). Nowa liczba to duża minus mała, znowu zapisana czterema cyframi. Matematyk Kaprekar odkrył, że po kilku krokach zawsze wychodzi 6174. W pierwszym wierszu wypisz liczbę z wejścia i wszystkie kolejne liczby, aż do 6174, każdą czterema cyframi. W drugim wierszu wypisz liczbę kroków."
+      ],
+      "input_format": [
+        "Liczba zapisana czterema cyframi, z co najmniej dwiema różnymi cyframi."
+      ],
+      "output_format": [
+        "W pierwszym wierszu kolejne liczby, w drugim liczba kroków."
+      ],
+      "constraints": [
+        "Wejście ma dokładnie 4 cyfry, nie wszystkie takie same."
+      ],
+      "examples": [
+        {
+          "input": "3524",
+          "output": "3524 3087 8352 6174\n3",
+          "note": "5432 − 2345 = 3087, 8730 − 0378 = 8352, 8532 − 2358 = 6174."
+        },
+        {
+          "input": "2111",
+          "output": "2111 0999 8991 8082 8532 6174\n5",
+          "note": "2111 − 1112 = 0999, potem 9990 − 0999 = 8991 …"
+        },
+        {
+          "input": "6174",
+          "output": "6174\n0"
+        }
+      ],
+      "hint": "Trzymaj liczbę jako string s. W pętli while (s != \"6174\"): zrób kopie, posortuj jedną malejąco, drugą rosnąco, zamień je na liczby przez stoi i odejmij. Wynik zamień na napis (to_string) i dopisuj zera z przodu, dopóki napis ma mniej niż 4 znaki.",
+      "tests_count": 13
+    },
+    {
+      "id": "sort-b-pary-butow",
+      "number": 1124,
+      "title": "Pary butów",
+      "category": "Sortowanie / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W magazynie leży n lewych butów i m prawych butów; znasz ich rozmiary. Para to lewy i prawy but w tym samym rozmiarze, a każdy but może trafić do najwyżej jednej pary. Ile najwięcej pełnych par da się złożyć?"
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W drugim wierszu n rozmiarów lewych butów.",
+        "W trzecim wierszu m rozmiarów prawych butów."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba par."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 10 000",
+        "15 ≤ rozmiar ≤ 50"
+      ],
+      "examples": [
+        {
+          "input": "5 4\n40 38 40 42 44\n40 41 38 40",
+          "output": "3"
+        }
+      ],
+      "hint": "Posortuj obie listy i idź dwoma wskaźnikami, jak przy scalaniu: gdy rozmiary są równe — para (oba wskaźniki dalej), w przeciwnym razie przesuń wskaźnik przy mniejszym rozmiarze.",
+      "tests_count": 8
+    },
+    {
+      "id": "sort-b-dwa-rankingi",
+      "number": 1125,
+      "title": "Dwa rankingi",
+      "category": "Sortowanie / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "n zawodników zdobyło punkty. W rankingu sportowym miejsce zawodnika to 1 + liczba zawodników z większą liczbą punktów (remisy dzielą miejsce, a następne miejsca są pomijane: 1, 2, 2, 4). W rankingu gęstym miejsce to 1 + liczba różnych wyników większych od wyniku zawodnika (remisy dzielą miejsce, ale nic nie jest pomijane: 1, 2, 2, 3). W pierwszym wierszu wypisz miejsca w rankingu sportowym, a w drugim — w gęstym, w obu w kolejności z wejścia."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n wyników."
+      ],
+      "output_format": [
+        "Dwa wiersze po n liczb."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "0 ≤ wynik ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "6\n70 85 90 85 60 90",
+          "output": "5 3 1 3 6 1\n3 2 1 2 4 1"
+        }
+      ],
+      "hint": "Posortuj numery malejąco według punktów i idź po kolei z dwoma licznikami. Sportowe: gdy wynik różni się od poprzedniego, miejsce = k + 1, a przy remisie — jak u poprzednika. Gęste: gdy wynik różni się od poprzedniego, licznik gęsty rośnie o 1.",
+      "tests_count": 8
+    },
+    {
+      "id": "sort-b-wedlug-czestosci",
+      "number": 1126,
+      "title": "Według częstości",
+      "category": "Sortowanie / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb całkowitych i wypisz je wszystkie (z powtórzeniami) w takiej kolejności: najpierw liczby występujące najczęściej, a liczby występujące tyle samo razy — od najmniejszej. Równe liczby stoją obok siebie."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jeden wiersz: n liczb w wymaganej kolejności."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 4000",
+        "−10⁴ ≤ każda liczba ≤ 10⁴"
+      ],
+      "examples": [
+        {
+          "input": "8\n4 6 2 6 4 9 6 2",
+          "output": "6 6 6 2 2 4 4 9",
+          "note": "Szóstka występuje 3 razy, czwórka i dwójka po 2 razy (najpierw dwójki), dziewiątka raz."
+        }
+      ],
+      "hint": "Posortuj i zbierz grupy jako pary (liczba wystąpień, wartość). Posortuj pary regułą: if (a.first != b.first) return a.first > b.first; return a.second < b.second;. Potem każdą wartość wypisz tyle razy, ile wystąpiła.",
+      "tests_count": 9
+    },
+    {
+      "id": "sort-b-indeks-h",
+      "number": 1127,
+      "title": "Indeks naukowca",
+      "category": "Sortowanie / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Naukowiec napisał n prac; znasz liczbę cytowań każdej z nich. Jego indeks h to największa liczba h taka, że co najmniej h jego prac ma każda co najmniej h cytowań. Oblicz indeks h."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb — cytowania kolejnych prac."
+      ],
+      "output_format": [
+        "Jedna liczba — indeks h."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "0 ≤ cytowania ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "5\n3 0 6 1 5",
+          "output": "3",
+          "note": "Trzy prace mają co najmniej 3 cytowania (3, 6, 5), ale nie ma czterech prac z co najmniej 4 cytowaniami."
+        },
+        {
+          "input": "3\n0 0 0",
+          "output": "0"
+        }
+      ],
+      "hint": "Posortuj malejąco. Praca na pozycji h (od 0) jest (h + 1)-tą najczęściej cytowaną. Dopóki h < n i v[h] >= h + 1, zwiększaj h — wtedy h + 1 prac ma po co najmniej h + 1 cytowań.",
+      "tests_count": 10
+    },
+    {
+      "id": "sort-b-wyrownaj-wieze",
+      "number": 1128,
+      "title": "Wyrównaj wieże",
+      "category": "Sortowanie / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Stoi n wież z klocków o podanych wysokościach. W jednym ruchu możesz dołożyć jeden klocek na dowolną wieżę albo jeden klocek z niej zdjąć. Chcesz, żeby wszystkie wieże miały tę samą wysokość t, wykonując jak najmniej ruchów. Wypisz najmniejszą wysokość t, przy której liczba ruchów jest najmniejsza, i tę liczbę ruchów."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n wysokości."
+      ],
+      "output_format": [
+        "Dwie liczby: wysokość t i najmniejsza liczba ruchów."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "0 ≤ wysokość ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "5\n3 10 1 4 2",
+          "output": "3 11",
+          "note": "Wyrównujemy do 3: ruchy 0 + 7 + 2 + 1 + 1 = 11."
+        },
+        {
+          "input": "4\n1 2 8 9",
+          "output": "2 14",
+          "note": "Każda wysokość od 2 do 8 daje 14 ruchów — najmniejsza z nich to 2."
+        }
+      ],
+      "hint": "Najlepsza wysokość to mediana: po sortowaniu v[(n − 1) / 2] (dla parzystego n to mniejsza z dwóch środkowych — każda wysokość między nimi jest tak samo dobra, a ta jest najmniejsza). Ruchy to suma |v[i] − t| — może sięgnąć 10¹³, więc long long.",
+      "tests_count": 9
+    },
+    {
+      "id": "sort-b-najwiekszy-obwod",
+      "number": 1129,
+      "title": "Największy obwód",
+      "category": "Sortowanie / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz n patyczków. Wybierz trzy z nich tak, by tworzyły trójkąt (suma dwóch krótszych większa od najdłuższego), a obwód trójkąta (suma trzech długości) był jak największy. Wypisz ten największy obwód albo 0, jeśli żaden trójkąt nie istnieje."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n długości."
+      ],
+      "output_format": [
+        "Jedna liczba — największy obwód albo 0."
+      ],
+      "constraints": [
+        "3 ≤ n ≤ 10 000",
+        "1 ≤ długość ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "6\n2 3 8 4 20 5",
+          "output": "17",
+          "note": "Patyczek 20 nie pasuje do żadnego trójkąta — nawet 8 + 5 to za mało. Patyczki 8, 5 i 4 tworzą trójkąt (5 + 4 > 8) o obwodzie 17."
+        },
+        {
+          "input": "3\n1 2 3",
+          "output": "0"
+        }
+      ],
+      "hint": "Posortuj malejąco i sprawdzaj trójki sąsiadów v[i], v[i + 1], v[i + 2]: jeśli v[i] < v[i + 1] + v[i + 2], to jest najlepszy trójkąt z najdłuższym bokiem v[i] — i pierwszy taki od góry ma największy obwód. Sumy liczb do miliarda — long long.",
+      "tests_count": 9
+    },
+    {
+      "id": "sort-b-mediana-na-biezaco",
+      "number": 1130,
+      "title": "Mediana na bieżąco",
+      "category": "Sortowanie / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Liczby przychodzą jedna po drugiej. Po przyjściu każdej liczby wypisz medianę wszystkich liczb, które już przyszły. Jeśli liczb jest parzyście wiele, za medianę uznajemy mniejszą z dwóch środkowych."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb w kolejności przychodzenia."
+      ],
+      "output_format": [
+        "Jeden wiersz: n median."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "0 ≤ każda liczba ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "5\n5 2 8 1 9",
+          "output": "5 2 5 2 5",
+          "note": "Po kolei: {5} → 5, {2, 5} → 2, {2, 5, 8} → 5, {1, 2, 5, 8} → 2, {1, 2, 5, 8, 9} → 5."
+        }
+      ],
+      "hint": "Trzymaj vector, który przez cały czas jest posortowany. Nową liczbę x wstaw w odpowiednie miejsce: s.insert(lower_bound(s.begin(), s.end(), x), x);. Po wstawieniu k liczb mediana dolna to s[(k − 1) / 2].",
+      "tests_count": 9
+    },
+    {
+      "id": "sort-b-roznica-k",
+      "number": 1131,
+      "title": "Pary o różnicy k",
+      "category": "Sortowanie / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb całkowitych i liczbę k ≥ 0. Policz pary pozycji i < j, dla których liczby aᵢ i aⱼ różnią się dokładnie o k (|aᵢ − aⱼ| = k)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba par."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "0 ≤ k ≤ 10⁶",
+        "0 ≤ każda liczba ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "6 2\n1 5 3 4 2 3",
+          "output": "5",
+          "note": "Pary: (1, 3) dwa razy, (5, 3) dwa razy, (4, 2) — razem 5."
+        },
+        {
+          "input": "4 0\n7 7 7 1",
+          "output": "3",
+          "note": "Trzy siódemki dają 3 pary."
+        }
+      ],
+      "hint": "Posortuj. Dla każdego i policz liczby równe v[i] + k stojące na prawo od i: upper_bound(v.begin() + i + 1, v.end(), v[i] + k) − lower_bound(…). Patrząc tylko na prawo, każdą parę liczysz raz — także gdy k = 0.",
+      "tests_count": 11
+    },
+    {
+      "id": "sort-b-zgrana-druzyna",
+      "number": 1132,
+      "title": "Zgrana drużyna",
+      "category": "Sortowanie / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "n graczy ma swoje rankingi. Trener chce zebrać jak najliczniejszą drużynę, w której ranking najlepszego i najsłabszego gracza różni się najwyżej o d. Wypisz największą możliwą liczbę graczy w takiej drużynie."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i d.",
+        "W drugim wierszu n rankingów."
+      ],
+      "output_format": [
+        "Jedna liczba — największa liczebność drużyny."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "0 ≤ d ≤ 10⁹",
+        "0 ≤ ranking ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "7 10\n1500 1512 1490 1505 1530 1499 1508",
+          "output": "4",
+          "note": "Gracze 1499, 1500, 1505 i 1508 różnią się najwyżej o 9 — czterech. Pięciu się nie da."
+        }
+      ],
+      "hint": "Po sortowaniu najlepiej brać kolejnych graczy. Dla każdego i jako najsłabszego znajdź, ilu graczy ma ranking ≤ v[i] + d: upper_bound(v.begin(), v.end(), v[i] + d) − v.begin() − i. Uwaga: v[i] + d może przekroczyć int — użyj long long.",
+      "tests_count": 9
+    },
+    {
+      "id": "sort-b-wieze-z-klockow",
+      "number": 1133,
+      "title": "Wieże z klocków",
+      "category": "Sortowanie / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz n klocków o podanych szerokościach. Budujesz z nich wieże: w każdej wieży każdy klocek musi być ściśle węższy od klocka pod nim. Wszystkie klocki muszą zostać użyte. Ile najmniej wież trzeba zbudować?"
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n szerokości."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejsza liczba wież."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "1 ≤ szerokość ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "6\n3 1 3 2 3 2",
+          "output": "3",
+          "note": "Trzy klocki o szerokości 3 muszą stać w trzech różnych wieżach, a trzy wieże wystarczą: 3-2-1, 3-2, 3."
+        }
+      ],
+      "hint": "Dwa klocki tej samej szerokości nie mogą stać w jednej wieży, więc wież jest co najmniej tyle, ile wynosi najliczniejsza grupa równych szerokości. I tyle wystarczy: ułóż wieże „warstwami” — w każdej wieży po jednym klocku z każdej grupy, od najszerszego. Odpowiedź to długość najdłuższej grupy po sortowaniu.",
+      "tests_count": 8
+    },
+    {
+      "id": "sort-b-spiewne-slowa",
+      "number": 1134,
+      "title": "Śpiewne słowa",
+      "category": "Sortowanie / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Słowo jest tym bardziej śpiewne, im więcej ma samogłosek (a, e, i, o, u, y). Wypisz n słów od najbardziej śpiewnego. Słowa z tą samą liczbą samogłosek ustaw od najkrótszego, a słowa z tą samą liczbą samogłosek i tą samą długością — alfabetycznie."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n słów z małych liter angielskich."
+      ],
+      "output_format": [
+        "Jeden wiersz: n słów w wymaganej kolejności."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "Każde słowo ma od 1 do 10 liter."
+      ],
+      "examples": [
+        {
+          "input": "6\nkot aula mysz oko pies ia",
+          "output": "aula ia oko pies kot mysz"
+        }
+      ],
+      "hint": "W regule policz samogłoski obu słów pętlą po znakach (np. sprawdzając, czy string(\"aeiouy\").find(c) != string::npos, albo zwykłym warunkiem z ||). Potem schodki: samogłoski malejąco, długość rosnąco, a na końcu a < b.",
+      "tests_count": 7
+    },
+    {
+      "id": "sort-b-sklejanie",
+      "number": 1135,
+      "title": "Największa liczba ze sklejenia",
+      "category": "Sortowanie / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz n liczb naturalnych. Ustaw je w takiej kolejności, żeby po sklejeniu ich zapisów w jeden napis powstała jak największa liczba. Na przykład z liczb 3, 30, 34, 5, 9 da się skleić 9534330. Wypisz tę liczbę (bez zbędnych zer na początku — jeśli wszystkie liczby są zerami, wynikiem jest 0)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb naturalnych (bez zer na początku)."
+      ],
+      "output_format": [
+        "Największa liczba, jaką da się skleić."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "0 ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "5\n3 30 34 5 9",
+          "output": "9534330"
+        },
+        {
+          "input": "3\n0 0 0",
+          "output": "0"
+        }
+      ],
+      "hint": "Wczytaj liczby jako napisy. Czy a ma stać przed b? Porównaj dwa sklejenia: a + b i b + a (to napisy tej samej długości) — reguła to return a + b > b + a;. Po sortowaniu sklej wszystko, a jeśli wynik zaczyna się od '0', to wszystkie liczby były zerami — wypisz 0.",
+      "tests_count": 11
+    },
+    {
+      "id": "sort-b-kwota-nie-do-zaplacenia",
+      "number": 1136,
+      "title": "Czego nie da się zapłacić?",
+      "category": "Sortowanie / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W portfelu leży n monet o podanych nominałach (każdą monetę można użyć najwyżej raz). Znajdź najmniejszą dodatnią kwotę, której nie da się zapłacić dokładnie, wybierając niektóre z tych monet."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n nominałów."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejsza kwota nie do zapłacenia."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "1 ≤ nominał ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "5\n1 2 5 1 10",
+          "output": "20",
+          "note": "Monetami 1, 1, 2 i 5 zapłacisz każdą kwotę od 1 do 9. Z monetą 10 — każdą od 1 do 19. Kwoty 20 nie da się zapłacić."
+        },
+        {
+          "input": "3\n2 3 4",
+          "output": "1",
+          "note": "Kwoty 1 nie da się zapłacić."
+        }
+      ],
+      "hint": "Posortuj rosnąco. Niech s oznacza, że każdą kwotę od 1 do s umiesz już zapłacić (na początku s = 0). Kolejna moneta c: jeśli c ≤ s + 1, to teraz umiesz zapłacić wszystko do s + c. Jeśli c > s + 1, kwoty s + 1 nie zapłacisz nigdy (dalsze monety są jeszcze większe) — to odpowiedź. Sumy przekraczają int.",
+      "tests_count": 11
+    },
+    {
+      "id": "sort-b-suma-odleglosci",
+      "number": 1137,
+      "title": "Suma odległości",
+      "category": "Sortowanie / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Przy prostej drodze stoi n domów o podanych pozycjach. Oblicz sumę odległości między wszystkimi parami domów (każdą parę liczymy raz)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n pozycji."
+      ],
+      "output_format": [
+        "Jedna liczba — suma odległości."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "0 ≤ pozycja ≤ 10⁸"
+      ],
+      "examples": [
+        {
+          "input": "4\n1 7 3 10",
+          "output": "31",
+          "note": "Po sortowaniu 1 3 7 10. Pary: 2 + 6 + 9 + 4 + 7 + 3 = 31."
+        }
+      ],
+      "hint": "Po sortowaniu dom v[i] stoi na prawo od i domów przed nim, więc do sumy wnosi v[i] · i − (suma pozycji tych i domów). Trzymaj sumę dotychczasowych pozycji w zmiennej i dodawaj wkład każdego domu. Całość może sięgnąć 5·10¹⁵ — long long.",
+      "tests_count": 8
+    },
+    {
+      "id": "sort-b-kary",
+      "number": 1138,
+      "title": "Kary za czekanie",
+      "category": "Sortowanie / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Warsztat dostał n zleceń naraz i wykonuje je jedno po drugim, bez przerw, zaczynając w chwili 0. Zlecenie i trwa tᵢ minut, a za każdą minutę od chwili 0 do jego ukończenia warsztat płaci karę wᵢ złotych. Jeśli zlecenie zostanie ukończone w chwili Cᵢ, kara za nie wynosi wᵢ · Cᵢ. Ustaw zlecenia tak, by suma kar była jak najmniejsza, i wypisz tę sumę."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z kolejnych n wierszy dwie liczby tᵢ i wᵢ."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejsza suma kar."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "1 ≤ tᵢ, wᵢ ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "3\n3 1\n1 5\n2 2",
+          "output": "17",
+          "note": "Najlepiej: zlecenie 2 (kończy się w chwili 1, kara 5), potem 3 (chwila 3, kara 6), potem 1 (chwila 6, kara 6) — razem 17."
+        }
+      ],
+      "hint": "Weź dwa zlecenia stojące obok siebie: a, a za nim b. Zamiana ich miejscami zmienia tylko ich dwie kary — a przed b jest lepsze, gdy tₐ · w_b < t_b · wₐ. To jest reguła sortowania (mnożenie na krzyż zamiast dzielenia, więc bez ułamków). Potem policz kary, trzymając zegar. Suma sięga 10¹³ — long long.",
+      "tests_count": 8
+    },
+    {
+      "id": "sort-b-trojki-zero",
+      "number": 1139,
+      "title": "Trójki o sumie zero",
+      "category": "Sortowanie / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dane są n różnych liczb całkowitych. Policz, ile jest trójek (bez względu na kolejność) różnych liczb z tego zbioru, których suma wynosi 0."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n różnych liczb całkowitych."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba trójek."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "−10⁶ ≤ każda liczba ≤ 10⁶",
+        "Liczby są parami różne."
+      ],
+      "examples": [
+        {
+          "input": "6\n-1 0 1 2 -4 3",
+          "output": "2",
+          "note": "Sumę 0 dają dwie trójki: (−1, 0, 1) i (−4, 1, 3)."
+        }
+      ],
+      "hint": "Trzy pętle to 2000³ / 6 ≈ 1,3 miliarda kroków — za dużo. Posortuj i dla każdego i szukaj par na prawo od niego dwoma wskaźnikami: l = i + 1, r = n − 1. Gdy v[i] + v[l] + v[r] jest za małe, l++; za duże — r--; równe zeru — liczysz trójkę i przesuwasz oba wskaźniki (liczby są różne).",
+      "tests_count": 9
+    },
+    {
+      "id": "sort-b-wyrownana-grupa",
+      "number": 1140,
+      "title": "Wyrównana grupa",
+      "category": "Sortowanie / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz n liczb całkowitych dodatnich. Usuń jak najmniej z nich tak, żeby wśród pozostałych największa liczba była co najwyżej dwa razy większa od najmniejszej. Wypisz najmniejszą liczbę usuniętych liczb."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb."
+      ],
+      "output_format": [
+        "Jedna liczba — ile najmniej liczb trzeba usunąć."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "1 ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "6\n4 5 3 8 3 7",
+          "output": "2",
+          "note": "Po usunięciu 3 i 3 zostaje 4 5 8 7 — największa 8 ≤ 2 · 4. Lepiej się nie da."
+        }
+      ],
+      "hint": "Po sortowaniu pozostałe liczby najlepiej wybrać jako kawałek bez przerw: od v[i] (najmniejsza) do ostatniej v[j] ≤ 2 · v[i]. Gdy i rośnie, j też tylko rośnie — dwa wskaźniki. Odpowiedź to n − najdłuższy taki kawałek. 2 · v[i] nie mieści się w int — long long.",
+      "tests_count": 9
+    },
+    {
+      "id": "sort-b-ksiazki-na-polce",
+      "number": 1141,
+      "title": "Książki na półce",
+      "category": "Sortowanie / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na półce stoi n tomów encyklopedii o numerach od 1 do n, w pomieszanej kolejności. W jednym ruchu możesz wyjąć dowolny tom i odstawić go na sam koniec półki (z prawej). Ile najmniej ruchów potrzeba, żeby tomy stały w kolejności 1, 2, …, n?"
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n różnych liczb od 1 do n — numery tomów od lewej do prawej."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejsza liczba ruchów."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000"
+      ],
+      "examples": [
+        {
+          "input": "5\n1 4 2 5 3",
+          "output": "2",
+          "note": "Tomy 1, 2, 3 stoją już we właściwej kolejności względem siebie. Wystarczy odstawić na koniec tom 4, a potem tom 5."
+        },
+        {
+          "input": "3\n3 2 1",
+          "output": "2"
+        }
+      ],
+      "hint": "Tomy, których nie ruszysz, zostaną na początku półki we właściwej kolejności — muszą to więc być tomy 1, 2, …, k stojące od lewej do prawej. Zapisz pozycję każdego tomu: poz[x]. Znajdź największe k, dla którego poz[1] < poz[2] < … < poz[k]. Pozostałe n − k tomów odstawiasz na koniec w kolejności numerów — odpowiedź to n − k.",
+      "tests_count": 10
+    },
+    {
+      "id": "sort-b-wielki-final",
+      "number": 1142,
+      "title": "Wielki finał: ranking olimpiady",
+      "category": "Sortowanie / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W olimpiadzie startuje n zawodników (imiona są różne), każdy rozwiązywał m zadań i za każde dostał od 0 do 100 punktów. Wynik zawodnika to suma jego punktów. Ranking układamy tak: wyżej jest zawodnik z większym wynikiem; przy równych wynikach — ten, kto ma więcej zadań za pełne 100 punktów; a przy remisie i w tym — imię wcześniejsze w alfabecie.",
+        "Miejsca przyznajemy ex aequo: zawodnicy z tym samym wynikiem i tą samą liczbą zadań za 100 dzielą miejsce, a następne miejsca są pomijane. Miejsce zawodnika to 1 + liczba zawodników, którzy są od niego lepsi (mają większy wynik albo ten sam wynik i więcej zadań za 100).",
+        "Najpierw wypisz cały ranking: n wierszy „miejsce. imię wynik liczba_setek”. Potem odpowiedz na q pytań, każde w osobnym wierszu. Pytania mają trzy rodzaje: MIEJSCE imię — jakie miejsce zajął ten zawodnik; PROG k — jaki wynik ma zawodnik stojący w rankingu na pozycji k (pozycje liczymy od 1, po kolei, jak w wypisanym rankingu); ILE x — ilu zawodników ma wynik co najmniej x."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z kolejnych n wierszy imię i m liczb — punkty za zadania.",
+        "W następnym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy jedno pytanie."
+      ],
+      "output_format": [
+        "n wierszy rankingu, a po nich q wierszy z odpowiedziami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 500",
+        "1 ≤ m ≤ 10",
+        "1 ≤ q ≤ 500",
+        "0 ≤ punkty ≤ 100",
+        "1 ≤ k ≤ n",
+        "0 ≤ x ≤ 1000",
+        "Imię ma od 2 do 9 liter; imiona są różne."
+      ],
+      "examples": [
+        {
+          "input": "5 3\nOla 100 50 100\nJan 100 100 50\nEwa 90 90 70\nAla 100 70 80\nIgor 100 100 100\n4\nMIEJSCE Ola\nPROG 3\nILE 250\nMIEJSCE Ewa",
+          "output": "1. Igor 300 3\n2. Jan 250 2\n2. Ola 250 2\n4. Ala 250 1\n5. Ewa 250 0\n2\n250\n5\n5",
+          "note": "Igor ma 300 punktów — miejsce 1. Jan i Ola mają po 250 punktów i po dwie setki, więc dzielą miejsce 2 (Jan stoi wyżej przez alfabet). Ala też ma 250, ale tylko jedną setkę — miejsce 4. Ewa ma 250 bez setek — miejsce 5."
+        }
+      ],
+      "hint": "Trzymaj dane w vectorach: imie, suma, setki. Posortuj numery regułą [&] z trzema kryteriami i policz miejsca ex aequo (porównując sumę i setki z poprzednikiem). Dla pytań ILE zrób posortowaną kopię sum i użyj lower_bound: zawodników z wynikiem ≥ x jest n − (lower_bound(…, x) − begin). MIEJSCE znajdziesz zwykłą pętlą po imionach.",
+      "tests_count": 7
     }
   ]
 }

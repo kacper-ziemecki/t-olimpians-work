@@ -791,6 +791,95 @@ const LEKCJE = [
             },
         ],
     },
+    {
+        temat: 'Sortowanie',
+        prefix: 'sort-',
+        plik: 'c++_logika/sortowanie.html',
+        pliki: ['sortowanie-cwiczenia-1.js', 'sortowanie-cwiczenia-2.js', 'sortowanie-baza.js'],
+        note: 'Lekcja o sortowaniu od podstaw: sort rosnąco i malejąco na vectorze, tablicy i napisie, k-ty element i mediana, grupy równych wartości, ' +
+            'unique i najbliżsi sąsiedzi, sortowanie ręczne (wybieranie, bąbelkowe, wstawianie, zliczanie), własna reguła porównania (lambda), ' +
+            'kilka kryteriów i stable_sort, sortowanie numerów i miejsca w rankingu, lower_bound i upper_bound oraz pomysły zachłanne. ' +
+            'Wystarczy to, co znasz z poprzednich lekcji.',
+        bazaOpisy: {
+            latwe: 'Jeden pomysł naraz: szereg na WF-ie, mały słownik, skarpetki do pary, ciąg arytmetyczny, najmniejszy wolny numer, brązowy medal, ' +
+                'najcieplejsze dni, patyczki na trójkąt, liczba Kaprekara i pary butów.',
+            srednie: 'Kilka sztuczek naraz: dwa rankingi, sortowanie według częstości, indeks h, wyrównywanie wież, największy obwód, mediana na bieżąco, ' +
+                'pary o różnicy k, zgrana drużyna, wieże z klocków i śpiewne słowa.',
+            trudne: 'Największa liczba ze sklejenia, kwota nie do zapłacenia, suma odległości, kary za czekanie, trójki o sumie zero, wyrównana grupa, ' +
+                'książki na półce — a na koniec wielki finał: ranking olimpiady.',
+        },
+        kroki: [
+            {
+                nr: 1, kotwica: 'pierwszy-sort', spis: 'Pierwsze sortowanie',
+                nazwa: 'Krok 1 · Pierwsze sortowanie — sort na vectorze, tablicy i napisie',
+                kategoria: 'Sortowanie / krok 1: pierwsze sortowanie',
+                note: 'Rosnąco i niemalejąco, sort(v.begin(), v.end()), sort(t, t + n) i od 1 do n, porządek słownikowy napisów (wielkie przed małymi, „10” przed „9”), ' +
+                    'sortowanie liter i anagramy, sortowanie kawałka, kopia przed sortowaniem, sprawdzanie, czy ciąg jest posortowany (is_sorted).',
+            },
+            {
+                nr: 2, kotwica: 'malejaco', spis: 'Malejąco, k-ty i mediana',
+                nazwa: 'Krok 2 · Malejąco, k-ty element i mediana',
+                kategoria: 'Sortowanie / krok 2: malejąco i mediana',
+                note: 'sort + reverse, rbegin i rend, greater<int>(), v[k - 1] i v[n - k], mediana dla n parzystego i nieparzystego, suma k największych, ' +
+                    'próg z remisami, największa i najmniejsza liczba z cyfr.',
+            },
+            {
+                nr: 3, kotwica: 'grupy', spis: 'Grupy i sąsiedzi',
+                nazwa: 'Krok 3 · Po sortowaniu: grupy równych i najbliżsi sąsiedzi',
+                kategoria: 'Sortowanie / krok 3: grupy i sąsiedzi',
+                note: 'Liczba różnych wartości, grupa po grupie (dwa numery i, j), najczęstsza wartość, sort + unique + erase, ' +
+                    'najmniejsza różnica i największa przerwa między sąsiadami, okno k elementów o najmniejszym rozrzucie.',
+            },
+            {
+                nr: 4, kotwica: 'pod-maska', spis: 'Sortowanie ręcznie',
+                nazwa: 'Krok 4 · Pod maską — sortowanie przez wybieranie, bąbelkowe, wstawianie i zliczanie',
+                kategoria: 'Sortowanie / krok 4: sortowanie ręcznie',
+                note: 'Cztery metody z animacjami: wybieranie (minimum na miejsce i), bąbelkowe (zamiany sąsiadów, rundy i flaga), wstawianie (jak karty w ręce), ' +
+                    'zliczanie (liczniki); inwersje, liczba porównań, dwie pętle kontra sort.',
+            },
+            {
+                nr: 5, kotwica: 'wlasna-regula', spis: 'Własna reguła (lambda)',
+                nazwa: 'Krok 5 · Własna reguła porównania — lambda',
+                kategoria: 'Sortowanie / krok 5: własna reguła',
+                note: 'Reguła odpowiada na pytanie „czy a przed b?”, zapis [](int a, int b) { return …; }, remisy i drugie kryterium, reguła, która liczy (suma cyfr), ' +
+                    'abs, [&] i zmienne z main, słowa według długości, parzyste przed nieparzystymi, żelazna zasada: nigdy <=.',
+            },
+            {
+                nr: 6, kotwica: 'kryteria', spis: 'Kilka kryteriów i stable_sort',
+                nazwa: 'Krok 6 · Kilka kryteriów naraz — pary, sztuczka z minusem i stable_sort',
+                kategoria: 'Sortowanie / krok 6: kilka kryteriów',
+                note: 'Pary sortują się same, główne kryterium na pierwsze miejsce, sztuczka z minusem, reguła dla par i auto, trzy kryteria, ' +
+                    'stable_sort i remisy w kolejności z wejścia, punkty według odległości.',
+            },
+            {
+                nr: 7, kotwica: 'numery', spis: 'Numery i rankingi',
+                nazwa: 'Krok 7 · Sortujemy numery — rekordy, miejsca w rankingu i kompresja',
+                kategoria: 'Sortowanie / krok 7: numery i rankingi',
+                note: 'Vector numerów sortowany regułą [&], remis po numerze, rekordy w kilku vectorach, miejsca ex aequo, kompresja wartości.',
+            },
+            {
+                nr: 8, kotwica: 'szukanie', spis: 'Szukanie w posortowanym',
+                nazwa: 'Krok 8 · Szukanie w posortowanym — połowienie, lower_bound i upper_bound',
+                kategoria: 'Sortowanie / krok 8: szukanie w posortowanym',
+                note: 'Zgadywanie liczby, wyszukiwanie binarne pętlą while, binary_search, lower_bound i upper_bound, liczenie elementów mniejszych, ' +
+                    'równych i z przedziału, najbliższa wartość.',
+            },
+            {
+                nr: 9, kotwica: 'zachlanne', spis: 'Pomysły zachłanne',
+                nazwa: 'Krok 9 · Najpierw posortuj, potem bierz po kolei — pomysły zachłanne',
+                kategoria: 'Sortowanie / krok 9: pomysły zachłanne',
+                note: 'Jak najwięcej za budżet, kolejka od najkrótszego, łódki i dwa wskaźniki, suma iloczynów, ciastka dla dzieci, argument zamiany ' +
+                    'i przykład, w którym zachłanność zawodzi.',
+            },
+            {
+                nr: 10, kotwica: 'baza', spis: 'Baza zadań', baza: true,
+                nazwa: 'Baza zadań — podsumowanie tematu',
+                kategoria: 'Sortowanie / baza zadań',
+                note: 'Zadania na cały temat, od najłatwiejszego do najtrudniejszego: szereg na WF-ie, skarpetki, liczba Kaprekara, dwa rankingi, indeks h, ' +
+                    'mediana na bieżąco, zgrana drużyna, największa liczba ze sklejenia, kary za czekanie, trójki o sumie zero — a na koniec wielki finał: ranking olimpiady.',
+            },
+        ],
+    },
 ];
 
 module.exports = { SITE, KATEGORIA, LEKCJE };

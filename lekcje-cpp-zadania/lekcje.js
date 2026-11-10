@@ -880,6 +880,96 @@ const LEKCJE = [
             },
         ],
     },
+    {
+        temat: 'Max / Min',
+        prefix: 'mm-',
+        plik: 'c++_logika/max-min.html',
+        pliki: ['max-min-cwiczenia-1.js', 'max-min-cwiczenia-2.js', 'max-min-cwiczenia-3.js', 'max-min-baza.js'],
+        note: 'Lekcja o max i min od podstaw: max(a, b) i min(a, b), zasada jednego typu (long long, double, size()), trzy liczby i lista w klamrach, ' +
+            'liczba środkowa, rekord w pętli i jego start, pozycja rekordu i remisy, liczenie wystąpień, max_element, min_element i minmax_element, ' +
+            'przycinanie (clamp) i wspólna część przedziałów, dwie i trzy największe liczby, rekordy na bieżąco od lewej i od prawej, najlepszy zysk, ' +
+            'serie, okna i największa suma fragmentu. Wystarczy to, co znasz z poprzednich lekcji.',
+        bazaOpisy: {
+            latwe: 'Jeden, dwa pomysły naraz: pogoda w maju, najszybszy biegacz, promocja 3 za 2, strata do lidera, fotoradar, najlepszy skok, ' +
+                'dobowe wahania temperatury, ramka wokół punktów, bankomat i najdłuższa przerwa między autobusami.',
+            srednie: 'Kilka sztuczek naraz: najdziwniejszy wynik, dwie kasy w sklepie, najcieplejszy dzień każdego tygodnia, najlepszy moment na transakcję, ' +
+                'iloczyn trzech liczb, puchar, wspólne pole prostokątów, spotkanie w połowie drogi, pogoda na wycieczkę oraz najlepszy wiersz i kolumna.',
+            trudne: 'Deszczówka, dwie transakcje, naszyjnik z koralików, najdłuższa górka, największy iloczyn fragmentu, ścieżka po planszy, ławka w parku — ' +
+                'a na koniec wielki finał: wyprawa w góry.',
+        },
+        kroki: [
+            {
+                nr: 1, kotwica: 'dwie-liczby', spis: 'Dwie liczby — max i min',
+                nazwa: 'Krok 1 · max i min — większa i mniejsza z dwóch liczb',
+                kategoria: 'Max / Min / krok 1: dwie liczby',
+                note: 'max(a, b) i min(a, b) dla liczb dodatnich, ujemnych i równych, max jako wartość w działaniach, wynik bez przypisania, ' +
+                    'porównanie z if i ?:, zasada jednego typu (3.0, 7LL, (double)a), znaki, napisy i pary, słowa z treści zadania.',
+            },
+            {
+                nr: 2, kotwica: 'trzy-liczby', spis: 'Trzy i więcej liczb',
+                nazwa: 'Krok 2 · Trzy i więcej liczb — max w max i lista w klamrach',
+                kategoria: 'Max / Min / krok 2: trzy i więcej liczb',
+                note: 'max(a, max(b, c)) czytane od środka, max({a, b, c, d}), błąd bez klamer, noty sędziów (suma − max − min), ' +
+                    'liczba środkowa i trzy liczby po kolei, trójkąt z najdłuższego boku, long long przy sumach.',
+            },
+            {
+                nr: 3, kotwica: 'rekord', spis: 'Rekord w pętli',
+                nazwa: 'Krok 3 · Rekord w pętli — maks = max(maks, x)',
+                kategoria: 'Max / Min / krok 3: rekord w pętli',
+                note: 'Rekord bez tablicy, start od pierwszej liczby, pułapka zera, INT_MIN i INT_MAX, max i min w jednej pętli, rozstęp, ' +
+                    'rekord czegoś policzonego ((int)s.size(), sumy cyfr), rekord tylko z niektórych liczb (flaga bool).',
+            },
+            {
+                nr: 4, kotwica: 'pozycja', spis: 'Gdzie, ile razy i kto',
+                nazwa: 'Krok 4 · Gdzie był rekord, ile razy padł i kto go ustanowił',
+                kategoria: 'Max / Min / krok 4: pozycja i remisy',
+                note: 'Pozycja rekordu, > kontra >= (pierwsze i ostatnie wystąpienie), liczba wystąpień w jednej pętli, zwycięzca z imieniem, ' +
+                    'rekord według własnej miary (najbliżej celu, pary), wszystkie miejsca rekordu.',
+            },
+            {
+                nr: 5, kotwica: 'max-element', spis: 'max_element i min_element',
+                nazwa: 'Krok 5 · max_element i min_element — rekord bez pętli',
+                kategoria: 'Max / Min / krok 5: max_element i min_element',
+                note: 'Strzałka na rekord: * daje wartość, − v.begin() numer, tablice i kawałki, napisy, count, minmax_element (ostatni największy!), ' +
+                    'reguła porównania (lambda), pusty vector.',
+            },
+            {
+                nr: 6, kotwica: 'granice', spis: 'Przycinanie i przedziały',
+                nazwa: 'Krok 6 · Nie mniej niż, nie więcej niż — przycinanie i przedziały',
+                kategoria: 'Max / Min / krok 6: przycinanie i przedziały',
+                note: 'Podłoga max(0, x), sufit min(limit, x), przycinanie max(lo, min(hi, x)) i clamp, przelewanie wody, ' +
+                    'wspólna część przedziałów i jej długość, część wspólna dwóch prostokątów.',
+            },
+            {
+                nr: 7, kotwica: 'dwie-najwieksze', spis: 'Dwie największe',
+                nazwa: 'Krok 7 · Podium — dwie i trzy największe w jednym przejściu',
+                kategoria: 'Max / Min / krok 7: dwie największe',
+                note: 'Złoto i srebro (m1, m2), kolejność przesunięć, druga największa z powtórzeniami i bez, najlepsza para: suma i iloczyn ' +
+                    '(dwie najmniejsze ujemne), trzy największe.',
+            },
+            {
+                nr: 8, kotwica: 'na-biezaco', spis: 'Rekordy na bieżąco',
+                nazwa: 'Krok 8 · Rekordy na bieżąco, widok z prawej i najlepszy zysk',
+                kategoria: 'Max / Min / krok 8: rekordy na bieżąco',
+                note: 'Rekord do tej pory i liczba pobitych rekordów, tablice pm i sm (od lewej i od prawej), widok z prawej, ' +
+                    'najlepszy zysk z kupna i sprzedaży, schemat „wcześniej — później” w jednej pętli.',
+            },
+            {
+                nr: 9, kotwica: 'serie', spis: 'Serie i fragmenty',
+                nazwa: 'Krok 9 · Najdłuższa seria, najlepsze okno i największa suma fragmentu',
+                kategoria: 'Max / Min / krok 9: serie i fragmenty',
+                note: 'Obecny i najlepszy, najdłuższa seria i rosnący fragment, okno k kolejnych liczb, największa suma fragmentu (Kadane), ' +
+                    'maksima wierszy i kolumn, najmniejsze z maksimów.',
+            },
+            {
+                nr: 10, kotwica: 'baza', spis: 'Baza zadań', baza: true,
+                nazwa: 'Baza zadań — podsumowanie tematu',
+                kategoria: 'Max / Min / baza zadań',
+                note: 'Zadania na cały temat, od najłatwiejszego do najtrudniejszego: pogoda w maju, promocja 3 za 2, bankomat, dwie kasy, puchar, ' +
+                    'spotkanie w połowie drogi, deszczówka, dwie transakcje, ścieżka po planszy — a na koniec wielki finał: wyprawa w góry.',
+            },
+        ],
+    },
 ];
 
 module.exports = { SITE, KATEGORIA, LEKCJE };

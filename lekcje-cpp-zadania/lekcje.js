@@ -970,6 +970,89 @@ const LEKCJE = [
             },
         ],
     },
+    {
+        temat: 'Zaokrąglanie',
+        prefix: 'zao-',
+        plik: 'c++_logika/zaokraglanie.html',
+        pliki: ['zaokraglanie-cwiczenia-1.js', 'zaokraglanie-cwiczenia-2.js', 'zaokraglanie-cwiczenia-3.js', 'zaokraglanie-baza.js'],
+        note: 'Lekcja o zaokrąglaniu od podstaw: oś liczbowa, część całkowita i ułamkowa, floor i ceil, round i llround (połówki dalej od zera), ' +
+            'ucinanie (int) i trunc, liczby ujemne i dzielenie w dół z minusem, dzielenie w górę i do najbliższej na liczbach całkowitych, ' +
+            'zaokrąglanie do dziesiątek, kwadransów i wielokrotności, do miejsc po przecinku, wypisywanie a zaokrąglanie (setprecision) ' +
+            'oraz pułapki liczb double: grosze bez błędów, epsilon, wielkie liczby i pierwiastek całkowity. Wystarczy to, co znasz z poprzednich lekcji.',
+        bazaOpisy: {
+            latwe: 'Jeden, dwa pomysły naraz: pizza dla klasy, spływ kajakowy, ocena ze sprawdzianu, cena po rabacie, wypożyczalnia rowerów, płot, ' +
+                'tankowanie, średnia temperatura, czytanie książki i bankomat.',
+            srednie: 'Kilka sztuczek naraz: średnia ważona, ocena w gwiazdkach, kratki na mapie, taksówka, licznik wyświetleń, cyfry znaczące, ' +
+                'noty bez skrajnych, godziny pracy, dzień tygodnia za d dni i rozkład jazdy.',
+            trudne: 'Histogram, średnia wielkich liczb, podział mandatów, kwadraty i sześciany, spłata kredytu, odcinki na osi, tempo biegu — ' +
+                'a na koniec wielki finał: wycieczka klasowa.',
+        },
+        kroki: [
+            {
+                nr: 1, kotwica: 'os-liczbowa', spis: 'Oś liczbowa i sąsiedzi',
+                nazwa: 'Krok 1 · Co to znaczy zaokrąglić — oś liczbowa i sąsiedzi',
+                kategoria: 'Zaokrąglanie / krok 1: oś liczbowa',
+                note: 'Liczba między dwiema kreskami, w dół, w górę, do najbliższej i ucięcie, część całkowita i ułamkowa, zaokrąglanie ręczne ' +
+                    'z (int) i if, sztuczka (int)(x + 0.5), liczby ujemne na osi.',
+            },
+            {
+                nr: 2, kotwica: 'floor-ceil', spis: 'floor i ceil',
+                nazwa: 'Krok 2 · floor i ceil — w dół i w górę',
+                kategoria: 'Zaokrąglanie / krok 2: floor i ceil',
+                note: 'floor i ceil dla liczb dodatnich i ujemnych, wynik jako double (zapis naukowy, -0) i zamiana na long long, ' +
+                    'dzielenie int-ów przed ceil, pełne i rozpoczęte, liczby całkowite w przedziale.',
+            },
+            {
+                nr: 3, kotwica: 'round', spis: 'round — do najbliższej',
+                nazwa: 'Krok 3 · round i llround — do najbliższej całkowitej',
+                kategoria: 'Zaokrąglanie / krok 3: round',
+                note: 'Połówki dalej od zera, llround zamiast round, dlaczego nie (int)(x + 0.5), średnia i procent zaokrąglone, ' +
+                    'odległość od najbliższej całkowitej.',
+            },
+            {
+                nr: 4, kotwica: 'ucinanie', spis: 'Ucinanie i liczby ujemne',
+                nazwa: 'Krok 4 · Ucinanie (int) i trunc — i dzielenie liczb ujemnych',
+                kategoria: 'Zaokrąglanie / krok 4: ucinanie i liczby ujemne',
+                note: 'W stronę zera i od zera, cztery sposoby obok siebie, dzielenie i reszta dla liczb ujemnych, dzielenie w dół z poprawką, ' +
+                    'tygodnie, kratki i szachownica.',
+            },
+            {
+                nr: 5, kotwica: 'dzielenie', spis: 'Dzielenie w górę na int',
+                nazwa: 'Krok 5 · Dzielenie z zaokrągleniem na liczbach całkowitych',
+                kategoria: 'Zaokrąglanie / krok 5: dzielenie w górę',
+                note: '(n + k − 1) / k i n / k + (n % k != 0), dlaczego nie ceil dla wielkich liczb, do najbliższej bez ułamków, procenty, ' +
+                    'autobusy, wytłaczanki, strony i podział po równo.',
+            },
+            {
+                nr: 6, kotwica: 'wielokrotnosci', spis: 'Dziesiątki i wielokrotności',
+                nazwa: 'Krok 6 · Do dziesiątek, setek i wielokrotności',
+                kategoria: 'Zaokrąglanie / krok 6: wielokrotności',
+                note: 'Podziel, zaokrąglij, pomnóż: dziesiątki, kwadranse, dowolne k, wielokrotności na double, następny odjazd autobusu, ' +
+                    'liczba wielokrotności w przedziale, ceny i zakupy.',
+            },
+            {
+                nr: 7, kotwica: 'miejsca', spis: 'Miejsca po przecinku',
+                nazwa: 'Krok 7 · Do miejsc po przecinku — zaokrąglanie i wyświetlanie',
+                kategoria: 'Zaokrąglanie / krok 7: miejsca po przecinku',
+                note: 'round(x * 100) / 100, w dół i w górę do groszy, setprecision zmienia tylko wygląd, połówki przy wypisywaniu, ' +
+                    'kolejność zaokrągleń.',
+            },
+            {
+                nr: 8, kotwica: 'pulapki', spis: 'Pułapki double',
+                nazwa: 'Krok 8 · Pułapki liczb z przecinkiem — grosze, epsilon i pierwiastki',
+                kategoria: 'Zaokrąglanie / krok 8: pułapki double',
+                note: '0.1 + 0.2, złote na grosze przez llround, epsilon przy floor, ceil i porównaniach, liczenie w groszach, ' +
+                    'wielkie liczby w double, pierwiastek całkowity z poprawką.',
+            },
+            {
+                nr: 9, kotwica: 'baza', spis: 'Baza zadań', baza: true,
+                nazwa: 'Baza zadań — podsumowanie tematu',
+                kategoria: 'Zaokrąglanie / baza zadań',
+                note: 'Zadania na cały temat, od najłatwiejszego do najtrudniejszego: pizza dla klasy, ocena ze sprawdzianu, bankomat, średnia ważona, ' +
+                    'kratki na mapie, licznik wyświetleń, histogram, podział mandatów, spłata kredytu — a na koniec wielki finał: wycieczka klasowa.',
+            },
+        ],
+    },
 ];
 
 module.exports = { SITE, KATEGORIA, LEKCJE };

@@ -1053,6 +1053,89 @@ const LEKCJE = [
             },
         ],
     },
+    {
+        temat: 'Silnia',
+        prefix: 'sil-',
+        plik: 'c++_logika/silnia.html',
+        pliki: ['silnia-cwiczenia-1.js', 'silnia-cwiczenia-2.js', 'silnia-cwiczenia-3.js', 'silnia-baza.js'],
+        note: 'Lekcja o silni od podstaw: ustawienia w kolejce i drzewko wyborów, 0! = 1, silnia w pętli krok po kroku, iloczyn od a do b ' +
+            'i co druga liczba, granice int i long long oraz sprawdzanie przed mnożeniem, tablica silni i dzielenie silni bez liczenia ich, ' +
+            'silnia modulo, zera na końcu i czynniki pierwsze silni, silnie olbrzymy cyfra po cyfrze i liczba cyfr przez log10, ' +
+            'a na koniec liczenie sposobów: podium, wybieranie (symbol Newtona), trójkąt Pascala i anagramy. Wystarczy to, co znasz z poprzednich lekcji.',
+        bazaOpisy: {
+            latwe: 'Jeden, dwa pomysły naraz: turniej każdy z każdym, pary na balu, matematyka przed fizyką, dyżurni, seria na półce, ' +
+                'silnie w przedziale, ostatnia cyfra sumy, dzielenie silni, silnia z odstępami i 10! sekund.',
+            srednie: 'Kilka pomysłów naraz: zera iloczynu silni, pary na wycieczkę, samorząd klasowy, lotto, droga do szkoły, mikołajki, ' +
+                'rozkład silni na czynniki, numer ustawienia, iloczyn silni modulo i silnia z d cyframi.',
+            trudne: 'Ostatnia niezerowa cyfra, zera w innym systemie, najmniejsza silnia podzielna przez k, dzielniki silni, numer anagramu, ' +
+                'cukierki dla dzieci, pierwsze cyfry olbrzyma — a na koniec wielki finał: kalkulator silni.',
+        },
+        kroki: [
+            {
+                nr: 1, kotwica: 'czym-jest', spis: 'Czym jest silnia',
+                nazwa: 'Krok 1 · Czym jest silnia — ustawienia w kolejce',
+                kategoria: 'Silnia / krok 1: czym jest silnia',
+                note: 'Ustawianie osób w kolejce, drzewko wyborów, n! = 1 · 2 · … · n, dlaczego 0! = 1, każda silnia z poprzedniej, ' +
+                    'jedna osoba na stałe, dwie półki, okrągły stół i osoby, które chcą stać obok siebie.',
+            },
+            {
+                nr: 2, kotwica: 'petla', spis: 'Silnia w pętli',
+                nazwa: 'Krok 2 · Silnia w pętli — krok po kroku',
+                kategoria: 'Silnia / krok 2: silnia w pętli',
+                note: 'Wynik startuje od 1, warunek i <= n, ślad pętli, pętla w dół, n = 0 i liczby ujemne, iloczyn od a do b, ' +
+                    'co druga liczba (n!!), suma silni i silnie na przemian z minusem.',
+            },
+            {
+                nr: 3, kotwica: 'granice', spis: 'Granice typów',
+                nazwa: 'Krok 3 · Jak szybko rośnie silnia — granice int i long long',
+                kategoria: 'Silnia / krok 3: granice typów',
+                note: 'int do 12!, long long do 20!, przepełnienie bez ostrzeżenia, liczba cyfr, sprawdzanie przed mnożeniem (w > x / i), ' +
+                    'największe n z n! ≤ x, czy liczba jest silnią, bezpieczny iloczyn.',
+            },
+            {
+                nr: 4, kotwica: 'tablica', spis: 'Tablica silni',
+                nazwa: 'Krok 4 · Tablica silni — policz raz, korzystaj wiele razy',
+                kategoria: 'Silnia / krok 4: tablica silni',
+                note: 'f[i] = f[i - 1] * i, wiele pytań naraz, dzielenie silni bez liczenia ich, najbliższa silnia, iloczyn silni, ' +
+                    'silnie cyfr (145 = 1! + 4! + 5!), łańcuchy silni cyfr i system silniowy.',
+            },
+            {
+                nr: 5, kotwica: 'modulo', spis: 'Silnia modulo',
+                nazwa: 'Krok 5 · Silnia modulo — reszta bez liczenia całej silni',
+                kategoria: 'Silnia / krok 5: silnia modulo',
+                note: 'Ostatnia cyfra, w = w * i % m, 10⁹ + 7, n! mod m = 0 dla n ≥ m, suma silni modulo, iloczyn od a do b modulo, ' +
+                    'tablica reszt na wiele pytań i test Wilsona.',
+            },
+            {
+                nr: 6, kotwica: 'zera', spis: 'Zera na końcu',
+                nazwa: 'Krok 6 · Zera na końcu i czynniki silni',
+                kategoria: 'Silnia / krok 6: zera i czynniki',
+                note: 'Skąd się biorą zera, liczenie piątek wolno i szybko (n/5 + n/25 + …), dwójki, wykładnik liczby pierwszej w silni, ' +
+                    'zera na końcu iloczynu i silnia z dokładnie k zerami.',
+            },
+            {
+                nr: 7, kotwica: 'olbrzymy', spis: 'Silnie olbrzymy',
+                nazwa: 'Krok 7 · Silnie olbrzymy — cyfra po cyfrze i log10',
+                kategoria: 'Silnia / krok 7: silnie olbrzymy',
+                note: 'Liczba w vectorze cyfr od końca, mnożenie pisemne z przeniesieniem, dokładna silnia do 1000, suma i liczenie cyfr, ' +
+                    'ostatnia niezerowa cyfra, suma silni olbrzymów, liczba cyfr i pierwsza cyfra przez log10.',
+            },
+            {
+                nr: 8, kotwica: 'sposoby', spis: 'Liczenie sposobów',
+                nazwa: 'Krok 8 · Liczenie sposobów — podium, wybieranie i trójkąt Pascala',
+                kategoria: 'Silnia / krok 8: liczenie sposobów',
+                note: 'Podium (n · (n − 1) · …), kody z różnych cyfr, uściski dłoni, symbol Newtona bez przepełnienia, trójkąt Pascala, ' +
+                    'anagramy z powtórzonymi literami, ścieżki na kratce i dwumian modulo.',
+            },
+            {
+                nr: 9, kotwica: 'baza', spis: 'Baza zadań', baza: true,
+                nazwa: 'Baza zadań — podsumowanie tematu',
+                kategoria: 'Silnia / baza zadań',
+                note: 'Zadania na cały temat, od najłatwiejszego do najtrudniejszego: turniej, pary na balu, 10! sekund, pary na wycieczkę, lotto, ' +
+                    'mikołajki, numer ustawienia, ostatnia niezerowa cyfra, dzielniki silni, cukierki dla dzieci — a na koniec wielki finał: kalkulator silni.',
+            },
+        ],
+    },
 ];
 
 module.exports = { SITE, KATEGORIA, LEKCJE };

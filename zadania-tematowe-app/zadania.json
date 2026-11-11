@@ -43420,6 +43420,3101 @@
       ],
       "hint": "Wszystko licz w groszach (llround(A * 100), llround(B * 100)) i na liczbach całkowitych. Autobusy: (u + o + k − 1) / k. Rozpoczęte godziny: (m + 59) / 60. Darmowe bilety: u / 10. Składka w górę do pełnych 10 groszy to dzielenie w górę przez 10 · u, a potem razy 10: (koszt + 10 * u - 1) / (10 * u) * 10. Kwoty wypisuj jako złote: / 100, kropka i % 100 z setw(2) i setfill('0').",
       "tests_count": 13
+    },
+    {
+      "id": "sil-kolejka",
+      "number": 1331,
+      "title": "Kolejka po lody",
+      "category": "Silnia / krok 1: czym jest silnia",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Przed budką z lodami czeka n osób. Na ile różnych sposobów mogą ustawić się w kolejce? Dwa ustawienia są różne, jeśli choć jedna osoba stoi w nich na innym miejscu.",
+        "Wczytaj n i wypisz liczbę różnych ustawień."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n — liczba osób."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba różnych ustawień kolejki."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 12"
+      ],
+      "examples": [
+        {
+          "input": "3",
+          "output": "6",
+          "note": "Osoby A, B, C: ABC, ACB, BAC, BCA, CAB, CBA — sześć ustawień."
+        },
+        {
+          "input": "1",
+          "output": "1"
+        }
+      ],
+      "hint": "Na pierwsze miejsce może stanąć każda z n osób, na drugie — każda z pozostałych n − 1 i tak dalej. Razem n · (n − 1) · … · 1, czyli n!. Zacznij od int w = 1; i w pętli od 1 do n mnóż w przez kolejne liczby. Przy n ≤ 12 wynik mieści się w int (12! = 479 001 600).",
+      "tests_count": 12
+    },
+    {
+      "id": "sil-kilka-silni",
+      "number": 1332,
+      "title": "Kilka silni naraz",
+      "category": "Silnia / krok 1: czym jest silnia",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj t liczb. Dla każdej liczby n wypisz w osobnym wierszu wartość n!. Pamiętaj, że 0! = 1."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "W drugim wierszu t liczb całkowitych."
+      ],
+      "output_format": [
+        "t wierszy — w każdym silnia odpowiedniej liczby."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 13",
+        "0 ≤ każda liczba ≤ 12"
+      ],
+      "examples": [
+        {
+          "input": "4\n3 0 5 1",
+          "output": "6\n1\n120\n1",
+          "note": "3! = 6, 0! = 1, 5! = 120, 1! = 1."
+        }
+      ],
+      "hint": "Dla każdej liczby policz silnię od nowa: ustaw w = 1, a potem pomnóż przez 1, 2, …, n. Najczęstszy błąd: w = 1 stoi przed pętlą po t i wynik poprzedniej liczby „przecieka” do następnej. Ustawiaj w = 1 wewnątrz zewnętrznej pętli. Dla n = 0 wewnętrzna pętla nie wykona się ani razu i zostanie 1 — dokładnie tyle, ile trzeba.",
+      "tests_count": 10
+    },
+    {
+      "id": "sil-rozpisz",
+      "number": 1333,
+      "title": "Rozpisana silnia",
+      "category": "Silnia / krok 1: czym jest silnia",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n i wypisz silnię rozpisaną na iloczyn — dokładnie w formacie z przykładów: najpierw n!, potem znak =, potem kolejne liczby od 1 do n rozdzielone gwiazdkami, a na końcu znak = i wynik.",
+        "Wyjątek: 0! nie ma czego rozpisywać — wtedy wypisz tylko 0! = 1."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jeden wiersz w formacie z przykładów (spacje wokół znaków = i *)."
+      ],
+      "constraints": [
+        "0 ≤ n ≤ 12"
+      ],
+      "examples": [
+        {
+          "input": "5",
+          "output": "5! = 1 * 2 * 3 * 4 * 5 = 120"
+        },
+        {
+          "input": "1",
+          "output": "1! = 1 = 1"
+        },
+        {
+          "input": "0",
+          "output": "0! = 1"
+        }
+      ],
+      "hint": "Najpierw wypisz n << \"! = \". Dla n = 0 dopisz tylko 1 i koniec. W przeciwnym razie wypisz 1, a potem w pętli od 2 do n — \" * \" i liczbę i (gwiazdka idzie PRZED każdą liczbą oprócz pierwszej). W tej samej pętli mnóż wynik, a na końcu dopisz \" = \" i wynik.",
+      "tests_count": 13
+    },
+    {
+      "id": "sil-ola-pierwsza",
+      "number": 1334,
+      "title": "Ola stoi pierwsza",
+      "category": "Silnia / krok 1: czym jest silnia",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Do kolejki po autograf ustawia się n osób. Ola przyszła pierwsza i na pewno stoi na początku kolejki, a pozostałe osoby mogą ustawić się za nią w dowolnej kolejności.",
+        "Ile jest możliwych ustawień całej kolejki?"
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n — liczba osób razem z Olą."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba możliwych ustawień."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 13"
+      ],
+      "examples": [
+        {
+          "input": "4",
+          "output": "6",
+          "note": "Ola stoi na początku, a trzy pozostałe osoby ustawiają się za nią na 3! = 6 sposobów."
+        },
+        {
+          "input": "1",
+          "output": "1",
+          "note": "W kolejce jest tylko Ola — jedno ustawienie."
+        }
+      ],
+      "hint": "Miejsce Oli jest ustalone, więc zostaje ustawić n − 1 osób na n − 1 miejscach: (n − 1)! sposobów. Policz silnię z n − 1 tak samo jak zwykle — pętla od 1 do n − 1. Dla n = 1 pętla nie wykona się ani razu i zostanie 1 (bo 0! = 1).",
+      "tests_count": 13
+    },
+    {
+      "id": "sil-dwie-polki",
+      "number": 1335,
+      "title": "Dwie półki",
+      "category": "Silnia / krok 1: czym jest silnia",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na górnej półce stoi a różnych książek, a na dolnej — b innych różnych książek. Książki nie zmieniają półek, ale na każdej półce można je dowolnie poprzestawiać.",
+        "Na ile sposobów mogą wyglądać obie półki razem?"
+      ],
+      "input_format": [
+        "Dwie liczby całkowite a i b."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba możliwych wyglądów obu półek."
+      ],
+      "constraints": [
+        "0 ≤ a, b",
+        "a + b ≤ 12"
+      ],
+      "examples": [
+        {
+          "input": "2 3",
+          "output": "12",
+          "note": "Górna półka: 2! = 2 ustawienia, dolna: 3! = 6. Każde ustawienie górnej pasuje do każdego ustawienia dolnej: 2 · 6 = 12."
+        },
+        {
+          "input": "0 4",
+          "output": "24",
+          "note": "Pusta półka ma jedno ustawienie (0! = 1)."
+        }
+      ],
+      "hint": "Policz a! i b! — dwie osobne pętle, każda z wynikiem startującym od 1. Każdy wygląd górnej półki łączy się z każdym wyglądem dolnej, więc wyniki mnożymy: a! · b!. Iloczyn nie przekroczy 12!, więc int wystarczy.",
+      "tests_count": 14
+    },
+    {
+      "id": "sil-okragly-stol",
+      "number": 1336,
+      "title": "Okrągły stół",
+      "category": "Silnia / krok 1: czym jest silnia",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Przy okrągłym stole z n fotelami siada n rycerzy. Dwa rozsadzenia uznajemy za takie same, jeśli jedno da się otrzymać z drugiego przez obrót całego stołu — liczy się tylko to, kto siedzi obok kogo i w jakiej kolejności (zgodnie z ruchem wskazówek zegara), a nie to, który to fotel.",
+        "Na ile różnych sposobów rycerze mogą usiąść?"
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n — liczba rycerzy."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba różnych rozsadzeń."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 13"
+      ],
+      "examples": [
+        {
+          "input": "3",
+          "output": "2",
+          "note": "A, B, C albo A, C, B (patrząc zgodnie z ruchem wskazówek zegara od A). Każde inne rozsadzenie to obrót jednego z tych dwóch."
+        },
+        {
+          "input": "4",
+          "output": "6"
+        }
+      ],
+      "hint": "Posadź pierwszego rycerza gdziekolwiek — przy okrągłym stole wszystkie fotele są takie same, bo obrót niczego nie zmienia. Pozostali rycerze siadają na już ustalonych miejscach: (n − 1)! sposobów. Inaczej: ustawień w rzędzie jest n!, a każde rozsadzenie przy stole odpowiada n ustawieniom (n obrotów), więc n! / n = (n − 1)!.",
+      "tests_count": 13
+    },
+    {
+      "id": "sil-obok-siebie",
+      "number": 1337,
+      "title": "Ala i Bartek obok siebie",
+      "category": "Silnia / krok 1: czym jest silnia",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Do zdjęcia klasowego w jednym rzędzie ustawia się n osób, wśród nich Ala i Bartek, którzy koniecznie chcą stać obok siebie — w dowolnej kolejności: Ala może stać z lewej albo z prawej strony Bartka.",
+        "Na ile sposobów można ustawić cały rząd?"
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n — liczba osób razem z Alą i Bartkiem."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba ustawień, w których Ala i Bartek stoją obok siebie."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 12"
+      ],
+      "examples": [
+        {
+          "input": "3",
+          "output": "4",
+          "note": "Osoby A (Ala), B (Bartek) i C: ABC, BAC, CAB, CBA — cztery ustawienia."
+        },
+        {
+          "input": "2",
+          "output": "2"
+        }
+      ],
+      "hint": "Sklej Alę i Bartka w jedną „parę”. Teraz ustawiasz n − 1 elementów (parę i n − 2 pozostałych osób): (n − 1)! sposobów. W środku pary są jeszcze dwie możliwości — Ala z lewej albo z prawej — więc wynik to 2 · (n − 1)!.",
+      "tests_count": 11
+    },
+    {
+      "id": "sil-ustawienia-liter",
+      "number": 1338,
+      "title": "Wszystkie ustawienia liter",
+      "category": "Silnia / krok 1: czym jest silnia",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj słowo złożone z n różnych małych liter. W pierwszym wierszu wypisz, ile jest różnych ustawień tych liter. Potem wypisz wszystkie te ustawienia, każde w osobnym wierszu, w kolejności alfabetycznej (słownikowej)."
+      ],
+      "input_format": [
+        "Jedno słowo z różnych małych liter alfabetu angielskiego."
+      ],
+      "output_format": [
+        "W pierwszym wierszu liczba ustawień, a potem wszystkie ustawienia w kolejności alfabetycznej."
+      ],
+      "constraints": [
+        "1 ≤ długość słowa ≤ 6",
+        "litery w słowie nie powtarzają się"
+      ],
+      "examples": [
+        {
+          "input": "kot",
+          "output": "6\nkot\nkto\nokt\notk\ntko\ntok",
+          "note": "3 litery, więc 3! = 6 ustawień."
+        },
+        {
+          "input": "a",
+          "output": "1\na"
+        }
+      ],
+      "hint": "Liczba ustawień to silnia z długości słowa (s.size()) — policz ją pętlą. Ustawienia wypisz tak jak w lekcji o vectorze: najpierw sort(s.begin(), s.end()), żeby zacząć od najmniejszego ustawienia, a potem do { cout << s << \"\\n\"; } while (next_permutation(s.begin(), s.end()));. Możesz też liczyć obroty tej pętli — wyjdzie dokładnie n!.",
+      "tests_count": 14
+    },
+    {
+      "id": "sil-silnia",
+      "number": 1339,
+      "title": "Silnia w long long",
+      "category": "Silnia / krok 2: silnia w pętli",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n i wypisz n!."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jedna liczba — n!."
+      ],
+      "constraints": [
+        "0 ≤ n ≤ 20"
+      ],
+      "examples": [
+        {
+          "input": "5",
+          "output": "120"
+        },
+        {
+          "input": "0",
+          "output": "1",
+          "note": "0! = 1 — pętla nie wykona się ani razu."
+        },
+        {
+          "input": "20",
+          "output": "2432902008176640000"
+        }
+      ],
+      "hint": "long long w = 1; for (int i = 1; i <= n; i++) w *= i; — i to wszystko. Wynik trzymaj w long long: 20! = 2 432 902 008 176 640 000 nie zmieści się w int. Sprawdź swój program dla n = 0 (ma wyjść 1) i dla n = 20.",
+      "tests_count": 21
+    },
+    {
+      "id": "sil-slad",
+      "number": 1340,
+      "title": "Ślad pętli",
+      "category": "Silnia / krok 2: silnia w pętli",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wypisz ślad pętli, która liczy n!. Wynik w startuje od 1, a pętla mnoży go kolejno przez 1, 2, …, n. Po każdym obrocie wypisz jeden wiersz: numer obrotu i oraz aktualną wartość w, oddzielone spacją."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "n wierszy — w każdym liczby i oraz w po pomnożeniu."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 20"
+      ],
+      "examples": [
+        {
+          "input": "4",
+          "output": "1 1\n2 2\n3 6\n4 24"
+        }
+      ],
+      "hint": "Wypisuj wewnątrz pętli, zaraz po w *= i;. To dokładnie tabelka śladu z lekcji: kolumna i i kolumna w. Ostatni wiersz zawiera n i n!.",
+      "tests_count": 8
+    },
+    {
+      "id": "sil-od-tylu",
+      "number": 1341,
+      "title": "Silnia od tyłu",
+      "category": "Silnia / krok 2: silnia w pętli",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n i wypisz iloczyn liczb od n do 1 w kolejności malejącej, a potem znak = i wynik — dokładnie w formacie z przykładów."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jeden wiersz w formacie z przykładów."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 20"
+      ],
+      "examples": [
+        {
+          "input": "5",
+          "output": "5 * 4 * 3 * 2 * 1 = 120"
+        },
+        {
+          "input": "1",
+          "output": "1 = 1"
+        }
+      ],
+      "hint": "Pętla w dół: for (int i = n; i >= 1; i--). Mnożenie można robić w dowolnej kolejności — wynik wyjdzie ten sam, co przy liczeniu od 1. Wypisz najpierw n, a potem w pętli od n − 1 w dół — \" * \" i liczbę. Wynik w long long.",
+      "tests_count": 8
+    },
+    {
+      "id": "sil-ujemne",
+      "number": 1342,
+      "title": "Silnia tylko dla nieujemnych",
+      "category": "Silnia / krok 2: silnia w pętli",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj t liczb całkowitych. Dla każdej liczby n wypisz w osobnym wierszu n!, a jeśli n jest ujemne — słowo BRAK (silnia liczby ujemnej nie istnieje)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "W drugim wierszu t liczb całkowitych."
+      ],
+      "output_format": [
+        "t wierszy — w każdym silnia albo słowo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100",
+        "−1000 ≤ każda liczba ≤ 20"
+      ],
+      "examples": [
+        {
+          "input": "4\n3 -2 0 20",
+          "output": "6\nBRAK\n1\n2432902008176640000"
+        }
+      ],
+      "hint": "Najpierw if: dla n < 0 od razu wypisz BRAK. Uwaga: pętla for (int i = 1; i <= n; i++) dla ujemnego n nie wykona się ani razu i zostawi w = 1 — bez tego ifa program wypisałby 1, a to błąd. Dla każdej liczby zaczynaj od w = 1.",
+      "tests_count": 9
+    },
+    {
+      "id": "sil-od-a-do-b",
+      "number": 1343,
+      "title": "Iloczyn od a do b",
+      "category": "Silnia / krok 2: silnia w pętli",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj dwie liczby a i b (a ≤ b) i wypisz iloczyn wszystkich liczb całkowitych od a do b: a · (a + 1) · … · b."
+      ],
+      "input_format": [
+        "Dwie liczby całkowite a i b."
+      ],
+      "output_format": [
+        "Jedna liczba — iloczyn."
+      ],
+      "constraints": [
+        "1 ≤ a ≤ b ≤ 1 000 000",
+        "iloczyn jest nie większy niż 9 · 10¹⁸ (mieści się w long long)"
+      ],
+      "examples": [
+        {
+          "input": "5 7",
+          "output": "210",
+          "note": "5 · 6 · 7 = 210."
+        },
+        {
+          "input": "4 4",
+          "output": "4"
+        },
+        {
+          "input": "1 20",
+          "output": "2432902008176640000",
+          "note": "Od 1 do 20 to po prostu 20!."
+        }
+      ],
+      "hint": "To jak silnia, tylko pętla zaczyna się od a: long long w = 1; for (long long i = a; i <= b; i++) w *= i;. Liczby sięgają miliona, a wynik — prawie 10¹⁹, więc wynik koniecznie w long long. Zwróć uwagę: iloczyn od a do b to b! podzielone przez (a − 1)!, ale tak go nie licz — b! dla dużego b nie zmieści się w żadnym typie.",
+      "tests_count": 18
+    },
+    {
+      "id": "sil-co-druga",
+      "number": 1344,
+      "title": "Co druga liczba",
+      "category": "Silnia / krok 2: silnia w pętli",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Silnia podwójna n!! to iloczyn co drugiej liczby od n w dół: dla nieparzystego n — wszystkich liczb nieparzystych od 1 do n, a dla parzystego — wszystkich parzystych od 2 do n. Na przykład 7!! = 7 · 5 · 3 · 1 = 105, a 8!! = 8 · 6 · 4 · 2 = 384. Umowa: 0!! = 1.",
+        "Wczytaj n i wypisz n!!."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jedna liczba — n!!."
+      ],
+      "constraints": [
+        "0 ≤ n ≤ 33"
+      ],
+      "examples": [
+        {
+          "input": "7",
+          "output": "105"
+        },
+        {
+          "input": "8",
+          "output": "384"
+        },
+        {
+          "input": "0",
+          "output": "1"
+        }
+      ],
+      "hint": "Pętla, która w każdym obrocie zmniejsza licznik o 2: for (int i = n; i >= 1; i -= 2) w *= i;. Dla n = 0 pętla nie wykona się ani razu i zostanie 1. Uwaga: n!! to nie (n!)! — to zupełnie inna, dużo mniejsza liczba. Dla n = 33 wynik przekracza 6 · 10¹⁸ — long long.",
+      "tests_count": 34
+    },
+    {
+      "id": "sil-suma",
+      "number": 1345,
+      "title": "Suma silni",
+      "category": "Silnia / krok 2: silnia w pętli",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n i wypisz sumę 1! + 2! + … + n!."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jedna liczba — suma silni."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 20"
+      ],
+      "examples": [
+        {
+          "input": "4",
+          "output": "33",
+          "note": "1 + 2 + 6 + 24 = 33."
+        },
+        {
+          "input": "1",
+          "output": "1"
+        }
+      ],
+      "hint": "Nie licz każdej silni od nowa. W jednej pętli trzymaj dwie zmienne: s (bieżąca silnia) i suma. W każdym obrocie najpierw s *= i (teraz s to i!), a potem suma += s. Obie w long long — suma aż do 20! to około 2,56 · 10¹⁸.",
+      "tests_count": 20
+    },
+    {
+      "id": "sil-naprzemian",
+      "number": 1346,
+      "title": "Plus, minus, plus…",
+      "category": "Silnia / krok 2: silnia w pętli",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n i wypisz wartość wyrażenia 1! − 2! + 3! − 4! + … ± n!, w którym znaki plus i minus występują na przemian: silnie liczb nieparzystych dodajemy, a parzystych — odejmujemy."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jedna liczba — wartość wyrażenia (może być ujemna)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 20"
+      ],
+      "examples": [
+        {
+          "input": "4",
+          "output": "-19",
+          "note": "1 − 2 + 6 − 24 = −19."
+        },
+        {
+          "input": "3",
+          "output": "5",
+          "note": "1 − 2 + 6 = 5."
+        }
+      ],
+      "hint": "Tak jak w sumie silni: w pętli najpierw s *= i, a potem — jeśli i jest nieparzyste (i % 2 == 1) — wynik += s, a w przeciwnym razie wynik -= s. Wynik może być ujemny i ogromny, więc long long (nie unsigned!).",
+      "tests_count": 20
+    },
+    {
+      "id": "sil-jaki-typ",
+      "number": 1347,
+      "title": "Jaki typ wystarczy?",
+      "category": "Silnia / krok 3: granice typów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n i wypisz najmniejszy typ, w którym zmieści się n!: słowo int albo long long. Jeśli n! nie mieści się nawet w long long, wypisz ZA DUZO."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jeden wiersz: int, long long albo ZA DUZO."
+      ],
+      "constraints": [
+        "0 ≤ n ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "12",
+          "output": "int"
+        },
+        {
+          "input": "13",
+          "output": "long long"
+        },
+        {
+          "input": "21",
+          "output": "ZA DUZO"
+        }
+      ],
+      "hint": "Nie licz silni dla dużych n — przepełnienie i tak zepsułoby wynik, a program nawet by nie ostrzegł. Wystarczą granice z lekcji: int mieści silnie do 12! (479 001 600), a long long — do 20! (około 2,4 · 10¹⁸). Trzy przypadki: n ≤ 12, n ≤ 20 i reszta.",
+      "tests_count": 29
+    },
+    {
+      "id": "sil-ile-cyfr",
+      "number": 1348,
+      "title": "Ile cyfr ma n!",
+      "category": "Silnia / krok 3: granice typów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n i wypisz, ile cyfr ma liczba n!."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba cyfr n!."
+      ],
+      "constraints": [
+        "0 ≤ n ≤ 20"
+      ],
+      "examples": [
+        {
+          "input": "5",
+          "output": "3",
+          "note": "5! = 120 ma 3 cyfry."
+        },
+        {
+          "input": "0",
+          "output": "1"
+        },
+        {
+          "input": "20",
+          "output": "19"
+        }
+      ],
+      "hint": "Policz silnię w long long, a potem jej cyfry pętlą z lekcji o pętli while: dopóki liczba jest większa od zera — dziel ją przez 10 i licz obroty. Wynik 1 (dla n = 0 i n = 1) ma jedną cyfrę — taka pętla wykona się raz, więc wszystko się zgadza. Możesz też użyć to_string(w).size().",
+      "tests_count": 21
+    },
+    {
+      "id": "sil-silnie-do-x",
+      "number": 1349,
+      "title": "Silnie nie większe niż x",
+      "category": "Silnia / krok 3: granice typów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj liczbę x i wypisz w jednym wierszu wszystkie silnie 1!, 2!, 3!, …, które nie są większe od x — w kolejności rosnącej, oddzielone spacjami."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita x."
+      ],
+      "output_format": [
+        "Jeden wiersz — silnie nie większe od x."
+      ],
+      "constraints": [
+        "1 ≤ x ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "130",
+          "output": "1 2 6 24 120"
+        },
+        {
+          "input": "1",
+          "output": "1"
+        }
+      ],
+      "hint": "Trzymaj i oraz w = i!. Dopóki w ≤ x: wypisz w, potem i++ i w *= i. Czy następna silnia się nie przepełni? Dla x ≤ 10¹⁸ największa wypisana silnia to najwyżej 19!, a następna — 20! — wciąż mieści się w long long. Więc tu zwykłe mnożenie wystarczy (w następnym zadaniu już nie zawsze).",
+      "tests_count": 14
+    },
+    {
+      "id": "sil-pierwsza-wieksza",
+      "number": 1350,
+      "title": "Pierwsza silnia większa od x",
+      "category": "Silnia / krok 3: granice typów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj x i wypisz najmniejsze n, dla którego n! > x, a obok — samą wartość n!."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita x."
+      ],
+      "output_format": [
+        "Jeden wiersz: liczby n i n! oddzielone spacją."
+      ],
+      "constraints": [
+        "1 ≤ x ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "100",
+          "output": "5 120",
+          "note": "4! = 24 ≤ 100, a 5! = 120 > 100."
+        },
+        {
+          "input": "120",
+          "output": "6 720",
+          "note": "5! = 120 nie jest większe od 120 — dopiero 6! = 720."
+        }
+      ],
+      "hint": "Zacznij od n = 0 i w = 1 (bo 0! = 1). Dopóki w ≤ x: n++ i w *= n. Gdy pętla się skończy, w to pierwsza silnia większa od x, a n — jej numer. Przepełnienia nie ma: dla x ≤ 10¹⁸ pętla zatrzyma się najpóźniej na 20!.",
+      "tests_count": 21
+    },
+    {
+      "id": "sil-w-budzecie",
+      "number": 1351,
+      "title": "Największa silnia w budżecie",
+      "category": "Silnia / krok 3: granice typów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj x i wypisz największe n, dla którego n! ≤ x."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita x."
+      ],
+      "output_format": [
+        "Jedna liczba — największe n, dla którego n! ≤ x."
+      ],
+      "constraints": [
+        "1 ≤ x ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "130",
+          "output": "5",
+          "note": "5! = 120 ≤ 130, a 6! = 720 > 130."
+        },
+        {
+          "input": "1",
+          "output": "1",
+          "note": "1! = 1 ≤ 1, a 2! = 2 > 1."
+        },
+        {
+          "input": "720",
+          "output": "6"
+        }
+      ],
+      "hint": "Licz kolejne silnie, dopóki następna mieści się w x. Następna silnia to w · (n + 1), a warunek w · (n + 1) ≤ x możesz sprawdzić bez mnożenia: w ≤ x / (n + 1) (dzielenie całkowite). To nawyk, który chroni przed przepełnieniem — tutaj akurat by do niego nie doszło, ale w następnych zadaniach już tak.",
+      "tests_count": 21
+    },
+    {
+      "id": "sil-czy-silnia",
+      "number": 1352,
+      "title": "Czy to silnia?",
+      "category": "Silnia / krok 3: granice typów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj t liczb. Dla każdej liczby x sprawdź, czy jest silnią jakiejś liczby: jeśli tak, wypisz najmniejsze n, dla którego n! = x, a jeśli nie — wypisz NIE. Każda odpowiedź w osobnym wierszu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "W drugim wierszu t liczb całkowitych."
+      ],
+      "output_format": [
+        "t wierszy — w każdym liczba n albo słowo NIE."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1000",
+        "1 ≤ każda liczba ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "5\n120 1 100 2 6227020800",
+          "output": "5\n0\nNIE\n2\n13",
+          "note": "1 = 0! (i też 1!), więc najmniejsze n to 0."
+        }
+      ],
+      "hint": "Dla każdej liczby x licz kolejne silnie od 0! = 1, dopóki są mniejsze od x: while (w < x) { n++; w *= n; }. Po pętli sprawdź, czy trafiłeś dokładnie: w == x. Dla x = 1 pętla nie wykona się ani razu i zostanie n = 0 — dobrze, bo 0! = 1. Pamiętaj, żeby dla każdej liczby zaczynać od n = 0 i w = 1.",
+      "tests_count": 8
+    },
+    {
+      "id": "sil-czy-przekracza",
+      "number": 1353,
+      "title": "Czy n! przekracza x?",
+      "category": "Silnia / krok 3: granice typów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj t par liczb n i x. Dla każdej pary wypisz w osobnym wierszu TAK, jeśli n! > x, albo NIE w przeciwnym razie.",
+        "Uwaga: n może być bardzo duże — tak duże, że n! nie zmieści się w żadnym typie."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "W kolejnych t wierszach po dwie liczby: n i x."
+      ],
+      "output_format": [
+        "t wierszy — w każdym TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1000",
+        "0 ≤ n ≤ 10⁹",
+        "1 ≤ x ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "4\n5 100\n5 120\n1000000000 999999999999999999\n0 1",
+          "output": "TAK\nNIE\nTAK\nNIE"
+        }
+      ],
+      "hint": "Licz silnię, ale przerwij, zanim przekroczy x: przed pomnożeniem przez i sprawdź, czy w > x / i. Jeśli tak, to w · i > x — odpowiedź to na pewno TAK (dalsze mnożenie już tylko zwiększa wynik), więc break. Jeśli pętla dojdzie do końca, porównaj w > x. Dzięki temu w nigdy się nie przepełni, a pętla kończy się po najwyżej dwudziestu kilku obrotach nawet dla n = 10⁹.",
+      "tests_count": 10
+    },
+    {
+      "id": "sil-bezpieczny-iloczyn",
+      "number": 1354,
+      "title": "Bezpieczny iloczyn",
+      "category": "Silnia / krok 3: granice typów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb dodatnich i policz ich iloczyn. Jeśli iloczyn jest większy od 10¹⁸, wypisz ZA DUZO. W przeciwnym razie wypisz iloczyn."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych dodatnich."
+      ],
+      "output_format": [
+        "Jeden wiersz: iloczyn albo ZA DUZO."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "1 ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "3\n1000000 1000000 1000000",
+          "output": "1000000000000000000",
+          "note": "Dokładnie 10¹⁸ — jeszcze nie za dużo."
+        },
+        {
+          "input": "3\n1000000000 1000000000 2",
+          "output": "ZA DUZO"
+        }
+      ],
+      "hint": "10⁹ · 10⁹ · 10⁹ przepełni nawet long long, więc sprawdzaj PRZED każdym mnożeniem: jeśli w > LIMIT / a, to w · a > LIMIT — wypisz ZA DUZO i zakończ program. Granicę zapisz jako long long LIMIT = 1000000000000000000LL;. Liczby są dodatnie, więc iloczyn tylko rośnie — skoro raz przekroczył granicę, to już pod nią nie wróci.",
+      "tests_count": 19
+    },
+    {
+      "id": "sil-tablica",
+      "number": 1355,
+      "title": "Tablica silni",
+      "category": "Silnia / krok 4: tablica silni",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj q liczb. Dla każdej liczby n wypisz w osobnym wierszu n!.",
+        "Najpierw wypełnij tablicę wszystkich silni od 0! do 20!, a potem dla każdego pytania po prostu odczytaj gotowy wynik."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W drugim wierszu q liczb całkowitych."
+      ],
+      "output_format": [
+        "q wierszy — w każdym silnia odpowiedniej liczby."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "0 ≤ każda liczba ≤ 20"
+      ],
+      "examples": [
+        {
+          "input": "5\n3 20 0 3 10",
+          "output": "6\n2432902008176640000\n1\n6\n3628800"
+        }
+      ],
+      "hint": "long long f[21]; f[0] = 1; for (int i = 1; i <= 20; i++) f[i] = f[i - 1] * i; — każda silnia powstaje z poprzedniej jednym mnożeniem. Potem w pętli po pytaniach wypisuj f[n]. Tablicę wypełniasz raz, na samym początku, a nie przy każdym pytaniu.",
+      "tests_count": 7
+    },
+    {
+      "id": "sil-iloraz-silni",
+      "number": 1356,
+      "title": "Silnia przez silnię",
+      "category": "Silnia / krok 4: tablica silni",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj q par liczb n i k (k ≤ n). Dla każdej pary wypisz w osobnym wierszu wartość n! / k!."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W kolejnych q wierszach po dwie liczby: n i k."
+      ],
+      "output_format": [
+        "q wierszy — w każdym wartość n! / k!."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "0 ≤ k ≤ n ≤ 20"
+      ],
+      "examples": [
+        {
+          "input": "3\n5 3\n20 18\n7 7",
+          "output": "20\n380\n1",
+          "note": "5! / 3! = 120 / 6 = 20, czyli 4 · 5. 20! / 18! = 19 · 20 = 380."
+        }
+      ],
+      "hint": "Wypełnij tablicę f[0..20] i wypisuj f[n] / f[k]. Dzielenie zawsze wychodzi bez reszty, bo n! = k! · (k + 1) · … · n. Zauważ, że wynik to iloczyn liczb od k + 1 do n — to przydaje się, gdy n jest za duże na tablicę.",
+      "tests_count": 6
+    },
+    {
+      "id": "sil-silnie-cyfr",
+      "number": 1357,
+      "title": "Suma silni cyfr",
+      "category": "Silnia / krok 4: tablica silni",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj q liczb. Dla każdej liczby wypisz w osobnym wierszu sumę silni jej cyfr. Na przykład dla 145 to 1! + 4! + 5! = 1 + 24 + 120 = 145, a dla 2022 — 2! + 0! + 2! + 2! = 7.",
+        "Uwaga: liczba 0 ma jedną cyfrę 0, a 0! = 1."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W drugim wierszu q liczb całkowitych nieujemnych."
+      ],
+      "output_format": [
+        "q wierszy — w każdym suma silni cyfr odpowiedniej liczby."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "0 ≤ każda liczba ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "4\n145 2022 9 0",
+          "output": "145\n7\n362880\n1"
+        }
+      ],
+      "hint": "Silnie cyfr policz raz do tablicy: f[0] = 1, f[i] = f[i - 1] * i dla i od 1 do 9. Potem cyfry liczby wyciągaj jak w lekcji o modulo: x % 10 to ostatnia cyfra, x /= 10 ją usuwa. Pułapka: pętla while (x > 0) dla x = 0 nie wykona się ani razu, a 0 ma jedną cyfrę — wtedy wynik to 0! = 1. Najprościej wczytać liczbę jako string i przejść po znakach (cyfra = c - '0').",
+      "tests_count": 7
+    },
+    {
+      "id": "sil-najblizsza",
+      "number": 1358,
+      "title": "Najbliższa silnia",
+      "category": "Silnia / krok 4: tablica silni",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj q liczb. Dla każdej liczby x wypisz tę silnię, która jest najbliżej x (czyli różni się od x najmniej). Jeśli dwie silnie są równie blisko, wypisz mniejszą."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W drugim wierszu q liczb całkowitych."
+      ],
+      "output_format": [
+        "q wierszy — w każdym silnia najbliższa odpowiedniej liczbie."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "1 ≤ każda liczba ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "4\n100 4 30 5000",
+          "output": "120\n2\n24\n5040",
+          "note": "4 leży dokładnie w połowie między 2! = 2 i 3! = 6 — wypisujemy mniejszą."
+        }
+      ],
+      "hint": "Wypełnij tablicę f[0..20] (20! jest już większe od 10¹⁸, więc dalej szukać nie trzeba). Dla każdego x przejdź po tablicy i licz odległość max(x, f[i]) - min(x, f[i]) — bez ujemnych liczb. Zapamiętuj najlepszą; nowa silnia wygrywa tylko przy odległości ostro mniejszej, więc przy remisie zostanie wcześniejsza, czyli mniejsza.",
+      "tests_count": 8
+    },
+    {
+      "id": "sil-iloczyn-silni",
+      "number": 1359,
+      "title": "Iloczyn silni",
+      "category": "Silnia / krok 4: tablica silni",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb a₁, a₂, …, aₙ i policz iloczyn ich silni: a₁! · a₂! · … · aₙ!. Jeśli iloczyn jest większy od 10¹⁸, wypisz ZA DUZO, a w przeciwnym razie wypisz iloczyn."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jeden wiersz: iloczyn silni albo ZA DUZO."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "0 ≤ każda liczba ≤ 20"
+      ],
+      "examples": [
+        {
+          "input": "3\n3 4 5",
+          "output": "17280",
+          "note": "6 · 24 · 120 = 17 280."
+        },
+        {
+          "input": "2\n20 2",
+          "output": "ZA DUZO"
+        }
+      ],
+      "hint": "Silnie weź z tablicy f[0..20]. Mnóż jak w zadaniu „Bezpieczny iloczyn”: przed każdym mnożeniem sprawdź, czy w > LIMIT / f[a] — jeśli tak, iloczyn przekroczy 10¹⁸ i możesz od razu wypisać ZA DUZO. Silnie są dodatnie (nawet 0! = 1), więc dzielenie przez f[a] jest bezpieczne.",
+      "tests_count": 15
+    },
+    {
+      "id": "sil-liczby-silniowe",
+      "number": 1360,
+      "title": "Liczby silniowe",
+      "category": "Silnia / krok 4: tablica silni",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Liczba jest silniowa, jeśli jest równa sumie silni swoich cyfr. Na przykład 145 jest silniowa, bo 1! + 4! + 5! = 1 + 24 + 120 = 145.",
+        "Wczytaj a i b i wypisz w jednym wierszu wszystkie liczby silniowe z przedziału [a, b] w kolejności rosnącej. Jeśli w przedziale nie ma żadnej, wypisz BRAK."
+      ],
+      "input_format": [
+        "Dwie liczby całkowite a i b."
+      ],
+      "output_format": [
+        "Jeden wiersz: liczby silniowe oddzielone spacjami albo słowo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ a ≤ b ≤ 2 000 000"
+      ],
+      "examples": [
+        {
+          "input": "1 200",
+          "output": "1 2 145"
+        },
+        {
+          "input": "3 144",
+          "output": "BRAK"
+        }
+      ],
+      "hint": "Tablica f[0..9] z silniami cyfr, a potem pętla po wszystkich x od a do b: policz sumę silni cyfr (kopia x, % 10 i / 10) i porównaj z x. Dwa miliony liczb po najwyżej 7 cyfr to kilkanaście milionów operacji — szybko. Zapamiętaj w zmiennej bool, czy coś znalazłeś, żeby na końcu wiedzieć, czy wypisać BRAK.",
+      "tests_count": 12
+    },
+    {
+      "id": "sil-lancuch",
+      "number": 1361,
+      "title": "Łańcuch silni cyfr",
+      "category": "Silnia / krok 4: tablica silni",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Zaczynamy od liczby x i w każdym kroku zamieniamy liczbę na sumę silni jej cyfr. Na przykład 69 → 6! + 9! = 363600 → 1454 → 169 → 363601 → 1454 → … Prędzej czy później jakaś liczba się powtórzy.",
+        "Wypisz w jednym wierszu kolejne liczby łańcucha, zaczynając od x i kończąc na pierwszej liczbie, która pojawia się po raz drugi (ją też wypisz)."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita x."
+      ],
+      "output_format": [
+        "Jeden wiersz: liczby łańcucha oddzielone spacjami."
+      ],
+      "constraints": [
+        "1 ≤ x ≤ 1 000 000"
+      ],
+      "examples": [
+        {
+          "input": "69",
+          "output": "69 363600 1454 169 363601 1454"
+        },
+        {
+          "input": "145",
+          "output": "145 145",
+          "note": "145 zamienia się w samą siebie — powtarza się od razu."
+        },
+        {
+          "input": "540",
+          "output": "540 145 145"
+        }
+      ],
+      "hint": "Trzymaj vector<long long> odwiedzonych liczb. W pętli: jeśli bieżąca liczba jest już w vectorze (find z lekcji o vectorze albo zwykła pętla), wypisz ją i zakończ; w przeciwnym razie dopisz ją (push_back), wypisz i policz następną: sumę silni cyfr z tablicy f[0..9]. Łańcuchy są krótkie — najwyżej kilkadziesiąt liczb.",
+      "tests_count": 18
+    },
+    {
+      "id": "sil-system-silniowy",
+      "number": 1362,
+      "title": "System silniowy",
+      "category": "Silnia / krok 4: tablica silni",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Każdą liczbę naturalną x da się zapisać jednoznacznie jako sumę x = c_K · K! + … + c₂ · 2! + c₁ · 1!, w której każda „cyfra” c_k spełnia 0 ≤ c_k ≤ k, a pierwsza cyfra c_K jest dodatnia. Na przykład 463 = 3 · 5! + 4 · 4! + 1 · 3! + 0 · 2! + 1 · 1!.",
+        "Wczytaj x i wypisz jego cyfry w tym systemie, od c_K do c₁, oddzielone spacjami. Dla x = 0 wypisz 0."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita x."
+      ],
+      "output_format": [
+        "Jeden wiersz: cyfry c_K, …, c₁ oddzielone spacjami (albo 0 dla x = 0)."
+      ],
+      "constraints": [
+        "0 ≤ x ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "463",
+          "output": "3 4 1 0 1"
+        },
+        {
+          "input": "5",
+          "output": "2 1",
+          "note": "5 = 2 · 2! + 1 · 1!."
+        },
+        {
+          "input": "0",
+          "output": "0"
+        }
+      ],
+      "hint": "To jak zamiana na inny system liczbowy, tylko „wagami” są silnie zamiast potęg. Wypełnij tablicę f[0..20] i znajdź największe K, dla którego f[K] ≤ x. Potem dla k od K w dół do 1: cyfra to x / f[k], a resztę zostaw w x (x %= f[k]). Cyfry bywają dwucyfrowe (nawet 19), dlatego oddzielamy je spacjami.",
+      "tests_count": 19
+    },
+    {
+      "id": "sil-ostatnia-cyfra",
+      "number": 1363,
+      "title": "Ostatnia cyfra silni",
+      "category": "Silnia / krok 5: silnia modulo",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj t liczb. Dla każdej liczby n wypisz w osobnym wierszu ostatnią cyfrę liczby n!."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "W drugim wierszu t liczb całkowitych."
+      ],
+      "output_format": [
+        "t wierszy — w każdym jedna cyfra."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1000",
+        "0 ≤ każda liczba ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "4\n3 4 10 1000000000000000000",
+          "output": "6\n4\n0\n0"
+        }
+      ],
+      "hint": "Od 5! w górę iloczyn zawiera i 2, i 5, czyli dzieli się przez 10 — ostatnia cyfra to 0. Dla n ≤ 4 policz silnię zwykłą pętlą (wyniki: 1, 1, 2, 6, 24) i weź % 10. Pętla do 10¹⁸ trwałaby latami — tu trzeba pomyśleć, zanim się policzy.",
+      "tests_count": 7
+    },
+    {
+      "id": "sil-silnia-mod",
+      "number": 1364,
+      "title": "Silnia modulo m",
+      "category": "Silnia / krok 5: silnia modulo",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n i m i wypisz resztę z dzielenia n! przez m."
+      ],
+      "input_format": [
+        "Dwie liczby całkowite n i m."
+      ],
+      "output_format": [
+        "Jedna liczba — n! mod m."
+      ],
+      "constraints": [
+        "0 ≤ n ≤ 1 000 000",
+        "2 ≤ m ≤ 2 000 000 000"
+      ],
+      "examples": [
+        {
+          "input": "5 7",
+          "output": "1",
+          "note": "120 = 17 · 7 + 1."
+        },
+        {
+          "input": "10 1000000",
+          "output": "628800"
+        },
+        {
+          "input": "1000000 1000000007",
+          "output": "641102369"
+        }
+      ],
+      "hint": "Całej silni nie zmieścisz w żadnym typie, ale resztę możesz liczyć na bieżąco: w = w * i % m po każdym mnożeniu (reszta iloczynu zależy tylko od reszt czynników). w jest mniejsze od m ≤ 2 · 10⁹, a i ≤ 10⁶, więc w * i < 2 · 10¹⁵ — mieści się w long long, ale nie w int. Samo m też może nie zmieścić się w int — wczytaj je do long long.",
+      "tests_count": 17
+    },
+    {
+      "id": "sil-suma-mod",
+      "number": 1365,
+      "title": "Suma silni modulo",
+      "category": "Silnia / krok 5: silnia modulo",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n i wypisz resztę z dzielenia sumy 1! + 2! + … + n! przez 1 000 000 007."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jedna liczba — suma silni modulo 10⁹ + 7."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000 000"
+      ],
+      "examples": [
+        {
+          "input": "4",
+          "output": "33"
+        },
+        {
+          "input": "20",
+          "output": "182527981",
+          "note": "Suma przekracza 10⁹ + 7, więc wypisujemy tylko resztę."
+        }
+      ],
+      "hint": "Jak w sumie silni z części 2, tylko po każdym kroku bierzesz resztę: s = s * i % MOD, a potem suma = (suma + s) % MOD. Obie zmienne w long long — s * i może sięgnąć 10¹⁶. Stałą zapisz raz: const long long MOD = 1000000007;.",
+      "tests_count": 12
+    },
+    {
+      "id": "sil-iloczyn-mod",
+      "number": 1366,
+      "title": "Iloczyn od a do b modulo",
+      "category": "Silnia / krok 5: silnia modulo",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj a i b i wypisz resztę z dzielenia iloczynu a · (a + 1) · … · b przez 1 000 000 007."
+      ],
+      "input_format": [
+        "Dwie liczby całkowite a i b."
+      ],
+      "output_format": [
+        "Jedna liczba — iloczyn modulo 10⁹ + 7."
+      ],
+      "constraints": [
+        "1 ≤ a ≤ b ≤ 10⁹",
+        "b − a ≤ 10 000 000"
+      ],
+      "examples": [
+        {
+          "input": "5 7",
+          "output": "210"
+        },
+        {
+          "input": "999999000 1000000000",
+          "output": "384590883"
+        }
+      ],
+      "hint": "Kusi, żeby policzyć b! mod p i (a − 1)! mod p, a potem podzielić — ale reszt nie wolno dzielić (pamiętasz z lekcji o modulo?), a b! do 10⁹ liczyłoby się za długo. Wystarczy pętla od a do b z w = w * i % MOD. i sięga 10⁹, a w < 10⁹ + 7, więc w * i < 1,1 · 10¹⁸ — long long wystarczy.",
+      "tests_count": 12
+    },
+    {
+      "id": "sil-pytania-mod",
+      "number": 1367,
+      "title": "Tablica reszt silni",
+      "category": "Silnia / krok 5: silnia modulo",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj q liczb. Dla każdej liczby n wypisz w osobnym wierszu resztę z dzielenia n! przez 1 000 000 007."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W drugim wierszu q liczb całkowitych."
+      ],
+      "output_format": [
+        "q wierszy — w każdym n! mod 10⁹ + 7."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 2000",
+        "0 ≤ każda liczba ≤ 1 000 000"
+      ],
+      "examples": [
+        {
+          "input": "4\n5 0 20 1000000",
+          "output": "120\n1\n146326063\n641102369"
+        }
+      ],
+      "hint": "Dwa tysiące pytań po milion mnożeń to za dużo. Policz raz tablicę reszt: f[0] = 1, f[i] = f[i - 1] * i % MOD dla i do miliona, a potem odpowiadaj f[n]. Tablicę na milion liczb long long zadeklaruj poza main (jak w lekcji o tablicach) — w środku main mogłoby zabraknąć miejsca.",
+      "tests_count": 6
+    },
+    {
+      "id": "sil-olbrzym-mod",
+      "number": 1368,
+      "title": "Silnia olbrzyma modulo m",
+      "category": "Silnia / krok 5: silnia modulo",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n i m i wypisz resztę z dzielenia n! przez m."
+      ],
+      "input_format": [
+        "Dwie liczby całkowite n i m."
+      ],
+      "output_format": [
+        "Jedna liczba — n! mod m."
+      ],
+      "constraints": [
+        "0 ≤ n ≤ 10¹⁸",
+        "2 ≤ m ≤ 1 000 000"
+      ],
+      "examples": [
+        {
+          "input": "1000000000000000000 999983",
+          "output": "0"
+        },
+        {
+          "input": "6 7",
+          "output": "6"
+        }
+      ],
+      "hint": "Jeśli n ≥ m, to m jest jednym z czynników iloczynu 1 · 2 · … · n, więc n! dzieli się przez m i reszta to 0 — od razu. W przeciwnym razie n < m ≤ 10⁶ i zwykła pętla w = w * i % m zdąży. Pętli do 10¹⁸ nie da się wykonać w rozsądnym czasie.",
+      "tests_count": 17
+    },
+    {
+      "id": "sil-dwie-cyfry-sumy",
+      "number": 1369,
+      "title": "Dwie ostatnie cyfry sumy silni",
+      "category": "Silnia / krok 5: silnia modulo",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n i wypisz dwie ostatnie cyfry sumy 1! + 2! + … + n!. Jeśli przedostatnia cyfra to zero, wypisz je i tak — zawsze dwie cyfry (na przykład 01, a nie 1)."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Dwie cyfry."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "1",
+          "output": "01"
+        },
+        {
+          "input": "4",
+          "output": "33",
+          "note": "1 + 2 + 6 + 24 = 33."
+        },
+        {
+          "input": "1000000000000000000",
+          "output": "13"
+        }
+      ],
+      "hint": "Od 10! w górę każda silnia zawiera czynnik 10 · 5 · 2 = 100, więc kończy się na 00 i nie zmienia dwóch ostatnich cyfr sumy. Wystarczy więc sumować do min(n, 9) — reszta z dzielenia przez 100 będzie już ostateczna. Wypisz ją z dwiema cyframi: cout << setw(2) << setfill('0') << wynik.",
+      "tests_count": 19
+    },
+    {
+      "id": "sil-wilson",
+      "number": 1370,
+      "title": "Test Wilsona",
+      "category": "Silnia / krok 5: silnia modulo",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Twierdzenie Wilsona mówi, że liczba p > 1 jest pierwsza wtedy i tylko wtedy, gdy (p − 1)! daje z dzielenia przez p resztę p − 1. Na przykład dla p = 7: 6! = 720 = 102 · 7 + 6, a 6 = 7 − 1, więc 7 jest pierwsza. Dla p = 6: 5! = 120 = 20 · 6 + 0 — reszta to nie 5, więc 6 nie jest pierwsza.",
+        "Wczytaj t liczb i dla każdej sprawdź tym sposobem, czy jest pierwsza. Wypisz w osobnych wierszach reszty z dzielenia (p − 1)! przez p i obok słowo TAK albo NIE."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "W drugim wierszu t liczb całkowitych."
+      ],
+      "output_format": [
+        "t wierszy — w każdym reszta (p − 1)! mod p i słowo TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 10",
+        "2 ≤ każda liczba ≤ 1 000 000"
+      ],
+      "examples": [
+        {
+          "input": "4\n7 6 2 4",
+          "output": "6 TAK\n0 NIE\n1 TAK\n2 NIE",
+          "note": "Dla p = 4: 3! = 6 daje resztę 2, a nie 3 — 4 nie jest pierwsza."
+        }
+      ],
+      "hint": "Dla każdej liczby p policz (p − 1)! mod p pętlą w = w * i % p dla i od 1 do p − 1 (w zaczyna od 1 dla każdej liczby osobno). Potem porównaj w z p − 1. To bardzo wolny sposób sprawdzania pierwszości (p mnożeń zamiast √p dzieleń), ale ładnie pokazuje, że silnia „wie”, które liczby są pierwsze.",
+      "tests_count": 8
+    },
+    {
+      "id": "sil-zera-male",
+      "number": 1371,
+      "title": "Zera na końcu — na piechotę",
+      "category": "Silnia / krok 6: zera i czynniki",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n i wypisz, iloma zerami kończy się liczba n!."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba zer na końcu n!."
+      ],
+      "constraints": [
+        "0 ≤ n ≤ 20"
+      ],
+      "examples": [
+        {
+          "input": "10",
+          "output": "2",
+          "note": "10! = 3 628 800 kończy się dwoma zerami."
+        },
+        {
+          "input": "4",
+          "output": "0"
+        }
+      ],
+      "hint": "Policz silnię w long long, a potem: dopóki w % 10 == 0 — zwiększ licznik i podziel w przez 10. Silnia jest zawsze dodatnia, więc pętla na pewno się skończy.",
+      "tests_count": 21
+    },
+    {
+      "id": "sil-ile-piatek",
+      "number": 1372,
+      "title": "Ile piątek w liczbie?",
+      "category": "Silnia / krok 6: zera i czynniki",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj t liczb. Dla każdej liczby x wypisz w osobnym wierszu, ile razy x dzieli się przez 5 — czyli ile piątek ma w rozkładzie na czynniki pierwsze. Na przykład 25 = 5 · 5 ma dwie piątki, 250 = 2 · 5 · 5 · 5 — trzy, a 7 — zero."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "W drugim wierszu t liczb całkowitych dodatnich."
+      ],
+      "output_format": [
+        "t wierszy — w każdym liczba piątek."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1000",
+        "1 ≤ każda liczba ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "5\n25 250 7 5 1000000",
+          "output": "2\n3\n0\n1\n6"
+        }
+      ],
+      "hint": "Dla każdej liczby: licznik = 0, a potem dopóki x % 5 == 0 — licznik++ i x /= 5. Liczby sięgają 10¹⁸, więc wczytuj je do long long. To dokładnie ta operacja, którą w lekcji robiliśmy dla każdej liczby od 1 do n, licząc piątki w silni.",
+      "tests_count": 8
+    },
+    {
+      "id": "sil-zera-wolno",
+      "number": 1373,
+      "title": "Zera silni miliona",
+      "category": "Silnia / krok 6: zera i czynniki",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n i wypisz, iloma zerami kończy się liczba n!. Tym razem n może sięgać miliona — silni nie da się policzyć, trzeba liczyć piątki."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba zer na końcu n!."
+      ],
+      "constraints": [
+        "0 ≤ n ≤ 1 000 000"
+      ],
+      "examples": [
+        {
+          "input": "10",
+          "output": "2"
+        },
+        {
+          "input": "25",
+          "output": "6",
+          "note": "25! ma 6 piątek: po jednej w 5, 10, 15, 20 i dwie w 25."
+        }
+      ],
+      "hint": "Każde zero na końcu to czynnik 10 = 2 · 5, a dwójek w silni jest zawsze więcej niż piątek. Liczba zer to więc liczba piątek w iloczynie 1 · 2 · … · n. Dla każdego i od 1 do n policz piątki w i (while (x % 5 == 0)) i dodaj do wyniku. Szybciej: piątki mają tylko wielokrotności 5, więc pętla może iść co 5.",
+      "tests_count": 15
+    },
+    {
+      "id": "sil-zera-wiele",
+      "number": 1374,
+      "title": "Zera silni olbrzymów",
+      "category": "Silnia / krok 6: zera i czynniki",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj t liczb. Dla każdej liczby n wypisz w osobnym wierszu, iloma zerami kończy się n!."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "W drugim wierszu t liczb całkowitych."
+      ],
+      "output_format": [
+        "t wierszy — w każdym liczba zer na końcu n!."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1000",
+        "0 ≤ każda liczba ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "3\n100 1000000000 1000000000000000000",
+          "output": "24\n249999998\n249999999999999995"
+        }
+      ],
+      "hint": "Co piąta liczba daje jedną piątkę, co dwudziesta piąta — jeszcze jedną, co sto dwudziesta piąta — kolejną… Wynik to n / 5 + n / 25 + n / 125 + …, aż kolejna potęga piątki przekroczy n. Najbezpieczniej bez potęg: while (n > 0) { n /= 5; zera += n; } — ten sam wynik, a żadna liczba nie urośnie ponad n.",
+      "tests_count": 7
+    },
+    {
+      "id": "sil-dwojki",
+      "number": 1375,
+      "title": "Dwójki w silni",
+      "category": "Silnia / krok 6: zera i czynniki",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj t liczb. Dla każdej liczby n wypisz w osobnym wierszu, ile razy liczba n! dzieli się przez 2 (czyli ile dwójek ma w rozkładzie na czynniki pierwsze)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "W drugim wierszu t liczb całkowitych."
+      ],
+      "output_format": [
+        "t wierszy — w każdym liczba dwójek w n!."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1000",
+        "0 ≤ każda liczba ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "3\n10 4 1",
+          "output": "8\n3\n0"
+        }
+      ],
+      "hint": "To samo co z piątkami, tylko z dwójką: co druga liczba daje jedną dwójkę, co czwarta — jeszcze jedną, co ósma — kolejną… Wynik to n / 2 + n / 4 + n / 8 + …; najprościej while (n > 0) { n /= 2; wynik += n; }. Dla 10! wychodzi 5 + 2 + 1 = 8 — dużo więcej niż 2 piątki.",
+      "tests_count": 7
+    },
+    {
+      "id": "sil-wykladnik",
+      "number": 1376,
+      "title": "Wykładnik liczby pierwszej",
+      "category": "Silnia / krok 6: zera i czynniki",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj t par liczb n i p, gdzie p jest liczbą pierwszą. Dla każdej pary wypisz w osobnym wierszu, ile razy n! dzieli się przez p (czyli wykładnik p w rozkładzie n! na czynniki pierwsze)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "W kolejnych t wierszach po dwie liczby: n i p."
+      ],
+      "output_format": [
+        "t wierszy — w każdym wykładnik p w n!."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1000",
+        "0 ≤ n ≤ 10¹⁸",
+        "2 ≤ p ≤ 2 · 10⁹, p jest liczbą pierwszą"
+      ],
+      "examples": [
+        {
+          "input": "3\n10 3\n100 7\n5 7",
+          "output": "4\n16\n0",
+          "note": "10! dzieli się przez 3 czterokrotnie: po jednej trójce w 3 i 6 oraz dwie w 9."
+        }
+      ],
+      "hint": "Ten sam wzór co dla piątek i dwójek, tylko z p: n / p + n / p² + n / p³ + … (to wzór Legendre’a). Nie licz potęg p — mogą przekroczyć zakres long long. Dziel n w pętli: while (n > 0) { n /= p; wynik += n; }. Gdy p > n, wynik to 0 — pętla zrobi to sama.",
+      "tests_count": 8
+    },
+    {
+      "id": "sil-zera-iloczynu",
+      "number": 1377,
+      "title": "Zera na końcu iloczynu",
+      "category": "Silnia / krok 6: zera i czynniki",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb dodatnich i wypisz, iloma zerami kończy się ich iloczyn. Iloczyn może być ogromny — nie da się go policzyć wprost."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych dodatnich."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba zer na końcu iloczynu."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "1 ≤ każda liczba ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "3\n4 25 3",
+          "output": "2",
+          "note": "4 · 25 · 3 = 300."
+        },
+        {
+          "input": "2\n16 5",
+          "output": "1",
+          "note": "16 · 5 = 80 — tylko jedna piątka, choć dwójek jest cztery."
+        }
+      ],
+      "hint": "Zero na końcu to para 2 · 5. Policz łączną liczbę dwójek we wszystkich liczbach (while (x % 2 == 0)) i łączną liczbę piątek. Każda para dwójka + piątka daje jedno zero, więc wynik to min(dwójki, piątki). W silni dwójek zawsze było więcej, ale w dowolnym iloczynie — niekoniecznie.",
+      "tests_count": 8
+    },
+    {
+      "id": "sil-dokladnie-k-zer",
+      "number": 1378,
+      "title": "Silnia z dokładnie k zerami",
+      "category": "Silnia / krok 6: zera i czynniki",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj t liczb. Dla każdej liczby k wypisz w osobnym wierszu najmniejsze n, dla którego n! kończy się dokładnie k zerami. Jeśli takiego n nie ma, wypisz NIE."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "W drugim wierszu t liczb całkowitych."
+      ],
+      "output_format": [
+        "t wierszy — w każdym liczba n albo słowo NIE."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 20",
+        "0 ≤ każda liczba ≤ 1 000 000"
+      ],
+      "examples": [
+        {
+          "input": "4\n0 1 5 6",
+          "output": "0\n5\nNIE\n25",
+          "note": "24! ma 4 zera, a 25! już 6 — żadna silnia nie ma dokładnie 5 zer."
+        }
+      ],
+      "hint": "Liczba zer zmienia się tylko przy wielokrotnościach 5 (tylko one dodają piątki), więc odpowiedź — jeśli istnieje — jest wielokrotnością 5. Idź pętlą n = 0, 5, 10, … i trzymaj liczbę zer z = zera(n): przy przejściu do n + 5 dodaj liczbę piątek w n + 5. Zatrzymaj się, gdy z ≥ k. Jeśli z == k — odpowiedzią jest n, a jeśli z przeskoczyło k (bo n + 5 dało od razu dwie albo więcej piątek) — NIE.",
+      "tests_count": 8
+    },
+    {
+      "id": "sil-razy-liczba",
+      "number": 1379,
+      "title": "Olbrzym razy liczba",
+      "category": "Silnia / krok 7: silnie olbrzymy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj bardzo dużą liczbę a (nawet tysiąc cyfr) i zwykłą liczbę k. Wypisz iloczyn a · k."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba a (bez zer na początku).",
+        "W drugim wierszu liczba k."
+      ],
+      "output_format": [
+        "Jedna liczba — iloczyn a · k."
+      ],
+      "constraints": [
+        "1 ≤ a < 10¹⁰⁰⁰ (a ma najwyżej 1000 cyfr)",
+        "1 ≤ k ≤ 10 000"
+      ],
+      "examples": [
+        {
+          "input": "123456789123456789123456789\n9",
+          "output": "1111111102111111102111111101"
+        },
+        {
+          "input": "5\n24",
+          "output": "120",
+          "note": "Przeniesienie po ostatniej cyfrze ma dwie cyfry — 12 — więc liczba urasta o dwie cyfry."
+        }
+      ],
+      "hint": "Wczytaj a jako string i przepisz cyfry od końca do vector<int> (cyfra jedności na początku: c[0]). Mnożenie pisemne: p = 0; dla każdej cyfry: x = c[i] * k + p, nowa cyfra c[i] = x % 10, przeniesienie p = x / 10. Po pętli, dopóki p > 0: c.push_back(p % 10), p /= 10. Wypisz cyfry od końca vectora do początku.",
+      "tests_count": 15
+    },
+    {
+      "id": "sil-dokladna",
+      "number": 1380,
+      "title": "Dokładna silnia",
+      "category": "Silnia / krok 7: silnie olbrzymy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n i wypisz liczbę n! — dokładnie, ze wszystkimi cyframi."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jedna liczba — n!."
+      ],
+      "constraints": [
+        "0 ≤ n ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "25",
+          "output": "15511210043330985984000000"
+        },
+        {
+          "input": "0",
+          "output": "1"
+        }
+      ],
+      "hint": "Trzymaj liczbę w vectorze cyfr od końca, na start vector<int> c = {1}; (to 1 = 0!). Dla i od 2 do n pomnóż ją pisemnie przez i, tak jak w zadaniu „Olbrzym razy liczba”: x = c[j] * i + p, c[j] = x % 10, p = x / 10, a na końcu dopisz cyfry przeniesienia. 1000! ma 2568 cyfr, a cała praca to kilka milionów mnożeń cyfr.",
+      "tests_count": 16
+    },
+    {
+      "id": "sil-suma-cyfr",
+      "number": 1381,
+      "title": "Suma cyfr silni",
+      "category": "Silnia / krok 7: silnie olbrzymy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n i wypisz sumę cyfr liczby n!. Na przykład 10! = 3 628 800, a suma jego cyfr to 3 + 6 + 2 + 8 + 8 + 0 + 0 = 27."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jedna liczba — suma cyfr n!."
+      ],
+      "constraints": [
+        "0 ≤ n ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "10",
+          "output": "27"
+        },
+        {
+          "input": "100",
+          "output": "648"
+        }
+      ],
+      "hint": "Najpierw policz n! w vectorze cyfr, tak jak w zadaniu „Dokładna silnia”. Potem przejdź po vectorze i dodaj wszystkie cyfry — kolejność nie ma znaczenia, więc nie trzeba niczego odwracać.",
+      "tests_count": 14
+    },
+    {
+      "id": "sil-ile-razy-cyfra",
+      "number": 1382,
+      "title": "Ile razy cyfra d?",
+      "category": "Silnia / krok 7: silnie olbrzymy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n i cyfrę d. Wypisz, ile razy cyfra d występuje w zapisie liczby n!."
+      ],
+      "input_format": [
+        "Dwie liczby całkowite n i d."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba wystąpień cyfry d."
+      ],
+      "constraints": [
+        "0 ≤ n ≤ 1000",
+        "0 ≤ d ≤ 9"
+      ],
+      "examples": [
+        {
+          "input": "10 8",
+          "output": "2",
+          "note": "10! = 3628800 — dwie ósemki."
+        },
+        {
+          "input": "10 0",
+          "output": "2"
+        }
+      ],
+      "hint": "Policz n! w vectorze cyfr i przejdź po nim, licząc cyfry równe d. Uważaj tylko, żeby vector nie miał zer na końcu (czyli na początku liczby) — przy mnożeniu z przeniesieniem tak się nie stanie, bo dopisujesz tylko cyfry przeniesienia, gdy p > 0.",
+      "tests_count": 14
+    },
+    {
+      "id": "sil-ostatnia-niezerowa",
+      "number": 1383,
+      "title": "Ostatnia niezerowa cyfra",
+      "category": "Silnia / krok 7: silnie olbrzymy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n i wypisz ostatnią cyfrę liczby n!, która nie jest zerem. Na przykład 10! = 3 628 800 — ostatnia niezerowa cyfra to 8."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jedna cyfra."
+      ],
+      "constraints": [
+        "0 ≤ n ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "10",
+          "output": "8"
+        },
+        {
+          "input": "5",
+          "output": "2"
+        }
+      ],
+      "hint": "Cyfry trzymasz od końca, więc c[0] to cyfra jedności. Idź od początku vectora i pomijaj zera — pierwsza cyfra różna od zera to szukana odpowiedź. Silnia zawsze ma jakąś niezerową cyfrę, więc pętla na pewno ją znajdzie.",
+      "tests_count": 15
+    },
+    {
+      "id": "sil-suma-olbrzymow",
+      "number": 1384,
+      "title": "Suma silni olbrzymów",
+      "category": "Silnia / krok 7: silnie olbrzymy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n i wypisz dokładną wartość sumy 1! + 2! + … + n!."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jedna liczba — suma silni."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 500"
+      ],
+      "examples": [
+        {
+          "input": "4",
+          "output": "33"
+        },
+        {
+          "input": "25",
+          "output": "16158688114800553828940313"
+        }
+      ],
+      "hint": "Trzymaj dwa olbrzymy w vectorach cyfr od końca: f (bieżąca silnia, start {1}) i s (suma, start {0}). W każdym obrocie pomnóż f pisemnie przez i, a potem dodaj f do s — dodawanie pisemne jak w lekcji o napisach: idź po pozycjach do długości dłuższej liczby, dodawaj cyfry i przeniesienie (brakującą cyfrę traktuj jak 0), a na końcu dopisz przeniesienie, jeśli zostało.",
+      "tests_count": 14
+    },
+    {
+      "id": "sil-cyfry-log",
+      "number": 1385,
+      "title": "Ile cyfr ma silnia miliona?",
+      "category": "Silnia / krok 7: silnie olbrzymy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n i wypisz, ile cyfr ma liczba n!. Tym razem n sięga miliona — mnożenie pisemne trwałoby za długo."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba cyfr n!."
+      ],
+      "constraints": [
+        "0 ≤ n ≤ 1 000 000"
+      ],
+      "examples": [
+        {
+          "input": "10",
+          "output": "7",
+          "note": "10! = 3 628 800 ma 7 cyfr."
+        },
+        {
+          "input": "1000000",
+          "output": "5565709"
+        }
+      ],
+      "hint": "Liczba x ma floor(log10(x)) + 1 cyfr, a logarytm iloczynu to suma logarytmów: log10(n!) = log10(1) + log10(2) + … + log10(n). Zsumuj je w double i wypisz (long long)floor(suma) + 1. Dla n = 0 i n = 1 suma to 0, więc wynik to 1 — jedna cyfra, zgadza się.",
+      "tests_count": 22
+    },
+    {
+      "id": "sil-pierwsza-cyfra",
+      "number": 1386,
+      "title": "Pierwsza cyfra silni",
+      "category": "Silnia / krok 7: silnie olbrzymy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n i wypisz pierwszą (najbardziej znaczącą) cyfrę liczby n!. Na przykład 10! = 3 628 800 zaczyna się cyfrą 3."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jedna cyfra."
+      ],
+      "constraints": [
+        "4 ≤ n ≤ 1 000 000"
+      ],
+      "examples": [
+        {
+          "input": "10",
+          "output": "3"
+        },
+        {
+          "input": "1000000",
+          "output": "8"
+        }
+      ],
+      "hint": "Policz L = log10(n!) jako sumę logarytmów, jak w poprzednim zadaniu. Część całkowita L mówi, ile cyfr ma liczba, a część ułamkowa f = L − floor(L) — jak się zaczyna: n! = 10^f · 10^floor(L), a 10^f to liczba od 1 do 10 (na przykład 3,6288 dla 10!). Pierwsza cyfra to więc (int)pow(10, f).",
+      "tests_count": 24
+    },
+    {
+      "id": "sil-podium",
+      "number": 1387,
+      "title": "Podium",
+      "category": "Silnia / krok 8: liczenie sposobów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W biegu startuje n zawodników. Na ile sposobów może wyglądać podium z k miejscami (pierwsze, drugie, …, k-te)? Dwa podia są różne, jeśli na którymś miejscu stoi ktoś inny."
+      ],
+      "input_format": [
+        "Dwie liczby całkowite n i k."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba możliwych podiów."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 1 000 000",
+        "wynik jest nie większy niż 9 · 10¹⁸ (mieści się w long long)"
+      ],
+      "examples": [
+        {
+          "input": "8 3",
+          "output": "336",
+          "note": "Złoto: 8 możliwości, srebro: 7, brąz: 6 — razem 8 · 7 · 6 = 336."
+        },
+        {
+          "input": "5 5",
+          "output": "120",
+          "note": "Gdy k = n, to po prostu n! = 120."
+        }
+      ],
+      "hint": "Na pierwsze miejsce: n możliwości, na drugie: n − 1 (zwycięzca już stoi), …, na k-te: n − k + 1. Pomnóż te k liczb — pętla od n w dół, wykonana k razy. To silnia, która zatrzymuje się w połowie: n! / (n − k)!, ale silni nie licz — n! dla dużego n się nie zmieści.",
+      "tests_count": 14
+    },
+    {
+      "id": "sil-kody",
+      "number": 1388,
+      "title": "Kody z różnych cyfr",
+      "category": "Silnia / krok 8: liczenie sposobów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Kod do sejfu składa się z k cyfr od 0 do 9 (może zaczynać się od zera). Wypisz dwie liczby: ile jest wszystkich takich kodów oraz ile jest kodów, w których żadna cyfra się nie powtarza."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita k."
+      ],
+      "output_format": [
+        "Jeden wiersz: dwie liczby oddzielone spacją."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ 18"
+      ],
+      "examples": [
+        {
+          "input": "3",
+          "output": "1000 720",
+          "note": "Wszystkich: 10 · 10 · 10 = 1000. Bez powtórzeń: 10 · 9 · 8 = 720."
+        },
+        {
+          "input": "11",
+          "output": "100000000000 0",
+          "note": "Różnych cyfr jest tylko 10 — kodu z 11 różnych cyfr nie ma."
+        }
+      ],
+      "hint": "Wszystkie kody: na każdej z k pozycji 10 możliwości, więc 10 · 10 · … · 10 = 10^k (pętla mnożąca k razy przez 10, wynik w long long). Bez powtórzeń: 10 · 9 · 8 · … — k czynników, jak przy podium. Gdy k > 10, któryś czynnik byłby zerem — i dobrze, bo takich kodów nie ma.",
+      "tests_count": 18
+    },
+    {
+      "id": "sil-usciski",
+      "number": 1389,
+      "title": "Uściski dłoni",
+      "category": "Silnia / krok 8: liczenie sposobów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na spotkanie przyszło n osób i każdy przywitał się z każdym dokładnie jednym uściskiem dłoni. Ile było uścisków?"
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba uścisków."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2 000 000 000"
+      ],
+      "examples": [
+        {
+          "input": "4",
+          "output": "6",
+          "note": "Osoby A, B, C, D: AB, AC, AD, BC, BD, CD — sześć uścisków."
+        },
+        {
+          "input": "1",
+          "output": "0"
+        }
+      ],
+      "hint": "Każda z n osób ściska dłoń n − 1 pozostałym, ale wtedy każdy uścisk policzyliśmy dwa razy (raz jako A z B, raz jako B z A). Wynik: n · (n − 1) / 2. Dla n do dwóch miliardów iloczyn sięga 4 · 10¹⁸ — wczytaj n do long long, żeby mnożenie odbyło się na long long.",
+      "tests_count": 12
+    },
+    {
+      "id": "sil-dwumian",
+      "number": 1390,
+      "title": "Symbol Newtona",
+      "category": "Silnia / krok 8: liczenie sposobów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n i k i wypisz, na ile sposobów można wybrać k osób spośród n osób, gdy kolejność wyboru się nie liczy. To symbol Newtona C(n, k) = n! / (k! · (n − k)!)."
+      ],
+      "input_format": [
+        "Dwie liczby całkowite n i k."
+      ],
+      "output_format": [
+        "Jedna liczba — C(n, k)."
+      ],
+      "constraints": [
+        "0 ≤ k ≤ n ≤ 60"
+      ],
+      "examples": [
+        {
+          "input": "5 2",
+          "output": "10",
+          "note": "Pary z pięciu osób: 5 · 4 / 2 = 10."
+        },
+        {
+          "input": "49 6",
+          "output": "13983816",
+          "note": "Tyle jest możliwych zakładów w Lotto."
+        },
+        {
+          "input": "60 30",
+          "output": "118264581564861424"
+        }
+      ],
+      "hint": "Nie licz silni — 60! nie zmieści się w żadnym typie. Licz krok po kroku: c = 1; dla i od 1 do k: c = c * (n - k + i) / i. Po każdym kroku c jest liczbą całkowitą (to C(n − k + i, i)), więc dzielenie nie gubi reszty. Najpierw mnóż, potem dziel — odwrotna kolejność zgubiłaby resztę. Wynik w long long.",
+      "tests_count": 18
+    },
+    {
+      "id": "sil-pascal",
+      "number": 1391,
+      "title": "Trójkąt Pascala",
+      "category": "Silnia / krok 8: liczenie sposobów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wypisz n pierwszych wierszy trójkąta Pascala. Wiersz numer i (licząc od 0) zawiera i + 1 liczb: C(i, 0), C(i, 1), …, C(i, i). Na brzegach trójkąta stoją jedynki, a każda liczba w środku to suma dwóch liczb stojących nad nią."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "n wierszy — w wierszu numer i liczby C(i, 0), …, C(i, i) oddzielone spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 30"
+      ],
+      "examples": [
+        {
+          "input": "5",
+          "output": "1\n1 1\n1 2 1\n1 3 3 1\n1 4 6 4 1"
+        }
+      ],
+      "hint": "Tablica dwuwymiarowa int t[30][30]. Dla każdego wiersza i: t[i][0] = t[i][i] = 1, a dla j od 1 do i − 1: t[i][j] = t[i - 1][j - 1] + t[i - 1][j]. Od razu wypisuj wiersz. Największa liczba to C(29, 14) = 77 558 760 — int wystarczy.",
+      "tests_count": 8
+    },
+    {
+      "id": "sil-anagramy",
+      "number": 1392,
+      "title": "Ile anagramów?",
+      "category": "Silnia / krok 8: liczenie sposobów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj słowo i wypisz, na ile różnych sposobów można ustawić jego litery — czyli ile różnych słów (anagramów) da się z nich ułożyć, licząc także samo słowo. Na przykład z liter słowa mama da się ułożyć 6 słów: aamm, amam, amma, maam, mama i mmaa."
+      ],
+      "input_format": [
+        "Jedno słowo z małych liter alfabetu angielskiego."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba różnych anagramów."
+      ],
+      "constraints": [
+        "1 ≤ długość słowa ≤ 20"
+      ],
+      "examples": [
+        {
+          "input": "mama",
+          "output": "6"
+        },
+        {
+          "input": "kot",
+          "output": "6"
+        },
+        {
+          "input": "aaaa",
+          "output": "1"
+        }
+      ],
+      "hint": "Gdyby wszystkie litery były różne, ustawień byłoby n!. Ale zamiana miejscami dwóch takich samych liter nie daje nowego słowa — każde słowo policzyliśmy tyle razy, na ile sposobów da się poprzestawiać jednakowe litery między sobą. Dlatego n! dzielimy przez silnię liczby wystąpień każdej litery: n! / (a! · b! · …). Liczniki liter trzymaj w tablicy 26 liczb (lekcja o napisach). 20! mieści się w long long, a każde dzielenie wychodzi bez reszty.",
+      "tests_count": 17
+    },
+    {
+      "id": "sil-sciezki",
+      "number": 1393,
+      "title": "Trasy przez przystanek",
+      "category": "Silnia / krok 8: liczenie sposobów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na kratkowanej mapie idziesz z punktu (0, 0) do punktu (a, b), robiąc kroki o jedną kratkę w prawo (x rośnie o 1) albo w górę (y rośnie o 1). Każda trasa to a kroków w prawo i b kroków w górę ustawionych w jakiejś kolejności, więc wszystkich tras jest C(a + b, a) — wybieramy, które z a + b kroków idą w prawo.",
+        "Ile tras przechodzi przez przystanek w punkcie (x, y)?"
+      ],
+      "input_format": [
+        "Cztery liczby całkowite a, b, x i y."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba tras przechodzących przez (x, y)."
+      ],
+      "constraints": [
+        "0 ≤ x ≤ a",
+        "0 ≤ y ≤ b",
+        "a + b ≤ 60"
+      ],
+      "examples": [
+        {
+          "input": "2 2 1 1",
+          "output": "4",
+          "note": "Do (1, 1) prowadzą 2 trasy i z (1, 1) do (2, 2) też 2 — razem 4 z wszystkich 6 tras."
+        },
+        {
+          "input": "3 2 0 0",
+          "output": "10"
+        }
+      ],
+      "hint": "Trasa przez przystanek to trasa z (0, 0) do (x, y), a potem z (x, y) do (a, b). Pierwszą część wybierasz na C(x + y, x) sposobów, drugą — na C((a − x) + (b − y), a − x). Każda pierwsza część pasuje do każdej drugiej, więc mnożymy. Symbol Newtona licz pętlą c = c * (n - k + i) / i — napisz ją dwa razy albo w pętli po dwóch odcinkach.",
+      "tests_count": 15
+    },
+    {
+      "id": "sil-dwumian-mod",
+      "number": 1394,
+      "title": "Dwumian modulo",
+      "category": "Silnia / krok 8: liczenie sposobów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj q par liczb n i k. Dla każdej pary wypisz w osobnym wierszu resztę z dzielenia C(n, k) przez 1 000 000 007."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W kolejnych q wierszach po dwie liczby: n i k."
+      ],
+      "output_format": [
+        "q wierszy — w każdym C(n, k) mod 10⁹ + 7."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 2000",
+        "0 ≤ k ≤ n ≤ 2000"
+      ],
+      "examples": [
+        {
+          "input": "3\n5 2\n60 30\n2000 1000",
+          "output": "10\n737009364\n72475738"
+        }
+      ],
+      "hint": "Wzoru z silniami tu nie użyjesz: C(2000, 1000) ma ponad 600 cyfr, a reszt nie wolno dzielić. Trójkąt Pascala używa za to tylko dodawania, a dodawać modulo wolno: t[i][j] = (t[i - 1][j - 1] + t[i - 1][j]) % MOD. Policz raz całą tablicę 2001 × 2001 (int wystarczy: suma dwóch reszt to najwyżej około 2 · 10⁹) i zadeklaruj ją poza main — ma 16 MB.",
+      "tests_count": 5
+    },
+    {
+      "id": "sil-b-turniej",
+      "number": 1395,
+      "title": "Turniej każdy z każdym",
+      "category": "Silnia / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W turnieju szachowym gra n zawodników i każdy gra z każdym dokładnie jedną partię. W pierwszym wierszu wypisz, ile partii zostanie rozegranych. W drugim — na ile sposobów może wyglądać końcowa tabela, jeśli wszyscy zawodnicy zajmą różne miejsca."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Dwa wiersze: liczba partii i liczba możliwych tabel końcowych."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 20"
+      ],
+      "examples": [
+        {
+          "input": "4",
+          "output": "6\n24",
+          "note": "Partie: AB, AC, AD, BC, BD, CD. Tabel: 4! = 24."
+        }
+      ],
+      "hint": "Partie to pary zawodników: każdy z n gra z n − 1 innymi, ale wtedy każdą partię liczymy dwa razy — stąd n · (n − 1) / 2. Tabela końcowa to ustawienie n zawodników w kolejce od pierwszego do ostatniego miejsca: n!. Obie liczby w long long.",
+      "tests_count": 20
+    },
+    {
+      "id": "sil-b-bal",
+      "number": 1396,
+      "title": "Pary na balu",
+      "category": "Silnia / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na bal przyszło n chłopców i n dziewczyn. W pierwszym wierszu wypisz, na ile sposobów można ich połączyć w n par chłopak–dziewczyna. W drugim — na ile sposobów można ustawić wszystkie 2n osób w jednym rzędzie do zdjęcia tak, żeby chłopcy i dziewczyny stali na przemian."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Dwa wiersze: liczba sposobów połączenia w pary i liczba ustawień rzędu."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10"
+      ],
+      "examples": [
+        {
+          "input": "2",
+          "output": "2\n8",
+          "note": "Pary: (Adam–Ewa, Bartek–Ola) albo (Adam–Ola, Bartek–Ewa). Rzędy: ABEO… — 2 · 2! · 2! = 8."
+        }
+      ],
+      "hint": "Pary: pierwszy chłopak wybiera partnerkę spośród n dziewczyn, drugi spośród n − 1, … — razem n!. Rząd na przemian: chłopcy zajmują co drugie miejsce (n! ustawień), dziewczyny pozostałe miejsca (n! ustawień), a rząd może zaczynać się od chłopca albo od dziewczyny — razem 2 · n! · n!. Dla n = 10 to ponad 2,6 · 10¹³ — long long.",
+      "tests_count": 10
+    },
+    {
+      "id": "sil-b-matma-przed-fizyka",
+      "number": 1397,
+      "title": "Matematyka przed fizyką",
+      "category": "Silnia / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W poniedziałek odbędzie się n różnych lekcji, w tym matematyka i fizyka. Na ile sposobów można ułożyć plan dnia (kolejność wszystkich n lekcji), jeśli matematyka musi być gdzieś przed fizyką — niekoniecznie tuż przed nią?"
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba możliwych planów."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 20"
+      ],
+      "examples": [
+        {
+          "input": "3",
+          "output": "3",
+          "note": "Lekcje M, F, X: MFX, MXF, XMF — 3 plany z 3! = 6."
+        }
+      ],
+      "hint": "Weź dowolny plan i zamień w nim miejscami matematykę z fizyką — dostaniesz inny plan, w którym te dwie lekcje są w odwrotnej kolejności. Wszystkie plany łączą się więc w pary i w każdej parze dokładnie jeden ma matematykę przed fizyką. Wynik to n! / 2.",
+      "tests_count": 19
+    },
+    {
+      "id": "sil-b-dyzurni",
+      "number": 1398,
+      "title": "Dyżurni",
+      "category": "Silnia / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W szkole jest n uczniów i trzeba wybrać dwóch dyżurnych. W pierwszym wierszu wypisz, na ile sposobów można to zrobić, gdy obaj dyżurni mają takie same obowiązki. W drugim — gdy jeden zostaje dyżurnym głównym, a drugi jego zastępcą."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Dwa wiersze: liczba wyborów bez ról i liczba wyborów z rolami."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 2 000 000 000"
+      ],
+      "examples": [
+        {
+          "input": "3",
+          "output": "3\n6",
+          "note": "Bez ról: AB, AC, BC. Z rolami: AB, BA, AC, CA, BC, CB."
+        }
+      ],
+      "hint": "Z rolami liczy się kolejność: główny — n możliwości, zastępca — n − 1, razem n · (n − 1). Bez ról każdą parę policzyliśmy dwa razy (A główny z B i B główny z A), więc dzielimy przez 2. Iloczyn sięga 4 · 10¹⁸ — wczytaj n do long long.",
+      "tests_count": 10
+    },
+    {
+      "id": "sil-b-seria-na-polce",
+      "number": 1399,
+      "title": "Seria na półce",
+      "category": "Silnia / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na półce trzeba ustawić n różnych książek, wśród nich wszystkie k tomów jednej serii. Tomy serii muszą stać obok siebie i po kolei (od lewej: tom 1, tom 2, …, tom k), a pozostałe książki mogą stać dowolnie. Na ile sposobów można ustawić książki?"
+      ],
+      "input_format": [
+        "Dwie liczby całkowite n i k."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba ustawień."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 20"
+      ],
+      "examples": [
+        {
+          "input": "4 2",
+          "output": "6",
+          "note": "Seria [T1 T2] i książki X, Y: trzy elementy, 3! = 6 ustawień."
+        },
+        {
+          "input": "5 5",
+          "output": "1"
+        }
+      ],
+      "hint": "Sklej całą serię w jedną „grubą książkę” — w środku kolejność jest ustalona, więc nie ma tam żadnego wyboru. Ustawiasz więc n − k + 1 elementów: (n − k + 1)! sposobów.",
+      "tests_count": 11
+    },
+    {
+      "id": "sil-b-silnie-w-przedziale",
+      "number": 1400,
+      "title": "Silnie w przedziale",
+      "category": "Silnia / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj a i b i wypisz, ile różnych liczb z przedziału [a, b] jest silniami (czyli równa się n! dla jakiegoś n). Liczbę 1 liczymy jeden raz, choć 0! = 1! = 1."
+      ],
+      "input_format": [
+        "Dwie liczby całkowite a i b."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba silni w przedziale."
+      ],
+      "constraints": [
+        "1 ≤ a ≤ b ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "1 100",
+          "output": "4",
+          "note": "1, 2, 6 i 24."
+        },
+        {
+          "input": "7 23",
+          "output": "0"
+        }
+      ],
+      "hint": "Przejdź po silniach od 1! = 1 w górę, dopóki nie przekroczą b (dla b ≤ 10¹⁸ skończysz najpóźniej na 20!, które jeszcze mieści się w long long), i licz te, które są ≥ a. Zaczynając od 1!, każdą wartość policzysz dokładnie raz.",
+      "tests_count": 17
+    },
+    {
+      "id": "sil-b-ostatnia-cyfra-sumy",
+      "number": 1401,
+      "title": "Ostatnia cyfra sumy silni",
+      "category": "Silnia / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n i wypisz ostatnią cyfrę sumy 1! + 2! + … + n!."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jedna cyfra."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "3",
+          "output": "9",
+          "note": "1 + 2 + 6 = 9."
+        },
+        {
+          "input": "1000000000000000000",
+          "output": "3"
+        }
+      ],
+      "hint": "Od 5! w górę każda silnia kończy się zerem, więc nie zmienia ostatniej cyfry sumy. Wystarczy zsumować silnie do min(n, 4) i wziąć resztę z dzielenia przez 10. Pętla do 10¹⁸ nie wchodzi w grę.",
+      "tests_count": 13
+    },
+    {
+      "id": "sil-b-czy-dzieli",
+      "number": 1402,
+      "title": "Czy k dzieli n!?",
+      "category": "Silnia / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj t par liczb n i k. Dla każdej pary wypisz w osobnym wierszu TAK, jeśli n! dzieli się przez k bez reszty, albo NIE w przeciwnym razie."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "W kolejnych t wierszach po dwie liczby: n i k."
+      ],
+      "output_format": [
+        "t wierszy — w każdym TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1000",
+        "0 ≤ n ≤ 20",
+        "1 ≤ k ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "3\n5 8\n5 7\n10 1000",
+          "output": "TAK\nNIE\nNIE",
+          "note": "5! = 120 = 15 · 8, ale 120 nie dzieli się przez 7. 10! = 3 628 800 dzieli się przez 1000? Ma tylko dwa zera na końcu — nie."
+        }
+      ],
+      "hint": "n ≤ 20, więc n! mieści się w long long. Policz silnie raz do tablicy f[0..20] i dla każdej pary sprawdź f[n] % k == 0.",
+      "tests_count": 5
+    },
+    {
+      "id": "sil-b-z-odstepami",
+      "number": 1403,
+      "title": "Silnia z odstępami",
+      "category": "Silnia / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Duże liczby łatwiej czytać, gdy cyfry są pogrupowane po trzy, licząc od końca. Wczytaj n i wypisz n! w takim zapisie: grupy po trzy cyfry oddzielone pojedynczymi spacjami (pierwsza grupa od lewej może mieć jedną, dwie albo trzy cyfry). Na przykład 10! = 3 628 800."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jeden wiersz — n! z odstępami."
+      ],
+      "constraints": [
+        "0 ≤ n ≤ 20"
+      ],
+      "examples": [
+        {
+          "input": "10",
+          "output": "3 628 800"
+        },
+        {
+          "input": "5",
+          "output": "120"
+        },
+        {
+          "input": "20",
+          "output": "2 432 902 008 176 640 000"
+        }
+      ],
+      "hint": "Policz silnię w long long i zamień ją na napis: string s = to_string(w);. Potem wypisuj znak po znaku: przed cyfrą na pozycji i wstaw spację, jeśli i > 0 i liczba cyfr od tej pozycji do końca, czyli s.size() - i, dzieli się przez 3.",
+      "tests_count": 21
+    },
+    {
+      "id": "sil-b-10-sekund",
+      "number": 1404,
+      "title": "10! sekund",
+      "category": "Silnia / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ciekawostka: 10! sekund to dokładnie 6 tygodni. Wczytaj n i zamień n! sekund na tygodnie, dni, godziny, minuty i sekundy. Wypisz w jednym wierszu pięć liczb: pełne tygodnie, a potem pozostałe dni (od 0 do 6), godziny (od 0 do 23), minuty (od 0 do 59) i sekundy (od 0 do 59)."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jeden wiersz: tygodnie, dni, godziny, minuty i sekundy oddzielone spacjami."
+      ],
+      "constraints": [
+        "0 ≤ n ≤ 20"
+      ],
+      "examples": [
+        {
+          "input": "10",
+          "output": "6 0 0 0 0"
+        },
+        {
+          "input": "7",
+          "output": "0 0 1 24 0",
+          "note": "7! = 5040 s = 1 godzina i 24 minuty."
+        }
+      ],
+      "hint": "Tydzień ma 7 · 24 · 60 · 60 = 604 800 sekund, doba 86 400, godzina 3600, minuta 60. Dziel z resztą po kolei, jak w lekcji o modulo: tygodnie = s / 604800, s %= 604800, dni = s / 86400, s %= 86400 i tak dalej. 20! sekund to ponad 4 biliony tygodni — long long.",
+      "tests_count": 21
+    },
+    {
+      "id": "sil-b-zera-dwoch-silni",
+      "number": 1405,
+      "title": "Zera iloczynu dwóch silni",
+      "category": "Silnia / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj a i b i wypisz, iloma zerami kończy się liczba a! · b!."
+      ],
+      "input_format": [
+        "Dwie liczby całkowite a i b."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba zer na końcu a! · b!."
+      ],
+      "constraints": [
+        "0 ≤ a, b ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "5 5",
+          "output": "2",
+          "note": "120 · 120 = 14 400 — dwa zera."
+        },
+        {
+          "input": "10 25",
+          "output": "8"
+        }
+      ],
+      "hint": "Zera robią pary 2 · 5. Piątek w a! · b! jest tyle, ile w a! i w b! razem, a dwójek — też razem. W każdej silni dwójek jest co najmniej tyle co piątek, więc w iloczynie też. Wynik to zera(a) + zera(b), gdzie zera(n) liczysz jak w części 6: while (n > 0) { n /= 5; z += n; }.",
+      "tests_count": 13
+    },
+    {
+      "id": "sil-b-pary-na-wycieczke",
+      "number": 1406,
+      "title": "Pary na wycieczkę",
+      "category": "Silnia / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na wycieczkę jedzie 2n uczniów, którzy mają podzielić się na n par (w autokarze siedzi się parami). Na ile sposobów mogą się podzielić? Liczy się tylko to, kto jest z kim w parze — nie kolejność par ani to, kto siedzi przy oknie."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n — liczba par."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba podziałów na pary."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 17"
+      ],
+      "examples": [
+        {
+          "input": "2",
+          "output": "3",
+          "note": "Uczniowie A, B, C, D: AB i CD, AC i BD, AD i BC."
+        },
+        {
+          "input": "3",
+          "output": "15"
+        }
+      ],
+      "hint": "Weź ucznia z najmniejszym numerem — jego parę możesz wybrać na 2n − 1 sposobów. Z pozostałych 2n − 2 uczniów znowu bierzesz tego z najmniejszym numerem: jego parę wybierasz na 2n − 3 sposoby… Razem (2n − 1) · (2n − 3) · … · 3 · 1 — silnia podwójna z części 2. Dla n = 17 to ponad 6 · 10¹⁸.",
+      "tests_count": 17
+    },
+    {
+      "id": "sil-b-samorzad",
+      "number": 1407,
+      "title": "Samorząd klasowy",
+      "category": "Silnia / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W klasie jest n uczniów. Wybieramy przewodniczącego, jego zastępcę i k-osobową komisję (członkowie komisji mają równe prawa). Nikt nie może pełnić dwóch funkcji naraz. Na ile sposobów można to zrobić?"
+      ],
+      "input_format": [
+        "Dwie liczby całkowite n i k."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba sposobów."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 40",
+        "0 ≤ k ≤ n − 2"
+      ],
+      "examples": [
+        {
+          "input": "4 1",
+          "output": "24",
+          "note": "4 · 3 = 12 par (przewodniczący, zastępca), a do komisji jedna z 2 pozostałych osób: 24."
+        },
+        {
+          "input": "5 2",
+          "output": "60"
+        }
+      ],
+      "hint": "Najpierw role, w których liczy się kolejność: przewodniczący (n możliwości) i zastępca (n − 1). Potem komisję wybierasz spośród pozostałych n − 2 osób bez kolejności: C(n − 2, k), pętlą c = c * (m - k + i) / i. Wybory są niezależne, więc mnożymy. Największy wynik to około 5,5 · 10¹³.",
+      "tests_count": 12
+    },
+    {
+      "id": "sil-b-lotto",
+      "number": 1408,
+      "title": "Trafienia w lotto",
+      "category": "Silnia / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W losowaniu wybiera się k różnych liczb spośród liczb od 1 do n. Gracz też skreśla k różnych liczb spośród n. Ile jest różnych zakładów (zestawów k skreślonych liczb), które mają dokładnie t trafień — czyli dokładnie t liczb wspólnych z wylosowanymi?"
+      ],
+      "input_format": [
+        "Trzy liczby całkowite n, k i t."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba zakładów z dokładnie t trafieniami."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 60",
+        "0 ≤ t ≤ k"
+      ],
+      "examples": [
+        {
+          "input": "49 6 6",
+          "output": "1",
+          "note": "Szóstkę trafia tylko jeden zakład."
+        },
+        {
+          "input": "49 6 3",
+          "output": "246820"
+        },
+        {
+          "input": "5 3 0",
+          "output": "0",
+          "note": "Niewylosowane są tylko 2 liczby, a trzeba skreślić 3 — takich zakładów nie ma."
+        }
+      ],
+      "hint": "Zakład z t trafieniami to t liczb wybranych spośród k wylosowanych — C(k, t) sposobów — i k − t liczb spośród n − k niewylosowanych — C(n − k, k − t) sposobów. Każda pierwsza część pasuje do każdej drugiej, więc mnożymy. Jeśli k − t > n − k, takich zakładów nie ma — wypisz 0 (sprawdź to ifem przed liczeniem).",
+      "tests_count": 16
+    },
+    {
+      "id": "sil-b-droga-do-szkoly",
+      "number": 1409,
+      "title": "Droga do szkoły",
+      "category": "Silnia / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ania mieszka na skrzyżowaniu (0, 0), a szkoła stoi na skrzyżowaniu (a, b). Ania chodzi tylko na wschód (x rośnie o 1) albo na północ (y rośnie o 1). Dziś skrzyżowanie (x, y) jest rozkopane i nie da się przez nie przejść. Iloma trasami Ania może dojść do szkoły?"
+      ],
+      "input_format": [
+        "Cztery liczby całkowite a, b, x i y."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba tras omijających rozkopane skrzyżowanie."
+      ],
+      "constraints": [
+        "a + b ≤ 60",
+        "0 ≤ x ≤ a, 0 ≤ y ≤ b",
+        "rozkopane skrzyżowanie to nie dom ani szkoła"
+      ],
+      "examples": [
+        {
+          "input": "2 2 1 1",
+          "output": "2",
+          "note": "Wszystkich tras jest 6, a przez (1, 1) prowadzą 4 z nich."
+        },
+        {
+          "input": "3 1 3 0",
+          "output": "3"
+        }
+      ],
+      "hint": "Policz wszystkie trasy, C(a + b, a), i odejmij te, które przechodzą przez rozkopane skrzyżowanie — to trasy przez przystanek z części 8: C(x + y, x) · C((a − x) + (b − y), a − x). Wszystkie liczby mieszczą się w long long, bo C(60, 30) ≈ 1,2 · 10¹⁷.",
+      "tests_count": 15
+    },
+    {
+      "id": "sil-b-mikolajki",
+      "number": 1410,
+      "title": "Mikołajki",
+      "category": "Silnia / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "n osób losuje imiona do mikołajkowych prezentów: każdy losuje jedną karteczkę z imieniem, a wszystkie karteczki zostają rozlosowane. Losowanie jest udane, jeśli nikt nie wylosował samego siebie. Ile jest udanych losowań?"
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba udanych losowań."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 20"
+      ],
+      "examples": [
+        {
+          "input": "3",
+          "output": "2",
+          "note": "Osoby 1, 2, 3 wylosowały 2, 3, 1 albo 3, 1, 2."
+        },
+        {
+          "input": "4",
+          "output": "9"
+        },
+        {
+          "input": "1",
+          "output": "0"
+        }
+      ],
+      "hint": "Oznacz wynik przez D(n). D(1) = 0 (jedna osoba może wylosować tylko siebie), D(2) = 1, a dla n ≥ 3: D(n) = (n − 1) · (D(n − 1) + D(n − 2)). Skąd? Osoba 1 wylosowała kogoś — powiedzmy osobę j (n − 1 możliwości). Albo j wylosowała osobę 1 (wtedy pozostałe n − 2 osoby to osobne udane losowanie), albo nie (wtedy to jak udane losowanie n − 1 osób, w którym j zastępuje osobę 1). Licz D w pętli, trzymając dwie poprzednie wartości.",
+      "tests_count": 20
+    },
+    {
+      "id": "sil-b-rozklad-silni",
+      "number": 1411,
+      "title": "Rozkład silni na czynniki",
+      "category": "Silnia / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n i wypisz rozkład liczby n! na czynniki pierwsze w postaci p1^e1 * p2^e2 * …, z liczbami pierwszymi w kolejności rosnącej (każdy czynnik z wykładnikiem, także gdy wykładnik to 1). Na przykład 10! = 2^8 * 3^4 * 5^2 * 7^1."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jeden wiersz — rozkład n! na czynniki pierwsze."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 10 000"
+      ],
+      "examples": [
+        {
+          "input": "10",
+          "output": "2^8 * 3^4 * 5^2 * 7^1"
+        },
+        {
+          "input": "2",
+          "output": "2^1"
+        }
+      ],
+      "hint": "Do n! wchodzą wszystkie liczby pierwsze ≤ n i tylko one — znajdź je sitem Eratostenesa (lekcja o tablicach). Wykładnik każdej liczby pierwszej p to n / p + n / p² + … (wzór z części 6: while (m > 0) { m /= p; e += m; }). Wypisuj \" * \" przed każdym czynnikiem oprócz pierwszego.",
+      "tests_count": 13
+    },
+    {
+      "id": "sil-b-numer-ustawienia",
+      "number": 1412,
+      "title": "Numer ustawienia",
+      "category": "Silnia / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wszystkie ustawienia liczb od 1 do n układamy w kolejności słownikowej i numerujemy od 1. Dla n = 3 to: 1 2 3 (numer 1), 1 3 2 (2), 2 1 3 (3), 2 3 1 (4), 3 1 2 (5) i 3 2 1 (6). Wczytaj ustawienie i wypisz jego numer."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu ustawienie liczb od 1 do n (każda dokładnie raz)."
+      ],
+      "output_format": [
+        "Jedna liczba — numer ustawienia."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 20"
+      ],
+      "examples": [
+        {
+          "input": "3\n2 3 1",
+          "output": "4"
+        },
+        {
+          "input": "4\n4 3 2 1",
+          "output": "24",
+          "note": "Ostatnie ustawienie ma numer 4! = 24."
+        }
+      ],
+      "hint": "Spójrz na pierwszą liczbę. Wszystkie ustawienia zaczynające się od mniejszej liczby są wcześniej, a każdy taki początek ma (n − 1)! ustawień. Jeśli pierwsza liczba to 3, przed naszym jest 2 · (n − 1)! ustawień. Potem tak samo z drugą: policz, ile jeszcze niewykorzystanych liczb jest od niej mniejszych, i pomnóż przez (n − 2)!. I tak dalej, a na końcu dodaj 1. Wynik sięga 20! — long long.",
+      "tests_count": 14
+    },
+    {
+      "id": "sil-b-iloczyn-silni-mod",
+      "number": 1413,
+      "title": "Iloczyn silni modulo",
+      "category": "Silnia / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n i wypisz resztę z dzielenia iloczynu 1! · 2! · 3! · … · n! przez 1 000 000 007."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jedna liczba — iloczyn silni modulo 10⁹ + 7."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000 000"
+      ],
+      "examples": [
+        {
+          "input": "4",
+          "output": "288",
+          "note": "1 · 2 · 6 · 24 = 288."
+        },
+        {
+          "input": "10000000",
+          "output": "611120140"
+        }
+      ],
+      "hint": "Jak w sumie silni, tylko z mnożeniem: f = f * i % MOD (teraz f to reszta z i!) i wynik = wynik * f % MOD. Obie zmienne w long long — iloczyn dwóch reszt sięga 10¹⁸.",
+      "tests_count": 11
+    },
+    {
+      "id": "sil-b-silnia-z-d-cyframi",
+      "number": 1414,
+      "title": "Silnia z d cyframi",
+      "category": "Silnia / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj d i wypisz najmniejsze n, dla którego liczba n! ma co najmniej d cyfr."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita d."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejsze takie n."
+      ],
+      "constraints": [
+        "1 ≤ d ≤ 5 565 709 (tyle cyfr ma 1 000 000!)"
+      ],
+      "examples": [
+        {
+          "input": "3",
+          "output": "5",
+          "note": "4! = 24 ma dwie cyfry, a 5! = 120 — trzy."
+        },
+        {
+          "input": "1",
+          "output": "0",
+          "note": "0! = 1 ma już jedną cyfrę."
+        },
+        {
+          "input": "1000",
+          "output": "450"
+        }
+      ],
+      "hint": "Dokładaj kolejne logarytmy: L = log10(1) + log10(2) + … + log10(n) i zatrzymaj się przy pierwszym n, dla którego floor(L) + 1 ≥ d (liczba cyfr z części 7). Zacznij od n = 0 i L = 0 — wtedy d = 1 obsłuży się samo. Odpowiedź nie przekroczy miliona.",
+      "tests_count": 24
+    },
+    {
+      "id": "sil-b-ostatnia-niezerowa",
+      "number": 1415,
+      "title": "Ostatnia niezerowa cyfra olbrzyma",
+      "category": "Silnia / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n i wypisz ostatnią niezerową cyfrę liczby n!. Tym razem n sięga miliona — silni nie da się policzyć nawet cyfra po cyfrze."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jedna cyfra."
+      ],
+      "constraints": [
+        "0 ≤ n ≤ 1 000 000"
+      ],
+      "examples": [
+        {
+          "input": "10",
+          "output": "8",
+          "note": "10! = 3 628 800."
+        },
+        {
+          "input": "1000000",
+          "output": "4"
+        }
+      ],
+      "hint": "Zera na końcu robią pary 2 · 5 — trzeba je usunąć, zanim zaczniemy patrzeć na ostatnią cyfrę. Dla każdego i od 1 do n: x = i; dopóki x dzieli się przez 5 — dziel i licz piątki; dopóki dzieli się przez 2 — dziel i licz dwójki. To, co zostało z x, domnóż do wyniku modulo 10: w = w * (x % 10) % 10. Na końcu dwójek jest więcej niż piątek — te bez pary trzeba jeszcze domnożyć: (dwójki − piątki) razy w = w * 2 % 10.",
+      "tests_count": 18
+    },
+    {
+      "id": "sil-b-zera-w-systemie",
+      "number": 1416,
+      "title": "Zera w innym systemie",
+      "category": "Silnia / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W systemie o podstawie b liczba kończy się tyloma zerami, ile razy dzieli się przez b. Na przykład 10! = 3 628 800 = 2⁸ · 14 175, więc w systemie dwójkowym kończy się 8 zerami, a w systemie dwunastkowym — 4 zerami (bo 12 = 2² · 3, a 10! zawiera 2⁸ i 3⁴).",
+        "Wczytaj n i b i wypisz, iloma zerami kończy się n! zapisane w systemie o podstawie b."
+      ],
+      "input_format": [
+        "Dwie liczby całkowite n i b."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba zer na końcu n! w systemie o podstawie b."
+      ],
+      "constraints": [
+        "0 ≤ n ≤ 10¹⁸",
+        "2 ≤ b ≤ 1 000 000"
+      ],
+      "examples": [
+        {
+          "input": "10 12",
+          "output": "4"
+        },
+        {
+          "input": "10 2",
+          "output": "8"
+        },
+        {
+          "input": "100 10",
+          "output": "24"
+        }
+      ],
+      "hint": "Rozłóż b na czynniki pierwsze (dzielenie próbne do √b). Dla każdego czynnika p w potędze e policz wykładnik p w n! wzorem z części 6 (oznacz go v) i podziel: v / e mówi, ile pełnych „kopii” p^e mieści się w n!. Liczba zer to najmniejsza z tych wartości — decyduje najrzadszy czynnik, tak jak w systemie dziesiętnym decydowały piątki.",
+      "tests_count": 20
+    },
+    {
+      "id": "sil-b-najmniejsza-podzielna",
+      "number": 1417,
+      "title": "Najmniejsza silnia podzielna przez k",
+      "category": "Silnia / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj k i wypisz najmniejsze dodatnie n, dla którego n! dzieli się przez k."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita k."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejsze takie n."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ 10¹²"
+      ],
+      "examples": [
+        {
+          "input": "10",
+          "output": "5",
+          "note": "5! = 120 dzieli się przez 10, a 4! = 24 — nie."
+        },
+        {
+          "input": "16",
+          "output": "6",
+          "note": "6! = 720 = 16 · 45, a 5! = 120 nie dzieli się przez 16."
+        },
+        {
+          "input": "1",
+          "output": "1"
+        }
+      ],
+      "hint": "Rozłóż k na czynniki pierwsze (dzielenie próbne do √k, czyli najwyżej do miliona). Dla każdego czynnika p w potędze e znajdź najmniejsze m, którego silnia zawiera co najmniej e czynników p: idź po wielokrotnościach p (p, 2p, 3p, …) i dla każdej dodawaj, ile razy dzieli się przez p, aż uzbierasz e. Odpowiedź to największe z tych m — i co najmniej 1.",
+      "tests_count": 19
+    },
+    {
+      "id": "sil-b-dzielniki-silni",
+      "number": 1418,
+      "title": "Ile dzielników ma silnia?",
+      "category": "Silnia / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n i wypisz, ile dzielników ma liczba n! — jako resztę z dzielenia przez 1 000 000 007. Na przykład 4! = 24 ma 8 dzielników: 1, 2, 3, 4, 6, 8, 12 i 24."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba dzielników n! modulo 10⁹ + 7."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1 000 000"
+      ],
+      "examples": [
+        {
+          "input": "4",
+          "output": "8",
+          "note": "24 = 2³ · 3¹, więc dzielników jest (3 + 1) · (1 + 1) = 8."
+        },
+        {
+          "input": "10",
+          "output": "270"
+        },
+        {
+          "input": "1000000",
+          "output": "141694778"
+        }
+      ],
+      "hint": "Jeśli liczba ma rozkład p₁^e₁ · p₂^e₂ · …, to każdy jej dzielnik to p₁^a₁ · p₂^a₂ · … z 0 ≤ aᵢ ≤ eᵢ — dla p₁ masz e₁ + 1 możliwości, dla p₂ — e₂ + 1… Dzielników jest więc (e₁ + 1) · (e₂ + 1) · …. Liczby pierwsze do n znajdź sitem, wykładniki policz wzorem z części 6, a iloczyn licz modulo 10⁹ + 7 (long long).",
+      "tests_count": 14
+    },
+    {
+      "id": "sil-b-numer-anagramu",
+      "number": 1419,
+      "title": "Numer słowa w słowniku",
+      "category": "Silnia / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wszystkie różne słowa, które da się ułożyć z liter danego słowa (każdej litery używamy tyle razy, ile razy występuje), układamy w kolejności alfabetycznej i numerujemy od 1. Na przykład dla słowa mama: aamm (1), amam (2), amma (3), maam (4), mama (5), mmaa (6). Wczytaj słowo i wypisz jego numer."
+      ],
+      "input_format": [
+        "Jedno słowo z małych liter alfabetu angielskiego."
+      ],
+      "output_format": [
+        "Jedna liczba — numer słowa."
+      ],
+      "constraints": [
+        "1 ≤ długość słowa ≤ 20"
+      ],
+      "examples": [
+        {
+          "input": "mama",
+          "output": "5"
+        },
+        {
+          "input": "kot",
+          "output": "1",
+          "note": "kot, kto, okt, otk, tko, tok — kot jest pierwszy."
+        },
+        {
+          "input": "tok",
+          "output": "6"
+        }
+      ],
+      "hint": "Jak w zadaniu „Numer ustawienia”, tylko z powtórzeniami. Trzymaj liczniki pozostałych liter. Na pozycji i, dla każdej litery c mniejszej od s[i], która jeszcze została, policz, ile słów zaczyna się od s[0..i − 1] i potem od c: to liczba anagramów liter, które zostaną po zabraniu jednego c — m! / (a! · b! · …) z części 8, gdzie m to liczba pozostałych liter. Dodaj te liczby, zabierz literę s[i] i idź dalej. Na końcu dodaj 1.",
+      "tests_count": 16
+    },
+    {
+      "id": "sil-b-cukierki",
+      "number": 1420,
+      "title": "Cukierki dla dzieci",
+      "category": "Silnia / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Mama ma n jednakowych cukierków i rozdaje je k dzieciom — wszystkie cukierki muszą zostać rozdane. Sposoby różnią się tym, ile cukierków dostaje które dziecko.",
+        "W pierwszym wierszu wypisz, na ile sposobów mama może to zrobić, jeśli niektóre dzieci mogą nie dostać nic. W drugim — jeśli każde dziecko musi dostać co najmniej jeden cukierek."
+      ],
+      "input_format": [
+        "Dwie liczby całkowite n i k."
+      ],
+      "output_format": [
+        "Dwa wiersze: liczba sposobów bez warunku i z warunkiem „każdy co najmniej jeden”."
+      ],
+      "constraints": [
+        "0 ≤ n",
+        "1 ≤ k",
+        "n + k ≤ 61"
+      ],
+      "examples": [
+        {
+          "input": "4 2",
+          "output": "5\n3",
+          "note": "Bez warunku: 0+4, 1+3, 2+2, 3+1, 4+0. Każdy co najmniej jeden: 1+3, 2+2, 3+1."
+        },
+        {
+          "input": "2 3",
+          "output": "6\n0",
+          "note": "Trojgu dzieciom nie da się dać po cukierku, mając tylko 2."
+        }
+      ],
+      "hint": "Ułóż cukierki w rzędzie (gwiazdki) i wstaw między nie k − 1 kresek: wszystko przed pierwszą kreską dostaje pierwsze dziecko, między pierwszą a drugą — drugie, i tak dalej. Każdy podział to rząd n gwiazdek i k − 1 kresek na n + k − 1 miejscach — wybierasz tylko, gdzie stoją kreski: C(n + k − 1, k − 1). Gdy każde dziecko ma dostać coś, daj najpierw każdemu po cukierku i rozdziel pozostałe n − k dowolnie: C(n − 1, k − 1), a gdy n < k — 0.",
+      "tests_count": 17
+    },
+    {
+      "id": "sil-b-pierwsze-cyfry",
+      "number": 1421,
+      "title": "Pierwsze trzy cyfry olbrzyma",
+      "category": "Silnia / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n i wypisz trzy pierwsze cyfry liczby n!. Na przykład 10! = 3 628 800 zaczyna się od 362."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "Jedna liczba trzycyfrowa."
+      ],
+      "constraints": [
+        "10 ≤ n ≤ 1 000 000"
+      ],
+      "examples": [
+        {
+          "input": "10",
+          "output": "362"
+        },
+        {
+          "input": "100",
+          "output": "933",
+          "note": "100! = 93326215443944… — zaczyna się od 933."
+        }
+      ],
+      "hint": "Jak w zadaniu „Pierwsza cyfra silni”: L = log10(1) + … + log10(n), f = L − floor(L) i n! = 10^f · 10^floor(L), gdzie 1 ≤ 10^f < 10. Pierwsze trzy cyfry to część całkowita z 10^f · 100 = 10^(f + 2), czyli (int)pow(10, f + 2).",
+      "tests_count": 21
+    },
+    {
+      "id": "sil-b-wielki-final",
+      "number": 1422,
+      "title": "Wielki finał: kalkulator silni",
+      "category": "Silnia / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Napisz kalkulator silni, który wykona q poleceń. Każde polecenie to słowo i jedna albo dwie liczby:",
+        "SILNIA n — wypisz n! (0 ≤ n ≤ 20);",
+        "ZERA n — wypisz, iloma zerami kończy się n! (0 ≤ n ≤ 10¹⁸);",
+        "MOD n m — wypisz n! mod m (0 ≤ n ≤ 10¹⁸, 2 ≤ m ≤ 100 000);",
+        "CYFRY n — wypisz, ile cyfr ma n! (0 ≤ n ≤ 1 000 000);",
+        "DWUMIAN n k — wypisz C(n, k) (0 ≤ k ≤ n ≤ 60);",
+        "CZY x — wypisz najmniejsze n, dla którego n! = x, albo NIE (1 ≤ x ≤ 10¹⁸).",
+        "Wynik każdego polecenia wypisz w osobnym wierszu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W kolejnych q wierszach polecenia."
+      ],
+      "output_format": [
+        "q wierszy — wyniki kolejnych poleceń."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "liczby w poleceniach jak w treści"
+      ],
+      "examples": [
+        {
+          "input": "6\nSILNIA 5\nZERA 100\nMOD 6 7\nCYFRY 1000000\nDWUMIAN 49 6\nCZY 120",
+          "output": "120\n24\n6\n5565709\n13983816\n5"
+        }
+      ],
+      "hint": "Wczytuj słowo do stringa i rozgałęź się ifami. SILNIA — tablica f[0..20]. ZERA — while (n > 0) { n /= 5; z += n; }. MOD — jeśli n ≥ m, to 0, a inaczej pętla w = w * i % m. CYFRY — tysiąc poleceń po milion logarytmów to za dużo: policz raz tablicę L[i] = L[i − 1] + log10(i) (milion liczb double, poza main) i wypisuj (long long)floor(L[n]) + 1. DWUMIAN — c = c * (n - k + i) / i. CZY — kolejne silnie, dopóki są mniejsze od x.",
+      "tests_count": 8
     }
   ]
 }

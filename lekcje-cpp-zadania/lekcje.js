@@ -1136,6 +1136,89 @@ const LEKCJE = [
             },
         ],
     },
+    {
+        temat: 'Wartość bezwzględna',
+        prefix: 'abs-',
+        plik: 'c++_logika/wartosc-bezwzgledna.html',
+        pliki: ['wartosc-bezwzgledna-cwiczenia-1.js', 'wartosc-bezwzgledna-cwiczenia-2.js', 'wartosc-bezwzgledna-cwiczenia-3.js', 'wartosc-bezwzgledna-baza.js'],
+        note: 'Lekcja o wartości bezwzględnej od podstaw: oś liczbowa i odległość od zera, moduł przez if i funkcja abs, typy wyniku i pułapki ' +
+            '(abs najmniejszej liczby int, reszta z liczby ujemnej, size() bez znaku), odległość dwóch liczb |a − b|, liczba najbliżej i najdalej od celu z remisami, ' +
+            'skoki między sąsiadami, kroki po kratce (taksówkarz, król, figury szachowe) i rysunki z modułem, przedziały |x − c| ≤ r, tolerancja i odległość na tarczy, ' +
+            'a na koniec suma odległości i mediana. Wystarczy to, co znasz z poprzednich lekcji.',
+        bazaOpisy: {
+            latwe: 'Jeden, dwa pomysły naraz: reszta czy dopłata, trzech przyjaciół, punktualność pociągów, ciepło-zimno, dwie windy, litera X, ' +
+                'odległość od przedziału, spacer po osi, pomyłki synoptyka i fala na stawie.',
+            srednie: 'Kilka pomysłów naraz: najbardziej podobny kolor, najbliższy kwadrat, podział taśmy, najbliższa stacja, spotkanie jak najszybciej, ' +
+                'pole trójkąta, pary o różnicy k, wskazówki zegara, ranking rzutów i odległość od parku.',
+            trudne: 'Dwie windy w akcji, najbliżsi na torze, stabilny fragment, pole działki, najbliższy palindrom, wszystkie odległości w mieście, ' +
+                'kurier zachłanny — a na koniec wielki finał: teleturniej „Zgadnij liczbę”.',
+        },
+        kroki: [
+            {
+                nr: 1, kotwica: 'od-zera', spis: 'Odległość od zera',
+                nazwa: 'Krok 1 · Odległość od zera — moduł liczby',
+                kategoria: 'Wartość bezwzględna / krok 1: odległość od zera',
+                note: 'Oś liczbowa, |x| jako odległość od zera, liczba przeciwna −x, moduł przez if (x < 0) x = -x, równanie |x| = k, ' +
+                    'liczby o module co najwyżej k (2k + 1), znak liczby oraz suma ze znakiem i suma modułów.',
+            },
+            {
+                nr: 2, kotwica: 'funkcja-abs', spis: 'Funkcja abs',
+                nazwa: 'Krok 2 · Funkcja abs — typy i pułapki',
+                kategoria: 'Wartość bezwzględna / krok 2: funkcja abs',
+                note: 'abs oddaje wynik (x = abs(x)), abs w wyrażeniach, |a| + |b| i |a + b|, abs dla long long i double, ' +
+                    'najmniejsza liczba int, reszta z liczby ujemnej i cyfry liczby ujemnej.',
+            },
+            {
+                nr: 3, kotwica: 'odleglosc', spis: 'Odległość dwóch liczb',
+                nazwa: 'Krok 3 · Odległość dwóch liczb — |a − b|',
+                kategoria: 'Wartość bezwzględna / krok 3: odległość dwóch liczb',
+                note: '|a − b| na osi, kolejność bez znaczenia, piętra, minuty i litery, kilka odcinków po kolei, czy c leży pomiędzy, ' +
+                    'różnica poza zakresem int i długości napisów bez minusa.',
+            },
+            {
+                nr: 4, kotwica: 'najblizej', spis: 'Najbliżej i najdalej',
+                nazwa: 'Krok 4 · Najbliżej i najdalej — rekord według odległości',
+                kategoria: 'Wartość bezwzględna / krok 4: najbliżej i najdalej',
+                note: 'Porównuj odległości, zapamiętuj liczby; najbliżej zera i celu, reguły remisów, pozycja, najdalej, liczby w zasięgu, ' +
+                    'sąsiedzi celu z lewej i prawej oraz para o sumie najbliżej zera.',
+            },
+            {
+                nr: 5, kotwica: 'sasiedzi', spis: 'Skoki między sąsiadami',
+                nazwa: 'Krok 5 · Skoki między sąsiadami — winda i najmniejsza różnica',
+                kategoria: 'Wartość bezwzględna / krok 5: skoki między sąsiadami',
+                note: 'Suma skoków |a[i] − a[i − 1]| z tablicą i bez, największy skok, podejścia i zejścia, pisanie jednym palcem, ' +
+                    'najmniejsza różnica po sortowaniu i liczenie wstrząsów.',
+            },
+            {
+                nr: 6, kotwica: 'plansza', spis: 'Kroki po kratce',
+                nazwa: 'Krok 6 · Kroki po kratce — taksówkarz, król i romb',
+                kategoria: 'Wartość bezwzględna / krok 6: kroki po kratce',
+                note: 'Odległość miejska |dx| + |dy|, ruchy króla max(|dx|, |dy|), wieża, goniec, hetman i skoczek, notacja szachowa, ' +
+                    'romb, kontur i kwadraty z gwiazdek oraz spotkanie na skrzyżowaniu.',
+            },
+            {
+                nr: 7, kotwica: 'przedzialy', spis: 'Przedziały i tarcza',
+                nazwa: 'Krok 7 · Przedziały, tolerancja i tarcza zamka',
+                kategoria: 'Wartość bezwzględna / krok 7: przedziały i tarcza',
+                note: '|x − c| ≤ r jako przedział, 2r + 1 liczb, równania |x − a| = d i |x − a| = |x − b|, stykające się zasięgi, ' +
+                    'tolerancja w procentach bez double i odległość na tarczy min(d, n − d).',
+            },
+            {
+                nr: 8, kotwica: 'mediana', spis: 'Gdzie się spotkać?',
+                nazwa: 'Krok 8 · Gdzie się spotkać? — suma odległości i mediana',
+                kategoria: 'Wartość bezwzględna / krok 8: suma odległości i mediana',
+                note: 'Suma odległości od punktu, sprawdzanie kandydatów, mediana jako najlepsze miejsce, parzysta liczba domów, ' +
+                    'mediana a średnia, wyrównywanie wież, zbiórka na mapie miasta i mediana ważona.',
+            },
+            {
+                nr: 9, kotwica: 'baza', spis: 'Baza zadań', baza: true,
+                nazwa: 'Baza zadań — podsumowanie tematu',
+                kategoria: 'Wartość bezwzględna / baza zadań',
+                note: 'Zadania na cały temat, od najłatwiejszego do najtrudniejszego: reszta czy dopłata, ciepło-zimno, litera X, najbardziej podobny kolor, ' +
+                    'podział taśmy, wskazówki zegara, najbliżsi na torze, pole działki, kurier zachłanny — a na koniec wielki finał: teleturniej.',
+            },
+        ],
+    },
 ];
 
 module.exports = { SITE, KATEGORIA, LEKCJE };

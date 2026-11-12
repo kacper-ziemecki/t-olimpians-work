@@ -1775,7 +1775,9 @@
     var COMPILE_ARGS = '-O2 -std=gnu++17';
     var GODBOLT_COMPILERS = ['g132', 'g142', 'gsnapshot'];
     var WANDBOX_COMPILERS = ['gcc-13.2.0', 'gcc-head'];
-    var REQUEST_TIMEOUT_MS = 30000;
+    // Compiler Explorer przerywa zbyt wolny program dopiero po ~20 s (i wtedy zgłasza timedOut),
+    // więc czekamy dłużej — inaczej zamiast „Time limit exceeded” uczeń dostałby błąd połączenia.
+    var REQUEST_TIMEOUT_MS = 45000;
     var godboltCompiler = null;
     var wandboxCompiler = null;
     var activeProvider = null;
@@ -1996,6 +1998,14 @@
         badge.textContent = 'sprawdzanie…';
     }
 
+    function markRowSkipped(section, idx) {
+        var row = section.querySelector('[data-judge-row="' + idx + '"]');
+        if (!row) return;
+        var badge = row.querySelector('[data-row-badge]');
+        badge.className = 'test-badge pending';
+        badge.textContent = 'pominięty';
+    }
+
     function judgeSubmission(task, section) {
         var editor = section.querySelector('[data-code-for]');
         var runBtn = section.querySelector('[data-run-btn]');
@@ -2046,8 +2056,9 @@
             editor.disabled = false;
             if (failure) {
                 var meta = VERDICTS[failure.code];
+                var pominiete = failure.code === 'TLE' && failure.idx < total - 1 ? ' • dalsze testy pominięte' : '';
                 setVerdict(section, meta.tone, meta.label + ' — test ' + (failure.idx + 1),
-                    'Zaliczone testy: ' + failure.idx + ' / ' + total);
+                    'Zaliczone testy: ' + failure.idx + ' / ' + total + pominiete);
             } else {
                 setVerdict(section, 'ok', 'Accepted',
                     total + ' / ' + total + ' testów • najwolniejszy ' + Math.round(maxTime) + ' ms');
@@ -2077,6 +2088,12 @@
                 fillJudgeRow(section, idx, code, test, result);
                 if (code !== 'OK' && !failure) failure = { code: code, idx: idx };
                 idx++;
+                // Po przekroczeniu limitu czasu nie uruchamiamy kolejnych testów: zwykle są jeszcze
+                // większe, a zbyt wolny program każdy z nich liczyłby nawet ~20 s — werdykt i tak się nie zmieni.
+                if (code === 'TLE') {
+                    for (var k = idx; k < total; k++) markRowSkipped(section, k);
+                    return finish();
+                }
                 return step();
             });
         }

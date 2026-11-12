@@ -1219,6 +1219,86 @@ const LEKCJE = [
             },
         ],
     },
+    {
+        temat: 'Złożoność czasowa',
+        prefix: 'zc-',
+        plik: 'c++_logika/zlozonosc-czasowa.html',
+        pliki: ['zlozonosc-cwiczenia-1.js', 'zlozonosc-cwiczenia-2.js', 'zlozonosc-cwiczenia-3.js', 'zlozonosc-baza.js'],
+        note: 'Lekcja o złożoności czasowej od podstaw: liczenie obrotów pętli (od a do b, co k, pętle po kolei i w środku), pętla w pętli i trójkąty, ' +
+            'pętle, które dzielą (logarytm, zgadywanie liczby, szybkie potęgowanie), notacja O i ukryte koszty, reguła 10⁸ operacji na sekundę, ' +
+            'ograniczenia z treści i dane z generatora, a potem przyspieszanie: wzory, pętla do pierwiastka, sumy prefiksowe, tablice zliczeń, sito, ' +
+            'tablica różnic, okna, sortowanie z lower_bound, dwa wskaźniki i wyszukiwanie binarne po odpowiedzi. Sprawdzarka mierzy czas.',
+        bazaOpisy: {
+            latwe: 'Wzory i krótkie pętle: ramka z płytek, kasy w sklepie, kuranty, turniej pucharowy, domek z kart, liczby powyżej średniej, ' +
+                'wynik wolnego programu, żarówki na korytarzu, numerowanie stron i wspólne wielokrotności.',
+            srednie: 'Przygotuj raz i szukaj szybko: k-ta liczba niepodzielna, liczby bliźniacze, liczby z trzema dzielnikami, pary o różnicy k, ' +
+                'który okres był cieplejszy, rozkład jazdy, dokładnie k warstw farby, pary z dwóch list, najlepszy fragment i różne czynniki pierwsze.',
+            trudne: 'Liczby z dzielnikami 2, 3 i 5, najdłuższy fragment bez powtórzeń, fragmenty o sumie zero, maszyny w fabryce, ' +
+                'k-ta liczba tabliczki mnożenia, trójkąty z patyków, dzielniki wszystkich liczb do n — a na koniec wielki finał: wyprzedaż.',
+        },
+        kroki: [
+            {
+                nr: 1, kotwica: 'ile-razy', spis: 'Ile razy wykona się pętla?',
+                nazwa: 'Krok 1 · Ile razy wykona się pętla?',
+                kategoria: 'Złożoność czasowa / krok 1: liczenie obrotów',
+                note: 'Obrót jako jednostka pracy, od a do b (b − a + 1), co k, w dół, odejmowanie zamiast dzielenia, pętle po kolei (dodajemy), ' +
+                    'if w pętli i liczenie wzorem zamiast licznikiem.',
+            },
+            {
+                nr: 2, kotwica: 'zagniezdzone', spis: 'Pętla w pętli',
+                nazwa: 'Krok 2 · Pętla w pętli — obroty się mnożą',
+                kategoria: 'Złożoność czasowa / krok 2: pętla w pętli',
+                note: 'n · m i n², pary i < j (n(n − 1)/2), schodki i suma Gaussa, trzy pętle i trójki, wewnętrzna pętla o stałej długości.',
+            },
+            {
+                nr: 3, kotwica: 'logarytm', spis: 'Pętle, które dzielą',
+                nazwa: 'Krok 3 · Pętle, które dzielą — logarytm',
+                kategoria: 'Złożoność czasowa / krok 3: logarytm',
+                note: 'Połowienie i podwajanie, log₂ n (2¹⁰ ≈ 10³), cyfry, zgadywanie liczby w ok. 20 pytaniach, szybkie potęgowanie.',
+            },
+            {
+                nr: 4, kotwica: 'notacja-o', spis: 'Notacja O',
+                nazwa: 'Krok 4 · Notacja O — jak rośnie praca',
+                kategoria: 'Złożoność czasowa / krok 4: notacja O',
+                note: 'Dominujący składnik i pomijanie stałych, klasy od O(1) do O(n!), dane × 10, stałe dla małych n, ' +
+                    'ukryte koszty: sort, count, erase, s = s + c.',
+            },
+            {
+                nr: 5, kotwica: 'czy-zdazy', spis: 'Czy zdąży?',
+                nazwa: 'Krok 5 · Czy zdąży? Ograniczenia i limit czasu',
+                kategoria: 'Złożoność czasowa / krok 5: czy zdąży',
+                note: '10⁸ operacji na sekundę, tabela ograniczeń, TLE w sprawdzarce, dane z generatora xᵢ = (xᵢ₋₁ · a + b) mod m, ' +
+                    'ten sam problem w O(n²) i w O(n).',
+            },
+            {
+                nr: 6, kotwica: 'wzory', spis: 'Wzór i pierwiastek',
+                nazwa: 'Krok 6 · Wzór zamiast pętli, pierwiastek zamiast n',
+                kategoria: 'Złożoność czasowa / krok 6: wzory i pierwiastek',
+                note: 'Suma od a do b, wielokrotności i ich suma, włączanie i wyłączanie, pary o sumie s w O(1), ' +
+                    'dzielniki, rozkład i pierwiastek całkowity w O(√n).',
+            },
+            {
+                nr: 7, kotwica: 'prefiksy', spis: 'Policz raz',
+                nazwa: 'Krok 7 · Policz raz, korzystaj wiele razy',
+                kategoria: 'Złożoność czasowa / krok 7: policz raz',
+                note: 'Sumy prefiksowe, tablica zliczeń, sito Eratostenesa, tablica różnic i okno o stałej długości.',
+            },
+            {
+                nr: 8, kotwica: 'binarne', spis: 'Sortuj i szukaj',
+                nazwa: 'Krok 8 · Sortuj raz, szukaj szybko',
+                kategoria: 'Złożoność czasowa / krok 8: sortuj i szukaj',
+                note: 'lower_bound i upper_bound w O(log n), liczby w przedziale, dwa wskaźniki (para o sumie k, okno o sumie ≤ S) ' +
+                    'i wyszukiwanie binarne po odpowiedzi.',
+            },
+            {
+                nr: 9, kotwica: 'baza', spis: 'Baza zadań', baza: true,
+                nazwa: 'Baza zadań — podsumowanie tematu',
+                kategoria: 'Złożoność czasowa / baza zadań',
+                note: 'Zadania na cały temat, od najłatwiejszego do najtrudniejszego: kuranty, turniej pucharowy, żarówki, który okres był cieplejszy, rozkład jazdy, ' +
+                    'pary z dwóch list, maszyny w fabryce, fragmenty o sumie zero, trójkąty z patyków — a na koniec wielki finał: wyprzedaż.',
+            },
+        ],
+    },
 ];
 
 module.exports = { SITE, KATEGORIA, LEKCJE };

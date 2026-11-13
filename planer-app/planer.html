@@ -331,6 +331,9 @@
   .who-card span{min-width:0;}
   .who-card b{display:block;font-size:14.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .who-card small{display:block;font-family:var(--mono);font-size:11px;color:var(--muted-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .send-note{font-size:13px;color:var(--muted);margin-top:8px;}
+  .send-note:empty{display:none;}
+  .send-note a{color:var(--accent-bright);}
   .send-ok{border:1px solid rgba(52,211,153,.4);background:var(--green-dim);border-radius:12px;padding:14px 16px;font-size:14.5px;}
   .send-ok b{color:var(--green);}
   .send-ok a{display:inline-block;margin-top:8px;color:var(--accent-bright);font-weight:600;}
@@ -654,10 +657,11 @@
       <div class="field">
         <span class="field-label">Olimpijczyk</span>
         <div class="who" id="sendWho" role="radiogroup" aria-label="Olimpijczyk"></div>
+        <div class="send-note" id="sendNote"></div>
       </div>
       <div class="field" id="sendOtherWrap" hidden>
-        <label class="field-label" for="sendOther">ID strony ucznia <span class="hint">(nazwa pliku w progress-app, bez .html)</span></label>
-        <input type="text" id="sendOther" maxlength="60" placeholder="np. nowy_uczen" autocomplete="off">
+        <label class="field-label" for="sendOther">Hasz ucznia <span class="hint">(16 znaków — ten, którym loguje się na listę postępów)</span></label>
+        <input type="text" id="sendOther" maxlength="300" placeholder="np. 3fa9-0c1e-77b2-d4e8" autocomplete="off" spellcheck="false">
       </div>
       <div class="field"><label class="field-label" for="sendName">Nazwa kursu</label><input type="text" id="sendName" maxlength="120" value="Plan nauki" autocomplete="off"></div>
       <div class="ed-err" id="sendErr" role="alert"></div>
@@ -1425,13 +1429,15 @@ $('#btnExample').addEventListener('click', () => {
   toast('Wczytano przykładowy plan — zmieniaj go śmiało');
 });
 
-/* ═══ „Dodaj olimpijczykowi”: kurs prosto na listę postępów ucznia (progress-app/<ID>.html) ═══
-   Zapis idzie do tej samej bazy Firestore co strony w progress-app, do kolekcji training_items_<ID strony>
-   (ID = PAGE_ID w pliku ucznia). Dokument ma ten sam format co „Kurs z planera” wczytany tam z pliku .json. */
-const STUDENTS = [   // dodając nowego ucznia (kopia gryglo.html z nowym PAGE_ID) dopisz go tutaj
-  { id: 'gryglo', name: 'gryglo' },
-  { id: 'pankubix_79997', name: 'pankubix_79997' }
-];
+/* ═══ „Dodaj olimpijczykowi”: kurs prosto na listę postępów ucznia (progress-app) ═══
+   Uczeń loguje się na progress-app swoim haszem. Jego lista to kolekcja Firestore training_items_<hasz>,
+   a uczeń ze starej strony (gryglo.html, pankubix_79997.html) ma w profilu training_items_<hasz>/_profil
+   pole itemsCollection wskazujące starą kolekcję (np. training_items_gryglo). Nazwy jak w progress-app/uczniowie.js
+   — tamtego modułu nie importujemy, bo planer ma działać także otwarty z dysku. Do wyboru są:
+   • uczniowie z panelu admina (progress-app/admin.html), jeśli w tej przeglądarce zalogowano się do panelu,
+   • zalogowany w tej przeglądarce uczeń (wysyła plan sam sobie),
+   • dowolny uczeń po wklejeniu jego hasza.
+   Dokument ma ten sam format co „Kurs z planera” wczytany na liście z pliku .json. */
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyCCq6q-GqkILS9E7xXSl65bn856IkiUaGc',
   authDomain: 'progress-app-2d372.firebaseapp.com',
@@ -1440,8 +1446,23 @@ const FIREBASE_CONFIG = {
   messagingSenderId: '40639690555',
   appId: '1:40639690555:web:cf7b4f8d17d5dd051b691e'
 };
-const LS_WHO = 'tol_planer_who';
-const PAGE_ID_RE = /^[A-Za-z0-9_-]{1,60}$/;
+const TI = 'training_items_';
+const PROFILE_ID = '_profil';
+const LS_PANEL = 'tol_admin_panel', LS_STUDENT = 'tol_uczen_hasz', LS_PREVIEW = 'tol_podglad';
+const LS_WHO = 'tol_planer_who';      // hasz ostatnio wybranego ucznia (tylko z listy, nie wklejony)
+function lsGet(key){
+  for (const s of ['localStorage', 'sessionStorage']) { try { const v = window[s].getItem(key); if (v) return v; } catch (e) {} }
+  return '';
+}
+/* hasz z tego, co wpisano albo wklejono (myślniki, spacje, cała wiadomość) — albo '' */
+function parseHash(text){
+  const s = String(text ?? '').trim().toLowerCase();
+  const flat = s.replace(/[\s\-–—_.:]/g, '');
+  if (/^[0-9a-f]{16}$/.test(flat)) return flat;
+  const m = s.match(/(?:^|[^0-9a-z])([0-9a-f]{4})[\s\-–—]?([0-9a-f]{4})[\s\-–—]?([0-9a-f]{4})[\s\-–—]?([0-9a-f]{4})(?![0-9a-z])/);
+  return m ? m.slice(1, 5).join('') : '';
+}
+const maskHash = h => h.slice(0, 4) + '-••••-••••-' + h.slice(12);
 let fsReady = null;
 function firestore(){
   // Firebase ładujemy dopiero przy pierwszym wysłaniu — reszta planera go nie potrzebuje
@@ -1460,25 +1481,67 @@ function planSteps(){
 }
 const sendDlg = $('#send');
 let sendDone = false;
+let sendOpts = [];                    // [{ hash, name, sub }] — uczniowie do wyboru
+let ownHash = '';                     // hasz ucznia zalogowanego w tej przeglądarce
+let sendSeq = 0;
 function sendWho(){
   const v = ($('#sendWho input:checked') || {}).value;
-  return v === '__other' ? $('#sendOther').value.trim() : (v || '');
+  return v === '__other' ? parseHash($('#sendOther').value) : (v || '');
 }
 function syncSendBtn(){
-  const id = sendWho();
-  $('#sendBtn').disabled = sendDone || !PAGE_ID_RE.test(id);
+  $('#sendBtn').disabled = sendDone || !sendWho();
   $('#sendOtherWrap').hidden = ($('#sendWho input:checked') || {}).value !== '__other';
 }
-$('#btnSend').addEventListener('click', () => {
+/* kogo można wybrać: uczniowie z panelu admina + zalogowany uczeń */
+async function loadSendOptions(){
+  const opts = [];
+  let note = '';
+  const panel = lsGet(LS_PANEL);
+  ownHash = parseHash(lsGet(LS_STUDENT));
+  const { fs, db } = await firestore();
+  if (/^[0-9a-f]{64}$/.test(panel)) {
+    try {
+      const snap = await fs.getDocs(fs.collection(db, TI + 'admin_' + panel));
+      snap.docs.forEach(d => {
+        const e = d.data();
+        if (parseHash(d.id) !== d.id || e.removedAt) return;
+        const old = typeof e.itemsCollection === 'string' ? e.itemsCollection.slice(TI.length) : '';
+        opts.push({ hash: d.id, name: String(e.name || 'Uczeń'), sub: old ? 'stara lista: ' + old : maskHash(d.id) });
+      });
+      opts.sort((a, b) => a.name.localeCompare(b.name, 'pl'));
+      if (!opts.length) note = 'W panelu admina nie ma jeszcze uczniów.';
+    } catch (err) {
+      console.error(err);
+      note = 'Nie udało się wczytać uczniów z panelu admina — możesz wkleić hasz ucznia.';
+    }
+  } else {
+    note = 'Uczniów z listy zobaczysz po zalogowaniu się w tej przeglądarce do <a href="../progress-app/admin.html" target="_blank" rel="noopener">panelu admina</a>. Możesz też wkleić hasz ucznia.';
+  }
+  if (ownHash && !opts.some(o => o.hash === ownHash)) {
+    try {
+      const p = await fs.getDoc(fs.doc(db, TI + ownHash, PROFILE_ID));
+      if (p.exists()) opts.unshift({ hash: ownHash, name: String(p.data().name || 'Ja'), sub: 'Twoja lista postępów' });
+    } catch (err) { console.error(err); }
+  }
+  return { opts, note };
+}
+function renderSendOptions(note){
+  const last = parseHash(lsGet(LS_WHO));
+  const pick = sendOpts.some(o => o.hash === last) ? last : (sendOpts.length === 1 ? sendOpts[0].hash : '');
+  $('#sendWho').innerHTML = sendOpts.map(o => `<label><input type="radio" name="who" value="${o.hash}"${o.hash === pick ? ' checked' : ''}>
+      <span class="who-card"><span class="av">${esc(o.name.charAt(0))}</span><span><b>${esc(o.name)}</b><small>${esc(o.sub)}</small></span></span></label>`).join('')
+    + `<label><input type="radio" name="who" value="__other"${sendOpts.length ? '' : ' checked'}>
+      <span class="who-card"><span class="av">+</span><span><b>Inny uczeń…</b><small>wklej jego hasz</small></span></span></label>`;
+  $('#sendNote').innerHTML = note || '';
+  syncSendBtn();
+}
+$('#btnSend').addEventListener('click', async () => {
   if (!state.items.length){ toast('Lista jest pusta — dodaj najpierw tematy albo zadania.', null, true); return; }
-  let last = '';
-  try { last = localStorage.getItem(LS_WHO) || ''; } catch (e) {}
-  const known = STUDENTS.some(s => s.id === last);
-  $('#sendWho').innerHTML = STUDENTS.map(s => `<label><input type="radio" name="who" value="${esc(s.id)}"${s.id === last ? ' checked' : ''}>
-      <span class="who-card"><span class="av">${esc(s.name.charAt(0))}</span><span><b>${esc(s.name)}</b><small>progress-app/${esc(s.id)}</small></span></span></label>`).join('')
-    + `<label><input type="radio" name="who" value="__other"${last && !known ? ' checked' : ''}>
-      <span class="who-card"><span class="av">+</span><span><b>Inny uczeń…</b><small>wpisz ID strony</small></span></span></label>`;
-  $('#sendOther').value = last && !known ? last : '';
+  const seq = ++sendSeq;
+  sendOpts = [];
+  $('#sendWho').innerHTML = '';
+  $('#sendNote').textContent = 'Wczytywanie uczniów…';
+  $('#sendOther').value = '';
   const c = countsOf(state.items);
   $('#sendSum').innerHTML = `<b>${pl(state.items.length, F.krok)}</b> · ${pl(c.t, F.temat)} · ${pl(c.f, F.film)} · ${pl(c.a, F.art)} · ${pl(c.z, F.zad)}`;
   $('#sendErr').textContent = '';
@@ -1488,7 +1551,17 @@ $('#btnSend').addEventListener('click', () => {
   sendDone = false;
   syncSendBtn();
   sendDlg.showModal();
-  setTimeout(() => ($('#sendWho input:checked') || $('#sendWho input')).focus(), 30);
+  let res;
+  try { res = await loadSendOptions(); }
+  catch (err) { console.error(err); res = { opts: [], note: 'Nie udało się połączyć z bazą — sprawdź internet. Możesz wkleić hasz ucznia.' }; }
+  if (seq !== sendSeq) return;      // okno otwarto ponownie w międzyczasie
+  sendOpts = res.opts;
+  renderSendOptions(res.note);
+  setTimeout(() => {
+    const chosen = $('#sendWho input:checked');
+    if (chosen && chosen.value === '__other') $('#sendOther').focus();
+    else (chosen || $('#sendWho input')).focus();
+  }, 30);
 });
 $('#sendWho').addEventListener('change', () => {
   syncSendBtn();
@@ -1498,27 +1571,34 @@ $('#sendOther').addEventListener('input', syncSendBtn);
 $('#sendForm').addEventListener('submit', async e => {
   e.preventDefault();
   const who = sendWho();
-  if (sendDone || !PAGE_ID_RE.test(who)){ $('#sendErr').textContent = 'Wybierz ucznia (ID: litery, cyfry, _ albo -).'; return; }
+  if (sendDone || !who){ $('#sendErr').textContent = 'Wybierz ucznia albo wklej jego hasz (16 znaków: cyfry 0–9 i litery a–f).'; return; }
   const title = $('#sendName').value.trim() || PLAN_TITLE;
   const btn = $('#sendBtn');
   btn.disabled = true;
   btn.textContent = 'Wysyłanie…';
   $('#sendErr').textContent = '';
+  // bez internetu Firestore czeka w nieskończoność — po 15 s pokazujemy błąd
+  const timed = p => Promise.race([p, new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), 15000))]);
   try {
     const { fs, db } = await firestore();
-    const write = fs.addDoc(fs.collection(db, 'training_items_' + who), {
+    const prof = await timed(fs.getDoc(fs.doc(db, TI + who, PROFILE_ID)));
+    if (!prof.exists()){ $('#sendErr').textContent = 'Nie ma ucznia z takim haszem — sprawdź, czy nie ma w nim literówki.'; return; }
+    const p = prof.data();
+    const col = (typeof p.itemsCollection === 'string' && /^training_items_[A-Za-z0-9_-]{1,60}$/.test(p.itemsCollection)) ? p.itemsCollection : TI + who;
+    await timed(fs.addDoc(fs.collection(db, col), {
       title, url: '', type: 'kurs',
       plan: { source: 'planer', steps: planSteps() },
       kp: {}, done: false, createdAt: Date.now(), doneAt: null, order: null
-    });
-    // bez internetu Firestore czeka w nieskończoność — po 15 s pokazujemy błąd
-    await Promise.race([write, new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), 15000))]);
-    try { localStorage.setItem(LS_WHO, who); } catch (err) {}
+    }));
+    if (sendOpts.some(o => o.hash === who)) { try { localStorage.setItem(LS_WHO, who); } catch (err) {} }
     sendDone = true;
     btn.hidden = true;
     $('#sendCancel').textContent = 'Gotowe';
-    $('#sendOk').innerHTML = `<b>✓ Dodano kurs „${esc(title)}”</b> (${pl(state.items.length, F.krok)}) na listę postępów <b>${esc(who)}</b>.<br>
-      <a href="../progress-app/${encodeURIComponent(who)}.html" target="_blank" rel="noopener">Otwórz listę postępów ucznia ↗</a>`;
+    const own = who === ownHash;
+    $('#sendOk').innerHTML = `<b>✓ Dodano kurs „${esc(title)}”</b> (${pl(state.items.length, F.krok)}) na listę postępów <b>${esc(p.name || 'ucznia')}</b>.<br>
+      <a href="../progress-app/${own ? '' : '?podglad=1'}" target="_blank" id="sendOpen">${own ? 'Otwórz swoją listę postępów ↗' : 'Otwórz listę postępów ucznia ↗'}</a>`;
+    // podgląd listy ucznia: hasz przekazujemy przez localStorage (jak panel admina), nie w adresie
+    if (!own) $('#sendOpen').addEventListener('click', () => { try { localStorage.setItem(LS_PREVIEW, JSON.stringify({ hash: who, t: Date.now() })); } catch (err) {} });
     $('#sendOk').hidden = false;
   } catch (err) {
     console.error(err);

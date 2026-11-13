@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel admina — postępy uczniów — T-Olimpians</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/img/favicon2.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@400;500&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0f;
+    --panel:#111118;
+    --panel-2:#15151e;
+    --panel-3:#1c1c28;
+    --border:rgba(255,255,255,0.07);
+    --border-accent:rgba(59,130,246,0.3);
+    --text:#f0f0f8;
+    --muted:#9090aa;
+    --muted-2:#55556a;
+    --accent:#3b82f6;
+    --accent-bright:#60a5fa;
+    --accent-dim:rgba(59,130,246,0.12);
+    --accent-glow:rgba(59,130,246,0.25);
+    --amber:#F5B94D;
+    --amber-dim:#3B331E;
+    --danger:#F2665A;
+    --danger-dim:rgba(242,102,90,0.12);
+    --violet:#a78bfa;
+    --violet-dim:rgba(167,139,250,0.13);
+    --green:#34d399;
+    --green-dim:rgba(52,211,153,0.13);
+    --mono: "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --sans: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --display: "Syne", var(--sans);
+    --radius-md:14px;
+    --radius-sm:9px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  [hidden]{display:none !important;}
+  body{
+    background:
+      radial-gradient(circle at 85% 0%, rgba(59,130,246,0.07), transparent 45%),
+      var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    min-height:100vh;
+    padding:0 20px 90px;
+    line-height:1.5;
+  }
+  .wrap{max-width:1080px;margin:0 auto;}
+  code{font-family:var(--mono);}
+
+  .topbar{display:flex;align-items:center;justify-content:center;gap:14px;padding:22px 0;margin-bottom:26px;border-bottom:1px solid var(--border);}
+  .topbar img.logo-mark{width:38px;height:38px;border-radius:9px;object-fit:cover;}
+  .topbar .brand{font-family:var(--display);font-weight:800;font-size:24px;letter-spacing:0.01em;}
+  .topbar img.flag{width:22px;height:auto;border-radius:2px;}
+  @media (max-width:480px){
+    .topbar{gap:10px;padding:18px 0;}
+    .topbar .brand{font-size:19px;white-space:nowrap;}
+    .brand-full{display:none;}
+  }
+
+  h1{font-family:var(--display);font-weight:800;letter-spacing:-0.02em;margin:0;word-break:break-word;}
+  .kicker{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-bright);margin-bottom:6px;}
+  .muted{color:var(--muted);}
+
+  .card{background:var(--panel-2);border:1px solid var(--border);border-radius:var(--radius-md);padding:22px;margin-bottom:22px;}
+  .card h2{font-family:var(--display);font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin:0 0 16px;}
+  .card-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px;}
+  .card-head h2{margin:0;}
+
+  input[type="text"], input[type="password"], select{
+    width:100%;
+    background:var(--panel-3);
+    border:1px solid var(--border);
+    color:var(--text);
+    padding:12px 14px;
+    border-radius:var(--radius-sm);
+    font-size:16px;
+    font-family:var(--sans);
+    outline:none;
+    min-width:0;
+    transition:border-color .15s ease, box-shadow .15s ease;
+  }
+  input:focus, select:focus{border-color:var(--accent-bright);box-shadow:0 0 0 3px var(--accent-dim);}
+  input::placeholder{color:var(--muted-2);}
+  select{width:auto;font-size:14px;padding:8px 12px;cursor:pointer;}
+  .field-label{display:block;font-family:var(--mono);font-size:12px;font-weight:500;color:var(--muted);letter-spacing:.03em;margin-bottom:7px;}
+  .field-label .hint{color:var(--muted-2);}
+
+  button{font-family:var(--sans);font-size:15px;font-weight:600;border:none;border-radius:var(--radius-sm);padding:11px 18px;cursor:pointer;
+    transition:filter .12s ease, transform .12s ease, box-shadow .15s ease, background .15s ease, color .15s ease, border-color .15s ease;}
+  button:active{transform:translateY(1px);}
+  button:disabled{opacity:.45;cursor:not-allowed;transform:none;}
+  .btn-primary{background:var(--accent);color:#fff;padding:12px 26px;border-radius:10px;font-weight:700;}
+  .btn-primary:hover:not(:disabled){background:var(--accent-bright);box-shadow:0 6px 18px var(--accent-glow);}
+  .btn-primary.danger{background:var(--danger);}
+  .btn-primary.danger:hover:not(:disabled){background:#ff7b70;box-shadow:0 6px 18px rgba(242,102,90,.3);}
+  .btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted);font-size:14px;padding:9px 16px;border-radius:100px;}
+  .btn-ghost:hover{color:var(--text);border-color:var(--border-accent);}
+  .btn-sm{background:var(--panel-3);border:1px solid var(--border);color:var(--text);font-size:13px;font-weight:600;padding:7px 13px;border-radius:100px;white-space:nowrap;}
+  .btn-sm:hover{border-color:var(--border-accent);color:var(--accent-bright);}
+  .btn-sm.danger{color:var(--danger);border-color:rgba(242,102,90,.3);background:transparent;}
+  .btn-sm.danger:hover{background:var(--danger-dim);}
+  .link{background:none;border:none;padding:0 2px;font-size:12px;font-weight:500;font-family:var(--mono);color:var(--accent-bright);border-radius:4px;}
+  .link:hover{text-decoration:underline;}
+  .msg{font-family:var(--mono);font-size:13px;color:var(--muted);min-height:1.2em;}
+  .msg.err{color:var(--danger);}
+  .msg.ok{color:var(--green);}
+
+  /* ═══ logowanie ═══ */
+  .gate{display:flex;justify-content:center;padding:2vh 0 20px;}
+  .gate-card{width:100%;max-width:460px;background:var(--panel-2);border:1px solid var(--border);border-radius:18px;padding:30px 28px 24px;box-shadow:0 20px 60px rgba(0,0,0,.35);}
+  .gate-card h1{font-size:28px;margin-bottom:8px;}
+  .gate-lead{color:var(--muted);font-size:15px;margin:0 0 20px;}
+  .gate form{display:flex;flex-direction:column;gap:14px;}
+  .gate .btn-primary{width:100%;}
+  .remember{display:flex;align-items:center;gap:9px;font-size:14px;color:var(--muted);cursor:pointer;user-select:none;}
+  .remember input{width:17px;height:17px;accent-color:var(--accent);margin:0;flex:none;}
+  .gate-new{margin-top:20px;padding-top:16px;border-top:1px solid var(--border);}
+  .gate-new summary{cursor:pointer;color:var(--accent-bright);font-weight:600;font-size:14.5px;}
+  .gate-new p{color:var(--muted);font-size:14px;margin:12px 0;}
+  .gate-new .stack{display:flex;flex-direction:column;gap:12px;}
+  .keyrow{display:flex;gap:8px;}
+  .keyrow input{font-family:var(--mono);font-size:14.5px;}
+  @media (max-width:480px){ .gate-card{padding:24px 18px 20px;} .keyrow{flex-wrap:wrap;} .keyrow .btn-sm{flex:1;} }
+
+  /* ═══ panel ═══ */
+  .adm-head{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:18px;}
+  .adm-head h1{font-size:32px;line-height:1.1;}
+  .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:22px;}
+  .stat{background:var(--panel-2);border:1px solid var(--border);border-radius:12px;padding:13px 16px;}
+  .stat b{display:block;font-family:var(--display);font-size:26px;font-weight:800;line-height:1.15;}
+  .stat span{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;}
+
+  /* dodawanie ucznia */
+  form.add{display:flex;flex-direction:column;gap:16px;}
+  .add-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:16px;align-items:start;}
+  @media (max-width:720px){ .add-grid{grid-template-columns:1fr;} }
+  .seg{display:flex;gap:8px;flex-wrap:wrap;}
+  .seg input{position:absolute;opacity:0;pointer-events:none;}
+  .seg label{flex:1;min-width:150px;text-align:center;font-family:var(--display);font-size:14px;font-weight:700;padding:11px 12px;border-radius:10px;border:1.5px solid var(--border);color:var(--muted);cursor:pointer;user-select:none;transition:all .12s ease;}
+  .seg label:hover{color:var(--text);border-color:var(--border-accent);}
+  .seg input:checked + label{background:var(--accent-dim);color:var(--accent-bright);border-color:var(--accent);}
+  .seg input:focus-visible + label{outline:2px solid var(--accent-bright);outline-offset:2px;}
+  .old-hint{font-size:13.5px;color:var(--muted);margin-top:8px;}
+  .old-hint b{color:var(--text);}
+  .old-hint .warn{color:var(--amber);}
+  .add-foot{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+  .newstudent{margin-top:18px;border:1px solid rgba(52,211,153,.4);background:var(--green-dim);border-radius:12px;padding:16px 18px;}
+  .newstudent .ns-title{font-size:15px;margin-bottom:10px;}
+  .newstudent .ns-title b{color:var(--green);}
+  .ns-hash{display:inline-block;font-family:var(--mono);font-size:22px;letter-spacing:.06em;background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:8px 14px;margin-bottom:12px;user-select:all;}
+  .ns-btns{display:flex;gap:8px;flex-wrap:wrap;}
+  .ns-note{font-size:13px;color:var(--muted);margin-top:10px;}
+
+  /* lista uczniów */
+  .chart-wrap{position:relative;height:200px;margin-bottom:18px;}
+  .students{display:flex;flex-direction:column;gap:10px;}
+  .empty{color:var(--muted);font-size:15px;padding:26px 4px;text-align:center;border:1px dashed var(--border);border-radius:var(--radius-sm);}
+  .empty.err{color:var(--danger);}
+  .st{background:var(--panel-3);border:1px solid var(--border);border-radius:12px;transition:border-color .15s ease;}
+  .st:hover{border-color:var(--border-accent);}
+  .st.open{border-color:var(--border-accent);}
+  .st-row{
+    display:grid;align-items:center;gap:10px 18px;padding:13px 16px;cursor:pointer;
+    grid-template-columns:minmax(0,1.15fr) minmax(0,1.6fr) 56px 112px 112px auto;
+    grid-template-areas:"who prog week last spark btns";
+  }
+  .st-who{grid-area:who;}
+  .st-prog{grid-area:prog;}
+  .m-week{grid-area:week;}
+  .m-last{grid-area:last;}
+  .spark{grid-area:spark;}
+  .st-btns{grid-area:btns;}
+  .st-who{display:flex;align-items:center;gap:12px;min-width:0;}
+  .av{width:40px;height:40px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:800;font-size:17px;color:var(--accent-bright);background:var(--accent-dim);border:1px solid var(--border-accent);text-transform:uppercase;}
+  .av.dim{color:var(--muted);background:var(--panel);border-color:var(--border);}
+  .st-who > div{min-width:0;}
+  .st-name{display:flex;align-items:center;gap:7px;min-width:0;font-weight:700;font-size:16.5px;}
+  .st-name > span:first-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .badge{flex:none;font-family:var(--mono);font-size:10.5px;font-weight:500;padding:1px 7px;border-radius:5px;background:var(--amber-dim);color:var(--amber);white-space:nowrap;}
+  .st-hash{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 6px;font-family:var(--mono);font-size:12px;color:var(--muted);}
+  .st-hash code{white-space:nowrap;min-width:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;}
+  .st-prog{min-width:0;}
+  .bar{position:relative;height:8px;border-radius:99px;background:var(--panel);border:1px solid var(--border);overflow:hidden;}
+  .fill{position:absolute;top:0;bottom:0;left:0;background:linear-gradient(90deg,var(--accent),var(--green));border-radius:99px;transition:width .35s ease;}
+  .st-prog-text{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .st-prog-text b{color:var(--text);font-weight:600;}
+  .st-metric{display:flex;flex-direction:column;min-width:0;}
+  .st-metric b{font-family:var(--display);font-weight:800;font-size:17px;line-height:1.2;white-space:nowrap;}
+  .st-metric span{font-family:var(--mono);font-size:10.5px;color:var(--muted-2);text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;}
+  .st-metric.wide b{font-size:14px;font-family:var(--sans);font-weight:700;overflow:hidden;text-overflow:ellipsis;}
+  .spark{display:flex;align-items:flex-end;gap:2px;height:30px;padding-bottom:1px;border-bottom:1px solid var(--border);}
+  .spark i{flex:1;min-height:2px;border-radius:2px 2px 0 0;background:var(--accent);opacity:.85;}
+  .spark i.zero{background:var(--border);opacity:1;}
+  .st-btns{display:flex;align-items:center;justify-content:flex-end;gap:10px;}
+  .chev{color:var(--muted-2);font-size:12px;transition:transform .2s ease;}
+  .st.open .chev{transform:rotate(180deg);}
+  @media (max-width:900px){
+    .st-row{grid-template-columns:minmax(0,1fr) auto auto auto;grid-template-areas:"who week last btns" "prog prog prog prog";gap:10px 16px;}
+    .spark{display:none;}
+  }
+  @media (max-width:560px){
+    .st-row{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"who btns" "week last" "prog prog";padding:12px;}
+    .st-who .av{display:none;}
+    .m-last{align-items:flex-end;}
+  }
+
+  .st-details{display:none;border-top:1px solid var(--border);padding:16px;}
+  .st.open .st-details{display:block;}
+  .det-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;}
+  .det-grid > section{min-width:0;}
+  @media (max-width:760px){ .det-grid{grid-template-columns:minmax(0,1fr);} }
+  @media (max-width:560px){ .st-details{padding:14px 12px;} .ev-when{width:84px;} }
+  .st-details h3{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 8px;}
+  .ev{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;}
+  .ev li{display:flex;align-items:baseline;gap:8px;font-size:14px;min-width:0;}
+  .ev-when{flex:none;width:96px;font-family:var(--mono);font-size:11.5px;color:var(--muted);}
+  .ev-title{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .ev-title small{color:var(--muted);}
+  .ev .none{color:var(--muted-2);font-style:italic;}
+  .tag{flex:none;font-family:var(--mono);font-size:10.5px;padding:1px 7px;border-radius:5px;}
+  .tag.zadanie{background:var(--accent-dim);color:var(--accent-bright);}
+  .tag.temat{background:var(--amber-dim);color:var(--amber);}
+  .tag.kurs{background:var(--violet-dim);color:var(--violet);}
+  .courses{margin-top:18px;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;}
+  .course{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:10px 12px;}
+  .course-top{display:flex;justify-content:space-between;gap:10px;font-size:14px;margin-bottom:7px;}
+  .course-top b{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .course-top span{flex:none;font-family:var(--mono);font-size:11.5px;color:var(--muted);}
+  .course-next{font-size:12.5px;color:var(--muted);margin-top:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .det-info{margin-top:18px;display:flex;flex-direction:column;gap:6px;font-size:13.5px;color:var(--muted);background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px 14px;}
+  .det-info > div{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;}
+  .det-info .k{flex:none;width:64px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted-2);}
+  .det-info .v{flex:1;min-width:0;}
+  .det-info code{color:var(--text);font-size:13px;overflow-wrap:anywhere;}
+  .det-info .link{text-align:left;}
+  .det-actions{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;}
+
+  .rm{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 4px;border-top:1px solid var(--border);}
+  .rm:first-child{border-top:none;}
+  .rm-who{flex:1 1 200px;min-width:0;}
+  .rm-who b{display:block;font-size:15px;}
+  .rm-who small{font-family:var(--mono);font-size:11.5px;color:var(--muted);}
+  .rm-btns{display:flex;gap:8px;flex-wrap:wrap;}
+
+  /* okno potwierdzeń */
+  dialog.dlg{width:min(480px,calc(100vw - 32px));background:var(--panel-2);color:var(--text);border:1px solid var(--border);border-radius:16px;padding:0;box-shadow:0 30px 80px rgba(0,0,0,.6);}
+  dialog.dlg::backdrop{background:rgba(5,5,10,.7);backdrop-filter:blur(2px);}
+  .dlg form{padding:22px 22px 18px;display:flex;flex-direction:column;gap:14px;}
+  .dlg h3{font-family:var(--display);font-size:20px;font-weight:800;margin:0;}
+  .dlg-body{color:var(--muted);font-size:14.5px;}
+  .dlg-body b{color:var(--text);}
+  .dlg-body code{color:var(--text);font-size:13px;}
+  .dlg-body p{margin:0 0 8px;}
+  .dlg-body p:last-child{margin-bottom:0;}
+  .dlg-err{font-family:var(--mono);font-size:13px;color:var(--danger);}
+  .dlg-err:empty{display:none;}
+  .dlg-actions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;}
+
+  .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);opacity:0;pointer-events:none;
+    background:var(--panel-3);border:1px solid var(--border-accent);color:var(--text);font-size:14px;padding:10px 18px;border-radius:100px;
+    box-shadow:0 10px 30px rgba(0,0,0,.5);transition:opacity .2s ease, transform .2s ease;z-index:50;max-width:calc(100vw - 32px);}
+  .toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+  .toast.err{border-color:rgba(242,102,90,.5);color:var(--danger);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <img class="logo-mark" src="/img/t-olimpians-logo.jpg" alt="Logo T-Olimpians">
+    <span class="brand">T-Olimpians<span class="brand-full"> Team Poland</span></span>
+    <img class="flag" src="/img/polska_flaga.png" alt="Flaga Polski">
+  </div>
+
+  <!-- ═══ logowanie do panelu ═══ -->
+  <section class="gate" id="gate" hidden>
+    <div class="gate-card">
+      <div class="kicker">Panel admina</div>
+      <h1>Postępy uczniów</h1>
+      <p class="gate-lead">Wpisz klucz admina — otwiera listę wszystkich uczniów, ich hasze i postępy.</p>
+      <form id="loginForm" novalidate>
+        <input type="password" id="keyInput" placeholder="klucz admina" autocomplete="current-password" spellcheck="false" aria-label="Klucz admina">
+        <label class="remember"><input type="checkbox" id="rememberInput" checked> Zapamiętaj na tym urządzeniu</label>
+        <button type="submit" class="btn-primary" id="loginBtn">Wejdź</button>
+        <div class="msg" id="loginMsg" role="status" aria-live="polite"></div>
+      </form>
+
+      <details class="gate-new" id="newPanel">
+        <summary>Pierwsze uruchomienie — utwórz panel</summary>
+        <p>Klucz admina działa jak hasło do całego panelu. Zapisz go w bezpiecznym miejscu (np. menedżer haseł) — <b>nie da się go odzyskać</b>, a w bazie zostaje tylko jego skrót.</p>
+        <div class="stack">
+          <div class="keyrow">
+            <input type="text" id="newKeyInput" spellcheck="false" autocomplete="off" aria-label="Nowy klucz admina" placeholder="min. 12 znaków">
+            <button type="button" class="btn-sm" id="genKeyBtn">Wygeneruj</button>
+            <button type="button" class="btn-sm" id="copyKeyBtn">Kopiuj</button>
+          </div>
+          <label class="remember"><input type="checkbox" id="keySavedInput"> Klucz jest zapisany w bezpiecznym miejscu</label>
+          <button type="button" class="btn-primary" id="createBtn">Utwórz panel</button>
+          <div class="msg" id="createMsg" role="status" aria-live="polite"></div>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- ═══ panel ═══ -->
+  <div id="app" hidden>
+    <header class="adm-head">
+      <div><div class="kicker">Panel admina</div><h1>Postępy uczniów</h1></div>
+      <button type="button" class="btn-ghost" id="logoutBtn">Wyloguj</button>
+    </header>
+
+    <div class="summary" id="summary"></div>
+
+    <section class="card">
+      <h2>Dodaj ucznia</h2>
+      <form class="add" id="addForm" novalidate>
+        <div class="add-grid">
+          <div>
+            <label class="field-label" for="nameInput">Imię albo nick ucznia</label>
+            <input type="text" id="nameInput" maxlength="60" autocomplete="off" placeholder="np. Kuba K.">
+          </div>
+          <div>
+            <span class="field-label">Lista postępów</span>
+            <div class="seg" role="radiogroup" aria-label="Lista postępów">
+              <input type="radio" name="src" id="srcNew" value="new" checked><label for="srcNew">Nowa, pusta</label>
+              <input type="radio" name="src" id="srcOld" value="old"><label for="srcOld">Ze starej strony</label>
+            </div>
+          </div>
+        </div>
+        <div id="oldWrap" hidden>
+          <label class="field-label" for="oldInput">ID starej strony <span class="hint">(nazwa pliku z progress-app bez .html, np. gryglo)</span></label>
+          <input type="text" id="oldInput" list="oldList" maxlength="60" autocomplete="off" spellcheck="false" placeholder="np. gryglo">
+          <datalist id="oldList"></datalist>
+          <div class="old-hint" id="oldHint"></div>
+        </div>
+        <div class="add-foot">
+          <button type="submit" class="btn-primary" id="addBtn">+ Dodaj i wygeneruj hasz</button>
+          <div class="msg" id="addMsg" role="status" aria-live="polite"></div>
+        </div>
+      </form>
+      <div class="newstudent" id="newStudent" hidden></div>
+    </section>
+
+    <section class="card">
+      <div class="card-head">
+        <h2>Postępy uczniów</h2>
+        <select id="sortSel" aria-label="Sortowanie">
+          <option value="active">Ostatnia aktywność</option>
+          <option value="week">Ukończone w 7 dni</option>
+          <option value="progress">Postęp (%)</option>
+          <option value="name">Imię</option>
+        </select>
+      </div>
+      <div class="chart-wrap"><canvas id="allChart" aria-label="Ukończone zadania i tematy wszystkich uczniów w ostatnich 14 dniach"></canvas></div>
+      <div class="students" id="students"><div class="empty">Ładowanie…</div></div>
+    </section>
+
+    <section class="card" id="removedCard" hidden>
+      <h2>Usunięci uczniowie</h2>
+      <p class="muted" style="margin:-6px 0 12px;font-size:14px;">Ich hasze nie działają, ale dane zostały w bazie — możesz ich przywrócić z tym samym haszem.</p>
+      <div id="removed"></div>
+    </section>
+  </div>
+</div>
+
+<dialog class="dlg" id="dlg">
+  <form id="dlgForm" novalidate>
+    <h3 id="dlgTitle"></h3>
+    <div class="dlg-body" id="dlgBody"></div>
+    <div id="dlgFieldWrap" hidden>
+      <label class="field-label" for="dlgInput" id="dlgLabel"></label>
+      <input type="text" id="dlgInput" autocomplete="off" spellcheck="false">
+    </div>
+    <div class="dlg-err" id="dlgErr" role="alert"></div>
+    <div class="dlg-actions">
+      <button type="button" class="btn-ghost" id="dlgCancel">Anuluj</button>
+      <button type="submit" class="btn-primary" id="dlgOk">OK</button>
+    </div>
+  </form>
+</dialog>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script type="module">
+import {
+  collection, doc, getDoc, getDocs, setDoc, onSnapshot, writeBatch
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {
+  db, PROFILE_ID, PANEL_ID_RE, LEGACY_ID_RE, parseHash, formatHash, maskHash, newHash,
+  studentCollection, legacyCollection, itemsCollectionOf, profileRef, panelIdFromKey, panelCollection,
+  panelMetaRef, newAdminKey, savedPanelId, savePanelId, forgetPanelId, handOffPreview, PREVIEW_URL
+} from "/progress-app/uczniowie.js";
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Panel admina listy postępów.
+   • klucz admina → ID panelu (SHA-256) → kolekcja training_items_admin_<ID> z wpisami uczniów
+   • wpis ucznia: dokument o ID = hasz, { name, createdAt, itemsCollection, removedAt, migrated… }
+     — kopia najważniejszych pól profilu ucznia (training_items_<hasz>/_profil); oba zmieniamy razem
+       jedną paczką zapisów (writeBatch), więc się nie rozjeżdżają
+   • „Usuń” kasuje tylko profil (hasz przestaje działać), dane listy zostają — można przywrócić.
+     „Usuń na zawsze” kasuje też elementy listy.
+   Model danych: patrz komentarz na początku uczniowie.js.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+const LEGACY_IDS = ["gryglo", "pankubix_79997"];   // stare strony progress-app/<id>.html (przed logowaniem haszem)
+const DAY = 86400000;
+const BATCH = 400;                                 // Firestore: max 500 zapisów w jednej paczce
+
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, ch => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[ch]));
+const num = (v) => (typeof v === "number" && isFinite(v)) ? v : 0;
+function plural(n, one, few, many){
+  if(n === 1) return one;
+  const d = n % 10, s = n % 100;
+  return (d >= 2 && d <= 4 && (s < 12 || s > 14)) ? few : many;
+}
+function day0(t){ const d = new Date(t); d.setHours(0, 0, 0, 0); return d.getTime(); }
+function daysAgo(t){ return Math.round((day0(Date.now()) - day0(t)) / DAY); }
+function fmtDate(t){
+  return t ? new Date(t).toLocaleString("pl-PL", { day:"2-digit", month:"2-digit", year:"numeric", hour:"2-digit", minute:"2-digit" }) : "—";
+}
+function fmtAgo(t){
+  if(!t) return "—";
+  const k = daysAgo(t);
+  const hm = new Date(t).toLocaleTimeString("pl-PL", { hour:"2-digit", minute:"2-digit" });
+  if(k <= 0) return "dziś " + hm;
+  if(k === 1) return "wczoraj " + hm;
+  if(k < 7) return k + " dni temu";
+  return new Date(t).toLocaleDateString("pl-PL", { day:"2-digit", month:"2-digit", year:"numeric" });
+}
+
+/* ─ powiadomienia, kopiowanie ─ */
+let toastTimer = 0;
+function toast(text, isErr){
+  const el = $("#toast");
+  el.textContent = text;
+  el.classList.toggle("err", !!isErr);
+  el.classList.add("on");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove("on"), 2600);
+}
+async function copyText(text, okMsg){
+  try{
+    await navigator.clipboard.writeText(text);
+  }catch(e){
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.cssText = "position:fixed;top:0;left:0;opacity:0;";
+    document.body.appendChild(ta);
+    ta.select();
+    let ok = false;
+    try{ ok = document.execCommand("copy"); }catch(_){}
+    ta.remove();
+    if(!ok){ toast("Nie udało się skopiować — zaznacz tekst ręcznie.", true); return; }
+  }
+  toast(okMsg || "Skopiowano");
+}
+/* adres dla ucznia: zawsze właściwa strona, także gdy panel otwarto z podglądu Netlify albo lokalnie */
+const SITE = /(^|\.)t-olimpians\.com$/.test(location.hostname) ? location.origin : "https://t-olimpians.com";
+function studentMessage(name, hash){
+  return `Cześć ${name}! Twój hasz do platformy T-Olimpians: ${formatHash(hash)}\n`
+    + `Wejdź na ${SITE}/progress-app/ i wpisz go, żeby zobaczyć swoją listę postępów (zadania, tematy, kursy). `
+    + `Hasz działa jak hasło — nie pokazuj go innym.`;
+}
+
+/* ─ okno potwierdzenia / pytania ─
+   ask({ title, html, ok, danger, input:{label,value,placeholder}, confirmText }) →
+   true/false (potwierdzenie) albo wpisany tekst / null (gdy jest pole input) */
+const dlg = $("#dlg");
+function ask({ title, html = "", ok = "OK", danger = false, input = null, confirmText = null }){
+  return new Promise((resolve) => {
+    const field = $("#dlgInput");
+    $("#dlgTitle").textContent = title;
+    $("#dlgBody").innerHTML = html;
+    $("#dlgFieldWrap").hidden = !input && !confirmText;
+    if(input){
+      $("#dlgLabel").textContent = input.label || "";
+      field.value = input.value || "";
+      field.placeholder = input.placeholder || "";
+      field.maxLength = input.maxLength || 120;
+    }else if(confirmText){
+      $("#dlgLabel").innerHTML = `Wpisz <b>${esc(confirmText)}</b>, żeby potwierdzić`;
+      field.value = "";
+      field.placeholder = confirmText;
+      field.maxLength = 200;
+    }
+    const okBtn = $("#dlgOk");
+    okBtn.textContent = ok;
+    okBtn.classList.toggle("danger", danger);
+    $("#dlgErr").textContent = "";
+    const done = (value) => {
+      $("#dlgForm").removeEventListener("submit", onSubmit);
+      $("#dlgCancel").removeEventListener("click", onCancel);
+      dlg.removeEventListener("cancel", onCancel);
+      if(dlg.open) dlg.close();
+      resolve(value);
+    };
+    const onCancel = (e) => { if(e) e.preventDefault(); done(input ? null : false); };
+    const onSubmit = (e) => {
+      e.preventDefault();
+      if(confirmText){
+        if(field.value.trim() !== confirmText){ $("#dlgErr").textContent = "Wpisany tekst się nie zgadza."; return; }
+        done(true);
+      }else if(input){
+        const v = field.value.trim();
+        if(!v){ $("#dlgErr").textContent = "Pole nie może być puste."; return; }
+        done(v);
+      }else done(true);
+    };
+    $("#dlgForm").addEventListener("submit", onSubmit);
+    $("#dlgCancel").addEventListener("click", onCancel);
+    dlg.addEventListener("cancel", onCancel);
+    dlg.showModal();
+    setTimeout(() => (input || confirmText ? field : okBtn).focus(), 30);
+  });
+}
+
+/* ═══ KURSY Z PLANERA — te same reguły co na liście ucznia (index.html) ═══ */
+const pkKey = {
+  task: s => "z|" + s.id,
+  topic: s => "t|" + s.id,
+  mat: (s, k) => "m|" + s.id + "|" + k
+};
+const pkSteps = item => (item.plan && Array.isArray(item.plan.steps)) ? item.plan.steps : [];
+function pkStepDone(s, kp){
+  if(s.type === "zadanie") return !!kp[pkKey.task(s)];
+  const mats = s.materials || [];
+  return mats.length ? mats.every((m, k) => kp[pkKey.mat(s, k)]) : !!kp[pkKey.topic(s)];
+}
+function pkStepTime(s, kp){
+  if(!pkStepDone(s, kp)) return null;
+  const mats = s.materials || [];
+  const keys = s.type === "zadanie" ? [pkKey.task(s)] : mats.length ? mats.map((m, k) => pkKey.mat(s, k)) : [pkKey.topic(s)];
+  const t = Math.max(...keys.map(k => typeof kp[k] === "number" ? kp[k] : 0));
+  return t || null;
+}
+
+/* Statystyki jednego ucznia. „Ukończenia” (events) liczymy tak jak wykres na jego liście:
+   zwykłe zadanie/temat w chwili odhaczenia, a z kursu — każdy ukończony krok osobno. */
+function studentStats(items){
+  const st = { total: items.length, done: 0, z: [0, 0], t: [0, 0], k: [0, 0], steps: [0, 0],
+               last: 0, week: 0, days: new Array(14).fill(0), events: [], open: [], courses: [] };
+  const now = Date.now();
+  for(const i of items){
+    const bucket = i.type === "zadanie" ? st.z : i.type === "kurs" ? st.k : st.t;
+    bucket[1]++;
+    if(i.done){ st.done++; bucket[0]++; } else st.open.push(i);
+    st.last = Math.max(st.last, num(i.createdAt), num(i.doneAt));
+    const kp = (i.kp && typeof i.kp === "object") ? i.kp : {};
+    for(const v of Object.values(kp)) st.last = Math.max(st.last, num(v));
+    if(i.type === "kurs"){
+      const steps = pkSteps(i);
+      let sDone = 0, next = null;
+      for(const s of steps){
+        st.steps[1]++;
+        if(pkStepDone(s, kp)){
+          sDone++; st.steps[0]++;
+          const t = pkStepTime(s, kp);
+          if(t) st.events.push({ t, type: s.type === "zadanie" ? "zadanie" : "temat", title: s.title || "(bez nazwy)", from: i.title });
+        }else if(!next) next = s;
+      }
+      st.courses.push({ title: i.title || "Kurs", sDone, sAll: steps.length, next });
+    }else if(i.done && i.doneAt){
+      st.events.push({ t: num(i.doneAt), type: i.type === "zadanie" ? "zadanie" : "temat", title: i.title || "(bez nazwy)" });
+    }
+  }
+  st.events.sort((a, b) => b.t - a.t);
+  for(const e of st.events){
+    const k = daysAgo(e.t);
+    if(k >= 0 && k < 14) st.days[13 - k]++;
+    if(now - e.t < 7 * DAY) st.week++;
+  }
+  // „do zrobienia” w tej samej kolejności co na liście ucznia
+  const ord = (o) => (o === undefined || o === null || o === "") ? Infinity : Number(o);
+  st.open.sort((a, b) => (ord(a.order) - ord(b.order)) || (num(b.createdAt) - num(a.createdAt)));
+  st.pct = st.total ? Math.round(st.done / st.total * 100) : 0;
+  return st;
+}
+
+/* ═══ STAN PANELU ═══ */
+let panelId = null;
+let unsubRoster = null;
+let roster = new Map();              // hasz → wpis ucznia w panelu
+let rosterLoaded = false;
+const subs = new Map();              // hasz → { path, items, loaded, error, unsub } — nasłuch listy ucznia
+const openRows = new Set();          // rozwinięte szczegóły
+const shownHashes = new Set();       // hasze pokazane w całości
+let chart = null;
+let lastAdded = null;                // hasz ucznia dodanego przed chwilą (ramka z haszem)
+
+const rosterRef = (hash) => doc(db, panelCollection(panelId), hash);
+const isLegacy = (e) => !!(e && e.itemsCollection);
+
+function stopSub(hash){
+  const s = subs.get(hash);
+  if(s && s.unsub) s.unsub();
+  subs.delete(hash);
+}
+/* nasłuch list wszystkich aktywnych uczniów; zmiana miejsca danych (przeniesienie) = nowy nasłuch */
+function syncSubs(){
+  for(const [hash, e] of roster){
+    if(e.removedAt){ stopSub(hash); continue; }
+    const path = itemsCollectionOf(hash, e);
+    const cur = subs.get(hash);
+    if(cur && cur.path === path) continue;
+    stopSub(hash);
+    const sub = { path, items: [], loaded: false, error: null, unsub: null };
+    sub.unsub = onSnapshot(collection(db, path), (snap) => {
+      sub.items = snap.docs.filter(d => d.id !== PROFILE_ID).map(d => ({ id: d.id, ...d.data() }));
+      sub.loaded = true;
+      sub.error = null;
+      scheduleRender();
+    }, (err) => {
+      console.error("Lista ucznia " + hash.slice(0, 4) + "…:", err);
+      sub.error = err;
+      scheduleRender();
+    });
+    subs.set(hash, sub);
+  }
+  for(const hash of [...subs.keys()]){
+    const e = roster.get(hash);
+    if(!e || e.removedAt) stopSub(hash);
+  }
+}
+
+function openPanel(id){
+  panelId = id;
+  $("#gate").hidden = true;
+  $("#app").hidden = false;
+  rosterLoaded = false;
+  roster = new Map();
+  renderAll();
+  unsubRoster = onSnapshot(collection(db, panelCollection(id)), (snap) => {
+    const next = new Map();
+    for(const d of snap.docs) if(parseHash(d.id) === d.id) next.set(d.id, d.data());
+    roster = next;
+    rosterLoaded = true;
+    syncSubs();
+    scheduleRender();
+  }, (err) => {
+    console.error(err);
+    $("#students").innerHTML = `<div class="empty err">⚠ Nie udało się wczytać listy uczniów — odśwież stronę.</div>`;
+  });
+}
+function closePanel(){
+  if(unsubRoster) unsubRoster();
+  unsubRoster = null;
+  for(const h of [...subs.keys()]) stopSub(h);
+  roster = new Map();
+  rosterLoaded = false;
+  panelId = null;
+  lastAdded = null;
+  openRows.clear();
+  shownHashes.clear();
+  forgetPanelId();
+  $("#newStudent").hidden = true;
+  $("#app").hidden = true;
+  $("#gate").hidden = false;
+}
+
+/* ═══ RENDEROWANIE ═══ */
+let renderTimer = 0;
+function scheduleRender(){
+  clearTimeout(renderTimer);
+  renderTimer = setTimeout(renderAll, 40);   // setTimeout, nie rAF — rAF staje, gdy karta jest w tle
+}
+
+function activeStudents(){
+  const out = [];
+  for(const [hash, e] of roster){
+    if(e.removedAt) continue;
+    const sub = subs.get(hash);
+    const st = sub && sub.loaded ? studentStats(sub.items) : null;
+    out.push({ hash, e, sub, st });
+  }
+  return out;
+}
+
+function renderAll(){
+  const list = activeStudents();
+  renderSummary(list);
+  renderChart(list);
+  renderStudents(list);
+  renderRemoved();
+  renderNewStudent();
+  updateOldHint();
+}
+
+function renderSummary(list){
+  const loaded = list.filter(s => s.st);
+  const week = loaded.reduce((a, s) => a + s.st.week, 0);
+  const activeWeek = loaded.filter(s => s.st.week > 0).length;
+  const done = loaded.reduce((a, s) => a + s.st.done, 0);
+  const total = loaded.reduce((a, s) => a + s.st.total, 0);
+  $("#summary").innerHTML = `
+    <div class="stat"><b>${list.length}</b><span>${plural(list.length, "uczeń", "uczniowie", "uczniów")}</span></div>
+    <div class="stat"><b>${activeWeek}</b><span>aktywni w 7 dni</span></div>
+    <div class="stat"><b>${week}</b><span>ukończone w 7 dni</span></div>
+    <div class="stat"><b>${done}<small style="font-size:15px;color:var(--muted);font-weight:700;"> / ${total}</small></b><span>wykonane elementy</span></div>`;
+}
+
+function renderChart(list){
+  const canvas = $("#allChart");
+  if(typeof Chart === "undefined" || !canvas) return;
+  const labels = [], z = new Array(14).fill(0), t = new Array(14).fill(0);
+  for(let i = 13; i >= 0; i--){
+    const d = new Date();
+    d.setHours(0, 0, 0, 0);
+    d.setDate(d.getDate() - i);
+    labels.push(d.toLocaleDateString("pl-PL", { day:"2-digit", month:"2-digit" }));
+  }
+  for(const s of list){
+    if(!s.st) continue;
+    for(const e of s.st.events){
+      const k = daysAgo(e.t);
+      if(k < 0 || k > 13) continue;
+      (e.type === "zadanie" ? z : t)[13 - k]++;
+    }
+  }
+  const data = {
+    labels,
+    datasets: [
+      { label: "Zadania", data: z, backgroundColor: "rgba(59,130,246,0.8)", borderRadius: 4, stack: "s" },
+      { label: "Tematy", data: t, backgroundColor: "rgba(245,185,77,0.85)", borderRadius: 4, stack: "s" }
+    ]
+  };
+  if(chart){ chart.data = data; chart.update(); return; }
+  chart = new Chart(canvas, {
+    type: "bar",
+    data,
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: "index", intersect: false },
+      plugins: {
+        legend: { labels: { color: "#f0f0f8", font: { family: "DM Sans" } } },
+        title: { display: true, text: "Ukończone przez wszystkich uczniów — ostatnie 14 dni", color: "#9090aa", font: { family: "DM Sans", size: 12, weight: "normal" } }
+      },
+      scales: {
+        x: { stacked: true, ticks: { color: "#9090aa" }, grid: { display: false } },
+        y: { stacked: true, beginAtZero: true, ticks: { color: "#9090aa", precision: 0 }, grid: { color: "rgba(255,255,255,0.05)" } }
+      }
+    }
+  });
+}
+
+function sortStudents(list){
+  const mode = $("#sortSel").value;
+  const name = (s) => String(s.e.name || "").toLocaleLowerCase("pl");
+  const by = {
+    name: (a, b) => name(a).localeCompare(name(b), "pl"),
+    active: (a, b) => ((b.st ? b.st.last : 0) - (a.st ? a.st.last : 0)) || by.name(a, b),
+    week: (a, b) => ((b.st ? b.st.week : 0) - (a.st ? a.st.week : 0)) || by.active(a, b),
+    progress: (a, b) => ((b.st ? b.st.pct : 0) - (a.st ? a.st.pct : 0)) || by.name(a, b)
+  };
+  return [...list].sort(by[mode] || by.active);
+}
+
+function whereText(e){
+  if(e.itemsCollection){
+    return `stara lista <code>${esc(e.itemsCollection)}</code> — dane zostały tam, gdzie były. `
+      + `Hasz chroni wejście na stronę, ale samą kolekcję da się odczytać, znając jej nazwę — przenieś dane, żeby były w pełni chronione.`;
+  }
+  if(e.migratedFrom){
+    return `kolekcja ucznia chroniona haszem — przeniesione ${esc(fmtDate(e.migratedAt))} z <code>${esc(e.migratedFrom)}</code>`
+      + ` (${num(e.migratedCount)} el.; oryginał został w bazie jako kopia zapasowa)`;
+  }
+  return "kolekcja ucznia chroniona haszem";
+}
+
+function studentHTML({ hash, e, sub, st }){
+  const name = String(e.name || "Uczeń");
+  const open = openRows.has(hash);
+  const shown = shownHashes.has(hash);
+  let prog, week = "—", last = "—", spark = "";
+  if(sub && sub.error){
+    prog = `<div class="st-prog-text" style="color:var(--danger)">⚠ nie udało się wczytać listy</div>`;
+  }else if(!st){
+    prog = `<div class="st-prog-text">Ładowanie…</div>`;
+  }else{
+    const extra = [];
+    if(st.z[1]) extra.push(`zadania ${st.z[0]}/${st.z[1]}`);
+    if(st.t[1]) extra.push(`tematy ${st.t[0]}/${st.t[1]}`);
+    if(st.k[1]) extra.push(`kursy ${st.k[0]}/${st.k[1]} (kroki ${st.steps[0]}/${st.steps[1]})`);
+    prog = `<div class="bar"><div class="fill" style="width:${st.pct}%"></div></div>
+      <div class="st-prog-text" title="${esc(extra.join(" · "))}">${st.total ? `<b>${st.done}</b> / ${st.total} wykonane${extra.length ? " · " + esc(extra.join(" · ")) : ""}` : "lista jest pusta"}</div>`;
+    week = String(st.week);
+    last = st.last ? fmtAgo(st.last) : "—";
+    const max = Math.max(1, ...st.days);
+    spark = st.days.map((n, i) => {
+      const d = new Date(); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() - (13 - i));
+      const label = d.toLocaleDateString("pl-PL", { day:"2-digit", month:"2-digit" });
+      return `<i class="${n ? "" : "zero"}" style="height:${n ? Math.max(12, Math.round(n / max * 100)) : 6}%" title="${label}: ${n}"></i>`;
+    }).join("");
+  }
+
+  let details = "";
+  if(open){
+    const ev = st ? st.events.slice(0, 8) : [];
+    const todo = st ? st.open.slice(0, 6) : [];
+    details = `
+      <div class="st-details">
+        <div class="det-grid">
+          <section>
+            <h3>Ostatnio ukończone</h3>
+            <ul class="ev">${ev.length ? ev.map(x => `<li>
+              <span class="ev-when">${esc(fmtAgo(x.t))}</span>
+              <span class="tag ${x.type}">${x.type}</span>
+              <span class="ev-title" title="${esc(x.title)}">${esc(x.title)}${x.from ? `<small> · kurs „${esc(x.from)}”</small>` : ""}</span>
+            </li>`).join("") : `<li class="none">jeszcze nic</li>`}</ul>
+          </section>
+          <section>
+            <h3>Do zrobienia${st ? ` (${st.open.length})` : ""}</h3>
+            <ul class="ev">${todo.length ? todo.map(i => `<li>
+              <span class="tag ${i.type === "kurs" ? "kurs" : i.type === "temat" ? "temat" : "zadanie"}">${i.type === "kurs" ? "kurs" : i.type === "temat" ? "temat" : "zadanie"}</span>
+              <span class="ev-title" title="${esc(i.title)}">${esc(i.title || "(bez nazwy)")}</span>
+            </li>`).join("") + (st.open.length > todo.length ? `<li class="none">…i jeszcze ${st.open.length - todo.length}</li>` : "") : `<li class="none">${st ? "wszystko zrobione 🎉" : "…"}</li>`}</ul>
+          </section>
+        </div>
+        ${st && st.courses.length ? `<div class="courses">${st.courses.map(c => `
+          <div class="course">
+            <div class="course-top"><b title="${esc(c.title)}">${esc(c.title)}</b><span>kroki ${c.sDone}/${c.sAll}</span></div>
+            <div class="bar"><div class="fill" style="width:${c.sAll ? Math.round(c.sDone / c.sAll * 100) : 0}%"></div></div>
+            <div class="course-next">${c.next ? "Następny krok: " + esc(c.next.title || "(bez nazwy)") : c.sAll ? "🎉 kurs ukończony" : "kurs bez kroków"}</div>
+          </div>`).join("")}</div>` : ""}
+        <div class="det-info">
+          <div><span class="k">Hasz</span><span class="v"><code>${formatHash(hash)}</code>
+            <button type="button" class="link" data-act="copy">kopiuj</button>
+            <button type="button" class="link" data-act="msg">kopiuj wiadomość dla ucznia</button></span></div>
+          <div><span class="k">Dodany</span><span class="v">${esc(fmtDate(e.createdAt))}</span></div>
+          <div><span class="k">Dane</span><span class="v">${whereText(e)}</span></div>
+        </div>
+        <div class="det-actions">
+          <button type="button" class="btn-sm" data-act="open">Otwórz listę ucznia ↗</button>
+          <button type="button" class="btn-sm" data-act="rename">Zmień imię</button>
+          ${isLegacy(e) ? `<button type="button" class="btn-sm" data-act="migrate">Przenieś dane do kolekcji z haszem</button>` : ""}
+          <button type="button" class="btn-sm danger" data-act="remove">Usuń ucznia</button>
+        </div>
+      </div>`;
+  }
+
+  return `
+    <article class="st${open ? " open" : ""}" data-hash="${hash}">
+      <div class="st-row" data-act="toggle" title="Kliknij, żeby rozwinąć szczegóły">
+        <div class="st-who">
+          <span class="av" aria-hidden="true">${esc(name.charAt(0))}</span>
+          <div>
+            <div class="st-name"><span title="${esc(name)}">${esc(name)}</span>${isLegacy(e) ? `<span class="badge" title="Dane w kolekcji ${esc(e.itemsCollection)}">stara lista</span>` : ""}</div>
+            <div class="st-hash"><code>${shown ? formatHash(hash) : maskHash(hash)}</code>
+              <button type="button" class="link" data-act="show">${shown ? "ukryj" : "pokaż"}</button>
+              <button type="button" class="link" data-act="copy">kopiuj</button></div>
+          </div>
+        </div>
+        <div class="st-prog">${prog}</div>
+        <div class="st-metric m-week" title="Ukończone w ostatnich 7 dniach"><b>${week}</b><span>7 dni</span></div>
+        <div class="st-metric wide m-last"><b>${esc(last)}</b><span>ostatnio</span></div>
+        <div class="spark" title="Ukończone w ostatnich 14 dniach">${spark}</div>
+        <div class="st-btns">
+          <button type="button" class="btn-sm" data-act="open">Lista ↗</button>
+          <span class="chev" aria-hidden="true">▾</span>
+        </div>
+      </div>
+      ${details}
+    </article>`;
+}
+
+function renderStudents(list){
+  const box = $("#students");
+  if(!rosterLoaded){ box.innerHTML = `<div class="empty">Ładowanie…</div>`; return; }
+  if(!list.length){ box.innerHTML = `<div class="empty">Nie ma jeszcze uczniów — dodaj pierwszego powyżej.</div>`; return; }
+  box.innerHTML = sortStudents(list).map(studentHTML).join("");
+}
+
+function renderRemoved(){
+  const removed = [...roster].filter(([, e]) => e.removedAt).sort((a, b) => num(b[1].removedAt) - num(a[1].removedAt));
+  $("#removedCard").hidden = !removed.length;
+  $("#removed").innerHTML = removed.map(([hash, e]) => `
+    <div class="rm" data-hash="${hash}">
+      <span class="av dim" aria-hidden="true">${esc(String(e.name || "?").charAt(0))}</span>
+      <div class="rm-who"><b>${esc(e.name || "Uczeń")}</b><small>usunięty ${esc(fmtDate(e.removedAt))} · ${maskHash(hash)}${isLegacy(e) ? " · stara lista " + esc(e.itemsCollection) : ""}</small></div>
+      <div class="rm-btns">
+        <button type="button" class="btn-sm" data-act="restore">Przywróć</button>
+        <button type="button" class="btn-sm danger" data-act="purge">Usuń na zawsze</button>
+      </div>
+    </div>`).join("");
+}
+
+function renderNewStudent(){
+  const box = $("#newStudent");
+  const e = lastAdded && roster.get(lastAdded);
+  if(!e || e.removedAt){ box.hidden = true; return; }
+  box.hidden = false;
+  box.innerHTML = `
+    <div class="ns-title">✓ Dodano ucznia <b>${esc(e.name)}</b>. Jego hasz:</div>
+    <div class="ns-hash">${formatHash(lastAdded)}</div>
+    <div class="ns-btns">
+      <button type="button" class="btn-sm" data-ns="copy">Kopiuj hasz</button>
+      <button type="button" class="btn-sm" data-ns="msg">Kopiuj wiadomość dla ucznia</button>
+      <button type="button" class="btn-sm" data-ns="open">Otwórz jego listę ↗</button>
+      <button type="button" class="btn-sm" data-ns="close">Zamknij</button>
+    </div>
+    <div class="ns-note">${isLegacy(e)
+      ? `Lista podpięta do <code>${esc(e.itemsCollection)}</code> — uczeń zobaczy wszystko, co miał na starej stronie.`
+      : "Uczeń wchodzi na " + esc(SITE) + "/progress-app/ i wpisuje ten hasz. Hasz zawsze znajdziesz też w szczegółach ucznia."}</div>`;
+}
+
+/* ═══ STARE STRONY: podpowiedzi i sprawdzenie, czy lista istnieje ═══ */
+const oldCounts = new Map();         // id starej strony → liczba elementów (albo "err")
+let oldCheckTimer = 0;
+function linkedTo(collectionPath){
+  const out = [];
+  for(const [, e] of roster) if(e.itemsCollection === collectionPath || e.migratedFrom === collectionPath) out.push(e);
+  return out;
+}
+function updateOldHint(){
+  const dl = $("#oldList");
+  const wanted = LEGACY_IDS.map(id => `<option value="${esc(id)}">${linkedTo(legacyCollection(id)).length ? "już przypisana" : "wolna"}</option>`).join("");
+  if(dl.innerHTML !== wanted) dl.innerHTML = wanted;
+  const hint = $("#oldHint");
+  const id = $("#oldInput").value.trim();
+  if($("#oldWrap").hidden){ return; }
+  if(!id){
+    const free = LEGACY_IDS.filter(x => !linkedTo(legacyCollection(x)).length);
+    hint.innerHTML = free.length
+      ? `Do przypisania: ${free.map(x => `<b>${esc(x)}</b>`).join(", ")}. Dane zostaną tam, gdzie są — nic nie jest kopiowane ani usuwane.`
+      : "Wszystkie znane stare listy są już przypisane.";
+    return;
+  }
+  if(!LEGACY_ID_RE.test(id)){ hint.innerHTML = `<span class="warn">ID może mieć tylko litery, cyfry, _ i -.</span>`; return; }
+  const linked = linkedTo(legacyCollection(id));
+  const c = oldCounts.get(id);
+  const countTxt = c === undefined ? "sprawdzam…" : c === "err" ? "nie udało się sprawdzić" : c ? `<b>${c}</b> ${plural(c, "element", "elementy", "elementów")}` : `<span class="warn">pusta albo nie istnieje — sprawdź ID</span>`;
+  hint.innerHTML = `Kolekcja <code>${esc(legacyCollection(id))}</code>: ${countTxt}.`
+    + (linked.length ? ` <span class="warn">Już przypisana do: ${linked.map(e => esc(e.name)).join(", ")}.</span>` : " Dane zostaną tam, gdzie są.");
+  if(c === undefined){
+    clearTimeout(oldCheckTimer);
+    oldCheckTimer = setTimeout(() => countLegacy(id).then(() => updateOldHint()), 350);
+  }
+}
+async function countLegacy(id){
+  try{
+    const snap = await getDocs(collection(db, legacyCollection(id)));
+    const n = snap.docs.filter(d => d.id !== PROFILE_ID).length;
+    oldCounts.set(id, n);
+    return n;
+  }catch(e){
+    console.error(e);
+    oldCounts.set(id, "err");
+    return null;
+  }
+}
+
+/* ═══ OPERACJE NA UCZNIACH ═══ */
+async function addStudent(name, legacyId){
+  const itemsCollection = legacyId ? legacyCollection(legacyId) : null;
+  let hash = null;
+  for(let i = 0; i < 5 && !hash; i++){
+    const h = newHash();
+    if(roster.has(h)) continue;
+    if(!(await getDoc(profileRef(h))).exists()) hash = h;
+  }
+  if(!hash) throw new Error("Nie udało się wylosować wolnego hasza.");
+  const now = Date.now();
+  const b = writeBatch(db);
+  b.set(profileRef(hash), { name, createdAt: now, itemsCollection });
+  b.set(rosterRef(hash), { name, createdAt: now, itemsCollection, removedAt: null });
+  await b.commit();
+  return hash;
+}
+
+async function removeStudent(hash){
+  const b = writeBatch(db);
+  b.delete(profileRef(hash));
+  b.update(rosterRef(hash), { removedAt: Date.now() });
+  await b.commit();
+}
+
+async function restoreStudent(hash){
+  const e = roster.get(hash);
+  const profile = { name: e.name || "Uczeń", createdAt: e.createdAt || Date.now(), itemsCollection: e.itemsCollection || null };
+  if(e.migratedFrom) Object.assign(profile, { migratedFrom: e.migratedFrom, migratedAt: e.migratedAt || null, migratedCount: e.migratedCount || 0 });
+  const b = writeBatch(db);
+  b.set(profileRef(hash), profile);
+  b.update(rosterRef(hash), { removedAt: null });
+  await b.commit();
+}
+
+async function renameStudent(hash, name){
+  const e = roster.get(hash);
+  const b = writeBatch(db);
+  b.update(rosterRef(hash), { name });
+  if(!e.removedAt) b.set(profileRef(hash), { name, itemsCollection: e.itemsCollection || null }, { merge: true });
+  await b.commit();
+}
+
+/* Przeniesienie listy ze starej kolekcji do kolekcji z haszem: KOPIA (te same ID dokumentów,
+   te same pola), sprawdzenie, że wszystko doszło, i dopiero wtedy przełączenie ucznia.
+   Stara kolekcja zostaje nietknięta jako kopia zapasowa. */
+async function migrateStudent(hash, onProgress){
+  const e = roster.get(hash);
+  const from = e.itemsCollection;
+  const to = studentCollection(hash);
+  if(!from) throw new Error("Ten uczeń ma już dane w kolekcji z haszem.");
+  const src = (await getDocs(collection(db, from))).docs.filter(d => d.id !== PROFILE_ID);
+  for(let i = 0; i < src.length; i += BATCH){
+    const b = writeBatch(db);
+    for(const d of src.slice(i, i + BATCH)) b.set(doc(db, to, d.id), d.data());
+    await b.commit();
+    if(onProgress) onProgress(Math.min(i + BATCH, src.length), src.length);
+  }
+  const have = new Set((await getDocs(collection(db, to))).docs.map(d => d.id));
+  const missing = src.filter(d => !have.has(d.id)).length;
+  if(missing) throw new Error(`Po skopiowaniu brakuje ${missing} ${plural(missing, "elementu", "elementów", "elementów")} — uczeń dalej korzysta ze starej listy.`);
+  const info = { itemsCollection: null, migratedFrom: from, migratedAt: Date.now(), migratedCount: src.length };
+  const b = writeBatch(db);
+  b.set(profileRef(hash), { name: e.name || "Uczeń", ...info }, { merge: true });
+  b.update(rosterRef(hash), info);
+  await b.commit();
+  // elementy dopisane do starej listy w trakcie kopiowania (np. otwarta stara strona) — dokopiuj
+  const late = (await getDocs(collection(db, from))).docs.filter(d => d.id !== PROFILE_ID && !have.has(d.id));
+  if(late.length){
+    const b2 = writeBatch(db);
+    late.forEach(d => b2.set(doc(db, to, d.id), d.data()));
+    await b2.commit();
+  }
+  return src.length + late.length;
+}
+
+/* Usunięcie na zawsze: elementy listy (także stara kolekcja, jeśli należy tylko do tego ucznia),
+   profil i wpis w panelu. */
+async function purgePlan(hash){
+  const e = roster.get(hash);
+  const paths = [studentCollection(hash)];
+  const shared = [];
+  for(const p of [e.itemsCollection, e.migratedFrom]){
+    if(!p || paths.includes(p)) continue;
+    const others = [...roster].filter(([h, x]) => h !== hash && (x.itemsCollection === p || x.migratedFrom === p));
+    if(others.length) shared.push(p); else paths.push(p);
+  }
+  const counts = [];
+  for(const p of paths){
+    const docs = (await getDocs(collection(db, p))).docs;
+    counts.push({ path: p, docs });
+  }
+  return { counts, shared };
+}
+async function purgeStudent(hash, plan){
+  for(const { docs } of plan.counts){
+    for(let i = 0; i < docs.length; i += BATCH){
+      const b = writeBatch(db);
+      docs.slice(i, i + BATCH).forEach(d => b.delete(d.ref));
+      await b.commit();
+    }
+  }
+  const b = writeBatch(db);
+  b.delete(profileRef(hash));
+  b.delete(rosterRef(hash));
+  await b.commit();
+}
+
+function openStudentList(hash){
+  handOffPreview(hash);
+  const w = window.open(PREVIEW_URL, "_blank");
+  if(!w) toast("Przeglądarka zablokowała nową kartę — pozwól na wyskakujące okna dla tej strony.", true);
+}
+
+/* ═══ ZDARZENIA: lista uczniów ═══ */
+$("#students").addEventListener("click", async (ev) => {
+  const el = ev.target.closest("[data-act]");
+  const card = ev.target.closest(".st");
+  if(!el || !card) return;
+  const hash = card.dataset.hash;
+  const e = roster.get(hash);
+  if(!e) return;
+  const act = el.dataset.act;
+  if(act !== "toggle") ev.stopPropagation();
+
+  if(act === "toggle"){
+    if(window.getSelection && String(window.getSelection()).length) return;   // zaznaczanie tekstu, nie klik
+    if(openRows.has(hash)) openRows.delete(hash); else openRows.add(hash);
+    renderAll();
+  }else if(act === "show"){
+    if(shownHashes.has(hash)) shownHashes.delete(hash); else shownHashes.add(hash);
+    renderAll();
+  }else if(act === "copy"){
+    copyText(formatHash(hash), "Skopiowano hasz ucznia " + (e.name || ""));
+  }else if(act === "msg"){
+    copyText(studentMessage(e.name || "", hash), "Skopiowano wiadomość dla ucznia");
+  }else if(act === "open"){
+    openStudentList(hash);
+  }else if(act === "rename"){
+    const name = await ask({ title: "Zmień imię ucznia", input: { label: "Imię albo nick", value: e.name || "", maxLength: 60 }, ok: "Zapisz" });
+    if(!name || name === e.name) return;
+    try{ await renameStudent(hash, name.slice(0, 60)); toast("Zapisano"); }
+    catch(err){ console.error(err); toast("Nie udało się zmienić imienia.", true); }
+  }else if(act === "remove"){
+    const yes = await ask({
+      title: `Usunąć ucznia ${e.name || ""}?`,
+      html: `<p>Hasz <code>${maskHash(hash)}</code> przestanie działać, a uczeń zniknie z listy postępów.</p>
+             <p><b>Dane jego listy zostaną w bazie</b> — w sekcji „Usunięci uczniowie” możesz go przywrócić z tym samym haszem albo usunąć na zawsze.</p>`,
+      ok: "Usuń ucznia", danger: true
+    });
+    if(!yes) return;
+    try{ await removeStudent(hash); openRows.delete(hash); toast("Usunięto ucznia " + (e.name || "")); }
+    catch(err){ console.error(err); toast("Nie udało się usunąć ucznia.", true); }
+  }else if(act === "migrate"){
+    let n = null;
+    try{ n = (await getDocs(collection(db, e.itemsCollection))).docs.filter(d => d.id !== PROFILE_ID).length; }catch(err){ console.error(err); }
+    const yes = await ask({
+      title: "Przenieść dane do kolekcji z haszem?",
+      html: `<p>${n === null ? "Elementy" : `<b>${n}</b> ${plural(n, "element", "elementy", "elementów")}`} z <code>${esc(e.itemsCollection)}</code> zostaną <b>skopiowane</b> do kolekcji, której nazwa zawiera hasz ucznia — wtedy bez hasza nie da się ich odczytać.</p>
+             <p>Po sprawdzeniu, że skopiowało się wszystko, uczeń automatycznie przełączy się na nową kolekcję. <b>Stara kolekcja zostaje nietknięta</b> jako kopia zapasowa.</p>`,
+      ok: "Przenieś"
+    });
+    if(!yes) return;
+    el.disabled = true;
+    el.textContent = "Kopiowanie…";
+    try{
+      const copied = await migrateStudent(hash, (k, all) => { el.textContent = `Kopiowanie… ${k}/${all}`; });
+      toast(`Przeniesiono ${copied} ${plural(copied, "element", "elementy", "elementów")} — stara kolekcja została jako kopia.`);
+    }catch(err){
+      console.error(err);
+      toast(err && err.message && !err.code ? err.message : "Nie udało się przenieść danych — nic nie zostało przełączone.", true);
+      scheduleRender();
+    }
+  }
+});
+
+/* ═══ ZDARZENIA: usunięci uczniowie ═══ */
+$("#removed").addEventListener("click", async (ev) => {
+  const el = ev.target.closest("[data-act]");
+  const row = ev.target.closest(".rm");
+  if(!el || !row) return;
+  const hash = row.dataset.hash;
+  const e = roster.get(hash);
+  if(!e) return;
+  if(el.dataset.act === "restore"){
+    try{ await restoreStudent(hash); toast("Przywrócono ucznia " + (e.name || "") + " — hasz znowu działa."); }
+    catch(err){ console.error(err); toast("Nie udało się przywrócić ucznia.", true); }
+  }else if(el.dataset.act === "purge"){
+    el.disabled = true;
+    let plan;
+    try{ plan = await purgePlan(hash); }
+    catch(err){ console.error(err); toast("Nie udało się sprawdzić danych ucznia.", true); el.disabled = false; return; }
+    el.disabled = false;
+    const items = plan.counts.reduce((a, c) => a + c.docs.filter(d => d.id !== PROFILE_ID).length, 0);
+    const name = String(e.name || "usuń");
+    const yes = await ask({
+      title: `Usunąć ${e.name || "ucznia"} na zawsze?`,
+      html: `<p>${plural(items, "Zostanie usunięty", "Zostaną usunięte", "Zostanie usuniętych")} <b>${items} ${plural(items, "element", "elementy", "elementów")}</b> listy postępów
+             (${plan.counts.map(c => `<code>${esc(c.path === studentCollection(hash) ? "kolekcja z haszem" : c.path)}</code>`).join(", ")}) oraz hasz ucznia.</p>
+             ${plan.shared.length ? `<p>Kolekcja ${plan.shared.map(p => `<code>${esc(p)}</code>`).join(", ")} należy też do innego ucznia — zostanie.</p>` : ""}
+             <p><b>Tego nie da się cofnąć.</b></p>`,
+      ok: "Usuń na zawsze", danger: true, confirmText: name
+    });
+    if(!yes) return;
+    el.disabled = true;
+    try{ await purgeStudent(hash, plan); toast("Usunięto na zawsze: " + name); }
+    catch(err){ console.error(err); toast("Nie udało się usunąć wszystkich danych — spróbuj ponownie.", true); el.disabled = false; }
+  }
+});
+
+/* ═══ ZDARZENIA: dodawanie ucznia ═══ */
+function setMsg(id, text, kind){
+  const el = $(id);
+  el.textContent = text || "";
+  el.className = "msg" + (kind ? " " + kind : "");
+}
+document.querySelectorAll('input[name="src"]').forEach(r => r.addEventListener("change", () => {
+  const old = $("#srcOld").checked;
+  $("#oldWrap").hidden = !old;
+  if(old){
+    if(!$("#oldInput").value.trim()){
+      const free = LEGACY_IDS.find(x => !linkedTo(legacyCollection(x)).length);
+      if(free){ $("#oldInput").value = free; if(!$("#nameInput").value.trim()) $("#nameInput").value = free; }
+    }
+    updateOldHint();
+  }
+}));
+$("#oldInput").addEventListener("input", updateOldHint);
+
+$("#addForm").addEventListener("submit", async (ev) => {
+  ev.preventDefault();
+  const name = $("#nameInput").value.trim().slice(0, 60);
+  const old = $("#srcOld").checked;
+  const oldId = $("#oldInput").value.trim();
+  if(!name){ setMsg("#addMsg", "Wpisz imię albo nick ucznia.", "err"); $("#nameInput").focus(); return; }
+  if(old && !LEGACY_ID_RE.test(oldId)){ setMsg("#addMsg", "Wpisz ID starej strony (litery, cyfry, _ albo -).", "err"); $("#oldInput").focus(); return; }
+  const btn = $("#addBtn");
+  btn.disabled = true;
+  setMsg("#addMsg", old ? "Sprawdzanie starej listy…" : "Dodawanie…");
+  try{
+    if(old){
+      const n = await countLegacy(oldId);
+      updateOldHint();
+      if(n === null) throw new Error("Nie udało się odczytać starej listy.");
+      const linked = linkedTo(legacyCollection(oldId));
+      if(!n || linked.length){
+        const yes = await ask({
+          title: !n ? "Ta stara lista jest pusta" : "Ta lista jest już przypisana",
+          html: !n
+            ? `<p>Kolekcja <code>${esc(legacyCollection(oldId))}</code> nie ma żadnych elementów — może to literówka w ID?</p><p>Możesz ją mimo to podpiąć.</p>`
+            : `<p>Kolekcję <code>${esc(legacyCollection(oldId))}</code> ma już: <b>${linked.map(e => esc(e.name)).join(", ")}</b>. Dwa hasze będą wtedy pokazywać tę samą listę.</p>`,
+          ok: "Podepnij mimo to"
+        });
+        if(!yes){ setMsg("#addMsg", ""); return; }
+      }
+      setMsg("#addMsg", "Dodawanie…");
+    }
+    const hash = await addStudent(name, old ? oldId : null);
+    lastAdded = hash;
+    $("#nameInput").value = "";
+    $("#oldInput").value = "";
+    $("#srcNew").checked = true;
+    $("#oldWrap").hidden = true;
+    setMsg("#addMsg", "");
+    renderNewStudent();
+    $("#newStudent").scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }catch(err){
+    console.error(err);
+    setMsg("#addMsg", err && err.message && !err.code ? err.message : "Nie udało się dodać ucznia — sprawdź internet i spróbuj ponownie.", "err");
+  }finally{
+    btn.disabled = false;
+  }
+});
+
+$("#newStudent").addEventListener("click", (ev) => {
+  const el = ev.target.closest("[data-ns]");
+  if(!el || !lastAdded) return;
+  const e = roster.get(lastAdded);
+  const act = el.dataset.ns;
+  if(act === "copy") copyText(formatHash(lastAdded), "Skopiowano hasz");
+  else if(act === "msg") copyText(studentMessage(e ? e.name : "", lastAdded), "Skopiowano wiadomość dla ucznia");
+  else if(act === "open") openStudentList(lastAdded);
+  else if(act === "close"){ lastAdded = null; renderNewStudent(); }
+});
+
+$("#sortSel").addEventListener("change", renderAll);
+$("#logoutBtn").addEventListener("click", () => { closePanel(); setMsg("#loginMsg", "Wylogowano."); });
+// „ostatnio: dziś / wczoraj” i wykres przesuwają się z czasem
+setInterval(() => { if(panelId) scheduleRender(); }, 60000);
+
+/* ═══ LOGOWANIE I TWORZENIE PANELU ═══ */
+async function tryOpenPanel(id){
+  const snap = await getDoc(panelMetaRef(id));
+  if(!snap.exists()) return false;
+  openPanel(id);
+  return true;
+}
+
+$("#loginForm").addEventListener("submit", async (ev) => {
+  ev.preventDefault();
+  const raw = $("#keyInput").value.trim();
+  if(!raw){ setMsg("#loginMsg", "Wpisz klucz admina.", "err"); return; }
+  const btn = $("#loginBtn");
+  btn.disabled = true;
+  setMsg("#loginMsg", "Sprawdzanie…");
+  try{
+    // ID panelu z konsoli Firebase (64 znaki hex) też otwiera panel — awaryjnie, gdy klucz zginie z menedżera haseł
+    const id = PANEL_ID_RE.test(raw.toLowerCase()) ? raw.toLowerCase() : await panelIdFromKey(raw);
+    if(await tryOpenPanel(id)){
+      savePanelId(id, $("#rememberInput").checked);
+      $("#keyInput").value = "";
+      setMsg("#loginMsg", "");
+    }else{
+      setMsg("#loginMsg", "Nie ma panelu z takim kluczem. Sprawdź klucz — albo, jeśli to pierwsze uruchomienie, utwórz panel poniżej.", "err");
+    }
+  }catch(err){
+    console.error(err);
+    setMsg("#loginMsg", "Nie udało się połączyć z bazą — sprawdź internet i spróbuj ponownie.", "err");
+  }finally{
+    btn.disabled = false;
+  }
+});
+
+$("#genKeyBtn").addEventListener("click", () => {
+  $("#newKeyInput").value = newAdminKey();
+  $("#keySavedInput").checked = false;
+  setMsg("#createMsg", "Skopiuj klucz i zapisz go w bezpiecznym miejscu.");
+});
+$("#copyKeyBtn").addEventListener("click", () => {
+  const k = $("#newKeyInput").value.trim();
+  if(k) copyText(k, "Skopiowano klucz admina"); else setMsg("#createMsg", "Najpierw wygeneruj albo wpisz klucz.", "err");
+});
+$("#newPanel").addEventListener("toggle", () => {
+  if($("#newPanel").open && !$("#newKeyInput").value) $("#genKeyBtn").click();
+});
+$("#createBtn").addEventListener("click", async () => {
+  const key = $("#newKeyInput").value.trim();
+  if(key.length < 12){ setMsg("#createMsg", "Klucz musi mieć co najmniej 12 znaków.", "err"); return; }
+  if(PANEL_ID_RE.test(key.toLowerCase())){ setMsg("#createMsg", "Wybierz inny klucz (ten wygląda jak ID panelu).", "err"); return; }
+  if(!$("#keySavedInput").checked){ setMsg("#createMsg", "Najpierw zapisz klucz i zaznacz pole „Klucz jest zapisany…”.", "err"); return; }
+  const btn = $("#createBtn");
+  btn.disabled = true;
+  setMsg("#createMsg", "Tworzenie panelu…");
+  try{
+    const id = await panelIdFromKey(key);
+    if((await getDoc(panelMetaRef(id))).exists()){
+      setMsg("#createMsg", "Panel z tym kluczem już istnieje — zaloguj się nim powyżej.", "err");
+      return;
+    }
+    await setDoc(panelMetaRef(id), { createdAt: Date.now() });
+    savePanelId(id, $("#rememberInput").checked);
+    $("#newKeyInput").value = "";
+    $("#keySavedInput").checked = false;
+    $("#newPanel").open = false;
+    setMsg("#createMsg", "");
+    openPanel(id);
+    toast("Panel utworzony — dodaj pierwszego ucznia.");
+  }catch(err){
+    console.error(err);
+    setMsg("#createMsg", "Nie udało się utworzyć panelu — sprawdź internet i spróbuj ponownie.", "err");
+  }finally{
+    btn.disabled = false;
+  }
+});
+
+(async function start(){
+  const id = savedPanelId();
+  if(!id){ $("#gate").hidden = false; return; }
+  try{
+    if(await tryOpenPanel(id)) return;
+    forgetPanelId();
+    $("#gate").hidden = false;
+    setMsg("#loginMsg", "Zapamiętany panel już nie istnieje — zaloguj się kluczem.", "err");
+  }catch(err){
+    console.error(err);
+    $("#gate").hidden = false;
+    setMsg("#loginMsg", "Nie udało się połączyć z bazą — sprawdź internet i odśwież stronę.", "err");
+  }
+})();
+</script>
+</body>
+</html>

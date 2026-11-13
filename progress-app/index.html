@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lista zadań treningowych — T-Olimpians</title>
+<title>Lista postępów — T-Olimpians</title>
 <meta name="robots" content="noindex">
-<link rel="icon" href="../img/favicon2.png">
+<link rel="icon" href="/img/favicon2.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@400;500&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
@@ -585,16 +585,81 @@
     .pk-head,.pk-row{padding:9px 10px;}
     .pk-body{padding:0 10px 10px;}
   }
+
+  /* ═══ LOGOWANIE HASZEM UCZNIA ═══ */
+  [hidden]{display:none !important;}
+  .gate{display:flex;justify-content:center;padding:3vh 0 20px;}
+  .gate-card{
+    width:100%;max-width:440px;background:var(--panel-2);border:1px solid var(--border);
+    border-radius:18px;padding:30px 28px 24px;box-shadow:0 20px 60px rgba(0,0,0,.35);
+  }
+  .gate-kicker{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-bright);margin-bottom:8px;}
+  .gate-card h1{font-size:28px;margin:0 0 8px;}
+  .gate-lead{color:var(--muted);font-size:15px;margin:0 0 20px;}
+  .gate-lead code{font-family:var(--mono);font-size:13px;color:var(--text);background:var(--panel-3);border:1px solid var(--border);border-radius:6px;padding:1px 6px;white-space:nowrap;}
+  .gate form{display:flex;flex-direction:column;gap:14px;}
+  #hashInput{width:100%;font-family:var(--mono);font-size:18px;letter-spacing:.06em;text-align:center;}
+  .remember{display:flex;align-items:center;gap:9px;font-size:14px;color:var(--muted);cursor:pointer;user-select:none;}
+  .remember input{width:17px;height:17px;accent-color:var(--accent);margin:0;flex:none;}
+  .gate .btn-primary{width:100%;}
+  .gate-msg{font-family:var(--mono);font-size:13px;color:var(--muted);min-height:1.3em;text-align:center;}
+  .gate-msg.err{color:var(--danger);}
+  .gate-foot{margin:18px 0 0;padding-top:14px;border-top:1px solid var(--border);color:var(--muted-2);font-size:13.5px;text-align:center;}
+  @media (max-width:480px){ .gate-card{padding:24px 18px 20px;} .gate-card h1{font-size:24px;} }
+
+  .whoami{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:10px;}
+  .who-l{display:flex;align-items:center;gap:12px;min-width:0;}
+  .who-av{
+    width:42px;height:42px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;
+    font-family:var(--display);font-weight:800;font-size:18px;color:var(--accent-bright);
+    background:var(--accent-dim);border:1px solid var(--border-accent);text-transform:uppercase;
+  }
+  .who-l > div{min-width:0;}
+  .who-label{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
+  .who-name{font-family:var(--display);font-weight:800;font-size:24px;line-height:1.2;word-break:break-word;}
+  .btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted);font-size:14px;padding:9px 16px;border-radius:100px;}
+  .btn-ghost:hover{color:var(--text);border-color:var(--border-accent);}
+  .preview-bar{
+    font-size:14px;color:var(--violet);background:var(--violet-dim);border:1px solid rgba(167,139,250,.35);
+    border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:18px;
+  }
+  .preview-bar b{color:var(--text);}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="topbar">
-    <img class="logo-mark" src="../img/t-olimpians-logo.jpg" alt="Logo T-Olimpians">
+    <img class="logo-mark" src="/img/t-olimpians-logo.jpg" alt="Logo T-Olimpians">
     <span class="brand">T-Olimpians<span class="brand-full"> Team Poland</span></span>
-    <img class="flag" src="../img/polska_flaga.png" alt="Flaga Polski">
+    <img class="flag" src="/img/polska_flaga.png" alt="Flaga Polski">
   </div>
+
+  <!-- logowanie: każdy uczeń ma swój hasz (dostaje go od nauczyciela, z panelu admin.html) -->
+  <section class="gate" id="gate" hidden>
+    <div class="gate-card">
+      <div class="gate-kicker">Lista postępów</div>
+      <h1>Wpisz swój hasz</h1>
+      <p class="gate-lead">Hasz to 16 znaków od nauczyciela T-Olimpians, np. <code>3fa9-0c1e-77b2-d4e8</code>. Działa jak hasło: nie pokazuj go innym.</p>
+      <form id="gateForm" autocomplete="off" novalidate>
+        <input type="text" id="hashInput" placeholder="xxxx-xxxx-xxxx-xxxx" maxlength="300" spellcheck="false" autocapitalize="off" autocorrect="off" aria-label="Hasz ucznia">
+        <label class="remember"><input type="checkbox" id="rememberInput" checked> Zapamiętaj mnie na tym urządzeniu</label>
+        <button type="submit" class="btn-primary" id="gateBtn">Wejdź</button>
+        <div class="gate-msg" id="gateMsg" role="status" aria-live="polite"></div>
+      </form>
+      <p class="gate-foot">Nie masz hasza albo nie możesz go znaleźć? Napisz do nauczyciela.</p>
+    </div>
+  </section>
+
+  <div id="app" hidden>
+  <div class="preview-bar" id="previewBar" hidden>👁 <b>Podgląd z panelu admina</b> — widzisz listę ucznia tak jak on. Zmiany (odhaczanie, dodawanie, usuwanie) zapisują się na jego liście.</div>
   <header>
+    <div class="whoami">
+      <div class="who-l">
+        <span class="who-av" id="whoAv" aria-hidden="true"></span>
+        <div><div class="who-label">Lista postępów</div><div class="who-name" id="whoName"></div></div>
+      </div>
+      <button type="button" class="btn-ghost" id="logoutBtn">Wyloguj</button>
+    </div>
     <div class="counts" id="counts"></div>
   </header>
 
@@ -661,13 +726,12 @@
       <canvas id="statsChart"></canvas>
     </div>
   </section>
+  </div><!-- #app -->
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
-  getFirestore,
   collection,
   addDoc,
   updateDoc,
@@ -677,22 +741,16 @@ import {
   FieldPath,
   deleteField
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {
+  db, PROFILE_ID, parseHash, formatHash, profileRef, fetchProfile, itemsCollectionOf,
+  savedStudentHash, saveStudentHash, forgetStudentHash, takePreviewHash, endPreview
+} from "/progress-app/uczniowie.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCCq6q-GqkILS9E7xXSl65bn856IkiUaGc",
-  authDomain: "progress-app-2d372.firebaseapp.com",
-  projectId: "progress-app-2d372",
-  storageBucket: "progress-app-2d372.firebasestorage.app",
-  messagingSenderId: "40639690555",
-  appId: "1:40639690555:web:cf7b4f8d17d5dd051b691e",
-  measurementId: "G-LX80GLN87H"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-const PAGE_ID = "pankubix_79997"; // <-- zmień na inną wartość przy kopiowaniu strony
-const itemsCol = collection(db, "training_items_" + PAGE_ID);
+/* Jedna strona dla wszystkich uczniów (zamiast kopii gryglo.html, pankubix_79997.html…):
+   uczeń wpisuje swój hasz, a itemsCol wskazuje kolekcję z jego listą (patrz uczniowie.js).
+   Dopóki nikt nie jest zalogowany, itemsCol === null. */
+let itemsCol = null;
+let itemsLoaded = false;             // przyszła już pierwsza odpowiedź z bazy dla tej listy
 
 const list = document.getElementById("list");
 const counts = document.getElementById("counts");
@@ -744,6 +802,11 @@ function applyFilter(items){
 }
 
 function render(items){
+  if(!itemsLoaded){
+    counts.innerHTML = "";
+    list.innerHTML = `<div class="empty">Ładowanie…</div>`;
+    return;
+  }
   const done = items.filter(i => i.done).length;
   counts.innerHTML = items.length
     ? `<b>${done}</b> / <b>${items.length}</b> wykonane`
@@ -1675,21 +1738,44 @@ let lastListSig = null;
 function listSig(items){
   return JSON.stringify(items.map(i => { const { kp, ...rest } = i; return rest; }));
 }
-onSnapshot(itemsCol, (snapshot) => {
-  currentItems = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-  const sig = listSig(currentItems);
-  if(sig === lastListSig){
-    currentItems.forEach(i => { kompRefresh(i); pkRefresh(i); });
-    renderStats(currentItems);
-  }else{
-    lastListSig = sig;
-    render(currentItems);
-    renderStats(currentItems);
-  }
-}, (err) => {
-  list.innerHTML = `<div class="empty">⚠ Nie udało się połączyć z bazą — sprawdź reguły Firestore.</div>`;
-  console.error(err);
-});
+let itemsPath = "";
+let unsubItems = null;
+/* Podpina listę z kolekcji `path` (po zalogowaniu albo gdy admin przeniesie dane ucznia w inne miejsce).
+   Dokument _profil leży w tej samej kolekcji co elementy listy, więc go pomijamy. */
+function openItems(path){
+  if(unsubItems) unsubItems();
+  itemsPath = path;
+  itemsCol = collection(db, path);
+  itemsLoaded = false;
+  currentItems = [];
+  lastListSig = null;
+  render(currentItems);
+  unsubItems = onSnapshot(itemsCol, (snapshot) => {
+    itemsLoaded = true;
+    currentItems = snapshot.docs.filter(d => d.id !== PROFILE_ID).map(d => ({ id: d.id, ...d.data() }));
+    const sig = listSig(currentItems);
+    if(sig === lastListSig){
+      currentItems.forEach(i => { kompRefresh(i); pkRefresh(i); });
+      renderStats(currentItems);
+    }else{
+      lastListSig = sig;
+      render(currentItems);
+      renderStats(currentItems);
+    }
+  }, (err) => {
+    list.innerHTML = `<div class="empty">⚠ Nie udało się połączyć z bazą — odśwież stronę albo spróbuj później.</div>`;
+    console.error(err);
+  });
+}
+function closeItems(){
+  if(unsubItems) unsubItems();
+  unsubItems = null;
+  itemsCol = null;
+  itemsPath = "";
+  itemsLoaded = false;
+  currentItems = [];
+  lastListSig = null;
+}
 
 function computeStats(items, period){
   const doneItems = items.filter(i => i.done && i.doneAt);
@@ -1889,6 +1975,144 @@ filterBtns.forEach(btn => {
     render(currentItems);
   });
 });
+
+/* ═══ LOGOWANIE HASZEM ═══
+   Hasz → dokument training_items_<hasz>/_profil (imię i miejsce listy). Bez hasza nie ma jak trafić
+   do danych ucznia. „Zapamiętaj mnie” trzyma hasz w localStorage, inaczej tylko w tej karcie.
+   ?podglad=1 — lista otwarta z panelu admina (hasz przychodzi przez localStorage, nie przez adres). */
+const gateEl = document.getElementById("gate");
+const appEl = document.getElementById("app");
+const gateForm = document.getElementById("gateForm");
+const hashInput = document.getElementById("hashInput");
+const rememberInput = document.getElementById("rememberInput");
+const gateBtn = document.getElementById("gateBtn");
+const gateMsg = document.getElementById("gateMsg");
+const whoName = document.getElementById("whoName");
+const whoAv = document.getElementById("whoAv");
+const logoutBtn = document.getElementById("logoutBtn");
+const previewBar = document.getElementById("previewBar");
+
+let session = null;                  // { hash, preview } zalogowanego ucznia
+let unsubProfile = null;
+
+function setGateMsg(text, isErr){
+  gateMsg.textContent = text || "";
+  gateMsg.classList.toggle("err", !!isErr);
+}
+function showGate(text, isErr){
+  appEl.hidden = true;
+  gateEl.hidden = false;
+  gateBtn.disabled = false;
+  setGateMsg(text, isErr);
+  if(matchMedia("(hover:hover)").matches) setTimeout(() => hashInput.focus(), 30);
+}
+
+function applyProfile(profile){
+  const name = (profile && typeof profile.name === "string" && profile.name.trim()) || "Uczeń";
+  whoName.textContent = name;
+  whoAv.textContent = name.charAt(0);
+  const path = itemsCollectionOf(session.hash, profile);
+  if(path !== itemsPath) openItems(path);
+}
+
+/* true = zalogowano, false = nie ma ucznia z takim haszem; błąd sieci rzuca wyjątek.
+   remember: true/false zapisuje hasz (localStorage / ta karta), null zostawia zapis bez zmian. */
+async function signIn(hash, { remember = null, preview = false } = {}){
+  const profile = await fetchProfile(hash);
+  if(!profile) return false;
+  if(session) signOut();
+  session = { hash, preview };
+  if(!preview && remember !== null) saveStudentHash(hash, remember);
+  previewBar.hidden = !preview;
+  logoutBtn.textContent = preview ? "Zamknij podgląd" : "Wyloguj";
+  applyProfile(profile);
+  // profil na żywo: zmiana imienia, przeniesienie danych przez admina albo usunięcie ucznia
+  unsubProfile = onSnapshot(profileRef(hash), (snap) => {
+    if(!session || session.hash !== hash) return;
+    if(!snap.exists()){
+      signOut(preview ? "Tego ucznia usunięto w panelu admina." : "Twój hasz nie jest już aktywny — zapytaj nauczyciela.", true);
+      return;
+    }
+    applyProfile(snap.data());
+  }, (err) => console.error("Profil ucznia:", err));
+  gateEl.hidden = true;
+  appEl.hidden = false;
+  return true;
+}
+
+function signOut(text, isErr){
+  if(unsubProfile) unsubProfile();
+  unsubProfile = null;
+  closeItems();
+  if(session){
+    if(session.preview) endPreview();
+    else forgetStudentHash();
+  }
+  session = null;
+  [mkOpen, mkHints, pkOpen].forEach(s => s.clear());
+  [mkSecOpen, mkPlayer, pkSecOpen, pkPlayer].forEach(m => m.clear());
+  pkJustAdded = null;
+  list.innerHTML = "";
+  counts.innerHTML = "";
+  addStatus.textContent = "";
+  previewBar.hidden = true;
+  if(text !== undefined) showGate(text, isErr);
+}
+
+gateForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const hash = parseHash(hashInput.value);
+  if(!hash){
+    setGateMsg(hashInput.value.trim()
+      ? "Hasz ma 16 znaków: cyfry 0–9 i litery a–f (np. 3fa9-0c1e-77b2-d4e8)."
+      : "Wpisz swój hasz.", true);
+    return;
+  }
+  gateBtn.disabled = true;
+  setGateMsg("Sprawdzanie…");
+  try{
+    if(await signIn(hash, { remember: rememberInput.checked })){
+      hashInput.value = "";
+      setGateMsg("");
+    }else{
+      setGateMsg("Nie ma ucznia z takim haszem — sprawdź, czy nie ma w nim literówki.", true);
+    }
+  }catch(err){
+    console.error(err);
+    setGateMsg("Nie udało się połączyć z bazą — sprawdź internet i spróbuj ponownie.", true);
+  }finally{
+    gateBtn.disabled = false;
+  }
+});
+
+logoutBtn.addEventListener("click", () => {
+  const wasPreview = !!(session && session.preview);
+  signOut(wasPreview ? "Podgląd zamknięty." : "Wylogowano.");
+  if(wasPreview) window.close();     // karta otwarta z panelu admina — zamknij ją
+});
+
+(async function start(){
+  const preview = new URLSearchParams(location.search).has("podglad") ? takePreviewHash() : null;
+  const hash = preview || savedStudentHash();
+  if(!hash){ showGate(); return; }
+  gateEl.hidden = false;
+  gateBtn.disabled = true;
+  setGateMsg("Logowanie…");
+  try{
+    if(await signIn(hash, { preview: !!preview })) return;
+    if(preview){
+      endPreview();
+      showGate("Nie ma już tego ucznia — mógł zostać usunięty w panelu admina.", true);
+    }else{
+      forgetStudentHash();
+      showGate("Zapamiętany hasz nie jest już aktywny — wpisz nowy albo zapytaj nauczyciela.", true);
+    }
+  }catch(err){
+    console.error(err);
+    if(!preview) hashInput.value = formatHash(hash);
+    showGate("Nie udało się połączyć z bazą — sprawdź internet i spróbuj ponownie.", true);
+  }
+})();
 </script>
 <!-- licznik odwiedzin -> panel kacperos.html -->
 <script type="module" src="/track.js"></script>

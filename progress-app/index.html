@@ -624,6 +624,67 @@
     border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:18px;
   }
   .preview-bar b{color:var(--text);}
+
+  /* ═══ TŁO Z GRAFEM (tlo.js) — pod całą treścią ═══ */
+  #bg-graph{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;}
+  .wrap{position:relative;z-index:1;}
+
+  /* ═══ FILTRY Z LICZNIKAMI ═══ */
+  .filter-btn .fc{font-size:11px;color:var(--muted-2);margin-left:2px;}
+  .filter-btn.active .fc{color:var(--accent-bright);opacity:.8;}
+  .filter-btn .fc:empty{display:none;}
+  .filters-sep{width:1px;align-self:stretch;background:var(--border);margin:3px 4px;}
+  @media (max-width:520px){ .filters-sep{display:none;} }
+  .empty.cheer{color:var(--text);border-color:rgba(52,211,153,.35);background:rgba(52,211,153,.06);}
+  .empty .hint{display:block;color:var(--muted);font-size:13.5px;margin-top:4px;}
+
+  /* ═══ MAPA AKTYWNOŚCI (jak na Codeforces) ═══ */
+  .hm-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px;}
+  .hm-head h2{margin:0;}
+  .hm-legend{display:flex;align-items:center;gap:3px;font-family:var(--mono);font-size:11px;color:var(--muted-2);}
+  .hm-legend i{width:11px;height:11px;border-radius:3px;margin:0 1px;}
+  .hm-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:16px;}
+  .hm-stat{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:9px 12px;min-width:0;}
+  .hm-stat b{display:block;font-family:var(--display);font-size:21px;font-weight:800;line-height:1.15;white-space:nowrap;}
+  .hm-stat span{display:block;font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .hm-stat.fire b{color:var(--amber);}
+  @media (max-width:560px){ .hm-stats{grid-template-columns:repeat(2,minmax(0,1fr));} }
+  .hm-scroll{overflow-x:auto;padding-bottom:6px;scrollbar-width:thin;scrollbar-color:var(--panel-3) transparent;container-type:inline-size;}
+  .hm{--cell:11px;--gap:3px;--wd:24px;display:inline-block;}
+  @supports (width:1cqw){ .hm{--cell:clamp(10px, calc((100cqw - var(--wd) - 6px) / 53 - var(--gap)), 15px);} }
+  .hm-months{display:grid;grid-auto-flow:column;grid-auto-columns:var(--cell);column-gap:var(--gap);margin-left:calc(var(--wd) + 6px);height:17px;font-family:var(--mono);font-size:10.5px;color:var(--muted);}
+  .hm-months span{white-space:nowrap;}
+  .hm-body{display:flex;gap:6px;}
+  .hm-wd{display:grid;grid-template-rows:repeat(7,var(--cell));row-gap:var(--gap);width:var(--wd);flex:none;font-family:var(--mono);font-size:10px;color:var(--muted-2);line-height:var(--cell);
+    position:sticky;left:0;z-index:1;background:var(--panel-2);box-shadow:6px 0 0 var(--panel-2);}
+  .hm-grid{display:grid;grid-template-rows:repeat(7,var(--cell));grid-auto-flow:column;grid-auto-columns:var(--cell);gap:var(--gap);}
+  .hm-grid i{border-radius:3px;cursor:pointer;transition:transform .12s ease, box-shadow .12s ease;}
+  .hm-grid i:hover{transform:scale(1.3);}
+  .hm-grid i.fut{visibility:hidden;}
+  .l0{background:rgba(255,255,255,0.055);}
+  .l1{background:rgba(59,130,246,0.32);}
+  .l2{background:rgba(59,130,246,0.58);}
+  .l3{background:#3b82f6;}
+  .l4{background:#7cb6ff;box-shadow:0 0 8px rgba(96,165,250,.55);}
+  .hm-grid i.today{box-shadow:0 0 0 1px rgba(255,255,255,.6);}
+  .hm-grid i.l4.today{box-shadow:0 0 0 1px rgba(255,255,255,.6), 0 0 8px rgba(96,165,250,.55);}
+  .hm-grid i.sel{box-shadow:0 0 0 2px var(--amber);}
+  .hm-day{margin-top:12px;background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px 14px;}
+  .hm-day-head{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:14px;margin-bottom:8px;}
+  .hm-day-head span{min-width:0;}
+  .hm-day-head b{font-weight:700;}
+  .hm-day-x{flex:none;background:transparent;border:1px solid var(--border);color:var(--muted);font-size:12px;padding:4px 10px;border-radius:100px;}
+  .hm-day-x:hover{color:var(--text);border-color:var(--border-accent);}
+  .hm-day ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;}
+  .hm-day li{display:flex;align-items:baseline;gap:8px;font-size:14px;min-width:0;}
+  .hm-day li .tag{flex:none;}
+  .hm-day li .t{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .hm-day li small{color:var(--muted);}
+  .hm-day .none{color:var(--muted);font-size:14px;}
+  .hm-tip{position:fixed;z-index:20;pointer-events:none;background:var(--panel-3);border:1px solid var(--border-accent);color:var(--text);
+    font-size:12.5px;padding:6px 10px;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.45);white-space:nowrap;transform:translate(-50%,calc(-100% - 8px));}
+  .hm-tip b{color:var(--accent-bright);}
+  .hm-muted{color:var(--muted);font-size:14px;}
 </style>
 </head>
 <body>
@@ -662,6 +723,19 @@
     </div>
     <div class="counts" id="counts"></div>
   </header>
+
+  <!-- mapa aktywności jak na Codeforces: każdy kwadrat to jeden dzień -->
+  <section class="card hm-card">
+    <div class="hm-head">
+      <h2>Aktywność</h2>
+      <div class="hm-legend" aria-hidden="true">mniej <i class="l0"></i><i class="l1"></i><i class="l2"></i><i class="l3"></i><i class="l4"></i> więcej</div>
+    </div>
+    <div class="hm-stats" id="hmStats"></div>
+    <div class="hm-scroll" id="hmScroll">
+      <div class="hm" id="hm" role="img" aria-label="Mapa aktywności z ostatniego roku"></div>
+    </div>
+    <div class="hm-day" id="hmDay" hidden></div>
+  </section>
 
   <section class="card">
     <h2>Dodaj element</h2>
@@ -703,12 +777,13 @@
   <section class="card">
     <h2>Lista</h2>
     <div class="filters">
-      <button class="filter-btn active" data-filter="all">Wszystkie</button>
-      <button class="filter-btn" data-filter="zadanie">Zadania</button>
-      <button class="filter-btn" data-filter="temat">Tematy</button>
-      <button class="filter-btn" data-filter="kurs">Kursy</button>
-      <button class="filter-btn" data-filter="open">Niewykonane</button>
-      <button class="filter-btn" data-filter="done">Wykonane</button>
+      <button class="filter-btn active" data-filter="open">Do zrobienia <span class="fc"></span></button>
+      <button class="filter-btn" data-filter="done">Wykonane <span class="fc"></span></button>
+      <button class="filter-btn" data-filter="all">Wszystkie <span class="fc"></span></button>
+      <span class="filters-sep" aria-hidden="true"></span>
+      <button class="filter-btn" data-filter="zadanie">Zadania <span class="fc"></span></button>
+      <button class="filter-btn" data-filter="temat">Tematy <span class="fc"></span></button>
+      <button class="filter-btn" data-filter="kurs">Kursy <span class="fc"></span></button>
     </div>
     <div class="list" id="list">
       <div class="empty">Ładowanie…</div>
@@ -728,7 +803,10 @@
   </section>
   </div><!-- #app -->
 </div>
+<div class="hm-tip" id="hmTip" role="tooltip" hidden></div>
 
+<!-- tło: graf, po którym chodzą Dijkstra i BFS -->
+<script src="/progress-app/tlo.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script type="module">
 import {
@@ -762,7 +840,7 @@ const addBtn = document.getElementById("addBtn");
 const addStatus = document.getElementById("addStatus");
 const filterBtns = document.querySelectorAll(".filter-btn");
 
-let currentFilter = "all";
+let currentFilter = "open";          // na start lista pokazuje to, co jest jeszcze do zrobienia
 let currentItems = [];
 let statsPeriod = "daily";
 let statsChart = null;
@@ -790,8 +868,8 @@ function formatDoneAt(ts){
   return d.toLocaleString("pl-PL", { day:"2-digit", month:"2-digit", year:"2-digit", hour:"2-digit", minute:"2-digit" });
 }
 
-function applyFilter(items){
-  switch(currentFilter){
+function applyFilter(items, filter = currentFilter){
+  switch(filter){
     case "zadanie": return items.filter(i => i.type === "zadanie");
     case "temat": return items.filter(i => i.type === "temat");
     case "kurs": return items.filter(i => i.type === "kurs");
@@ -804,6 +882,7 @@ function applyFilter(items){
 function render(items){
   if(!itemsLoaded){
     counts.innerHTML = "";
+    filterBtns.forEach(btn => { const fc = btn.querySelector(".fc"); if(fc) fc.textContent = ""; });
     list.innerHTML = `<div class="empty">Ładowanie…</div>`;
     return;
   }
@@ -811,11 +890,22 @@ function render(items){
   counts.innerHTML = items.length
     ? `<b>${done}</b> / <b>${items.length}</b> wykonane`
     : "";
+  // liczniki na przyciskach filtrów
+  filterBtns.forEach(btn => {
+    const fc = btn.querySelector(".fc");
+    if(fc) fc.textContent = items.length ? String(applyFilter(items, btn.dataset.filter).length) : "";
+  });
 
   const visible = applyFilter(items);
   list.innerHTML = "";
   if(visible.length === 0){
-    list.innerHTML = `<div class="empty">${items.length === 0 ? "Lista jest pusta. Dodaj pierwsze zadanie lub temat powyżej." : "Brak elementów pasujących do filtra."}</div>`;
+    if(items.length === 0){
+      list.innerHTML = `<div class="empty">Lista jest pusta. Dodaj pierwsze zadanie lub temat powyżej.</div>`;
+    }else if(currentFilter === "open"){
+      list.innerHTML = `<div class="empty cheer">🎉 Wszystko zrobione — nic nie czeka na liście!<span class="hint">Wykonane znajdziesz w filtrze „Wykonane”. Dodaj nowe zadanie albo temat powyżej.</span></div>`;
+    }else{
+      list.innerHTML = `<div class="empty">Brak elementów pasujących do filtra.</div>`;
+    }
     return;
   }
 
@@ -1562,6 +1652,7 @@ async function pkSetProgress(id, key, on){
   }
   pkRefresh(item);
   renderStats(currentItems);
+  renderHeatmap(currentItems);
   try{
     await updateDoc(doc(itemsCol, id), new FieldPath("kp", key), on ? next[key] : deleteField());
   }catch(e){
@@ -1569,6 +1660,7 @@ async function pkSetProgress(id, key, on){
     item.kp = prev;
     pkRefresh(item);
     renderStats(currentItems);
+    renderHeatmap(currentItems);
     return;
   }
   // przejście przez 100% sam oznacza kurs jako wykonany (albo cofa to oznaczenie)
@@ -1749,19 +1841,22 @@ function openItems(path){
   itemsLoaded = false;
   currentItems = [];
   lastListSig = null;
+  hmSelected = null;
+  hmStick = true;
   render(currentItems);
+  renderHeatmap(currentItems);
   unsubItems = onSnapshot(itemsCol, (snapshot) => {
     itemsLoaded = true;
     currentItems = snapshot.docs.filter(d => d.id !== PROFILE_ID).map(d => ({ id: d.id, ...d.data() }));
     const sig = listSig(currentItems);
     if(sig === lastListSig){
       currentItems.forEach(i => { kompRefresh(i); pkRefresh(i); });
-      renderStats(currentItems);
     }else{
       lastListSig = sig;
       render(currentItems);
-      renderStats(currentItems);
     }
+    renderStats(currentItems);
+    renderHeatmap(currentItems);
   }, (err) => {
     list.innerHTML = `<div class="empty">⚠ Nie udało się połączyć z bazą — odśwież stronę albo spróbuj później.</div>`;
     console.error(err);
@@ -1777,8 +1872,26 @@ function closeItems(){
   lastListSig = null;
 }
 
+/* Wszystkie „ukończenia” z czasem — dla wykresu i mapy aktywności:
+   zwykłe zadanie / temat w chwili odhaczenia, a z kursu z planera każdy ukończony krok osobno
+   (kurs liczy się krokami, nie w całości). Postęp mini kursów z kompendium nie ma czasu, więc się nie liczy. */
+function completionEvents(items){
+  const out = [];
+  for(const item of items){
+    if(item.type === "kurs"){
+      const kp = item.kp || {};
+      for(const s of pkSteps(item)){
+        const t = pkStepTime(s, kp);
+        if(t) out.push({ t, type: s.type === "zadanie" ? "zadanie" : "temat", title: s.title || "(bez nazwy)", from: item.title || "Kurs" });
+      }
+    }else if(item.done && item.doneAt){
+      out.push({ t: item.doneAt, type: item.type === "zadanie" ? "zadanie" : "temat", title: item.title || "(bez nazwy)" });
+    }
+  }
+  return out;
+}
+
 function computeStats(items, period){
-  const doneItems = items.filter(i => i.done && i.doneAt);
   const now = new Date();
   const keys = [];
   const labels = [];
@@ -1813,25 +1926,11 @@ function computeStats(items, period){
     if(period !== "daily") d.setDate(d.getDate() - (d.getDay() + 6) % 7);
     return keys.indexOf(d.toISOString().slice(0,10));
   }
-  for(const item of doneItems){
-    if(item.type === "kurs") continue;           // kurs liczy się krokami, nie w całości
-    const idx = bucket(item.doneAt);
-    if(idx !== -1){
-      if(item.type === "zadanie") zadaniaCounts[idx]++;
-      else tematyCounts[idx]++;
-    }
-  }
-  // kroki kursów z planera: każde zadanie i każdy temat w dniu, w którym został ukończony
-  for(const item of items){
-    if(item.type !== "kurs") continue;
-    const kp = item.kp || {};
-    for(const s of pkSteps(item)){
-      const t = pkStepTime(s, kp);
-      const idx = t ? bucket(t) : -1;
-      if(idx === -1) continue;
-      if(s.type === "zadanie") zadaniaCounts[idx]++;
-      else tematyCounts[idx]++;
-    }
+  for(const e of completionEvents(items)){
+    const idx = bucket(e.t);
+    if(idx === -1) continue;
+    if(e.type === "zadanie") zadaniaCounts[idx]++;
+    else tematyCounts[idx]++;
   }
 
   return { labels, zadaniaCounts, tematyCounts };
@@ -1900,6 +1999,145 @@ document.querySelectorAll('input[name="statsPeriod"]').forEach(radio => {
     renderStats(currentItems);
   });
 });
+
+/* ═══ MAPA AKTYWNOŚCI (jak na Codeforces) ═══
+   53 tygodnie × 7 dni (tydzień od poniedziałku), kolor kwadratu = liczba ukończeń tego dnia
+   (completionEvents — to samo, co liczy wykres). Najechanie: dzień i liczba; kliknięcie: co wtedy zrobiono. */
+const HM_WEEKS = 53;
+const HM_DAY = 86400000;
+const HM_MONTHS = ["sty", "lut", "mar", "kwi", "maj", "cze", "lip", "sie", "wrz", "paź", "lis", "gru"];
+const hmEl = document.getElementById("hm");
+const hmStats = document.getElementById("hmStats");
+const hmScroll = document.getElementById("hmScroll");
+const hmDay = document.getElementById("hmDay");
+const hmTip = document.getElementById("hmTip");
+let hmSelected = null;               // wybrany dzień "RRRR-MM-DD"
+let hmByDay = new Map();             // dzień → ukończenia
+let hmStick = true;                  // przewijana mapa trzyma się dzisiejszego dnia (prawego brzegu)
+
+const hmKey = d => d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+const hmDate = key => { const [y, m, d] = key.split("-").map(Number); return new Date(y, m - 1, d); };
+const hmDayNo = key => { const [y, m, d] = key.split("-").map(Number); return Date.UTC(y, m - 1, d) / HM_DAY; };  // numer dnia bez kłopotów ze zmianą czasu
+function hmLevel(n, max){
+  if(!n) return 0;
+  if(max <= 4) return n;
+  return Math.min(4, 1 + Math.floor(3 * (n - 1) / (max - 1)));
+}
+
+function renderHeatmap(items){
+  hmTip.hidden = true;
+  if(!itemsLoaded){
+    hmStats.innerHTML = "";
+    hmEl.innerHTML = `<span class="hm-muted">Ładowanie…</span>`;
+    hmDay.hidden = true;
+    return;
+  }
+  hmByDay = new Map();
+  for(const e of completionEvents(items)){
+    const k = hmKey(new Date(e.t));
+    if(!hmByDay.has(k)) hmByDay.set(k, []);
+    hmByDay.get(k).push(e);
+  }
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const todayKey = hmKey(today), todayNo = hmDayNo(todayKey);
+  const start = new Date(today);
+  start.setDate(start.getDate() - (today.getDay() + 6) % 7 - (HM_WEEKS - 1) * 7);   // poniedziałek sprzed 52 tygodni
+
+  const days = [];
+  let max = 0, yearCount = 0, last30 = 0;
+  for(let i = 0; i < HM_WEEKS * 7; i++){
+    const d = new Date(start);
+    d.setDate(start.getDate() + i);
+    const key = hmKey(d), future = d > today;
+    const n = future ? 0 : (hmByDay.get(key) || []).length;
+    if(!future){
+      max = Math.max(max, n);
+      yearCount += n;
+      if(todayNo - hmDayNo(key) < 30) last30 += n;
+    }
+    days.push({ d, key, n, future });
+  }
+
+  // serie: dni z rzędu z co najmniej jednym ukończeniem (najdłuższa — od zawsze; obecna — kończy się dziś albo wczoraj)
+  const nums = [...hmByDay.keys()].map(hmDayNo).sort((a, b) => a - b);
+  let best = 0, run = 0, prev = null;
+  for(const x of nums){ run = (prev !== null && x === prev + 1) ? run + 1 : 1; best = Math.max(best, run); prev = x; }
+  const active = new Set(nums);
+  let cur = 0, k = active.has(todayNo) ? todayNo : active.has(todayNo - 1) ? todayNo - 1 : null;
+  if(k !== null) while(active.has(k)){ cur++; k--; }
+  const dni = n => n + " " + plural(n, "dzień", "dni", "dni");
+  hmStats.innerHTML = `
+    <div class="hm-stat"><b>${yearCount}</b><span>ukończone w roku</span></div>
+    <div class="hm-stat"><b>${last30}</b><span>ostatnie 30 dni</span></div>
+    <div class="hm-stat"><b>${dni(best)}</b><span>najdłuższa seria</span></div>
+    <div class="hm-stat${cur >= 2 ? " fire" : ""}"><b>${cur >= 2 ? "🔥 " : ""}${dni(cur)}</b><span>obecna seria</span></div>`;
+
+  // podpisy miesięcy nad tygodniem, w którym zaczyna się miesiąc (bez tych, na które nie ma miejsca)
+  const labels = [];
+  for(let w = 0; w < HM_WEEKS; w++){
+    const m = days[w * 7].d.getMonth();
+    if(w === 0 || m !== days[(w - 1) * 7].d.getMonth()) labels.push({ w, m });
+  }
+  const months = labels.filter((l, i) => !(labels[i + 1] && labels[i + 1].w - l.w < 3))
+    .map(l => `<span style="grid-column:${l.w + 1}">${HM_MONTHS[l.m]}</span>`).join("");
+  const cells = days.map(x => {
+    if(x.future) return `<i class="fut"></i>`;
+    const cls = "l" + hmLevel(x.n, max) + (x.key === todayKey ? " today" : "") + (x.key === hmSelected ? " sel" : "");
+    return `<i class="${cls}" data-day="${x.key}" data-n="${x.n}"></i>`;
+  }).join("");
+  hmEl.innerHTML = `<div class="hm-months">${months}</div>
+    <div class="hm-body">
+      <div class="hm-wd"><span>Pn</span><span></span><span>Śr</span><span></span><span>Pt</span><span></span><span></span></div>
+      <div class="hm-grid">${cells}</div>
+    </div>`;
+  hmEl.setAttribute("aria-label", `Mapa aktywności: ${yearCount} ukończonych w ostatnim roku, najdłuższa seria ${dni(best)}, obecna seria ${dni(cur)}`);
+  if(hmStick) hmScroll.scrollLeft = hmScroll.scrollWidth;
+  renderHmDay();
+}
+
+function renderHmDay(){
+  if(!hmSelected){ hmDay.hidden = true; hmDay.innerHTML = ""; return; }
+  const evs = (hmByDay.get(hmSelected) || []).slice().sort((a, b) => a.t - b.t);
+  const label = hmDate(hmSelected).toLocaleDateString("pl-PL", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+  hmDay.hidden = false;
+  hmDay.innerHTML = `
+    <div class="hm-day-head"><span><b>${esc(label)}</b> · ${evs.length ? "ukończone: " + evs.length : "nic nie ukończono"}</span>
+      <button type="button" class="hm-day-x" data-hm="close">✕ Zamknij</button></div>
+    ${evs.length ? `<ul>${evs.map(e => `<li><span class="tag ${e.type}">${e.type}</span>
+      <span class="t" title="${esc(e.title)}">${esc(e.title)}${e.from ? `<small> · kurs „${esc(e.from)}”</small>` : ""}</span></li>`).join("")}</ul>`
+      : `<div class="none">Tego dnia nie ma odhaczonych zadań ani tematów.</div>`}`;
+}
+function hmSelect(key){
+  hmSelected = key;
+  hmEl.querySelectorAll("i.sel").forEach(x => x.classList.remove("sel"));
+  if(key){ const c = hmEl.querySelector(`i[data-day="${key}"]`); if(c) c.classList.add("sel"); }
+  renderHmDay();
+}
+hmEl.addEventListener("click", (e) => {
+  const cell = e.target.closest("i[data-day]");
+  if(cell) hmSelect(hmSelected === cell.dataset.day ? null : cell.dataset.day);
+});
+hmDay.addEventListener("click", (e) => { if(e.target.closest('[data-hm="close"]')) hmSelect(null); });
+hmEl.addEventListener("mouseover", (e) => {
+  const cell = e.target.closest("i[data-day]");
+  if(!cell){ hmTip.hidden = true; return; }
+  const n = +cell.dataset.n;
+  const label = hmDate(cell.dataset.day).toLocaleDateString("pl-PL", { weekday: "short", day: "numeric", month: "long", year: "numeric" });
+  hmTip.innerHTML = (n ? `Ukończone: <b>${n}</b>` : "Nic nie ukończono") + " · " + esc(label);
+  const r = cell.getBoundingClientRect();
+  hmTip.style.left = Math.min(innerWidth - 110, Math.max(110, r.left + r.width / 2)) + "px";
+  hmTip.style.top = r.top + "px";
+  hmTip.hidden = false;
+});
+hmEl.addEventListener("mouseleave", () => { hmTip.hidden = true; });
+hmScroll.addEventListener("scroll", () => {
+  hmTip.hidden = true;
+  hmStick = hmScroll.scrollLeft + hmScroll.clientWidth >= hmScroll.scrollWidth - 4;
+}, { passive: true });
+addEventListener("scroll", () => { hmTip.hidden = true; }, { passive: true });
+// o północy mapa przesuwa się o dzień
+setInterval(() => { if(itemsLoaded && hmKey(new Date()) !== (hmEl.querySelector("i.today") || {}).dataset?.day) renderHeatmap(currentItems); }, 60000);
 
 async function toggleDone(id, done, cbEl){
   if(cbEl) cbEl.disabled = true;
@@ -2052,6 +2290,8 @@ function signOut(text, isErr){
   [mkOpen, mkHints, pkOpen].forEach(s => s.clear());
   [mkSecOpen, mkPlayer, pkSecOpen, pkPlayer].forEach(m => m.clear());
   pkJustAdded = null;
+  hmSelected = null;
+  hmTip.hidden = true;
   list.innerHTML = "";
   counts.innerHTML = "";
   addStatus.textContent = "";

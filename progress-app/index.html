@@ -685,6 +685,57 @@
     font-size:12.5px;padding:6px 10px;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.45);white-space:nowrap;transform:translate(-50%,calc(-100% - 8px));}
   .hm-tip b{color:var(--accent-bright);}
   .hm-muted{color:var(--muted);font-size:14px;}
+
+  /* ═══ STATYSTYKA ═══ */
+  .st-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px;}
+  .st-head h2{margin:0;}
+  .st-range{display:inline-flex;background:var(--panel);border:1px solid var(--border);border-radius:100px;padding:3px;gap:2px;}
+  .st-range input{position:absolute;opacity:0;pointer-events:none;}
+  .st-range label{font-family:var(--mono);font-size:12.5px;color:var(--muted);padding:6px 13px;border-radius:100px;cursor:pointer;user-select:none;white-space:nowrap;transition:color .15s ease, background .15s ease;}
+  .st-range label:hover{color:var(--text);}
+  .st-range input:checked + label{background:var(--accent-dim);color:var(--accent-bright);box-shadow:inset 0 0 0 1px var(--border-accent);}
+  .st-range input:focus-visible + label{outline:2px solid var(--accent-bright);outline-offset:1px;}
+  @media (max-width:420px){ .st-range label{padding:6px 9px;font-size:12px;} }
+  .st-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:18px;}
+  .st-kpi{background:linear-gradient(180deg, rgba(255,255,255,0.025), transparent), var(--panel);border:1px solid var(--border);border-radius:12px;padding:11px 13px;min-width:0;}
+  .st-kpi-l{font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .st-kpi-v{font-family:var(--display);font-weight:800;font-size:24px;line-height:1.2;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .st-kpi-v small{font-family:var(--sans);font-size:13px;font-weight:600;color:var(--muted);margin-left:4px;}
+  .st-kpi-d{font-family:var(--mono);font-size:11.5px;margin-top:2px;color:var(--muted-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .st-kpi-d.up{color:#34d399;}
+  .st-kpi-d.down{color:var(--danger);}
+  @media (max-width:640px){
+    .st-kpis{grid-template-columns:repeat(2,minmax(0,1fr));}
+    .st-kpi{padding:10px 11px;}
+    .st-kpi-v{font-size:20px;}
+    .st-kpi-v small{font-size:12px;margin-left:3px;}
+    .st-kpi-d{white-space:normal;line-height:1.35;}
+  }
+  .st-chart{position:relative;height:270px;margin-bottom:18px;}
+  .st-chart-empty{position:absolute;inset:0 0 40px;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px;color:var(--muted);font-size:14.5px;pointer-events:none;}
+  .st-panels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
+  @media (max-width:640px){ .st-panels{grid-template-columns:minmax(0,1fr);} }
+  .st-panel{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:13px 15px;min-width:0;}
+  .st-panel-h{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:2px 10px;margin-bottom:12px;font-size:14px;font-weight:600;}
+  .st-panel-h span{white-space:nowrap;}
+  .st-panel-h small{font-family:var(--mono);font-size:11px;font-weight:400;color:var(--muted-2);text-align:right;}
+  .st-wd{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;height:128px;}
+  .st-wd-col{display:flex;flex-direction:column;align-items:center;gap:5px;min-width:0;height:100%;}
+  .st-wd-n{font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1;}
+  .st-wd-track{flex:1;width:100%;min-height:0;display:flex;align-items:flex-end;justify-content:center;}
+  .st-wd-bar{width:100%;max-width:30px;border-radius:6px 6px 3px 3px;background:linear-gradient(180deg, rgba(96,165,250,.8), rgba(59,130,246,.22));transition:height .5s cubic-bezier(.16,1,.3,1);}
+  .st-wd-col.top .st-wd-bar{background:linear-gradient(180deg, #93c5fd, #3b82f6);box-shadow:0 0 14px rgba(96,165,250,.45);}
+  .st-wd-col.top .st-wd-n{color:var(--accent-bright);font-weight:600;}
+  .st-wd-d{font-family:var(--mono);font-size:11px;color:var(--muted-2);line-height:1;}
+  .st-wd-col.top .st-wd-d{color:var(--text);}
+  .st-src{display:flex;flex-direction:column;gap:10px;}
+  .st-src-row{display:grid;grid-template-columns:minmax(0,7.5em) minmax(0,1fr) auto;align-items:center;gap:10px;font-size:13.5px;}
+  .st-src-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .st-src-bar{height:8px;border-radius:99px;background:var(--panel-3);overflow:hidden;}
+  .st-src-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--accent),#34d399);transition:width .5s cubic-bezier(.16,1,.3,1);}
+  .st-src-n{font-family:var(--mono);font-size:11.5px;color:var(--muted);white-space:nowrap;}
+  .st-src-n b{color:var(--text);font-weight:600;}
+  .st-none{color:var(--muted-2);font-size:13.5px;font-style:italic;}
 </style>
 </head>
 <body>
@@ -789,16 +840,29 @@
       <div class="empty">Ładowanie…</div>
     </div>
   </section>
-  <section class="card">
-    <h2>Statystyka</h2>
-    <div class="type-toggle" style="margin-bottom:16px;">
-      <input type="radio" name="statsPeriod" id="periodDaily" value="daily" checked>
-      <label class="task-label" for="periodDaily">Dziennie</label>
-      <input type="radio" name="statsPeriod" id="periodWeekly" value="weekly">
-      <label class="topic-label" for="periodWeekly">Tygodniowo</label>
+  <section class="card st-card">
+    <div class="st-head">
+      <h2>Statystyka</h2>
+      <div class="st-range" role="radiogroup" aria-label="Okres statystyki">
+        <input type="radio" name="statsPeriod" id="periodD" value="d14" checked><label for="periodD">14 dni</label>
+        <input type="radio" name="statsPeriod" id="periodW" value="w12"><label for="periodW">12 tygodni</label>
+        <input type="radio" name="statsPeriod" id="periodM" value="m12"><label for="periodM">12 miesięcy</label>
+      </div>
     </div>
-    <div style="position:relative;height:240px;">
-      <canvas id="statsChart"></canvas>
+    <div class="st-kpis" id="stKpis"></div>
+    <div class="st-chart">
+      <canvas id="statsChart" role="img" aria-label="Wykres ukończonych zadań i tematów"></canvas>
+      <div class="st-chart-empty" id="stEmpty" hidden>Odhacz pierwsze zadanie albo temat — tu narysuje się Twój postęp.</div>
+    </div>
+    <div class="st-panels">
+      <div class="st-panel">
+        <div class="st-panel-h"><span>Dni tygodnia</span><small id="stWdNote"></small></div>
+        <div class="st-wd" id="stWd"></div>
+      </div>
+      <div class="st-panel">
+        <div class="st-panel-h"><span>Skąd zadania</span><small id="stSrcNote"></small></div>
+        <div class="st-src" id="stSrc"></div>
+      </div>
     </div>
   </section>
   </div><!-- #app -->
@@ -842,7 +906,10 @@ const filterBtns = document.querySelectorAll(".filter-btn");
 
 let currentFilter = "open";          // na start lista pokazuje to, co jest jeszcze do zrobienia
 let currentItems = [];
-let statsPeriod = "daily";
+const STATS_PERIODS = ["d14", "w12", "m12"];           // 14 dni · 12 tygodni · 12 miesięcy
+let statsPeriod = (() => {
+  try{ const v = localStorage.getItem("tol_stat_okres"); return STATS_PERIODS.includes(v) ? v : "d14"; }catch(e){ return "d14"; }
+})();
 let statsChart = null;
 
 function sourceLabel(url){
@@ -1845,6 +1912,7 @@ function openItems(path){
   hmStick = true;
   render(currentItems);
   renderHeatmap(currentItems);
+  renderStats(currentItems);
   unsubItems = onSnapshot(itemsCol, (snapshot) => {
     itemsLoaded = true;
     currentItems = snapshot.docs.filter(d => d.id !== PROFILE_ID).map(d => ({ id: d.id, ...d.data() }));
@@ -1882,120 +1950,283 @@ function completionEvents(items){
       const kp = item.kp || {};
       for(const s of pkSteps(item)){
         const t = pkStepTime(s, kp);
-        if(t) out.push({ t, type: s.type === "zadanie" ? "zadanie" : "temat", title: s.title || "(bez nazwy)", from: item.title || "Kurs" });
+        if(t) out.push({ t, type: s.type === "zadanie" ? "zadanie" : "temat", title: s.title || "(bez nazwy)", from: item.title || "Kurs", url: s.url || "" });
       }
     }else if(item.done && item.doneAt){
-      out.push({ t: item.doneAt, type: item.type === "zadanie" ? "zadanie" : "temat", title: item.title || "(bez nazwy)" });
+      out.push({ t: item.doneAt, type: item.type === "zadanie" ? "zadanie" : "temat", title: item.title || "(bez nazwy)", url: item.url || "" });
     }
   }
   return out;
 }
 
-function computeStats(items, period){
-  const now = new Date();
-  const keys = [];
-  const labels = [];
-
-  if(period === "daily"){
-    for(let i = 13; i >= 0; i--){
-      const d = new Date(now);
-      d.setHours(0,0,0,0);
-      d.setDate(d.getDate() - i);
-      keys.push(d.toISOString().slice(0,10));
-      labels.push(d.toLocaleDateString("pl-PL", { day:"2-digit", month:"2-digit" }));
-    }
-  } else {
-    const start = new Date(now);
-    start.setHours(0,0,0,0);
-    const dow = (start.getDay() + 6) % 7;
-    start.setDate(start.getDate() - dow);
-    for(let i = 9; i >= 0; i--){
-      const d = new Date(start);
-      d.setDate(d.getDate() - 7*i);
-      keys.push(d.toISOString().slice(0,10));
-      labels.push(d.toLocaleDateString("pl-PL", { day:"2-digit", month:"2-digit" }));
-    }
-  }
-
-  const zadaniaCounts = new Array(keys.length).fill(0);
-  const tematyCounts = new Array(keys.length).fill(0);
-
-  function bucket(ts){
-    const d = new Date(ts);
-    d.setHours(0,0,0,0);
-    if(period !== "daily") d.setDate(d.getDate() - (d.getDay() + 6) % 7);
-    return keys.indexOf(d.toISOString().slice(0,10));
-  }
-  for(const e of completionEvents(items)){
-    const idx = bucket(e.t);
-    if(idx === -1) continue;
-    if(e.type === "zadanie") zadaniaCounts[idx]++;
-    else tematyCounts[idx]++;
-  }
-
-  return { labels, zadaniaCounts, tematyCounts };
+/* ═══ STATYSTYKA ═══
+   Okres: d14 = 14 dni, w12 = 12 tygodni (od poniedziałku), m12 = 12 miesięcy. Kubełek ma klucz:
+   numer dnia / numer dnia poniedziałku / rok*12+miesiąc — liczone po kalendarzu lokalnym (bez kłopotów ze zmianą czasu).
+   Kafelki i wykres dotyczą wybranego okresu (z porównaniem do poprzedniego takiego samego okresu),
+   panele „Dni tygodnia” i „Skąd zadania” — wszystkich ukończeń. */
+const ST_DAY = 86400000;
+const ST_MONTHS = ["styczeń", "luty", "marzec", "kwiecień", "maj", "czerwiec", "lipiec", "sierpień", "wrzesień", "październik", "listopad", "grudzień"];
+const ST_MON = ["sty", "lut", "mar", "kwi", "maj", "cze", "lip", "sie", "wrz", "paź", "lis", "gru"];
+const stNum1 = new Intl.NumberFormat("pl-PL", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+const stDayNo = d => Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) / ST_DAY;
+const stFromDayNo = n => { const u = new Date(n * ST_DAY); return new Date(u.getUTCFullYear(), u.getUTCMonth(), u.getUTCDate()); };
+function stKey(t, period){
+  const d = new Date(t);
+  if(period === "m12") return d.getFullYear() * 12 + d.getMonth();
+  const n = stDayNo(d);
+  return period === "w12" ? n - (d.getDay() + 6) % 7 : n;
 }
 
+function computeStats(items, period){
+  const events = completionEvents(items);
+  const N = period === "d14" ? 14 : 12;
+  const step = period === "w12" ? 7 : 1;
+  const now = new Date();
+  const K = stKey(now.getTime(), period);
+  const first = K - (N - 1) * step;                  // klucz pierwszego kubełka okresu
+  const z = new Array(N).fill(0), t = new Array(N).fill(0);
+  let before = 0, prev = 0;
+  for(const e of events){
+    const k = stKey(e.t, period);
+    if(k > K) continue;                              // „z przyszłości” (zły zegar) — pomijamy
+    if(k < first){
+      before++;
+      if(k >= first - N * step) prev++;              // poprzedni taki sam okres
+      continue;
+    }
+    if(e.type === "zadanie") z[(k - first) / step]++; else t[(k - first) / step]++;
+  }
+  const tot = z.map((v, i) => v + t[i]);
+  const cum = [];
+  tot.reduce((acc, v) => { cum.push(acc + v); return acc + v; }, before);
+
+  const labels = [], tips = [];
+  for(let i = 0; i < N; i++){
+    const k = first + i * step;
+    if(period === "m12"){
+      const y = Math.floor(k / 12), m = k % 12;
+      labels.push(ST_MON[m] + (m === 0 || i === 0 ? " " + String(y).slice(2) : ""));
+      tips.push(ST_MONTHS[m] + " " + y);
+    }else{
+      const d = stFromDayNo(k);
+      labels.push(d.toLocaleDateString("pl-PL", { day: "2-digit", month: "2-digit" }));
+      tips.push(period === "w12"
+        ? "tydzień " + d.toLocaleDateString("pl-PL", { day: "numeric", month: "short" }) + " – " + stFromDayNo(k + 6).toLocaleDateString("pl-PL", { day: "numeric", month: "short", year: "numeric" })
+        : d.toLocaleDateString("pl-PL", { weekday: "long", day: "numeric", month: "long" }));
+    }
+  }
+  // ile dni okresu już minęło (do średniej): bieżący tydzień / miesiąc liczy się do dziś
+  let days = N;
+  if(period === "w12") days = (N - 1) * 7 + (now.getDay() + 6) % 7 + 1;
+  if(period === "m12") days = stDayNo(now) - stDayNo(new Date(Math.floor(first / 12), first % 12, 1)) + 1;
+  let best = -1;
+  tot.forEach((v, i) => { if(v > 0 && (best < 0 || v >= tot[best])) best = i; });
+  const total = tot.reduce((a, b) => a + b, 0);
+  return { events, N, labels, tips, z, t, tot, cum, total, prev, days, best,
+           zTotal: z.reduce((a, b) => a + b, 0), tTotal: t.reduce((a, b) => a + b, 0) };
+}
+
+function renderStatsKpis(s){
+  const el = document.getElementById("stKpis");
+  const per = { d14: "poprzednie 14 dni", w12: "poprzednie 12 tyg.", m12: "poprzednie 12 mies." }[statsPeriod];
+  const bestName = { d14: "najlepszy dzień", w12: "najlepszy tydzień", m12: "najlepszy miesiąc" }[statsPeriod];
+  const perEq = { d14: "w poprzednich 14 dniach", w12: "w poprzednich 12 tyg.", m12: "w poprzednich 12 mies." }[statsPeriod];
+  let delta = "", cls = "";
+  if(s.total === s.prev) delta = s.total ? "= tyle samo co " + perEq : "brak ukończeń";
+  else if(s.prev === 0){ delta = "↑ +" + s.total + " vs " + per; cls = "up"; }
+  else{
+    const p = Math.round((s.total - s.prev) / s.prev * 100);
+    delta = (p > 0 ? "↑ +" : "↓ ") + Math.abs(p) + "% vs " + per;
+    cls = p > 0 ? "up" : "down";
+  }
+  const avg = s.days ? s.total / s.days : 0;
+  const zPct = s.total ? Math.round(s.zTotal / s.total * 100) : 0;
+  el.innerHTML = `
+    <div class="st-kpi"><div class="st-kpi-l">ukończone</div><div class="st-kpi-v">${s.total}</div><div class="st-kpi-d ${cls}">${esc(delta)}</div></div>
+    <div class="st-kpi"><div class="st-kpi-l">średnio</div><div class="st-kpi-v">${stNum1.format(avg)}<small>/ dzień</small></div><div class="st-kpi-d">≈ ${stNum1.format(avg * 7)} na tydzień</div></div>
+    <div class="st-kpi"><div class="st-kpi-l">${bestName}</div><div class="st-kpi-v">${s.best >= 0 ? s.tot[s.best] : "—"}${s.best >= 0 ? `<small>${esc(s.labels[s.best])}</small>` : ""}</div><div class="st-kpi-d">${s.best >= 0 ? esc(s.tips[s.best]) : "jeszcze nic w tym okresie"}</div></div>
+    <div class="st-kpi"><div class="st-kpi-l">udział zadań</div><div class="st-kpi-v">${s.total ? zPct + "%" : "—"}</div><div class="st-kpi-d">${s.zTotal} ${plural(s.zTotal, "zadanie", "zadania", "zadań")} · ${s.tTotal} ${plural(s.tTotal, "temat", "tematy", "tematów")}</div></div>`;
+}
+
+/* w które dni tygodnia uczeń kończy najwięcej — ze wszystkich ukończeń */
+function renderStatsWeekdays(events){
+  const c = new Array(7).fill(0);
+  for(const e of events) c[(new Date(e.t).getDay() + 6) % 7]++;
+  const max = Math.max(...c);
+  const top = max ? c.indexOf(max) : -1;
+  const short = ["Pn", "Wt", "Śr", "Cz", "Pt", "So", "Nd"];
+  const full = ["poniedziałek", "wtorek", "środa", "czwartek", "piątek", "sobota", "niedziela"];
+  document.getElementById("stWdNote").textContent = max ? "najczęściej: " + full[top] : "";
+  document.getElementById("stWd").innerHTML = c.map((n, i) => `
+    <div class="st-wd-col${i === top ? " top" : ""}" title="${full[i]}: ${n}">
+      <span class="st-wd-n">${n}</span>
+      <div class="st-wd-track"><i class="st-wd-bar" style="height:${max ? Math.max(4, Math.round(n / max * 100)) : 4}%"></i></div>
+      <span class="st-wd-d">${short[i]}</span>
+    </div>`).join("");
+}
+
+/* z jakich platform są zrobione zadania (link zadania → Codeforces, Szkopuł, …) — ze wszystkich ukończeń */
+function stPlatform(url){
+  if(!url) return "bez linku";
+  if(url.includes("#temat=")) return "Kompendium";
+  if(/t-olimpians\.com/i.test(url)) return "T-Olimpians";
+  return kPlatform({ url }) || "inne";
+}
+function renderStatsSources(events){
+  const counts = new Map();
+  let all = 0;
+  for(const e of events){
+    if(e.type !== "zadanie") continue;
+    const p = stPlatform(e.url);
+    counts.set(p, (counts.get(p) || 0) + 1);
+    all++;
+  }
+  const box = document.getElementById("stSrc");
+  document.getElementById("stSrcNote").textContent = all ? all + " " + plural(all, "zadanie", "zadania", "zadań") : "";
+  if(!all){ box.innerHTML = `<div class="st-none">Jeszcze nie ma ukończonych zadań.</div>`; return; }
+  // 6 najczęstszych platform, reszta jako „inne”, a „bez linku” zawsze na końcu
+  const noLink = counts.get("bez linku") || 0;
+  counts.delete("bez linku");
+  let rows = [...counts].sort((a, b) => b[1] - a[1]);
+  if(rows.length > 7){
+    const rest = rows.slice(6).reduce((a, r) => a + r[1], 0);
+    rows = rows.slice(0, 6).concat([["inne", rest]]);
+  }
+  if(noLink) rows.push(["bez linku", noLink]);
+  const max = Math.max(...rows.map(r => r[1]));
+  box.innerHTML = rows.map(([name, n]) => `
+    <div class="st-src-row">
+      <span class="st-src-name" title="${esc(name)}">${esc(name)}</span>
+      <div class="st-src-bar"><i style="width:${Math.max(3, Math.round(n / max * 100))}%"></i></div>
+      <span class="st-src-n"><b>${n}</b> · ${Math.round(n / all * 100)}%</span>
+    </div>`).join("");
+}
+
+/* pionowy gradient słupków / pola pod linią (płótno, więc liczony od wysokości wykresu) */
+const stGradCache = new Map();
+function stGrad(c, bottom, top){
+  const area = c.chart.chartArea;
+  if(!area) return top;
+  const key = bottom + top + area.top + "|" + area.bottom;
+  if(!stGradCache.has(key)){
+    if(stGradCache.size > 40) stGradCache.clear();
+    const g = c.chart.ctx.createLinearGradient(0, area.bottom, 0, area.top);
+    g.addColorStop(0, bottom);
+    g.addColorStop(1, top);
+    stGradCache.set(key, g);
+  }
+  return stGradCache.get(key);
+}
+
+let stCur = null;                    // ostatnio policzona statystyka (dla podpowiedzi i zaokrągleń słupków)
+/* zakres prawej osi („łącznie ukończone”): mały zapas nad i pod linią, ale nigdy poniżej zera */
+function stY2Range(cum){
+  const lo = Math.min(...cum), hi = Math.max(...cum);
+  const pad = Math.max(1, (hi - lo) * 0.12);
+  return { suggestedMin: Math.max(0, Math.floor(lo - pad)), suggestedMax: Math.ceil(hi + pad) };
+}
 function renderStats(items){
+  const s = computeStats(itemsLoaded ? items : [], statsPeriod);
+  stCur = s;
+  renderStatsKpis(s);
+  renderStatsWeekdays(s.events);
+  renderStatsSources(s.events);
+  document.getElementById("stEmpty").hidden = !itemsLoaded || s.events.length > 0;
+
   const canvas = document.getElementById("statsChart");
   if(!canvas) return;
   if(typeof Chart === "undefined"){
     console.error("Chart.js nie załadował się — sprawdź połączenie z CDN.");
     return;
   }
-
-  const { labels, zadaniaCounts, tematyCounts } = computeStats(items, statsPeriod);
-
+  // zaokrąglamy tylko górę stosu (zadania na dole, tematy na górze), żeby między nimi nie było wcięcia
+  const radius = (c) => {
+    const i = c.dataIndex, cur = stCur;
+    const isTop = c.datasetIndex === 1 || !cur || !cur.t[i];
+    return isTop ? { topLeft: 6, topRight: 6, bottomLeft: 0, bottomRight: 0 } : 0;
+  };
   const data = {
-    labels,
+    labels: s.labels,
     datasets: [
-      {
-        label: "Zadania",
-        data: zadaniaCounts,
-        borderColor: "#3b82f6",
-        backgroundColor: "rgba(59,130,246,0.15)",
-        tension: 0.3,
-        fill: true,
-        pointRadius: 3
-      },
-      {
-        label: "Tematy",
-        data: tematyCounts,
-        borderColor: "#F5B94D",
-        backgroundColor: "rgba(245,185,77,0.15)",
-        tension: 0.3,
-        fill: true,
-        pointRadius: 3
-      }
+      { type: "bar", label: "Zadania", data: s.z, stack: "s", order: 2, yAxisID: "y",
+        backgroundColor: c => stGrad(c, "rgba(59,130,246,0.30)", "rgba(96,165,250,0.95)"),
+        hoverBackgroundColor: "#93c5fd", borderRadius: radius, borderSkipped: "start",
+        categoryPercentage: 0.72, barPercentage: 0.9, maxBarThickness: 34 },
+      { type: "bar", label: "Tematy", data: s.t, stack: "s", order: 2, yAxisID: "y",
+        backgroundColor: c => stGrad(c, "rgba(245,185,77,0.35)", "rgba(245,185,77,0.95)"),
+        hoverBackgroundColor: "#fcd38a", borderRadius: radius, borderSkipped: "start",
+        categoryPercentage: 0.72, barPercentage: 0.9, maxBarThickness: 34 },
+      { type: "line", label: "Łącznie ukończone", data: s.cum, order: 1, yAxisID: "y2",
+        borderColor: "#34d399", borderWidth: 2.2, tension: 0.35, cubicInterpolationMode: "monotone",
+        pointRadius: 0, pointHoverRadius: 5, pointBackgroundColor: "#34d399", pointBorderColor: "#0a0a0f", pointBorderWidth: 2,
+        fill: "start", backgroundColor: c => stGrad(c, "rgba(52,211,153,0)", "rgba(52,211,153,0.14)") }
     ]
   };
-
+  const y2 = stY2Range(s.cum);
   if(statsChart){
     statsChart.data = data;
+    Object.assign(statsChart.options.scales.y2, y2);
     statsChart.update();
-  } else {
-    statsChart = new Chart(canvas, {
-      type: "line",
-      data,
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        interaction: { mode: "index", intersect: false },
-        plugins: {
-          legend: { labels: { color: "#f0f0f8", font: { family: "DM Sans" } } }
-        },
-        scales: {
-          x: { ticks: { color: "#9090aa" }, grid: { color: "rgba(255,255,255,0.05)" } },
-          y: { ticks: { color: "#9090aa", precision: 0, stepSize: 1 }, grid: { color: "rgba(255,255,255,0.05)" }, beginAtZero: true }
-        }
-      }
-    });
+    return;
   }
+  const mono = { family: "JetBrains Mono", size: 10.5 };
+  statsChart = new Chart(canvas, {
+    data,
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: "index", intersect: false },
+      animation: { duration: 650, easing: "easeOutQuart" },
+      layout: { padding: { top: 6 } },
+      plugins: {
+        legend: {
+          position: "bottom",
+          labels: { color: "#9090aa", usePointStyle: true, pointStyle: "rectRounded", boxWidth: 10, boxHeight: 10, padding: 18, font: { family: "DM Sans", size: 12.5 },
+                    sort: (a, b) => a.datasetIndex - b.datasetIndex }
+        },
+        tooltip: {
+          backgroundColor: "rgba(17,17,24,0.96)",
+          borderColor: "rgba(59,130,246,0.35)",
+          borderWidth: 1,
+          padding: 12,
+          cornerRadius: 10,
+          boxPadding: 5,
+          usePointStyle: true,
+          itemSort: (a, b) => a.datasetIndex - b.datasetIndex,
+          titleColor: "#f0f0f8",
+          bodyColor: "#c8c8da",
+          footerColor: "#60a5fa",
+          titleFont: { family: "DM Sans", size: 13, weight: "700" },
+          bodyFont: { family: "JetBrains Mono", size: 12 },
+          footerFont: { family: "JetBrains Mono", size: 12, weight: "600" },
+          callbacks: {
+            title: (it) => (stCur && it.length ? stCur.tips[it[0].dataIndex] : ""),
+            label: (c) => " " + c.dataset.label + ": " + c.formattedValue,
+            footer: (it) => (stCur && it.length ? "Razem w tym " + { d14: "dniu", w12: "tygodniu", m12: "miesiącu" }[statsPeriod] + ": " + stCur.tot[it[0].dataIndex] : "")
+          }
+        }
+      },
+      scales: {
+        x: { stacked: true, grid: { display: false }, border: { display: false },
+             ticks: { color: "#55556a", font: mono, maxRotation: 0, autoSkip: true, autoSkipPadding: 10 } },
+        y: { stacked: true, beginAtZero: true, border: { display: false },
+             grid: { color: "rgba(255,255,255,0.05)", drawTicks: false },
+             ticks: { color: "#55556a", font: mono, precision: 0, padding: 8, maxTicksLimit: 6 } },
+        y2: { position: "right", beginAtZero: false, ...y2, border: { display: false }, grid: { display: false },
+              ticks: { color: "rgba(52,211,153,0.75)", font: mono, precision: 0, padding: 8, maxTicksLimit: 6 } }
+      }
+    }
+  });
+  // fonty strony doczytują się asynchronicznie — przerysuj, gdy będą gotowe
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(() => statsChart && statsChart.update("none"));
 }
 
-document.querySelectorAll('input[name="statsPeriod"]').forEach(radio => {
+const statsRadios = document.querySelectorAll('input[name="statsPeriod"]');
+statsRadios.forEach(radio => {
+  radio.checked = radio.value === statsPeriod;
   radio.addEventListener("change", () => {
     statsPeriod = radio.value;
+    try{ localStorage.setItem("tol_stat_okres", statsPeriod); }catch(e){}
     renderStats(currentItems);
   });
 });

@@ -1299,6 +1299,87 @@ const LEKCJE = [
             },
         ],
     },
+    {
+        temat: 'Zbiór',
+        prefix: 'zb-',
+        plik: 'c++_logika/zbior.html',
+        pliki: ['zbior-cwiczenia-1.js', 'zbior-cwiczenia-2.js', 'zbior-cwiczenia-3.js', 'zbior-baza.js'],
+        note: 'Lekcja o zbiorze (set) od podstaw: insert, size i przechodzenie zbioru, count i erase („czy to już było?”), begin, rbegin i iteratory, ' +
+            'find, lower_bound i upper_bound z najbliższą wartością, działania na zbiorach (suma, część wspólna, różnica, podzbiór), ' +
+            'zbiory par i napisów, multiset z powtórzeniami oraz unordered_set i wybór właściwej struktury.',
+        bazaOpisy: {
+            latwe: 'Rozgrzewka ze zbiorem: lotto, słowa użyte tylko raz, różne kawałki napisu, liczby o różnych cyfrach, spotkanie ciągów Collatza, ' +
+                'reszty z potęg, pomalowany płot, najbardziej różnorodne słowo, szyfr z kluczem i sprawdzanie sudoku.',
+            srednie: 'Wspólni znajomi (vector zbiorów), ciąg Recamána, odważniki na jednej i na dwóch szalkach, izba przyjęć, fragment podzielny przez k, ' +
+                'rezerwacje sali, najdłuższy ciąg kolejnych liczb, pierwsza niepowtórzona litera i k-ta dozwolona liczba.',
+            trudne: 'Najmniejsza wolna liczba na żywo, drzewa w alei, łączenie odcinków, przydział pokoi, sala egzaminacyjna, bliskie wartości w pobliżu, ' +
+                'najdłuższy rosnący podciąg w O(n log n) — a na koniec wielki finał: giełda.',
+        },
+        kroki: [
+            {
+                nr: 1, kotwica: 'pierwszy-zbior', spis: 'Zbiór — worek bez powtórzeń',
+                nazwa: 'Krok 1 · Zbiór — worek bez powtórzeń',
+                kategoria: 'Zbiór / krok 1: insert i size',
+                note: 'set<int>, insert, size, przechodzenie pętlą (zawsze rosnąco), zbiór z klamer i z vectora, set<string> i set<char>, brak indeksów, vector czy set.',
+            },
+            {
+                nr: 2, kotwica: 'czy-jest', spis: 'count i erase — czy to już było?',
+                nazwa: 'Krok 2 · count, erase i empty — czy to już było?',
+                kategoria: 'Zbiór / krok 2: count i erase',
+                note: 'count (0 albo 1), „czy to już było?” — najpierw pytaj, potem wstaw, pierwsza powtórka, insert().second, erase, empty i clear, ' +
+                    'nowy zbiór w każdym teście, polecenia i lista brakujących.',
+            },
+            {
+                nr: 3, kotwica: 'skrajne', spis: 'Najmniejszy, największy i strzałki',
+                nazwa: 'Krok 3 · begin, rbegin i iteratory — najmniejszy i największy',
+                kategoria: 'Zbiór / krok 3: begin, rbegin, iteratory',
+                note: '*begin() i *rbegin(), prev i next, pusty zbiór, pętla ze strzałką, brak skoków it + k, malejąco (rend, greater), ' +
+                    'usuwanie skrajnych, sąsiedzi w zbiorze, k-ty najmniejszy, zmiana elementu przez erase + insert.',
+            },
+            {
+                nr: 4, kotwica: 'szukanie', spis: 'find, lower_bound, upper_bound',
+                nazwa: 'Krok 4 · Szukanie w zbiorze — find, lower_bound, upper_bound',
+                kategoria: 'Zbiór / krok 4: szukanie',
+                note: 'find i end(), lower_bound (pierwszy ≥ x) i upper_bound (pierwszy > x), ostatni ≤ x i ostatni < x, najbliższa wartość, ' +
+                    'pytania przeplatane z dodawaniem, sąsiedzi nowego elementu (insert().first).',
+            },
+            {
+                nr: 5, kotwica: 'dzialania', spis: 'Działania na zbiorach',
+                nazwa: 'Krok 5 · Działania na zbiorach — suma, część wspólna, różnica',
+                kategoria: 'Zbiór / krok 5: działania na zbiorach',
+                note: 'Część wspólna, suma, różnica, różnica symetryczna, podzbiór, równość i rozłączność, wzór |A ∪ B| = |A| + |B| − |A ∩ B|, ' +
+                    'litery dwóch słów i część wspólna wielu zbiorów.',
+            },
+            {
+                nr: 6, kotwica: 'pary-napisy', spis: 'Zbiór par i napisów',
+                nazwa: 'Krok 6 · Zbiór par i napisów',
+                kategoria: 'Zbiór / krok 6: pary i napisy',
+                note: 'set<pair<int, int>>: różne punkty, para bez kolejności {min, max}, odwiedzone pola, ranking (−punkty, numer), ' +
+                    'lower_bound na parach, małe litery i klucze (anagramy).',
+            },
+            {
+                nr: 7, kotwica: 'multiset', spis: 'multiset — z powtórzeniami',
+                nazwa: 'Krok 7 · multiset — gdy powtórzenia się liczą',
+                kategoria: 'Zbiór / krok 7: multiset',
+                note: 'multiset, count kopii, erase(x) usuwa wszystkie, erase(find(x)) — jedną, skrajne z powtórzeniami, największy w oknie, ' +
+                    'największy, który się mieści, dwa największe naraz.',
+            },
+            {
+                nr: 8, kotwica: 'szybkosc', spis: 'unordered_set i szybkość',
+                nazwa: 'Krok 8 · unordered_set i szybkość — który zbiór wybrać?',
+                kategoria: 'Zbiór / krok 8: unordered_set i szybkość',
+                note: 'Drzewo poszukiwań i O(log n), koszty operacji, unordered_set i kubełki, tablica bool dla małych wartości, wybór struktury, ' +
+                    'para o sumie k, okno bez powtórzeń, zbiór sum prefiksowych i dane z generatora.',
+            },
+            {
+                nr: 9, kotwica: 'baza', spis: 'Baza zadań', baza: true,
+                nazwa: 'Baza zadań — podsumowanie tematu',
+                kategoria: 'Zbiór / baza zadań',
+                note: 'Zadania na cały temat, od najłatwiejszego do najtrudniejszego: lotto, szyfr z kluczem, sudoku, wspólni znajomi, ciąg Recamána, odważniki, ' +
+                    'izba przyjęć, rezerwacje sali, drzewa w alei, łączenie odcinków, przydział pokoi, sala egzaminacyjna — a na koniec wielki finał: giełda.',
+            },
+        ],
+    },
 ];
 
 module.exports = { SITE, KATEGORIA, LEKCJE };

@@ -52532,6 +52532,3069 @@
       ],
       "hint": "Najtańsze produkty to początek posortowanej listy cen. Policz sumy prefiksowe: P[0] = 0, P[i] = koszt i najtańszych produktów. Rosną, więc liczba produktów, na które stać klienta, to największe i z P[i] ≤ B — znajdziesz je przez upper_bound(P.begin(), P.end(), B) - P.begin() - 1, a wydana kwota to P[i]. Kupowanie produkt po produkcie to O(n) na klienta. Łączna kwota może sięgać 3 · 10¹⁸ — long long.",
       "tests_count": 10
+    },
+    {
+      "id": "zb-rozne-numery",
+      "number": 1607,
+      "title": "Ile różnych numerów?",
+      "category": "Zbiór / krok 1: insert i size",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na mecie biegu bramka zapisuje numer zawodnika za każdym razem, gdy ten pod nią przebiegnie — także na kolejnych okrążeniach, więc numery się powtarzają.",
+        "Dostajesz listę n zapisanych numerów. Ilu różnych zawodników przebiegło pod bramką?"
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n numerów zawodników."
+      ],
+      "output_format": [
+        "Jedna liczba — ilu było różnych zawodników."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "1 ≤ numer ≤ 1 000 000"
+      ],
+      "examples": [
+        {
+          "input": "7\n12 7 12 33 7 12 101",
+          "output": "4",
+          "note": "Różne numery to 7, 12, 33 i 101 — czterech zawodników."
+        }
+      ],
+      "hint": "Wczytaj n, utwórz pusty set<int> i w pętli wczytuj kolejne numery do zwykłej zmiennej, a potem wstawiaj je do zbioru przez insert. Powtórzone numery zbiór zignoruje. Na końcu wypisz s.size().",
+      "tests_count": 9
+    },
+    {
+      "id": "zb-bez-powtorzen-rosnaco",
+      "number": 1608,
+      "title": "Rosnąco i bez powtórzeń",
+      "category": "Zbiór / krok 1: insert i size",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz n liczb całkowitych — mogą być ujemne i mogą się powtarzać. Wypisz wszystkie różne wartości w kolejności rosnącej, w jednym wierszu, oddzielone spacjami."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jeden wiersz — różne wartości rosnąco, oddzielone spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "9\n3 -1 3 10 -1 0 7 10 3",
+          "output": "-1 0 3 7 10",
+          "note": "Różne wartości to −1, 0, 3, 7 i 10."
+        }
+      ],
+      "hint": "Wstaw wszystkie liczby do set<int>, a potem przejdź zbiór pętlą for (int x : s) i wypisuj x ze spacją. Zbiór przechodzi elementy rosnąco — nie potrzebujesz sort.",
+      "tests_count": 8
+    },
+    {
+      "id": "zb-litery-slowa",
+      "number": 1609,
+      "title": "Litery w słowie",
+      "category": "Zbiór / krok 1: insert i size",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz słowo złożone z małych liter alfabetu angielskiego. Wypisz, ile różnych liter zawiera, a potem te litery w kolejności alfabetycznej."
+      ],
+      "input_format": [
+        "Jeden wiersz — słowo."
+      ],
+      "output_format": [
+        "W pierwszym wierszu liczba różnych liter.",
+        "W drugim wierszu te litery alfabetycznie, bez spacji."
+      ],
+      "constraints": [
+        "Słowo ma od 1 do 50 000 liter (tylko a–z)."
+      ],
+      "examples": [
+        {
+          "input": "programowanie",
+          "output": "10\naegimnoprw",
+          "note": "Litery słowa to p, r, o, g, a, m, w, n, i, e — dziesięć różnych. Alfabetycznie: a, e, g, i, m, n, o, p, r, w."
+        }
+      ],
+      "hint": "Wczytaj słowo do string, a potem wstaw każdą jego literę do set<char> (pętla for (char c : slowo)). Na końcu wypisz size() i przejdź zbiór pętlą, wypisując litery bez spacji. Litery w zbiorze same ułożą się alfabetycznie.",
+      "tests_count": 10
+    },
+    {
+      "id": "zb-slowa-alfabetycznie",
+      "number": 1610,
+      "title": "Słowniczek z wypracowania",
+      "category": "Zbiór / krok 1: insert i size",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Nauczyciel robi słowniczek z wypracowania ucznia. Dostajesz n słów z wypracowania (słowa się powtarzają). Wypisz, ile jest różnych słów, a potem każde różne słowo w osobnym wierszu, w porządku alfabetycznym."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n słów oddzielonych spacjami (tylko małe litery a–z)."
+      ],
+      "output_format": [
+        "W pierwszym wierszu liczba różnych słów.",
+        "Potem różne słowa alfabetycznie, każde w osobnym wierszu."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "Każde słowo ma od 1 do 10 liter."
+      ],
+      "examples": [
+        {
+          "input": "8\nala ma kota a kot ma ale a",
+          "output": "6\na\nala\nale\nkot\nkota\nma",
+          "note": "Różne słowa to a, ala, ale, kot, kota, ma. „a” jest przed „ala”, bo jest jego początkiem, a „kot” przed „kota” z tego samego powodu."
+        }
+      ],
+      "hint": "Wczytuj słowa do string i wstawiaj do set<string>. Zbiór napisów układa je w porządku słownikowym — tym samym, którego używa sort. Wypisz size(), a potem przejdź zbiór pętlą for (string w : s).",
+      "tests_count": 10
+    },
+    {
+      "id": "zb-reszty",
+      "number": 1611,
+      "title": "Różne reszty",
+      "category": "Zbiór / krok 1: insert i size",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz n liczb naturalnych i liczbę k. Każdą liczbę dzielisz przez k i zapisujesz resztę. Ile różnych reszt otrzymasz? Wypisz ich liczbę, a potem same reszty rosnąco."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n liczb naturalnych."
+      ],
+      "output_format": [
+        "W pierwszym wierszu liczba różnych reszt.",
+        "W drugim wierszu te reszty rosnąco, oddzielone spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "1 ≤ k ≤ 2000",
+        "0 ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "6 4\n10 3 7 21 14 5",
+          "output": "3\n1 2 3",
+          "note": "Reszty z dzielenia przez 4: 2, 3, 3, 1, 2, 1. Różne są trzy: 1, 2 i 3."
+        }
+      ],
+      "hint": "Do zbioru wstawiaj nie samą liczbę, tylko jej resztę: s.insert(x % k). Potem wypisz size() i przejdź zbiór pętlą. Gdy k = 1, każda reszta to 0.",
+      "tests_count": 10
+    },
+    {
+      "id": "zb-ile-cyfr",
+      "number": 1612,
+      "title": "Ile różnych cyfr?",
+      "category": "Zbiór / krok 1: insert i size",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej z t liczb wypisz, ile różnych cyfr występuje w jej zapisie dziesiętnym."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "W każdym z następnych t wierszy jedna liczba naturalna (bez zer na początku)."
+      ],
+      "output_format": [
+        "t wierszy — w każdym liczba różnych cyfr."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1000",
+        "0 ≤ każda liczba ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "4\n1223334444\n0\n1000000000000000000\n9876543210",
+          "output": "4\n1\n2\n10",
+          "note": "W 1223334444 są cyfry 1, 2, 3, 4. Zero ma jedną cyfrę. 10¹⁸ to jedynka i same zera — dwie różne cyfry. Ostatnia liczba ma wszystkie dziesięć cyfr."
+        }
+      ],
+      "hint": "Najprościej wczytać liczbę jako string i wstawić każdy jej znak do set<char>. Dla każdej liczby potrzebny jest nowy, pusty zbiór — utwórz go wewnątrz pętli (albo wywołaj clear()). Możesz też wczytać long long i zbierać cyfry przez % 10 i / 10 — wtedy pamiętaj o liczbie 0.",
+      "tests_count": 8
+    },
+    {
+      "id": "zb-tabliczka",
+      "number": 1613,
+      "title": "Różne wyniki tabliczki mnożenia",
+      "category": "Zbiór / krok 1: insert i size",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W tabliczce mnożenia n × n w wierszu i i kolumnie j stoi iloczyn i · j (dla 1 ≤ i, j ≤ n). Wiele liczb powtarza się w niej kilka razy — np. 12 = 3 · 4 = 2 · 6.",
+        "Ile różnych liczb występuje w tabliczce n × n?"
+      ],
+      "input_format": [
+        "Jedna liczba n."
+      ],
+      "output_format": [
+        "Jedna liczba — ile różnych iloczynów jest w tabliczce."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 600"
+      ],
+      "examples": [
+        {
+          "input": "4",
+          "output": "9",
+          "note": "Tabliczka 4 × 4 zawiera liczby 1, 2, 3, 4, 6, 8, 9, 12 i 16 — dziewięć różnych."
+        }
+      ],
+      "hint": "Dwie pętle: i od 1 do n i j od 1 do n, a w środku s.insert(i * j). Wynik to s.size(). Ponieważ i · j = j · i, wystarczy brać j od i do n — wstawień będzie o połowę mniej. Dla n = 600 iloczyn to najwyżej 360 000, mieści się w int.",
+      "tests_count": 9
+    },
+    {
+      "id": "zb-sumy-dwoch",
+      "number": 1614,
+      "title": "Sumy dwóch kart",
+      "category": "Zbiór / krok 1: insert i size",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na stole leży n kart z liczbami. Wybierasz dwie różne karty (dwie różne pozycje — liczby na nich mogą być równe) i dodajesz ich liczby.",
+        "Ile różnych sum można w ten sposób otrzymać? Wypisz liczbę różnych sum, a także najmniejszą i największą z nich."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb na kartach."
+      ],
+      "output_format": [
+        "Trzy liczby oddzielone spacjami: liczba różnych sum, najmniejsza suma, największa suma."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 400",
+        "1 ≤ liczba na karcie ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "4\n1 3 3 5",
+          "output": "3 4 8",
+          "note": "Pary dają sumy 4, 4, 6, 6, 8, 8 (3 + 3 = 6 to dwie różne karty z trójkami). Różne sumy: 4, 6, 8."
+        }
+      ],
+      "hint": "Dwie pętle po parach (i od 0, j od i + 1) i wstawianie t[i] + t[j] do zbioru. Uwaga: suma dwóch liczb do 10⁹ może przekroczyć zakres int — trzymaj liczby i zbiór w long long. Najmniejsza suma to pierwszy element przechodzenia zbioru, największa — ostatni (albo poznasz *s.begin() i *s.rbegin() w części 3).",
+      "tests_count": 10
+    },
+    {
+      "id": "zb-nowy-czy-znany",
+      "number": 1615,
+      "title": "Nowy czy znany?",
+      "category": "Zbiór / krok 2: count i erase",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Do szkolnej biblioteki przychodzą po kolei czytelnicy i każdy pokazuje kartę z numerem. Dla każdego czytelnika wypisz NOWY, jeśli przyszedł pierwszy raz, albo ZNANY, jeśli był już wcześniej."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n numerów kart, w kolejności przychodzenia."
+      ],
+      "output_format": [
+        "n wierszy — w każdym NOWY albo ZNANY."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 3000",
+        "1 ≤ numer karty ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "5\n100 20 100 100 3",
+          "output": "NOWY\nNOWY\nZNANY\nZNANY\nNOWY",
+          "note": "Karta 100 pojawia się trzy razy: pierwszy raz jest nowa, potem znana."
+        }
+      ],
+      "hint": "Zbiór widziane pamięta numery, które już były. Dla każdego numeru najpierw zapytaj widziane.count(x) i wypisz odpowiedź, a dopiero potem wstaw x do zbioru. W odwrotnej kolejności każdy numer wyjdzie ZNANY.",
+      "tests_count": 8
+    },
+    {
+      "id": "zb-pierwsza-powtorka",
+      "number": 1616,
+      "title": "Pierwsza powtórka w każdej grze",
+      "category": "Zbiór / krok 2: count i erase",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W grze w pamięć gracz odkrywa po kolei karty z numerami. Dla każdej z t gier znajdź pierwszą odkrytą kartę, której numer już wcześniej się pojawił w tej grze, i wypisz ten numer. Jeśli w grze żaden numer się nie powtórzył, wypisz BRAK.",
+        "Gry są od siebie niezależne — karty z poprzedniej gry się nie liczą."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba gier t.",
+        "Każda gra to dwa wiersze: liczba kart n, a potem n numerów kart w kolejności odkrywania."
+      ],
+      "output_format": [
+        "t wierszy — dla każdej gry numer pierwszej powtórki albo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100",
+        "1 ≤ n ≤ 1000",
+        "Suma wszystkich n ≤ 10 000",
+        "1 ≤ numer ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "3\n5\n4 1 9 1 4\n3\n1 2 3\n4\n7 7 2 2",
+          "output": "1\nBRAK\n7",
+          "note": "W pierwszej grze jako pierwsza powtarza się jedynka (pozycja 4), a czwórka dopiero na pozycji 5. W drugiej grze nic się nie powtarza. W trzeciej od razu siódemka."
+        }
+      ],
+      "hint": "Dla każdej gry utwórz nowy, pusty zbiór. Gdy znajdziesz powtórkę, zapamiętaj ją (np. w zmiennej odp = -1 na starcie), ale NIE przerywaj wczytywania — pozostałe karty tej gry wciąż czekają na wejściu i trzeba je przeczytać, zanim zaczniesz następną grę. Zapamiętuj tylko pierwszą powtórkę: if (odp == -1 && s.count(x)) odp = x;",
+      "tests_count": 10
+    },
+    {
+      "id": "zb-polecenia",
+      "number": 1617,
+      "title": "Polecenia dla zbioru",
+      "category": "Zbiór / krok 2: count i erase",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na początku zbiór jest pusty. Wykonaj po kolei q poleceń:",
+        "DODAJ x — wstaw x do zbioru (jeśli już jest, nic się nie zmienia),",
+        "USUN x — usuń x ze zbioru (jeśli go nie ma, nic się nie dzieje),",
+        "CZY x — wypisz TAK, jeśli x jest w zbiorze, albo NIE.",
+        "Po wykonaniu wszystkich poleceń wypisz jeszcze, ile elementów zostało w zbiorze."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z następnych q wierszy polecenie i liczba x."
+      ],
+      "output_format": [
+        "Odpowiedzi na polecenia CZY, każda w osobnym wierszu, a w ostatnim wierszu — rozmiar zbioru na końcu."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 5000",
+        "−10⁹ ≤ x ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "7\nDODAJ 5\nDODAJ -3\nCZY 5\nUSUN 5\nCZY 5\nUSUN 8\nCZY -3",
+          "output": "TAK\nNIE\nTAK\n1",
+          "note": "Po usunięciu piątki odpowiedź na CZY 5 zmienia się na NIE. USUN 8 nic nie robi. Na końcu w zbiorze zostaje tylko −3."
+        }
+      ],
+      "hint": "Wczytuj polecenie do string i liczbę do int (albo long long). Porównuj polecenie przez == i wywołuj insert, erase albo count. Rozmiar wypisz po pętli: s.size(). Ani insert powtórki, ani erase nieistniejącej liczby nie powodują błędu.",
+      "tests_count": 9
+    },
+    {
+      "id": "zb-nieobecni",
+      "number": 1618,
+      "title": "Kto nie przyszedł?",
+      "category": "Zbiór / krok 2: count i erase",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dziennik klasy zawiera n imion uczniów (imiona się nie powtarzają). Na zajęciach obecni wpisywali się na listę — było m wpisów, ktoś mógł wpisać się kilka razy, a czasem wpisywał się gość spoza klasy.",
+        "Wypisz imiona nieobecnych uczniów w kolejności z dziennika, każde w osobnym wierszu. Jeśli byli wszyscy, wypisz WSZYSCY."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W drugim wierszu n imion z dziennika.",
+        "W trzecim wierszu m imion z listy obecności."
+      ],
+      "output_format": [
+        "Imiona nieobecnych w kolejności z dziennika, każde w osobnym wierszu — albo jedno słowo WSZYSCY."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "1 ≤ m ≤ 3000",
+        "Imię to wielka litera i od 1 do 11 małych liter (bez polskich znaków)."
+      ],
+      "examples": [
+        {
+          "input": "4 5\nZosia Adam Bartek Ola\nOla Adam Ola Kuba Zosia",
+          "output": "Bartek",
+          "note": "Nie wpisał się tylko Bartek. Kuba to gość spoza klasy — nie ma go w dzienniku, więc się nie liczy."
+        }
+      ],
+      "hint": "Dziennik wczytaj do vector<string> — liczy się jego kolejność. Listę obecności wczytaj do set<string>. Potem przejdź dziennik i wypisz imiona, których zbiór nie zna (!obecni.count(imie)). Zapamiętaj w zmiennej, czy ktoś był nieobecny — jeśli nie, wypisz WSZYSCY.",
+      "tests_count": 10
+    },
+    {
+      "id": "zb-impreza",
+      "number": 1619,
+      "title": "Kto jest na imprezie?",
+      "category": "Zbiór / krok 2: count i erase",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Bramkarz zapisuje, kto wchodzi na imprezę i kto z niej wychodzi. Wpisy mają postać WCHODZI imie albo WYCHODZI imie. Dane są poprawne: nikt nie wchodzi, gdy już jest w środku, i nikt nie wychodzi, gdy go nie ma.",
+        "Po każdym wpisie wypisz, ile osób jest na imprezie. Na koniec wypisz w jednym wierszu imiona osób, które zostały — alfabetycznie, oddzielone spacjami — albo PUSTO, jeśli nikogo nie ma."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba wpisów q.",
+        "W każdym z następnych q wierszy wpis: WCHODZI albo WYCHODZI i imię."
+      ],
+      "output_format": [
+        "q wierszy z liczbą osób po każdym wpisie, a potem jeden wiersz z imionami tych, którzy zostali (albo PUSTO)."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1500",
+        "Imię to od 1 do 10 małych liter a–z."
+      ],
+      "examples": [
+        {
+          "input": "6\nWCHODZI ola\nWCHODZI adam\nWCHODZI kuba\nWYCHODZI ola\nWCHODZI ola\nWYCHODZI kuba",
+          "output": "1\n2\n3\n2\n3\n2\nadam ola",
+          "note": "Ola wychodzi i wraca. Na końcu zostają adam i ola."
+        }
+      ],
+      "hint": "Trzymaj set<string> osób w środku: WCHODZI to insert, WYCHODZI to erase, a po każdym wpisie wypisz size(). Na koniec sprawdź empty() — jeśli zbiór jest pusty, wypisz PUSTO, a jeśli nie, przejdź go pętlą (imiona wyjdą alfabetycznie).",
+      "tests_count": 9
+    },
+    {
+      "id": "zb-szczesliwe",
+      "number": 1620,
+      "title": "Liczby szczęśliwe",
+      "category": "Zbiór / krok 2: count i erase",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Weź liczbę n i zastąp ją sumą kwadratów jej cyfr, np. 49 → 4² + 9² = 97. Powtarzaj to samo z wynikiem. Liczba jest szczęśliwa, jeśli w końcu dojdziesz do 1. Jeśli nie, ciąg wpadnie w pętlę i liczby zaczną się powtarzać.",
+        "Dla każdej z t liczb wypisz TAK, jeśli jest szczęśliwa, albo NIE — a obok, ile różnych liczb pojawiło się w jej ciągu (łącznie z samą liczbą n; dla liczby szczęśliwej łącznie z końcową jedynką)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "W każdym z następnych t wierszy jedna liczba n."
+      ],
+      "output_format": [
+        "t wierszy — TAK albo NIE i liczba różnych liczb w ciągu."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1000",
+        "1 ≤ n ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "3\n7\n4\n1",
+          "output": "TAK 6\nNIE 8\nTAK 1",
+          "note": "7 → 49 → 97 → 130 → 10 → 1: sześć różnych liczb, szczęśliwa. 4 → 16 → 37 → 58 → 89 → 145 → 42 → 20 → 4: wróciliśmy do 4, więc różnych liczb było 8. Jedynka od razu jest szczęśliwa."
+        }
+      ],
+      "hint": "Dla każdej liczby utwórz nowy zbiór widziane. W pętli: jeśli x == 1 — szczęśliwa; jeśli widziane.count(x) — pętla, nieszczęśliwa. W przeciwnym razie wstaw x i zamień go na sumę kwadratów cyfr (cyfry wyciągasz przez % 10 i / 10). Liczba różnych liczb to rozmiar zbioru — dla szczęśliwej pamiętaj o wstawieniu końcowej jedynki.",
+      "tests_count": 8
+    },
+    {
+      "id": "zb-pelna-kolekcja",
+      "number": 1621,
+      "title": "Pełna kolekcja",
+      "category": "Zbiór / krok 2: count i erase",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Album ma k miejsc na naklejki o numerach od 1 do k. Kupujesz po kolei n naklejek (numery mogą się powtarzać — duplikaty odkładasz do pudełka).",
+        "Po której kupionej naklejce album stał się pełny? Wypisz jej numer porządkowy (licząc od 1). Jeśli album nie zapełnił się nawet po wszystkich zakupach, wypisz NIE i liczbę brakujących naklejek."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby k i n.",
+        "W drugim wierszu n numerów kupionych naklejek, w kolejności zakupu."
+      ],
+      "output_format": [
+        "Jedna liczba — numer zakupu, który zapełnił album — albo NIE i liczba brakujących naklejek."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ 1000",
+        "1 ≤ n ≤ 10 000",
+        "1 ≤ numer naklejki ≤ k"
+      ],
+      "examples": [
+        {
+          "input": "3 7\n1 3 1 1 2 3 2",
+          "output": "5",
+          "note": "Po piątym zakupie (naklejka nr 2) album ma naklejki 1, 2, 3 — jest pełny."
+        },
+        {
+          "input": "4 3\n1 1 2",
+          "output": "NIE 2",
+          "note": "Brakuje naklejek 3 i 4."
+        }
+      ],
+      "hint": "Wstawiaj kupione naklejki do zbioru i po każdym wstawieniu sprawdź, czy s.size() == k. Pierwszy taki moment to odpowiedź — zapamiętaj go (nie musisz już nic wypisywać w pętli). Jeśli taki moment nie nastąpił, brakuje k - s.size() naklejek.",
+      "tests_count": 11
+    },
+    {
+      "id": "zb-loginy",
+      "number": 1622,
+      "title": "Rejestracja w grze",
+      "category": "Zbiór / krok 2: count i erase",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Gracze rejestrują się po kolei w grze i każdy podaje login, który chciałby dostać. Jeśli ten login jest wolny, gracz go dostaje — wypisz OK. Jeśli jest zajęty, system dopisuje na końcu loginu najmniejszą liczbę k ≥ 1, dla której powstały login jest wolny, i przyznaje go — wypisz przyznany login.",
+        "Każdy przyznany login (także ten z dopisaną liczbą) od razu staje się zajęty."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba graczy n.",
+        "W każdym z następnych n wierszy login, o który prosi gracz."
+      ],
+      "output_format": [
+        "n wierszy — OK albo przyznany login."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "Login ma od 1 do 8 znaków: małe litery a–z i cyfry."
+      ],
+      "examples": [
+        {
+          "input": "5\nola\nadam\nola\nola\nola1",
+          "output": "OK\nOK\nola1\nola2\nola11",
+          "note": "Trzeci gracz dostaje ola1, czwarty — ola2 (ola1 jest już zajęte). Piąty prosi o ola1, które jest zajęte, więc dostaje ola11."
+        }
+      ],
+      "hint": "Trzymaj zbiór zajętych loginów. Jeśli login nie jest zajęty — wstaw go i wypisz OK. W przeciwnym razie próbuj po kolei k = 1, 2, 3, …: nowy login to login + to_string(k). Pierwszy, którego nie ma w zbiorze, wstaw i wypisz. to_string zamienia liczbę na napis.",
+      "tests_count": 10
+    },
+    {
+      "id": "zb-od-najwiekszej",
+      "number": 1623,
+      "title": "Różne, od największej",
+      "category": "Zbiór / krok 3: begin, rbegin, iteratory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz n liczb całkowitych. Wypisz wszystkie różne wartości w kolejności malejącej, w jednym wierszu, oddzielone spacjami."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jeden wiersz — różne wartości od największej, oddzielone spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "7\n4 -2 9 4 0 9 -2",
+          "output": "9 4 0 -2",
+          "note": "Różne wartości to −2, 0, 4, 9 — od największej: 9, 4, 0, −2."
+        }
+      ],
+      "hint": "Dwie drogi. Pierwsza: zwykły set<int> i pętla od tyłu: for (auto it = s.rbegin(); it != s.rend(); it++) cout << *it. Druga: set<int, greater<int>> — wtedy zwykła pętla for (int x : s) idzie od największej.",
+      "tests_count": 8
+    },
+    {
+      "id": "zb-srebrny-medal",
+      "number": 1624,
+      "title": "Drugi najlepszy wynik",
+      "category": "Zbiór / krok 3: begin, rbegin, iteratory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W konkursie skoków każdy z n zawodników ma wynik (liczba całkowita, im więcej, tym lepiej). Złoto dostają wszyscy z najlepszym wynikiem, a srebro — wszyscy z drugim najlepszym, czyli z największym wynikiem mniejszym od najlepszego.",
+        "Wypisz wynik srebrnych medalistów i ich liczbę. Jeśli wszyscy mają ten sam wynik, srebra nie ma — wypisz BRAK."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n wyników."
+      ],
+      "output_format": [
+        "Dwie liczby: wynik srebrnych medalistów i ich liczba — albo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "0 ≤ wynik ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "6\n120 95 120 110 110 80",
+          "output": "110 2",
+          "note": "Różne wyniki to 80, 95, 110, 120. Złoto: 120. Srebro: 110 — ma je dwóch zawodników."
+        }
+      ],
+      "hint": "Wyniki wczytaj do vectora i jednocześnie wstaw do zbioru. Jeśli zbiór ma mniej niż 2 elementy — BRAK. W przeciwnym razie drugi największy to *next(s.rbegin()) (strzałka od tyłu, o jeden dalej) albo *prev(prev(s.end())). Na koniec policz w vectorze, ilu zawodników ma ten wynik.",
+      "tests_count": 9
+    },
+    {
+      "id": "zb-k-ta-rozna",
+      "number": 1625,
+      "title": "k-ta najmniejsza różna",
+      "category": "Zbiór / krok 3: begin, rbegin, iteratory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz n liczb i q pytań. Każde pytanie to liczba k: wypisz k-tą najmniejszą wartość spośród różnych wartości na liście (k = 1 to najmniejsza). Jeśli różnych wartości jest mniej niż k, wypisz BRAK."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i q.",
+        "W drugim wierszu n liczb.",
+        "W każdym z następnych q wierszy jedno pytanie k."
+      ],
+      "output_format": [
+        "q wierszy — odpowiedzi na pytania."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "1 ≤ q ≤ 1000",
+        "1 ≤ każda liczba ≤ 10⁶",
+        "1 ≤ k ≤ 10 000"
+      ],
+      "examples": [
+        {
+          "input": "7 3\n5 1 5 3 9 1 3\n1\n3\n5",
+          "output": "1\n5\nBRAK",
+          "note": "Różne wartości to 1, 3, 5, 9. Pierwsza najmniejsza to 1, trzecia — 5, a piątej nie ma."
+        }
+      ],
+      "hint": "Wstaw wszystkie liczby do zbioru, a potem przepisz go do vectora: vector<int> w(s.begin(), s.end()); — w jest posortowany i bez powtórzeń. Odpowiedź na pytanie k to w[k - 1], o ile k <= w.size(). Chodzenie strzałką k kroków przy każdym pytaniu też by zdążyło, ale vector jest prostszy.",
+      "tests_count": 8
+    },
+    {
+      "id": "zb-skrajne-polecenia",
+      "number": 1626,
+      "title": "Najmniejszy i największy na żywo",
+      "category": "Zbiór / krok 3: begin, rbegin, iteratory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na początku zbiór jest pusty. Wykonaj po kolei q poleceń:",
+        "DODAJ x — wstaw x do zbioru,",
+        "USUN x — usuń x ze zbioru (jeśli go nie ma, nic się nie dzieje),",
+        "MIN — wypisz najmniejszy element zbioru,",
+        "MAX — wypisz największy element zbioru.",
+        "Jeśli przy MIN albo MAX zbiór jest pusty, wypisz PUSTY."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z następnych q wierszy polecenie (DODAJ i USUN z liczbą x, MIN i MAX bez liczby)."
+      ],
+      "output_format": [
+        "Odpowiedzi na polecenia MIN i MAX, każda w osobnym wierszu."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 2000",
+        "−10⁹ ≤ x ≤ 10⁹",
+        "Jest co najmniej jedno polecenie MIN albo MAX."
+      ],
+      "examples": [
+        {
+          "input": "8\nDODAJ 5\nDODAJ 2\nMIN\nMAX\nUSUN 2\nMIN\nUSUN 5\nMAX",
+          "output": "2\n5\n5\nPUSTY",
+          "note": "Po usunięciu dwójki najmniejsza jest piątka. Po usunięciu piątki zbiór jest pusty."
+        }
+      ],
+      "hint": "Wczytaj polecenie do string; liczbę wczytuj tylko przy DODAJ i USUN. Przy MIN i MAX najpierw sprawdź s.empty() — dopiero gdy zbiór nie jest pusty, wolno sięgnąć po *s.begin() albo *s.rbegin().",
+      "tests_count": 8
+    },
+    {
+      "id": "zb-odstepy",
+      "number": 1627,
+      "title": "Odstępy między słupkami",
+      "category": "Zbiór / krok 3: begin, rbegin, iteratory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wzdłuż drogi stoją słupki, a ich pozycje (liczby całkowite) zapisano na liście. Niektóre słupki zapisano kilka razy — ta sama pozycja to ten sam słupek.",
+        "Wypisz najmniejszy i największy odstęp między sąsiednimi słupkami (słupkami, między którymi nie stoi żaden inny). Jeśli różnych słupków jest mniej niż dwa, wypisz BRAK."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n pozycji słupków."
+      ],
+      "output_format": [
+        "Dwie liczby: najmniejszy i największy odstęp — albo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "0 ≤ pozycja ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "6\n10 3 25 10 4 18",
+          "output": "1 8",
+          "note": "Różne pozycje: 3, 4, 10, 18, 25. Odstępy: 1, 6, 8, 7. Najmniejszy 1, największy 8."
+        }
+      ],
+      "hint": "Wstaw pozycje do zbioru — powtórki znikną, a słupki ułożą się po kolei. Sąsiedzi w zbiorze to sąsiednie słupki. Przejdź zbiór strzałką od drugiego elementu: for (auto it = next(s.begin()); it != s.end(); it++) i licz *it - *prev(it). Najpierw sprawdź, czy s.size() >= 2.",
+      "tests_count": 9
+    },
+    {
+      "id": "zb-z-obu-koncow",
+      "number": 1628,
+      "title": "Zabieranie z obu końców",
+      "category": "Zbiór / krok 3: begin, rbegin, iteratory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na stole leżą kartki z liczbami. Najpierw organizator usuwa powtórki, tak że zostaje po jednej kartce z każdą różną liczbą. Potem Ala i Bartek grają na zmianę, zaczyna Ala. W swoim ruchu Ala zabiera kartkę z największą liczbą, a Bartek — z najmniejszą. Grają, aż kartki się skończą.",
+        "Wypisz sumę liczb na kartkach Ali i sumę liczb na kartkach Bartka."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb z kartek (przed usunięciem powtórek)."
+      ],
+      "output_format": [
+        "Dwie liczby: suma Ali i suma Bartka."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "1 ≤ liczba ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "6\n5 1 9 5 3 7",
+          "output": "21 4",
+          "note": "Po usunięciu powtórek: 1, 3, 5, 7, 9. Ala bierze 9, Bartek 1, Ala 7, Bartek 3, Ala 5. Ala: 21, Bartek: 4."
+        }
+      ],
+      "hint": "Wrzuć liczby do zbioru. Potem pętla while (!s.empty()): w ruchu Ali dodaj *s.rbegin() do jej sumy i usuń ten element przez s.erase(prev(s.end())); w ruchu Bartka dodaj *s.begin() i usuń przez s.erase(s.begin()). Po każdym ruchu sprawdź, czy zbiór nie jest już pusty. Sumy mogą przekroczyć zakres int — użyj long long.",
+      "tests_count": 9
+    },
+    {
+      "id": "zb-rozrzut-na-zywo",
+      "number": 1629,
+      "title": "Rozrzut po każdym dniu",
+      "category": "Zbiór / krok 3: begin, rbegin, iteratory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Przez n dni mierzysz temperaturę (liczba całkowita). Po każdym dniu wypisz dwie liczby: ile różnych temperatur zmierzono do tej pory i o ile najwyższa zmierzona dotąd temperatura jest większa od najniższej."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n temperatur, dzień po dniu."
+      ],
+      "output_format": [
+        "n wierszy — w każdym liczba różnych temperatur i rozrzut."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2500",
+        "−50 ≤ temperatura ≤ 50"
+      ],
+      "examples": [
+        {
+          "input": "5\n3 -2 3 7 0",
+          "output": "1 0\n2 5\n2 5\n3 9\n4 9",
+          "note": "Po trzecim dniu temperatury to 3, −2, 3 — różne są dwie, rozrzut 3 − (−2) = 5. Po czwartym dniu rozrzut rośnie do 7 − (−2) = 9."
+        }
+      ],
+      "hint": "Wstawiaj temperatury do zbioru po kolei i po każdym wstawieniu wypisz s.size() oraz *s.rbegin() - *s.begin(). Zbiór nie jest pusty, bo przed chwilą coś do niego wstawiłeś.",
+      "tests_count": 8
+    },
+    {
+      "id": "zb-ciag-dwoch-regul",
+      "number": 1630,
+      "title": "Ciąg z dwóch reguł",
+      "category": "Zbiór / krok 3: begin, rbegin, iteratory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Zbiór Z zawiera liczbę 1. Jeśli liczba x należy do Z, to do Z należą też liczby 2x + 1 i 3x + 1. Innych liczb w Z nie ma. Ułożone rosnąco elementy Z to: 1, 3, 4, 7, 9, 10, 13, 15, 19, 21, 22, 27, …",
+        "Dla każdego z t pytań n wypisz n-ty element tego ciągu (licząc od 1)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "W każdym z następnych t wierszy jedno pytanie n."
+      ],
+      "output_format": [
+        "t wierszy — n-te elementy ciągu."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1000",
+        "1 ≤ n ≤ 100 000"
+      ],
+      "examples": [
+        {
+          "input": "4\n1\n2\n5\n12",
+          "output": "1\n3\n9\n27",
+          "note": "Pierwszy element to 1, drugi 3, piąty 9, dwunasty 27 — zobacz ciąg w treści."
+        }
+      ],
+      "hint": "Trzymaj zbiór „kandydatów”, na początku {1}. Najmniejszy kandydat jest zawsze kolejnym elementem ciągu: zdejmij go (x = *s.begin(); s.erase(s.begin());), dopisz do vectora wyników i wstaw do zbioru 2x + 1 oraz 3x + 1. Zbiór sam usunie powtórki (np. 31 = 2 · 15 + 1 = 3 · 10 + 1). Powtórz tyle razy, ile wynosi największe n z pytań, i odpowiadaj z vectora. Liczby rosną — użyj long long.",
+      "tests_count": 7
+    },
+    {
+      "id": "zb-basen",
+      "number": 1631,
+      "title": "Najbliższy dzień otwarcia",
+      "category": "Zbiór / krok 4: szukanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Basen jest otwarty tylko w wybrane dni (numery dni od początku roku szkolnego; ten sam dzień mógł zostać zapisany kilka razy). Dla każdego z q pytań d wypisz numer pierwszego dnia otwarcia, który jest nie wcześniejszy niż d — albo ZAMKNIETE, jeśli po dniu d basen już nie będzie otwarty."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i q.",
+        "W drugim wierszu n numerów dni otwarcia.",
+        "W każdym z następnych q wierszy jedno pytanie d."
+      ],
+      "output_format": [
+        "q wierszy — numer dnia albo ZAMKNIETE."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "1 ≤ q ≤ 2500",
+        "1 ≤ numer dnia ≤ 10⁶",
+        "1 ≤ d ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "4 4\n10 3 25 10\n1\n10\n11\n26",
+          "output": "3\n10\n25\nZAMKNIETE",
+          "note": "Dni otwarcia to 3, 10 i 25. Kto przyjdzie w dniu 10, popływa od razu. Po dniu 25 basen jest zamknięty."
+        }
+      ],
+      "hint": "Wstaw dni otwarcia do zbioru. Dla pytania d weź auto it = s.lower_bound(d) — pierwszy dzień ≥ d. Jeśli it == s.end(), wypisz ZAMKNIETE, a w przeciwnym razie *it. Pamiętaj: lower_bound z kropką, jako polecenie zbioru.",
+      "tests_count": 8
+    },
+    {
+      "id": "zb-ostatni-autobus",
+      "number": 1632,
+      "title": "Ostatni autobus",
+      "category": "Zbiór / krok 4: szukanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Z przystanku odjeżdżają autobusy — znasz ich godziny odjazdów, zapisane w sekundach od początku tygodnia (niektóre godziny zapisano dwa razy). Spóźnieni uczniowie przychodzą na przystanek i każdy pyta: o której odjechał ostatni autobus nie później niż w sekundzie t, kiedy przyszedłem?",
+        "Dla każdego pytania t wypisz największą godzinę odjazdu, która jest ≤ t, albo BRAK, jeśli przed t żaden autobus nie odjechał."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i q.",
+        "W drugim wierszu n godzin odjazdów.",
+        "W każdym z następnych q wierszy jedno pytanie t."
+      ],
+      "output_format": [
+        "q wierszy — godzina odjazdu albo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "1 ≤ q ≤ 3000",
+        "0 ≤ godzina odjazdu, t ≤ 604 800"
+      ],
+      "examples": [
+        {
+          "input": "5 4\n100 400 250 100 900\n50\n100\n399\n1000",
+          "output": "BRAK\n100\n250\n900",
+          "note": "Kto przyjdzie w sekundzie 50, nie zdążył na nic — przed nim nic nie odjechało. W sekundzie 100 autobus odjeżdża właśnie teraz, więc się liczy. Dla 399 ostatni odjazd był o 250."
+        }
+      ],
+      "hint": "upper_bound(t) wskazuje pierwszy odjazd PÓŹNIEJSZY niż t. Ostatni odjazd ≤ t stoi tuż przed nim: *prev(it). Ale jeśli it == s.begin(), to wszystkie odjazdy są późniejsze niż t — wypisz BRAK. Bez tego sprawdzenia prev(begin()) to błąd.",
+      "tests_count": 8
+    },
+    {
+      "id": "zb-sasiedzi-wartosci",
+      "number": 1633,
+      "title": "Mniejszy i większy sąsiad",
+      "category": "Zbiór / krok 4: szukanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz n liczb (mogą się powtarzać) i q pytań. Dla każdego pytania x wypisz dwie wartości: największą liczbę z listy, która jest ściśle mniejsza od x, i najmniejszą liczbę z listy, która jest ściśle większa od x. Gdy takiej liczby nie ma, w jej miejscu wypisz znak -."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i q.",
+        "W drugim wierszu n liczb.",
+        "W każdym z następnych q wierszy jedno pytanie x."
+      ],
+      "output_format": [
+        "q wierszy — w każdym dwie wartości (liczby albo -) oddzielone spacją."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 4000",
+        "1 ≤ q ≤ 1500",
+        "−10⁶ ≤ każda liczba, x ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "5 3\n3 8 15 21 30\n15\n2\n31",
+          "output": "8 21\n- 3\n30 -",
+          "note": "Dla 15: mniejsze to 3 i 8 (największa 8), większe — 21 i 30 (najmniejsza 21). Sama piętnastka się nie liczy, bo ma być ściśle. Dla 2 nic nie jest mniejsze."
+        }
+      ],
+      "hint": "Największy element < x stoi tuż przed lower_bound(x): sprawdź, czy lower_bound nie jest begin(), i cofnij strzałkę. Najmniejszy element > x to upper_bound(x) — sprawdź, czy nie jest end(). Nie myl lower z upper: dla x obecnego w zbiorze dają różne miejsca.",
+      "tests_count": 7
+    },
+    {
+      "id": "zb-najblizej",
+      "number": 1634,
+      "title": "Najbliższa liczba w rosnącym zbiorze",
+      "category": "Zbiór / krok 4: szukanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na początku zbiór jest pusty. Wykonaj q poleceń:",
+        "DODAJ x — wstaw x do zbioru,",
+        "NAJBLIZEJ x — wypisz liczbę ze zbioru najbliższą x (jeśli dwie są tak samo blisko — mniejszą z nich), albo PUSTY, jeśli zbiór jest pusty."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z następnych q wierszy polecenie i liczba x."
+      ],
+      "output_format": [
+        "Odpowiedzi na polecenia NAJBLIZEJ, każda w osobnym wierszu."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 5000",
+        "−10⁹ ≤ x ≤ 10⁹",
+        "Jest co najmniej jedno polecenie NAJBLIZEJ."
+      ],
+      "examples": [
+        {
+          "input": "6\nDODAJ 10\nNAJBLIZEJ 3\nDODAJ 20\nNAJBLIZEJ 15\nNAJBLIZEJ 16\nNAJBLIZEJ 100",
+          "output": "10\n10\n20\n20",
+          "note": "Dla 15 liczby 10 i 20 są tak samo blisko — wygrywa mniejsza, 10. Dla 16 bliżej jest 20."
+        }
+      ],
+      "hint": "Kandydaci to it = s.lower_bound(x) (pierwszy ≥ x) i element przed nim (ostatni < x). Rozpatrz trzy przypadki: it == s.end() (jest tylko kandydat z lewej), it == s.begin() (tylko z prawej) i oba. Odległości licz w long long: x − lewy może sięgać 2 · 10⁹, a to więcej niż mieści int.",
+      "tests_count": 9
+    },
+    {
+      "id": "zb-nowy-w-szeregu",
+      "number": 1635,
+      "title": "Nowy w szeregu",
+      "category": "Zbiór / krok 4: szukanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na WF-ie uczniowie ustawiają się w szeregu od najniższego do najwyższego, ale przychodzą po kolei, jeden po drugim. Każdy nowy wchodzi w szereg na swoje miejsce według wzrostu (wszystkie wzrosty są różne).",
+        "Po przyjściu każdego ucznia wypisz wzrost jego lewego sąsiada (najwyższego z niższych) i prawego sąsiada (najniższego z wyższych). Gdy sąsiada z którejś strony nie ma, wypisz w jego miejscu znak -."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n różnych wzrostów, w kolejności przychodzenia."
+      ],
+      "output_format": [
+        "n wierszy — w każdym wzrost lewego i prawego sąsiada (albo -)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1500",
+        "1 ≤ wzrost ≤ 10⁶ (wszystkie różne)"
+      ],
+      "examples": [
+        {
+          "input": "5\n160 150 170 155 165",
+          "output": "- -\n- 160\n160 -\n150 160\n160 170",
+          "note": "Pierwszy stoi sam. 150 staje na lewym końcu, obok 160. 155 wchodzi między 150 a 160, a 165 — między 160 a 170."
+        }
+      ],
+      "hint": "auto it = s.insert(x).first; daje strzałkę na nowego ucznia. Lewy sąsiad to *prev(it) — o ile it != s.begin(). Prawy to *next(it) — o ile next(it) != s.end().",
+      "tests_count": 9
+    },
+    {
+      "id": "zb-stacje",
+      "number": 1636,
+      "title": "Stacje ładowania",
+      "category": "Zbiór / krok 4: szukanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wzdłuż autostrady budowane są stacje ładowania aut elektrycznych (pozycja to liczba całkowita w metrach od początku drogi). Wykonaj q poleceń:",
+        "BUDUJ x — powstaje stacja na pozycji x (gdy tam już jest, nic się nie zmienia),",
+        "BURZ x — stacja na pozycji x znika (gdy jej nie ma, nic się nie dzieje),",
+        "JADE x — kierowca rusza z pozycji x w stronę rosnących pozycji; wypisz pozycję pierwszej stacji, którą spotka (stacja na pozycji x też się liczy), albo BRAK."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z następnych q wierszy polecenie i liczba x."
+      ],
+      "output_format": [
+        "Odpowiedzi na polecenia JADE, każda w osobnym wierszu."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 5000",
+        "0 ≤ x ≤ 10⁹",
+        "Jest co najmniej jedno polecenie JADE."
+      ],
+      "examples": [
+        {
+          "input": "7\nBUDUJ 50\nBUDUJ 20\nJADE 21\nBURZ 50\nJADE 21\nJADE 20\nJADE 0",
+          "output": "50\nBRAK\n20\n20",
+          "note": "Po zburzeniu stacji 50 za pozycją 21 nie ma już żadnej stacji. Stacja na pozycji 20 liczy się dla kierowcy, który rusza właśnie z 20."
+        }
+      ],
+      "hint": "Zbiór pozycji stacji: BUDUJ to insert, BURZ to erase, a JADE to lower_bound(x) — pierwsza stacja ≥ x — ze sprawdzeniem end(). Zbiór zmienia się między pytaniami, więc posortowany raz vector by nie wystarczył.",
+      "tests_count": 9
+    },
+    {
+      "id": "zb-szafki",
+      "number": 1637,
+      "title": "Szafki na basenie",
+      "category": "Zbiór / krok 4: szukanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W szatni basenu jest n szafek o numerach od 1 do n, na początku wszystkie wolne. Przychodzą pływacy i oddają klucze:",
+        "PRZYCHODZI p — pływak chce szafkę p. Jeśli jest zajęta, bierze pierwszą wolną szafkę o numerze większym od p, a jeśli takiej nie ma — pierwszą wolną szafkę od początku (o najmniejszym numerze). Wypisz numer szafki, którą dostał, albo 0, jeśli wszystkie są zajęte (wtedy pływak odchodzi bez szafki).",
+        "ODDAJE k — szafka k się zwalnia (dane są poprawne: szafka k była zajęta)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i q.",
+        "W każdym z następnych q wierszy polecenie i liczba."
+      ],
+      "output_format": [
+        "Odpowiedzi na polecenia PRZYCHODZI, każda w osobnym wierszu."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 100 000",
+        "1 ≤ q ≤ 5000",
+        "1 ≤ p, k ≤ n",
+        "Jest co najmniej jedno polecenie PRZYCHODZI."
+      ],
+      "examples": [
+        {
+          "input": "5 6\nPRZYCHODZI 4\nPRZYCHODZI 4\nPRZYCHODZI 5\nODDAJE 4\nPRZYCHODZI 5\nPRZYCHODZI 2",
+          "output": "4\n5\n1\n2\n3",
+          "note": "Drugi pływak dostaje 5, bo 4 jest zajęta. Trzeci chce 5, za nią nic wolnego — dostaje pierwszą wolną od początku: 1. Po oddaniu czwórki wolne są 2, 3, 4: pływak, który chce 5, dostaje 2, a ostatni, który chce 2 (zajętą), dostaje 3."
+        }
+      ],
+      "hint": "Trzymaj zbiór WOLNYCH szafek — na początku wstaw do niego wszystkie od 1 do n. Przy PRZYCHODZI: jeśli zbiór jest pusty, wypisz 0. W przeciwnym razie it = s.lower_bound(p); gdy it == s.end(), weź it = s.begin(). Wypisz *it i usuń tę szafkę ze zbioru wolnych. ODDAJE k to po prostu insert(k).",
+      "tests_count": 9
+    },
+    {
+      "id": "zb-najmniejsza-roznica",
+      "number": 1638,
+      "title": "Najmniejsza różnica na żywo",
+      "category": "Zbiór / krok 4: szukanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Liczby (wszystkie różne) przychodzą po kolei i trafiają do zbioru. Po każdej nowej liczbie wypisz najmniejszą różnicę między dwiema liczbami, które są już w zbiorze. Po pierwszej liczbie różnicy jeszcze nie ma — wypisz wtedy znak -."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n różnych liczb, w kolejności przychodzenia."
+      ],
+      "output_format": [
+        "n wierszy — najmniejsza różnica po każdej liczbie (w pierwszym wierszu -)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 3000",
+        "0 ≤ liczba ≤ 10⁹ (wszystkie różne)"
+      ],
+      "examples": [
+        {
+          "input": "5\n10 50 30 32 1",
+          "output": "-\n40\n20\n2\n2",
+          "note": "Po 50: różnica 40. Po 30: najbliższe są 30 i 10 albo 30 i 50 — różnica 20. Po 32: 32 − 30 = 2. Jedynka nic nie poprawia (1 jest 9 od 10)."
+        }
+      ],
+      "hint": "Sprawdzanie wszystkich par po każdej liczbie byłoby wolne. Zauważ, że nowa liczba może poprawić wynik tylko z jednym ze swoich sąsiadów w zbiorze — z najbliższą mniejszą albo najbliższą większą. Trzymaj bieżące minimum (na start bardzo duża liczba) i po każdym insert sprawdź tylko różnice z *prev(it) i *next(it) (pilnując brzegów).",
+      "tests_count": 9
+    },
+    {
+      "id": "zb-wspolne-gry",
+      "number": 1639,
+      "title": "Wspólne gry",
+      "category": "Zbiór / krok 5: działania na zbiorach",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ala ma na komputerze n gier, a Ola — m gier (każda gra ma numer; listy mogą zawierać powtórki). Wypisz rosnąco numery gier, które mają obie dziewczyny, w jednym wierszu oddzielone spacjami. Jeśli nie mają ani jednej wspólnej gry, wypisz BRAK."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W drugim wierszu n numerów gier Ali.",
+        "W trzecim wierszu m numerów gier Oli."
+      ],
+      "output_format": [
+        "Numery wspólnych gier rosnąco albo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 3000",
+        "1 ≤ numer gry ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "5 4\n10 3 7 3 15\n7 15 2 10",
+          "output": "7 10 15",
+          "note": "Wspólne są gry 7, 10 i 15."
+        }
+      ],
+      "hint": "Wczytaj obie listy do dwóch zbiorów A i B. Przejdź zbiór A pętlą i wypisz każdy x, dla którego B.count(x) jest równe 1. Zapamiętaj, czy cokolwiek wypisałeś — jeśli nie, wypisz BRAK.",
+      "tests_count": 9
+    },
+    {
+      "id": "zb-razem",
+      "number": 1640,
+      "title": "Wszystkie naklejki razem",
+      "category": "Zbiór / krok 5: działania na zbiorach",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Bracia Kuba i Tomek łączą swoje kolekcje naklejek. Kuba ma n naklejek, Tomek m (numery mogą się powtarzać, także między braćmi). Ile różnych naklejek będzie w połączonej kolekcji? Wypisz ich liczbę, a potem numery rosnąco."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W drugim wierszu n numerów naklejek Kuby.",
+        "W trzecim wierszu m numerów naklejek Tomka."
+      ],
+      "output_format": [
+        "W pierwszym wierszu liczba różnych naklejek.",
+        "W drugim wierszu ich numery rosnąco, oddzielone spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 1500",
+        "1 ≤ numer ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "3 4\n5 1 5\n2 5 9 1",
+          "output": "4\n1 2 5 9",
+          "note": "Razem: 1, 2, 5, 9 — cztery różne naklejki."
+        }
+      ],
+      "hint": "Wystarczy jeden zbiór: wstaw do niego wszystkie naklejki Kuby i wszystkie naklejki Tomka. Powtórki odpadną same. Wypisz size() i przejdź zbiór pętlą.",
+      "tests_count": 7
+    },
+    {
+      "id": "zb-czego-nie-ma",
+      "number": 1641,
+      "title": "Czego nie ma druga?",
+      "category": "Zbiór / krok 5: działania na zbiorach",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ala chce podarować Oli naklejki, ale tylko takie, których Ola jeszcze nie ma. Wypisz rosnąco różne numery naklejek, które ma Ala, a których nie ma Ola — w jednym wierszu, oddzielone spacjami. Jeśli takich nie ma, wypisz BRAK."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W drugim wierszu n numerów naklejek Ali.",
+        "W trzecim wierszu m numerów naklejek Oli."
+      ],
+      "output_format": [
+        "Numery naklejek rosnąco albo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 3000",
+        "1 ≤ numer ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "5 3\n4 1 9 4 6\n6 2 4",
+          "output": "1 9",
+          "note": "Ala ma 1, 4, 6, 9. Ola ma już 4 i 6. Nowe dla Oli są 1 i 9 (dwójka Oli nie ma znaczenia)."
+        }
+      ],
+      "hint": "To różnica zbiorów A \\ B: przejdź zbiór naklejek Ali i wypisz te x, dla których !B.count(x). Uważaj, który zbiór przechodzisz — B \\ A to coś zupełnie innego.",
+      "tests_count": 8
+    },
+    {
+      "id": "zb-dokladnie-u-jednego",
+      "number": 1642,
+      "title": "Dokładnie u jednego",
+      "category": "Zbiór / krok 5: działania na zbiorach",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Kuba ma n naklejek, Tomek m. Które numery naklejek ma dokładnie jeden z nich (Kuba albo Tomek, ale nie obaj)? Wypisz, ile jest takich numerów, a potem same numery rosnąco."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W drugim wierszu n numerów naklejek Kuby.",
+        "W trzecim wierszu m numerów naklejek Tomka."
+      ],
+      "output_format": [
+        "W pierwszym wierszu liczba takich numerów.",
+        "W drugim wierszu te numery rosnąco (pusty wiersz, jeśli ich nie ma)."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 1500",
+        "1 ≤ numer ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "4 4\n1 2 3 4\n3 4 5 6",
+          "output": "4\n1 2 5 6",
+          "note": "Tylko Kuba ma 1 i 2, tylko Tomek — 5 i 6. Trójkę i czwórkę mają obaj."
+        }
+      ],
+      "hint": "Zbuduj zbiory A i B. Do nowego zbioru W wstaw elementy A, których nie ma w B, i elementy B, których nie ma w A. W ułoży je rosnąco. Wypisz W.size() i jego elementy.",
+      "tests_count": 7
+    },
+    {
+      "id": "zb-relacja",
+      "number": 1643,
+      "title": "Podzbiór czy nie?",
+      "category": "Zbiór / krok 5: działania na zbiorach",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz t par list liczb. Z każdej pary list tworzysz zbiory A i B (powtórki znikają). Dla każdej pary wypisz jedno słowo:",
+        "ROWNE — gdy A i B mają dokładnie te same elementy,",
+        "PODZBIOR — gdy każdy element A jest w B, ale B ma też coś, czego nie ma A,",
+        "NADZBIOR — gdy każdy element B jest w A, ale A ma też coś, czego nie ma B,",
+        "ROZLACZNE — gdy A i B nie mają żadnego wspólnego elementu,",
+        "INNE — w pozostałych przypadkach."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "Każda para to trzy wiersze: liczby n i m, potem n liczb pierwszej listy i m liczb drugiej listy."
+      ],
+      "output_format": [
+        "t wierszy — w każdym jedno słowo."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 50",
+        "1 ≤ n, m ≤ 1000",
+        "Suma wszystkich n i m ≤ 20 000",
+        "1 ≤ każda liczba ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "4\n3 2\n1 2 3\n2 1\n2 3\n5 6\n7 8 9\n1 1\n4\n4\n2 3\n1 2\n2 1 3",
+          "output": "NADZBIOR\nROZLACZNE\nROWNE\nPODZBIOR",
+          "note": "Pierwsza para: B = {1, 2} mieści się w A = {1, 2, 3} — A jest nadzbiorem B. Druga: nic wspólnego. Trzecia: oba to {4}. Czwarta: {1, 2} mieści się w {1, 2, 3}."
+        }
+      ],
+      "hint": "Najpierw sprawdź równość: A == B. Potem policz, ile elementów A jest w B (wspolne). Jeśli wspolne == A.size(), to A ⊆ B — a skoro nie są równe, to PODZBIOR. Jeśli wspolne == B.size(), to NADZBIOR. Jeśli wspolne == 0 — ROZLACZNE. W pozostałych przypadkach — INNE. Pamiętaj o nowych zbiorach dla każdej pary.",
+      "tests_count": 9
+    },
+    {
+      "id": "zb-pangram",
+      "number": 1644,
+      "title": "Brakujące litery",
+      "category": "Zbiór / krok 5: działania na zbiorach",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Pangram to zdanie, w którym występuje każda z 26 liter alfabetu angielskiego (od a do z). Dostajesz jedno zdanie. Wielkie i małe litery traktuj jak tę samą literę, a inne znaki (spacje, cyfry, przecinki) pomijaj.",
+        "Wypisz w jednym wierszu, bez spacji i alfabetycznie, małe litery, których w zdaniu brakuje. Jeśli zdanie jest pangramem, wypisz PANGRAM."
+      ],
+      "input_format": [
+        "Jeden wiersz — zdanie (litery a–z i A–Z, cyfry, spacje i znaki interpunkcyjne)."
+      ],
+      "output_format": [
+        "Brakujące litery alfabetycznie albo PANGRAM."
+      ],
+      "constraints": [
+        "Zdanie ma od 1 do 10 000 znaków."
+      ],
+      "examples": [
+        {
+          "input": "Ala ma kota, a kot ma Ale.",
+          "output": "bcdfghijnpqrsuvwxyz",
+          "note": "W zdaniu są tylko litery a, e, k, l, m, o, t. Brakuje pozostałych."
+        },
+        {
+          "input": "The quick brown fox jumps over the lazy dog",
+          "output": "PANGRAM",
+          "note": "To słynny angielski pangram."
+        }
+      ],
+      "hint": "Wczytaj całe zdanie przez getline(cin, zdanie) — zwykłe cin >> przeczytałoby tylko pierwsze słowo. Dla każdego znaku, który jest literą (isalpha), wstaw do set<char> jego małą wersję tolower(c). Potem pętla for (char c = 'a'; c <= 'z'; c++) i wypisz litery, których zbiór nie zna. Jeśli nic nie wypisałeś — PANGRAM.",
+      "tests_count": 11
+    },
+    {
+      "id": "zb-litery-wszystkich",
+      "number": 1645,
+      "title": "Litery wspólne dla wszystkich",
+      "category": "Zbiór / krok 5: działania na zbiorach",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz n słów z małych liter. Wypisz alfabetycznie, bez spacji, litery, które występują w każdym z tych słów. Jeśli takiej litery nie ma, wypisz BRAK."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z następnych n wierszy jedno słowo."
+      ],
+      "output_format": [
+        "Wspólne litery alfabetycznie albo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "Każde słowo ma od 1 do 100 liter a–z."
+      ],
+      "examples": [
+        {
+          "input": "3\nkotek\nkrata\nkapitan",
+          "output": "kt",
+          "note": "Litery słów: {e, k, o, t}, {a, k, r, t}, {a, i, k, n, p, t}. We wszystkich trzech są tylko k i t."
+        }
+      ],
+      "hint": "Zbiór wspolne zacznij od liter pierwszego słowa. Dla każdego kolejnego słowa zbuduj zbiór jego liter i zostaw we wspolne tylko te litery, które ma też to słowo (nowy zbiór i przypisanie wspolne = nowe). Na końcu wypisz litery albo BRAK, jeśli zbiór jest pusty.",
+      "tests_count": 9
+    },
+    {
+      "id": "zb-kolka",
+      "number": 1646,
+      "title": "Kółka zainteresowań",
+      "category": "Zbiór / krok 5: działania na zbiorach",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W szkole działa k kółek zainteresowań. Dla każdego kółka znasz listę numerów uczniów, którzy na nie chodzą (przez pomyłkę ktoś mógł zostać wpisany na tę samą listę dwa razy — to wciąż jeden uczeń).",
+        "Wypisz trzy liczby: ilu różnych uczniów chodzi na co najmniej jedno kółko, ilu chodzi na wszystkie kółka i ilu chodzi na dokładnie jedno kółko."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba kółek k.",
+        "W każdym z następnych k wierszy: liczba wpisów c, a potem c numerów uczniów."
+      ],
+      "output_format": [
+        "Trzy liczby oddzielone spacjami."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ 100",
+        "1 ≤ c ≤ 1000",
+        "Suma wszystkich c ≤ 10 000",
+        "1 ≤ numer ucznia ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "3\n4 1 2 3 2\n2 2 4\n3 2 3 5",
+          "output": "5 1 3",
+          "note": "Kółka to {1, 2, 3}, {2, 4} i {2, 3, 5}. Razem pięciu uczniów: 1–5. Na wszystkie chodzi tylko 2. Na dokładnie jedno: 1, 4 i 5 (trójka chodzi na dwa)."
+        }
+      ],
+      "hint": "Dla każdego kółka zbuduj najpierw zbiór jego uczniów (to usuwa pomyłkowe powtórki). „Co najmniej jedno” to suma wszystkich zbiorów, „wszystkie” — część wspólna liczona krok po kroku. Na „dokładnie jedno” przydadzą się dwa zbiory: raz (uczniowie widziani na jednym kółku) i wiecej (na co najmniej dwóch). Dla ucznia z kolejnego kółka: jeśli jest w wiecej — nic; jeśli jest w raz — przenieś go do wiecej; w przeciwnym razie wstaw do raz. Odpowiedź to raz.size().",
+      "tests_count": 11
+    },
+    {
+      "id": "zb-rozne-punkty",
+      "number": 1647,
+      "title": "Różne punkty",
+      "category": "Zbiór / krok 6: pary i napisy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz n punktów na płaszczyźnie (współrzędne całkowite). Niektóre punkty zapisano kilka razy. Wypisz, ile jest różnych punktów, a potem każdy różny punkt w osobnym wierszu — posortowane według x, a przy równych x według y."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z następnych n wierszy dwie liczby: x i y."
+      ],
+      "output_format": [
+        "W pierwszym wierszu liczba różnych punktów.",
+        "Potem różne punkty, każdy w osobnym wierszu: x i y oddzielone spacją."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "−1000 ≤ x, y ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "5\n1 2\n0 5\n1 2\n-3 4\n0 5",
+          "output": "3\n-3 4\n0 5\n1 2",
+          "note": "Różne są trzy punkty. Najpierw ten z najmniejszym x = −3."
+        }
+      ],
+      "hint": "set<pair<int, int>> punkty; i punkty.insert({x, y}); — pary porównują się najpierw po first, potem po second, dokładnie tak, jak każe zadanie. Wypisz punkty.size(), a potem for (auto [x, y] : punkty).",
+      "tests_count": 8
+    },
+    {
+      "id": "zb-znajomosci",
+      "number": 1648,
+      "title": "Znajomości bez powtórzeń",
+      "category": "Zbiór / krok 6: pary i napisy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W klasie zapisano m znajomości: każda to para numerów uczniów a i b, którzy się znają. Znajomość działa w obie strony, więc zapis „4 2” oznacza to samo co „2 4”, a ta sama znajomość mogła zostać zapisana kilka razy.",
+        "Wypisz, ile jest różnych znajomości, a potem każdą w osobnym wierszu jako dwa numery: mniejszy, potem większy. Znajomości posortuj według pierwszego numeru, a przy remisie według drugiego."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba m.",
+        "W każdym z następnych m wierszy dwa różne numery uczniów a i b."
+      ],
+      "output_format": [
+        "W pierwszym wierszu liczba różnych znajomości.",
+        "Potem znajomości, każda w osobnym wierszu."
+      ],
+      "constraints": [
+        "1 ≤ m ≤ 2000",
+        "1 ≤ a, b ≤ 10 000",
+        "a ≠ b"
+      ],
+      "examples": [
+        {
+          "input": "6\n4 2\n2 4\n1 4\n4 1\n4 1\n3 2",
+          "output": "3\n1 4\n2 3\n2 4",
+          "note": "Różne znajomości: 1–4, 2–3 i 2–4."
+        }
+      ],
+      "hint": "Zanim wstawisz parę do set<pair<int, int>>, ustaw ją w jednej kolejności: {min(a, b), max(a, b)}. Wtedy „4 2” i „2 4” staną się tą samą parą (2, 4), a zbiór zostawi ją raz.",
+      "tests_count": 8
+    },
+    {
+      "id": "zb-te-same-slowa",
+      "number": 1649,
+      "title": "Te same słowa?",
+      "category": "Zbiór / krok 6: pary i napisy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz dwa zdania jako listy słów (słowa z liter a–z i A–Z). Sprawdź, czy oba zdania używają dokładnie tego samego zestawu różnych słów, jeśli nie zwracamy uwagi na wielkość liter („Kot” i „kot” to to samo słowo) ani na to, ile razy słowo się powtarza.",
+        "Wypisz TAK albo NIE, a potem liczbę różnych słów w pierwszym i w drugim zdaniu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m — liczby słów w zdaniach.",
+        "W drugim wierszu n słów pierwszego zdania.",
+        "W trzecim wierszu m słów drugiego zdania."
+      ],
+      "output_format": [
+        "Jeden wiersz: TAK albo NIE i dwie liczby."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 2000",
+        "Każde słowo ma od 1 do 12 liter."
+      ],
+      "examples": [
+        {
+          "input": "4 3\nAla ma Kota ala\nkota MA ala",
+          "output": "TAK 3 3",
+          "note": "Po zamianie na małe litery oba zdania to zestaw {ala, kota, ma}."
+        },
+        {
+          "input": "2 2\nkot pies\nkot kot",
+          "output": "NIE 2 1",
+          "note": "W drugim zdaniu brakuje słowa „pies”."
+        }
+      ],
+      "hint": "Każde słowo przed wstawieniem zamień na małe litery: for (char &c : w) c = tolower(c);. Zbuduj dwa zbiory napisów i porównaj je operatorem ==. Rozmiary to A.size() i B.size().",
+      "tests_count": 11
+    },
+    {
+      "id": "zb-robot",
+      "number": 1650,
+      "title": "Robot na kratce",
+      "category": "Zbiór / krok 6: pary i napisy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Robot stoi na polu (0, 0) nieskończonej kratki i wykonuje ruchy zapisane jako napis: G — w górę (y + 1), D — w dół (y − 1), L — w lewo (x − 1), P — w prawo (x + 1).",
+        "Wypisz dwie rzeczy: na ilu różnych polach stał robot (licząc pole startowe) oraz numer ruchu (licząc od 1), po którym robot pierwszy raz stanął na polu, na którym już wcześniej był. Jeśli to się nie zdarzyło, zamiast numeru wypisz NIGDY."
+      ],
+      "input_format": [
+        "Jeden wiersz — napis z ruchami."
+      ],
+      "output_format": [
+        "Liczba różnych pól i numer ruchu (albo NIGDY), oddzielone spacją."
+      ],
+      "constraints": [
+        "Napis ma od 1 do 10 000 znaków G, D, L, P."
+      ],
+      "examples": [
+        {
+          "input": "PPLLD",
+          "output": "4 3",
+          "note": "Pola: (0, 0), (1, 0), (2, 0), potem znowu (1, 0) — to trzeci ruch. Dalej (0, 0) i (0, −1). Różnych pól jest 4."
+        },
+        {
+          "input": "GGP",
+          "output": "4 NIGDY",
+          "note": "Robot nigdy nie wraca: 4 różne pola."
+        }
+      ],
+      "hint": "Zbiór set<pair<int, int>> odwiedzonych pól zacznij od {0, 0}. W każdym ruchu zmień x albo y, a potem — tak jak w „czy to już było?” — najpierw sprawdź count({x, y}) (jeśli to pierwszy powrót, zapamiętaj numer ruchu), a dopiero potem wstaw pole.",
+      "tests_count": 12
+    },
+    {
+      "id": "zb-ulamki",
+      "number": 1651,
+      "title": "Różne ułamki",
+      "category": "Zbiór / krok 6: pary i napisy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz n ułamków a/b. Ile różnych liczb one oznaczają? Na przykład 1/2, 2/4 i 3/6 to ta sama liczba, a 0/5 i 0/7 — też (obie to zero). Licznik może być ujemny, mianownik jest zawsze dodatni."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z następnych n wierszy dwie liczby: licznik a i mianownik b."
+      ],
+      "output_format": [
+        "Jedna liczba — ile różnych wartości mają ułamki."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "−10⁶ ≤ a ≤ 10⁶",
+        "1 ≤ b ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "6\n1 2\n2 4\n3 6\n2 3\n0 5\n0 7",
+          "output": "3",
+          "note": "Trzy pierwsze ułamki to 1/2, potem 2/3 i dwa razy zero — razem trzy różne wartości."
+        },
+        {
+          "input": "3\n-1 2\n-2 4\n1 2",
+          "output": "2",
+          "note": "−1/2 i −2/4 to ta sama liczba, a 1/2 — inna."
+        }
+      ],
+      "hint": "Sprowadź każdy ułamek do postaci nieskracalnej: policz NWD z |a| i b (algorytm Euklidesa z lekcji Modulo: dopóki b2 != 0, zamieniaj (a2, b2) na (b2, a2 % b2)) i podziel przez nie licznik i mianownik. Dla a = 0 NWD wychodzi równe b, więc dostaniesz 0/1. Takie pary (licznik, mianownik) wstawiaj do set<pair<int, int>> i wypisz rozmiar.",
+      "tests_count": 10
+    },
+    {
+      "id": "zb-zestaw-liter",
+      "number": 1652,
+      "title": "Ten sam zestaw liter",
+      "category": "Zbiór / krok 6: pary i napisy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dwa słowa są spokrewnione, jeśli używają dokładnie tego samego zestawu liter — nie liczy się kolejność liter ani to, ile razy litera się powtarza. Na przykład „mama”, „am” i „maa” są spokrewnione (zestaw {a, m}), a „kot” i „tok” też (zestaw {k, o, t}).",
+        "Dostajesz n słów. Na ile grup spokrewnionych słów się dzielą?"
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n słów z małych liter a–z."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba grup."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "Każde słowo ma od 1 do 20 liter."
+      ],
+      "examples": [
+        {
+          "input": "6\nkot tok koot mama am maa",
+          "output": "2",
+          "note": "Zestawy liter: {k, o, t} trzy razy i {a, m} trzy razy — dwie grupy."
+        }
+      ],
+      "hint": "Każde słowo zamień na klucz: zbiór jego liter zapisany jako napis. Najprościej: set<char> l(w.begin(), w.end()); string klucz(l.begin(), l.end()); — litery wyjdą bez powtórzeń i alfabetycznie. Klucze wstawiaj do set<string>; liczba grup to jego rozmiar.",
+      "tests_count": 10
+    },
+    {
+      "id": "zb-ranking",
+      "number": 1653,
+      "title": "Ranking na żywo",
+      "category": "Zbiór / krok 6: pary i napisy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W turnieju gra n zawodników o numerach od 1 do n; na początku każdy ma 0 punktów. Przychodzi q wyników: każdy to numer zawodnika i liczba punktów, które zdobył (dodają się do jego dotychczasowych).",
+        "Po każdym wyniku wypisz lidera: numer zawodnika z największą liczbą punktów (przy remisie — z najmniejszym numerem) i jego punkty."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i q.",
+        "W każdym z następnych q wierszy dwie liczby: numer zawodnika i zdobyte punkty."
+      ],
+      "output_format": [
+        "q wierszy — w każdym numer lidera i jego punkty."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "1 ≤ q ≤ 2000",
+        "1 ≤ zdobyte punkty ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "3 4\n2 5\n3 5\n1 3\n3 1",
+          "output": "2 5\n2 5\n2 5\n3 6",
+          "note": "Po drugim wyniku 2 i 3 mają po 5 punktów — liderem jest zawodnik z mniejszym numerem, 2. Po czwartym zawodnik 3 ma 6 punktów i prowadzi."
+        }
+      ],
+      "hint": "Trzymaj punkty w vector<long long> pkt(n + 1) i zbiór par (-punkty, numer) — na start wszystkie pary (0, i). Przy wyniku usuń starą parę zawodnika ({-pkt[i], i}), zwiększ pkt[i] i wstaw nową parę. Lider to *ranking.begin(): numer to second, a punkty to -first. Sprawdzanie wszystkich zawodników po każdym wyniku (n · q kroków) też by zdążyło, ale zbiór robi to w O(log n).",
+      "tests_count": 9
+    },
+    {
+      "id": "zb-kamienie",
+      "number": 1654,
+      "title": "Kamienie na planszy",
+      "category": "Zbiór / krok 6: pary i napisy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na ogromnej planszy kładzie się i zdejmuje kamienie. Pole opisują dwie liczby: numer wiersza r i numer kolumny c. Wykonaj q poleceń:",
+        "POLOZ r c — połóż kamień na polu (r, c) (jeśli już tam leży, nic się nie zmienia),",
+        "ZDEJMIJ r c — zdejmij kamień z pola (r, c) (jeśli go tam nie ma, nic się nie dzieje),",
+        "PRAWO r c — idąc wierszem r od kolumny c w prawo (kolumna c też się liczy), na kamień w której kolumnie trafisz najpierw? Wypisz numer kolumny albo BRAK."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z następnych q wierszy polecenie i dwie liczby r, c."
+      ],
+      "output_format": [
+        "Odpowiedzi na polecenia PRAWO, każda w osobnym wierszu."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 3000",
+        "1 ≤ r, c ≤ 10⁹",
+        "Jest co najmniej jedno polecenie PRAWO."
+      ],
+      "examples": [
+        {
+          "input": "7\nPOLOZ 1 5\nPOLOZ 1 9\nPOLOZ 2 3\nPRAWO 1 6\nZDEJMIJ 1 9\nPRAWO 1 6\nPRAWO 2 1",
+          "output": "9\nBRAK\n3",
+          "note": "Najpierw w wierszu 1 na prawo od kolumny 6 leży kamień w kolumnie 9. Po jego zdjęciu nic już tam nie ma — kamień (2, 3) jest w innym wierszu i się nie liczy."
+        }
+      ],
+      "hint": "Trzymaj kamienie w set<pair<int, int>> jako pary (wiersz, kolumna). auto it = s.lower_bound({r, c}) wskazuje pierwszy kamień, który w kolejności par jest ≥ (r, c). To szukany kamień — ale tylko wtedy, gdy it != s.end() i it->first == r. W przeciwnym razie w wierszu r na prawo od c nic nie leży.",
+      "tests_count": 10
+    },
+    {
+      "id": "zb-dziennik-ocen",
+      "number": 1655,
+      "title": "Dziennik ocen",
+      "category": "Zbiór / krok 7: multiset",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Nauczyciel prowadzi dziennik jednego ucznia. Wykonaj q poleceń:",
+        "DODAJ x — uczeń dostaje ocenę x,",
+        "USUN x — jedna ocena x zostaje poprawiona i znika z dziennika (jeśli uczeń nie ma żadnej oceny x, nic się nie dzieje),",
+        "ILE x — wypisz, ile ocen x ma teraz uczeń.",
+        "Na koniec wypisz wszystkie oceny ucznia rosnąco w jednym wierszu albo PUSTO, jeśli dziennik jest pusty."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z następnych q wierszy polecenie i ocena x."
+      ],
+      "output_format": [
+        "Odpowiedzi na polecenia ILE, każda w osobnym wierszu, a w ostatnim wierszu — wszystkie oceny rosnąco albo PUSTO."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 5000",
+        "1 ≤ x ≤ 6"
+      ],
+      "examples": [
+        {
+          "input": "7\nDODAJ 5\nDODAJ 3\nDODAJ 5\nILE 5\nUSUN 5\nILE 5\nDODAJ 6",
+          "output": "2\n1\n3 5 6",
+          "note": "Uczeń ma dwie piątki. Poprawa usuwa tylko jedną z nich. Na końcu w dzienniku są 3, 5 i 6."
+        }
+      ],
+      "hint": "Oceny się powtarzają, więc potrzebny jest multiset<int>. ILE to count(x). Przy USUN uważaj: m.erase(x) skasowałoby WSZYSTKIE oceny x. Usuń jedną: auto it = m.find(x); if (it != m.end()) m.erase(it);",
+      "tests_count": 9
+    },
+    {
+      "id": "zb-jedno-czy-wszystkie",
+      "number": 1656,
+      "title": "Jedno czy wszystkie?",
+      "category": "Zbiór / krok 7: multiset",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz n liczb (mogą się powtarzać) i q poleceń usuwania:",
+        "JEDNO x — usuń jedno wystąpienie liczby x (jeśli x nie ma, nic się nie dzieje),",
+        "WSZYSTKIE x — usuń wszystkie wystąpienia liczby x.",
+        "Po wykonaniu wszystkich poleceń wypisz, ile liczb zostało, a potem te liczby rosnąco (z powtórzeniami) — albo PUSTO, jeśli nic nie zostało."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i q.",
+        "W drugim wierszu n liczb.",
+        "W każdym z następnych q wierszy polecenie i liczba x."
+      ],
+      "output_format": [
+        "W pierwszym wierszu liczba pozostałych liczb.",
+        "W drugim wierszu pozostałe liczby rosnąco albo PUSTO."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 3000",
+        "1 ≤ q ≤ 3000",
+        "1 ≤ każda liczba, x ≤ 100"
+      ],
+      "examples": [
+        {
+          "input": "6 3\n4 2 4 4 7 2\nJEDNO 4\nWSZYSTKIE 2\nJEDNO 9",
+          "output": "3\n4 4 7",
+          "note": "Po JEDNO 4 zostają dwie czwórki. WSZYSTKIE 2 usuwa obie dwójki. Dziewiątki nie było."
+        }
+      ],
+      "hint": "W multisecie erase(x) usuwa wszystkie kopie — to dokładnie polecenie WSZYSTKIE. JEDNO wymaga strzałki: znajdź jedną kopię przez find i usuń ją erase(it), o ile find nie zwrócił end().",
+      "tests_count": 9
+    },
+    {
+      "id": "zb-ceny-na-polce",
+      "number": 1657,
+      "title": "Ceny na półce",
+      "category": "Zbiór / krok 7: multiset",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W sklepie na półce leżą produkty. Wykonaj q poleceń:",
+        "DOSTAWA c — na półkę trafia produkt w cenie c,",
+        "SPRZEDAJ c — klient kupuje jeden produkt w cenie c (jeśli takiego nie ma, nic się nie dzieje),",
+        "NAJTANSZY — wypisz cenę najtańszego produktu na półce,",
+        "NAJDROZSZY — wypisz cenę najdroższego produktu.",
+        "Jeśli przy NAJTANSZY albo NAJDROZSZY półka jest pusta, wypisz PUSTO."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z następnych q wierszy polecenie (DOSTAWA i SPRZEDAJ z ceną c)."
+      ],
+      "output_format": [
+        "Odpowiedzi na polecenia NAJTANSZY i NAJDROZSZY, każda w osobnym wierszu."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 3000",
+        "1 ≤ c ≤ 10⁶",
+        "Jest co najmniej jedno polecenie NAJTANSZY albo NAJDROZSZY."
+      ],
+      "examples": [
+        {
+          "input": "8\nDOSTAWA 10\nDOSTAWA 30\nDOSTAWA 10\nNAJTANSZY\nSPRZEDAJ 10\nNAJTANSZY\nSPRZEDAJ 10\nNAJTANSZY",
+          "output": "10\n10\n30",
+          "note": "Na półce były dwa produkty po 10 zł. Po sprzedaży jednego najtańszy wciąż kosztuje 10, po sprzedaży drugiego — 30."
+        }
+      ],
+      "hint": "Zwykły set zgubiłby drugi produkt za 10 zł — potrzebny jest multiset<int>. NAJTANSZY to *m.begin(), NAJDROZSZY to *m.rbegin() (po sprawdzeniu, że półka nie jest pusta). SPRZEDAJ usuwa jedną kopię: find i erase(it).",
+      "tests_count": 8
+    },
+    {
+      "id": "zb-okno-max",
+      "number": 1658,
+      "title": "Najcieplej w każdym tygodniu",
+      "category": "Zbiór / krok 7: multiset",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz temperatury z n kolejnych dni. Dla każdego okresu k kolejnych dni (od dni 1…k, przez 2…k + 1, aż do n − k + 1…n) wypisz najwyższą temperaturę w tym okresie."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n temperatur, dzień po dniu."
+      ],
+      "output_format": [
+        "Jeden wiersz — n − k + 1 liczb oddzielonych spacjami."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 5000",
+        "−50 ≤ temperatura ≤ 50"
+      ],
+      "examples": [
+        {
+          "input": "7 3\n5 -2 3 8 1 -4 0",
+          "output": "5 8 8 8 1",
+          "note": "Okresy: (5, −2, 3) → 5, (−2, 3, 8) → 8, (3, 8, 1) → 8, (8, 1, −4) → 8, (1, −4, 0) → 1."
+        }
+      ],
+      "hint": "Trzymaj w multisecie temperatury bieżącego okna. Dla i od 0 do n − 1: wstaw t[i]; jeśli i >= k, usuń JEDNĄ kopię t[i - k] (m.erase(m.find(t[i - k]))); jeśli i >= k - 1, wypisz *m.rbegin(). Zwykłe m.erase(t[i - k]) usunęłoby też inne dni z tą samą temperaturą — temperatury często się powtarzają.",
+      "tests_count": 11
+    },
+    {
+      "id": "zb-okno-rozrzut",
+      "number": 1659,
+      "title": "Najspokojniejszy tydzień",
+      "category": "Zbiór / krok 7: multiset",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz pomiary z n kolejnych dni. Rozrzut okresu k kolejnych dni to różnica między największym a najmniejszym pomiarem w tym okresie. Znajdź okres o najmniejszym rozrzucie.",
+        "Wypisz ten najmniejszy rozrzut i numer pierwszego dnia tego okresu (dni numerujemy od 1). Jeśli kilka okresów ma ten sam najmniejszy rozrzut, wybierz ten, który zaczyna się najwcześniej."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n pomiarów."
+      ],
+      "output_format": [
+        "Dwie liczby: najmniejszy rozrzut i numer pierwszego dnia okresu."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 10 000",
+        "0 ≤ pomiar ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "6 3\n10 12 30 11 13 12",
+          "output": "2 4",
+          "note": "Rozrzuty okresów: 20, 19, 19 i 2. Najspokojniejszy jest okres od dnia 4: (11, 13, 12)."
+        }
+      ],
+      "hint": "Ten sam schemat okna co w zadaniu o najcieplejszym tygodniu, tylko w każdym pełnym oknie liczysz *m.rbegin() - *m.begin() i porównujesz z dotychczas najlepszym. Okno kończące się na indeksie i (liczonym od 0) zaczyna się w dniu numer i - k + 2. Zmieniaj wynik tylko przy ściśle mniejszym rozrzucie — wtedy zostanie najwcześniejszy.",
+      "tests_count": 11
+    },
+    {
+      "id": "zb-buty",
+      "number": 1660,
+      "title": "Sklep z butami",
+      "category": "Zbiór / krok 7: multiset",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W sklepie jest n par butów; znasz rozmiar każdej pary (rozmiary mogą się powtarzać). Klienci przychodzą po kolei i każdy zna rozmiar swojej stopy s. Klient kupuje najmniejszą dostępną parę o rozmiarze co najmniej s. Kupiona para znika ze sklepu.",
+        "Dla każdego klienta wypisz rozmiar kupionej pary albo BRAK, jeśli żadna dostępna para na niego nie pasuje."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m — liczba par butów i liczba klientów.",
+        "W drugim wierszu n rozmiarów par.",
+        "W każdym z następnych m wierszy rozmiar stopy klienta."
+      ],
+      "output_format": [
+        "m wierszy — rozmiar kupionej pary albo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 3000",
+        "1 ≤ rozmiar ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "5 4\n40 38 42 38 45\n39\n38\n38\n41",
+          "output": "40\n38\n38\n42",
+          "note": "Pierwszy klient kupuje 40. Dwaj następni kupują obie pary 38. Ostatni potrzebuje co najmniej 41 — kupuje 42."
+        }
+      ],
+      "hint": "Pary butów trzymaj w multiset<int> (dwie pary rozmiaru 38 to dwie różne pary). Dla klienta: auto it = m.lower_bound(s) — najmniejsza para ≥ s. Jeśli it == m.end(), wypisz BRAK; inaczej wypisz *it i usuń dokładnie tę parę: m.erase(it).",
+      "tests_count": 9
+    },
+    {
+      "id": "zb-sklejanie",
+      "number": 1661,
+      "title": "Sklejanie lin",
+      "category": "Zbiór / krok 7: multiset",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz n lin o podanych długościach. Sklejenie dwóch lin o długościach a i b kosztuje a + b, a w ich miejsce powstaje jedna lina o długości a + b. Sklejasz liny, aż zostanie jedna. Najtaniej wychodzi, gdy zawsze sklejasz dwie najkrótsze liny, jakie masz w danej chwili.",
+        "Wypisz łączny koszt sklejenia wszystkich lin w ten sposób (dla jednej liny koszt to 0)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n długości lin."
+      ],
+      "output_format": [
+        "Jedna liczba — łączny koszt."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "1 ≤ długość ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "4\n4 3 2 6",
+          "output": "29",
+          "note": "Sklejamy 2 i 3 (koszt 5), potem 4 i 5 (koszt 9), na koniec 6 i 9 (koszt 15). Razem 5 + 9 + 15 = 29."
+        }
+      ],
+      "hint": "Liny trzymaj w multiset<long long> — mogą mieć równe długości. Dopóki m.size() > 1: zdejmij najkrótszą (a = *m.begin(); m.erase(m.begin());), potem kolejną najkrótszą b tak samo, dodaj a + b do kosztu i wstaw a + b z powrotem. Koszt rośnie szybko — long long.",
+      "tests_count": 9
+    },
+    {
+      "id": "zb-pralnia",
+      "number": 1662,
+      "title": "Pralnia",
+      "category": "Zbiór / krok 7: multiset",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W pralni samoobsługowej jest k pralek, na początku wszystkie wolne. Klienci przychodzą po kolei: i-ty przychodzi w minucie tᵢ (minuty nie maleją) i potrzebuje pralki na dᵢ minut. Każdy klient zajmuje pralkę, która zwolni się najwcześniej. Jeśli wszystkie są zajęte, czeka na nią — i zaczyna pranie dokładnie w chwili, gdy się zwolni (zaczyna więc w minucie max(tᵢ, chwila zwolnienia pralki)).",
+        "Wypisz minutę, w której skończy się ostatnie pranie, i łączny czas czekania wszystkich klientów."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby k i n.",
+        "W każdym z następnych n wierszy dwie liczby: tᵢ i dᵢ."
+      ],
+      "output_format": [
+        "Dwie liczby: minuta zakończenia ostatniego prania i łączny czas czekania."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ 1000",
+        "1 ≤ n ≤ 5000",
+        "0 ≤ t₁ ≤ t₂ ≤ … ≤ tₙ ≤ 10⁹",
+        "1 ≤ dᵢ ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "2 4\n0 5\n1 3\n2 4\n6 2",
+          "output": "8 2",
+          "note": "Klienci 1 i 2 od razu zajmują pralki (skończą w minutach 5 i 4). Klient 3 przychodzi w minucie 2 i czeka do minuty 4 — czeka 2 minuty, kończy w 8. Klient 4 przychodzi w minucie 6, a pralka zwolniła się w 5 — nie czeka, kończy w 8."
+        }
+      ],
+      "hint": "Trzymaj w multiset<long long> minuty, w których pralki się zwolnią — na początku k zer. Dla klienta: f = *m.begin() (najwcześniej wolna pralka), usuń ją z multisetu, start = max(t, f), czekanie += start - t, a do multisetu wstaw start + d. Koniec ostatniego prania to największa wartość na końcu: *m.rbegin(). Czasy i suma czekania przekraczają int — long long.",
+      "tests_count": 10
+    },
+    {
+      "id": "zb-duzo-roznych",
+      "number": 1663,
+      "title": "Ile różnych — wielkie dane",
+      "category": "Zbiór / krok 8: unordered_set i szybkość",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Liczby powstają z generatora: x₁ = s, a każda następna to xᵢ = (xᵢ₋₁ · a + b) mod m. Ile różnych liczb jest wśród x₁, x₂, …, xₙ?"
+      ],
+      "input_format": [
+        "Jeden wiersz z pięcioma liczbami: n, s, a, b, m."
+      ],
+      "output_format": [
+        "Jedna liczba — ile różnych wartości ma ciąg."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 200 000",
+        "1 ≤ m ≤ 10⁹",
+        "0 ≤ s, a, b < m"
+      ],
+      "examples": [
+        {
+          "input": "8 0 1 3 10",
+          "output": "8",
+          "note": "Ciąg: 0, 3, 6, 9, 2, 5, 8, 1 — wszystkie różne."
+        },
+        {
+          "input": "10 1 2 3 7",
+          "output": "3",
+          "note": "Ciąg: 1, 5, 6, 1, 5, 6, … — zapętla się, różne są tylko trzy liczby."
+        }
+      ],
+      "hint": "Generuj liczby w pętli w long long (iloczyn x · a może sięgać 10¹⁸) i wstawiaj do set<long long> albo unordered_set<long long>; wynik to size(). Sprawdzanie każdej nowej liczby ze wszystkimi poprzednimi to O(n²) — dla n = 200 000 około 20 miliardów porównań. Generator: vector<long long> x(n); x[0] = s; for (int i = 1; i < n; i++) x[i] = (x[i - 1] * a + b) % m;",
+      "tests_count": 12
+    },
+    {
+      "id": "zb-para-sumy",
+      "number": 1664,
+      "title": "Para o sumie k — wielkie dane",
+      "category": "Zbiór / krok 8: unordered_set i szybkość",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Liczby powstają z generatora: x₁ = s, a każda następna to xᵢ = (xᵢ₋₁ · a + b) mod m. Czy istnieją dwie różne pozycje i < j, dla których xᵢ + xⱼ = k? Wypisz TAK albo NIE."
+      ],
+      "input_format": [
+        "Jeden wiersz z sześcioma liczbami: n, s, a, b, m, k."
+      ],
+      "output_format": [
+        "TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 200 000",
+        "1 ≤ m ≤ 10⁹",
+        "0 ≤ s, a, b < m",
+        "0 ≤ k ≤ 2 · 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "6 1 3 1 20 17",
+          "output": "TAK",
+          "note": "Ciąg: 1, 4, 13, 0, 1, 4. 4 + 13 = 17, więc TAK."
+        },
+        {
+          "input": "4 2 2 0 9 4",
+          "output": "NIE",
+          "note": "Ciąg: 2, 4, 8, 7. Suma 4 wymagałaby dwóch dwójek, a dwójka jest tylko jedna: NIE."
+        }
+      ],
+      "hint": "Czytaj ciąg po kolei. Dla każdej liczby x najpierw zapytaj zbiór, czy jest w nim k − x (to by była para z wcześniejszą pozycją), a dopiero potem wstaw x. Wszystko w long long. Dwie pętle po parach to 20 miliardów sprawdzeń dla n = 200 000. Generator: vector<long long> x(n); x[0] = s; for (int i = 1; i < n; i++) x[i] = (x[i - 1] * a + b) % m;",
+      "tests_count": 12
+    },
+    {
+      "id": "zb-saldo",
+      "number": 1665,
+      "title": "Saldo jak kiedyś",
+      "category": "Zbiór / krok 8: unordered_set i szybkość",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na początku (dzień 0) saldo konta wynosi 0. Każdego z n kolejnych dni na konto wpływa albo z niego schodzi pewna kwota (liczba dodatnia albo ujemna), a saldo po dniu d to suma kwot z dni 1…d.",
+        "Znajdź pierwszy dzień d, po którym saldo jest równe saldu z któregoś wcześniejszego dnia e (0 ≤ e < d). Wypisz d i e — a jeśli wcześniejszych dni z tym samym saldem jest kilka, wypisz najwcześniejszy z nich. Jeśli saldo nigdy się nie powtórzyło, wypisz NIGDY."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n kwot."
+      ],
+      "output_format": [
+        "Dwie liczby d i e albo NIGDY."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "−10⁶ ≤ kwota ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "6\n3 -1 4 -3 5 2",
+          "output": "4 1",
+          "note": "Salda po dniach 0–4: 0, 3, 2, 6, 3. Po dniu 4 saldo 3 powtarza saldo z dnia 1 — kwoty z dni 2–4 sumują się do zera."
+        },
+        {
+          "input": "3\n1 2 3",
+          "output": "NIGDY",
+          "note": "Saldo tylko rośnie."
+        }
+      ],
+      "hint": "Zbiór pamięta salda, które już były — na start wstaw 0 (dzień 0). Po każdym dniu policz nowe saldo (long long) i sprawdź count: pierwsze trafienie daje d. Żeby znaleźć e, przejdź salda drugi raz od dnia 0 (możesz je zapisać w vectorze) i znajdź pierwszy dzień z tym samym saldem.",
+      "tests_count": 11
+    },
+    {
+      "id": "zb-playlista",
+      "number": 1666,
+      "title": "Playlista bez powtórek",
+      "category": "Zbiór / krok 8: unordered_set i szybkość",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Playlista to n tytułów utworów (tytuł to jedno słowo; ten sam utwór może wystąpić wiele razy). Znajdź najdłuższy fragment playlisty — kawałek kolejnych utworów bez przerw — w którym żaden utwór się nie powtarza.",
+        "Wypisz długość tego fragmentu i numer jego pierwszego utworu (utwory numerujemy od 1). Jeśli najdłuższych fragmentów jest kilka, wybierz ten, który zaczyna się najwcześniej."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n tytułów (małe litery a–z i cyfry, do 10 znaków)."
+      ],
+      "output_format": [
+        "Dwie liczby: długość fragmentu i numer jego pierwszego utworu."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000"
+      ],
+      "examples": [
+        {
+          "input": "8\na b c a d e c b",
+          "output": "5 2",
+          "note": "Fragment od 2. do 6. utworu (b, c, a, d, e) ma 5 różnych utworów. Fragment od 4. do 8. też ma długość 5, ale zaczyna się później."
+        }
+      ],
+      "hint": "Okno [l, r] trzyma swoje tytuły w set<string>. Prawy koniec r idzie po kolei. Dopóki tytuł t[r] już jest w oknie, usuwaj t[l] ze zbioru i przesuwaj l w prawo. Potem wstaw t[r] i porównaj długość r - l + 1 z najlepszą — zmieniaj wynik tylko przy ściśle dłuższym oknie, wtedy zostanie najwcześniejsze.",
+      "tests_count": 10
+    },
+    {
+      "id": "zb-wspolne-duze",
+      "number": 1667,
+      "title": "Wspólne liczby — wielkie dane",
+      "category": "Zbiór / krok 8: unordered_set i szybkość",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dwa ciągi powstają z generatora: x₁ = s, xᵢ = (xᵢ₋₁ · a + b) mod m — każdy z innymi parametrami. Ile różnych wartości występuje w obu ciągach?"
+      ],
+      "input_format": [
+        "W pierwszym wierszu pięć liczb pierwszego ciągu: n₁, s₁, a₁, b₁, m₁.",
+        "W drugim wierszu pięć liczb drugiego ciągu: n₂, s₂, a₂, b₂, m₂."
+      ],
+      "output_format": [
+        "Jedna liczba — ile różnych wartości jest w obu ciągach."
+      ],
+      "constraints": [
+        "1 ≤ n₁, n₂ ≤ 150 000",
+        "1 ≤ m₁, m₂ ≤ 10⁹",
+        "0 ≤ s, a, b < m (dla każdego ciągu)"
+      ],
+      "examples": [
+        {
+          "input": "5 0 1 2 100\n4 1 1 3 100",
+          "output": "1",
+          "note": "Pierwszy ciąg: 0, 2, 4, 6, 8. Drugi: 1, 4, 7, 10. Wspólna jest tylko czwórka."
+        }
+      ],
+      "hint": "Wygeneruj pierwszy ciąg do zbioru A, drugi do zbioru B, a potem policz elementy A, które ma B (przechodź mniejszy zbiór, pytaj większy). Porównywanie każdej liczby z każdą to ponad 20 miliardów sprawdzeń. Generator: vector<long long> x(n); x[0] = s; for (int i = 1; i < n; i++) x[i] = (x[i - 1] * a + b) % m;",
+      "tests_count": 10
+    },
+    {
+      "id": "zb-zapetlenie",
+      "number": 1668,
+      "title": "Kiedy generator się zapętli?",
+      "category": "Zbiór / krok 8: unordered_set i szybkość",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Liczby powstają z generatora: x₁ = s, a każda następna to xᵢ = (xᵢ₋₁ · a + b) mod m. Ponieważ wartości są mniejsze od m, ciąg w końcu powtórzy którąś liczbę — a od tej chwili będzie krążył w kółko.",
+        "Znajdź najmniejsze i, dla którego xᵢ jest równe któremuś wcześniejszemu xⱼ (j < i). Wypisz i oraz długość pętli, czyli i − j."
+      ],
+      "input_format": [
+        "Jeden wiersz z czterema liczbami: s, a, b, m."
+      ],
+      "output_format": [
+        "Dwie liczby: i oraz i − j."
+      ],
+      "constraints": [
+        "1 ≤ m ≤ 300 000",
+        "0 ≤ s, a, b < m"
+      ],
+      "examples": [
+        {
+          "input": "1 2 3 7",
+          "output": "4 3",
+          "note": "Ciąg: x₁ = 1, x₂ = 5, x₃ = 6, x₄ = 1. Czwarta liczba powtarza pierwszą — pętla ma długość 3."
+        },
+        {
+          "input": "0 1 1 5",
+          "output": "6 5",
+          "note": "0, 1, 2, 3, 4, 0 — szósta liczba powtarza pierwszą, pętla obejmuje wszystkie pięć wartości."
+        }
+      ],
+      "hint": "Generuj kolejne liczby i wstawiaj do zbioru, pytając najpierw count — pierwsza znaleziona powtórka daje i. Żeby znaleźć j, wygeneruj ciąg drugi raz od początku i zatrzymaj się na pierwszej liczbie równej xᵢ. Wartości są mniejsze od m ≤ 300 000, więc zamiast zbioru możesz też użyć tablicy, w której pod indeksem x zapisujesz numer pozycji, na której x się pojawił. Licz w long long.",
+      "tests_count": 12
+    },
+    {
+      "id": "zb-rozne-w-oknach",
+      "number": 1669,
+      "title": "Różne w każdym oknie",
+      "category": "Zbiór / krok 8: unordered_set i szybkość",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz n liczb i długość okna k. Dla każdego okna k kolejnych liczb policz, ile różnych wartości w nim występuje. Wypisz największą i najmniejszą z tych liczności."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n liczb."
+      ],
+      "output_format": [
+        "Dwie liczby: największa i najmniejsza liczba różnych wartości w oknie."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 10 000",
+        "1 ≤ każda liczba ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "7 3\n1 2 1 3 3 3 2",
+          "output": "3 1",
+          "note": "Okna: (1, 2, 1) → 2, (2, 1, 3) → 3, (1, 3, 3) → 2, (3, 3, 3) → 1, (3, 3, 2) → 2. Największa liczność 3, najmniejsza 1."
+        }
+      ],
+      "hint": "Budowanie nowego zbioru dla każdego okna to O(n · k) wstawień — dla n = 10 000 i k = 5000 za dużo. Przesuwaj okno: trzymaj jego liczby w multisecie i licznik różnych. Przed wstawieniem x: jeśli m.find(x) == m.end(), licznik++. Po usunięciu jednej kopii wychodzącej liczby y (m.erase(m.find(y))): jeśli m.find(y) == m.end(), licznik--. Nie używaj tu count — przy wielu kopiach jest wolny.",
+      "tests_count": 10
+    },
+    {
+      "id": "zb-szybkie-pytania",
+      "number": 1670,
+      "title": "Szybkie pytania",
+      "category": "Zbiór / krok 8: unordered_set i szybkość",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Pierwszy ciąg (zbiór liczb) i drugi ciąg (pytania) powstają z generatora: x₁ = s, xᵢ = (xᵢ₋₁ · a + b) mod m — każdy ciąg z własnymi parametrami. Dla każdego pytania sprawdź, czy ta liczba występuje w pierwszym ciągu. Wypisz, na ile pytań odpowiedź brzmi „tak”."
+      ],
+      "input_format": [
+        "W pierwszym wierszu pięć liczb pierwszego ciągu: n, s, a, b, m.",
+        "W drugim wierszu pięć liczb ciągu pytań: q, s₂, a₂, b₂, m₂."
+      ],
+      "output_format": [
+        "Jedna liczba — ile pytań trafiło w liczbę z pierwszego ciągu."
+      ],
+      "constraints": [
+        "1 ≤ n, q ≤ 200 000",
+        "1 ≤ m, m₂ ≤ 10⁹",
+        "0 ≤ s, a, b < m, 0 ≤ s₂, a₂, b₂ < m₂"
+      ],
+      "examples": [
+        {
+          "input": "4 1 2 0 100\n5 0 1 2 10",
+          "output": "3",
+          "note": "Liczby: 1, 2, 4, 8. Pytania: 0, 2, 4, 6, 8. Trafiają 2, 4 i 8 — trzy pytania."
+        }
+      ],
+      "hint": "Wygeneruj pierwszy ciąg do zbioru (set albo unordered_set), a potem generuj pytania jedno po drugim i licz trafienia przez count. Sprawdzanie każdego pytania z każdą liczbą to 40 miliardów porównań. Uwaga: pytania mogą się powtarzać i każde liczy się osobno. Generator: vector<long long> x(n); x[0] = s; for (int i = 1; i < n; i++) x[i] = (x[i - 1] * a + b) % m;",
+      "tests_count": 9
+    },
+    {
+      "id": "zb-b-lotto",
+      "number": 1671,
+      "title": "Lotto",
+      "category": "Zbiór / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W losowaniu Lotto padło 6 różnych liczb od 1 do 49. Gracze wypełnili t kuponów — na każdym jest 6 różnych liczb od 1 do 49. Dla każdego kuponu wypisz, ile liczb z kuponu zostało wylosowanych."
+      ],
+      "input_format": [
+        "W pierwszym wierszu 6 wylosowanych liczb.",
+        "W drugim wierszu liczba kuponów t.",
+        "W każdym z następnych t wierszy 6 liczb z kuponu."
+      ],
+      "output_format": [
+        "t wierszy — liczba trafień na każdym kuponie."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 2000",
+        "Wszystkie liczby od 1 do 49; liczby w jednym wierszu są różne."
+      ],
+      "examples": [
+        {
+          "input": "1 7 12 23 34 45\n3\n1 2 3 4 5 6\n7 12 23 34 45 1\n8 9 10 11 13 14",
+          "output": "1\n6\n0",
+          "note": "Pierwszy kupon trafił tylko jedynkę, drugi — wszystkie sześć liczb (kolejność nie ma znaczenia), trzeci — nic."
+        }
+      ],
+      "hint": "Wylosowane liczby wstaw do zbioru. Dla każdego kuponu wczytaj 6 liczb i dodawaj count każdej z nich — to liczba trafień.",
+      "tests_count": 7
+    },
+    {
+      "id": "zb-b-tylko-raz",
+      "number": 1672,
+      "title": "Słowa użyte tylko raz",
+      "category": "Zbiór / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz tekst — n słów. Wypisz alfabetycznie słowa, które wystąpiły w tekście dokładnie raz, każde w osobnym wierszu. Jeśli takich słów nie ma, wypisz BRAK."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n słów z małych liter a–z."
+      ],
+      "output_format": [
+        "Słowa użyte raz, alfabetycznie, każde w osobnym wierszu — albo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "Każde słowo ma od 1 do 10 liter."
+      ],
+      "examples": [
+        {
+          "input": "7\nkot pies kot mysz ryba pies kot",
+          "output": "mysz\nryba",
+          "note": "Kot i pies się powtarzają. Raz wystąpiły tylko mysz i ryba."
+        }
+      ],
+      "hint": "Trzymaj dwa zbiory: raz — słowa widziane dokładnie raz, i wiecej — widziane co najmniej dwa razy. Dla każdego słowa: jeśli jest w wiecej — nic; jeśli jest w raz — usuń je z raz i wstaw do wiecej; w przeciwnym razie wstaw do raz. Na końcu wypisz zbiór raz (albo BRAK, gdy jest pusty).",
+      "tests_count": 9
+    },
+    {
+      "id": "zb-b-kawalki",
+      "number": 1673,
+      "title": "Różne kawałki napisu",
+      "category": "Zbiór / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Kawałek napisu to kilka kolejnych liter bez przerw. Dostajesz napis s i liczbę k. Ile różnych kawałków o długości dokładnie k zawiera s?"
+      ],
+      "input_format": [
+        "W pierwszym wierszu napis s z małych liter.",
+        "W drugim wierszu liczba k."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba różnych kawałków długości k."
+      ],
+      "constraints": [
+        "1 ≤ długość s ≤ 2000",
+        "1 ≤ k ≤ min(20, długość s)"
+      ],
+      "examples": [
+        {
+          "input": "abababa\n3",
+          "output": "2",
+          "note": "Kawałki długości 3: aba, bab, aba, bab, aba — różne są tylko dwa."
+        }
+      ],
+      "hint": "Kawałek długości k zaczynający się na pozycji i to s.substr(i, k) (lekcja String). Pozycje i idą od 0 do s.size() - k. Wstaw wszystkie kawałki do set<string> i wypisz rozmiar.",
+      "tests_count": 10
+    },
+    {
+      "id": "zb-b-rozne-cyfry",
+      "number": 1674,
+      "title": "Liczby o różnych cyfrach",
+      "category": "Zbiór / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Liczba ma różne cyfry, jeśli żadna cyfra nie występuje w jej zapisie dwa razy — np. 1023 tak, a 1213 nie. Ile liczb z przedziału od a do b (włącznie) ma różne cyfry?"
+      ],
+      "input_format": [
+        "Jeden wiersz z dwiema liczbami a i b."
+      ],
+      "output_format": [
+        "Jedna liczba — ile liczb ma różne cyfry."
+      ],
+      "constraints": [
+        "1 ≤ a ≤ b ≤ 10⁹",
+        "b − a ≤ 100 000"
+      ],
+      "examples": [
+        {
+          "input": "1 20",
+          "output": "19",
+          "note": "Wszystkie liczby od 1 do 20 poza 11 — razem 19."
+        }
+      ],
+      "hint": "Dla każdej liczby x zamień ją na napis (to_string(x)) i wstaw jej znaki do set<char>. Cyfry są różne dokładnie wtedy, gdy zbiór ma tyle elementów, ile napis znaków. Pamiętaj o nowym zbiorze dla każdej liczby.",
+      "tests_count": 10
+    },
+    {
+      "id": "zb-b-collatz",
+      "number": 1675,
+      "title": "Spotkanie ciągów Collatza",
+      "category": "Zbiór / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ciąg Collatza liczby x: jeśli x jest parzyste, następna liczba to x / 2, a jeśli nieparzyste — 3x + 1. Ciąg kończy się, gdy dojdzie do 1. Na przykład dla 6: 6, 3, 10, 5, 16, 8, 4, 2, 1.",
+        "Dla każdej z t par liczb a i b znajdź pierwszą liczbę w ciągu a (licząc od samego a), która występuje też w ciągu b (licząc samo b). Wypisz tę liczbę i jej numer w ciągu a (a ma numer 0)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "W każdym z następnych t wierszy dwie liczby a i b."
+      ],
+      "output_format": [
+        "t wierszy — w każdym wspólna liczba i jej numer w ciągu a."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100",
+        "1 ≤ a, b ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "2\n6 7\n5 5",
+          "output": "10 2\n5 0",
+          "note": "Ciąg 7: 7, 22, 11, 34, 17, 52, 26, 13, 40, 20, 10, 5, … W ciągu 6 pierwsza taka liczba to 10 (numer 2). W drugiej parze spotkanie następuje od razu."
+        }
+      ],
+      "hint": "Najpierw wygeneruj cały ciąg b i wstaw jego liczby do zbioru. Potem idź ciągiem a od początku i zatrzymaj się na pierwszej liczbie, którą zbiór zna — na pewno taka jest, bo oba ciągi kończą się jedynką. Uwaga: wyrazy ciągu potrafią przekroczyć zakres int (dla liczb poniżej miliona sięgają ok. 5,7 · 10¹⁰) — long long.",
+      "tests_count": 9
+    },
+    {
+      "id": "zb-b-reszty-poteg",
+      "number": 1676,
+      "title": "Reszty z potęg",
+      "category": "Zbiór / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla liczb a i m rozważ reszty z dzielenia przez m kolejnych potęg: a¹ mod m, a² mod m, a³ mod m, … Ten ciąg w końcu zaczyna się powtarzać. Ile różnych reszt w nim występuje?"
+      ],
+      "input_format": [
+        "Jeden wiersz z dwiema liczbami a i m."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba różnych reszt."
+      ],
+      "constraints": [
+        "1 ≤ a ≤ 10⁹",
+        "1 ≤ m ≤ 200 000"
+      ],
+      "examples": [
+        {
+          "input": "2 10",
+          "output": "4",
+          "note": "Reszty: 2, 4, 8, 6, 2, 4, … — różne są cztery."
+        },
+        {
+          "input": "3 7",
+          "output": "6",
+          "note": "Reszty: 3, 2, 6, 4, 5, 1, 3, … — sześć różnych."
+        }
+      ],
+      "hint": "Licz kolejne reszty: r = a mod m, a każda następna to (r · a) mod m. Zatrzymaj się, gdy reszta się powtórzy — zbiór powie, czy już była. Iloczyn r · a może sięgać 2 · 10⁵ · 10⁹ — licz w long long albo najpierw zmniejsz a do a mod m.",
+      "tests_count": 11
+    },
+    {
+      "id": "zb-b-plot",
+      "number": 1677,
+      "title": "Pomalowany płot",
+      "category": "Zbiór / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Płot ma bardzo dużo desek ponumerowanych kolejnymi liczbami. n malarzy maluje każdy jeden kawałek: od deski a do deski b włącznie. Kawałki mogą na siebie zachodzić. Ile różnych desek jest pomalowanych?"
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z następnych n wierszy dwie liczby a i b."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba pomalowanych desek."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "1 ≤ a ≤ b ≤ 10⁹",
+        "b − a < 200 (każdy malarz maluje najwyżej 200 desek)"
+      ],
+      "examples": [
+        {
+          "input": "3\n1 4\n3 6\n10 10",
+          "output": "7",
+          "note": "Pomalowane deski: 1–6 i 10, razem 7."
+        }
+      ],
+      "hint": "Każdy malarz to krótka pętla od a do b — wstaw każdą deskę do zbioru. Deski pomalowane kilka razy zbiór policzy raz. Numery sięgają miliarda, więc tablica się nie nada, a zbiór — tak.",
+      "tests_count": 9
+    },
+    {
+      "id": "zb-b-najwiecej-liter",
+      "number": 1678,
+      "title": "Najbardziej różnorodne słowo",
+      "category": "Zbiór / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz n słów. Wypisz słowo, które ma najwięcej różnych liter, i tę liczbę liter. Jeśli kilka słów ma tyle samo różnych liter, wypisz to, które jest najwcześniej na liście."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z następnych n wierszy jedno słowo z małych liter a–z."
+      ],
+      "output_format": [
+        "Słowo i liczba jego różnych liter, oddzielone spacją."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "Każde słowo ma od 1 do 50 liter."
+      ],
+      "examples": [
+        {
+          "input": "4\nmama\nkot\nabrakadabra\nzebra",
+          "output": "abrakadabra 5",
+          "note": "abrakadabra ma 5 różnych liter (a, b, r, k, d), zebra też 5 — wygrywa wcześniejsza abrakadabra."
+        }
+      ],
+      "hint": "Dla każdego słowa zbuduj zbiór jego liter: set<char> l(w.begin(), w.end()). Porównuj l.size() z najlepszym wynikiem i zmieniaj odpowiedź tylko przy ściśle większej liczbie — wtedy przy remisie zostanie pierwsze słowo.",
+      "tests_count": 8
+    },
+    {
+      "id": "zb-b-szyfr",
+      "number": 1679,
+      "title": "Szyfr z kluczem",
+      "category": "Zbiór / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Szyfr z kluczem działa tak. Z klucza (słowa) budujemy alfabet szyfru: najpierw litery klucza w kolejności, w jakiej występują, ale każdą tylko przy jej pierwszym wystąpieniu, a potem pozostałe litery od a do z, których w kluczu nie było. Na przykład dla klucza „zebra” alfabet szyfru to zebracdfghijklmnopqstuvwxy.",
+        "Szyfrowanie zamienia każdą literę wiadomości na literę alfabetu szyfru stojącą na tym samym miejscu: a na pierwszą literę alfabetu szyfru, b na drugą itd. Spacje zostają spacjami. Wypisz alfabet szyfru i zaszyfrowaną wiadomość."
+      ],
+      "input_format": [
+        "W pierwszym wierszu klucz (małe litery a–z).",
+        "W drugim wierszu wiadomość (małe litery a–z i pojedyncze spacje między słowami)."
+      ],
+      "output_format": [
+        "W pierwszym wierszu alfabet szyfru (26 liter).",
+        "W drugim wierszu zaszyfrowana wiadomość."
+      ],
+      "constraints": [
+        "Klucz ma od 1 do 100 liter.",
+        "Wiadomość ma od 1 do 10 000 znaków."
+      ],
+      "examples": [
+        {
+          "input": "zebra\nala ma kota",
+          "output": "zebracdfghijklmnopqstuvwxy\nzjz kz imsz",
+          "note": "a zamienia się na z (pierwsza litera alfabetu szyfru), l na j (dwunasta), m na k, k na i, o na m, t na s."
+        }
+      ],
+      "hint": "Zbiór „użyte” pilnuje, które litery są już w alfabecie szyfru. Przejdź klucz: każdą literę, której jeszcze nie ma w zbiorze, dopisz do alfabetu i wstaw do zbioru. Potem pętla od 'a' do 'z' dopisuje litery, których zbiór nie zna. Wiadomość wczytaj przez getline (po cin >> klucz najpierw zjedz koniec wiersza: cin.ignore() albo getline dwa razy). Litera c zamienia się na alfabet[c - 'a'].",
+      "tests_count": 8
+    },
+    {
+      "id": "zb-b-sudoku",
+      "number": 1680,
+      "title": "Poprawne sudoku?",
+      "category": "Zbiór / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Rozwiązane sudoku to plansza 9 × 9 wypełniona cyframi od 1 do 9 tak, że w każdym wierszu, w każdej kolumnie i w każdym z dziewięciu kwadratów 3 × 3 każda cyfra występuje dokładnie raz.",
+        "Dla każdej z t plansz wypisz TAK, jeśli jest poprawnie rozwiązanym sudoku, albo NIE."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "Każda plansza to 9 wierszy po 9 cyfr oddzielonych spacjami."
+      ],
+      "output_format": [
+        "t wierszy — TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 30",
+        "Każda liczba na planszy to cyfra od 1 do 9."
+      ],
+      "examples": [
+        {
+          "input": "1\n5 3 4 6 7 8 9 1 2\n6 7 2 1 9 5 3 4 8\n1 9 8 3 4 2 5 6 7\n8 5 9 7 6 1 4 2 3\n4 2 6 8 5 3 7 9 1\n7 1 3 9 2 4 8 5 6\n9 6 1 5 3 7 2 8 4\n2 8 7 4 1 9 6 3 5\n3 4 5 2 8 6 1 7 9",
+          "output": "TAK",
+          "note": "To poprawnie rozwiązane sudoku."
+        }
+      ],
+      "hint": "Plansza ma tylko cyfry od 1 do 9, więc wiersz jest dobry dokładnie wtedy, gdy zbiór jego cyfr ma 9 elementów. Sprawdź tak 9 wierszy, 9 kolumn i 9 kwadratów (kwadrat o lewym górnym rogu (3a, 3b) to pola (3a + i, 3b + j) dla i, j od 0 do 2). Przed każdym sprawdzeniem wyczyść zbiór.",
+      "tests_count": 7
+    },
+    {
+      "id": "zb-b-wspolni-znajomi",
+      "number": 1681,
+      "title": "Wspólni znajomi",
+      "category": "Zbiór / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W szkole jest n uczniów o numerach od 1 do n i m znajomości (każda działa w obie strony; ta sama znajomość mogła zostać zapisana kilka razy). Dla każdego z q pytań x y wypisz, ilu wspólnych znajomych mają uczniowie x i y."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n, m i q.",
+        "W każdym z następnych m wierszy znajomość: dwa różne numery uczniów.",
+        "W każdym z następnych q wierszy pytanie: dwa różne numery x i y."
+      ],
+      "output_format": [
+        "q wierszy — liczba wspólnych znajomych."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 1000",
+        "1 ≤ m ≤ 10 000",
+        "1 ≤ q ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "5 6 3\n1 2\n1 3\n2 3\n3 4\n2 4\n4 5\n1 4\n2 3\n1 5",
+          "output": "2\n2\n0",
+          "note": "Znajomi: 1 — {2, 3}, 2 — {1, 3, 4}, 3 — {1, 2, 4}, 4 — {2, 3, 5}, 5 — {4}. Uczniowie 1 i 4 mają wspólnych znajomych 2 i 3."
+        }
+      ],
+      "hint": "Utwórz vector<set<int>> znajomi(n + 1) — osobny zbiór dla każdego ucznia. Znajomość a b to znajomi[a].insert(b) i znajomi[b].insert(a) (powtórki odpadną same). Dla pytania przejdź zbiór znajomych x i policz tych, których ma też y: znajomi[y].count(z).",
+      "tests_count": 9
+    },
+    {
+      "id": "zb-b-recaman",
+      "number": 1682,
+      "title": "Ciąg Recamána",
+      "category": "Zbiór / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ciąg Recamána zaczyna się od a₀ = 0. Dla k = 1, 2, 3, … wyraz aₖ to aₖ₋₁ − k, jeśli ta liczba jest dodatnia i nie wystąpiła jeszcze w ciągu; w przeciwnym razie aₖ = aₖ₋₁ + k. Początek ciągu: 0, 1, 3, 6, 2, 7, 13, 20, 12, 21, 11, …",
+        "Dla danego n wypisz aₙ oraz liczbę różnych wartości wśród a₀, a₁, …, aₙ."
+      ],
+      "input_format": [
+        "Jedna liczba n."
+      ],
+      "output_format": [
+        "Dwie liczby: aₙ i liczba różnych wartości wśród a₀…aₙ."
+      ],
+      "constraints": [
+        "0 ≤ n ≤ 100 000"
+      ],
+      "examples": [
+        {
+          "input": "10",
+          "output": "11 11",
+          "note": "a₁₀ = 11, a wszystkie 11 wyrazów od a₀ do a₁₀ są różne."
+        },
+        {
+          "input": "24",
+          "output": "42 24",
+          "note": "a₂₄ = 42, ale 42 pojawiło się już jako a₂₀ — dlatego różnych wartości jest 24, a nie 25."
+        }
+      ],
+      "hint": "Trzymaj zbiór wartości, które już wystąpiły (na start {0}). W kroku k policz kandydata a − k; jeśli jest > 0 i zbiór go nie zna (count == 0), to nowy wyraz, w przeciwnym razie nowy wyraz to a + k. Wstaw nowy wyraz do zbioru — gdy już był, zbiór się nie zmieni, więc na końcu size() to liczba różnych wartości.",
+      "tests_count": 9
+    },
+    {
+      "id": "zb-b-odwazniki",
+      "number": 1683,
+      "title": "Odważniki",
+      "category": "Zbiór / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz n odważników o podanych masach. Kładziesz na szalce dowolny niepusty zestaw odważników — zważysz wtedy przedmiot o masie równej ich sumie. Ile różnych mas możesz zważyć? Wypisz też najmniejszą dodatnią masę całkowitą, której zważyć się nie da."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n mas odważników."
+      ],
+      "output_format": [
+        "Dwie liczby: liczba różnych mas i najmniejsza masa, której nie da się zważyć."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 15",
+        "1 ≤ masa ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "3\n1 2 4",
+          "output": "7 8",
+          "note": "Da się zważyć każdą masę od 1 do 7 — siedem mas. Najmniejsza niemożliwa to 8."
+        },
+        {
+          "input": "3\n1 1 3",
+          "output": "5 6",
+          "note": "Sumy: 1, 2, 3, 4, 5 — pięć mas, najmniejsza niemożliwa to 6."
+        }
+      ],
+      "hint": "Zacznij od zbioru sum {0} (pusta szalka). Dla każdego odważnika w: zrób kopię zbioru i dla każdej sumy s ze starego zbioru wstaw do kopii s + w; kopia staje się nowym zbiorem. Na końcu usuń 0. Najmniejszą niemożliwą masę znajdziesz, przechodząc zbiór rosnąco: zacznij od 1 i zwiększaj, dopóki kolejny element jest równy szukanej liczbie.",
+      "tests_count": 12
+    },
+    {
+      "id": "zb-b-dwie-szalki",
+      "number": 1684,
+      "title": "Odważniki na dwóch szalkach",
+      "category": "Zbiór / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz n odważników i wagę szalkową. Przedmiot kładziesz na lewej szalce. Każdy odważnik możesz położyć na lewej szalce (obok przedmiotu), na prawej szalce albo nie używać go wcale. Waga jest w równowadze, gdy masa przedmiotu = (suma na prawej) − (suma odważników na lewej).",
+        "Ile różnych dodatnich mas przedmiotów możesz w ten sposób zważyć?"
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n mas odważników."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba różnych dodatnich mas."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10",
+        "1 ≤ masa ≤ 100 000"
+      ],
+      "examples": [
+        {
+          "input": "2\n1 3",
+          "output": "4",
+          "note": "Masy: 1 (1 po prawej), 2 (3 po prawej, 1 przy przedmiocie), 3 i 4 (oba po prawej). Razem cztery."
+        }
+      ],
+      "hint": "Zbiór możliwych różnic „prawa − lewa” zacznij od {0}. Dla każdego odważnika w nowy zbiór zawiera, dla każdej starej różnicy d: d (odważnik w pudełku), d + w (na prawej) i d − w (na lewej). Na końcu policz różnice większe od zera — np. przechodząc zbiór od upper_bound(0).",
+      "tests_count": 9
+    },
+    {
+      "id": "zb-b-izba-przyjec",
+      "number": 1685,
+      "title": "Izba przyjęć",
+      "category": "Zbiór / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na izbę przyjęć przychodzą pacjenci. Każdy dostaje priorytet (im większy, tym pilniej trzeba go przyjąć). Wykonaj q zdarzeń:",
+        "PRZYCHODZI imie p — pacjent o podanym imieniu i priorytecie p dołącza do kolejki,",
+        "LEKARZ — lekarz przyjmuje pacjenta z najwyższym priorytetem, a spośród takich — tego, który przyszedł najwcześniej. Wypisz jego imię albo PUSTO, jeśli nikt nie czeka."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z następnych q wierszy zdarzenie."
+      ],
+      "output_format": [
+        "Odpowiedzi na zdarzenia LEKARZ, każda w osobnym wierszu."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 3000",
+        "1 ≤ p ≤ 10",
+        "Imię to od 1 do 8 małych liter (imiona mogą się powtarzać).",
+        "Jest co najmniej jedno zdarzenie LEKARZ."
+      ],
+      "examples": [
+        {
+          "input": "6\nPRZYCHODZI ola 2\nPRZYCHODZI adam 5\nPRZYCHODZI ewa 5\nLEKARZ\nLEKARZ\nLEKARZ",
+          "output": "adam\newa\nola",
+          "note": "Adam i Ewa mają priorytet 5, ale Adam przyszedł wcześniej. Ola z priorytetem 2 czeka najdłużej."
+        }
+      ],
+      "hint": "Numeruj pacjentów w kolejności przychodzenia i zapisuj imiona w vectorze. W zbiorze trzymaj pary (-p, numer): zbiór sortuje rosnąco, więc minus stawia najwyższy priorytet na początku, a przy remisie wygrywa mniejszy numer, czyli wcześniejsze przyjście. LEKARZ bierze *s.begin() i usuwa go ze zbioru.",
+      "tests_count": 8
+    },
+    {
+      "id": "zb-b-podzielny-fragment",
+      "number": 1686,
+      "title": "Fragment podzielny przez k",
+      "category": "Zbiór / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz n liczb i liczbę k. Szukasz fragmentu (kilku kolejnych liczb, co najmniej jednej), którego suma dzieli się przez k. Spośród wszystkich takich fragmentów wybierz ten, który kończy się najwcześniej, a jeśli kilka kończy się w tym samym miejscu — najkrótszy.",
+        "Wypisz numery jego pierwszej i ostatniej liczby (licząc od 1) albo NIE, jeśli takiego fragmentu nie ma."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n liczb."
+      ],
+      "output_format": [
+        "Dwie liczby l i r albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 8000",
+        "1 ≤ k ≤ 10⁹",
+        "1 ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "5 7\n3 5 1 6 2",
+          "output": "3 4",
+          "note": "Sumy prefiksowe: 0, 3, 8, 9, 15 — reszty z dzielenia przez 7: 0, 3, 1, 2, 1. Reszta 1 powtarza się po raz pierwszy na pozycji 4, a wcześniej była po 2 liczbach: fragment od 3. do 4. liczby (1 + 6 = 7)."
+        }
+      ],
+      "hint": "Suma fragmentu od l do r to P[r] − P[l − 1]; dzieli się przez k dokładnie wtedy, gdy P[r] i P[l − 1] dają tę samą resztę z dzielenia przez k. Trzymaj zbiór reszt sum prefiksowych (na start reszta 0 dla pustego początku) — pierwsze r, dla którego reszta już była, to koniec fragmentu. Do tej chwili wszystkie reszty były różne, więc wcześniejsza pozycja z tą resztą jest tylko jedna: znajdziesz ją, przechodząc sumy drugi raz. Sumy mogą sięgać 10¹³ — long long.",
+      "tests_count": 11
+    },
+    {
+      "id": "zb-b-rezerwacje",
+      "number": 1687,
+      "title": "Rezerwacje sali",
+      "category": "Zbiór / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Sala jest wynajmowana na przedziały czasu. Prośba o rezerwację to dwie liczby a i b: sala zajęta od chwili a do chwili b (a < b; rezerwacje [a, b) i [b, c) się nie nakładają — jedna kończy się dokładnie wtedy, gdy zaczyna druga).",
+        "Prośby przychodzą po kolei. Prośba zostaje przyjęta, jeśli nie nakłada się na żadną wcześniej przyjętą rezerwację. Dla każdej prośby wypisz TAK (przyjęta) albo NIE."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba próśb q.",
+        "W każdym z następnych q wierszy dwie liczby a i b."
+      ],
+      "output_format": [
+        "q wierszy — TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 3000",
+        "0 ≤ a < b ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "5\n10 20\n15 25\n20 30\n5 10\n0 11",
+          "output": "TAK\nNIE\nTAK\nTAK\nNIE",
+          "note": "Druga prośba nachodzi na pierwszą. Trzecia i czwarta tylko stykają się z przyjętymi — są w porządku. Ostatnia nachodzi na [10, 20)."
+        }
+      ],
+      "hint": "Przyjęte rezerwacje trzymaj w set<pair<int, int>> jako (początek, koniec) — nie nakładają się, więc są posortowane po początkach. Dla nowej [a, b) wystarczy sprawdzić dwie: pierwszą, która zaczyna się nie wcześniej niż a (it = s.lower_bound({a, 0})) — kolizja, gdy it->first < b — oraz tę tuż przed nią — kolizja, gdy prev(it)->second > a. Pamiętaj o end() i begin().",
+      "tests_count": 10
+    },
+    {
+      "id": "zb-b-kolejne-liczby",
+      "number": 1688,
+      "title": "Najdłuższy ciąg kolejnych liczb",
+      "category": "Zbiór / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz n liczb całkowitych w dowolnej kolejności (mogą się powtarzać). Znajdź najdłuższy ciąg kolejnych liczb całkowitych x, x + 1, x + 2, …, x + L − 1, z których każda występuje na liście. Wypisz L i x — a jeśli najdłuższych ciągów jest kilka, ten o najmniejszym x."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Dwie liczby: L i x."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "−10⁶ ≤ każda liczba ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "8\n100 4 200 1 3 2 101 102",
+          "output": "4 1",
+          "note": "Najdłuższy jest ciąg 1, 2, 3, 4 (L = 4). Ciąg 100, 101, 102 ma tylko 3 liczby."
+        }
+      ],
+      "hint": "Wrzuć liczby do zbioru — powtórki znikną, a liczby ułożą się rosnąco. Przejdź zbiór i licz długość bieżącej serii: jeśli x jest o 1 większe od poprzedniego elementu, seria trwa; w przeciwnym razie zaczyna się nowa seria od x. Zmieniaj najlepszy wynik tylko przy ściśle dłuższej serii — wtedy zostanie najmniejsze x.",
+      "tests_count": 10
+    },
+    {
+      "id": "zb-b-pierwsza-unikalna",
+      "number": 1689,
+      "title": "Pierwsza niepowtórzona litera",
+      "category": "Zbiór / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Litery napisu przychodzą po kolei. Po każdej literze wypisz literę, która wystąpiła dotąd dokładnie raz, a spośród takich — tę, która pojawiła się najwcześniej. Jeśli żadna litera nie wystąpiła dotąd dokładnie raz, wypisz znak -.",
+        "Odpowiedzi wypisz razem, jako jeden napis o długości takiej jak napis wejściowy."
+      ],
+      "input_format": [
+        "Jeden wiersz — napis z małych liter a–z."
+      ],
+      "output_format": [
+        "Jeden napis z odpowiedzi po każdej literze."
+      ],
+      "constraints": [
+        "Napis ma od 1 do 10 000 liter."
+      ],
+      "examples": [
+        {
+          "input": "abacbd",
+          "output": "aabbcc",
+          "note": "Po „a”: a. Po „ab”: a. Po „aba”: a już się powtórzyła, pierwsza pojedyncza to b. Po „abac”: b. Po „abacb”: c. Po „abacbd”: c."
+        },
+        {
+          "input": "aabb",
+          "output": "a-b-",
+          "note": "Po drugiej literze żadna litera nie jest pojedyncza."
+        }
+      ],
+      "hint": "W zbiorze par (pozycja pierwszego wystąpienia, litera) trzymaj litery, które wystąpiły dotąd dokładnie raz — najmniejsza para to odpowiedź. Zapamiętuj w tablicy, gdzie każda litera wystąpiła pierwszy raz i ile razy już była. Przy pierwszym wystąpieniu litery wstaw parę, przy drugim — usuń ją. Po każdej literze wypisz s.begin()->second albo -, gdy zbiór jest pusty.",
+      "tests_count": 11
+    },
+    {
+      "id": "zb-b-kta-dozwolona",
+      "number": 1690,
+      "title": "k-ta dozwolona liczba",
+      "category": "Zbiór / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Niektóre dodatnie liczby całkowite są zakazane. Dozwolone liczby, ułożone rosnąco, tworzą ciąg — np. gdy zakazane są 2, 3 i 7, dozwolone to 1, 4, 5, 6, 8, 9, 10, … Dla każdego z q pytań k wypisz k-tą dozwoloną liczbę."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i q.",
+        "W drugim wierszu n zakazanych liczb (mogą się powtarzać).",
+        "W każdym z następnych q wierszy jedno pytanie k."
+      ],
+      "output_format": [
+        "q wierszy — k-te dozwolone liczby."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 8000",
+        "1 ≤ q ≤ 1000",
+        "1 ≤ zakazana liczba ≤ 10⁹",
+        "1 ≤ k ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "3 4\n2 3 7\n1\n2\n5\n6",
+          "output": "1\n4\n8\n9",
+          "note": "Dozwolone: 1, 4, 5, 6, 8, 9, … Pierwsza to 1, druga 4, piąta 8, szósta 9."
+        }
+      ],
+      "hint": "Gdyby nic nie było zakazane, odpowiedzią byłoby k. Każda zakazana liczba, którą „mijamy” po drodze, przesuwa odpowiedź o jeden dalej. Przejdź zbiór zakazanych rosnąco, zaczynając od x = k: jeśli zakazana z ≤ x, zwiększ x o 1; gdy trafisz na z > x — koniec, bo dalsze zakazane są jeszcze większe. Zbiór usunie powtórki, które inaczej przesunęłyby x za daleko. x może przekroczyć 10⁹ — long long.",
+      "tests_count": 10
+    },
+    {
+      "id": "zb-b-mex",
+      "number": 1691,
+      "title": "Najmniejsza wolna liczba na żywo",
+      "category": "Zbiór / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Zbiór S liczb nieujemnych jest na początku pusty. Wykonaj q poleceń:",
+        "DODAJ x — wstaw x do S (jeśli już jest, nic się nie zmienia),",
+        "USUN x — usuń x z S (jeśli go nie ma, nic się nie dzieje),",
+        "MEX — wypisz najmniejszą liczbę całkowitą nieujemną, której nie ma w S."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z następnych q wierszy polecenie (DODAJ i USUN z liczbą x)."
+      ],
+      "output_format": [
+        "Odpowiedzi na polecenia MEX, każda w osobnym wierszu."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 5000",
+        "0 ≤ x ≤ 10⁹",
+        "Jest co najmniej jedno polecenie MEX."
+      ],
+      "examples": [
+        {
+          "input": "7\nDODAJ 0\nDODAJ 1\nMEX\nDODAJ 3\nMEX\nUSUN 0\nMEX",
+          "output": "2\n2\n0",
+          "note": "Po dodaniu 0 i 1 najmniejsza wolna to 2 — trójka tego nie zmienia. Po usunięciu zera wolne jest znów 0."
+        }
+      ],
+      "hint": "Odpowiedź nigdy nie przekracza q (w S jest najwyżej q liczb, więc któraś z liczb 0…q jest wolna). Trzymaj drugi zbiór brak = {0, 1, …, q} — liczby z tego zakresu, których nie ma w S. DODAJ x: wstaw do S i, jeśli x ≤ q, usuń x z brak. USUN x: jeśli x był w S, usuń go z S i, jeśli x ≤ q, wstaw do brak. MEX to po prostu *brak.begin().",
+      "tests_count": 10
+    },
+    {
+      "id": "zb-b-aleja",
+      "number": 1692,
+      "title": "Drzewa w alei",
+      "category": "Zbiór / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Aleja ma długość L: zaczyna się w punkcie 0, a kończy w punkcie L. Kolejno sadzi się n drzew, każde w innym punkcie całkowitym między 1 a L − 1.",
+        "Po posadzeniu każdego drzewa wypisz długość najdłuższego pustego odcinka alei — największą odległość między sąsiednimi drzewami, przy czym początek (0) i koniec (L) alei liczą się jak drzewa."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby L i n.",
+        "W drugim wierszu n różnych pozycji drzew, w kolejności sadzenia."
+      ],
+      "output_format": [
+        "n wierszy — najdłuższy pusty odcinek po każdym drzewie."
+      ],
+      "constraints": [
+        "2 ≤ L ≤ 10⁹",
+        "1 ≤ n ≤ 2000",
+        "n ≤ L − 1"
+      ],
+      "examples": [
+        {
+          "input": "10 3\n3 7 5",
+          "output": "7\n4\n3",
+          "note": "Po 3: odcinki 3 i 7. Po 7: 3, 4, 3 — najdłuższy 4. Po 5: 3, 2, 2, 3."
+        }
+      ],
+      "hint": "Trzymaj set pozycji (na start {0, L}) i multiset długości odcinków (na start {L}). Nowe drzewo x dzieli odcinek między sąsiadami a < x < b: usuń z multisetu JEDNĄ kopię b − a i wstaw x − a oraz b − x. Sąsiadów znajdziesz przez it = pozycje.insert(x).first, prev(it) i next(it). Odpowiedź to *odcinki.rbegin().",
+      "tests_count": 8
+    },
+    {
+      "id": "zb-b-odcinki",
+      "number": 1693,
+      "title": "Łączenie odcinków",
+      "category": "Zbiór / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na osi liczbowej rysuje się po kolei n odcinków [a, b] (z końcami, a ≤ b). Odcinki, które na siebie nachodzą albo mają wspólny punkt, zlewają się w jeden kawałek — np. [1, 3] i [3, 5] tworzą kawałek [1, 5], ale [1, 3] i [4, 5] to dwa osobne kawałki.",
+        "Po narysowaniu każdego odcinka wypisz, z ilu osobnych kawałków składa się rysunek."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z następnych n wierszy dwie liczby a i b."
+      ],
+      "output_format": [
+        "n wierszy — liczba kawałków po każdym odcinku."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 4000",
+        "0 ≤ a ≤ b ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "4\n1 3\n5 6\n3 5\n10 12",
+          "output": "1\n2\n1\n2",
+          "note": "Odcinek [3, 5] styka się z [1, 3] i z [5, 6] — wszystko zlewa się w jeden kawałek [1, 6]. Potem [10, 12] jest osobno."
+        }
+      ],
+      "hint": "Trzymaj kawałki jako rozłączne pary (początek, koniec) w set<pair<int, int>>. Nowy odcinek [a, b] łączy się ze wszystkimi kawałkami, które zaczynają się nie dalej niż b i kończą nie wcześniej niż a. Znajdź pierwszy taki: it = s.upper_bound({a, INT_MAX}) i cofnij się o jeden, jeśli poprzedni kawałek kończy się w punkcie ≥ a. Potem w pętli, dopóki it->first <= b: rozszerz [a, b] o ten kawałek i usuń go — it = s.erase(it) zwraca strzałkę na następny element. Na koniec wstaw [a, b] i wypisz s.size().",
+      "tests_count": 11
+    },
+    {
+      "id": "zb-b-pokoje",
+      "number": 1694,
+      "title": "Przydział pokoi",
+      "category": "Zbiór / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Do hotelu przyjeżdża n gości. Gość i jest w hotelu od dnia aᵢ do dnia bᵢ włącznie — pokój po nim można dać innemu gościowi najwcześniej w dniu bᵢ + 1.",
+        "Hotel przydziela pokoje tak: rozpatruje gości w kolejności dnia przyjazdu (przy tym samym dniu — w kolejności z wejścia). Gdy gość przyjeżdża, dostaje wolny pokój o najmniejszym numerze; jeśli żaden pokój nie jest wolny, hotel otwiera nowy pokój o kolejnym numerze (pierwszy pokój ma numer 1).",
+        "Wypisz, ile pokoi trzeba było otworzyć, a potem numery pokoi wszystkich gości w kolejności z wejścia."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z następnych n wierszy dwie liczby aᵢ i bᵢ."
+      ],
+      "output_format": [
+        "W pierwszym wierszu liczba pokoi.",
+        "W drugim wierszu n numerów pokoi, oddzielonych spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 3000",
+        "1 ≤ aᵢ ≤ bᵢ ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "3\n1 2\n2 4\n4 4",
+          "output": "2\n1 2 1",
+          "note": "Gość 1 bierze pokój 1. Gość 2 przyjeżdża w dniu 2, a gość 1 wyjeżdża dopiero po dniu 2 — potrzebny jest pokój 2. W dniu 4 pokój 1 jest już wolny (gość 2 wciąż zajmuje pokój 2)."
+        }
+      ],
+      "hint": "Posortuj gości po dniu przyjazdu (np. vector par (a, numer gościa)). Trzymaj dwa zbiory: zajęte — pary (dzień wyjazdu, numer pokoju) — i wolne — numery pokoi. Przy przyjeździe w dniu a najpierw zwolnij wszystkie pokoje, których gość wyjechał przed dniem a: dopóki zajete.begin()->first < a, przenoś pokój do wolnych. Potem weź *wolne.begin() albo otwórz nowy pokój. Zapisz numer pokoju pod numerem gościa, żeby na końcu wypisać w kolejności z wejścia.",
+      "tests_count": 10
+    },
+    {
+      "id": "zb-b-egzamin",
+      "number": 1695,
+      "title": "Sala egzaminacyjna",
+      "category": "Zbiór / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W sali egzaminacyjnej stoi w jednym rzędzie n krzeseł o numerach od 0 do n − 1. Wykonaj q zdarzeń:",
+        "WCHODZI — wchodzi uczeń i siada na wolnym krześle, które jest jak najdalej od najbliższego siedzącego ucznia. Jeśli kilka krzeseł jest równie dobrych, wybiera to o najmniejszym numerze. Gdy sala jest pusta, siada na krześle 0. Wypisz numer krzesła albo BRAK, gdy wszystkie krzesła są zajęte (wtedy uczeń wychodzi).",
+        "WYCHODZI p — uczeń z krzesła p wychodzi (dane są poprawne: krzesło p jest zajęte)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i q.",
+        "W każdym z następnych q wierszy zdarzenie."
+      ],
+      "output_format": [
+        "Odpowiedzi na zdarzenia WCHODZI, każda w osobnym wierszu."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10⁹",
+        "1 ≤ q ≤ 2000",
+        "Jest co najmniej jedno zdarzenie WCHODZI."
+      ],
+      "examples": [
+        {
+          "input": "10 6\nWCHODZI\nWCHODZI\nWCHODZI\nWCHODZI\nWYCHODZI 4\nWCHODZI",
+          "output": "0\n9\n4\n2\n5",
+          "note": "Pierwszy siada na 0, drugi na 9 (najdalej od 0), trzeci na 4 (w połowie). Czwarty ma do wyboru 2 i 6 (oba w odległości 2) — bierze 2. Po wyjściu ucznia z 4 najlepsze jest krzesło 5 (odległość 3)."
+        }
+      ],
+      "hint": "Trzymaj zbiór zajętych krzeseł i dla każdego WCHODZI przejdź go po kolei, licząc kandydatów w kolejności rosnących numerów: krzesło 0 (jeśli wolne; odległość = pierwsze zajęte), środek każdej przerwy między sąsiadami a i b (krzesło (a + b) / 2, odległość (b − a) / 2, o ile b − a ≥ 2) oraz krzesło n − 1 (jeśli wolne; odległość = n − 1 − ostatnie zajęte). Zmieniaj wybór tylko przy ściśle większej odległości. Liczby sięgają 10⁹ — uważaj na a + b w int.",
+      "tests_count": 9
+    },
+    {
+      "id": "zb-b-bliskie",
+      "number": 1696,
+      "title": "Bliskie wartości w pobliżu",
+      "category": "Zbiór / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz n liczb x₁, …, xₙ oraz liczby k i t. Szukasz dwóch pozycji i < j, dla których j − i ≤ k oraz |xᵢ − xⱼ| ≤ t.",
+        "Jeśli takie pozycje istnieją, wypisz TAK i najmniejsze j, dla którego da się dobrać pasujące i. W przeciwnym razie wypisz NIE."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n, k i t.",
+        "W drugim wierszu n liczb."
+      ],
+      "output_format": [
+        "TAK i liczba j albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 8000",
+        "1 ≤ k ≤ n",
+        "0 ≤ t ≤ 2 · 10⁸",
+        "−10⁸ ≤ xᵢ ≤ 10⁸"
+      ],
+      "examples": [
+        {
+          "input": "6 2 5\n10 20 30 25 1 40",
+          "output": "TAK 4",
+          "note": "Dla j = 4 (wartość 25) w oknie dwóch poprzednich pozycji są 20 i 30 — obie różnią się o 5. Wcześniejsze j nie mają pary."
+        },
+        {
+          "input": "4 1 0\n1 2 1 2",
+          "output": "NIE",
+          "note": "Równe wartości stoją za daleko od siebie (odległość 2 > k = 1)."
+        }
+      ],
+      "hint": "Idź po j od lewej, trzymając w multisecie wartości z okna pozycji j − k … j − 1. Dla xⱼ sprawdź it = okno.lower_bound(xⱼ − t): jeśli it != okno.end() i *it <= xⱼ + t, znalazłeś parę — to najmniejsze j. W przeciwnym razie wstaw xⱼ, a gdy okno ma już k + 1 elementów, usuń jedną kopię wartości sprzed k pozycji. Licz w long long (xⱼ − t może zejść poniżej −3 · 10⁸, a to jeszcze się mieści, ale bezpieczniej).",
+      "tests_count": 12
+    },
+    {
+      "id": "zb-b-podciag",
+      "number": 1697,
+      "title": "Najdłuższy rosnący podciąg — szybko",
+      "category": "Zbiór / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Liczby powstają z generatora: x₁ = s, a każda następna to xᵢ = (xᵢ₋₁ · a + b) mod m. Podciąg to wybrane wyrazy ciągu w ich oryginalnej kolejności (nie muszą stać obok siebie). Jaką długość ma najdłuższy ściśle rosnący podciąg?"
+      ],
+      "input_format": [
+        "Jeden wiersz z pięcioma liczbami: n, s, a, b, m."
+      ],
+      "output_format": [
+        "Jedna liczba — długość najdłuższego ściśle rosnącego podciągu."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 200 000",
+        "1 ≤ m ≤ 10⁹",
+        "0 ≤ s, a, b < m"
+      ],
+      "examples": [
+        {
+          "input": "6 3 5 2 11",
+          "output": "4",
+          "note": "Ciąg: 3, 6, 10, 8, 9, 3. Najdłuższy rosnący podciąg to 3, 6, 8, 9 — długość 4."
+        }
+      ],
+      "hint": "Sprawdzanie wszystkich podciągów, a nawet zwykłe O(n²), nie zdąży. Sztuczka: trzymaj zbiór „końcówek”. Dla każdej liczby x: wstaw ją (auto [it, nowy] = s.insert(x);) i — tylko jeśli była nowa — usuń element, który stoi za nią w zbiorze (o ile next(it) != s.end()). Gdy x już był w zbiorze, nic nie zmieniaj: równa liczba nie przedłuży ściśle rosnącego podciągu. Rozmiar zbioru na końcu to długość najdłuższego ściśle rosnącego podciągu — zbiór pilnuje, żeby dla każdej długości końcówka była jak najmniejsza. Generator: vector<long long> x(n); x[0] = s; for (int i = 1; i < n; i++) x[i] = (x[i - 1] * a + b) % m;",
+      "tests_count": 10
+    },
+    {
+      "id": "zb-b-gielda",
+      "number": 1698,
+      "title": "Wielki finał: giełda",
+      "category": "Zbiór / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na giełdzie handluje się jednym towarem, zawsze po jednej sztuce. Oferty przychodzą po kolei:",
+        "KUPUJE p — ktoś chce kupić sztukę i zapłaci najwyżej p. Jeśli czeka oferta sprzedaży z ceną ≤ p, transakcja dochodzi do skutku z najtańszą taką ofertą, po jej cenie — wypisz tę cenę (oferta sprzedaży znika). W przeciwnym razie oferta kupna czeka — wypisz CZEKA.",
+        "SPRZEDAJE p — ktoś chce sprzedać sztukę za co najmniej p. Jeśli czeka oferta kupna z ceną ≥ p, transakcja dochodzi do skutku z najwyższą taką ofertą, po jej cenie — wypisz tę cenę (oferta kupna znika). W przeciwnym razie oferta sprzedaży czeka — wypisz CZEKA.",
+        "NAJLEPSZE — wypisz najwyższą czekającą ofertę kupna i najniższą czekającą ofertę sprzedaży (zamiast brakującej wypisz -).",
+        "Po wszystkich ofertach wypisz jeszcze jeden wiersz: łączną wartość wszystkich transakcji, liczbę czekających ofert kupna i liczbę czekających ofert sprzedaży."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z następnych q wierszy oferta albo NAJLEPSZE."
+      ],
+      "output_format": [
+        "Odpowiedź na każdy wiersz (cena, CZEKA albo dwie wartości dla NAJLEPSZE), a na końcu wiersz podsumowania."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 2000",
+        "1 ≤ p ≤ 10 000"
+      ],
+      "examples": [
+        {
+          "input": "7\nSPRZEDAJE 50\nSPRZEDAJE 40\nKUPUJE 45\nKUPUJE 45\nNAJLEPSZE\nSPRZEDAJE 44\nKUPUJE 60",
+          "output": "CZEKA\nCZEKA\n40\nCZEKA\n45 50\n45\n50\n135 0 0",
+          "note": "Pierwszy kupujący trafia na sprzedaż za 40. Drugi nie znajduje nic po ≤ 45 i czeka — wtedy najlepsze oferty to kupno 45 i sprzedaż 50. Sprzedający za 44 trafia na czekające kupno 45 i dostaje 45. Ostatni kupuje za 50. Razem 40 + 45 + 50 = 135, nikt nie czeka."
+        }
+      ],
+      "hint": "Dwa multisety: kupno i sprzedaz (oferty o tej samej cenie to różne oferty!). KUPUJE p: jeśli sprzedaz nie jest pusta i *sprzedaz.begin() <= p — transakcja po cenie *sprzedaz.begin(), usuń tę jedną ofertę (erase(begin())). SPRZEDAJE p: jeśli kupno nie jest puste i *kupno.rbegin() >= p — transakcja po cenie *kupno.rbegin(), usuń ją przez erase(prev(kupno.end())). W przeciwnym razie wstaw ofertę do właściwego multisetu. Sumę transakcji trzymaj w long long.",
+      "tests_count": 10
     }
   ]
 }

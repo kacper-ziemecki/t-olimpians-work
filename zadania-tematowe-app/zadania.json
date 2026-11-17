@@ -55595,6 +55595,2931 @@
       ],
       "hint": "Dwa multisety: kupno i sprzedaz (oferty o tej samej cenie to różne oferty!). KUPUJE p: jeśli sprzedaz nie jest pusta i *sprzedaz.begin() <= p — transakcja po cenie *sprzedaz.begin(), usuń tę jedną ofertę (erase(begin())). SPRZEDAJE p: jeśli kupno nie jest puste i *kupno.rbegin() >= p — transakcja po cenie *kupno.rbegin(), usuń ją przez erase(prev(kupno.end())). W przeciwnym razie wstaw ofertę do właściwego multisetu. Sumę transakcji trzymaj w long long.",
       "tests_count": 10
+    },
+    {
+      "id": "iop-suma-do-konca",
+      "number": 1699,
+      "title": "Suma do końca danych",
+      "category": "Input i Output (+) / krok 1: ile jest danych",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Termometr w szkolnej stacji pogodowej zapisuje pomiary, ale nikt nie zapisał, ile ich jest. Dostajesz wszystkie pomiary — liczby całkowite rozrzucone po wierszach: po kilka w wierszu, czasem po jednej, czasem z pustymi wierszami pomiędzy.",
+        "Wypisz, ile było liczb, i ich sumę."
+      ],
+      "input_format": [
+        "Liczby całkowite oddzielone spacjami i znakami końca wiersza — aż do końca danych. Na początku nie ma liczby mówiącej, ile ich będzie."
+      ],
+      "output_format": [
+        "W pierwszym wierszu — ile było liczb.",
+        "W drugim wierszu — ich suma."
+      ],
+      "constraints": [
+        "Liczb jest od 1 do 10 000.",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "12 -3 7\n\n100\n5 5",
+          "output": "6\n126",
+          "note": "Sześć liczb: 12 − 3 + 7 + 100 + 5 + 5 = 126. Pusty wiersz niczego nie zmienia — cin >> i tak go przeskoczy."
+        }
+      ],
+      "hint": "Nie wiesz, ile jest liczb, więc pętla for z n odpada. Pętla while (cin >> x) wczytuje kolejną liczbę i sama się zatrzyma, gdy danych zabraknie. Licz w niej, ile razy się obróciła, i dodawaj x do sumy. Sumę trzymaj w long long — 10 000 liczb po miliard to 10¹³.",
+      "tests_count": 9
+    },
+    {
+      "id": "iop-do-zera",
+      "number": 1700,
+      "title": "Aż do zera",
+      "category": "Input i Output (+) / krok 1: ile jest danych",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Kasjerka wbija kwoty kolejnych zakupów (w złotych, liczby całkowite dodatnie), a na koniec dnia wbija 0. Kasa ma jednak pamięć z poprzednich dni: za zerem w danych stoją jeszcze inne liczby — ale one już nie należą do dzisiejszego dnia.",
+        "Wypisz, ile zakupów było dzisiaj (czyli przed pierwszym zerem) i ile wyniosła ich suma."
+      ],
+      "input_format": [
+        "Liczby całkowite oddzielone białymi znakami. W pewnym miejscu stoi 0 — to koniec dzisiejszych danych. Za zerem mogą być jeszcze inne liczby (także zera), których nie wolno liczyć."
+      ],
+      "output_format": [
+        "Jeden wiersz: liczba zakupów przed pierwszym zerem i ich suma."
+      ],
+      "constraints": [
+        "Przed pierwszym zerem jest od 0 do 10 000 liczb, każda od 1 do 100 000.",
+        "Za pierwszym zerem jest najwyżej 1000 liczb, każda od 0 do 100 000."
+      ],
+      "examples": [
+        {
+          "input": "12 30 7\n5 0 99 14 0 3",
+          "output": "4 54",
+          "note": "Dziś były 4 zakupy: 12 + 30 + 7 + 5 = 54. Liczby 99, 14, 0 i 3 stoją za zerem — to stare dane."
+        }
+      ],
+      "hint": "Warunek pętli robi dwie rzeczy po kolei: while (cin >> x && x != 0). Najpierw wczytuje, potem sprawdza, czy to nie zero. Po wyjściu z pętli po prostu nie czytaj dalej — to, co zostało na wejściu, programowi nie przeszkadza.",
+      "tests_count": 9
+    },
+    {
+      "id": "iop-goscie-koniec",
+      "number": 1701,
+      "title": "Lista gości do słowa KONIEC",
+      "category": "Input i Output (+) / krok 1: ile jest danych",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Przy wejściu na urodziny każdy gość wpisuje swoje imię do zeszytu. Na końcu listy ktoś napisał KONIEC, a pod spodem są jeszcze bazgroły, które do listy nie należą.",
+        "Wypisz liczbę gości, a potem ich imiona w odwrotnej kolejności — od tego, który przyszedł ostatni, do pierwszego. Uwaga: KONIEC to dokładnie to słowo, wielkimi literami. Imię Koniec albo słowo KONIECZNY to zwykłe wpisy."
+      ],
+      "input_format": [
+        "Słowa oddzielone białymi znakami. W pewnym miejscu stoi słowo KONIEC. Za nim mogą być jeszcze inne słowa — trzeba je pominąć."
+      ],
+      "output_format": [
+        "W pierwszym wierszu liczba gości k.",
+        "W następnych k wierszach imiona od ostatniego do pierwszego."
+      ],
+      "constraints": [
+        "Przed pierwszym słowem KONIEC jest od 1 do 1000 słów.",
+        "Każde słowo ma od 1 do 15 liter alfabetu angielskiego."
+      ],
+      "examples": [
+        {
+          "input": "Ola Bartek\nZuzia Kuba KONIEC xyz Ala",
+          "output": "4\nKuba\nZuzia\nBartek\nOla",
+          "note": "Gości jest czworo. Od końca: Kuba, Zuzia, Bartek, Ola. Słowa xyz i Ala stoją za KONIEC — nie liczymy ich."
+        }
+      ],
+      "hint": "Zbieraj imiona do vector<string> w pętli while (cin >> s && s != \"KONIEC\"). Porównanie napisów przez != sprawdza całe słowo i wielkość liter, więc Koniec i KONIECZNY przejdą jako zwykłe imiona. Na koniec wypisz size(), a potem vector od ostatniego elementu do pierwszego.",
+      "tests_count": 8
+    },
+    {
+      "id": "iop-koszyk-pary",
+      "number": 1702,
+      "title": "Koszyk w sklepie",
+      "category": "Input i Output (+) / krok 1: ile jest danych",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Kasa samoobsługowa zapisuje każdą pozycję z koszyka jako dwie liczby: cenę jednej sztuki w groszach i liczbę sztuk. Nie wiadomo, ile będzie pozycji.",
+        "Wypisz, ile pozycji było na paragonie, ile sztuk towaru łącznie i ile trzeba zapłacić — w złotych, z dokładnie dwiema cyframi groszy po kropce."
+      ],
+      "input_format": [
+        "Pary liczb całkowitych: cena w groszach i liczba sztuk — aż do końca danych. Liczby z jednej pary mogą stać w różnych wierszach."
+      ],
+      "output_format": [
+        "Trzy wiersze: Pozycje: p, Sztuki: s oraz Do zaplaty: Z.GG — Z to złote, GG to grosze zawsze zapisane dwiema cyframi."
+      ],
+      "constraints": [
+        "Pozycji jest od 1 do 5000.",
+        "1 ≤ cena ≤ 100 000 (groszy)",
+        "1 ≤ liczba sztuk ≤ 100"
+      ],
+      "examples": [
+        {
+          "input": "250 4\n1999 1\n5 10",
+          "output": "Pozycje: 3\nSztuki: 15\nDo zaplaty: 30.49",
+          "note": "Trzy pozycje, 4 + 1 + 10 = 15 sztuk. Do zapłaty 250 · 4 + 1999 · 1 + 5 · 10 = 3049 groszy, czyli 30.49 zł."
+        }
+      ],
+      "hint": "while (cin >> cena >> ile) czyta całą parę — warunek jest prawdziwy tylko wtedy, gdy udało się wczytać obie liczby. Kwotę licz w groszach w long long. Na końcu wypisz suma / 100, kropkę i suma % 100 — ale grosze z setfill('0') i setw(2), żeby 5 groszy wyszło jako 05.",
+      "tests_count": 9
+    },
+    {
+      "id": "iop-punkty-zero-zero",
+      "number": 1703,
+      "title": "Punkty do pary 0 0",
+      "category": "Input i Output (+) / krok 1: ile jest danych",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dron zapisuje miejsca lądowań jako punkty (x, y) na mapie miasta. Koniec zapisu oznacza para 0 0. Uwaga: punkt, w którym tylko jedna współrzędna jest zerem — na przykład (0, 5) albo (−3, 0) — to zwykłe lądowanie na osi, a nie koniec danych.",
+        "Wypisz, ile było lądowań, i to, które było najdalej od lądowiska (0, 0), licząc odległość jak po ulicach: |x| + |y|. Gdy kilka lądowań jest równie daleko — wypisz pierwsze z nich."
+      ],
+      "input_format": [
+        "Pary liczb całkowitych x y, aż do pary 0 0. Za parą 0 0 nic już nie ma."
+      ],
+      "output_format": [
+        "W pierwszym wierszu liczba lądowań (para 0 0 nie jest lądowaniem).",
+        "W drugim wierszu najdalsze lądowanie i jego odległość: x y d."
+      ],
+      "constraints": [
+        "Lądowań jest od 1 do 5000.",
+        "−10⁶ ≤ x, y ≤ 10⁶",
+        "Żadne lądowanie nie jest punktem (0, 0)."
+      ],
+      "examples": [
+        {
+          "input": "1 2\n0 5\n-7 0\n2 -5\n0 0",
+          "output": "4\n-7 0 7",
+          "note": "Odległości: 3, 5, 7 i 7. Najdalej są (−7, 0) i (2, −5) — wygrywa wcześniejsze. Punkty (0, 5) i (−7, 0) leżą na osiach, ale nie kończą danych."
+        }
+      ],
+      "hint": "Koniec to x == 0 && y == 0 — oba zera naraz. Wygodnie: while (cin >> x >> y && !(x == 0 && y == 0)) { … }. Gdybyś napisał x == 0 || y == 0, program zakończyłby się na pierwszym punkcie leżącym na osi. Odległość liczy abs(x) + abs(y); nowy rekord tylko przy ostrej nierówności >, żeby przy remisie zostało pierwsze.",
+      "tests_count": 8
+    },
+    {
+      "id": "iop-ostatnie-dwie",
+      "number": 1704,
+      "title": "Ostatnie dwie liczby",
+      "category": "Input i Output (+) / krok 1: ile jest danych",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Licznik na bramce stadionu wysyła kolejne odczyty, a nas interesują tylko dwa ostatnie: przedostatni i ostatni — oraz łączna liczba odczytów.",
+        "Spróbuj rozwiązać to bez zapisywania wszystkich liczb: wystarczy pamiętać ostatnią i przedostatnią."
+      ],
+      "input_format": [
+        "Liczby całkowite aż do końca danych (co najmniej dwie)."
+      ],
+      "output_format": [
+        "W pierwszym wierszu — ile było liczb.",
+        "W drugim wierszu — przedostatnia i ostatnia liczba, oddzielone spacją."
+      ],
+      "constraints": [
+        "Liczb jest od 2 do 10 000.",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "5 8 13\n21 34",
+          "output": "5\n21 34",
+          "note": "Pięć liczb; przedostatnia to 21, ostatnia — 34."
+        }
+      ],
+      "hint": "Trzymaj dwie zmienne: przedost i ost. Po wczytaniu nowej liczby x najpierw przesuń: przedost = ost, a dopiero potem ost = x — w odwrotnej kolejności zgubisz starą wartość ost. Pętla while (cin >> x) skończy się sama; nieudane, ostatnie wczytanie nie wejdzie do środka pętli.",
+      "tests_count": 8
+    },
+    {
+      "id": "iop-liczby-i-slowo",
+      "number": 1705,
+      "title": "Liczby, a potem hasło",
+      "category": "Input i Output (+) / krok 1: ile jest danych",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Szyfrant wysyła wiadomość: najpierw kilka liczb całkowitych, a na końcu jedno słowo — hasło. Nie wiadomo, ile będzie liczb.",
+        "Wypisz sumę liczb, a w drugim wierszu hasło zapisane od tyłu."
+      ],
+      "input_format": [
+        "Liczby całkowite, a po nich jedno słowo złożone z liter alfabetu angielskiego. Wszystko oddzielone białymi znakami."
+      ],
+      "output_format": [
+        "W pierwszym wierszu suma liczb.",
+        "W drugim wierszu hasło od tyłu."
+      ],
+      "constraints": [
+        "Liczb jest od 1 do 10 000, każda od −10⁹ do 10⁹.",
+        "Hasło ma od 1 do 20 liter."
+      ],
+      "examples": [
+        {
+          "input": "10 20\n-5 7 sezam",
+          "output": "32\nmazes",
+          "note": "Suma 10 + 20 − 5 + 7 = 32. Hasło sezam od tyłu to mazes."
+        }
+      ],
+      "hint": "Pętla while (cin >> x) zatrzyma się na pierwszej literze: wczytanie liczby się nie uda, a strumień przejdzie w stan błędu — od tej chwili każde kolejne cin >> nic nie zrobi. Litera jednak zostaje na taśmie. Wywołaj cin.clear(), żeby „naprawić” strumień, i dopiero wtedy cin >> haslo. Odwracanie: reverse(haslo.begin(), haslo.end()).",
+      "tests_count": 8
+    },
+    {
+      "id": "iop-trzy-formaty",
+      "number": 1706,
+      "title": "Trzy formaty w jednym wejściu",
+      "category": "Input i Output (+) / krok 1: ile jest danych",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Trzy czujniki wysłały pomiary jednym ciągiem, każdy w innym formacie:",
+        "czujnik A — najpierw liczba n, a po niej n pomiarów;",
+        "czujnik B — pomiary różne od zera, a po nich 0 (zero nie jest pomiarem);",
+        "czujnik C — pomiary aż do końca danych (może ich nie być wcale).",
+        "Wypisz sumę pomiarów każdego czujnika."
+      ],
+      "input_format": [
+        "Najpierw n, a po nim n liczb (czujnik A). Dalej liczby różne od zera zakończone zerem (czujnik B). Dalej liczby aż do końca danych (czujnik C). Wszystko oddzielone białymi znakami."
+      ],
+      "output_format": [
+        "Trzy wiersze: A: suma, B: suma, C: suma (suma pustej części to 0)."
+      ],
+      "constraints": [
+        "0 ≤ n ≤ 3000; czujnik B ma od 0 do 3000 pomiarów, czujnik C — od 0 do 3000.",
+        "Każdy pomiar to liczba całkowita od −10⁶ do 10⁶; pomiary czujnika A i C mogą być zerami, pomiary czujnika B — nie."
+      ],
+      "examples": [
+        {
+          "input": "3\n5 0 -2\n7 7 0\n1 2 3",
+          "output": "A: 3\nB: 14\nC: 6",
+          "note": "A: 5 + 0 − 2 = 3 (zero należy do A, bo A ma podaną liczbę pomiarów). B: 7 + 7 = 14. C: 1 + 2 + 3 = 6."
+        }
+      ],
+      "hint": "Trzy pętle po kolei, każda w swoim stylu: for z n, potem while (cin >> x && x != 0), potem while (cin >> x). Każda pętla zaczyna czytać dokładnie tam, gdzie skończyła poprzednia — taśma się nie cofa. Ostatnia pętla po prostu się nie wykona, gdy czujnik C nic nie wysłał.",
+      "tests_count": 8
+    },
+    {
+      "id": "iop-testy-suma",
+      "number": 1707,
+      "title": "Wiele testów: a + b",
+      "category": "Input i Output (+) / krok 2: wiele testów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Najprostsze zadanie z wieloma testami. Na początku wejścia stoi liczba testów t. Każdy test to dwie liczby całkowite a i b. Dla każdego testu wypisz a + b — każdy wynik w osobnym wierszu, w kolejności testów."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "W każdym z następnych t wierszy dwie liczby a i b."
+      ],
+      "output_format": [
+        "t wierszy — w każdym suma a + b dla kolejnego testu."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1000",
+        "−10¹⁸ ≤ a, b ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "3\n1 2\n-5 5\n1000000000000 1",
+          "output": "3\n0\n1000000000001",
+          "note": "Trzy testy, trzy wiersze wyniku. Liczby mogą mieć 19 cyfr — dlatego long long (suma też się w nim mieści)."
+        }
+      ],
+      "hint": "Wczytaj t, a potem while (t--) { … } albo for (int i = 0; i < t; i++) { … }. W środku pętli wczytaj a i b i od razu wypisz a + b z \"\\n\". Liczby są ogromne — long long.",
+      "tests_count": 6
+    },
+    {
+      "id": "iop-testy-maks",
+      "number": 1708,
+      "title": "Najlepszy wynik w każdym teście",
+      "category": "Input i Output (+) / krok 2: wiele testów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Klasa pisała t sprawdzianów. Dla każdego sprawdzianu dostajesz liczbę uczniów n i ich wyniki — wyniki mogą być ujemne, bo za ściąganie są punkty karne. Dla każdego sprawdzianu wypisz najlepszy wynik."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "Każdy test zajmuje dwa wiersze: liczba n, a w następnym wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "t wierszy — największa liczba z każdego testu."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1000",
+        "1 ≤ n, suma wszystkich n ≤ 10 000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "3\n4\n3 9 -2 7\n2\n-8 -3\n1\n5",
+          "output": "9\n-3\n5",
+          "note": "W drugim teście wszystkie wyniki są ujemne — najlepszy to −3. Program, który nie zaczyna rekordu od nowa, wypisałby tu 9 (z poprzedniego testu), a program startujący od 0 — wypisałby 0."
+        }
+      ],
+      "hint": "Zmienną z rekordem utwórz w środku pętli po testach — wtedy w każdym teście zaczyna od nowa. Startuj od pierwszej liczby testu albo od bardzo małej wartości (np. LLONG_MIN), ale nie od 0: wszystkie liczby mogą być ujemne.",
+      "tests_count": 8
+    },
+    {
+      "id": "iop-testy-case",
+      "number": 1709,
+      "title": "Case #k",
+      "category": "Input i Output (+) / krok 2: wiele testów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na wielu zawodach programistycznych wynik każdego testu trzeba poprzedzić napisem Case #k:, gdzie k to numer testu liczony od 1.",
+        "W każdym teście dostajesz słowo. Wypisz liczbę jego samogłosek (a, e, i, o, u, y) w formacie Case #k: liczba."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z następnych t wierszy jedno słowo z małych liter alfabetu angielskiego."
+      ],
+      "output_format": [
+        "t wierszy postaci Case #k: x — słowo Case z wielkiej litery, spacja, krzyżyk, numer testu, dwukropek, spacja i wynik."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1500",
+        "Każde słowo ma od 1 do 40 liter."
+      ],
+      "examples": [
+        {
+          "input": "3\nprogramowanie\nkrzyk\nolimpiada",
+          "output": "Case #1: 6\nCase #2: 1\nCase #3: 5",
+          "note": "programowanie ma 6 samogłosek (o, a, o, a, i, e), krzyk — jedną (y), olimpiada — 5."
+        }
+      ],
+      "hint": "Pętla for (int k = 1; k <= t; k++) od razu daje numer testu. Wypisz: cout << \"Case #\" << k << \": \" << wynik << \"\\n\";. Najczęstsze błędy: brak spacji po dwukropku, numeracja od zera i „case” małą literą — sprawdzarka porównuje znak po znaku.",
+      "tests_count": 6
+    },
+    {
+      "id": "iop-testy-szukaj",
+      "number": 1710,
+      "title": "Czy jest w tym teście?",
+      "category": "Input i Output (+) / krok 2: wiele testów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W każdym z t testów dostajesz liczbę k oraz n liczb. Wypisz pozycję (licząc od 1) pierwszego wystąpienia k wśród tych n liczb albo słowo BRAK, jeśli k się nie pojawia.",
+        "Uwaga na pułapkę: gdy znajdziesz k, nie przerywaj wczytywania przez break. Pozostałe liczby tego testu wciąż stoją na taśmie i zostałyby przeczytane jako początek następnego testu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "Każdy test: wiersz z liczbami n i k, a w następnym wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "t wierszy: pozycja pierwszego wystąpienia albo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1000",
+        "1 ≤ n, suma wszystkich n ≤ 10 000",
+        "k i wszystkie liczby: od −10⁶ do 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "3\n5 7\n1 7 3 7 9\n3 4\n4 4 4\n2 6\n1 2",
+          "output": "2\n1\nBRAK",
+          "note": "W pierwszym teście 7 stoi na pozycji 2 (i drugi raz na 4). Gdyby program przerwał czytanie po znalezieniu, liczby 3 7 9 zostałyby wzięte za n i k drugiego testu — i wszystko dalej by się pomieszało."
+        }
+      ],
+      "hint": "Wczytuj zawsze wszystkie n liczb testu. Pozycję trzymaj w zmiennej ustawianej na start testu na -1 i zmieniaj ją tylko wtedy, gdy wciąż jest -1, a trafisz na k. Wynik (albo BRAK) wypisz dopiero po pętli wczytującej.",
+      "tests_count": 7
+    },
+    {
+      "id": "iop-testy-do-zera",
+      "number": 1711,
+      "title": "Testy aż do zera",
+      "category": "Input i Output (+) / krok 2: wiele testów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Tym razem nikt nie podał liczby testów. Każdy test zaczyna się od liczby n, po której stoi n liczb. Samo 0 w miejscu n oznacza koniec danych (nie jest testem).",
+        "Dla każdego testu wypisz, ile różnych wartości jest wśród jego n liczb."
+      ],
+      "input_format": [
+        "Kolejne testy: liczba n, a po niej n liczb całkowitych. Na końcu stoi 0."
+      ],
+      "output_format": [
+        "Po jednym wierszu na test — liczba różnych wartości."
+      ],
+      "constraints": [
+        "Testów jest od 1 do 1000.",
+        "1 ≤ n, suma wszystkich n ≤ 10 000",
+        "−10⁶ ≤ każda liczba ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "4\n1 2 2 1\n3\n5 5 5\n5\n1 2 3 4 5\n0",
+          "output": "2\n1\n5",
+          "note": "Pierwszy test ma dwie różne wartości (1 i 2), drugi — jedną, trzeci — pięć. Zbiór z pierwszego testu nie może przetrwać do drugiego, bo drugi wyszedłby 3 zamiast 1."
+        }
+      ],
+      "hint": "while (cin >> n && n != 0) { set<int> s; … } — zbiór utworzony w środku pętli jest pusty na początku każdego testu. Gdybyś utworzył go przed pętlą, liczby z poprzednich testów by w nim zostały (chyba że wywołasz s.clear()).",
+      "tests_count": 7
+    },
+    {
+      "id": "iop-testy-permutacja",
+      "number": 1712,
+      "title": "Czy to permutacja?",
+      "category": "Input i Output (+) / krok 2: wiele testów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Permutacja liczb od 1 do n to te liczby ustawione w dowolnej kolejności — każda dokładnie raz. Na przykład 3 1 2 jest permutacją, a 3 1 1 i 1 2 4 nie są.",
+        "W każdym z t testów sprawdź, czy podane n liczb tworzy permutację liczb od 1 do n."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "Każdy test: liczba n, a w następnym wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "t wierszy: TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1000",
+        "1 ≤ n, suma wszystkich n ≤ 15 000",
+        "1 ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "4\n3\n3 1 2\n3\n3 1 1\n3\n1 2 4\n1\n1",
+          "output": "TAK\nNIE\nNIE\nTAK",
+          "note": "Drugi test ma dwie jedynki i brak dwójki, trzeci — liczbę 4, która jest większa niż n = 3."
+        }
+      ],
+      "hint": "W każdym teście utwórz vector<bool> bylo(n + 1, false) i flagę ok = true. Dla każdej liczby x: jeśli x > n albo bylo[x] — ok = false (ale czytaj dalej!), inaczej bylo[x] = true. Zanim sięgniesz do bylo[x], sprawdź x > n — inaczej wyjdziesz poza vector.",
+      "tests_count": 7
+    },
+    {
+      "id": "iop-testy-pusty-wiersz",
+      "number": 1713,
+      "title": "Pusty wiersz między testami",
+      "category": "Input i Output (+) / krok 2: wiele testów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W każdym z t testów dostajesz n słów. Wypisz je alfabetycznie, każde w osobnym wierszu.",
+        "Wyniki kolejnych testów oddziel jednym pustym wierszem. Przed pierwszym testem i po ostatnim nie ma pustego wiersza."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "Każdy test: liczba n, a w następnym wierszu n słów z małych liter."
+      ],
+      "output_format": [
+        "Słowa każdego testu alfabetycznie, po jednym w wierszu; między wynikami testów jeden pusty wiersz."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100",
+        "1 ≤ n, suma wszystkich n ≤ 2000",
+        "Każde słowo ma od 1 do 10 liter."
+      ],
+      "examples": [
+        {
+          "input": "2\n3\nkot ala pies\n2\nzebra antylopa",
+          "output": "ala\nkot\npies\n\nantylopa\nzebra",
+          "note": "Pusty wiersz stoi tylko między ostatnim słowem pierwszego testu a pierwszym słowem drugiego."
+        }
+      ],
+      "hint": "Pusty wiersz najłatwiej wypisać na początku każdego testu oprócz pierwszego: if (k > 1) cout << \"\\n\";. To prostsze niż pilnowanie, który test jest ostatni. Słowa wczytaj do vector<string> i posortuj przez sort.",
+      "tests_count": 6
+    },
+    {
+      "id": "iop-testy-najczestsza",
+      "number": 1714,
+      "title": "Najczęstsza w każdym teście",
+      "category": "Input i Output (+) / krok 2: wiele testów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W każdym z t testów dostajesz n liczb od 1 do 10 000 000. Wypisz liczbę, która występuje w teście najczęściej, a gdy kilka występuje równie często — najmniejszą z nich.",
+        "Testów jest bardzo dużo, ale są krótkie. Tablica liczników int ile[10000001] to dobry pomysł — tylko nie zeruj jej całej przed każdym testem: 3000 testów razy 10 milionów pudełek to 30 miliardów operacji. Wyzeruj tylko te pudełka, których test naprawdę użył."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "Każdy test: liczba n, a w następnym wierszu n liczb."
+      ],
+      "output_format": [
+        "t wierszy — najczęstsza liczba każdego testu."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 3000",
+        "1 ≤ n, suma wszystkich n ≤ 9000",
+        "1 ≤ każda liczba ≤ 10⁷"
+      ],
+      "examples": [
+        {
+          "input": "3\n5\n7 3 7 3 9\n1\n10000000\n3\n2 2 5",
+          "output": "3\n10000000\n2",
+          "note": "W pierwszym teście 7 i 3 występują po dwa razy — wygrywa mniejsza, 3."
+        }
+      ],
+      "hint": "Globalna tablica int ile[10000001] ma na start same zera. W teście: wczytaj liczby do vectora, zwiększ ile[x] dla każdej i znajdź najlepszą. Na koniec testu przejdź vector jeszcze raz i ustaw ile[x] = 0. Czyszczenie kosztuje tyle, ile liczb ma test — a nie 10 milionów. (Inny dobry sposób: posortuj liczby testu i policz serie równych.)",
+      "tests_count": 7
+    },
+    {
+      "id": "iop-przecinki",
+      "number": 1715,
+      "title": "Lista po przecinku",
+      "category": "Input i Output (+) / krok 3: wypisywanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wypisz n liczb w jednym wierszu, oddzielając je przecinkiem i spacją — tak jak pisze się wyliczankę na kartce: 3, 1, 4. Po ostatniej liczbie nie ma przecinka."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jeden wiersz: liczby rozdzielone przecinkiem i spacją."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "−10⁶ ≤ każda liczba ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "4\n3 1 4 1",
+          "output": "3, 1, 4, 1",
+          "note": "Między czterema liczbami są trzy separatory."
+        }
+      ],
+      "hint": "Przed każdą liczbą oprócz pierwszej wypisz \", \": if (i > 0) cout << \", \"; cout << x;. Separator stoi między liczbami, więc jest go o jeden mniej niż liczb. Sprawdzarka wybacza spację na końcu wiersza, ale przecinka — już nie.",
+      "tests_count": 6
+    },
+    {
+      "id": "iop-nawiasy-lista",
+      "number": 1716,
+      "title": "Lista w nawiasach kwadratowych",
+      "category": "Input i Output (+) / krok 3: wypisywanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wypisz n liczb w formacie listy: nawias kwadratowy, liczby rozdzielone przecinkiem i spacją, nawias zamykający — na przykład [3, 1, 4]. Gdy liczb nie ma (n = 0), wypisz [].",
+        "Liczby wypisz w odwrotnej kolejności niż na wejściu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W drugim wierszu n liczb całkowitych (gdy n = 0, drugiego wiersza nie ma)."
+      ],
+      "output_format": [
+        "Jeden wiersz z listą."
+      ],
+      "constraints": [
+        "0 ≤ n ≤ 2000",
+        "−10⁶ ≤ każda liczba ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "3\n10 -2 7",
+          "output": "[7, -2, 10]",
+          "note": "Od końca: 7, −2, 10."
+        }
+      ],
+      "hint": "Wczytaj liczby do vectora. Wypisz \"[\", potem liczby od ostatniej do pierwszej z \", \" przed każdą oprócz pierwszej wypisanej, a na końcu \"]\". Ten sam kod zadziała dla n = 0 — pętla się nie wykona i zostanie [].",
+      "tests_count": 6
+    },
+    {
+      "id": "iop-po-k-w-wierszu",
+      "number": 1717,
+      "title": "Po k w wierszu",
+      "category": "Input i Output (+) / krok 3: wypisywanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Drukarka paragonów mieści w wierszu tylko k liczb. Wypisz n liczb po k w wierszu, oddzielone spacjami, w kolejności z wejścia. Ostatni wiersz może mieć mniej niż k liczb."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n i k.",
+        "W drugim wierszu n liczb."
+      ],
+      "output_format": [
+        "Liczby po k w wierszu."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "1 ≤ k ≤ 2000",
+        "Każda liczba: od 0 do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "7 3\n1 2 3 4 5 6 7",
+          "output": "1 2 3\n4 5 6\n7",
+          "note": "Dwa pełne wiersze po trzy liczby i jeden krótszy."
+        }
+      ],
+      "hint": "Po wypisaniu liczby o indeksie i (licząc od zera) sprawdź, czy (i + 1) % k == 0 — wtedy zakończ wiersz, a w przeciwnym razie wypisz spację. Gdy n nie dzieli się przez k, ostatni wiersz jest niepełny — po pętli dopisz jeszcze \"\\n\".",
+      "tests_count": 9
+    },
+    {
+      "id": "iop-separator-tysiecy",
+      "number": 1718,
+      "title": "Spacje co trzy cyfry",
+      "category": "Input i Output (+) / krok 3: wypisywanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W Polsce duże liczby zapisuje się z odstępami co trzy cyfry, licząc od prawej strony: 1 234 567, a nie 1234567. Dostajesz n liczb całkowitych (także ujemnych). Wypisz każdą w osobnym wierszu, z odstępami."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W następnych n wierszach po jednej liczbie."
+      ],
+      "output_format": [
+        "n wierszy z liczbami zapisanymi z odstępami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "−10¹⁸ ≤ każda liczba ≤ 10¹⁸ (bez zer na początku)"
+      ],
+      "examples": [
+        {
+          "input": "4\n1234567\n-1000\n999\n1000000000000000000",
+          "output": "1 234 567\n-1 000\n999\n1 000 000 000 000 000 000",
+          "note": "Liczba 999 ma tylko jedną grupę — bez odstępów. Minus nie jest cyfrą, więc nie liczy się do grup."
+        }
+      ],
+      "hint": "Wczytaj liczbę do string. Jeśli zaczyna się od minusa, wypisz go i usuń z napisu. Potem idź po cyfrach od lewej: przed cyfrą o indeksie i wstaw spację, gdy i > 0 i (dlugosc − i) % 3 == 0 — czyli gdy na prawo od niej zostało dokładnie trzy, sześć, dziewięć… cyfr.",
+      "tests_count": 6
+    },
+    {
+      "id": "iop-kolumna-do-prawej",
+      "number": 1719,
+      "title": "Kolumna dosunięta do prawej",
+      "category": "Input i Output (+) / krok 3: wypisywanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Księgowy chce mieć kwoty w równej kolumnie: jedności pod jednościami, dziesiątki pod dziesiątkami. Wypisz n liczb, każdą w osobnym wierszu, dosuniętych do prawej. Szerokość kolumny to długość najdłuższej liczby (minus też jest znakiem)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "n wierszy — liczby dosunięte do prawej w kolumnie o szerokości najdłuższej z nich."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "4\n7 -120 35 1000",
+          "output": "7\n-120\n  35\n1000",
+          "note": "Najdłuższe są −120 i 1000 — po cztery znaki. Każda liczba dostaje pole szerokości 4 i jest dosunięta do prawej."
+        }
+      ],
+      "hint": "Najpierw wczytaj wszystkie liczby do vectora i znajdź najdłuższą: w = max(w, (int)to_string(x).size()). Dopiero potem wypisuj: cout << setw(w) << x << \"\\n\"; — szerokość w setw może być zmienną.",
+      "tests_count": 7
+    },
+    {
+      "id": "iop-tabliczka-rowna",
+      "number": 1720,
+      "title": "Równa tabliczka mnożenia",
+      "category": "Input i Output (+) / krok 3: wypisywanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wypisz tabliczkę mnożenia n × n: w wierszu i, w kolumnie j stoi iloczyn i · j. Każda liczba zajmuje pole o szerokości w + 1, gdzie w to liczba cyfr największego iloczynu n · n, i jest w nim dosunięta do prawej. Pierwsze pole wiersza też ma szerokość w + 1."
+      ],
+      "input_format": [
+        "Jedna liczba n."
+      ],
+      "output_format": [
+        "n wierszy tabliczki."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 40"
+      ],
+      "examples": [
+        {
+          "input": "4",
+          "output": "1  2  3  4\n  2  4  6  8\n  3  6  9 12\n  4  8 12 16",
+          "note": "Największy iloczyn to 16 — dwie cyfry, więc każde pole ma 3 znaki."
+        }
+      ],
+      "hint": "Policz w = to_string(n * n).size(). W pętli w pętli wypisuj cout << setw(w + 1) << i * j;, a po każdym wierszu \"\\n\". setw działa tylko na najbliższą wartość, więc stoi przed każdym iloczynem.",
+      "tests_count": 9
+    },
+    {
+      "id": "iop-spis-tresci",
+      "number": 1721,
+      "title": "Spis treści z kropkami",
+      "category": "Input i Output (+) / krok 3: wypisywanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wypisz spis treści książki. Każdy wiersz ma mieć dokładnie W znaków: tytuł rozdziału przy lewej krawędzi, numer strony przy prawej, a całe miejsce pomiędzy wypełniają kropki.",
+        "Tytuły są pojedynczymi słowami (zamiast spacji mają podkreślnik _)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n i W.",
+        "W każdym z następnych n wierszy tytuł i numer strony."
+      ],
+      "output_format": [
+        "n wierszy po dokładnie W znaków."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 200",
+        "10 ≤ W ≤ 60",
+        "Tytuł ma od 1 do 30 znaków (litery, cyfry, _), numer strony — od 1 do 999.",
+        "Zawsze zmieści się co najmniej jedna kropka: długość tytułu + liczba cyfr numeru < W."
+      ],
+      "examples": [
+        {
+          "input": "3 20\nWstep 1\nPetle 15\nTablice_2D 103",
+          "output": "Wstep..............1\nPetle.............15\nTablice_2D.......103",
+          "note": "Wstep ma 5 znaków, numer 1 — jeden, więc kropek jest 20 − 5 − 1 = 14."
+        }
+      ],
+      "hint": "Najprościej: cout << tytul << string(W - tytul.size() - to_string(strona).size(), '.') << strona << \"\\n\";. To samo da się zrobić manipulatorami: cout << left << setfill('.') << setw(W - liczba_cyfr) << tytul << strona — pole o szerokości W minus cyfry numeru, wypełnione kropkami z prawej strony tytułu.",
+      "tests_count": 7
+    },
+    {
+      "id": "iop-tabela-z-ramka",
+      "number": 1722,
+      "title": "Tabela z ramką",
+      "category": "Input i Output (+) / krok 3: wypisywanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wypisz tabelę wyników zawodów z ramką. Tabela ma cztery kolumny o nagłówkach Imie, Zad1, Zad2 i Suma. W kolumnie Suma jest suma punktów za oba zadania.",
+        "Szerokość kolumny to długość najdłuższego wpisu w tej kolumnie — wliczając nagłówek. Każda komórka ma z lewej i z prawej po jednej spacji odstępu od kreski. Imiona i wszystkie nagłówki są dosunięte do lewej, liczby — do prawej.",
+        "Ramka: linia pozioma składa się z plusów na skrzyżowaniach i z myślników nad komórkami (szerokość kolumny + 2); pionowe kreski | oddzielają komórki. Linia pozioma stoi nad nagłówkiem, pod nagłówkiem i pod ostatnim wierszem. Zawodnicy są w kolejności z wejścia."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n wierszy: imię (jedno słowo) i dwie liczby — punkty za zadania."
+      ],
+      "output_format": [
+        "Tabela z ramką — n + 4 wiersze (dokładnie jak w przykładzie)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 100",
+        "Imię ma od 1 do 20 liter.",
+        "0 ≤ punkty ≤ 100 000"
+      ],
+      "examples": [
+        {
+          "input": "3\nOla 100 85\nBartek 7 120\nZuzanna 0 0",
+          "output": "+---------+------+------+------+\n| Imie    | Zad1 | Zad2 | Suma |\n+---------+------+------+------+\n| Ola     |  100 |   85 |  185 |\n| Bartek  |    7 |  120 |  127 |\n| Zuzanna |    0 |    0 |    0 |\n+---------+------+------+------+",
+          "note": "Najdłuższe imię, Zuzanna, ma 7 liter — kolumna Imie ma szerokość 7, a jej linia pozioma 9 myślników. W pozostałych kolumnach najdłuższe są nagłówki (4 znaki)."
+        }
+      ],
+      "hint": "Najpierw wczytaj wszystko i policz szerokości: w = max(długość nagłówka, najdłuższy wpis w kolumnie) — długość liczby to to_string(x).size(). Linia pozioma: \"+\", a potem dla każdej kolumny string(w + 2, '-') + \"+\". Wiersz: \"| \" + wpis + \" | \" + … — wpis wypisz przez left << setw(w) (imiona, nagłówki) albo right << setw(w) (liczby).",
+      "tests_count": 7
+    },
+    {
+      "id": "iop-statystyka-znakow",
+      "number": 1723,
+      "title": "Statystyka znaków",
+      "category": "Input i Output (+) / krok 4: znak po znaku",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz tekst w kilku wierszach. Policz w nim: litery (a–z, A–Z), cyfry, spacje i wszystkie pozostałe znaki (kropki, przecinki, nawiasy…). Znaków końca wiersza nie licz nigdzie."
+      ],
+      "input_format": [
+        "Tekst złożony z liter alfabetu angielskiego, cyfr, spacji, znaków interpunkcyjnych i znaków końca wiersza — do końca danych."
+      ],
+      "output_format": [
+        "Cztery wiersze: litery: a, cyfry: b, spacje: c, inne: d."
+      ],
+      "constraints": [
+        "Tekst ma od 1 do 50 000 znaków."
+      ],
+      "examples": [
+        {
+          "input": "Ala ma 2 koty.\nA Ola: 13!",
+          "output": "litery: 13\ncyfry: 3\nspacje: 5\ninne: 3",
+          "note": "Liter jest 13, cyfr 3 (2, 1, 3), spacji 5, a innych znaków 3: kropka, dwukropek i wykrzyknik. Znak końca pierwszego wiersza się nie liczy."
+        }
+      ],
+      "hint": "cin >> c przeskakuje spacje i entery, więc spacji tak nie policzysz. cin.get(c) bierze każdy znak, także spację i '\\n'. Pętla while (cin.get(c)) przeczyta wszystko do końca danych; '\\n' pomiń przez if, a resztę rozdziel: isalpha(c), isdigit(c), c == ' ', w pozostałych przypadkach — inne.",
+      "tests_count": 8
+    },
+    {
+      "id": "iop-plansza-gwiazdki",
+      "number": 1724,
+      "title": "Gwiazdki w wierszach i kolumnach",
+      "category": "Input i Output (+) / krok 4: znak po znaku",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Mapa nieba to plansza n × m złożona z kropek (puste niebo) i gwiazdek (gwiazdy). Wypisz, ile gwiazdek jest w każdym wierszu, a potem — ile w każdej kolumnie."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n i m.",
+        "W każdym z następnych n wierszy m znaków . albo * — bez spacji."
+      ],
+      "output_format": [
+        "W pierwszym wierszu n liczb — gwiazdki w kolejnych wierszach.",
+        "W drugim wierszu m liczb — gwiazdki w kolejnych kolumnach."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 200"
+      ],
+      "examples": [
+        {
+          "input": "3 4\n*..*\n....\n.***",
+          "output": "2 0 3\n1 1 1 2",
+          "note": "Wiersze mają 2, 0 i 3 gwiazdki; kolumny — 1, 1, 1 i 2."
+        }
+      ],
+      "hint": "Wiersz bez spacji to jedno „słowo”, więc wczytasz go przez cin: vector<string> g(n); for (auto &w : g) cin >> w;. Potem g[i][j] to znak w wierszu i, kolumnie j. Można też czytać znak po znaku do tablicy char t[200][200] przez cin >> t[i][j] — cin >> c sam przeskoczy entery.",
+      "tests_count": 9
+    },
+    {
+      "id": "iop-cyfry-olbrzyma",
+      "number": 1725,
+      "title": "Cyfry olbrzyma",
+      "category": "Input i Output (+) / krok 4: znak po znaku",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz liczbę naturalną, która może mieć nawet 90 000 cyfr. Wypisz sumę jej cyfr i cyfrę, która występuje w niej najczęściej (przy remisie — najmniejszą z nich)."
+      ],
+      "input_format": [
+        "Jeden wiersz — liczba bez zer na początku."
+      ],
+      "output_format": [
+        "Dwie liczby w jednym wierszu: suma cyfr i najczęstsza cyfra."
+      ],
+      "constraints": [
+        "Liczba ma od 1 do 90 000 cyfr."
+      ],
+      "examples": [
+        {
+          "input": "9071299",
+          "output": "37 9",
+          "note": "Suma cyfr: 9 + 0 + 7 + 1 + 2 + 9 + 9 = 37. Najczęściej, trzy razy, występuje 9."
+        }
+      ],
+      "hint": "Pętla while (cin >> c) z char c czyta po jednej cyfrze. Wartość cyfry to c - '0' (kody znaków '0'…'9' stoją po kolei). Wystąpienia licz w tablicy int ile[10] = {};, a najczęstszą znajdź na końcu pętlą od 0 do 9 z warunkiem ostrej nierówności.",
+      "tests_count": 10
+    },
+    {
+      "id": "iop-saper",
+      "number": 1726,
+      "title": "Saper",
+      "category": "Input i Output (+) / krok 4: znak po znaku",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W grze Saper niektóre pola planszy to miny (*), a pozostałe są puste (.). Każde puste pole pokazuje, ile min leży na polach wokół niego — w ośmiu kierunkach, także po skosie.",
+        "Wypisz planszę, w której każda kropka jest zamieniona na cyfrę: liczbę sąsiednich min. Miny zostają gwiazdkami."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n i m.",
+        "n wierszy po m znaków: * albo . (bez spacji)."
+      ],
+      "output_format": [
+        "n wierszy po m znaków: * albo cyfra od 0 do 8."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 100"
+      ],
+      "examples": [
+        {
+          "input": "3 4\n*...\n..*.\n....",
+          "output": "*211\n12*1\n0111",
+          "note": "Pole w lewym dolnym rogu nie sąsiaduje z żadną miną — dostaje 0. Pole na środku górnego wiersza dotyka obu min — dostaje 2."
+        }
+      ],
+      "hint": "Wczytaj planszę jako vector<string> g(n). Dla każdego pola z kropką przejdź dw od −1 do 1 i dk od −1 do 1 (pomijając 0, 0), sprawdź, czy sąsiad mieści się w planszy (0 ≤ w < n i 0 ≤ k < m), i policz gwiazdki. Wynik zapisuj do kopii planszy — cyfrę zamienisz na znak przez char('0' + ile).",
+      "tests_count": 10
+    },
+    {
+      "id": "iop-rozkoduj",
+      "number": 1727,
+      "title": "Rozkoduj skrót",
+      "category": "Input i Output (+) / krok 4: znak po znaku",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Długie serie tych samych liter zapisuje się w skrócie: liczba powtórzeń, a zaraz za nią litera. Na przykład 3a2b10c to aaabbcccccccccc.",
+        "Dostajesz taki skrót (jeden wiersz, bez spacji). Wypisz rozwinięty napis."
+      ],
+      "input_format": [
+        "Jeden wiersz — skrót: pary „liczba litera” sklejone ze sobą."
+      ],
+      "output_format": [
+        "Rozwinięty napis."
+      ],
+      "constraints": [
+        "Każda liczba powtórzeń: od 1 do 1000 (bez zer na początku).",
+        "Litery: od a do z.",
+        "Rozwinięty napis ma najwyżej 25 000 znaków."
+      ],
+      "examples": [
+        {
+          "input": "3a2b10c",
+          "output": "aaabbcccccccccc",
+          "note": "Trzy litery a, dwie b i dziesięć c."
+        }
+      ],
+      "hint": "while (cin >> k >> c) — cin >> k czyta cyfry i staje na literze, bo litera nie pasuje do liczby; cin >> c bierze tę literę. Pętla skończy się sama na końcu danych. Napis string(k, c) to k kopii znaku c.",
+      "tests_count": 8
+    },
+    {
+      "id": "iop-liczba-czy-slowo",
+      "number": 1728,
+      "title": "Liczba czy słowo?",
+      "category": "Input i Output (+) / krok 4: znak po znaku",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz ciąg słów i liczb całkowitych przemieszanych ze sobą. Liczby mogą być ujemne (zaczynają się wtedy od minusa), słowa składają się z samych liter.",
+        "Wypisz sumę wszystkich liczb, a w drugim wierszu wszystkie słowa w kolejności z wejścia, oddzielone spacjami — albo słowo BRAK, gdy nie ma żadnego słowa."
+      ],
+      "input_format": [
+        "Słowa i liczby oddzielone białymi znakami, do końca danych."
+      ],
+      "output_format": [
+        "W pierwszym wierszu suma liczb (0, gdy nie ma żadnej liczby).",
+        "W drugim wierszu słowa albo BRAK."
+      ],
+      "constraints": [
+        "Liczb jest od 0 do 8000, każda od −10⁹ do 10⁹.",
+        "Słów jest od 0 do 2000, każde ma od 1 do 10 liter.",
+        "Razem jest co najmniej jeden kawałek."
+      ],
+      "examples": [
+        {
+          "input": "Ala 12 ma -3 koty\n7 kot",
+          "output": "16\nAla ma koty kot",
+          "note": "Liczby: 12 − 3 + 7 = 16. Słowa po kolei: Ala ma koty kot."
+        }
+      ],
+      "hint": "Najpierw przeskocz białe znaki: cin >> ws. Potem char z = cin.peek(); — to następny znak, który jeszcze zostaje na taśmie. Jeśli to cyfra albo minus, wczytaj liczbę (cin >> x), w przeciwnym razie — słowo (cin >> s). Całość w pętli while (cin >> ws && cin.peek() != EOF). (Inny sposób: czytaj wszystko jako string i sprawdzaj pierwszy znak, a liczbę zamieniaj przez stoll.)",
+      "tests_count": 10
+    },
+    {
+      "id": "iop-scisnij-spacje",
+      "number": 1729,
+      "title": "Ściśnij odstępy",
+      "category": "Input i Output (+) / krok 4: znak po znaku",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ktoś wpisał tekst, waląc w spację na oślep: między słowami stoi czasem kilka spacji, a niektóre wiersze zaczynają się lub kończą spacjami. Popraw tekst: między słowami ma być dokładnie jedna spacja, a na początku i na końcu wiersza — żadnej. Podział na wiersze (także puste wiersze) zostaje bez zmian."
+      ],
+      "input_format": [
+        "Tekst w kilku wierszach — do końca danych."
+      ],
+      "output_format": [
+        "Ten sam tekst po poprawkach — tyle samo wierszy."
+      ],
+      "constraints": [
+        "Tekst ma od 1 do 30 000 znaków: litery, cyfry, interpunkcja, spacje i znaki końca wiersza."
+      ],
+      "examples": [
+        {
+          "input": "Ala   ma    kota\n   a kot   ma Ale  \n\nKONIEC",
+          "output": "Ala ma kota\na kot ma Ale\n\nKONIEC",
+          "note": "Drugi wiersz traci trzy spacje z początku i dwie z końca, a odstępy w środku kurczą się do jednej spacji. Pusty wiersz zostaje."
+        }
+      ],
+      "hint": "Czytaj while (cin.get(c)). Spacji nie wypisuj od razu — zapamiętaj tylko, że była (bool zalegla = true). Gdy przyjdzie zwykły znak: jeśli zaległa spacja czeka, a w tym wierszu coś już wypisałeś — wypisz jedną spację, potem znak. Gdy przyjdzie '\\n': wypisz go i zacznij wiersz od nowa (zaległą spację wyrzuć).",
+      "tests_count": 7
+    },
+    {
+      "id": "iop-klamry-w-kodzie",
+      "number": 1730,
+      "title": "Klamry w kodzie",
+      "category": "Input i Output (+) / krok 4: znak po znaku",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz fragment kodu — dowolne znaki w kilku wierszach. Interesują nas tylko nawiasy: okrągłe ( ), kwadratowe [ ] i klamrowe { }. Nawiasy są poprawne, jeśli każdy zamykający pasuje do ostatniego jeszcze niezamkniętego otwierającego, a na końcu żaden nawias nie zostaje otwarty.",
+        "Jeśli nawiasy są poprawne, wypisz OK i największą głębokość zagnieżdżenia (0, gdy nawiasów nie ma). Jeśli nie — wypisz BLAD, numer wiersza i numer znaku w tym wierszu (oba liczone od 1), gdzie leży pierwszy błąd.",
+        "Pierwszy błąd to nawias zamykający, który nie pasuje do ostatniego otwartego albo nie ma żadnego otwartego. Jeśli takiego nie ma, a na końcu zostały otwarte nawiasy, błędem jest najwcześniejszy z nich."
+      ],
+      "input_format": [
+        "Kod w kilku wierszach — do końca danych (tylko znaki ASCII)."
+      ],
+      "output_format": [
+        "OK g — gdy nawiasy są poprawne,",
+        "albo BLAD w k — gdy nie są."
+      ],
+      "constraints": [
+        "Kod ma od 1 do 50 000 znaków."
+      ],
+      "examples": [
+        {
+          "input": "int main() {\n    int t[5] = {1, 2};\n}",
+          "output": "OK 2",
+          "note": "Najgłębiej leżą [5] i {1, 2} — wewnątrz klamry funkcji, czyli na głębokości 2."
+        },
+        {
+          "input": "if (a[i) > 0) {\n}",
+          "output": "BLAD 1 8",
+          "note": "Ósmy znak pierwszego wiersza to „)”, a ostatni otwarty nawias to „[” — tu jest pierwszy błąd."
+        }
+      ],
+      "hint": "Czytaj while (cin.get(c)) i pilnuj pozycji: po '\\n' wiersz++ i kolumna = 0, a dla każdego innego znaku kolumna++. Otwierający nawias wrzuć na stos razem z pozycją (np. trzy vectory albo vector par). Zamykający musi pasować do stos.back() — jeśli stos jest pusty albo rodzaj się nie zgadza, wypisz błąd i zakończ program. Głębokość to rozmiar stosu tuż po wstawieniu. Na końcu, gdy stos nie jest pusty, błędem jest jego pierwszy element.",
+      "tests_count": 15
+    },
+    {
+      "id": "iop-numeruj-wiersze",
+      "number": 1731,
+      "title": "Ponumeruj wiersze",
+      "category": "Input i Output (+) / krok 5: getline",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz tekst. Wypisz go z numerami wierszy: przed każdym wierszem jego numer, dwukropek i spację. Zamiast pustego wiersza wypisz numer, dwukropek, spację i napis (pusty)."
+      ],
+      "input_format": [
+        "Tekst — kilka wierszy, aż do końca danych. Wiersze mogą zawierać spacje (także na początku), mogą też być puste."
+      ],
+      "output_format": [
+        "Te same wiersze z numerami."
+      ],
+      "constraints": [
+        "Tekst ma od 1 do 500 wierszy i najwyżej 20 000 znaków. Pierwszy i ostatni wiersz nie są puste."
+      ],
+      "examples": [
+        {
+          "input": "Ala ma kota\n\nKot ma Ale\n    a pies ma kosc",
+          "output": "1: Ala ma kota\n2: (pusty)\n3: Kot ma Ale\n4:     a pies ma kosc",
+          "note": "Drugi wiersz jest pusty. Czwarty zaczyna się od czterech spacji — getline je zachowuje."
+        }
+      ],
+      "hint": "while (getline(cin, s)) czyta wiersz po wierszu — bez znaku '\\n' na końcu. Pusty wiersz to pusty napis (s.empty()), a nie koniec danych: pętla zatrzyma się dopiero wtedy, gdy wierszy naprawdę zabraknie.",
+      "tests_count": 7
+    },
+    {
+      "id": "iop-najdluzszy-wiersz",
+      "number": 1732,
+      "title": "Najdłuższy wiersz",
+      "category": "Input i Output (+) / krok 5: getline",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wypisz numer najdłuższego wiersza tekstu (licząc od 1), jego długość i sam ten wiersz. Długość wiersza to liczba jego znaków, razem ze spacjami. Przy remisie wybierz wcześniejszy wiersz."
+      ],
+      "input_format": [
+        "Tekst — do końca danych. Wiersze mogą zawierać spacje i mogą być puste."
+      ],
+      "output_format": [
+        "W pierwszym wierszu numer najdłuższego wiersza i jego długość.",
+        "W drugim wierszu ten wiersz."
+      ],
+      "constraints": [
+        "Tekst ma od 1 do 1000 wierszy, każdy najwyżej 200 znaków, razem najwyżej 50 000 znaków. Pierwszy wiersz nie jest pusty."
+      ],
+      "examples": [
+        {
+          "input": "Ala ma kota\nOla ma dwa koty i psa\n\nKoniec",
+          "output": "2 21\nOla ma dwa koty i psa",
+          "note": "Drugi wiersz ma 21 znaków (16 liter i 5 spacji) — więcej niż pozostałe."
+        }
+      ],
+      "hint": "while (getline(cin, s)) i licznik wierszy. Rekord zmieniaj tylko przy s.size() > najlepsza — ostra nierówność zostawi przy remisie wcześniejszy wiersz. Zapamiętaj numer, długość i sam napis.",
+      "tests_count": 8
+    },
+    {
+      "id": "iop-liczba-i-zdania",
+      "number": 1733,
+      "title": "Liczba, a potem zdania",
+      "category": "Input i Output (+) / krok 5: getline",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz liczbę n, a pod nią n zdań (zdania zawierają spacje). Wypisz zdania w odwrotnej kolejności — od ostatniego do pierwszego."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W następnych n wierszach zdania."
+      ],
+      "output_format": [
+        "n wierszy: zdania od ostatniego do pierwszego."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 200",
+        "Każde zdanie ma od 1 do 100 znaków i nie zaczyna się od spacji."
+      ],
+      "examples": [
+        {
+          "input": "3\nAla ma kota.\nKot ma Ale.\nTo koniec.",
+          "output": "To koniec.\nKot ma Ale.\nAla ma kota.",
+          "note": "Bez cin.ignore() program wczytałby jako pierwsze „zdanie” pusty napis (resztę wiersza z liczbą 3), a ostatniego zdania nie przeczytałby wcale."
+        }
+      ],
+      "hint": "Po cin >> n na taśmie zostaje '\\n' z końca pierwszego wiersza. Pierwszy getline przeczytałby tylko ten enter i oddał pusty napis. Wyrzuć go przez cin.ignore() zaraz po cin >> n (albo czytaj zdania przez getline(cin >> ws, s)). Zdania zbieraj do vector<string> i wypisz od końca.",
+      "tests_count": 6
+    },
+    {
+      "id": "iop-karty-uczniow",
+      "number": 1734,
+      "title": "Karty uczniów",
+      "category": "Input i Output (+) / krok 5: getline",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Sekretariat ma karty n uczniów. Każda karta zajmuje dwa wiersze. W pierwszym są imiona i nazwisko (uczeń może mieć kilka imion, np. Anna Maria Kowalska), w drugim — klasa (od 1 do 8) i średnia ocen pomnożona przez 100 (np. 475 znaczy 4.75).",
+        "Dla każdego ucznia wypisz wiersz: imiona i nazwisko, przecinek i spacja, klasa X, przecinek i spacja, srednia Y.YY — średnia z dokładnie dwiema cyframi po kropce."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "Dalej n kart po dwa wiersze: imiona i nazwisko; klasa i średnia razy 100."
+      ],
+      "output_format": [
+        "n wierszy w formacie: Imiona Nazwisko, klasa X, srednia Y.YY"
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 200",
+        "Imiona i nazwisko: od 1 do 50 znaków (litery i pojedyncze spacje).",
+        "1 ≤ klasa ≤ 8",
+        "100 ≤ średnia razy 100 ≤ 600"
+      ],
+      "examples": [
+        {
+          "input": "2\nAnna Maria Kowalska\n7 475\nJan Nowak\n3 500",
+          "output": "Anna Maria Kowalska, klasa 7, srednia 4.75\nJan Nowak, klasa 3, srednia 5.00",
+          "note": "Średnia 500 to 5.00 — dwie cyfry po kropce wypisujemy zawsze, także wtedy, gdy są zerami."
+        }
+      ],
+      "hint": "Najpewniej: getline(cin >> ws, imiona); — cin >> ws przeskakuje enter, który zostaje po liczbach z poprzedniego wiersza (i po n). Potem cin >> klasa >> sr. Średnią wypisz jako sr / 100, kropka i sr % 100 przez setfill('0') i setw(2).",
+      "tests_count": 5
+    },
+    {
+      "id": "iop-sredniki",
+      "number": 1735,
+      "title": "Średniki w danych",
+      "category": "Input i Output (+) / krok 5: getline",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wyniki konkursu zapisano jako tekst: każdy wiersz to imię i nazwisko uczestnika, miasto i liczba punktów, rozdzielone średnikami — na przykład Jan Kowalski;Nowy Sacz;87. Imiona, nazwiska i nazwy miast mogą zawierać spacje.",
+        "Wypisz zwycięzcę (najwięcej punktów; przy remisie — wcześniejszy w danych) w formacie Imie Nazwisko (Miasto): punkty, a w drugim wierszu sumę punktów wszystkich uczestników."
+      ],
+      "input_format": [
+        "Wiersze w formacie imie i nazwisko;miasto;punkty — do końca danych."
+      ],
+      "output_format": [
+        "W pierwszym wierszu zwycięzca: Imie Nazwisko (Miasto): punkty",
+        "W drugim wierszu suma punktów."
+      ],
+      "constraints": [
+        "Uczestników jest od 1 do 1000.",
+        "Imię z nazwiskiem i miasto: od 1 do 30 znaków (litery i spacje, bez średników).",
+        "0 ≤ punkty ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "Jan Kowalski;Nowy Sacz;87\nAnna Nowak;Krakow;92\nOla Lis;Zielona Gora;92",
+          "output": "Anna Nowak (Krakow): 92\n271",
+          "note": "Anna i Ola mają po 92 punkty — wygrywa Anna, bo jest wcześniej. Suma: 87 + 92 + 92 = 271."
+        }
+      ],
+      "hint": "getline z trzecim argumentem czyta do wskazanego znaku (i go zjada): getline(cin, miasto, ';'). Schemat: while (getline(cin >> ws, osoba, ';')) { getline(cin, miasto, ';'); cin >> pkt; … }. To cin >> ws jest ważne: po cin >> pkt na taśmie zostaje '\\n', który bez tego trafiłby na początek następnego imienia.",
+      "tests_count": 5
+    },
+    {
+      "id": "iop-akapity",
+      "number": 1736,
+      "title": "Akapity",
+      "category": "Input i Output (+) / krok 5: getline",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Tekst składa się z akapitów. Akapit to jeden lub więcej niepustych wierszy pod rząd; akapity oddziela jeden albo kilka pustych wierszy (całkiem pustych — bez żadnego znaku).",
+        "Wypisz liczbę akapitów, a potem dla każdego akapitu wiersz z dwiema liczbami: ile ma wierszy i ile słów. Słowo to ciąg znaków bez spacji; spacji między słowami może być kilka."
+      ],
+      "input_format": [
+        "Tekst — do końca danych."
+      ],
+      "output_format": [
+        "W pierwszym wierszu liczba akapitów.",
+        "Dalej po jednym wierszu na akapit: liczba wierszy i liczba słów."
+      ],
+      "constraints": [
+        "Tekst ma od 1 do 2000 wierszy i najwyżej 50 000 znaków. Pierwszy i ostatni wiersz nie są puste."
+      ],
+      "examples": [
+        {
+          "input": "Ala ma kota.\nKot ma Ale.\n\n\nTo jest drugi akapit.\n\nTrzeci  akapit  ma\ndwa wiersze",
+          "output": "3\n2 6\n1 4\n2 5",
+          "note": "Między pierwszym a drugim akapitem są dwa puste wiersze — to wciąż jedna granica. Podwójne spacje w trzecim akapicie nie tworzą dodatkowych słów."
+        }
+      ],
+      "hint": "Czytaj while (getline(cin, s)) i trzymaj flagę „jestem w akapicie”. Pusty wiersz ją gasi. Niepusty wiersz, gdy flaga jest zgaszona, zaczyna nowy akapit (push_back zer do dwóch vectorów). Słowo zaczyna się tam, gdzie znak nie jest spacją, a poprzedni był spacją (albo to początek wiersza) — tak policzysz słowa mimo wielu spacji.",
+      "tests_count": 7
+    },
+    {
+      "id": "iop-wciecia",
+      "number": 1737,
+      "title": "Wcięcia co dwie spacje",
+      "category": "Input i Output (+) / krok 5: getline",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz program, w którym każdy poziom wcięcia to 4 spacje. Przepisz go tak, by poziom wcięcia miał 2 spacje: wiersz zaczynający się od 4k spacji ma się zaczynać od 2k spacji. Reszta wiersza zostaje bez zmian, puste wiersze zostają puste."
+      ],
+      "input_format": [
+        "Program — do końca danych. Każdy wiersz zaczyna się od liczby spacji podzielnej przez 4; pierwszy wiersz nie ma wcięcia."
+      ],
+      "output_format": [
+        "Ten sam program z wcięciami po 2 spacje."
+      ],
+      "constraints": [
+        "Program ma od 1 do 1000 wierszy i najwyżej 30 000 znaków."
+      ],
+      "examples": [
+        {
+          "input": "int main() {\n    for (int i = 0; i < 3; i++) {\n        cout << i;\n    }\n}",
+          "output": "int main() {\n  for (int i = 0; i < 3; i++) {\n    cout << i;\n  }\n}",
+          "note": "Wiersz cout << i; miał 8 spacji wcięcia — dostaje 4."
+        }
+      ],
+      "hint": "Dla każdego wiersza (while (getline(cin, s))) policz spacje na początku: int k = 0; while (k < (int)s.size() && s[k] == ' ') k++;. Wypisz string(k / 2, ' '), a potem resztę wiersza: s.substr(k).",
+      "tests_count": 6
+    },
+    {
+      "id": "iop-drzewo-katalogow",
+      "number": 1738,
+      "title": "Drzewo katalogów",
+      "category": "Input i Output (+) / krok 5: getline",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Zawartość dysku zapisano jako drzewko: każdy wiersz to nazwa katalogu albo pliku, a wcięcie (po 2 spacje na poziom) mówi, gdzie się znajduje — w katalogu z najbliższego wiersza powyżej, który ma o jeden poziom mniejsze wcięcie. Pliki to nazwy z kropką (np. zadanie.cpp), katalogi — nazwy bez kropki.",
+        "Wypisz pełne ścieżki wszystkich plików w kolejności z wejścia: nazwy katalogów od najwyższego poziomu i nazwa pliku, oddzielone ukośnikami."
+      ],
+      "input_format": [
+        "Drzewko — do końca danych. Pierwszy wiersz nie ma wcięcia. Wiersz może mieć wcięcie o jeden poziom większe niż wiersz nad nim tylko wtedy, gdy tamten wiersz jest katalogiem."
+      ],
+      "output_format": [
+        "Ścieżki plików, każda w osobnym wierszu, albo BRAK, gdy w drzewku nie ma żadnego pliku."
+      ],
+      "constraints": [
+        "Drzewko ma od 1 do 300 wierszy i najwyżej 6 poziomów.",
+        "Nazwy mają od 1 do 12 znaków (małe litery i kropka)."
+      ],
+      "examples": [
+        {
+          "input": "dokumenty\n  szkola\n    matma.txt\n    polski.txt\n  zdjecia\n    wakacje\n      plaza.jpg\nprogram.cpp",
+          "output": "dokumenty/szkola/matma.txt\ndokumenty/szkola/polski.txt\ndokumenty/zdjecia/wakacje/plaza.jpg\nprogram.cpp",
+          "note": "plaza.jpg leży w katalogu wakacje, który leży w zdjecia, który leży w dokumenty. program.cpp nie ma wcięcia — leży na samej górze."
+        }
+      ],
+      "hint": "Trzymaj vector<string> sciezka — nazwy katalogów, w których „jesteś”. Dla wiersza z k spacjami na początku poziom to k / 2: najpierw skróć ścieżkę do tego poziomu (sciezka.resize(poziom)), a potem: jeśli nazwa ma kropkę (find('.') != string::npos) — wypisz wszystkie katalogi ze ścieżki z ukośnikami i nazwę pliku; jeśli nie — dopisz katalog na koniec ścieżki (push_back).",
+      "tests_count": 8
+    },
+    {
+      "id": "iop-sumy-wierszy",
+      "number": 1739,
+      "title": "Suma w każdym wierszu",
+      "category": "Input i Output (+) / krok 6: rozbieranie wiersza",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Każdy wiersz danych to punkty jednego ucznia z kartkówek — liczb w wierszu może być różnie, a pusty wiersz oznacza ucznia, który nie pisał żadnej kartkówki. Wypisz sumę liczb z każdego wiersza (dla pustego wiersza — 0)."
+      ],
+      "input_format": [
+        "Wiersze z liczbami całkowitymi oddzielonymi spacjami (czasem kilkoma) — do końca danych."
+      ],
+      "output_format": [
+        "Po jednym wierszu na każdy wiersz wejścia — suma jego liczb."
+      ],
+      "constraints": [
+        "Od 1 do 2000 wierszy, w każdym od 0 do 50 liczb, razem najwyżej 10 000 liczb.",
+        "−10⁶ ≤ każda liczba ≤ 10⁶",
+        "Pierwszy i ostatni wiersz nie są puste."
+      ],
+      "examples": [
+        {
+          "input": "3 4 5\n\n10 -20\n7",
+          "output": "12\n0\n-10\n7",
+          "note": "Pusty drugi wiersz daje sumę 0. Zwykłe cin >> x nie odróżniłoby wierszy — przeskoczyłoby entery i wymieszało liczby uczniów."
+        }
+      ],
+      "hint": "while (getline(cin, s)) { stringstream ss(s); long long x, suma = 0; while (ss >> x) suma += x; … }. stringstream (z biblioteki <sstream>) to strumień, który czyta z napisu zamiast z wejścia — działa dokładnie jak cin, ale kończy się na końcu tego jednego wiersza.",
+      "tests_count": 8
+    },
+    {
+      "id": "iop-najwiecej-slow",
+      "number": 1740,
+      "title": "Wiersz z największą liczbą słów",
+      "category": "Input i Output (+) / krok 6: rozbieranie wiersza",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdego wiersza tekstu policz, ile ma słów. Słowo to ciąg znaków bez spacji, a spacji między słowami może być kilka. Wypisz numer wiersza z największą liczbą słów (licząc od 1; przy remisie — wcześniejszy) i tę liczbę słów."
+      ],
+      "input_format": [
+        "Tekst — do końca danych. Wiersze mogą być puste."
+      ],
+      "output_format": [
+        "Dwie liczby: numer wiersza i liczba słów."
+      ],
+      "constraints": [
+        "Tekst ma od 1 do 2000 wierszy i najwyżej 50 000 znaków. Pierwszy i ostatni wiersz nie są puste."
+      ],
+      "examples": [
+        {
+          "input": "Ala  ma kota\nto   jest bardzo  dlugi wiersz\n\nkoniec",
+          "output": "2 5",
+          "note": "Drugi wiersz ma 5 słów — mimo że między niektórymi stoi po kilka spacji."
+        }
+      ],
+      "hint": "Dla każdego wiersza: stringstream ss(s); string w; int ile = 0; while (ss >> w) ile++;. Strumień sam przeskoczy wielokrotne spacje — tak samo jak cin. Rekord zmieniaj przy ostrej nierówności.",
+      "tests_count": 8
+    },
+    {
+      "id": "iop-godziny-pracy",
+      "number": 1741,
+      "title": "Godziny pracy",
+      "category": "Input i Output (+) / krok 6: rozbieranie wiersza",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Pani Ola zapisuje każdy blok pracy jako przedział godzin, np. 08:15-09:45 (koniec jest zawsze później niż początek, tego samego dnia). Dla każdego bloku wypisz jego długość w minutach, a na końcu łączny czas pracy w formacie hh:mm — godziny co najmniej dwiema cyframi, minuty dokładnie dwiema."
+      ],
+      "input_format": [
+        "Przedziały w formacie HH:MM-HH:MM, każdy w osobnym wierszu — do końca danych."
+      ],
+      "output_format": [
+        "Dla każdego przedziału liczba minut, każda w osobnym wierszu.",
+        "W ostatnim wierszu łączny czas: hh:mm."
+      ],
+      "constraints": [
+        "Przedziałów jest od 1 do 2000.",
+        "Godziny od 00:00 do 23:59."
+      ],
+      "examples": [
+        {
+          "input": "08:15-09:45\n10:00-10:05\n12:30-16:00",
+          "output": "90\n5\n210\n05:05",
+          "note": "Bloki trwają 90, 5 i 210 minut — razem 305 minut, czyli 5 godzin i 5 minut: 05:05."
+        }
+      ],
+      "hint": "char c; while (cin >> h1 >> c >> m1 >> c >> h2 >> c >> m2) — zmienna c zjada kolejno dwukropek, minus i drugi dwukropek. Zero na początku (08) nie przeszkadza: cin >> h wczyta 8. Godzinę zamień na minuty: h * 60 + m. Wynik końcowy wypisz z setfill('0') i setw(2).",
+      "tests_count": 7
+    },
+    {
+      "id": "iop-kwoty-z-przecinkiem",
+      "number": 1742,
+      "title": "Kwoty z przecinkiem",
+      "category": "Input i Output (+) / krok 6: rozbieranie wiersza",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W Polsce kwoty pisze się z przecinkiem: 12,50. Ktoś jednak wpisywał je niedbale: raz 12,50, raz 12,5, a raz samo 12. Zapis 12,5 oznacza 12 zł 50 gr (tak jak 12,50), 12,05 to 12 zł 5 gr, a 12 to 12 zł 0 gr.",
+        "Wypisz sumę wszystkich kwot w formacie złote, przecinek i dokładnie dwie cyfry groszy."
+      ],
+      "input_format": [
+        "Kwoty oddzielone białymi znakami — do końca danych. Kwota to liczba złotych, po której może stać przecinek i jedna albo dwie cyfry."
+      ],
+      "output_format": [
+        "Suma w formacie Z,GG."
+      ],
+      "constraints": [
+        "Kwot jest od 1 do 8000.",
+        "Złotych w jednej kwocie: od 0 do 100 000 (bez zer na początku)."
+      ],
+      "examples": [
+        {
+          "input": "12,5 3,05\n7 0,99",
+          "output": "23,54",
+          "note": "12,50 + 3,05 + 7,00 + 0,99 = 23,54."
+        }
+      ],
+      "hint": "cin >> double tu nie pomoże — przecinek nie jest dla C++ częścią liczby. Czytaj kwotę jako string i znajdź przecinek: size_t p = s.find(',');. Bez przecinka (p == string::npos) to same złote. Z przecinkiem: złote to stoll(s.substr(0, p)), a grosze — część po przecinku: jedna cyfra razy 10, dwie cyfry tak jak są. Licz wszystko w groszach (long long).",
+      "tests_count": 8
+    },
+    {
+      "id": "iop-punkty-w-nawiasach",
+      "number": 1743,
+      "title": "Punkty w nawiasach",
+      "category": "Input i Output (+) / krok 6: rozbieranie wiersza",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Uczeń przepisał punkty z zeszytu tak, jak pisze się je na matematyce: (x,y) — bez spacji w środku nawiasu, ale ze spacjami albo enterami między punktami.",
+        "Wypisz najmniejszy prostokąt o bokach równoległych do osi, który zawiera wszystkie punkty: jego lewy dolny i prawy górny róg w tym samym formacie z nawiasami, a w drugim wierszu — jego pole."
+      ],
+      "input_format": [
+        "Punkty w formacie (x,y), oddzielone spacjami i enterami — do końca danych."
+      ],
+      "output_format": [
+        "W pierwszym wierszu dwa rogi oddzielone spacją: (x1,y1) (x2,y2).",
+        "W drugim wierszu pole prostokąta."
+      ],
+      "constraints": [
+        "Punktów jest od 1 do 4000.",
+        "−10⁶ ≤ x, y ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "(3,-4) (10,2)\n(-1,7)",
+          "output": "(-1,-4) (10,7)\n121",
+          "note": "x zmienia się od −1 do 10, y — od −4 do 7. Prostokąt ma wymiary 11 × 11, więc pole 121."
+        }
+      ],
+      "hint": "char a, b, c; while (cin >> a >> x >> b >> y >> c) — a zjada „(”, b przecinek, c „)”. Minus przy liczbie nie przeszkadza: cin >> x wczyta −4 razem ze znakiem. Pole liczy w long long: (maxx − minx) · (maxy − miny) może sięgać 4 · 10¹².",
+      "tests_count": 8
+    },
+    {
+      "id": "iop-ukryte-liczby",
+      "number": 1744,
+      "title": "Liczby ukryte w tekście",
+      "category": "Input i Output (+) / krok 6: rozbieranie wiersza",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W tekście ukryto liczby: każdy ciąg cyfr stojących obok siebie to jedna liczba. Na przykład w abc12de5f100 są liczby 12, 5 i 100, a w Agent 007 — liczba 7 (zera na początku nie zmieniają wartości). Minusów nie ma — wszystkie liczby są nieujemne.",
+        "Wypisz, ile jest liczb w tekście, i ich sumę."
+      ],
+      "input_format": [
+        "Tekst — do końca danych (litery, cyfry, spacje, interpunkcja, znaki końca wiersza)."
+      ],
+      "output_format": [
+        "Dwie liczby: ile jest liczb i ich suma."
+      ],
+      "constraints": [
+        "Tekst ma od 1 do 50 000 znaków.",
+        "Każda liczba ma najwyżej 9 cyfr."
+      ],
+      "examples": [
+        {
+          "input": "abc12de5f100\nAgent 007 ma 2 psy.",
+          "output": "5 126",
+          "note": "Liczby to 12, 5, 100, 7 i 2 — pięć liczb o sumie 126."
+        }
+      ],
+      "hint": "Czytaj znak po znaku: while (cin.get(c)). Trzymaj bieżącą liczbę x i flagę „jestem w liczbie”. Cyfra: x = x * 10 + (c - '0'). Każdy inny znak kończy liczbę — wtedy dolicz ją i wyzeruj x. Uwaga na liczbę, która stoi na samym końcu danych: po pętli trzeba ją jeszcze doliczyć.",
+      "tests_count": 9
+    },
+    {
+      "id": "iop-dzialania-w-wierszach",
+      "number": 1745,
+      "title": "Rachunki w wierszach",
+      "category": "Input i Output (+) / krok 6: rozbieranie wiersza",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Każdy wiersz zawiera działanie złożone z liczb całkowitych nieujemnych oraz znaków + i −, bez spacji — na przykład 12+7-3+100. Wiersz może też zawierać samą liczbę. Policz wynik każdego działania."
+      ],
+      "input_format": [
+        "Działania, każde w osobnym wierszu — do końca danych."
+      ],
+      "output_format": [
+        "Wynik każdego działania w osobnym wierszu."
+      ],
+      "constraints": [
+        "Wierszy jest od 1 do 800, każdy ma najwyżej 100 znaków.",
+        "Liczby w działaniach: od 0 do 10⁹."
+      ],
+      "examples": [
+        {
+          "input": "12+7-3+100\n5\n0-1000000000-1000000000",
+          "output": "116\n5\n-2000000000",
+          "note": "Trzeci wynik to −2 000 000 000 — nie mieści się w int, więc licz w long long."
+        }
+      ],
+      "hint": "Dla każdego wiersza: stringstream ss(s); long long wynik, x; char op; ss >> wynik; while (ss >> op >> x) { if (op == '+') wynik += x; else wynik -= x; }. Strumień zatrzyma ss >> wynik na znaku +, bo + nie jest cyfrą, a minus zje zmienna op, zanim przeczytasz x.",
+      "tests_count": 7
+    },
+    {
+      "id": "iop-klucz-wartosc",
+      "number": 1746,
+      "title": "Klucz=wartość",
+      "category": "Input i Output (+) / krok 6: rozbieranie wiersza",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Pielęgniarka szkolna zapisuje dane uczniów w wierszach złożonych z pól klucz=wartość, rozdzielonych średnikami — na przykład wzrost=152;waga=41;wiek=12. Pola mogą stać w dowolnej kolejności, a niektórych może brakować.",
+        "Najpierw dostajesz n rekordów, a potem q pytań — każde pytanie to nazwa klucza. Dla każdego pytania wypisz, ile rekordów ma to pole, i sumę jego wartości."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W następnych n wierszach rekordy (bez spacji).",
+        "Dalej wiersz z liczbą q i q wierszy z kluczami."
+      ],
+      "output_format": [
+        "q wierszy: liczba rekordów z danym kluczem i suma wartości (0 0, gdy klucza nie ma nigdzie)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 300, 1 ≤ q ≤ 500",
+        "Rekord ma od 1 do 8 pól; w jednym rekordzie klucze się nie powtarzają.",
+        "Klucze: od 1 do 10 małych liter. Wartości: liczby całkowite od −10⁹ do 10⁹."
+      ],
+      "examples": [
+        {
+          "input": "3\nwzrost=152;waga=41;wiek=12\nwiek=13;wzrost=160\nwaga=38\n3\nwzrost\nwaga\noczy",
+          "output": "2 312\n2 79\n0 0",
+          "note": "wzrost jest w dwóch rekordach (152 + 160 = 312), waga też w dwóch (41 + 38 = 79), a oczu nie ma nigdzie."
+        }
+      ],
+      "hint": "Rekord wczytaj przez getline i włóż do stringstream ss(s). getline(ss, pole, ';') wyciąga kolejne pola. W polu znajdź znak '=': klucz to pole.substr(0, p), wartość — stoll(pole.substr(p + 1)). Pary zbieraj do vector<pair<string, long long>>, a dla każdego pytania przejdź cały vector. Uwaga: po cin >> n i cin >> q zostaje enter — użyj cin >> ws albo cin.ignore().",
+      "tests_count": 6
+    },
+    {
+      "id": "iop-licznik-polecen",
+      "number": 1747,
+      "title": "Licznik na polecenia",
+      "category": "Input i Output (+) / krok 7: polecenia",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Licznik zaczyna od 0. Dostajesz q poleceń: + x (dodaj x), - x (odejmij x) oraz ? (wypisz aktualną wartość licznika). Polecenie ? nie ma liczby — po znaku zapytania od razu zaczyna się następne polecenie."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W każdym z następnych q wierszy jedno polecenie."
+      ],
+      "output_format": [
+        "Wartość licznika po każdym poleceniu ?, każda w osobnym wierszu."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 7000",
+        "0 ≤ x ≤ 10⁹",
+        "Poleceń ? jest od 1 do 1500."
+      ],
+      "examples": [
+        {
+          "input": "5\n+ 10\n?\n- 3\n+ 100\n?",
+          "output": "10\n107",
+          "note": "Po pierwszym ? licznik ma 10, po drugim 10 − 3 + 100 = 107."
+        }
+      ],
+      "hint": "Wczytaj znak polecenia do char op, a liczbę tylko wtedy, gdy op to '+' albo '-'. Gdybyś wczytywał x przy każdym poleceniu, przy ? wczytałbyś do x znak następnego polecenia — i strumień przeszedłby w stan błędu. Licznik w long long.",
+      "tests_count": 6
+    },
+    {
+      "id": "iop-robot-na-kratce",
+      "number": 1748,
+      "title": "Robot na kratce",
+      "category": "Input i Output (+) / krok 7: polecenia",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Robot stoi w punkcie (0, 0). Polecenia N k, S k, E k i W k przesuwają go o k kratek: na północ (y rośnie), na południe (y maleje), na wschód (x rośnie) i na zachód (x maleje). Polecenie GDZIE każe wypisać aktualną pozycję w formacie (x, y). Polecenie KONIEC kończy dane."
+      ],
+      "input_format": [
+        "Polecenia, każde w osobnym wierszu, aż do polecenia KONIEC."
+      ],
+      "output_format": [
+        "Pozycja robota po każdym poleceniu GDZIE, w formacie (x, y) — z przecinkiem i spacją."
+      ],
+      "constraints": [
+        "Poleceń jest najwyżej 10 000, w tym najwyżej 1000 poleceń GDZIE.",
+        "1 ≤ k ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "N 5\nE 3\nGDZIE\nS 10\nW 1\nGDZIE\nKONIEC",
+          "output": "(3, 5)\n(2, -5)",
+          "note": "Po N 5 i E 3 robot stoi w (3, 5). Potem schodzi o 10 na południe i o 1 na zachód: (2, −5)."
+        }
+      ],
+      "hint": "while (cin >> p && p != \"KONIEC\") { if (p == \"GDZIE\") wypisz; else { cin >> k; … } }. Słowo GDZIE nie ma liczby, więc k wczytuj tylko przy N, S, E i W.",
+      "tests_count": 6
+    },
+    {
+      "id": "iop-konto-w-banku",
+      "number": 1749,
+      "title": "Konto w banku",
+      "category": "Input i Output (+) / krok 7: polecenia",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Konto zaczyna z saldem 0 zł. Polecenia: WPLATA x — wpłać x zł; WYPLATA x — wypłać x zł, ale tylko jeśli na koncie jest co najmniej x (inaczej wypisz ODMOWA i niczego nie zmieniaj); STAN — wypisz saldo."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "q poleceń, każde w osobnym wierszu."
+      ],
+      "output_format": [
+        "Wiersz dla każdego polecenia STAN (saldo) i dla każdej odrzuconej wypłaty (ODMOWA) — w kolejności poleceń."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1500",
+        "1 ≤ x ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "6\nWPLATA 100\nWYPLATA 30\nSTAN\nWYPLATA 100\nWPLATA 5\nSTAN",
+          "output": "70\nODMOWA\n75",
+          "note": "Po wypłacie 30 zostaje 70 zł. Wypłata 100 jest odrzucona, a po wpłacie 5 jest 75."
+        }
+      ],
+      "hint": "Wczytaj słowo polecenia do string. Liczbę wczytuj tylko przy WPLATA i WYPLATA — STAN jej nie ma. Przy wypłacie najpierw sprawdź saldo >= x; dopiero wtedy odejmij. Saldo w long long.",
+      "tests_count": 6
+    },
+    {
+      "id": "iop-lista-zakupow",
+      "number": 1750,
+      "title": "Lista zakupów",
+      "category": "Input i Output (+) / krok 7: polecenia",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Rodzina prowadzi wspólną listę zakupów. Polecenia: DODAJ produkt (jeśli już jest na liście — nic się nie dzieje), USUN produkt (jeśli go nie ma — nic się nie dzieje), ILE (wypisz liczbę produktów na liście) i POKAZ (wypisz produkty alfabetycznie, oddzielone przecinkiem i spacją, albo PUSTA, gdy lista jest pusta)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "q poleceń, każde w osobnym wierszu."
+      ],
+      "output_format": [
+        "Wiersz dla każdego polecenia ILE i POKAZ."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 3000",
+        "Nazwy produktów: od 1 do 10 małych liter; na liście nigdy nie ma więcej niż 30 produktów.",
+        "Poleceń POKAZ jest najwyżej 40."
+      ],
+      "examples": [
+        {
+          "input": "7\nDODAJ mleko\nDODAJ chleb\nDODAJ mleko\nPOKAZ\nUSUN mleko\nILE\nPOKAZ",
+          "output": "chleb, mleko\n1\nchleb",
+          "note": "Drugie DODAJ mleko niczego nie zmienia. Po usunięciu mleka zostaje tylko chleb."
+        }
+      ],
+      "hint": "set<string> trzyma produkty bez powtórzeń i alfabetycznie — insert i erase same ignorują to, czego nie trzeba robić. Przy POKAZ przejdź zbiór pętlą i wypisuj \", \" przed każdym produktem oprócz pierwszego; pusty zbiór sprawdzisz przez empty().",
+      "tests_count": 6
+    },
+    {
+      "id": "iop-zapytania-typu",
+      "number": 1751,
+      "title": "Zapytania typu 1, 2 i 3",
+      "category": "Input i Output (+) / krok 7: polecenia",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na zawodach polecenia zapisuje się zwykle numerami. Masz pusty worek liczb (powtórzenia są dozwolone) i q zapytań:",
+        "1 x — wrzuć liczbę x do worka;",
+        "2 x — wyjmij z worka jedną kopię liczby x (jeśli jej nie ma — nic nie rób);",
+        "3 — wypisz najmniejszą i największą liczbę w worku, oddzielone spacją, albo PUSTO, gdy worek jest pusty."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "q zapytań, każde w osobnym wierszu."
+      ],
+      "output_format": [
+        "Wiersz dla każdego zapytania typu 3."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 7000",
+        "−10⁹ ≤ x ≤ 10⁹",
+        "Zapytań typu 3 jest od 1 do 1000."
+      ],
+      "examples": [
+        {
+          "input": "7\n1 5\n1 2\n1 5\n3\n2 5\n2 2\n3",
+          "output": "2 5\n5 5",
+          "note": "Po trzech wrzutach worek to {2, 5, 5}. Wyjmujemy jedną piątkę i dwójkę — zostaje {5}, więc najmniejsza i największa to 5."
+        }
+      ],
+      "hint": "Wczytaj typ do int. Typy 1 i 2 mają liczbę, typ 3 — nie. multiset<long long> m: wrzucanie to m.insert(x), a wyjęcie jednej kopii — auto it = m.find(x); if (it != m.end()) m.erase(it);. Uwaga: m.erase(x) usunąłby wszystkie kopie. Najmniejsza to *m.begin(), największa — *m.rbegin().",
+      "tests_count": 6
+    },
+    {
+      "id": "iop-edytor-z-cofaniem",
+      "number": 1752,
+      "title": "Edytor z cofaniem",
+      "category": "Input i Output (+) / krok 7: polecenia",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Prosty edytor tekstu przyjmuje polecenia: PISZ slowo — dopisz słowo na końcu tekstu; COFNIJ — usuń ostatnio dopisane słowo (jeśli tekst jest pusty — nic się nie dzieje); POKAZ — wypisz cały tekst, słowa oddzielone spacjami, albo (pusto), gdy tekstu nie ma."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "q poleceń, każde w osobnym wierszu."
+      ],
+      "output_format": [
+        "Wiersz dla każdego polecenia POKAZ."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 5000",
+        "Słowa mają od 1 do 10 liter.",
+        "Poleceń POKAZ jest od 1 do 80; tekst nigdy nie ma więcej niż 25 słów."
+      ],
+      "examples": [
+        {
+          "input": "6\nPISZ Ala\nPISZ ma\nPISZ psa\nCOFNIJ\nPISZ kota\nPOKAZ",
+          "output": "Ala ma kota",
+          "note": "COFNIJ usuwa psa, a w jego miejsce trafia kota."
+        }
+      ],
+      "hint": "Tekst trzymaj w vector<string>. PISZ to push_back, COFNIJ to pop_back — ale tylko gdy vector nie jest pusty (pop_back na pustym to błąd programu). Przy PISZ wczytaj jeszcze słowo, przy pozostałych poleceniach — nic.",
+      "tests_count": 6
+    },
+    {
+      "id": "iop-notatnik",
+      "number": 1753,
+      "title": "Notatnik",
+      "category": "Input i Output (+) / krok 7: polecenia",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Notatnik przyjmuje polecenia: NOTUJ tekst — zapisz notatkę (tekst może mieć spacje i ciągnie się do końca wiersza); POKAZ k — wypisz k-tą notatkę (licząc od 1) albo BRAK, jeśli takiej nie ma; ILE — wypisz liczbę notatek."
+      ],
+      "input_format": [
+        "Polecenia, każde w osobnym wierszu — do końca danych."
+      ],
+      "output_format": [
+        "Wiersz dla każdego polecenia POKAZ i ILE."
+      ],
+      "constraints": [
+        "Poleceń jest od 1 do 3000, w tym najwyżej 400 poleceń POKAZ i ILE razem.",
+        "Tekst notatki ma od 1 do 60 znaków (litery, cyfry, spacje, interpunkcja) i nie zaczyna się ani nie kończy spacją.",
+        "1 ≤ k ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "NOTUJ kupic mleko\nNOTUJ zadanie z matmy na piatek\nPOKAZ 2\nPOKAZ 5\nILE",
+          "output": "zadanie z matmy na piatek\nBRAK\n2",
+          "note": "Druga notatka ma pięć słów — getline bierze cały wiersz. Notatki numer 5 nie ma."
+        }
+      ],
+      "hint": "cin >> polecenie wczyta samo słowo NOTUJ, a reszta wiersza zaczyna się od spacji. getline(cin, tekst) da \" kupic mleko\" — ze spacją na początku. Przeskocz ją wcześniej: getline(cin >> ws, tekst). Notatki trzymaj w vector<string>; przy POKAZ k sprawdź, czy k ≤ size().",
+      "tests_count": 5
+    },
+    {
+      "id": "iop-magazyn",
+      "number": 1754,
+      "title": "Magazyn",
+      "category": "Input i Output (+) / krok 7: polecenia",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Magazyn przyjmuje polecenia:",
+        "PRZYJMIJ nazwa ilosc — przyjmij towar;",
+        "WYDAJ nazwa ilosc — wydaj towar, ale tylko jeśli jest go wystarczająco dużo; inaczej wypisz BRAK nazwa i niczego nie zmieniaj;",
+        "STAN nazwa — wypisz ilość tego towaru (0, jeśli go nie ma);",
+        "RAPORT — wypisz w jednym wierszu wszystkie towary o dodatniej ilości, alfabetycznie, w formacie nazwa: ilosc, oddzielone średnikiem i spacją; gdy magazyn jest pusty — PUSTO."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "q poleceń, każde w osobnym wierszu."
+      ],
+      "output_format": [
+        "Wiersze dla poleceń STAN i RAPORT oraz dla nieudanych WYDAJ — w kolejności poleceń."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "Nazwy: od 1 do 12 małych liter; różnych nazw jest najwyżej 25.",
+        "1 ≤ ilość ≤ 10⁶",
+        "Poleceń RAPORT jest najwyżej 10."
+      ],
+      "examples": [
+        {
+          "input": "8\nPRZYJMIJ cukier 50\nPRZYJMIJ maka 20\nWYDAJ cukier 70\nWYDAJ cukier 50\nSTAN cukier\nPRZYJMIJ cukier 5\nRAPORT\nSTAN sol",
+          "output": "BRAK cukier\n0\ncukier: 5; maka: 20\n0",
+          "note": "Wydanie 70 kg cukru się nie udaje (jest tylko 50). Potem cukier znika do zera i wraca w ilości 5. Soli nigdy nie było — STAN wypisuje 0."
+        }
+      ],
+      "hint": "Trzymaj vector<pair<string, long long>> — nazwę i ilość. Napisz lambdę, która zwraca indeks towaru o danej nazwie albo -1 (pętla po vectorze). Przy PRZYJMIJ nowy towar dopisz przez push_back. RAPORT: skopiuj vector, posortuj (pary sortują się po nazwie) i wypisz te z ilością większą od zera, z separatorem \"; \".",
+      "tests_count": 6
+    },
+    {
+      "id": "iop-szablon-duze-dane",
+      "number": 1755,
+      "title": "Szablon na duże dane",
+      "category": "Input i Output (+) / krok 8: duże dane",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "To zadanie to trening szablonu na duże dane. Na olimpiadzie takich liczb byłoby kilka milionów; tutaj jest ich mniej, bo sprawdzarka przesyła dane przez internet — ale napisz program tak, jakby było ich milion: z dwiema linijkami przyspieszającymi, bez endl i bez zapisywania liczb, których nie trzeba pamiętać.",
+        "Dostajesz n liczb. Wypisz ich sumę, najmniejszą i największą."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jeden wiersz: suma, najmniejsza i największa liczba."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "−10⁶ ≤ każda liczba ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "5\n3 -7 10 0 2",
+          "output": "8 -7 10",
+          "note": "Suma 8, najmniejsza −7, największa 10."
+        }
+      ],
+      "hint": "Na samym początku main: ios_base::sync_with_stdio(false); cin.tie(nullptr);. Potem zwykła pętla for z cin >> x — każdą liczbę od razu doliczasz do sumy i porównujesz z rekordami, nie potrzebujesz tablicy. Wynik zakończ \"\\n\".",
+      "tests_count": 7
+    },
+    {
+      "id": "iop-od-konca-wiersze",
+      "number": 1756,
+      "title": "Od końca, jedna pod drugą",
+      "category": "Input i Output (+) / krok 8: duże dane",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wypisz n liczb w odwrotnej kolejności, każdą w osobnym wierszu. Wierszy wyniku jest dużo, a każdy endl to osobny „kurs” do ekranu — kończ więc wiersze znakiem \"\\n\"."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W drugim wierszu n liczb."
+      ],
+      "output_format": [
+        "n wierszy — liczby od ostatniej do pierwszej."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 3000",
+        "0 ≤ każda liczba ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "4\n10 20 30 40",
+          "output": "40\n30\n20\n10",
+          "note": "Ostatnia liczba idzie pierwsza."
+        }
+      ],
+      "hint": "Wczytaj liczby do vector<int> v(n), a potem for (int i = n - 1; i >= 0; i--) cout << v[i] << \"\\n\";. Dwie linijki przyspieszające na początku main też się przydadzą.",
+      "tests_count": 6
+    },
+    {
+      "id": "iop-zmiany-kierunku",
+      "number": 1757,
+      "title": "Zmiany kierunku",
+      "category": "Input i Output (+) / krok 8: duże dane",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Czujnik wysyła n pomiarów. Między dwoma kolejnymi pomiarami wykres idzie w górę (następny jest większy), w dół (następny jest mniejszy) albo płasko (są równe). Zmiana kierunku to miejsce, w którym po ruchu w górę następuje ruch w dół albo odwrotnie; odcinki płaskie po drodze nie przerywają ruchu i same nie są kierunkiem.",
+        "Wypisz liczbę zmian kierunku. Spróbuj nie zapisywać pomiarów — wystarczy pamiętać poprzedni pomiar i ostatni kierunek inny niż płasko."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba zmian kierunku."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "−10⁶ ≤ każda liczba ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "8\n1 3 3 5 2 2 4 1",
+          "output": "3",
+          "note": "Kierunki: w górę, płasko, w górę, w dół, płasko, w górę, w dół. Bez płaskich: góra, góra, dół, góra, dół — zmiany są trzy."
+        }
+      ],
+      "hint": "Trzymaj poprzedni pomiar i int kier — 1 (w górę), −1 (w dół) albo 0 (jeszcze żadnego). Dla nowego pomiaru wyznacz d: 1, gdy większy, −1, gdy mniejszy, 0, gdy równy. Jeśli d != 0: gdy kier != 0 i d != kier — to zmiana; potem kier = d. Na koniec poprzedni = bieżący.",
+      "tests_count": 8
+    },
+    {
+      "id": "iop-dane-z-generatora",
+      "number": 1758,
+      "title": "Dane z generatora",
+      "category": "Input i Output (+) / krok 8: duże dane",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Gdy danych jest za dużo, by przesłać je w pliku, zadania olimpijskie podają tylko przepis na nie — generator. Ciąg tworzymy tak: x₁ = s, a każdy następny wyraz to xᵢ = (xᵢ₋₁ · a + b) mod m.",
+        "Wypisz sumę wszystkich n wyrazów ciągu, największy wyraz i numer jego pierwszego wystąpienia (licząc od 1)."
+      ],
+      "input_format": [
+        "Jeden wiersz: n s a b m."
+      ],
+      "output_format": [
+        "Jeden wiersz: suma, największy wyraz i numer jego pierwszego wystąpienia."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10⁷",
+        "1 ≤ m ≤ 10⁹",
+        "0 ≤ s, a, b < m"
+      ],
+      "examples": [
+        {
+          "input": "5 3 7 5 100",
+          "output": "133 87 3",
+          "note": "Ciąg: 3, 26, 87, 14, 3 (np. 26 · 7 + 5 = 187, a 187 mod 100 = 87). Suma 133, największy wyraz 87 stoi na miejscu 3."
+        }
+      ],
+      "hint": "Nie twórz tablicy na 10 milionów liczb — każdy wyraz od razu doliczasz do sumy i porównujesz z rekordem. Trzymaj bieżące x w long long: iloczyn x · a może mieć prawie 10¹⁸. Wzór: x = (x * a + b) % m — liczony od drugiego wyrazu.",
+      "tests_count": 8
+    },
+    {
+      "id": "iop-suma-kontrolna",
+      "number": 1759,
+      "title": "Suma kontrolna",
+      "category": "Input i Output (+) / krok 8: duże dane",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla ciągu z generatora (x₁ = s, xᵢ = (xᵢ₋₁ · a + b) mod m) chcemy znać maksimum każdego prefiksu: pᵢ = max(x₁, …, xᵢ). Takich wyników jest n — za dużo, by je wypisać, a sprawdzarka i tak porównałaby je wszystkie.",
+        "Zamiast nich wypisz sumę kontrolną: (1 · p₁ + 2 · p₂ + … + n · pₙ) mod 1 000 000 007."
+      ],
+      "input_format": [
+        "Jeden wiersz: n s a b m."
+      ],
+      "output_format": [
+        "Jedna liczba — suma kontrolna."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5 · 10⁶",
+        "1 ≤ m ≤ 10⁹",
+        "0 ≤ s, a, b < m"
+      ],
+      "examples": [
+        {
+          "input": "5 3 7 5 100",
+          "output": "1099",
+          "note": "Ciąg 3, 26, 87, 14, 3 ma maksima prefiksów 3, 26, 87, 87, 87. Suma kontrolna: 1 · 3 + 2 · 26 + 3 · 87 + 4 · 87 + 5 · 87 = 1099."
+        }
+      ],
+      "hint": "Licz pᵢ w locie — to bieżące maksimum. Od razu doliczaj i · pᵢ do sumy i bierz modulo po każdym dodaniu. Iloczyn i · pᵢ może mieć 5 · 10¹⁵, więc long long; wynik po modulo jest mniejszy od 10⁹ + 7.",
+      "tests_count": 7
+    },
+    {
+      "id": "iop-powieksz-obrazek",
+      "number": 1760,
+      "title": "Powiększ obrazek",
+      "category": "Input i Output (+) / krok 8: duże dane",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Mały obrazek z kropek i krzyżyków trzeba powiększyć f razy: każdy znak zamienia się w kwadrat f × f złożony z tego samego znaku. Wypisz powiększony obrazek."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n, m i f.",
+        "n wierszy po m znaków: . albo #."
+      ],
+      "output_format": [
+        "n · f wierszy po m · f znaków."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 50",
+        "1 ≤ f ≤ 10",
+        "Powiększony obrazek mieści się w wyniku: (n · f) · (m · f + 1) ≤ 25 000."
+      ],
+      "examples": [
+        {
+          "input": "2 3 2\n#.#\n.#.",
+          "output": "##..##\n##..##\n..##..\n..##..",
+          "note": "Każdy znak zamienia się w kwadrat 2 × 2, więc z 2 wierszy po 3 znaki robią się 4 wiersze po 6 znaków."
+        }
+      ],
+      "hint": "Dla każdego wiersza obrazka zbuduj raz powiększony wiersz: string w; for (char c : wiersz) w += string(f, c);. Potem wypisz go f razy, za każdym razem kończąc \"\\n\". Budowanie całego wiersza i wypisanie go naraz jest szybsze niż wypisywanie znak po znaku.",
+      "tests_count": 9
+    },
+    {
+      "id": "iop-pytania-o-sumy",
+      "number": 1761,
+      "title": "Pytania o sumy",
+      "category": "Input i Output (+) / krok 8: duże dane",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz n liczb i q pytań. Każde pytanie to dwie liczby a i b, a odpowiedź to suma liczb od a-tej do b-tej (licząc od 1, włącznie z obiema).",
+        "Na olimpiadzie n i q byłyby rzędu miliona — wtedy liczenie każdej sumy pętlą byłoby za wolne i potrzebne są sumy prefiksowe. Tutaj dane są mniejsze, ale napisz program tak, jakby nie były."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n i q.",
+        "W drugim wierszu n liczb całkowitych.",
+        "W każdym z następnych q wierszy pytanie: a b."
+      ],
+      "output_format": [
+        "q wierszy — odpowiedzi na pytania."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000, 1 ≤ q ≤ 2000",
+        "−10⁴ ≤ każda liczba ≤ 10⁴",
+        "1 ≤ a ≤ b ≤ n"
+      ],
+      "examples": [
+        {
+          "input": "5 3\n3 -1 4 1 5\n1 3\n2 5\n4 4",
+          "output": "6\n9\n1",
+          "note": "Sumy: 3 − 1 + 4 = 6, −1 + 4 + 1 + 5 = 9 i samo 1."
+        }
+      ],
+      "hint": "Policz raz tablicę p (long long) o rozmiarze n + 1: p[0] = 0, p[i] = p[i − 1] + x[i]. Odpowiedź na pytanie (a, b) to p[b] − p[a − 1] — jedno odejmowanie. Dodaj dwie linijki przyspieszające i kończ wiersze \"\\n\".",
+      "tests_count": 7
+    },
+    {
+      "id": "iop-generator-i-pytania",
+      "number": 1762,
+      "title": "Generator i pytania",
+      "category": "Input i Output (+) / krok 8: duże dane",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ciąg n liczb tworzy generator: x₁ = s, xᵢ = (xᵢ₋₁ · a + b) mod m. Potem przychodzi q pytań; każde to dwie liczby l i r, a odpowiedź to suma xₗ + xₗ₊₁ + … + xᵣ.",
+        "Pytań jest „tylko” 2000, ale fragmenty są długie — nawet kilka milionów wyrazów. Liczenie każdej sumy pętlą to miliardy dodawań. Policz raz sumy prefiksowe całego ciągu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu: n s a b m.",
+        "W drugim wierszu q.",
+        "W następnych q wierszach pytania: l r."
+      ],
+      "output_format": [
+        "q wierszy z odpowiedziami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5 · 10⁶",
+        "1 ≤ m ≤ 10⁵",
+        "0 ≤ s, a, b < m",
+        "1 ≤ q ≤ 2000",
+        "1 ≤ l ≤ r ≤ n"
+      ],
+      "examples": [
+        {
+          "input": "5 3 7 5 100\n3\n1 5\n2 3\n4 4",
+          "output": "133\n113\n14",
+          "note": "Ciąg to 3, 26, 87, 14, 3. Sumy: 133, 26 + 87 = 113 i 14."
+        }
+      ],
+      "hint": "Wygeneruj ciąg od razu do tablicy sum prefiksowych: vector<long long> p(n + 1), p[0] = 0, p[i] = p[i − 1] + xᵢ (x trzymaj w long long i licz x = (x * a + b) % m). Odpowiedź na (l, r) to p[r] − p[l − 1]. Tablica ma 5 milionów long longów, czyli około 40 MB — mieści się w limicie pamięci.",
+      "tests_count": 7
+    },
+    {
+      "id": "iop-b-lista-obecnosci",
+      "number": 1763,
+      "title": "Lista obecności",
+      "category": "Input i Output (+) / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Uczniowie wchodzący na wycieczkę przykładają legitymację do czytnika, a czytnik zapisuje imię. Niektórzy przyłożyli legitymację dwa razy. Na końcu zapisu stoi słowo KONIEC, a za nim — śmieci z poprzedniej wycieczki.",
+        "Wypisz, ilu różnych uczniów przyszło, a w drugim wierszu ich imiona alfabetycznie, oddzielone przecinkiem i spacją."
+      ],
+      "input_format": [
+        "Imiona oddzielone białymi znakami, aż do słowa KONIEC; za nim mogą stać jeszcze inne słowa."
+      ],
+      "output_format": [
+        "W pierwszym wierszu liczba różnych imion.",
+        "W drugim wierszu te imiona alfabetycznie, oddzielone przecinkiem i spacją."
+      ],
+      "constraints": [
+        "Przed słowem KONIEC jest od 1 do 2000 imion, różnych — najwyżej 500.",
+        "Imię ma od 1 do 15 liter alfabetu angielskiego."
+      ],
+      "examples": [
+        {
+          "input": "Ola Bartek Ola\nZuzia Adam Bartek KONIEC Iga",
+          "output": "4\nAdam, Bartek, Ola, Zuzia",
+          "note": "Różnych uczniów jest czworo: Adam, Bartek, Ola, Zuzia. Iga stoi za słowem KONIEC."
+        }
+      ],
+      "hint": "while (cin >> s && s != \"KONIEC\") wstawiaj imiona do set<string> — powtórki znikną, a kolejność będzie alfabetyczna. Potem size() i pętla po zbiorze z \", \" przed każdym imieniem oprócz pierwszego.",
+      "tests_count": 7
+    },
+    {
+      "id": "iop-b-rachunek",
+      "number": 1764,
+      "title": "Rachunek w restauracji",
+      "category": "Input i Output (+) / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Drukarka w restauracji drukuje rachunki o szerokości dokładnie 30 znaków. W każdym wierszu nazwa dania stoi przy lewej krawędzi, cena (złote, kropka, dwie cyfry groszy) przy prawej, a całe miejsce pomiędzy wypełniają kropki.",
+        "Pod daniami jest wiersz złożony z 30 znaków =, a pod nim wiersz z napisem SUMA, kropkami i łączną kwotą — w tym samym formacie."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n wierszy nazwa dania (jedno słowo) i cena w groszach."
+      ],
+      "output_format": [
+        "n + 2 wiersze po dokładnie 30 znaków."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 100",
+        "Nazwa dania: od 1 do 18 znaków (litery i _).",
+        "1 ≤ cena ≤ 100 000 groszy"
+      ],
+      "examples": [
+        {
+          "input": "3\nPierogi 2450\nKompot 600\nSernik_z_wisniami 1299",
+          "output": "Pierogi..................24.50\nKompot....................6.00\nSernik_z_wisniami........12.99\n==============================\nSUMA.....................43.49",
+          "note": "Cena 600 groszy to 6.00. Suma: 2450 + 600 + 1299 = 4349 groszy, czyli 43.49."
+        }
+      ],
+      "hint": "Cenę zamień na napis: to_string(g / 100) + \".\" + (g % 100 < 10 ? \"0\" : \"\") + to_string(g % 100). Kropek jest 30 − długość nazwy − długość ceny: cout << nazwa << string(kropki, '.') << cena << \"\\n\";. Linia ze znakami = to string(30, '=').",
+      "tests_count": 6
+    },
+    {
+      "id": "iop-b-tekst-w-lustrze",
+      "number": 1765,
+      "title": "Tekst w lustrze",
+      "category": "Input i Output (+) / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Leonardo da Vinci pisał notatki pismem lustrzanym. Zamień zwykły tekst na lustrzany: każdy wiersz odwróć znak po znaku (spacje też), zostawiając wiersze w tej samej kolejności. Puste wiersze zostają puste."
+      ],
+      "input_format": [
+        "Tekst — do końca danych."
+      ],
+      "output_format": [
+        "Ten sam tekst, w którym każdy wiersz jest odwrócony."
+      ],
+      "constraints": [
+        "Tekst ma od 1 do 1000 wierszy i najwyżej 30 000 znaków."
+      ],
+      "examples": [
+        {
+          "input": "Ala ma kota\n\nKajak",
+          "output": "atok am alA\n\nkajaK",
+          "note": "Pusty wiersz zostaje pusty, a Kajak czytany od tyłu to kajaK."
+        }
+      ],
+      "hint": "while (getline(cin, s)) { reverse(s.begin(), s.end()); cout << s << \"\\n\"; }. Gdybyś czytał przez cin >> s, zgubiłbyś spacje i puste wiersze.",
+      "tests_count": 6
+    },
+    {
+      "id": "iop-b-jak-wc",
+      "number": 1766,
+      "title": "Jak polecenie wc",
+      "category": "Input i Output (+) / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W systemie Linux polecenie wc liczy wiersze, słowa i znaki pliku. Zrób to samo dla tekstu z wejścia. Słowo to ciąg znaków bez spacji (spacji między słowami może być kilka). Znaki to wszystkie znaki tekstu oprócz znaków końca wiersza — spacje się liczą."
+      ],
+      "input_format": [
+        "Tekst — do końca danych. Wiersze mogą być puste."
+      ],
+      "output_format": [
+        "Trzy wiersze: wiersze: a, slowa: b, znaki: c."
+      ],
+      "constraints": [
+        "Tekst ma od 1 do 2000 wierszy i najwyżej 50 000 znaków."
+      ],
+      "examples": [
+        {
+          "input": "Ala  ma kota\n\nI psa.",
+          "output": "wiersze: 3\nslowa: 5\nznaki: 18",
+          "note": "Trzy wiersze (drugi pusty), pięć słów i 12 + 0 + 6 = 18 znaków."
+        }
+      ],
+      "hint": "Czytaj while (getline(cin, s)): wiersze++, znaki += s.size(), a słowa policz strumieniem z napisu: stringstream ss(s); while (ss >> w) slowa++;.",
+      "tests_count": 6
+    },
+    {
+      "id": "iop-b-histogram",
+      "number": 1767,
+      "title": "Histogram z gwiazdek",
+      "category": "Input i Output (+) / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz liczby dodatnie zakończone zerem. Dla każdej liczby x (w kolejności z wejścia) wypisz wiersz: liczbę x dosuniętą do prawej w polu o szerokości najdłuższej liczby, potem spację, kreskę |, spację i x gwiazdek."
+      ],
+      "input_format": [
+        "Liczby całkowite dodatnie oddzielone białymi znakami, zakończone zerem."
+      ],
+      "output_format": [
+        "Po jednym wierszu histogramu na każdą liczbę przed zerem."
+      ],
+      "constraints": [
+        "Liczb przed zerem jest od 1 do 300.",
+        "1 ≤ każda liczba ≤ 60"
+      ],
+      "examples": [
+        {
+          "input": "7 12 3 0",
+          "output": "7 | *******\n12 | ************\n 3 | ***",
+          "note": "Najdłuższa liczba, 12, ma dwie cyfry — dlatego przed 7 i 3 stoi spacja i wszystkie kreski są w jednej kolumnie."
+        }
+      ],
+      "hint": "Najpierw wczytaj liczby do vectora: while (cin >> x && x != 0). Szerokość to długość najdłuższej z nich (to_string). Potem dla każdej: cout << setw(w) << x << \" | \" << string(x, '*') << \"\\n\";.",
+      "tests_count": 7
+    },
+    {
+      "id": "iop-b-pogoda-dni",
+      "number": 1768,
+      "title": "Pogoda dzień po dniu",
+      "category": "Input i Output (+) / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Stacja pogodowa mierzy temperaturę kilka razy dziennie. Dla każdego z t dni dostajesz liczbę pomiarów n i same pomiary (liczby całkowite, także ujemne).",
+        "Dla każdego dnia wypisz wiersz: Dzien k: najniższa najwyższa średnia — średnią z dokładnie jedną cyfrą po kropce."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "Każdy dzień: liczba n, a w następnym wierszu n pomiarów."
+      ],
+      "output_format": [
+        "t wierszy w formacie Dzien k: min max srednia."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 365",
+        "1 ≤ n ≤ 24",
+        "−30 ≤ każdy pomiar ≤ 40",
+        "Średnie nie wypadają dokładnie w połowie między dwoma wynikami (np. 2.25)."
+      ],
+      "examples": [
+        {
+          "input": "2\n4\n3 7 -2 6\n3\n-5 -6 -4",
+          "output": "Dzien 1: -2 7 3.5\nDzien 2: -6 -4 -5.0",
+          "note": "Pierwszego dnia: najniżej −2, najwyżej 7, średnia 14 / 4 = 3.5. Drugiego dnia wszystkie pomiary są ujemne, a średnia to −15 / 3 = −5.0 — z jedną cyfrą po kropce, mimo że jest zerem."
+        }
+      ],
+      "hint": "Numer dnia daje pętla for (int k = 1; k <= t; k++). Minimum, maksimum i sumę twórz w środku pętli — w każdym teście od nowa. Średnia: (double)suma / n, wypisana po cout << fixed << setprecision(1).",
+      "tests_count": 5
+    },
+    {
+      "id": "iop-b-kody-pocztowe",
+      "number": 1769,
+      "title": "Poprawne kody pocztowe",
+      "category": "Input i Output (+) / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Polski kod pocztowy ma postać CC-CCC: dwie cyfry, minus i trzy cyfry — razem dokładnie 6 znaków, bez spacji. Na przykład 30-059 jest poprawny, a 30059, 30 059, 3-0059 i 30-05a — nie.",
+        "Dla każdego wiersza wejścia wypisz TAK albo NIE, a na końcu wiersz Poprawnych: k."
+      ],
+      "input_format": [
+        "Wiersze do sprawdzenia — do końca danych. Wiersz może zawierać dowolne znaki ASCII (także spacje) albo być pusty."
+      ],
+      "output_format": [
+        "Po jednym wierszu TAK albo NIE na każdy wiersz wejścia, a potem Poprawnych: k."
+      ],
+      "constraints": [
+        "Wierszy jest od 1 do 1000, każdy ma najwyżej 20 znaków."
+      ],
+      "examples": [
+        {
+          "input": "30-059\n30059\n30 059\n00-000\n3a-123",
+          "output": "TAK\nNIE\nNIE\nTAK\nNIE\nPoprawnych: 2",
+          "note": "Poprawne są tylko 30-059 i 00-000."
+        }
+      ],
+      "hint": "Czytaj wiersze przez getline — tylko tak zobaczysz spacje w środku. Wiersz jest poprawny, gdy s.size() == 6, s[2] == '-', a wszystkie pozostałe znaki to cyfry (isdigit).",
+      "tests_count": 5
+    },
+    {
+      "id": "iop-b-obrot-planszy",
+      "number": 1770,
+      "title": "Obrót planszy",
+      "category": "Input i Output (+) / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz prostokątną planszę n × m złożoną ze znaków. Obróć ją o 90 stopni zgodnie z ruchem wskazówek zegara i wypisz wynik. Pierwsza kolumna starej planszy, czytana od dołu do góry, staje się pierwszym wierszem nowej."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n i m.",
+        "n wierszy po m znaków (litery, cyfry, kropki i krzyżyki — bez spacji)."
+      ],
+      "output_format": [
+        "m wierszy po n znaków — obrócona plansza."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 100"
+      ],
+      "examples": [
+        {
+          "input": "2 3\nabc\ndef",
+          "output": "da\neb\nfc",
+          "note": "Kolumna a, d czytana od dołu to „da” — pierwszy wiersz wyniku. Potem „eb” i „fc”."
+        }
+      ],
+      "hint": "Wczytaj planszę jako vector<string> g(n). Wiersz i wyniku (i od 0 do m − 1) składa się ze znaków g[n − 1][i], g[n − 2][i], …, g[0][i]. Zbuduj go w napisie i wypisz.",
+      "tests_count": 7
+    },
+    {
+      "id": "iop-b-szachownica-ramka",
+      "number": 1771,
+      "title": "Szachownica w ramce",
+      "category": "Input i Output (+) / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Narysuj szachownicę n × n, w której każde pole to kwadrat k × k znaków: pola jasne rysujemy kropkami, ciemne — krzyżykami #. Lewe górne pole jest jasne, a kolory pól na przemian, jak na prawdziwej szachownicy.",
+        "Całość otacza ramka: rogi to +, górny i dolny bok to myślniki, boczne — pionowe kreski |."
+      ],
+      "input_format": [
+        "Jeden wiersz: n i k."
+      ],
+      "output_format": [
+        "n · k + 2 wiersze po n · k + 2 znaki."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 20",
+        "1 ≤ k ≤ 5"
+      ],
+      "examples": [
+        {
+          "input": "2 2",
+          "output": "+----+\n|..##|\n|..##|\n|##..|\n|##..|\n+----+",
+          "note": "Pole w wierszu w i kolumnie k planszy (licząc znaki, od zera) należy do pola szachownicy (w / k, kol / k) — jest ciemne, gdy suma tych numerów jest nieparzysta."
+        }
+      ],
+      "hint": "Najpierw linia \"+\" + string(n * k, '-') + \"+\". Potem n · k wierszy: \"|\", znaki dla kolumn c od 0 do n · k − 1 — '#' gdy (w / k + c / k) % 2 == 1, inaczej '.' — i \"|\". Na koniec znowu linia z plusami.",
+      "tests_count": 8
+    },
+    {
+      "id": "iop-b-srednie-ocen",
+      "number": 1772,
+      "title": "Średnie ocen",
+      "category": "Input i Output (+) / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wychowawca ma oceny uczniów w wierszach postaci Imiona Nazwisko: oceny — imion może być kilka, a ocen w wierszu jest różna liczba (co najmniej jedna).",
+        "Dla każdego ucznia wypisz wiersz Imiona Nazwisko: średnia — średnią z dokładnie dwiema cyframi po kropce."
+      ],
+      "input_format": [
+        "Wiersze w formacie Imiona Nazwisko: o1 o2 … — do końca danych. Oceny to liczby od 1 do 6 oddzielone spacjami."
+      ],
+      "output_format": [
+        "Po jednym wierszu na ucznia: Imiona Nazwisko: srednia (dwie cyfry po kropce)."
+      ],
+      "constraints": [
+        "Uczniów jest od 1 do 500, ocen w wierszu od 1 do 20.",
+        "Imiona i nazwisko: litery i pojedyncze spacje, bez dwukropka.",
+        "Średnie nie wypadają dokładnie w połowie między dwoma wynikami (np. 4.125)."
+      ],
+      "examples": [
+        {
+          "input": "Anna Maria Lis: 5 4 6\nJan Nowak: 3",
+          "output": "Anna Maria Lis: 5.00\nJan Nowak: 3.00",
+          "note": "Średnia Anny to 15 / 3 = 5.00, a Jana — 3.00."
+        }
+      ],
+      "hint": "Wczytaj wiersz przez getline i znajdź dwukropek: size_t p = s.find(':');. Imiona to s.substr(0, p), a oceny stoją w s.substr(p + 1) — włóż je do stringstream i czytaj while (ss >> x). Średnią wypisz po fixed << setprecision(2).",
+      "tests_count": 4
+    },
+    {
+      "id": "iop-b-kolko-i-krzyzyk",
+      "number": 1773,
+      "title": "Kółko i krzyżyk",
+      "category": "Input i Output (+) / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz t plansz gry w kółko i krzyżyk. Każda plansza to 3 wiersze po 3 znaki: X, O albo kropka (puste pole); plansze są oddzielone pustymi wierszami.",
+        "Dla każdej planszy wypisz: X albo O — jeśli ten gracz ma trzy swoje znaki w wierszu, kolumnie lub na przekątnej; REMIS — jeśli nikt nie wygrał, a pustych pól nie ma; TRWA — jeśli nikt nie wygrał i są jeszcze puste pola. Na żadnej planszy nie wygrywają obaj gracze naraz."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "Dalej t plansz po 3 wiersze, oddzielonych pustymi wierszami."
+      ],
+      "output_format": [
+        "t wierszy: X, O, REMIS albo TRWA."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "3\n\nXOX\nOXO\nOOX\n\nXOX\nXOO\nOXX\n\nX..\n.O.\n...",
+          "output": "X\nREMIS\nTRWA",
+          "note": "Na pierwszej planszy X ma przekątną. Druga jest pełna i nikt nie ma trzech w linii. Na trzeciej są jeszcze wolne pola."
+        }
+      ],
+      "hint": "Plansze czytaj przez cin >> wiersz — puste wiersze między planszami cin przeskoczy sam. Sprawdź 8 linii: 3 wiersze, 3 kolumny i 2 przekątne; linia wygrywa, gdy jej trzy pola są równe i nie są kropką. Wynik jest zawsze jeden, bo obaj gracze naraz nie wygrywają.",
+      "tests_count": 5
+    },
+    {
+      "id": "iop-b-kalendarz-miesiaca",
+      "number": 1774,
+      "title": "Kartka z kalendarza",
+      "category": "Input i Output (+) / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wydrukuj kartki z kalendarza. Każda kartka zaczyna się wierszem Pn Wt Sr Cz Pt So Nd. Pod spodem są tygodnie: każdy dzień zajmuje pole o szerokości 2 (liczba dosunięta do prawej), a pola w wierszu oddziela jedna spacja. Tydzień zaczyna się w poniedziałek; w pierwszym tygodniu dni przed pierwszym dniem miesiąca to puste pola (dwie spacje). Ostatni tydzień kończy się na ostatnim dniu miesiąca.",
+        "Dostajesz t miesięcy. Kartki oddziel jednym pustym wierszem."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t wierszy: liczba dni miesiąca d i numer dnia tygodnia, w którym wypada pierwszy dzień (1 = poniedziałek, …, 7 = niedziela)."
+      ],
+      "output_format": [
+        "t kartek kalendarza oddzielonych pustymi wierszami."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100",
+        "28 ≤ d ≤ 31",
+        "1 ≤ dzień tygodnia ≤ 7"
+      ],
+      "examples": [
+        {
+          "input": "1\n30 6",
+          "output": "Pn Wt Sr Cz Pt So Nd\n                1  2\n 3  4  5  6  7  8  9\n10 11 12 13 14 15 16\n17 18 19 20 21 22 23\n24 25 26 27 28 29 30",
+          "note": "Pierwszy dzień wypada w sobotę, więc przed jedynką stoi pięć pustych pól (po dwie spacje i odstęp). Wiersze kończą się na niedzieli albo na ostatnim dniu miesiąca."
+        }
+      ],
+      "hint": "Pozycja dnia w tygodniu: kol = (start − 1 + dzien − 1) % 7. Najpierw wypisz start − 1 pustych pól. Potem dla każdego dnia: jeśli kol > 0 — spacja odstępu, potem setw(2) << dzien; gdy kol == 6 albo to ostatni dzień — \"\\n\". Pusty wiersz przed każdą kartką oprócz pierwszej.",
+      "tests_count": 6
+    },
+    {
+      "id": "iop-b-tabela-ligi",
+      "number": 1775,
+      "title": "Tabela ligi",
+      "category": "Input i Output (+) / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz wyniki meczów ligi szkolnej, każdy w osobnym wierszu: drużyna gospodarzy, wynik w formacie bramki:bramki i drużyna gości. Za zwycięstwo drużyna dostaje 3 punkty, za remis 1, za porażkę 0.",
+        "Wypisz tabelę: miejsce z kropką, nazwę drużyny, punkty oraz bramki zdobyte i stracone w formacie z:s. Kolejność: więcej punktów; przy remisie — lepsza różnica bramek (zdobyte minus stracone); potem więcej zdobytych bramek; na końcu nazwa alfabetycznie."
+      ],
+      "input_format": [
+        "Wiersze w formacie Druzyna1 a:b Druzyna2 — do końca danych. Nazwy drużyn to pojedyncze słowa."
+      ],
+      "output_format": [
+        "Po jednym wierszu na drużynę: miejsce. nazwa punkty z:s"
+      ],
+      "constraints": [
+        "Meczów jest od 1 do 2000, drużyn najwyżej 20.",
+        "Nazwy: od 1 do 12 liter.",
+        "0 ≤ bramki w meczu ≤ 15"
+      ],
+      "examples": [
+        {
+          "input": "Orly 2:1 Sokoly\nSokoly 0:0 Wilki\nWilki 3:1 Orly",
+          "output": "1. Wilki 4 3:1\n2. Orly 3 3:4\n3. Sokoly 1 1:2",
+          "note": "Orły i Wilki mają po 4 punkty — Wilki są wyżej, bo mają lepszą różnicę bramek (+2 wobec 0)."
+        }
+      ],
+      "hint": "Czytaj while (cin >> a >> x >> c >> y >> b) — c zjada dwukropek. Drużyny trzymaj w vectorze nazw z równoległymi vectorami punktów i bramek; indeks znajdziesz pętlą (drużyn jest najwyżej 20). Sortuj vector indeksów lambdą z czterema kryteriami po kolei.",
+      "tests_count": 7
+    },
+    {
+      "id": "iop-b-kalkulator-kolejnosc",
+      "number": 1776,
+      "title": "Kalkulator z kolejnością działań",
+      "category": "Input i Output (+) / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Każdy wiersz zawiera działanie złożone z liczb całkowitych nieujemnych i znaków + − * /, bez spacji i bez nawiasów, np. 2+3*4-10/3. Mnożenie i dzielenie wykonujemy przed dodawaniem i odejmowaniem, a działania tej samej wagi — od lewej. Dzielenie jest całkowite (jak w C++: 10/3 = 3).",
+        "Policz wynik każdego działania."
+      ],
+      "input_format": [
+        "Działania, każde w osobnym wierszu — do końca danych."
+      ],
+      "output_format": [
+        "Wynik każdego działania w osobnym wierszu."
+      ],
+      "constraints": [
+        "Wierszy jest od 1 do 1000, każdy ma najwyżej 80 znaków.",
+        "Liczby: od 0 do 1000. Nigdy nie dzielimy przez 0.",
+        "W jednym składniku (ciągu mnożeń i dzieleń) są najwyżej 3 liczby."
+      ],
+      "examples": [
+        {
+          "input": "2+3*4-10/3\n7\n8/3*3",
+          "output": "11\n7\n6",
+          "note": "2 + 12 − 3 = 11. W trzecim wierszu dzielenie idzie pierwsze, bo stoi z lewej: 8 / 3 = 2, potem 2 · 3 = 6."
+        }
+      ],
+      "hint": "Trzymaj dwie zmienne: wynik (suma gotowych składników) i skladnik (bieżący iloczyn), oraz znak, z jakim ten składnik wejdzie do wyniku. Po ss >> skladnik czytaj pary while (ss >> op >> x): * i / zmieniają skladnik, a + i − najpierw dodają skladnik (ze znakiem) do wyniku, potem zaczynają nowy od x. Na końcu dolicz ostatni składnik.",
+      "tests_count": 6
+    },
+    {
+      "id": "iop-b-dziennik-serwera",
+      "number": 1777,
+      "title": "Dziennik serwera",
+      "category": "Input i Output (+) / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Serwer szkolnej sprawdzarki zapisuje dziennik. Każdy wiersz to data (RRRR-MM-DD), godzina (GG:MM:SS), poziom (INFO, WARN albo ERROR) i treść komunikatu — treść może mieć spacje. Wiersze są w kolejności czasu.",
+        "Wypisz, ile było komunikatów każdego poziomu, a potem datę i godzinę pierwszego i ostatniego komunikatu ERROR — albo zdanie Brak bledow, gdy żadnego nie było."
+      ],
+      "input_format": [
+        "Wiersze dziennika — do końca danych."
+      ],
+      "output_format": [
+        "Trzy wiersze: INFO: a, WARN: b, ERROR: c.",
+        "Potem dwa wiersze: Pierwszy ERROR: data godzina i Ostatni ERROR: data godzina — albo jeden wiersz Brak bledow."
+      ],
+      "constraints": [
+        "Wierszy jest od 1 do 1000, każdy ma najwyżej 80 znaków."
+      ],
+      "examples": [
+        {
+          "input": "2026-11-15 08:00:01 INFO Start serwera\n2026-11-15 08:02:13 ERROR Brak polaczenia z baza\n2026-11-15 08:02:14 WARN Ponawiam probe\n2026-11-15 08:03:00 ERROR Znowu nic",
+          "output": "INFO: 1\nWARN: 1\nERROR: 2\nPierwszy ERROR: 2026-11-15 08:02:13\nOstatni ERROR: 2026-11-15 08:03:00",
+          "note": "Dwa błędy — pierwszy o 08:02:13, ostatni o 08:03:00."
+        }
+      ],
+      "hint": "Pierwsze trzy kawałki wiersza to zwykłe słowa: cin >> data >> czas >> poziom. Resztę wiersza (treść) trzeba zjeść, choć jej nie używamy: getline(cin, tresc). Pętla: while (cin >> data >> czas >> poziom). Datę i godzinę pierwszego błędu zapamiętaj tylko raz, a ostatniego — za każdym razem.",
+      "tests_count": 7
+    },
+    {
+      "id": "iop-b-tekst-w-ramce",
+      "number": 1778,
+      "title": "Wyśrodkowany tekst w ramce",
+      "category": "Input i Output (+) / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na zaproszenie trzeba wydrukować tekst w ramce z gwiazdek. Niech d będzie długością najdłuższego wiersza. Ramka ma szerokość d + 4: górny i dolny bok to d + 4 gwiazdek, a każdy wiersz tekstu wypisujemy jako gwiazdka, spacja, wyśrodkowany tekst w polu o szerokości d, spacja, gwiazdka.",
+        "Wyśrodkowanie: jeśli w polu zostaje k wolnych miejsc, z lewej stawiamy k / 2 spacji (zaokrąglone w dół), a z prawej resztę. Pusty wiersz tekstu to po prostu pole z samych spacji."
+      ],
+      "input_format": [
+        "Tekst — od 1 do 100 wierszy, do końca danych. Wiersze nie zaczynają się ani nie kończą spacją."
+      ],
+      "output_format": [
+        "Tekst w ramce: liczba wierszy tekstu + 2 wiersze, każdy o długości d + 4."
+      ],
+      "constraints": [
+        "Każdy wiersz ma najwyżej 60 znaków; najdłuższy ma co najmniej 1 znak."
+      ],
+      "examples": [
+        {
+          "input": "Zaproszenie\n\nna urodziny Oli",
+          "output": "*******************\n*   Zaproszenie   *\n*                 *\n* na urodziny Oli *\n*******************",
+          "note": "Najdłuższy wiersz ma 15 znaków, ramka — 19. Zaproszenie (11 znaków) dostaje 2 spacje z lewej i 2 z prawej."
+        }
+      ],
+      "hint": "Wiersze wczytaj do vector<string> (while (getline(cin, s))), policz d. Każdy wiersz: k = d − s.size(); cout << \"* \" << string(k / 2, ' ') << s << string(k − k / 2, ' ') << \" *\\n\";. Ramka górna i dolna: string(d + 4, '*').",
+      "tests_count": 6
+    },
+    {
+      "id": "iop-b-slownik-zamian",
+      "number": 1779,
+      "title": "Słownik zamian",
+      "category": "Input i Output (+) / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Redaktor gazety ma słownik zamian: każde słowo stare w tekście trzeba zastąpić słowem nowym. Zamieniamy tylko całe słowa (kot nie zamienia się w kotlecie), a zamienione słowo nie podlega już kolejnym zamianom.",
+        "Najpierw dostajesz k par słów, a potem tekst. Słowa w tekście są oddzielone pojedynczymi spacjami; wypisz tekst po zamianach, zachowując podział na wiersze (także puste)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu k.",
+        "W każdym z k wierszy dwa słowa: stare i nowe (stare słowa się nie powtarzają).",
+        "Dalej tekst — do końca danych. Jego pierwszy wiersz nie jest pusty."
+      ],
+      "output_format": [
+        "Tekst po zamianach."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ 100",
+        "Słowa: od 1 do 12 małych liter.",
+        "Tekst ma najwyżej 500 wierszy i 20 000 znaków."
+      ],
+      "examples": [
+        {
+          "input": "2\nkot pies\npies kot\nala ma kota i psa\nkot goni psa a pies kota\n\nkot",
+          "output": "ala ma kota i psa\npies goni psa a kot kota\n\npies",
+          "note": "kota i psa to inne słowa niż kot i pies — zostają. Zamiany nie łańcuchują się: kot zamienia się na pies i na tym koniec."
+        }
+      ],
+      "hint": "Pary wczytaj przez cin >> stare >> nowe do vector<pair<string, string>>. Potem cin.ignore() (albo cin >> ws), żeby zjeść enter, i while (getline(cin, s)). Każdy wiersz rozbij na słowa stringstreamem, każde słowo podmień (pętla po parach) i wypisz z jedną spacją między słowami.",
+      "tests_count": 5
+    },
+    {
+      "id": "iop-b-rozklad-jazdy",
+      "number": 1780,
+      "title": "Rozkład jazdy",
+      "category": "Input i Output (+) / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Rozkład jazdy ma n wierszy. Każdy wiersz to numer linii autobusowej, a po nim godziny odjazdów z przystanku w formacie GG:MM, rosnąco — w każdym wierszu może być ich inna liczba.",
+        "Potem przychodzi q pytań: numer linii i godzina, o której przychodzimy na przystanek. Dla każdego pytania wypisz godzinę najbliższego odjazdu tej linii (o tej samej godzinie albo później) albo BRAK, jeśli tego dnia już nic nie odjedzie."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W następnych n wierszach: numer linii i godziny odjazdów.",
+        "Dalej wiersz z q i q wierszy z pytaniami: numer linii i godzina GG:MM."
+      ],
+      "output_format": [
+        "q wierszy: godzina najbliższego odjazdu (GG:MM) albo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 100, numery linii są różne (od 1 do 999), każda linia ma od 1 do 50 odjazdów.",
+        "1 ≤ q ≤ 2000; pytania dotyczą linii z rozkładu."
+      ],
+      "examples": [
+        {
+          "input": "2\n15 06:10 06:40 07:10\n175 05:55 23:30\n3\n15 06:40\n15 07:11\n175 06:00",
+          "output": "06:40\nBRAK\n23:30",
+          "note": "O 06:40 linia 15 akurat odjeżdża. Po 07:10 linia 15 już nie jedzie. Na 175 trzeba czekać do 23:30."
+        }
+      ],
+      "hint": "Wiersz rozkładu wczytaj przez getline(cin >> ws, s) i włóż do stringstream: najpierw numer, potem while (ss >> h >> c >> m) — godziny zamieniaj na minuty (h * 60 + m) i zbieraj do vectora tej linii. W pytaniu znajdź linię i użyj lower_bound na jej vectorze; wynik wypisz z setw(2) i setfill('0').",
+      "tests_count": 5
+    },
+    {
+      "id": "iop-b-kalendarz-wydarzen",
+      "number": 1781,
+      "title": "Kalendarz wydarzeń",
+      "category": "Input i Output (+) / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Samorząd szkolny zapisuje wydarzenia w wierszach: data DD.MM, godzina GG:MM i opis (opis może mieć spacje). Wydarzenia są wpisane w przypadkowej kolejności, wszystkie z jednego roku.",
+        "Wypisz je chronologicznie — w tym samym formacie co na wejściu. Wydarzenia o tej samej dacie i godzinie zostają w kolejności z wejścia."
+      ],
+      "input_format": [
+        "Wiersze DD.MM GG:MM opis — do końca danych."
+      ],
+      "output_format": [
+        "Te same wiersze, posortowane chronologicznie."
+      ],
+      "constraints": [
+        "Wydarzeń jest od 1 do 500; opis ma od 1 do 40 znaków i nie zaczyna się spacją.",
+        "Daty są poprawne, godziny od 00:00 do 23:59."
+      ],
+      "examples": [
+        {
+          "input": "24.12 18:00 Wigilia klasowa\n01.09 08:00 Rozpoczecie roku\n24.12 09:30 Jaselka",
+          "output": "01.09 08:00 Rozpoczecie roku\n24.12 09:30 Jaselka\n24.12 18:00 Wigilia klasowa",
+          "note": "Najpierw wrzesień, potem grudzień; w grudniu 09:30 przed 18:00."
+        }
+      ],
+      "hint": "Czytaj while (cin >> d >> c >> m >> h >> c >> mi) i getline(cin >> ws, opis) — reszta wiersza to opis. Z daty i godziny zrób jeden klucz, np. ((m * 31 + d) * 24 + h) * 60 + mi, i sortuj pary (klucz, numer wiersza) — albo stable_sort po samym kluczu. Przy wypisywaniu pamiętaj o zerach z przodu.",
+      "tests_count": 5
+    },
+    {
+      "id": "iop-b-biblioteka",
+      "number": 1782,
+      "title": "Biblioteka szkolna",
+      "category": "Input i Output (+) / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Program biblioteki przyjmuje polecenia: WYPOZYCZ tytul — wypożycz książkę (jeśli jest już wypożyczona, wypisz ZAJETE); ZWROC tytul — zwróć książkę (jeśli nie była wypożyczona, wypisz BLAD); CZY tytul — wypisz TAK, gdy książka jest wypożyczona, inaczej NIE; LISTA — wypisz w jednym wierszu wszystkie wypożyczone tytuły alfabetycznie, oddzielone znakami „ | ” (spacja, kreska, spacja), albo (nic), gdy nic nie jest wypożyczone.",
+        "Tytuły mogą mieć spacje i ciągną się do końca wiersza."
+      ],
+      "input_format": [
+        "Polecenia, każde w osobnym wierszu — do końca danych."
+      ],
+      "output_format": [
+        "Wiersze dla poleceń CZY i LISTA oraz komunikaty ZAJETE i BLAD — w kolejności poleceń."
+      ],
+      "constraints": [
+        "Poleceń jest od 1 do 1500, w tym najwyżej 20 poleceń LISTA.",
+        "Tytuł ma od 1 do 30 znaków (litery, cyfry i pojedyncze spacje).",
+        "Naraz wypożyczonych jest najwyżej 20 książek."
+      ],
+      "examples": [
+        {
+          "input": "WYPOZYCZ Pan Tadeusz\nWYPOZYCZ Lalka\nCZY Lalka\nWYPOZYCZ Lalka\nZWROC Krzyzacy\nLISTA",
+          "output": "TAK\nZAJETE\nBLAD\nLalka | Pan Tadeusz",
+          "note": "Druga próba wypożyczenia Lalki kończy się komunikatem ZAJETE, a zwrot Krzyżaków — BLAD, bo nikt ich nie wypożyczył."
+        }
+      ],
+      "hint": "while (cin >> p) — to słowo polecenia. Przy WYPOZYCZ, ZWROC i CZY doczytaj tytuł: getline(cin >> ws, tytul). Wypożyczone tytuły trzymaj w set<string>: count mówi, czy tytuł jest, a przejście pętlą daje porządek alfabetyczny do LISTA.",
+      "tests_count": 4
+    },
+    {
+      "id": "iop-b-macierz-w-nawiasach",
+      "number": 1783,
+      "title": "Macierz w nawiasach",
+      "category": "Input i Output (+) / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Macierz zapisano w nawiasach kwadratowych, wiersz po wierszu: [[1, 2, 3], [4, 5, 6]] to macierz o 2 wierszach i 3 kolumnach. Między nawiasami, przecinkami i liczbami mogą stać spacje i entery (ale nie w środku liczby).",
+        "Wypisz macierz transponowaną — jej wiersze to kolumny oryginału — w tym samym zapisie, ale zwięźle: bez żadnych spacji i w jednym wierszu."
+      ],
+      "input_format": [
+        "Macierz w nawiasach — do końca danych."
+      ],
+      "output_format": [
+        "Jeden wiersz: macierz transponowana, bez spacji."
+      ],
+      "constraints": [
+        "Macierz ma od 1 do 50 wierszy i od 1 do 50 kolumn; wszystkie wiersze mają tyle samo liczb.",
+        "Liczby: od −1000 do 1000."
+      ],
+      "examples": [
+        {
+          "input": "[[1, 2, 3],\n [4, 5, -6]]",
+          "output": "[[1,4],[2,5],[3,-6]]",
+          "note": "Kolumna 1, 4 staje się pierwszym wierszem wyniku, kolumna 3, −6 — ostatnim."
+        }
+      ],
+      "hint": "Czytaj w pętli while (cin >> ws && cin.peek() != EOF): zajrzyj na następny znak. „[” zwiększa głębokość (na głębokości 2 zaczyna się nowy wiersz — push_back pustego vectora), „]” ją zmniejsza, przecinek po prostu zjedz (cin.get()), a w każdym innym przypadku stoi liczba — wczytaj ją przez cin >> x i dopisz do ostatniego wiersza.",
+      "tests_count": 8
+    },
+    {
+      "id": "iop-b-lista-zagniezdzona",
+      "number": 1784,
+      "title": "Lista w liście w liście",
+      "category": "Input i Output (+) / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Lista może zawierać liczby i inne listy, np. [1,[2,-3],[[4]],5,[]]. Głębokość liczby to liczba nawiasów, w których stoi: 1 i 5 mają głębokość 1, 2 i −3 — 2, a 4 — 3. Między elementami mogą stać spacje i entery.",
+        "Wypisz największą głębokość nawiasów (zewnętrzna lista ma głębokość 1, pusta lista też się liczy) oraz sumę wszystkich liczb pomnożonych przez ich głębokości."
+      ],
+      "input_format": [
+        "Lista — do końca danych."
+      ],
+      "output_format": [
+        "Dwie liczby: największa głębokość i ważona suma."
+      ],
+      "constraints": [
+        "Zapis ma od 2 do 50 000 znaków.",
+        "Liczby: od −10⁶ do 10⁶ (nie mają zer na początku)."
+      ],
+      "examples": [
+        {
+          "input": "[1,[2,-3],[[4]],5,[]]",
+          "output": "3 16",
+          "note": "Największa głębokość to 3. Suma ważona: 1 · 1 + 2 · 2 − 3 · 2 + 4 · 3 + 5 · 1 = 16."
+        }
+      ],
+      "hint": "Licznik głębokości: „[” — plus jeden (i aktualizacja maksimum), „]” — minus jeden. Liczbę rozpoznasz po pierwszym znaku (cyfra albo minus) — zajrzyj przez cin.peek() i wczytaj ją przez cin >> x, a potem dodaj x · głębokość do sumy (long long). Białe znaki przeskakuj przez cin >> ws.",
+      "tests_count": 9
+    },
+    {
+      "id": "iop-b-tabela-markdown",
+      "number": 1785,
+      "title": "Tabela w Markdownie",
+      "category": "Input i Output (+) / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W plikach Markdown tabelę zapisuje się kreskami: | Imie | Wiek |. Drugi wiersz tabeli to linia oddzielająca nagłówek, złożona z kresek i myślników, np. |---|---|. Ktoś wpisał tabelę niedbale — z różną liczbą spacji wokół komórek.",
+        "Wypisz tabelę równo: każda kolumna ma szerokość najdłuższej komórki w tej kolumnie (nagłówek się liczy, linia oddzielająca — nie). Wiersz z komórkami to kreska, a potem dla każdej komórki: spacja, tekst dosunięty do lewej w polu szerokości kolumny, spacja i kreska. Linia oddzielająca to kreska, a potem dla każdej kolumny: myślniki (szerokość kolumny + 2) i kreska."
+      ],
+      "input_format": [
+        "Tabela — do końca danych. Każdy wiersz zaczyna się i kończy znakiem |. Drugi wiersz to linia oddzielająca."
+      ],
+      "output_format": [
+        "Ta sama tabela, wyrównana."
+      ],
+      "constraints": [
+        "Tabela ma od 2 do 100 wierszy i od 1 do 10 kolumn; każdy wiersz ma tyle samo komórek.",
+        "Tekst komórki (po przycięciu spacji) ma od 1 do 20 znaków: litery, cyfry i pojedyncze spacje."
+      ],
+      "examples": [
+        {
+          "input": "| Imie |Wiek| Miasto |\n|---|---|---|\n|Ola| 12|Krakow|\n|  Bartek  |9| Nowy Sacz|",
+          "output": "| Imie   | Wiek | Miasto    |\n|--------|------|-----------|\n| Ola    | 12   | Krakow    |\n| Bartek | 9    | Nowy Sacz |",
+          "note": "Kolumna Miasto ma szerokość 9 (Nowy Sacz), więc jej linia oddzielająca ma 11 myślników. Spacja w środku „Nowy Sacz” zostaje."
+        }
+      ],
+      "hint": "Wiersz wczytaj przez getline i rozbij: stringstream ss(s); getline(ss, kom, '|') — pierwszy kawałek (przed pierwszą kreską) jest pusty, pomiń go. Każdą komórkę przytnij: usuń spacje z początku i z końca (find_first_not_of i find_last_not_of albo pętle). Drugi wiersz pomiń przy liczeniu szerokości i wypisz na nowo.",
+      "tests_count": 6
+    },
+    {
+      "id": "iop-b-wlasna-sprawdzarka",
+      "number": 1786,
+      "title": "Własna sprawdzarka",
+      "category": "Input i Output (+) / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Sprawdzarka w zadaniach tej lekcji porównuje wynik Twojego programu z oczekiwanym tak: z każdego wiersza usuwa spacje na końcu, a z końca całego wyniku — puste wiersze. Dopiero potem porównuje wiersz po wierszu. Napisz taki porównywacz.",
+        "Na wejściu jest wynik programu, potem wiersz ===, a potem oczekiwany wynik. Wypisz OK, jeśli po poprawkach są identyczne. W przeciwnym razie wypisz ROZNICA w wierszu k — numer pierwszego wiersza (licząc od 1), w którym się różnią; jeśli jeden wynik jest krótszy, różnica jest w pierwszym wierszu, którego mu brakuje."
+      ],
+      "input_format": [
+        "Wiersze wyniku programu, wiersz ===, wiersze oczekiwanego wyniku — do końca danych. Wiersz === pojawia się dokładnie raz. Pierwszy wiersz wejścia nie jest pusty i nie zaczyna się spacją."
+      ],
+      "output_format": [
+        "OK albo ROZNICA w wierszu k."
+      ],
+      "constraints": [
+        "Razem najwyżej 2000 wierszy i 50 000 znaków (litery, cyfry, spacje, interpunkcja)."
+      ],
+      "examples": [
+        {
+          "input": "15\nAla ma kota   \n\n===\n15\nAla ma kota",
+          "output": "OK",
+          "note": "Spacje na końcu drugiego wiersza i pusty wiersz na końcu wyniku programu są wybaczane — OK."
+        },
+        {
+          "input": "1 2 3\n4 5 6\n===\n1 2 3\n4  5 6",
+          "output": "ROZNICA w wierszu 2",
+          "note": "W drugim wierszu oczekiwanego wyniku między 4 a 5 są dwie spacje. Spacje w środku wiersza się liczą."
+        }
+      ],
+      "hint": "Czytaj while (getline(cin, s)): dopóki nie trafisz na \"===\", dokładaj wiersze do pierwszego vectora, potem — do drugiego. Każdy wiersz przytnij z prawej (while (!s.empty() && s.back() == ' ') s.pop_back();), a z końca obu vectorów zdejmij puste wiersze. Potem porównaj wiersz po wierszu do długości dłuższego vectora.",
+      "tests_count": 13
+    },
+    {
+      "id": "iop-b-arkusz",
+      "number": 1787,
+      "title": "Arkusz kalkulacyjny",
+      "category": "Input i Output (+) / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Prosty arkusz kalkulacyjny przyjmuje wiersze postaci nazwa = wyrażenie. Wyrażenie to składniki oddzielone znakami + albo − (wszystko oddzielone pojedynczymi spacjami), a składnik to liczba całkowita nieujemna albo nazwa zmiennej zdefiniowanej wcześniej. Zmienną można zdefiniować ponownie — od tej chwili ma nową wartość.",
+        "Wypisz końcowe wartości wszystkich zmiennych w kolejności, w jakiej pojawiły się po raz pierwszy, w formacie nazwa = wartość."
+      ],
+      "input_format": [
+        "Wiersze nazwa = wyrażenie — do końca danych."
+      ],
+      "output_format": [
+        "Po jednym wierszu na każdą zmienną: nazwa = wartość."
+      ],
+      "constraints": [
+        "Wierszy jest od 1 do 500, każdy ma najwyżej 30 składników.",
+        "Nazwy: od 1 do 8 małych liter. Liczby: od 0 do 10⁹.",
+        "Wszystkie wartości mieszczą się między −10¹⁵ a 10¹⁵."
+      ],
+      "examples": [
+        {
+          "input": "a = 5\nb = a + 7\na = b - a - 2\nc = 100 - a - b",
+          "output": "a = 5\nb = 12\nc = 83",
+          "note": "Najpierw a = 5 i b = 12. Potem a zmienia się na 12 − 5 − 2 = 5, a c = 100 − 5 − 12 = 83."
+        }
+      ],
+      "hint": "Każdy wiersz włóż do stringstream i czytaj kawałki: ss >> nazwa >> rowna >> t, potem while (ss >> op >> t). Kawałek t to liczba, gdy zaczyna się od cyfry (isdigit(t[0]) — wtedy stoll), inaczej nazwa — jej wartość znajdziesz w vector<pair<string, long long>>. Przypisanie: jeśli nazwa już jest — zmień wartość, jeśli nie — push_back.",
+      "tests_count": 6
+    },
+    {
+      "id": "iop-b-formatowanie-klamer",
+      "number": 1788,
+      "title": "Formatowanie kodu",
+      "category": "Input i Output (+) / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ktoś wkleił program i wszystkie wcięcia się rozjechały. Popraw je. Dla każdego wiersza: usuń spacje z początku i z końca; jeśli wiersz jest teraz pusty — wypisz pusty wiersz. W przeciwnym razie wcięcie to 4 spacje razy głębokość, gdzie głębokość to liczba klamer { minus liczba klamer } we wszystkich wcześniejszych wierszach — pomniejszona o jeden, jeśli sam wiersz zaczyna się od }."
+      ],
+      "input_format": [
+        "Program — do końca danych."
+      ],
+      "output_format": [
+        "Ten sam program z poprawionymi wcięciami."
+      ],
+      "constraints": [
+        "Program ma od 1 do 400 wierszy; każdy wiersz bez spacji na brzegach ma najwyżej 40 znaków (bez tabulatorów i bez polskich liter).",
+        "Klamry są poprawnie sparowane, wcięcie nigdy nie wychodzi ujemne, a głębokość nie przekracza 8."
+      ],
+      "examples": [
+        {
+          "input": "int main() {\nint x;\n        if (x > 0) {\n   cout << x;\n      } else {\n cout << 0;\n}\n  }",
+          "output": "int main() {\n    int x;\n    if (x > 0) {\n        cout << x;\n    } else {\n        cout << 0;\n    }\n}",
+          "note": "Wiersz } else { zaczyna się od klamry zamykającej, więc stoi o poziom płycej niż wnętrze ifa — na tej samej głębokości co if."
+        }
+      ],
+      "hint": "Trzymaj głębokość d (na start 0). Dla wiersza: przytnij spacje (find_first_not_of i find_last_not_of). Wcięcie to d, a jeśli wiersz zaczyna się od '}' — d − 1. Wypisz string(4 * wciecie, ' ') i przycięty wiersz. Dopiero potem przejdź jego znaki: '{' zwiększa d, '}' zmniejsza.",
+      "tests_count": 7
+    },
+    {
+      "id": "iop-b-csv-cudzyslowy",
+      "number": 1789,
+      "title": "CSV z cudzysłowami",
+      "category": "Input i Output (+) / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Format CSV zapisuje tabelę: w każdym wierszu pola rozdzielone przecinkami. Pole może być ujęte w cudzysłowy — wtedy przecinki w środku są zwykłymi znakami, a dwa cudzysłowy pod rząd oznaczają jeden znak cudzysłowu w treści. Cudzysłowy otaczające pole nie należą do jego treści. Pola bez cudzysłowów nie zawierają ani przecinków, ani cudzysłowów; pole może być puste.",
+        "Dla każdego wiersza wypisz liczbę pól, a po spacji — wszystkie pola w nawiasach kwadratowych, jedno za drugim."
+      ],
+      "input_format": [
+        "Wiersze CSV — do końca danych."
+      ],
+      "output_format": [
+        "Po jednym wierszu na każdy wiersz wejścia: liczba pól, spacja i pola w nawiasach kwadratowych."
+      ],
+      "constraints": [
+        "Wierszy jest od 1 do 300, każdy ma od 1 do 100 znaków; żaden nie zaczyna się ani nie kończy spacją.",
+        "Cudzysłowy są zawsze poprawnie domknięte."
+      ],
+      "examples": [
+        {
+          "input": "Jan,\"Kowalski, Jan\",15\na,,b\n\"Mowil \"\"hej\"\" i poszedl\",x",
+          "output": "3 [Jan][Kowalski, Jan][15]\n3 [a][][b]\n2 [Mowil \"hej\" i poszedl][x]",
+          "note": "W pierwszym wierszu przecinek w cudzysłowie nie dzieli pola. W drugim środkowe pole jest puste. W trzecim podwójne cudzysłowy zamieniają się w pojedyncze."
+        }
+      ],
+      "hint": "Wczytaj wiersz przez getline i idź po znakach z flagą wCudzyslowie. Cudzysłów: jeśli jesteś w cudzysłowie i następny znak też jest cudzysłowem — to jeden cudzysłów w treści (przeskocz o dwa); inaczej przełącz flagę. Przecinek poza cudzysłowem kończy pole (push_back i nowe puste pole); każdy inny znak dopisz do bieżącego pola. Na końcu wiersza dołóż ostatnie pole.",
+      "tests_count": 7
+    },
+    {
+      "id": "iop-b-wyniki-zawodow",
+      "number": 1790,
+      "title": "Wielki finał: tabela wyników zawodów",
+      "category": "Input i Output (+) / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na zawodach drużynowych zadania nazywają się A, B, C, … (k pierwszych liter alfabetu). Dziennik sprawdzarki zapisuje każde zgłoszenie w wierszu: czas od startu (GG:MM:SS), login, litera zadania i werdykt — OK, WA, TLE, RE albo CE. Zgłoszenia są w kolejności czasu, a na końcu stoi słowo KONIEC.",
+        "Zadanie jest rozwiązane w chwili pierwszego zgłoszenia OK; późniejsze zgłoszenia tego zadania przez tego samego zawodnika się nie liczą. Zgłoszenia CE (błąd kompilacji) nie liczą się wcale. Każde inne zgłoszenie bez OK to próba nieudana. Kara za rozwiązane zadanie to liczba pełnych minut od startu do jego pierwszego OK plus 20 za każdą wcześniejszą nieudaną próbę tego zadania; zadania nierozwiązane nie dają kary.",
+        "Ranking: więcej rozwiązanych zadań; przy remisie mniejsza łączna kara; przy dalszym remisie login alfabetycznie. Zawodnicy z tą samą liczbą zadań i tą samą karą zajmują to samo miejsce (np. 1, 2, 2, 4). W tabeli są wszyscy, którzy pojawili się w dzienniku.",
+        "Tabela ma kolumny Miejsce, Login, Zad, Kara i po jednej kolumnie na każde zadanie (nagłówek to jego litera). Komórka zadania to + (rozwiązane bez nieudanych prób), +x (rozwiązane po x nieudanych próbach), -x (nierozwiązane, x nieudanych prób; zwykły minus) albo . (żadnej próby). Szerokość kolumny to długość najdłuższego wpisu z nagłówkiem włącznie. Kolumny Miejsce, Zad i Kara są dosunięte do prawej, pozostałe — do lewej (nagłówki też). Kolumny oddziela napis „ | ”. Pod nagłówkiem stoi linia z myślników o szerokości kolumn, oddzielonych napisem „-+-”."
+      ],
+      "input_format": [
+        "W pierwszym wierszu k.",
+        "Dalej zgłoszenia GG:MM:SS login zadanie werdykt, każde w osobnym wierszu, a na końcu wiersz KONIEC."
+      ],
+      "output_format": [
+        "Tabela: wiersz nagłówka, linia z myślników i po jednym wierszu na zawodnika, w kolejności rankingu."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ 8",
+        "Zgłoszeń jest od 1 do 2000, zawodników najwyżej 50.",
+        "Login: od 1 do 10 małych liter i cyfr. Czas: od 00:00:00 do 05:00:00."
+      ],
+      "examples": [
+        {
+          "input": "3\n00:05:10 ala A OK\n00:07:00 bartek A WA\n00:12:59 bartek A OK\n00:20:00 ala B CE\n00:25:30 ala B WA\n00:40:01 ala B OK\n01:10:00 cela C WA\n01:20:00 bartek B OK\n02:00:00 ala B WA\nKONIEC",
+          "output": "Miejsce | Login  | Zad | Kara | A  | B  | C\n--------+--------+-----+------+----+----+---\n      1 | ala    |   2 |   65 | +  | +1 | .\n      2 | bartek |   2 |  112 | +1 | +  | .\n      3 | cela   |   0 |    0 | .  | .  | -1",
+          "note": "Ala: A w 5. minucie, B w 40. minucie po jednej nieudanej próbie (CE się nie liczy) — kara 5 + 40 + 20 = 65. Bartek: A w 12. minucie po jednej nieudanej próbie i B w 80. minucie — kara 12 + 20 + 80 = 112. Cela ma jedną nieudaną próbę C i zero zadań. Zgłoszenie Ali o 02:00:00 przyszło po rozwiązaniu B — nie liczy się."
+        }
+      ],
+      "hint": "Pierwsze słowo wiersza wczytaj jako string: while (cin >> czas && czas != \"KONIEC\") { cin >> login >> zad >> werdykt; … }. Minuty od startu to stoi(czas.substr(0, 2)) * 60 + stoi(czas.substr(3, 2)). Zawodników trzymaj w vectorze loginów i równoległych tablicach: rozwiązane[z][k], proby[z][k], minuta[z][k]. Po wczytaniu policz liczbę zadań i karę, posortuj indeksy lambdą, wyznacz miejsca (to samo co poprzednik przy remisie wyniku) i dopiero wtedy szerokości kolumn — wszystkie wpisy zamień najpierw na napisy.",
+      "tests_count": 9
     }
   ]
 }

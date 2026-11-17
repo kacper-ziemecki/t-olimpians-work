@@ -1380,6 +1380,90 @@ const LEKCJE = [
             },
         ],
     },
+    {
+        temat: 'Input i Output (+)',
+        prefix: 'iop-',
+        plik: 'c++_logika/input-output-plus.html',
+        pliki: ['input-output-plus-cwiczenia-1.js', 'input-output-plus-cwiczenia-2.js', 'input-output-plus-cwiczenia-3.js', 'input-output-plus-baza.js'],
+        note: 'Lekcja o zaawansowanym wejściu i wyjściu: ile jest danych (n na początku, wartość kończąca, koniec danych i stan strumienia), ' +
+            'wiele testów w jednym wejściu, wypisywanie z separatorami i w równych kolumnach, czytanie znak po znaku (cin.get, peek, plansze), ' +
+            'całe wiersze z getline, rozbieranie wiersza (stringstream i składanie liczb z cyfr), polecenia różnych typów ' +
+            'oraz duże dane: bufor i endl, sync_with_stdio, generatory, sumy kontrolne i pliki.',
+        bazaOpisy: {
+            latwe: 'Jeden albo dwa pomysły naraz: lista obecności, rachunek z kropkami, tekst w lustrze, wc, histogram, pogoda dzień po dniu, ' +
+                'kody pocztowe, obrót planszy, szachownica w ramce i średnie ocen.',
+            srednie: 'Kilka sztuczek naraz: kółko i krzyżyk, kartka z kalendarza, tabela ligi, kalkulator z kolejnością działań, dziennik serwera, ' +
+                'tekst w ramce, słownik zamian, rozkład jazdy, kalendarz wydarzeń i biblioteka.',
+            trudne: 'Prawdziwe formaty z życia: macierz i lista w nawiasach, tabela w Markdownie, własna sprawdzarka, arkusz kalkulacyjny, ' +
+                'formatowanie kodu, CSV z cudzysłowami — a na końcu wielki finał: tabela wyników zawodów.',
+        },
+        kroki: [
+            {
+                nr: 1, kotwica: 'ile-danych', spis: 'Ile jest danych?',
+                nazwa: 'Krok 1 · Ile jest danych? n, znak końca i koniec danych',
+                kategoria: 'Input i Output (+) / krok 1: ile jest danych',
+                note: 'Trzy formaty wejścia: liczba n na początku, wartość kończąca (0, KONIEC, para 0 0) i dane do końca; cin jako warunek, ' +
+                    'co się dzieje na końcu danych i przy literze w miejscu liczby, cin.clear() i pułapka while (!cin.eof()).',
+            },
+            {
+                nr: 2, kotwica: 'wiele-testow', spis: 'Wiele testów w jednym wejściu',
+                nazwa: 'Krok 2 · Wiele testów w jednym wejściu',
+                kategoria: 'Input i Output (+) / krok 2: wiele testów',
+                note: 'while (t--), zmienne i kontenery tworzone w teście, doczytywanie całego testu, format Case #k i pusty wiersz między testami, ' +
+                    'testy aż do zera i czyszczenie tylko użytych liczników.',
+            },
+            {
+                nr: 3, kotwica: 'wypisywanie', spis: 'Wypisywanie z głową',
+                nazwa: 'Krok 3 · Wypisywanie z głową — separatory, kolumny i tabele',
+                kategoria: 'Input i Output (+) / krok 3: wypisywanie',
+                note: 'Separator między elementami, listy w nawiasach, k liczb w wierszu, odstępy co trzy cyfry, kolumny z setw o szerokości z danych, ' +
+                    'kropki ze setfill i tabela z ramką.',
+            },
+            {
+                nr: 4, kotwica: 'znak-po-znaku', spis: 'Znak po znaku',
+                nazwa: 'Krok 4 · Znak po znaku — cin.get, peek i plansze',
+                kategoria: 'Input i Output (+) / krok 4: znak po znaku',
+                note: 'cin >> c kontra cin.get(c), czytanie całego tekstu znak po znaku, plansze bez spacji, cyfry olbrzyma, liczba sklejona z literą, ' +
+                    'zaglądanie na następny znak przez cin.peek() i stos nawiasów.',
+            },
+            {
+                nr: 5, kotwica: 'wiersze', spis: 'Całe wiersze — getline',
+                nazwa: 'Krok 5 · Całe wiersze — getline od środka',
+                kategoria: 'Input i Output (+) / krok 5: getline',
+                note: 'while (getline(cin, s)) z pustymi wierszami, cin >> n, a potem getline (cin.ignore i ws), przeplatanie getline z >>, ' +
+                    'getline do wybranego znaku, akapity, wcięcia i drzewo katalogów.',
+            },
+            {
+                nr: 6, kotwica: 'rozbieranie', spis: 'Rozbieranie wiersza',
+                nazwa: 'Krok 6 · Rozbieramy wiersz — stringstream i liczby w tekście',
+                kategoria: 'Input i Output (+) / krok 6: rozbieranie wiersza',
+                note: 'stringstream z wiersza, liczby i słowa w wierszu, separatory w godzinach i punktach, kwoty z przecinkiem, ' +
+                    'składanie liczby z cyfr, działania w wierszach i rekordy klucz=wartość.',
+            },
+            {
+                nr: 7, kotwica: 'polecenia', spis: 'Polecenia różnych typów',
+                nazwa: 'Krok 7 · Polecenia różnych typów — każde z innymi danymi',
+                kategoria: 'Input i Output (+) / krok 7: polecenia',
+                note: 'Znak, słowo albo numer polecenia mówi, co wczytać dalej: licznik, robot, konto, lista zakupów na set, zapytania 1/2/3 na multisecie, ' +
+                    'edytor z cofaniem, notatnik z resztą wiersza i magazyn na vectorze par.',
+            },
+            {
+                nr: 8, kotwica: 'duze-dane', spis: 'Duże dane, bufor i pliki',
+                nazwa: 'Krok 8 · Duże dane — bufor, sync_with_stdio, generatory i pliki',
+                kategoria: 'Input i Output (+) / krok 8: duże dane',
+                note: 'Bufor i endl, sync_with_stdio(false) i cin.tie, przetwarzanie w locie, dane z generatora, suma kontrolna zamiast milionów wyników, ' +
+                    'budowanie wiersza w napisie, pytania o sumy przedziałów, a do tego pliki: freopen, ifstream i ofstream.',
+            },
+            {
+                nr: 9, kotwica: 'baza', spis: 'Baza zadań', baza: true,
+                nazwa: 'Baza zadań — podsumowanie tematu',
+                kategoria: 'Input i Output (+) / baza zadań',
+                note: 'Zadania na cały temat, od najłatwiejszego do najtrudniejszego: lista obecności, rachunek z kropkami, histogram, kody pocztowe, ' +
+                    'kółko i krzyżyk, kalendarz, tabela ligi, kalkulator z kolejnością działań, rozkład jazdy, macierz w nawiasach, tabela w Markdownie, ' +
+                    'własna sprawdzarka, arkusz kalkulacyjny, CSV z cudzysłowami — a na koniec wielki finał: tabela wyników zawodów.',
+            },
+        ],
+    },
 ];
 
 module.exports = { SITE, KATEGORIA, LEKCJE };

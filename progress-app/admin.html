@@ -32,6 +32,8 @@
     --violet-dim:rgba(167,139,250,0.13);
     --green:#34d399;
     --green-dim:rgba(52,211,153,0.13);
+    --pink:#e87ba4;                    /* materiały (filmy i artykuły) — jak na liście ucznia */
+    --pink-dim:rgba(232,123,164,0.13);
     --mono: "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     --sans: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     --display: "Syne", var(--sans);
@@ -228,12 +230,15 @@
   .tag.zadanie{background:var(--accent-dim);color:var(--accent-bright);}
   .tag.temat{background:var(--amber-dim);color:var(--amber);}
   .tag.kurs{background:var(--violet-dim);color:var(--violet);}
+  .tag.film,.tag.artykul{background:var(--pink-dim);color:var(--pink);}
   .courses{margin-top:18px;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;}
   .course{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:10px 12px;}
   .course-top{display:flex;justify-content:space-between;gap:10px;font-size:14px;margin-bottom:7px;}
   .course-top b{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .course-top span{flex:none;font-family:var(--mono);font-size:11.5px;color:var(--muted);}
   .course-next{font-size:12.5px;color:var(--muted);margin-top:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .course-counts{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-top:6px;line-height:1.45;}
+  .course-counts b{color:var(--text);font-weight:600;}
   .det-info{margin-top:18px;display:flex;flex-direction:column;gap:6px;font-size:13.5px;color:var(--muted);background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px 14px;}
   .det-info > div{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;}
   .det-info .k{flex:none;width:64px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted-2);}
@@ -357,7 +362,7 @@
           <option value="name">Imię</option>
         </select>
       </div>
-      <div class="chart-wrap"><canvas id="allChart" aria-label="Ukończone zadania i tematy wszystkich uczniów w ostatnich 14 dniach"></canvas></div>
+      <div class="chart-wrap"><canvas id="allChart" aria-label="Ukończone zadania, materiały i tematy wszystkich uczniów w ostatnich 14 dniach"></canvas></div>
       <div class="students" id="students"><div class="empty">Ładowanie…</div></div>
     </section>
 
@@ -396,6 +401,7 @@ import {
   studentCollection, legacyCollection, itemsCollectionOf, profileRef, panelIdFromKey, panelCollection,
   panelMetaRef, newAdminKey, savedPanelId, savePanelId, forgetPanelId, handOffPreview, PREVIEW_URL
 } from "/progress-app/uczniowie.js";
+import { KIND_CAT, KIND_LABEL, completionEvents, courseProgress } from "/progress-app/postep.js";
 
 /* ═══════════════════════════════════════════════════════════════════════════
    Panel admina listy postępów.
@@ -521,31 +527,21 @@ function ask({ title, html = "", ok = "OK", danger = false, input = null, confir
   });
 }
 
-/* ═══ KURSY Z PLANERA — te same reguły co na liście ucznia (index.html) ═══ */
-const pkKey = {
-  task: s => "z|" + s.id,
-  topic: s => "t|" + s.id,
-  mat: (s, k) => "m|" + s.id + "|" + k
-};
-const pkSteps = item => (item.plan && Array.isArray(item.plan.steps)) ? item.plan.steps : [];
-function pkStepDone(s, kp){
-  if(s.type === "zadanie") return !!kp[pkKey.task(s)];
-  const mats = s.materials || [];
-  return mats.length ? mats.every((m, k) => kp[pkKey.mat(s, k)]) : !!kp[pkKey.topic(s)];
-}
-function pkStepTime(s, kp){
-  if(!pkStepDone(s, kp)) return null;
-  const mats = s.materials || [];
-  const keys = s.type === "zadanie" ? [pkKey.task(s)] : mats.length ? mats.map((m, k) => pkKey.mat(s, k)) : [pkKey.topic(s)];
-  const t = Math.max(...keys.map(k => typeof kp[k] === "number" ? kp[k] : 0));
-  return t || null;
-}
+/* ═══ KURSY — te same reguły co na liście ucznia (postep.js) ═══
+   Mini kursy z kompendium potrzebują jego treści (/network-data.json): tytuły odhaczonych filmów i artykułów,
+   liczby do kart kursów. Dopóki się wczytuje, ukończenia z mini kursów mają tytuły z samych kluczy. */
+let komp = null;                     // null = wczytywanie, false = błąd, tablica = dane kompendium
+fetch("/network-data.json")
+  .then(r => { if(!r.ok) throw new Error(r.status); return r.json(); })
+  .then(d => { komp = Array.isArray(d) ? d : false; })
+  .catch(e => { komp = false; console.error("Nie udało się wczytać kompendium:", e); })
+  .finally(() => { if(panelId) scheduleRender(); });
 
-/* Statystyki jednego ucznia. „Ukończenia” (events) liczymy tak jak wykres na jego liście:
-   zwykłe zadanie/temat w chwili odhaczenia, a z kursu — każdy ukończony krok osobno. */
+/* Statystyki jednego ucznia. „Ukończenia” (events) liczymy tak jak wykres na jego liście (postep.js):
+   zwykłe zadanie/temat w chwili odhaczenia, a z kursów — każde odhaczone zadanie, film i artykuł osobno. */
 function studentStats(items){
   const st = { total: items.length, done: 0, z: [0, 0], t: [0, 0], k: [0, 0], steps: [0, 0],
-               last: 0, week: 0, days: new Array(14).fill(0), events: [], open: [], courses: [] };
+               last: 0, week: 0, days: new Array(14).fill(0), events: completionEvents(items, komp), open: [], courses: [] };
   const now = Date.now();
   for(const i of items){
     const bucket = i.type === "zadanie" ? st.z : i.type === "kurs" ? st.k : st.t;
@@ -554,22 +550,13 @@ function studentStats(items){
     st.last = Math.max(st.last, num(i.createdAt), num(i.doneAt));
     const kp = (i.kp && typeof i.kp === "object") ? i.kp : {};
     for(const v of Object.values(kp)) st.last = Math.max(st.last, num(v));
-    if(i.type === "kurs"){
-      const steps = pkSteps(i);
-      let sDone = 0, next = null;
-      for(const s of steps){
-        st.steps[1]++;
-        if(pkStepDone(s, kp)){
-          sDone++; st.steps[0]++;
-          const t = pkStepTime(s, kp);
-          if(t) st.events.push({ t, type: s.type === "zadanie" ? "zadanie" : "temat", title: s.title || "(bez nazwy)", from: i.title });
-        }else if(!next) next = s;
-      }
-      st.courses.push({ title: i.title || "Kurs", sDone, sAll: steps.length, next });
-    }else if(i.done && i.doneAt){
-      st.events.push({ t: num(i.doneAt), type: i.type === "zadanie" ? "zadanie" : "temat", title: i.title || "(bez nazwy)" });
-    }
+    const c = courseProgress(i, komp);
+    if(!c) continue;
+    st.courses.push(c);
+    if(c.steps){ st.steps[0] += c.steps[0]; st.steps[1] += c.steps[1]; }
   }
+  // kursy w toku (ostatnio ruszane) wyżej, ukończone na końcu
+  st.courses.sort((a, b) => (a.complete - b.complete) || (b.last - a.last));
   st.events.sort((a, b) => b.t - a.t);
   for(const e of st.events){
     const k = daysAgo(e.t);
@@ -708,7 +695,8 @@ function renderSummary(list){
 function renderChart(list){
   const canvas = $("#allChart");
   if(typeof Chart === "undefined" || !canvas) return;
-  const labels = [], z = new Array(14).fill(0), t = new Array(14).fill(0);
+  const labels = [], z = new Array(14).fill(0), m = new Array(14).fill(0), t = new Array(14).fill(0);
+  const series = { zadanie: z, material: m, temat: t };
   for(let i = 13; i >= 0; i--){
     const d = new Date();
     d.setHours(0, 0, 0, 0);
@@ -720,13 +708,14 @@ function renderChart(list){
     for(const e of s.st.events){
       const k = daysAgo(e.t);
       if(k < 0 || k > 13) continue;
-      (e.type === "zadanie" ? z : t)[13 - k]++;
+      (series[KIND_CAT[e.kind]] || t)[13 - k]++;
     }
   }
   const data = {
     labels,
     datasets: [
       { label: "Zadania", data: z, backgroundColor: "rgba(59,130,246,0.8)", borderRadius: 4, stack: "s" },
+      { label: "Materiały", data: m, backgroundColor: "rgba(232,123,164,0.85)", borderRadius: 4, stack: "s" },
       { label: "Tematy", data: t, backgroundColor: "rgba(245,185,77,0.85)", borderRadius: 4, stack: "s" }
     ]
   };
@@ -774,6 +763,27 @@ function whereText(e){
   return "kolekcja ucznia chroniona haszem";
 }
 
+/* karta kursu w szczegółach ucznia: pasek rusza się przy każdym odhaczeniu (zadania, filmy, artykuły) */
+function courseHTML(c){
+  const n = ([d, a]) => `<b>${d}/${a}</b>`;
+  const bits = [];
+  if(c.steps) bits.push("kroki " + n(c.steps));
+  if(c.z[1]) bits.push("zadania " + n(c.z));
+  if(c.f[1]) bits.push("filmy " + n(c.f));
+  if(c.a[1]) bits.push("artykuły " + n(c.a));
+  if(c.last) bits.push("ostatnio " + esc(fmtAgo(c.last)));
+  const next = c.complete ? (c.via === "kurs" ? "🎉 kurs ukończony" : "🎉 wszystko odhaczone")
+    : c.next ? (c.via === "kurs" ? "Następny krok: " : "Następne zagadnienie: ") + esc(c.next)
+    : c.all ? "" : "kurs bez kroków";
+  return `
+          <div class="course">
+            <div class="course-top"><b title="${esc(c.title)}">${esc(c.title)}</b><span>${esc(c.via)} · ${c.pct}%</span></div>
+            <div class="bar"><div class="fill" style="width:${c.pct}%"></div></div>
+            <div class="course-counts">${bits.join(" · ")}</div>
+            ${next ? `<div class="course-next">${next}</div>` : ""}
+          </div>`;
+}
+
 function studentHTML({ hash, e, sub, st }){
   const name = String(e.name || "Uczeń");
   const open = openRows.has(hash);
@@ -811,8 +821,8 @@ function studentHTML({ hash, e, sub, st }){
             <h3>Ostatnio ukończone</h3>
             <ul class="ev">${ev.length ? ev.map(x => `<li>
               <span class="ev-when">${esc(fmtAgo(x.t))}</span>
-              <span class="tag ${x.type}">${x.type}</span>
-              <span class="ev-title" title="${esc(x.title)}">${esc(x.title)}${x.from ? `<small> · kurs „${esc(x.from)}”</small>` : ""}</span>
+              <span class="tag ${x.kind}">${KIND_LABEL[x.kind] || x.kind}</span>
+              <span class="ev-title" title="${esc(x.title)}">${esc(x.title)}${x.from ? `<small> · ${esc(x.via || "kurs")} „${esc(x.from)}”</small>` : ""}</span>
             </li>`).join("") : `<li class="none">jeszcze nic</li>`}</ul>
           </section>
           <section>
@@ -823,12 +833,7 @@ function studentHTML({ hash, e, sub, st }){
             </li>`).join("") + (st.open.length > todo.length ? `<li class="none">…i jeszcze ${st.open.length - todo.length}</li>` : "") : `<li class="none">${st ? "wszystko zrobione 🎉" : "…"}</li>`}</ul>
           </section>
         </div>
-        ${st && st.courses.length ? `<div class="courses">${st.courses.map(c => `
-          <div class="course">
-            <div class="course-top"><b title="${esc(c.title)}">${esc(c.title)}</b><span>kroki ${c.sDone}/${c.sAll}</span></div>
-            <div class="bar"><div class="fill" style="width:${c.sAll ? Math.round(c.sDone / c.sAll * 100) : 0}%"></div></div>
-            <div class="course-next">${c.next ? "Następny krok: " + esc(c.next.title || "(bez nazwy)") : c.sAll ? "🎉 kurs ukończony" : "kurs bez kroków"}</div>
-          </div>`).join("")}</div>` : ""}
+        ${st && st.courses.length ? `<div class="courses">${st.courses.map(courseHTML).join("")}</div>` : ""}
         <div class="det-info">
           <div><span class="k">Hasz</span><span class="v"><code>${formatHash(hash)}</code>
             <button type="button" class="link" data-act="copy">kopiuj</button>

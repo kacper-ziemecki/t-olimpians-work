@@ -30,6 +30,8 @@
     --danger-dim:rgba(242,102,90,0.12);
     --violet:#a78bfa;
     --violet-dim:rgba(167,139,250,0.13);
+    --pink:#e87ba4;                    /* materiały (filmy i artykuły) — trzecia seria wykresu */
+    --pink-dim:rgba(232,123,164,0.13);
     --mono: "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     --sans: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     --display: "Syne", var(--sans);
@@ -336,6 +338,7 @@
   }
   .tag.zadanie{background:var(--accent-dim);color:var(--accent-bright);}
   .tag.temat{background:var(--amber-dim);color:var(--amber);}
+  .tag.film,.tag.artykul{background:var(--pink-dim);color:var(--pink);}
   .tag.source{background:var(--panel);color:var(--muted);border:1px solid var(--border);}
   .item-link{
     display:block;
@@ -449,9 +452,16 @@
   .mk-player-frame{position:relative;width:100%;max-width:760px;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#000;border:1px solid var(--border);}
   .mk-player-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
   .mk-player-ext{display:flex;flex-direction:column;align-items:flex-start;gap:8px;max-width:760px;padding:16px;border:1px solid var(--border);border-radius:10px;background:var(--panel);}
-  .mk-player-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;max-width:760px;margin-top:6px;font-size:13px;color:var(--muted);}
+  .mk-player-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px 10px;max-width:760px;margin-top:6px;font-size:13px;color:var(--muted);}
+  .mk-player-bar > span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .mk-player-btns{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto;}
   .mk-player-bar button{background:transparent;border:1px solid var(--border);color:var(--muted);font-size:12.5px;padding:5px 11px;border-radius:100px;flex-shrink:0;}
   .mk-player-bar button:hover{color:var(--text);border-color:var(--border-accent);}
+  /* „Oznacz jako obejrzany” pod grającym filmem */
+  .mk-player-bar button.mk-pwatch{color:var(--accent-bright);border-color:var(--border-accent);background:var(--accent-dim);}
+  .mk-player-bar button.mk-pwatch:hover{background:var(--accent);border-color:var(--accent);color:#fff;}
+  .mk-player-bar button.mk-pwatch.on{color:#34d399;border-color:rgba(52,211,153,.45);background:rgba(52,211,153,.12);}
+  .mk-player-bar button.mk-pwatch.on:hover{color:var(--danger);border-color:rgba(242,102,90,.5);background:var(--danger-dim);}
 
   .mk-sec{border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--panel);margin-bottom:8px;overflow:hidden;}
   .mk-sec.done{border-color:rgba(52,211,153,0.35);}
@@ -472,12 +482,11 @@
   .mk-video{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;background:var(--panel-3);border:1px solid var(--border);margin-bottom:6px;cursor:pointer;transition:border-color .15s ease,background .15s ease;}
   .mk-video:hover{border-color:var(--border-accent);background:var(--accent-dim);}
   .mk-video.playing{border-color:var(--accent);background:var(--accent-dim);}
-  .mk-vicon{flex-shrink:0;width:26px;height:26px;border-radius:50%;padding:0;display:flex;align-items:center;justify-content:center;font-size:10px;line-height:1;
-    background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);}
-  .mk-vicon:hover{background:var(--accent);border-color:var(--accent-bright);color:#fff;}
-  .mk-video.watched .mk-vicon{background:rgba(52,211,153,.14);border-color:rgba(52,211,153,.4);color:#34d399;font-size:12px;}
-  .mk-video.watched .mk-vicon:hover{background:rgba(242,102,90,.16);border-color:rgba(242,102,90,.5);color:var(--danger);font-size:0;}
-  .mk-video.watched .mk-vicon:hover::after{content:"✕";font-size:11px;}
+  /* film: kwadracik „obejrzany” (jak przy zadaniach), kółko ▶ i tytuł — kliknięcie wiersza odtwarza film */
+  .mk-video .mk-check{flex:none;}
+  .mk-vplay{flex:none;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;line-height:1;
+    background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent-bright);transition:background .15s ease,color .15s ease;}
+  .mk-video:hover .mk-vplay,.mk-video.playing .mk-vplay{background:var(--accent);border-color:var(--accent-bright);color:#fff;}
   .mk-vtext{flex:1;min-width:0;display:flex;flex-direction:column;}
   .mk-vtitle{font-size:14px;}
   .mk-video.watched .mk-vtitle{color:var(--muted);}
@@ -736,6 +745,23 @@
   .st-src-n{font-family:var(--mono);font-size:11.5px;color:var(--muted);white-space:nowrap;}
   .st-src-n b{color:var(--text);font-weight:600;}
   .st-none{color:var(--muted-2);font-size:13.5px;font-style:italic;}
+  /* panel „Kursy”: postęp każdego kursu i mini kursu — kliknięcie otwiera kurs na liście */
+  .st-panel.wide{grid-column:1 / -1;}
+  .st-courses{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:8px;}
+  .st-course{display:flex;flex-direction:column;gap:6px;width:100%;min-width:0;text-align:left;font:inherit;color:var(--text);
+    background:var(--panel-3);border:1px solid var(--border);border-radius:10px;padding:10px 12px;cursor:pointer;}
+  .st-course:hover{border-color:var(--border-accent);transform:none;}
+  .st-course:active{transform:translateY(1px);}
+  .st-course-top{display:flex;align-items:center;gap:8px;min-width:0;}
+  .st-course-top b{flex:1;min-width:0;font-size:14px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .st-course-top .tag{flex:none;font-size:10.5px;padding:1px 7px;}
+  .st-course-pct{flex:none;font-family:var(--mono);font-size:12px;color:var(--muted);}
+  .st-course.complete .st-course-pct{color:#34d399;}
+  .st-course-bar{height:6px;border-radius:99px;background:var(--panel);overflow:hidden;}
+  .st-course-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--accent),#34d399);transition:width .5s cubic-bezier(.16,1,.3,1);}
+  .st-course-meta{font-family:var(--mono);font-size:11.5px;color:var(--muted);line-height:1.45;}
+  .st-course-meta b{color:var(--text);font-weight:600;}
+  .st-more{grid-column:1 / -1;color:var(--muted-2);font-size:13px;}
 </style>
 </head>
 <body>
@@ -851,8 +877,8 @@
     </div>
     <div class="st-kpis" id="stKpis"></div>
     <div class="st-chart">
-      <canvas id="statsChart" role="img" aria-label="Wykres ukończonych zadań i tematów"></canvas>
-      <div class="st-chart-empty" id="stEmpty" hidden>Odhacz pierwsze zadanie albo temat — tu narysuje się Twój postęp.</div>
+      <canvas id="statsChart" role="img" aria-label="Wykres ukończonych zadań, materiałów i tematów"></canvas>
+      <div class="st-chart-empty" id="stEmpty" hidden>Odhacz pierwsze zadanie, film albo temat — tu narysuje się Twój postęp.</div>
     </div>
     <div class="st-panels">
       <div class="st-panel">
@@ -862,6 +888,10 @@
       <div class="st-panel">
         <div class="st-panel-h"><span>Skąd zadania</span><small id="stSrcNote"></small></div>
         <div class="st-src" id="stSrc"></div>
+      </div>
+      <div class="st-panel wide" id="stCoursesPanel" hidden>
+        <div class="st-panel-h"><span>Kursy</span><small id="stCoursesNote"></small></div>
+        <div class="st-courses" id="stCourses"></div>
       </div>
     </div>
   </section>
@@ -887,6 +917,10 @@ import {
   db, PROFILE_ID, parseHash, formatHash, profileRef, fetchProfile, itemsCollectionOf,
   savedStudentHash, saveStudentHash, forgetStudentHash, takePreviewHash, endPreview
 } from "/progress-app/uczniowie.js";
+import {
+  KIND_CAT, KIND_LABEL, kParseLink, itemKompRef, kResolve, kVideoKey, kTaskKey, kLinkKey, kSecStats, kStats,
+  pkKey, pkSteps, pkStepDone, pkStats, completionEvents as allCompletionEvents, courseProgress
+} from "/progress-app/postep.js";
 
 /* Jedna strona dla wszystkich uczniów (zamiast kopii gryglo.html, pankubix_79997.html…):
    uczeń wpisuje swój hasz, a itemsCol wskazuje kolekcję z jego listą (patrz uczniowie.js).
@@ -1082,10 +1116,10 @@ function render(items){
 /* ═══ KOMPENDIUM ═══
    Link skopiowany z kompendium (net.html) ma postać …/net#temat=<kategoria>/<temat>[/<zagadnienie>].
    Po wklejeniu strona sama rozpoznaje temat / zagadnienie, a na liście pokazuje go jako mini kurs:
-   filmy i zadania do odhaczania (i odznaczania), jak w kursie LOGIA na stronie Konkursy.
-   Postęp trzymany jest w Firestore w polu kp elementu, więc widać go na każdym urządzeniu. */
+   filmy, materiały do przeczytania i zadania do odhaczania (i odznaczania), jak w kursie LOGIA na stronie Konkursy.
+   Postęp trzymany jest w Firestore w polu kp elementu (klucz → czas odhaczenia), więc widać go na każdym
+   urządzeniu i każde odhaczenie trafia do statystyki. Reguły i klucze: postep.js. */
 const KOMP_LEVELS = { latwe: "łatwe", srednie: "średnie", trudne: "trudne" };
-const KOMP_VIDEO_HOSTS = /youtube\.com|youtu\.be|vimeo\.com|dailymotion\.com/i;
 const KOMP_PLATFORMS = [
   [/codeforces\.com/i, "Codeforces"], [/szkopul\.edu\.pl/i, "Szkopuł"], [/(main|oi|solve)\.edu\.pl|sio2/i, "OI"],
   [/atcoder\.jp/i, "AtCoder"], [/cses\.fi/i, "CSES"], [/spoj\.com/i, "SPOJ"], [/leetcode\.com/i, "LeetCode"],
@@ -1103,7 +1137,15 @@ fetch("/network-data.json")
   .then(r => { if(!r.ok) throw new Error(r.status); return r.json(); })
   .then(d => { kompData = Array.isArray(d) ? d : false; })
   .catch(e => { kompData = false; console.error("Nie udało się wczytać kompendium:", e); })
-  .finally(() => { lastListSig = listSig(currentItems); render(currentItems); kompUpdatePreview(); });
+  .finally(() => {
+    lastListSig = listSig(currentItems);
+    render(currentItems);
+    kompUpdatePreview();
+    // dopiero z kompendium wiadomo, czym są odhaczenia mini kursów (tytuły, linki zadań, liczby w panelu „Kursy”)
+    if(itemsLoaded){ renderStats(currentItems); renderHeatmap(currentItems); }
+  });
+const kRes = ref => kResolve(ref, kompData);
+const completionEvents = items => allCompletionEvents(items, kompData);
 
 function esc(str){
   return String(str ?? "").replace(/[&<>"']/g, ch => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[ch]));
@@ -1113,95 +1155,12 @@ function plural(n, one, few, many){
   const d = n % 10, s = n % 100;
   return (d >= 2 && d <= 4 && (s < 12 || s > 14)) ? few : many;
 }
-/* musi dawać to samo co tdxSlug() w net.html */
-function kSlug(str){
-  const from = "ąćęłńóśźżĄĆĘŁŃÓŚŹŻ", to = "acelnoszzACELNOSZZ";
-  let s = String(str || "").replace(/[ąćęłńóśźżĄĆĘŁŃÓŚŹŻ]/g, c => to[from.indexOf(c)]);
-  return s.normalize("NFD").replace(/[̀-ͯ]/g, "")
-          .toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
-}
-
-function kParseLink(text){
-  const str = String(text || "").trim();
-  const at = str.indexOf("#temat=");
-  if(at < 0) return null;
-  let h = str.slice(at);
-  try{ h = decodeURIComponent(h); }catch(e){}
-  const m = h.match(/^#temat=([^/\s]+)\/([^/\s]+)(?:\/([^\s]+))?$/);
-  return m ? { cat: m[1], topic: m[2], sec: m[3] || null } : null;
-}
-function itemKompRef(item){
-  if(item.komp && item.komp.cat && item.komp.topic) return item.komp;
-  return kParseLink(item.url);
-}
-
-/* ─ normalizacja danych — tak samo jak w net.html (getTopicViewSections) ─ */
-function kVideos(videos){
-  if(!Array.isArray(videos)) return [];
-  return videos
-    .map(v => typeof v === "string" ? { title: "", url: v } : { title: v.title || v.label || "", url: v.url || "", author: v.author || "", duration: v.duration || "" })
-    .filter(v => v.url || v.title)
-    .map(v => ({ ...v, title: v.title || v.url }));
-}
-function kTasks(tasks){
-  if(!tasks) return [];
-  const arr = Array.isArray(tasks) ? tasks : String(tasks).split(",").map(s => s.trim()).filter(Boolean);
-  return arr.map(t => typeof t === "string"
-      ? { name: t, url: "" }
-      : { name: t.name || "", url: t.url || "", platform: t.platform || "", level: t.level || "", hint: t.hint || "", solution: t.solution || "" })
-    .filter(t => t.name);
-}
-function kLinks(links){
-  return (links || []).map(l => ({ label: l.label || "", url: l.url || "" })).filter(l => l.label || l.url);
-}
-function kSections(topic){
-  const secs = (Array.isArray(topic.sections) ? topic.sections : []).map((s, i) => ({
-    name: (s && s.name) || ("Zagadnienie " + (i + 1)),
-    note: (s && s.note) || "",
-    videos: kVideos(s && s.videos),
-    links: kLinks(s && s.links),
-    tasks: kTasks(s && s.tasks)
-  }));
-  const gen = kLinks(topic.links), genTasks = kTasks(topic.tasks);
-  const genVideos = kVideos(gen.filter(l => KOMP_VIDEO_HOSTS.test(l.url)));
-  const genLinks = gen.filter(l => !KOMP_VIDEO_HOSTS.test(l.url));
-  if(genVideos.length || genLinks.length || genTasks.length){
-    secs.push({ name: secs.length ? "Materiały ogólne" : "Materiały i zadania", note: "", videos: genVideos, links: genLinks, tasks: genTasks });
-  }
-  return secs;
-}
-
-/* ref -> { catName, topicName, note, sections, secIndex, shown[] } albo { error } */
-function kResolve(ref){
-  if(kompData === null) return { loading: true };
-  if(!kompData) return { error: "Nie udało się wczytać kompendium." };
-  const cat = kompData.find(c => kSlug(c.cat) === ref.cat);
-  if(!cat) return { error: "Nie ma już takiej kategorii w kompendium." };
-  const raw = (cat.topics || []).find(t => kSlug(typeof t === "string" ? t : t.name) === ref.topic);
-  if(!raw) return { error: "Nie ma już takiego tematu w kompendium." };
-  const topic = typeof raw === "string" ? { name: raw } : raw;
-  const sections = kSections(topic);
-  let secIndex = -1;
-  if(ref.sec){
-    secIndex = sections.findIndex(s => kSlug(s.name) === ref.sec);
-    if(secIndex < 0 && /^\d+$/.test(ref.sec)) secIndex = parseInt(ref.sec, 10) - 1;
-    if(secIndex < 0 || secIndex >= sections.length) return { error: "Nie ma już takiego zagadnienia w temacie „" + topic.name + "”." };
-  }
-  return {
-    catName: cat.cat, topicName: topic.name, note: topic.note || "",
-    sections, secIndex,
-    shown: secIndex > -1 ? [secIndex] : sections.map((_, i) => i)
-  };
-}
 function kTitle(res){
   return res.secIndex > -1 ? res.topicName + " — " + res.sections[res.secIndex].name : res.topicName;
 }
 function kLink(ref){
   return location.origin + "/net#temat=" + ref.cat + "/" + ref.topic + (ref.sec ? "/" + ref.sec : "");
 }
-
-function kVideoKey(sec, v){ return "v|" + sec.name + "|" + (v.title || v.url); }
-function kTaskKey(sec, t){ return "t|" + sec.name + "|" + t.name; }
 
 function kEmbedUrl(url){
   const u = String(url || "").trim();
@@ -1224,29 +1183,22 @@ function kPlatform(t){
   try{ return new URL(t.url).hostname.replace(/^www\./, ""); }catch(e){ return ""; }
 }
 
-function kSecStats(sec, kp){
-  const vDone = sec.videos.filter(v => kp[kVideoKey(sec, v)]).length;
-  const tDone = sec.tasks.filter(t => kp[kTaskKey(sec, t)]).length;
-  return { vDone, vAll: sec.videos.length, tDone, tAll: sec.tasks.length };
-}
-function kStats(res, kp){
-  const out = { vDone: 0, vAll: 0, tDone: 0, tAll: 0 };
-  res.shown.forEach(i => {
-    const s = kSecStats(res.sections[i], kp);
-    out.vDone += s.vDone; out.vAll += s.vAll; out.tDone += s.tDone; out.tAll += s.tAll;
-  });
-  return out;
+/* liczniki mini kursu / zagadnienia: „filmy 1/3 · artykuły 0/2 · zadania 2/5” (b = pogrubione liczby) */
+function kCountBits(st, b){
+  const n = (d, a) => b ? `<b>${d}/${a}</b>` : d + "/" + a;
+  const bits = [];
+  if(st.vAll) bits.push("filmy " + n(st.vDone, st.vAll));
+  if(st.lAll) bits.push("artykuły " + n(st.lDone, st.lAll));
+  if(st.tAll) bits.push("zadania " + n(st.tDone, st.tAll));
+  return bits;
 }
 function kSecMeta(st){
-  const bits = [];
-  if(st.vAll) bits.push("filmy " + st.vDone + "/" + st.vAll);
-  if(st.tAll) bits.push("zadania " + st.tDone + "/" + st.tAll);
-  return bits.join(" · ") || "materiały";
+  return kCountBits(st, false).join(" · ") || "materiały";
 }
 
 /* Karta elementu: ścieżka w kompendium, pasek postępu, przycisk i sam mini kurs */
 function kompDecorate(item, ref, body, row){
-  const res = kResolve(ref);
+  const res = kRes(ref);
   const path = document.createElement("div");
   path.className = "komp-path";
   const href = item.url || kLink(ref);
@@ -1282,7 +1234,7 @@ function kBuildCourse(item, res){
   if(!mkSecOpen.has(id)){
     // domyślnie: zagadnienie z linku albo pierwsze niedokończone
     const kp = item.kp || {};
-    const first = res.shown.find(i => { const s = kSecStats(res.sections[i], kp); return s.vDone < s.vAll || s.tDone < s.tAll; });
+    const first = res.shown.find(i => { const s = kSecStats(res.sections[i], kp); return s.done < s.all; });
     mkSecOpen.set(id, new Set([first ?? res.shown[0]]));
   }
   const openSecs = mkSecOpen.get(id);
@@ -1308,16 +1260,20 @@ function kBuildCourse(item, res){
         </div>
         <div class="mk-sec-body">
           ${s.note ? `<div class="mk-sec-note">${esc(s.note)}</div>` : ""}
-          ${s.videos.length ? `<div class="mk-label">Filmy — kliknij kółko, żeby oznaczyć / odznaczyć obejrzane</div>` : ""}
+          ${s.videos.length ? `<div class="mk-label">Filmy — kliknij film, żeby go odtworzyć; kwadracik ✓ = obejrzany</div>` : ""}
           ${s.videos.map((v, vi) => {
             const sub = [v.author, v.duration].filter(Boolean).join(" · ");
-            return `<div class="mk-video" data-mk="play" data-v="${vi}" role="button" tabindex="0">
-              <button type="button" class="mk-vicon" data-mk="watch" data-v="${vi}"></button>
+            return `<div class="mk-video" data-mk="play" data-v="${vi}" role="button" tabindex="0" title="Odtwórz film">
+              <button type="button" class="mk-check" data-mk="watch" data-v="${vi}">✓</button>
+              <span class="mk-vplay" aria-hidden="true">▶</span>
               <span class="mk-vtext"><span class="mk-vtitle">${esc(v.title)}</span>${sub ? `<span class="mk-vsub">${esc(sub)}</span>` : ""}</span>
             </div>`;
           }).join("")}
-          ${s.links.length ? `<div class="mk-label">Materiały</div><div>${s.links.map(l =>
-            `<a class="mk-link" href="${esc(l.url || "#")}" target="_blank" rel="noopener noreferrer">${esc(l.label || l.url)} ↗</a>`).join("")}</div>` : ""}
+          ${s.links.length ? `<div class="mk-label">Do przeczytania — odhacz, gdy przeczytasz</div>
+          <table class="mk-tasks"><tbody>${s.links.map((l, li) => `<tr data-l="${li}">
+              <td class="mk-c"><button type="button" class="mk-check" data-mk="link" data-l="${li}">✓</button></td>
+              <td class="mk-tname">${l.url ? `<a href="${esc(l.url)}" target="_blank" rel="noopener noreferrer">${esc(l.label || l.url)} ↗</a>` : `<span>${esc(l.label)}</span>`}</td>
+            </tr>`).join("")}</tbody></table>` : ""}
           ${s.tasks.length ? `<div class="mk-label">Zadania</div>
           <table class="mk-tasks"><tbody>${s.tasks.map((t, ti) => {
             const plat = kPlatform(t);
@@ -1353,8 +1309,27 @@ function kRenderPlayer(id, mk){
   box.innerHTML = (embed
       ? `<div class="mk-player-frame"><iframe src="${esc(embed)}" title="${esc(v.title)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>`
       : `<div class="mk-player-ext"><b>${esc(v.title)}</b><span class="mk-vsub">Tego materiału nie da się osadzić na stronie.</span><a class="mk-link" href="${esc(v.url)}" target="_blank" rel="noopener noreferrer">Otwórz materiał ↗</a></div>`)
-    + `<div class="mk-player-bar"><span>▶ ${esc(v.title)}</span><button type="button" data-mk="closeplayer">✕ Zamknij film</button></div>`;
+    + `<div class="mk-player-bar"><span>▶ ${esc(v.title)}</span><span class="mk-player-btns">
+        <button type="button" class="mk-pwatch" data-mk="pwatch"></button>
+        <button type="button" data-mk="closeplayer">✕ Zamknij film</button></span></div>`;
   box.classList.add("visible");
+}
+
+/* przycisk pod grającym filmem: „Oznacz jako obejrzany” ↔ „✓ Obejrzany” */
+function setPlayerWatch(box, on){
+  const b = box && box.querySelector(".mk-pwatch");
+  if(!b) return;
+  b.classList.toggle("on", on);
+  b.textContent = on ? "✓ Obejrzany" : "Oznacz jako obejrzany";
+  b.title = on ? "Film oznaczony jako obejrzany — kliknij, aby odznaczyć" : "Liczy się do statystyki";
+  b.setAttribute("aria-pressed", on ? "true" : "false");
+}
+/* kwadracik przy filmie / artykule / zadaniu */
+function setCheck(b, on, onTitle, offTitle){
+  if(!b) return;
+  b.classList.toggle("on", on);
+  b.title = on ? onTitle + " — kliknij, aby odznaczyć" : offTitle;
+  b.setAttribute("aria-pressed", on ? "true" : "false");
 }
 
 /* Odświeża stan (obejrzane / zrobione / liczniki) bez przebudowy DOM */
@@ -1369,53 +1344,51 @@ function kompRefresh(item){
     const si = +secEl.dataset.s, sec = res.sections[si];
     const st = kSecStats(sec, kp);
     secEl.querySelector(".mk-sec-meta").textContent = kSecMeta(st);
-    secEl.classList.toggle("done", (st.vAll + st.tAll) > 0 && st.vDone === st.vAll && st.tDone === st.tAll);
+    secEl.classList.toggle("done", st.all > 0 && st.done === st.all);
     secEl.querySelectorAll(".mk-video").forEach(el => {
       const vi = +el.dataset.v, on = !!kp[kVideoKey(sec, sec.videos[vi])];
       el.classList.toggle("watched", on);
       el.classList.toggle("playing", !!p && p.s === si && p.v === vi);
-      const ic = el.querySelector(".mk-vicon");
-      ic.textContent = on ? "✓" : "▶";
-      ic.title = on ? "Obejrzane — kliknij, aby odznaczyć" : "Kliknij, aby oznaczyć jako obejrzane";
-      ic.setAttribute("aria-pressed", on ? "true" : "false");
+      setCheck(el.querySelector(".mk-check"), on, "Obejrzany", "Oznacz jako obejrzany");
+    });
+    secEl.querySelectorAll("tr[data-l]").forEach(tr => {
+      const on = !!kp[kLinkKey(sec, sec.links[+tr.dataset.l])];
+      tr.classList.toggle("done", on);
+      setCheck(tr.querySelector(".mk-check"), on, "Przeczytane", "Oznacz jako przeczytane");
     });
     secEl.querySelectorAll("tr[data-t]").forEach(tr => {
-      const ti = +tr.dataset.t, on = !!kp[kTaskKey(sec, sec.tasks[ti])];
+      const on = !!kp[kTaskKey(sec, sec.tasks[+tr.dataset.t])];
       tr.classList.toggle("done", on);
-      const b = tr.querySelector(".mk-check");
-      b.classList.toggle("on", on);
-      b.title = on ? "Zrobione — kliknij, aby odznaczyć" : "Oznacz jako zrobione";
-      b.setAttribute("aria-pressed", on ? "true" : "false");
+      setCheck(tr.querySelector(".mk-check"), on, "Zrobione", "Oznacz jako zrobione");
     });
   });
+  const pv = p && res.sections[p.s] && res.sections[p.s].videos[p.v];
+  if(pv) setPlayerWatch(mk.querySelector(".mk-player"), !!kp[kVideoKey(res.sections[p.s], pv)]);
 
   const st = kStats(res, kp);
-  const all = st.vAll + st.tAll, done = st.vDone + st.tDone;
   const fill = row.querySelector(".komp-bar-fill");
-  if(fill) fill.style.width = (all ? Math.round(done / all * 100) : 0) + "%";
+  if(fill) fill.style.width = (st.all ? Math.round(st.done / st.all * 100) : 0) + "%";
   const txt = row.querySelector(".komp-sum-text");
-  if(txt){
-    const bits = [];
-    if(st.vAll) bits.push(`filmy <b>${st.vDone}/${st.vAll}</b>`);
-    if(st.tAll) bits.push(`zadania <b>${st.tDone}/${st.tAll}</b>`);
-    txt.innerHTML = bits.join(" · ") || "brak filmów i zadań";
-  }
+  if(txt) txt.innerHTML = kCountBits(st, true).join(" · ") || "brak filmów, artykułów i zadań";
 }
 
+/* Odhaczenie w mini kursie: klucz → czas odhaczenia (dawniej true), więc każde trafia do statystyki */
 async function kSetProgress(id, key, on){
   const item = currentItems.find(i => i.id === id);
   if(!item) return;
   const prev = item.kp || {};
   const next = { ...prev };
-  if(on) next[key] = true; else delete next[key];
+  if(on) next[key] = Date.now(); else delete next[key];
   item.kp = next;
   kompRefresh(item);
+  renderProgressViews();
   try{
-    await updateDoc(doc(itemsCol, id), new FieldPath("kp", key), on ? true : deleteField());
+    await updateDoc(doc(itemsCol, id), new FieldPath("kp", key), on ? next[key] : deleteField());
   }catch(e){
     console.error(e);
     item.kp = prev;
     kompRefresh(item);
+    renderProgressViews();
   }
 }
 
@@ -1426,44 +1399,47 @@ list.addEventListener("click", (e) => {
   const mk = row && row._mk;
   if(!row || !mk) return;
   const id = row.dataset.id, res = mk._res;
+  const item = currentItems.find(i => i.id === id);
+  if(!item) return;
+  const kp = item.kp || {};
   const secEl = el.closest(".mk-sec");
   const si = secEl ? +secEl.dataset.s : -1;
   const sec = si > -1 ? res.sections[si] : null;
   const act = el.dataset.mk;
+  const toggle = key => kSetProgress(id, key, !kp[key]);
 
   if(act === "toggle"){
     const open = !mkOpen.has(id);
     if(open) mkOpen.add(id); else mkOpen.delete(id);
     mk.classList.toggle("open", open);
     el.textContent = open ? "▾ Zwiń kurs" : "▸ Otwórz mini kurs";
-    if(!open && mkPlayer.has(id)){ mkPlayer.delete(id); kRenderPlayer(id, mk); kompRefresh(currentItems.find(i => i.id === id)); }
+    if(!open && mkPlayer.has(id)){ mkPlayer.delete(id); kRenderPlayer(id, mk); kompRefresh(item); }
   }else if(act === "sec"){
     const set = mkSecOpen.get(id);
     const open = !secEl.classList.contains("open");
     if(open) set.add(si); else set.delete(si);
     secEl.classList.toggle("open", open);
   }else if(act === "watch"){
-    e.stopPropagation();
-    const item = currentItems.find(i => i.id === id);
-    const key = kVideoKey(sec, sec.videos[+el.dataset.v]);
-    kSetProgress(id, key, !(item.kp || {})[key]);
+    e.stopPropagation();                 // kwadracik w wierszu filmu — tylko odhacza, nie odtwarza
+    toggle(kVideoKey(sec, sec.videos[+el.dataset.v]));
+  }else if(act === "pwatch"){
+    const p = mkPlayer.get(id);
+    const v = p && res.sections[p.s] && res.sections[p.s].videos[p.v];
+    if(v) toggle(kVideoKey(res.sections[p.s], v));
   }else if(act === "play"){
-    const vi = +el.dataset.v;
-    mkPlayer.set(id, { s: si, v: vi });
+    // odtworzenie filmu go nie odhacza — uczeń sam zaznacza obejrzany (kwadracik albo przycisk pod filmem)
+    mkPlayer.set(id, { s: si, v: +el.dataset.v });
     kRenderPlayer(id, mk);
     mk.querySelector(".mk-player").scrollIntoView({ behavior: "smooth", block: "nearest" });
-    const key = kVideoKey(sec, sec.videos[vi]);
-    const item = currentItems.find(i => i.id === id);
-    if(item && !(item.kp || {})[key]) kSetProgress(id, key, true);
-    else if(item) kompRefresh(item);
+    kompRefresh(item);
   }else if(act === "closeplayer"){
     mkPlayer.delete(id);
     kRenderPlayer(id, mk);
-    kompRefresh(currentItems.find(i => i.id === id));
+    kompRefresh(item);
+  }else if(act === "link"){
+    toggle(kLinkKey(sec, sec.links[+el.dataset.l]));
   }else if(act === "task"){
-    const item = currentItems.find(i => i.id === id);
-    const key = kTaskKey(sec, sec.tasks[+el.dataset.t]);
-    kSetProgress(id, key, !(item.kp || {})[key]);
+    toggle(kTaskKey(sec, sec.tasks[+el.dataset.t]));
   }else if(act === "hint"){
     const hk = id + "|" + si + "|" + el.dataset.t;
     const box = secEl.querySelector(`.mk-hint[data-hint="${el.dataset.t}"]`);
@@ -1481,8 +1457,8 @@ list.addEventListener("keydown", (e) => {
 /* ═══ KURS Z PLANERA ═══
    Plik .json zapisany w Planerze olimpijczyka (planer-app/planer.html) staje się tu jednym elementem listy
    typu „kurs”: kroki (tematy z filmami i artykułami oraz zadania) w kolejności z planera, do odhaczania.
-   Kroki siedzą w polu plan.steps, postęp w polu kp — jak w mini kursie z kompendium, tylko zamiast true
-   zapisujemy czas odhaczenia, żeby ukończone kroki kursu trafiały do statystyki. */
+   Kroki siedzą w polu plan.steps, postęp w polu kp (klucz → czas odhaczenia), tak jak w mini kursie z kompendium —
+   każde odhaczone zadanie, film i artykuł trafia do statystyki. Reguły i klucze: postep.js. */
 const pkOpen = new Set();            // id kursów z rozwiniętym panelem
 const pkSecOpen = new Map();         // id -> Set rozwiniętych kroków
 const pkPlayer = new Map();          // id -> { s, m } aktualnie grany film
@@ -1490,13 +1466,6 @@ let pkJustAdded = null;
 
 const pkSafe = u => /^https?:\/\//i.test(u || "") ? u : "";
 const pkStr = (v, n) => typeof v === "string" ? v.slice(0, n) : "";
-const pkKey = {
-  task: s => "z|" + s.id,
-  topic: s => "t|" + s.id,           // temat bez materiałów odhacza się w całości
-  mat: (s, k) => "m|" + s.id + "|" + k
-};
-const pkSteps = item => (item.plan && Array.isArray(item.plan.steps)) ? item.plan.steps : [];
-
 /* format pliku: { app: "t-olimpians-planer", items: [...] }; stara wersja planera miała dni (slot) — wtedy układamy według dni */
 function pkParsePlan(o){
   if(!o || typeof o !== "object" || !Array.isArray(o.items)) return null;
@@ -1520,30 +1489,6 @@ function pkParsePlan(o){
     steps.push(s);
   }
   return steps.length ? steps : null;
-}
-
-function pkStepDone(s, kp){
-  if(s.type === "zadanie") return !!kp[pkKey.task(s)];
-  const mats = s.materials || [];
-  return mats.length ? mats.every((m, k) => kp[pkKey.mat(s, k)]) : !!kp[pkKey.topic(s)];
-}
-/* kiedy krok został ukończony — do wykresu (najpóźniejsze odhaczenie w kroku) */
-function pkStepTime(s, kp){
-  if(!pkStepDone(s, kp)) return null;
-  const mats = s.materials || [];
-  const keys = s.type === "zadanie" ? [pkKey.task(s)] : mats.length ? mats.map((m, k) => pkKey.mat(s, k)) : [pkKey.topic(s)];
-  const t = Math.max(...keys.map(k => typeof kp[k] === "number" ? kp[k] : 0));
-  return t || null;
-}
-function pkStats(steps, kp){
-  const st = { sDone: 0, sAll: steps.length, zDone: 0, zAll: 0, mDone: 0, mAll: 0, next: -1 };
-  steps.forEach((s, i) => {
-    const done = pkStepDone(s, kp);
-    if(done) st.sDone++; else if(st.next < 0) st.next = i;
-    if(s.type === "zadanie"){ st.zAll++; if(done) st.zDone++; }
-    else (s.materials || []).forEach((m, k) => { st.mAll++; if(kp[pkKey.mat(s, k)]) st.mDone++; });
-  });
-  return st;
 }
 
 /* karta elementu: przycisk, pasek postępu, następny krok i sam panel kursu */
@@ -1590,9 +1535,10 @@ function pkStepHTML(s, i, open){
       </div>
       ${hasBody ? `<div class="pk-body">
         ${s.note ? `<div class="mk-sec-note">${esc(s.note)}</div>` : ""}
-        ${vids.length ? `<div class="mk-label">Filmy — kliknij film, żeby go odtworzyć; kółko oznacza obejrzane</div>` : ""}
-        ${vids.map(({ m, k }) => `<div class="mk-video" data-pk="play" data-m="${k}" role="button" tabindex="0">
-            <button type="button" class="mk-vicon" data-pk="mat" data-m="${k}"></button>
+        ${vids.length ? `<div class="mk-label">Filmy — kliknij film, żeby go odtworzyć; kwadracik ✓ = obejrzany</div>` : ""}
+        ${vids.map(({ m, k }) => `<div class="mk-video" data-pk="play" data-m="${k}" role="button" tabindex="0" title="Odtwórz film">
+            <button type="button" class="mk-check" data-pk="mat" data-m="${k}">✓</button>
+            <span class="mk-vplay" aria-hidden="true">▶</span>
             <span class="mk-vtext"><span class="mk-vtitle">${esc(m.title || m.url)}</span>${m.meta ? `<span class="mk-vsub">${esc(m.meta)}</span>` : ""}</span>
           </div>`).join("")}
         ${arts.length ? `<div class="mk-label">Artykuły do przeczytania</div>
@@ -1636,7 +1582,9 @@ function pkRenderPlayer(id, pk){
   box.innerHTML = (embed
       ? `<div class="mk-player-frame"><iframe src="${esc(embed)}" title="${esc(m.title)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>`
       : `<div class="mk-player-ext"><b>${esc(m.title)}</b><span class="mk-vsub">Tego materiału nie da się osadzić na stronie.</span><a class="mk-link" href="${esc(m.url)}" target="_blank" rel="noopener noreferrer">Otwórz materiał ↗</a></div>`)
-    + `<div class="mk-player-bar"><span>▶ ${esc(m.title)}</span><button type="button" data-pk="closeplayer">✕ Zamknij film</button></div>`;
+    + `<div class="mk-player-bar"><span>▶ ${esc(m.title)}</span><span class="mk-player-btns">
+        <button type="button" class="mk-pwatch" data-pk="pwatch"></button>
+        <button type="button" data-pk="closeplayer">✕ Zamknij film</button></span></div>`;
   box.classList.add("visible");
 }
 
@@ -1653,12 +1601,7 @@ function pkRefresh(item){
     el.classList.toggle("done", done);
     el.classList.toggle("next", i === st.next);
     el.querySelector(".pk-num").textContent = done ? "✓" : String(i + 1);
-    const chk = el.querySelector('[data-pk="step"]');
-    if(chk){
-      chk.classList.toggle("on", done);
-      chk.title = done ? "Zrobione — kliknij, aby odznaczyć" : "Oznacz jako zrobione";
-      chk.setAttribute("aria-pressed", done ? "true" : "false");
-    }
+    setCheck(el.querySelector('[data-pk="step"]'), done, s.type === "zadanie" ? "Zrobione" : "Przerobiony", s.type === "zadanie" ? "Oznacz jako zrobione" : "Oznacz jako przerobiony");
     if(s.type !== "temat") return;
     const mats = s.materials || [];
     const f = mats.filter(m => m.kind === "film").length, a = mats.length - f;
@@ -1672,27 +1615,25 @@ function pkRefresh(item){
       const k = +v.dataset.m, on = !!kp[pkKey.mat(s, k)];
       v.classList.toggle("watched", on);
       v.classList.toggle("playing", !!p && p.s === i && p.m === k);
-      const ic = v.querySelector(".mk-vicon");
-      ic.textContent = on ? "✓" : "▶";
-      ic.title = on ? "Obejrzane — kliknij, aby odznaczyć" : "Kliknij, aby oznaczyć jako obejrzane";
-      ic.setAttribute("aria-pressed", on ? "true" : "false");
+      setCheck(v.querySelector(".mk-check"), on, "Obejrzany", "Oznacz jako obejrzany");
     });
     el.querySelectorAll("tr[data-m]").forEach(tr => {
       const on = !!kp[pkKey.mat(s, +tr.dataset.m)];
       tr.classList.toggle("done", on);
-      const b = tr.querySelector(".mk-check");
-      b.classList.toggle("on", on);
-      b.title = on ? "Przeczytane — kliknij, aby odznaczyć" : "Oznacz jako przeczytane";
-      b.setAttribute("aria-pressed", on ? "true" : "false");
+      setCheck(tr.querySelector(".mk-check"), on, "Przeczytane", "Oznacz jako przeczytane");
     });
   });
+  const ps = p && steps[p.s];
+  if(ps && (ps.materials || [])[p.m]) setPlayerWatch(pk.querySelector(".mk-player"), !!kp[pkKey.mat(ps, p.m)]);
+  // pasek rusza się przy każdym odhaczeniu (zadania, filmy, artykuły), a nie dopiero po całym kroku
   const fill = row.querySelector(".komp-bar-fill");
-  if(fill) fill.style.width = (st.sAll ? Math.round(st.sDone / st.sAll * 100) : 0) + "%";
+  if(fill) fill.style.width = (st.uAll ? Math.round(st.uDone / st.uAll * 100) : 0) + "%";
   const txt = row.querySelector(".komp-sum-text");
   if(txt){
     const bits = [`kroki <b>${st.sDone}/${st.sAll}</b>`];
     if(st.zAll) bits.push(`zadania <b>${st.zDone}/${st.zAll}</b>`);
-    if(st.mAll) bits.push(`materiały <b>${st.mDone}/${st.mAll}</b>`);
+    if(st.fAll) bits.push(`filmy <b>${st.fDone}/${st.fAll}</b>`);
+    if(st.aAll) bits.push(`artykuły <b>${st.aDone}/${st.aAll}</b>`);
     txt.innerHTML = bits.join(" · ");
   }
   const nl = row.querySelector(".pk-nextline");
@@ -1718,16 +1659,14 @@ async function pkSetProgress(id, key, on){
     if(el && el.querySelector(".pk-body")) el.classList.add("open");
   }
   pkRefresh(item);
-  renderStats(currentItems);
-  renderHeatmap(currentItems);
+  renderProgressViews();
   try{
     await updateDoc(doc(itemsCol, id), new FieldPath("kp", key), on ? next[key] : deleteField());
   }catch(e){
     console.error(e);
     item.kp = prev;
     pkRefresh(item);
-    renderStats(currentItems);
-    renderHeatmap(currentItems);
+    renderProgressViews();
     return;
   }
   // przejście przez 100% sam oznacza kurs jako wykonany (albo cofa to oznaczenie)
@@ -1772,13 +1711,19 @@ list.addEventListener("click", (e) => {
     e.stopPropagation();
     const key = pkKey.mat(s, +el.dataset.m);
     pkSetProgress(id, key, !kp[key]);
+  }else if(act === "pwatch"){
+    const p = pkPlayer.get(id);
+    const ps = p && pk._steps[p.s];
+    if(ps && (ps.materials || [])[p.m]){
+      const key = pkKey.mat(ps, p.m);
+      pkSetProgress(id, key, !kp[key]);
+    }
   }else if(act === "play"){
-    const k = +el.dataset.m;
-    pkPlayer.set(id, { s: si, m: k });
+    // odtworzenie filmu go nie odhacza — uczeń sam zaznacza obejrzany (kwadracik albo przycisk pod filmem)
+    pkPlayer.set(id, { s: si, m: +el.dataset.m });
     pkRenderPlayer(id, pk);
     pk.querySelector(".mk-player").scrollIntoView({ behavior: "smooth", block: "nearest" });
-    const key = pkKey.mat(s, k);
-    if(!kp[key]) pkSetProgress(id, key, true); else pkRefresh(item);
+    pkRefresh(item);
   }else if(act === "closeplayer"){
     pkPlayer.delete(id);
     pkRenderPlayer(id, pk);
@@ -1862,7 +1807,7 @@ function kompUpdatePreview(){
   }
   // nowy link domyślnie jako „Temat” — przełącznikiem można go zmienić na „Zadanie”
   if(isNewRef) document.getElementById("typeTemat").checked = true;
-  const res = kResolve(ref);
+  const res = kRes(ref);
   kompPreview.className = "komp-preview visible" + (res.error ? " err" : "");
   if(res.loading){
     kompPreview.innerHTML = `<span class="kp-icon">📚</span><div><div class="kp-kind">Link z kompendium</div><div class="kp-meta">Wczytywanie…</div></div>`;
@@ -1876,6 +1821,7 @@ function kompUpdatePreview(){
   const bits = [];
   if(res.secIndex < 0) bits.push(res.sections.length + " " + plural(res.sections.length, "zagadnienie", "zagadnienia", "zagadnień"));
   bits.push(st.vAll + " " + plural(st.vAll, "film", "filmy", "filmów"));
+  if(st.lAll) bits.push(st.lAll + " " + plural(st.lAll, "artykuł", "artykuły", "artykułów"));
   bits.push(st.tAll + " " + plural(st.tAll, "zadanie", "zadania", "zadań"));
   kompPreview.innerHTML = `<span class="kp-icon">📚</span><div>
       <div class="kp-kind">Rozpoznano ${res.secIndex > -1 ? "zagadnienie" : "cały temat"} z kompendium · ${esc(res.catName)}</div>
@@ -1940,30 +1886,20 @@ function closeItems(){
   lastListSig = null;
 }
 
-/* Wszystkie „ukończenia” z czasem — dla wykresu i mapy aktywności:
-   zwykłe zadanie / temat w chwili odhaczenia, a z kursu z planera każdy ukończony krok osobno
-   (kurs liczy się krokami, nie w całości). Postęp mini kursów z kompendium nie ma czasu, więc się nie liczy. */
-function completionEvents(items){
-  const out = [];
-  for(const item of items){
-    if(item.type === "kurs"){
-      const kp = item.kp || {};
-      for(const s of pkSteps(item)){
-        const t = pkStepTime(s, kp);
-        if(t) out.push({ t, type: s.type === "zadanie" ? "zadanie" : "temat", title: s.title || "(bez nazwy)", from: item.title || "Kurs", url: s.url || "" });
-      }
-    }else if(item.done && item.doneAt){
-      out.push({ t: item.doneAt, type: item.type === "zadanie" ? "zadanie" : "temat", title: item.title || "(bez nazwy)", url: item.url || "" });
-    }
-  }
-  return out;
+/* Ukończenia (postep.js → completionEvents): zwykłe zadanie / temat w chwili odhaczenia, a z kursów
+   (z planera i mini kursów z kompendium) każde odhaczone zadanie, film i artykuł osobno — plus temat z planera,
+   gdy ma odhaczone wszystkie materiały. Każde odhaczenie od razu przerysowuje statystykę i mapę aktywności. */
+function renderProgressViews(){
+  renderStats(currentItems);
+  renderHeatmap(currentItems);
 }
 
 /* ═══ STATYSTYKA ═══
    Okres: d14 = 14 dni, w12 = 12 tygodni (od poniedziałku), m12 = 12 miesięcy. Kubełek ma klucz:
    numer dnia / numer dnia poniedziałku / rok*12+miesiąc — liczone po kalendarzu lokalnym (bez kłopotów ze zmianą czasu).
    Kafelki i wykres dotyczą wybranego okresu (z porównaniem do poprzedniego takiego samego okresu),
-   panele „Dni tygodnia” i „Skąd zadania” — wszystkich ukończeń. */
+   panele „Dni tygodnia” i „Skąd zadania” — wszystkich ukończeń, panel „Kursy” — postępu w każdym kursie.
+   Serie wykresu: zadania · materiały (filmy i artykuły) · tematy — KIND_CAT w postep.js. */
 const ST_DAY = 86400000;
 const ST_MONTHS = ["styczeń", "luty", "marzec", "kwiecień", "maj", "czerwiec", "lipiec", "sierpień", "wrzesień", "październik", "listopad", "grudzień"];
 const ST_MON = ["sty", "lut", "mar", "kwi", "maj", "cze", "lip", "sie", "wrz", "paź", "lis", "gru"];
@@ -1984,7 +1920,8 @@ function computeStats(items, period){
   const now = new Date();
   const K = stKey(now.getTime(), period);
   const first = K - (N - 1) * step;                  // klucz pierwszego kubełka okresu
-  const z = new Array(N).fill(0), t = new Array(N).fill(0);
+  const z = new Array(N).fill(0), m = new Array(N).fill(0), t = new Array(N).fill(0);
+  const series = { zadanie: z, material: m, temat: t };
   let before = 0, prev = 0;
   for(const e of events){
     const k = stKey(e.t, period);
@@ -1994,9 +1931,9 @@ function computeStats(items, period){
       if(k >= first - N * step) prev++;              // poprzedni taki sam okres
       continue;
     }
-    if(e.type === "zadanie") z[(k - first) / step]++; else t[(k - first) / step]++;
+    (series[KIND_CAT[e.kind]] || t)[(k - first) / step]++;
   }
-  const tot = z.map((v, i) => v + t[i]);
+  const tot = z.map((v, i) => v + m[i] + t[i]);
   const cum = [];
   tot.reduce((acc, v) => { cum.push(acc + v); return acc + v; }, before);
 
@@ -2022,8 +1959,9 @@ function computeStats(items, period){
   let best = -1;
   tot.forEach((v, i) => { if(v > 0 && (best < 0 || v >= tot[best])) best = i; });
   const total = tot.reduce((a, b) => a + b, 0);
-  return { events, N, labels, tips, z, t, tot, cum, total, prev, days, best,
-           zTotal: z.reduce((a, b) => a + b, 0), tTotal: t.reduce((a, b) => a + b, 0) };
+  const sum = arr => arr.reduce((a, b) => a + b, 0);
+  return { events, N, labels, tips, z, m, t, tot, cum, total, prev, days, best,
+           zTotal: sum(z), mTotal: sum(m), tTotal: sum(t) };
 }
 
 function renderStatsKpis(s){
@@ -2040,12 +1978,11 @@ function renderStatsKpis(s){
     cls = p > 0 ? "up" : "down";
   }
   const avg = s.days ? s.total / s.days : 0;
-  const zPct = s.total ? Math.round(s.zTotal / s.total * 100) : 0;
   el.innerHTML = `
     <div class="st-kpi"><div class="st-kpi-l">ukończone</div><div class="st-kpi-v">${s.total}</div><div class="st-kpi-d ${cls}">${esc(delta)}</div></div>
     <div class="st-kpi"><div class="st-kpi-l">średnio</div><div class="st-kpi-v">${stNum1.format(avg)}<small>/ dzień</small></div><div class="st-kpi-d">≈ ${stNum1.format(avg * 7)} na tydzień</div></div>
     <div class="st-kpi"><div class="st-kpi-l">${bestName}</div><div class="st-kpi-v">${s.best >= 0 ? s.tot[s.best] : "—"}${s.best >= 0 ? `<small>${esc(s.labels[s.best])}</small>` : ""}</div><div class="st-kpi-d">${s.best >= 0 ? esc(s.tips[s.best]) : "jeszcze nic w tym okresie"}</div></div>
-    <div class="st-kpi"><div class="st-kpi-l">udział zadań</div><div class="st-kpi-v">${s.total ? zPct + "%" : "—"}</div><div class="st-kpi-d">${s.zTotal} ${plural(s.zTotal, "zadanie", "zadania", "zadań")} · ${s.tTotal} ${plural(s.tTotal, "temat", "tematy", "tematów")}</div></div>`;
+    <div class="st-kpi"><div class="st-kpi-l">zadania</div><div class="st-kpi-v">${s.zTotal}</div><div class="st-kpi-d">${s.mTotal} ${plural(s.mTotal, "materiał", "materiały", "materiałów")} · ${s.tTotal} ${plural(s.tTotal, "temat", "tematy", "tematów")}</div></div>`;
 }
 
 /* w które dni tygodnia uczeń kończy najwięcej — ze wszystkich ukończeń */
@@ -2076,7 +2013,7 @@ function renderStatsSources(events){
   const counts = new Map();
   let all = 0;
   for(const e of events){
-    if(e.type !== "zadanie") continue;
+    if(e.kind !== "zadanie") continue;
     const p = stPlatform(e.url);
     counts.set(p, (counts.get(p) || 0) + 1);
     all++;
@@ -2118,6 +2055,65 @@ function stGrad(c, bottom, top){
   return stGradCache.get(key);
 }
 
+/* panel „Kursy”: postęp w każdym kursie z planera i mini kursie z kompendium (postep.js → courseProgress).
+   Najpierw kursy w toku (ostatnio ruszane wyżej), potem nierozpoczęte, na końcu ukończone. */
+const ST_COURSES_MAX = 8;
+function stAgo(t){
+  const k = stDayNo(new Date()) - stDayNo(new Date(t));
+  if(k <= 0) return "dziś";
+  if(k === 1) return "wczoraj";
+  if(k < 7) return k + " dni temu";
+  return new Date(t).toLocaleDateString("pl-PL", { day: "numeric", month: "short" });
+}
+function renderStatsCourses(items){
+  const panel = document.getElementById("stCoursesPanel");
+  const box = document.getElementById("stCourses");
+  const note = document.getElementById("stCoursesNote");
+  const courses = (itemsLoaded ? items : []).map(i => courseProgress(i, kompData)).filter(Boolean);
+  panel.hidden = !courses.length;
+  if(!courses.length){ box.innerHTML = ""; note.textContent = ""; return; }
+  const rank = c => c.complete ? 2 : c.done > 0 ? 0 : 1;
+  courses.sort((a, b) => rank(a) - rank(b) || b.last - a.last || a.title.localeCompare(b.title, "pl"));
+  const fin = courses.filter(c => c.complete).length;
+  note.textContent = courses.length + " " + plural(courses.length, "kurs", "kursy", "kursów")
+    + (fin ? " · " + fin + " " + plural(fin, "ukończony", "ukończone", "ukończonych") : "");
+  const n = ([d, a]) => `<b>${d}/${a}</b>`;
+  box.innerHTML = courses.slice(0, ST_COURSES_MAX).map(c => {
+    const bits = [];
+    if(c.z[1]) bits.push("zadania " + n(c.z));
+    if(c.f[1]) bits.push("filmy " + n(c.f));
+    if(c.a[1]) bits.push("artykuły " + n(c.a));
+    bits.push(c.complete ? "🎉 ukończony" : c.last ? "ostatnio " + stAgo(c.last) : "jeszcze nie zaczęty");
+    return `<button type="button" class="st-course${c.complete ? " complete" : ""}" data-id="${esc(c.id)}" title="Otwórz ${c.via === "kurs" ? "kurs" : "mini kurs"} na liście">
+      <span class="st-course-top"><b>${esc(c.title)}</b><span class="tag ${c.via === "kurs" ? "kurs" : "temat"}">${esc(c.via)}</span><span class="st-course-pct">${c.pct}%</span></span>
+      <span class="st-course-bar"><i style="width:${c.pct}%"></i></span>
+      <span class="st-course-meta">${bits.join(" · ")}</span>
+    </button>`;
+  }).join("") + (courses.length > ST_COURSES_MAX ? `<div class="st-more">…i jeszcze ${courses.length - ST_COURSES_MAX} — wszystkie znajdziesz na liście w filtrze „Kursy”.</div>` : "");
+}
+/* kliknięty kurs z panelu: pokaż go na liście (w razie potrzeby zmień filtr), rozwiń i przewiń do niego */
+function goToCourse(id){
+  const item = currentItems.find(i => i.id === id);
+  if(!item) return;
+  const isKurs = item.type === "kurs";
+  (isKurs ? pkOpen : mkOpen).add(id);
+  if(!applyFilter([item]).length) setFilter("all");
+  const row = list.querySelector(`.item[data-id="${CSS.escape(id)}"]`);
+  if(!row) return;
+  const panel = isKurs ? row._pk : row._mk;
+  if(panel && !panel.classList.contains("open")){
+    panel.classList.add("open");
+    const btn = row.querySelector(isKurs ? '[data-pk="toggle"]' : '[data-mk="toggle"]');
+    if(btn) btn.textContent = "▾ Zwiń kurs";
+  }
+  row.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+document.getElementById("stCourses").addEventListener("click", (e) => {
+  const b = e.target.closest(".st-course");
+  if(b) goToCourse(b.dataset.id);
+});
+
+const ST_SURFACE = "#15151e";        // tło karty (--panel-2) — kolor szczeliny między segmentami słupka
 let stCur = null;                    // ostatnio policzona statystyka (dla podpowiedzi i zaokrągleń słupków)
 /* zakres prawej osi („łącznie ukończone”): mały zapas nad i pod linią, ale nigdy poniżej zera */
 function stY2Range(cum){
@@ -2131,6 +2127,7 @@ function renderStats(items){
   renderStatsKpis(s);
   renderStatsWeekdays(s.events);
   renderStatsSources(s.events);
+  renderStatsCourses(items);
   document.getElementById("stEmpty").hidden = !itemsLoaded || s.events.length > 0;
 
   const canvas = document.getElementById("statsChart");
@@ -2139,23 +2136,31 @@ function renderStats(items){
     console.error("Chart.js nie załadował się — sprawdź połączenie z CDN.");
     return;
   }
-  // zaokrąglamy tylko górę stosu (zadania na dole, tematy na górze), żeby między nimi nie było wcięcia
+  // stos: zadania (dół) · materiały · tematy (góra). Zaokrąglamy tylko górny niezerowy segment,
+  // a segment leżący na innym oddziela od niego 2-pikselowa szczelina w kolorze tła karty
+  const stack = cur => [cur.z, cur.m, cur.t];
   const radius = (c) => {
-    const i = c.dataIndex, cur = stCur;
-    const isTop = c.datasetIndex === 1 || !cur || !cur.t[i];
-    return isTop ? { topLeft: 6, topRight: 6, bottomLeft: 0, bottomRight: 0 } : 0;
+    const cur = stCur, i = c.dataIndex;
+    const above = cur ? stack(cur).slice(c.datasetIndex + 1).some(a => a[i] > 0) : false;
+    return above ? 0 : { topLeft: 6, topRight: 6, bottomLeft: 0, bottomRight: 0 };
   };
+  const gap = (c) => {
+    const cur = stCur, i = c.dataIndex;
+    const below = cur ? stack(cur).slice(0, c.datasetIndex).some(a => a[i] > 0) : false;
+    return below ? { top: 0, right: 0, bottom: 2, left: 0 } : 0;
+  };
+  const bar = (label, values, bottom, top, hover) => ({
+    type: "bar", label, data: values, stack: "s", order: 2, yAxisID: "y",
+    backgroundColor: c => stGrad(c, bottom, top), hoverBackgroundColor: hover,
+    borderRadius: radius, borderSkipped: false, borderWidth: gap, borderColor: ST_SURFACE, hoverBorderColor: ST_SURFACE,
+    categoryPercentage: 0.72, barPercentage: 0.9, maxBarThickness: 34
+  });
   const data = {
     labels: s.labels,
     datasets: [
-      { type: "bar", label: "Zadania", data: s.z, stack: "s", order: 2, yAxisID: "y",
-        backgroundColor: c => stGrad(c, "rgba(59,130,246,0.30)", "rgba(96,165,250,0.95)"),
-        hoverBackgroundColor: "#93c5fd", borderRadius: radius, borderSkipped: "start",
-        categoryPercentage: 0.72, barPercentage: 0.9, maxBarThickness: 34 },
-      { type: "bar", label: "Tematy", data: s.t, stack: "s", order: 2, yAxisID: "y",
-        backgroundColor: c => stGrad(c, "rgba(245,185,77,0.35)", "rgba(245,185,77,0.95)"),
-        hoverBackgroundColor: "#fcd38a", borderRadius: radius, borderSkipped: "start",
-        categoryPercentage: 0.72, barPercentage: 0.9, maxBarThickness: 34 },
+      bar("Zadania", s.z, "rgba(59,130,246,0.30)", "rgba(96,165,250,0.95)", "#93c5fd"),
+      bar("Materiały", s.m, "rgba(232,123,164,0.30)", "rgba(232,123,164,0.95)", "#f4a8c4"),
+      bar("Tematy", s.t, "rgba(245,185,77,0.35)", "rgba(245,185,77,0.95)", "#fcd38a"),
       { type: "line", label: "Łącznie ukończone", data: s.cum, order: 1, yAxisID: "y2",
         borderColor: "#34d399", borderWidth: 2.2, tension: 0.35, cubicInterpolationMode: "monotone",
         pointRadius: 0, pointHoverRadius: 5, pointBackgroundColor: "#34d399", pointBorderColor: "#0a0a0f", pointBorderWidth: 2,
@@ -2335,9 +2340,9 @@ function renderHmDay(){
   hmDay.innerHTML = `
     <div class="hm-day-head"><span><b>${esc(label)}</b> · ${evs.length ? "ukończone: " + evs.length : "nic nie ukończono"}</span>
       <button type="button" class="hm-day-x" data-hm="close">✕ Zamknij</button></div>
-    ${evs.length ? `<ul>${evs.map(e => `<li><span class="tag ${e.type}">${e.type}</span>
-      <span class="t" title="${esc(e.title)}">${esc(e.title)}${e.from ? `<small> · kurs „${esc(e.from)}”</small>` : ""}</span></li>`).join("")}</ul>`
-      : `<div class="none">Tego dnia nie ma odhaczonych zadań ani tematów.</div>`}`;
+    ${evs.length ? `<ul>${evs.map(e => `<li><span class="tag ${e.kind}">${KIND_LABEL[e.kind] || e.kind}</span>
+      <span class="t" title="${esc(e.title)}">${esc(e.title)}${e.from ? `<small> · ${esc(e.via || "kurs")} „${esc(e.from)}”</small>` : ""}</span></li>`).join("")}</ul>`
+      : `<div class="none">Tego dnia nie ma odhaczonych zadań, materiałów ani tematów.</div>`}`;
 }
 function hmSelect(key){
   hmSelected = key;
@@ -2436,13 +2441,13 @@ addForm.addEventListener("submit", async (e) => {
   }
 });
 
+function setFilter(f){
+  currentFilter = f;
+  filterBtns.forEach(b => b.classList.toggle("active", b.dataset.filter === f));
+  render(currentItems);
+}
 filterBtns.forEach(btn => {
-  btn.addEventListener("click", () => {
-    filterBtns.forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-    currentFilter = btn.dataset.filter;
-    render(currentItems);
-  });
+  btn.addEventListener("click", () => setFilter(btn.dataset.filter));
 });
 
 /* ═══ LOGOWANIE HASZEM ═══

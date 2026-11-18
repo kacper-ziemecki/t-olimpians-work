@@ -1464,6 +1464,88 @@ const LEKCJE = [
             },
         ],
     },
+    {
+        temat: 'Mapy',
+        prefix: 'map-',
+        plik: 'c++_logika/mapy.html',
+        pliki: ['mapy-cwiczenia-1.js', 'mapy-cwiczenia-2.js', 'mapy-cwiczenia-3.js', 'mapy-baza.js'],
+        note: 'Lekcja o mapach od podstaw: map jako słownik klucz → wartość (m[k] = v, klucze-napisy i klucze-liczby, przechodzenie w kolejności kluczy), ' +
+            'zliczanie m[x]++, sprawdzanie klucza (count, find, pułapka nawiasów, insert, erase), wartości złożone (vector, set, para, mapa w mapie), ' +
+            'iteratory i najbliższy klucz (lower_bound, upper_bound), mapa jako pamięć pozycji i sum prefiksowych, unordered_map i wybór struktury ' +
+            'oraz olimpijskie zastosowania: zdarzenia na osi, mapa stanów, historia zmian i symulacje.',
+        bazaOpisy: {
+            latwe: 'Jeden albo dwa pomysły naraz: długości słów, numer dyktowany słowami, rekordy życiowe, urodziny w klasie, słowa na tę samą literę, ' +
+                'grupy o tej samej sumie cyfr, grafik tygodnia, czat klasowy, słowa w wierszach i dodawanie wielomianów.',
+            srednie: 'Kilka sztuczek naraz: ten sam wzór, bransoletki z koralików, powtórki w DNA, dni bez urlopów, sprawiedliwy podział, ' +
+                'roboty w magazynie, mini interpreter, okno z co najwyżej k odmianami, miejsce na dysku i zjazd absolwentów.',
+            trudne: 'Pomysły z olimpiad: najdłuższy ciąg o różnicy d, autouzupełnianie, NWW wielu liczb, wspólny przodek, cztery sakiewki, ' +
+                'prostokąty z gwoździ, wyszukiwarka dokumentów — a na końcu wielki finał: baza danych z transakcjami.',
+        },
+        kroki: [
+            {
+                nr: 1, kotwica: 'pierwsza-mapa', spis: 'Mapa — słownik klucz → wartość',
+                nazwa: 'Krok 1 · Mapa — słownik: klucz → wartość',
+                kategoria: 'Mapy / krok 1: pierwsza mapa',
+                note: 'map<K, V>, zapis m[k] = v i nadpisywanie, odczyt, size, przechodzenie for (auto [k, v] : m) zawsze rosnąco po kluczu, ' +
+                    'klucze-napisy, klucze-liczby (ogromne i ujemne), wartości będące parami, łańcuch „z miasta do miasta”.',
+            },
+            {
+                nr: 2, kotwica: 'zliczanie', spis: 'Zliczanie — m[x]++',
+                nazwa: 'Krok 2 · Zliczanie — m[x]++ i zero na start',
+                kategoria: 'Mapy / krok 2: zliczanie',
+                note: 'Licznik słów, liter i liczb z całego zakresu, zero tworzone przez m[x], najczęstszy z remisem, kolejność według liczby wystąpień ' +
+                    '(vector par i sort), częstość częstości, mapa w każdym teście, anagramy.',
+            },
+            {
+                nr: 3, kotwica: 'czy-jest', spis: 'Czy klucz jest w mapie?',
+                nazwa: 'Krok 3 · Czy klucz jest w mapie? count, find i pułapka nawiasów',
+                kategoria: 'Mapy / krok 3: count, find, erase',
+                note: 'm[k] dopisuje brakujący klucz, count(k), find(k) i it->second, insert bez nadpisywania, erase(k), ' +
+                    'zapytania z odpowiedzią BRAK, pierwsze i ostatnie wystąpienie, para o sumie k z pozycjami.',
+            },
+            {
+                nr: 4, kotwica: 'wartosci', spis: 'Wartością może być wszystko',
+                nazwa: 'Krok 4 · Wartością może być wszystko — vector, set, para, mapa',
+                kategoria: 'Mapy / krok 4: wartości złożone',
+                note: 'map<string, vector<…>> do grupowania, map<…, set<…>> bez powtórzeń, klucz będący parą, wartość będąca parą, mapa w mapie, ' +
+                    'grupy anagramów i lista sąsiedztwa.',
+            },
+            {
+                nr: 5, kotwica: 'iteratory', spis: 'Przechodzenie i iteratory',
+                nazwa: 'Krok 5 · Przechodzenie, iteratory i najbliższy klucz',
+                kategoria: 'Mapy / krok 5: iteratory',
+                note: 'begin i rbegin, przechodzenie od końca, zmiana wartości przez referencję, usuwanie w pętli (it = m.erase(it)), ' +
+                    'lower_bound i upper_bound po kluczu: progi cennika, najbliższa stacja, kolejne numerki, progi ocen.',
+            },
+            {
+                nr: 6, kotwica: 'pamiec', spis: 'Mapa jako pamięć',
+                nazwa: 'Krok 6 · Mapa jako pamięć — numery, pozycje i sumy prefiksowe',
+                kategoria: 'Mapy / krok 6: mapa jako pamięć',
+                note: 'Numerowanie nowych kluczy, kompresja wartości, liczenie par w jednym przejściu, pierwsze wystąpienie sumy prefiksowej, ' +
+                    'równowaga liter, ostatnia pozycja, najkrótsze okno ze wszystkimi wartościami i zmiany nicków.',
+            },
+            {
+                nr: 7, kotwica: 'unordered', spis: 'unordered_map i wybór struktury',
+                nazwa: 'Krok 7 · unordered_map — kiedy kolejność nie jest potrzebna',
+                kategoria: 'Mapy / krok 7: unordered_map',
+                note: 'unordered_map bez kolejności kluczy, reserve, jawne rozstrzyganie remisów, kolejność pojawienia się w osobnym vectorze, ' +
+                    'tablica zamiast mapy przy małych kluczach, klucz-para napisów, okno z licznikami liter i pętla generatora.',
+            },
+            {
+                nr: 8, kotwica: 'olimpiada', spis: 'Mapa na olimpiadzie',
+                nazwa: 'Krok 8 · Mapa na olimpiadzie — zdarzenia, historia zmian, symulacje',
+                kategoria: 'Mapy / krok 8: mapa na olimpiadzie',
+                note: 'Zdarzenia +1 / −1 na osi i bieżąca suma, długość pokryta przez co najmniej k odcinków, mapa stanów z upper_bound, ' +
+                    'historia cen w mapie map, dwie mapy poprawiane razem, symulacja banku i przekształcony klucz x − i.',
+            },
+            {
+                nr: 9, kotwica: 'baza', spis: 'Baza zadań', baza: true,
+                nazwa: 'Baza zadań — podsumowanie tematu',
+                kategoria: 'Mapy / baza zadań',
+                note: '28 zadań na cały temat — od liczników i grup, przez symulacje i zdarzenia na osi, po pomysły olimpijskie — a na koniec wielki finał: baza danych z transakcjami.',
+            },
+        ],
+    },
 ];
 
 module.exports = { SITE, KATEGORIA, LEKCJE };

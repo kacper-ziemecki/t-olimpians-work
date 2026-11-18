@@ -58520,6 +58520,2971 @@
       ],
       "hint": "Pierwsze słowo wiersza wczytaj jako string: while (cin >> czas && czas != \"KONIEC\") { cin >> login >> zad >> werdykt; … }. Minuty od startu to stoi(czas.substr(0, 2)) * 60 + stoi(czas.substr(3, 2)). Zawodników trzymaj w vectorze loginów i równoległych tablicach: rozwiązane[z][k], proby[z][k], minuta[z][k]. Po wczytaniu policz liczbę zadań i karę, posortuj indeksy lambdą, wyznacz miejsca (to samo co poprzednik przy remisie wyniku) i dopiero wtedy szerokości kolumn — wszystkie wpisy zamień najpierw na napisy.",
       "tests_count": 9
+    },
+    {
+      "id": "map-slownik",
+      "number": 1791,
+      "title": "Słowniczek do klasówki",
+      "category": "Mapy / krok 1: pierwsza mapa",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ola przygotowuje się do klasówki z języka obcego. Ma słowniczek: n par „słowo w języku polskim — jego tłumaczenie”. Pomóż jej przetłumaczyć zdanie złożone z m polskich słów — każde z nich jest w słowniczku."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n wierszy: słowo i jego tłumaczenie.",
+        "Dalej wiersz z m i wiersz z m słowami do przetłumaczenia."
+      ],
+      "output_format": [
+        "Jeden wiersz: tłumaczenia kolejnych słów, oddzielone spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000, 1 ≤ m ≤ 1000",
+        "Słowa mają od 1 do 12 małych liter; polskie słowa w słowniczku się nie powtarzają.",
+        "Każde słowo do przetłumaczenia jest w słowniczku."
+      ],
+      "examples": [
+        {
+          "input": "3\nkot cat\npies dog\nma has\n3\nkot ma pies",
+          "output": "cat has dog",
+          "note": "Każde słowo podmieniamy na jego tłumaczenie ze słowniczka: kot → cat, ma → has, pies → dog."
+        }
+      ],
+      "hint": "Utwórz map<string, string> slownik; i wczytaj n par: slownik[pl] = tlum;. Potem dla każdego słowa zdania wypisz slownik[slowo] i spację. Mapa znajduje tłumaczenie po samym słowie — bez przeszukiwania listy.",
+      "tests_count": 7
+    },
+    {
+      "id": "map-ostatnie-przypisanie",
+      "number": 1792,
+      "title": "Ostatnie przypisanie wygrywa",
+      "category": "Mapy / krok 1: pierwsza mapa",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Program zapisuje kolejne przypisania „nazwa wartość”. Ta sama zmienna może dostać wartość wiele razy — liczy się ostatnie przypisanie.",
+        "Wypisz końcową wartość każdej zmiennej, w kolejności alfabetycznej nazw, w formacie nazwa = wartosc."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n wierszy: nazwa zmiennej i liczba całkowita."
+      ],
+      "output_format": [
+        "Po jednym wierszu na każdą zmienną: nazwa = wartosc — alfabetycznie."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 3000",
+        "Nazwy: od 1 do 8 małych liter; różnych nazw jest najwyżej 500.",
+        "−10⁹ ≤ wartość ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "5\nx 7\ny 2\nx -1\nsuma 10\ny 2",
+          "output": "suma = 10\nx = -1\ny = 2",
+          "note": "x dostało najpierw 7, potem −1 — zostaje −1. Alfabetycznie: suma, x, y."
+        }
+      ],
+      "hint": "map<string, long long> m; i dla każdego przypisania m[nazwa] = wartosc; — gdy klucz już jest, wartość zostaje nadpisana, gdy go nie ma — powstaje. Na końcu for (auto [nazwa, w] : m) — mapa podaje klucze alfabetycznie.",
+      "tests_count": 7
+    },
+    {
+      "id": "map-rejestr-pojazdow",
+      "number": 1793,
+      "title": "Rejestr pojazdów",
+      "category": "Mapy / krok 1: pierwsza mapa",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wydział komunikacji ma rejestr n pojazdów: tablicę rejestracyjną i imię właściciela. Policjant pyta q razy, czyj jest samochód o danej tablicy. Każda tablica z pytań jest w rejestrze."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n wierszy: tablica i imię właściciela.",
+        "Dalej wiersz z q i q wierszy z tablicami."
+      ],
+      "output_format": [
+        "q wierszy — imiona właścicieli."
+      ],
+      "constraints": [
+        "1 ≤ n, q ≤ 2000",
+        "Tablice: od 4 do 8 znaków (wielkie litery i cyfry), różne. Imiona: od 1 do 12 liter."
+      ],
+      "examples": [
+        {
+          "input": "3\nKR12345 Ola\nWA777 Bartek\nGD9X1 Zuzia\n2\nWA777\nKR12345",
+          "output": "Bartek\nOla",
+          "note": "WA777 należy do Bartka, KR12345 — do Oli."
+        }
+      ],
+      "hint": "map<string, string> wlasciciel; — kluczem jest tablica, wartością imię. Po wczytaniu rejestru odpowiedź na pytanie to jedno wypisanie: wlasciciel[tablica]. Gdyby trzymać pary w vectorze, każde pytanie wymagałoby przejścia całej listy.",
+      "tests_count": 6
+    },
+    {
+      "id": "map-tablica-z-dziurami",
+      "number": 1794,
+      "title": "Tablica z dziurami",
+      "category": "Mapy / krok 1: pierwsza mapa",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Program wykonuje q przypisań t[i] = v na ogromnej tablicy: indeksy sięgają od −10⁹ do 10⁹, więc zwykłej tablicy nie da się utworzyć. Ten sam indeks może dostać wartość kilka razy — liczy się ostatnia.",
+        "Wypisz wszystkie indeksy, którym coś przypisano, rosnąco, razem z ich końcowymi wartościami."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W każdym z q wierszy dwie liczby: i oraz v."
+      ],
+      "output_format": [
+        "Po jednym wierszu na każdy użyty indeks, rosnąco: i v."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "−10⁹ ≤ i ≤ 10⁹",
+        "−10⁶ ≤ v ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "4\n1000000000 5\n-3 7\n0 1\n-3 8",
+          "output": "-3 8\n0 1\n1000000000 5",
+          "note": "Indeks −3 dostał najpierw 7, potem 8. Indeksy wypisujemy rosnąco: −3, 0, 10⁹."
+        }
+      ],
+      "hint": "map<long long, long long> t; i t[i] = v; — kluczem mapy może być dowolna liczba, także ujemna i ogromna, a mapa trzyma tylko te indeksy, których naprawdę użyto. Na końcu for (auto [i, v] : t) przejdzie je rosnąco.",
+      "tests_count": 6
+    },
+    {
+      "id": "map-kantor",
+      "number": 1795,
+      "title": "Kantor",
+      "category": "Mapy / krok 1: pierwsza mapa",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Kantor ma tabelę kursów: dla każdej waluty — trzyliterowy kod i cenę jednej jednostki w groszach (np. EUR 432 znaczy, że 1 euro kosztuje 4.32 zł).",
+        "Klient kupuje waluty n razy: za każdym razem ilość i kod waluty. Ile złotych zapłaci łącznie? Wypisz kwotę w formacie złote, kropka i dokładnie dwie cyfry groszy."
+      ],
+      "input_format": [
+        "W pierwszym wierszu k.",
+        "W każdym z k wierszy: kod i cena w groszach.",
+        "Dalej wiersz z n i n wierszy: ilość i kod."
+      ],
+      "output_format": [
+        "Jeden wiersz: łączna kwota w formacie Z.GG."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ 30, 1 ≤ n ≤ 5000",
+        "Kody: trzy wielkie litery, różne. Ceny: od 1 do 100 000 groszy.",
+        "Ilości: od 1 do 10⁶; każdy kod z zakupów jest w tabeli."
+      ],
+      "examples": [
+        {
+          "input": "2\nEUR 432\nUSD 398\n3\n10 EUR\n1 USD\n5 EUR",
+          "output": "68.78",
+          "note": "15 euro po 4.32 zł to 64.80 zł, a 1 dolar to 3.98 zł. Razem 68.78 zł."
+        }
+      ],
+      "hint": "map<string, long long> kurs; — kod waluty → cena w groszach. Każdy zakup dolicza ilosc * kurs[kod] groszy do sumy (long long: może wyjść nawet 5 · 10¹⁴). Na końcu wypisz suma / 100, kropkę i suma % 100 przez setw(2) z setfill('0').",
+      "tests_count": 6
+    },
+    {
+      "id": "map-podmiana-liter",
+      "number": 1796,
+      "title": "Podmiana liter",
+      "category": "Mapy / krok 1: pierwsza mapa",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Szyfrant ustalił tajny klucz: k par liter „litera → litera, na którą ją zamieniamy”. Zaszyfruj tekst: każdą małą literę, która jest w kluczu, zamień zgodnie z kluczem; wszystkie pozostałe znaki (inne litery, spacje, cyfry, interpunkcja, podział na wiersze) zostają bez zmian."
+      ],
+      "input_format": [
+        "W pierwszym wierszu k.",
+        "W każdym z k wierszy dwie litery: a i b (a zamieniamy na b). Litery a się nie powtarzają.",
+        "Dalej tekst — do końca danych."
+      ],
+      "output_format": [
+        "Zaszyfrowany tekst (z tym samym podziałem na wiersze)."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ 26",
+        "Tekst ma od 1 do 20 000 znaków; pierwszy wiersz tekstu nie jest pusty."
+      ],
+      "examples": [
+        {
+          "input": "3\na o\no a\nk t\nala ma kota\nKot: 2 lata.",
+          "output": "olo mo tato\nKat: 2 loto.",
+          "note": "a ↔ o zamieniają się miejscami, k zmienia się w t. Wielkie K nie jest w kluczu, więc zostaje."
+        }
+      ],
+      "hint": "map<char, char> klucz;. Tekst czytaj po wczytaniu par — najprościej wiersz po wierszu: cin.ignore(), a potem while (getline(cin, s)). Każdy znak c zamień, tylko jeśli klucz go zna: if (klucz.count(c)) c = klucz[c];. Odczyt klucz[c] bez sprawdzenia dla innych znaków wstawiałby do mapy puste znaki.",
+      "tests_count": 6
+    },
+    {
+      "id": "map-trasa-miast",
+      "number": 1797,
+      "title": "Trasa przez miasta",
+      "category": "Mapy / krok 1: pierwsza mapa",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Mapa kraju podaje dla n miast ich współrzędne (x, y). Kurier odwiedza k miast w podanej kolejności. Odległość między dwoma miastami liczymy po ulicach: |x₁ − x₂| + |y₁ − y₂|. Policz łączną długość trasy."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n wierszy: nazwa miasta i dwie liczby x, y.",
+        "Dalej wiersz z k i wiersz z k nazwami miast (trasa)."
+      ],
+      "output_format": [
+        "Jedna liczba — długość trasy."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000, 1 ≤ k ≤ 5000",
+        "Nazwy: od 1 do 12 liter, różne. −10⁶ ≤ x, y ≤ 10⁶",
+        "Każde miasto z trasy jest na mapie."
+      ],
+      "examples": [
+        {
+          "input": "3\nKrakow 0 0\nTarnow 80 -5\nKielce -20 100\n4\nKrakow Tarnow Krakow Kielce",
+          "output": "290",
+          "note": "Krakow → Tarnow: 80 + 5 = 85, z powrotem znowu 85, Krakow → Kielce: 20 + 100 = 120. Razem 290."
+        }
+      ],
+      "hint": "map<string, pair<int, int>> gdzie; i gdzie[nazwa] = {x, y};. Idąc po trasie, pamiętaj poprzednie miasto i dodawaj abs(a.first − b.first) + abs(a.second − b.second). Wynik w long long — trasa może mieć 2 · 10¹⁰.",
+      "tests_count": 6
+    },
+    {
+      "id": "map-wskazowki-dojazdu",
+      "number": 1798,
+      "title": "Wskazówki dojazdu",
+      "category": "Mapy / krok 1: pierwsza mapa",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Nawigacja zna n wskazówek „z miasta A jedź do miasta B”; z każdego miasta wychodzi najwyżej jedna wskazówka. Kierowca startuje w podanym mieście i jedzie zgodnie ze wskazówkami.",
+        "Wypisz trasę: kolejne miasta oddzielone napisem „ -> ”. Jeśli dotrze do miasta, z którego nie wychodzi żadna wskazówka, trasa się kończy — w drugim wierszu wypisz KONIEC. Jeśli wskazówka prowadzi do miasta, w którym już był, dopisz je na końcu trasy jeszcze raz i w drugim wierszu wypisz PETLA."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n wierszy: miasto A i miasto B (A ≠ B).",
+        "W ostatnim wierszu miasto startowe."
+      ],
+      "output_format": [
+        "W pierwszym wierszu trasa, w drugim KONIEC albo PETLA."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "Nazwy: od 1 do 10 liter. Z każdego miasta wychodzi najwyżej jedna wskazówka."
+      ],
+      "examples": [
+        {
+          "input": "3\nKrakow Tarnow\nTarnow Rzeszow\nLublin Krakow\nKrakow",
+          "output": "Krakow -> Tarnow -> Rzeszow\nKONIEC",
+          "note": "Z Rzeszowa nie wychodzi żadna wskazówka — trasa się kończy."
+        },
+        {
+          "input": "3\nA B\nB C\nC A\nB",
+          "output": "B -> C -> A -> B\nPETLA",
+          "note": "Z C wracamy do B, w którym już byliśmy — pętla."
+        }
+      ],
+      "hint": "map<string, string> dalej; — z miasta do następnego. Trzymaj set<string> odwiedzone. W pętli: dopisz miasto do trasy i do odwiedzonych; jeśli dalej.count(miasto) == 0 — koniec; jeśli następne jest już odwiedzone — dopisz je i to pętla; inaczej przejdź do następnego.",
+      "tests_count": 10
+    },
+    {
+      "id": "map-licznik-slow",
+      "number": 1799,
+      "title": "Ile razy każde słowo?",
+      "category": "Mapy / krok 2: zliczanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Polonistka chce wiedzieć, których słów uczeń używa najczęściej. Dostajesz tekst wypracowania (same małe litery i białe znaki). Wypisz każde słowo, które w nim wystąpiło, i liczbę jego wystąpień — alfabetycznie."
+      ],
+      "input_format": [
+        "Słowa oddzielone spacjami i znakami końca wiersza — do końca danych."
+      ],
+      "output_format": [
+        "Po jednym wierszu na każde różne słowo: słowo i liczba wystąpień — alfabetycznie."
+      ],
+      "constraints": [
+        "Słów jest od 1 do 10 000, każde ma od 1 do 12 małych liter; różnych słów jest najwyżej 1000."
+      ],
+      "examples": [
+        {
+          "input": "ala ma kota\na kot ma ale",
+          "output": "a 1\nala 1\nale 1\nkot 1\nkota 1\nma 2",
+          "note": "ma występuje dwa razy, pozostałe słowa po razie. „a” stoi przed „ala”, bo jest jego początkiem."
+        }
+      ],
+      "hint": "map<string, int> licznik; i w pętli while (cin >> s) po prostu licznik[s]++;. Gdy słowa jeszcze nie ma, licznik[s] samo tworzy je z wartością 0 — a ++ zamienia ją na 1. Na koniec for (auto [s, k] : licznik) wypisze słowa alfabetycznie.",
+      "tests_count": 6
+    },
+    {
+      "id": "map-wybory-klasowe",
+      "number": 1800,
+      "title": "Wybory przewodniczącego",
+      "category": "Mapy / krok 2: zliczanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Klasa wybiera przewodniczącego. Każda kartka zawiera imię jednego kandydata. Wypisz imię zwycięzcy i liczbę jego głosów. Jeśli kilku kandydatów ma tyle samo głosów, wygrywa ten, którego imię jest wcześniej w kolejności alfabetycznej."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W drugim wierszu n imion."
+      ],
+      "output_format": [
+        "Jeden wiersz: imię zwycięzcy i liczba głosów."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "Imiona: od 1 do 12 liter (wielka pierwsza)."
+      ],
+      "examples": [
+        {
+          "input": "7\nOla Bartek Ola Zuzia Bartek Kuba Zuzia",
+          "output": "Bartek 2",
+          "note": "Ola, Bartek i Zuzia mają po 2 głosy. Alfabetycznie pierwszy jest Bartek."
+        }
+      ],
+      "hint": "Najpierw policz głosy: map<string, int> glosy; glosy[imie]++;. Potem przejdź mapę i szukaj rekordu z warunkiem ile > najlepszy (ostra nierówność). Mapa podaje imiona alfabetycznie, więc przy remisie zostanie wcześniejsze.",
+      "tests_count": 6
+    },
+    {
+      "id": "map-liczby-z-zakresu",
+      "number": 1801,
+      "title": "Liczby z całego zakresu",
+      "category": "Mapy / krok 2: zliczanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W lekcji o tablicach liczyłeś wystąpienia liczb w tablicy liczników ile[x]. To działa tylko dla małych liczb. Tutaj liczby sięgają od −10¹⁸ do 10¹⁸.",
+        "Dla każdej różnej liczby wypisz ją i liczbę jej wystąpień — rosnąco."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W następnych wierszach n liczb całkowitych."
+      ],
+      "output_format": [
+        "Po jednym wierszu na każdą różną liczbę: liczba i ile razy wystąpiła — rosnąco."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 3000",
+        "−10¹⁸ ≤ każda liczba ≤ 10¹⁸; różnych liczb jest najwyżej 1000."
+      ],
+      "examples": [
+        {
+          "input": "5\n-1000000000000000000 5 1000000000000000000 5 1000000000000000000",
+          "output": "-1000000000000000000 1\n5 2\n1000000000000000000 2",
+          "note": "Klucze mapy mogą być ujemne i ogromne — mapa trzyma tylko te, które naprawdę wystąpiły."
+        }
+      ],
+      "hint": "map<long long, int> ile; i ile[x]++; dla każdej wczytanej liczby. Kluczem mapy może być dowolna liczba — także −10¹⁸ — a mapa zajmuje tyle pamięci, ile jest różnych liczb, a nie tyle, ile wynosi ich zakres.",
+      "tests_count": 5
+    },
+    {
+      "id": "map-litery-tekstu",
+      "number": 1802,
+      "title": "Litery w tekście",
+      "category": "Mapy / krok 2: zliczanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz tekst w kilku wierszach. Policz, ile razy występuje każda litera alfabetu angielskiego — wielkie i małe litery liczymy razem (A i a to ta sama litera). Inne znaki pomijamy.",
+        "Wypisz litery, które wystąpiły, alfabetycznie (małymi literami) z liczbą wystąpień, a w ostatnim wierszu najczęstszą literę (przy remisie — wcześniejszą w alfabecie)."
+      ],
+      "input_format": [
+        "Tekst — do końca danych. Zawiera co najmniej jedną literę."
+      ],
+      "output_format": [
+        "Po jednym wierszu na każdą występującą literę: litera i liczba — alfabetycznie.",
+        "W ostatnim wierszu: najczestsza: litera"
+      ],
+      "constraints": [
+        "Tekst ma od 1 do 30 000 znaków ASCII."
+      ],
+      "examples": [
+        {
+          "input": "Ala ma kota.\nKot ma Ale!",
+          "output": "a 6\ne 1\nk 2\nl 2\nm 2\no 2\nt 2\nnajczestsza: a",
+          "note": "a występuje 6 razy, k i t po 2 razy… Najczęstsza jest a."
+        }
+      ],
+      "hint": "map<char, int> ile;. Czytaj znak po znaku (while (cin.get(c))) i dla liter: ile[tolower(c)]++;. Inne znaki pomijaj — nie sięgaj po nie do mapy, bo zrobiłbyś im liczniki. Najczęstszą znajdziesz drugim przejściem z warunkiem >.",
+      "tests_count": 7
+    },
+    {
+      "id": "map-hashtagi",
+      "number": 1803,
+      "title": "Popularne hashtagi",
+      "category": "Mapy / krok 2: zliczanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Szkolny portal chce pokazać popularne hashtagi. Dostajesz posty — wiersze tekstu złożone ze słów oddzielonych spacjami. Hashtag to słowo zaczynające się od znaku #, a wielkość liter w nim nie ma znaczenia (#OIJ i #oij to ten sam hashtag).",
+        "Wypisz hashtagi użyte co najmniej dwa razy, zapisane małymi literami, z liczbą użyć — od najczęstszego; przy równej liczbie użyć alfabetycznie. Jeśli żaden hashtag nie powtórzył się, wypisz BRAK."
+      ],
+      "input_format": [
+        "Posty — do końca danych."
+      ],
+      "output_format": [
+        "Wiersze: hashtag i liczba użyć — albo BRAK."
+      ],
+      "constraints": [
+        "Tekst ma najwyżej 30 000 znaków. Hashtag to # i od 1 do 15 liter lub cyfr.",
+        "Różnych hashtagów jest najwyżej 500."
+      ],
+      "examples": [
+        {
+          "input": "Jade na #OIJ jutro #matma\nkto jeszcze na #oij ?\n#Matma #matma #pilka",
+          "output": "#matma 3\n#oij 2",
+          "note": "#matma pojawia się 3 razy, #oij — 2 razy, #pilka — raz (nie wypisujemy)."
+        }
+      ],
+      "hint": "Najpierw zliczanie: dla każdego słowa zaczynającego się od # zamień litery na małe (pętla z tolower) i licznik[tag]++. Mapa ułoży hashtagi alfabetycznie, a my chcemy według liczby. Przepisz więc pary (−liczba, tag) do vectora i posortuj — minus da kolejność malejącą, a przy remisie zadecyduje tag.",
+      "tests_count": 6
+    },
+    {
+      "id": "map-czestosc-czestosci",
+      "number": 1804,
+      "title": "Ile liczb występuje k razy?",
+      "category": "Mapy / krok 2: zliczanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz n liczb. Dla każdej liczby k, która jest liczbą wystąpień jakiejś wartości, wypisz, ile różnych wartości występuje dokładnie k razy. Wiersze ułóż rosnąco według k."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Wiersze postaci k: m — m różnych wartości występuje dokładnie k razy; rosnąco według k."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 8000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "8\n5 7 5 9 7 5 1 2",
+          "output": "1: 3\n2: 1\n3: 1",
+          "note": "Raz występują 9, 1 i 2 (trzy wartości), dwa razy — 7, trzy razy — 5."
+        }
+      ],
+      "hint": "Pierwsza mapa: wartość → ile razy (ile[x]++). Druga mapa: liczba wystąpień → ile wartości ją ma — przejdź pierwszą mapę i dla każdej pary zrób czestosc[k]++. Druga mapa sama poda k rosnąco.",
+      "tests_count": 7
+    },
+    {
+      "id": "map-wiekszosc",
+      "number": 1805,
+      "title": "Większość głosów w każdym teście",
+      "category": "Mapy / krok 2: zliczanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W każdym z t testów dostajesz n liczb. Wypisz liczbę, która występuje w teście więcej niż n/2 razy (czyli ma większość), albo NIE, jeśli takiej nie ma."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "Każdy test: n, a w następnym wierszu n liczb."
+      ],
+      "output_format": [
+        "t wierszy: liczba z większością albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1000",
+        "1 ≤ n, suma wszystkich n ≤ 9000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "3\n5\n3 1 3 3 2\n4\n7 7 1 1\n1\n-5",
+          "output": "3\nNIE\n-5",
+          "note": "W pierwszym teście 3 występuje 3 razy na 5 — więcej niż połowa. W drugim 7 ma tylko połowę (2 z 4) — to za mało."
+        }
+      ],
+      "hint": "Mapę liczników twórz w środku pętli po testach — inaczej liczby z poprzedniego testu przejdą do następnego. Większość ma liczba x, dla której 2 * ile[x] > n (bez dzielenia, więc bez kłopotu z nieparzystym n).",
+      "tests_count": 7
+    },
+    {
+      "id": "map-pary-anagramow",
+      "number": 1806,
+      "title": "Pary anagramów",
+      "category": "Mapy / krok 2: zliczanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dwa słowa są anagramami, jeśli składają się z tych samych liter w tej samej liczbie, np. kot i tok albo ala i ala. Dostajesz n słów. Policz, ile jest par (i, j), i < j, takich że słowo i oraz słowo j są anagramami, oraz jak liczna jest największa grupa słów, które są nawzajem swoimi anagramami."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W drugim wierszu n słów."
+      ],
+      "output_format": [
+        "W pierwszym wierszu liczba par.",
+        "W drugim wierszu wielkość największej grupy."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "Słowa mają od 1 do 10 małych liter."
+      ],
+      "examples": [
+        {
+          "input": "6\nkot tok ala okt pies kot",
+          "output": "6\n4",
+          "note": "Grupa kot, tok, okt, kot ma 4 słowa — to 4 · 3 / 2 = 6 par. ala i pies są same. Razem 6 par, największa grupa ma 4 słowa."
+        }
+      ],
+      "hint": "Słowa są anagramami wtedy i tylko wtedy, gdy po posortowaniu liter dają ten sam napis (kot → kot, tok → kot). Zrób kopię słowa, posortuj jej litery (sort(w.begin(), w.end())) i licz grupy w map<string, long long>. Grupa z k słów daje k · (k − 1) / 2 par.",
+      "tests_count": 7
+    },
+    {
+      "id": "map-ksiazka-telefoniczna",
+      "number": 1807,
+      "title": "Książka telefoniczna",
+      "category": "Mapy / krok 3: count, find, erase",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Sekretariat ma książkę telefoniczną: n par „nazwisko numer”. Przychodzi q pytań o nazwiska. Dla każdego wypisz numer telefonu albo BRAK, jeśli takiej osoby nie ma w książce."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n wierszy: nazwisko i dziewięciocyfrowy numer.",
+        "Dalej wiersz z q i q wierszy z nazwiskami."
+      ],
+      "output_format": [
+        "q wierszy: numer albo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ n, q ≤ 2000",
+        "Nazwiska: od 1 do 15 liter, różne. Numery: dokładnie 9 cyfr."
+      ],
+      "examples": [
+        {
+          "input": "2\nNowak 600100200\nLis 512345678\n3\nLis\nKowalski\nNowak",
+          "output": "512345678\nBRAK\n600100200",
+          "note": "Kowalskiego nie ma w książce."
+        }
+      ],
+      "hint": "map<string, string> ksiazka; — numer trzymamy jako napis (może zaczynać się od zera). Przed odczytem sprawdź: if (ksiazka.count(nazwisko)) — count zwraca 1, gdy klucz jest, i 0, gdy go nie ma, i niczego nie dopisuje. Samo ksiazka[nazwisko] dla brakującej osoby utworzyłoby ją z pustym numerem.",
+      "tests_count": 6
+    },
+    {
+      "id": "map-pierwsze-wystapienie",
+      "number": 1808,
+      "title": "Gdzie pojawiła się pierwszy raz?",
+      "category": "Mapy / krok 3: count, find, erase",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz n liczb. Dla każdej z nich wypisz numer pozycji (licząc od 1), na której ta sama wartość wystąpiła po raz pierwszy. Dla liczby, która pojawia się pierwszy raz, to jej własna pozycja."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jeden wiersz: n liczb oddzielonych spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "6\n7 3 7 7 -1 3",
+          "output": "1 2 1 1 5 2",
+          "note": "Siódemka pojawiła się pierwszy raz na pozycji 1, trójka na 2, −1 na 5."
+        }
+      ],
+      "hint": "map<int, int> pierwsza; — wartość → pozycja pierwszego wystąpienia. Dla każdej liczby: jeśli pierwsza.count(x) == 0, zapisz pierwsza[x] = i. Potem wypisz pierwsza[x]. (To samo zrobi pierwsza.insert({x, i}) — insert nie zmienia wartości, gdy klucz już jest.)",
+      "tests_count": 6
+    },
+    {
+      "id": "map-karnety-basen",
+      "number": 1809,
+      "title": "Karnety na basen",
+      "category": "Mapy / krok 3: count, find, erase",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Basen sprzedał n karnetów: każdy ma numer i liczbę wejść. Przy bramce q razy ktoś przykłada karnet. Dla każdego przyłożenia wypisz:",
+        "NIEZNANY — gdy karnetu o tym numerze nie ma w systemie;",
+        "BRAK WEJSC — gdy karnet istnieje, ale wejścia się skończyły;",
+        "OK r — gdy wejście się udało; r to liczba wejść, które zostały po tym wejściu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n wierszy: numer karnetu i liczba wejść.",
+        "Dalej wiersz z q i q wierszy z numerami."
+      ],
+      "output_format": [
+        "q wierszy z odpowiedziami bramki."
+      ],
+      "constraints": [
+        "1 ≤ n, q ≤ 2000",
+        "Numery karnetów: od 1 do 10⁹, różne. Liczba wejść: od 0 do 50."
+      ],
+      "examples": [
+        {
+          "input": "2\n1001 2\n555 0\n5\n1001\n777\n1001\n1001\n555",
+          "output": "OK 1\nNIEZNANY\nOK 0\nBRAK WEJSC\nBRAK WEJSC",
+          "note": "Karnet 1001 wpuszcza dwa razy, za trzecim — brak wejść. 777 nie istnieje, a 555 od początku jest pusty."
+        }
+      ],
+      "hint": "map<int, int> wejscia;. Dla każdego przyłożenia: auto it = wejscia.find(numer);. Jeśli it == wejscia.end() — NIEZNANY. Inaczej it->second to liczba wejść: gdy jest 0 — BRAK WEJSC, a w przeciwnym razie it->second-- i wypisz OK z nową wartością. Zmiana przez it->second zmienia wartość w samej mapie.",
+      "tests_count": 6
+    },
+    {
+      "id": "map-wypozyczalnia-rowerow",
+      "number": 1810,
+      "title": "Wypożyczalnia rowerów",
+      "category": "Mapy / krok 3: count, find, erase",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Miejska wypożyczalnia zapisuje, kto ma który rower. Polecenia:",
+        "WYPOZYCZ r osoba — osoba bierze rower numer r; jeśli rower jest już wypożyczony, wypisz ZAJETY i imię osoby, która go ma (nic się nie zmienia);",
+        "ZWROC r — rower wraca; jeśli nie był wypożyczony, wypisz BLAD;",
+        "KTO r — wypisz, kto ma rower r, albo WOLNY.",
+        "Na końcu wypisz liczbę rowerów, które nie wróciły, a potem te rowery rosnąco z imionami osób, które je mają."
+      ],
+      "input_format": [
+        "Polecenia, każde w osobnym wierszu — do końca danych."
+      ],
+      "output_format": [
+        "Odpowiedzi na polecenia (ZAJETY imie, BLAD, imię albo WOLNY), a potem wiersz z liczbą niezwróconych rowerów i te rowery: numer i imię, rosnąco."
+      ],
+      "constraints": [
+        "Poleceń jest od 1 do 2000.",
+        "Numery rowerów: od 1 do 10⁶. Imiona: od 1 do 12 liter."
+      ],
+      "examples": [
+        {
+          "input": "WYPOZYCZ 7 Ola\nWYPOZYCZ 3 Bartek\nWYPOZYCZ 7 Kuba\nKTO 7\nZWROC 3\nZWROC 3\nKTO 3",
+          "output": "ZAJETY Ola\nOla\nBLAD\nWOLNY\n1\n7 Ola",
+          "note": "Rower 7 jest zajęty przez Olę. Drugi zwrot roweru 3 to błąd — już wrócił. Na końcu nie wrócił tylko rower 7."
+        }
+      ],
+      "hint": "map<int, string> ma; — numer roweru → kto go ma. Wypożyczenie: if (ma.count(r)) wypisz ZAJETY ma[r], inaczej ma[r] = osoba. Zwrot: jeśli ma.count(r) — ma.erase(r), inaczej BLAD. Na końcu ma.size() i pętla po mapie — rowery same będą rosnąco.",
+      "tests_count": 6
+    },
+    {
+      "id": "map-najblizsze-powtorzenie",
+      "number": 1811,
+      "title": "Najbliższe powtórzenie",
+      "category": "Mapy / krok 3: count, find, erase",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz n liczb. Znajdź dwie równe liczby, które stoją najbliżej siebie, i wypisz odległość między nimi — różnicę ich pozycji. Jeśli żadna wartość się nie powtarza, wypisz −1."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejsza odległość albo −1."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 8000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "7\n5 1 3 5 3 1 5",
+          "output": "2",
+          "note": "Trójki stoją na pozycjach 3 i 5 — odległość 2. Inne pary równych liczb są dalej od siebie."
+        }
+      ],
+      "hint": "map<int, int> ostatnia; — wartość → ostatnia pozycja, na której ją widziałeś. Dla liczby x na pozycji i: jeśli ostatnia.count(x), sprawdź odległość i − ostatnia[x]; potem zapisz ostatnia[x] = i (nadpisz — liczy się najbliższa poprzednia).",
+      "tests_count": 8
+    },
+    {
+      "id": "map-kontrola-wejsc",
+      "number": 1812,
+      "title": "Lista gości na balu",
+      "category": "Mapy / krok 3: count, find, erase",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na bal zaproszono gości — lista zawiera n wpisów „imię numer_stolika”; jeśli to samo imię pojawia się kilka razy, liczy się ostatni wpis. Bramkarz pyta q razy o imię osoby przy drzwiach. Dla każdego pytania wypisz numer stolika albo NIE, jeśli osoby nie ma na liście.",
+        "Na końcu wypisz, ile różnych osób jest na liście gości. Uwaga: pytania o osoby spoza listy nie mogą zmienić tej liczby."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n wierszy: imię i numer stolika.",
+        "Dalej wiersz z q i q wierszy z imionami."
+      ],
+      "output_format": [
+        "q wierszy: numer stolika albo NIE.",
+        "W ostatnim wierszu: gosci: liczba różnych osób na liście."
+      ],
+      "constraints": [
+        "1 ≤ n, q ≤ 2000",
+        "Imiona: od 1 do 12 liter. Stoliki: od 1 do 100."
+      ],
+      "examples": [
+        {
+          "input": "3\nOla 4\nBartek 2\nOla 7\n3\nOla\nKuba\nIga",
+          "output": "7\nNIE\nNIE\ngosci: 2",
+          "note": "Ola ma stolik 7 (ostatni wpis). Kuby i Igi nie ma na liście — a mimo pytań o nich gości jest dalej dwoje."
+        }
+      ],
+      "hint": "Zapisz listę: map<string, int> stolik; stolik[imie] = nr;. Pytania sprawdzaj przez stolik.count(imie). Gdybyś napisał if (stolik[imie] == 0), mapa dopisałaby każde nieznane imię z zerem — i na końcu stolik.size() byłoby za duże. Wynik końcowy to po prostu stolik.size().",
+      "tests_count": 5
+    },
+    {
+      "id": "map-para-z-pozycjami",
+      "number": 1813,
+      "title": "Para o sumie k — z pozycjami",
+      "category": "Mapy / krok 3: count, find, erase",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz n liczb i liczbę k. Idąc od lewej, znajdź pierwszą pozycję j, dla której wcześniej (na pozycji i < j) stoi liczba a[i] taka, że a[i] + a[j] = k. Jeśli takich i jest kilka, wybierz najmniejsze. Wypisz i oraz j (licząc od 1) albo BRAK, jeśli takiej pary nie ma."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n i k.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Dwie liczby i j albo BRAK."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 8000",
+        "−2 · 10⁹ ≤ k ≤ 2 · 10⁹",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "6 10\n4 1 6 3 7 6",
+          "output": "1 3",
+          "note": "Na pozycji 3 stoi 6, a wcześniej, na pozycji 1, stoi 4 — suma 10. Para (4, 7) też ma sumę 10, ale znajdziemy ją dopiero później."
+        }
+      ],
+      "hint": "map<long long, int> gdzie; — wartość → pozycja jej pierwszego wystąpienia. Dla każdej liczby x na pozycji j: najpierw zapytaj, czy gdzie.count(k - x) — jeśli tak, wypisz gdzie[k - x] i j i zakończ. Dopiero potem zapamiętaj x — tylko jeśli go jeszcze nie ma (pierwsze wystąpienie). Liczby i k do 10⁹, więc k − x w long long.",
+      "tests_count": 9
+    },
+    {
+      "id": "map-rezerwacje-miejsc",
+      "number": 1814,
+      "title": "Rezerwacje miejsc w hali",
+      "category": "Mapy / krok 3: count, find, erase",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Hala sportowa ma miejsca o numerach od 1 do 10⁹. Polecenia:",
+        "REZERWUJ m imie — jeśli miejsce jest wolne, zostaje zarezerwowane dla tej osoby (nic nie wypisujemy); jeśli jest zajęte, wypisz ZAJETE i imię osoby, która je ma;",
+        "ANULUJ m imie — jeśli miejsce jest zarezerwowane przez tę osobę, rezerwacja znika (nic nie wypisujemy); w każdym innym przypadku wypisz BLAD;",
+        "KTO m — wypisz imię osoby, która ma miejsce, albo WOLNE."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "q poleceń, każde w osobnym wierszu."
+      ],
+      "output_format": [
+        "Wiersze odpowiedzi — tylko tam, gdzie polecenie każe coś wypisać."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1500",
+        "Numery miejsc: od 1 do 10⁹. Imiona: od 1 do 10 liter."
+      ],
+      "examples": [
+        {
+          "input": "6\nREZERWUJ 12 Ola\nREZERWUJ 12 Bartek\nANULUJ 12 Bartek\nKTO 12\nANULUJ 12 Ola\nKTO 12",
+          "output": "ZAJETE Ola\nBLAD\nOla\nWOLNE",
+          "note": "Bartek nie może zarezerwować zajętego miejsca ani anulować cudzej rezerwacji. Po anulowaniu przez Olę miejsce jest wolne."
+        }
+      ],
+      "hint": "map<int, string> miejsce;. Przy każdym poleceniu najpierw auto it = miejsce.find(m);. REZERWUJ: it == end() → miejsce[m] = imie, inaczej ZAJETE it->second. ANULUJ: jeśli it != end() i it->second == imie → miejsce.erase(it), inaczej BLAD. KTO: imię albo WOLNE.",
+      "tests_count": 6
+    },
+    {
+      "id": "map-klasy-i-uczniowie",
+      "number": 1815,
+      "title": "Uczniowie według klas",
+      "category": "Mapy / krok 4: wartości złożone",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Sekretariat ma listę n uczniów: imię i klasę. Wypisz każdą klasę (w kolejności alfabetycznej nazw klas), a po dwukropku imiona jej uczniów w kolejności z listy."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n wierszy: imię i klasa."
+      ],
+      "output_format": [
+        "Po jednym wierszu na klasę: klasa, dwukropek i imiona oddzielone spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1500",
+        "Imiona: od 1 do 10 liter. Klasy: cyfra i mała litera, np. 7c."
+      ],
+      "examples": [
+        {
+          "input": "5\nOla 7c\nBartek 4a\nZuzia 7c\nKuba 7a\nIga 4a",
+          "output": "4a: Bartek Iga\n7a: Kuba\n7c: Ola Zuzia",
+          "note": "Klasy alfabetycznie: 4a, 7a, 7c. W 7c najpierw Ola, potem Zuzia — tak jak na liście."
+        }
+      ],
+      "hint": "map<string, vector<string>> klasa; — kluczem jest nazwa klasy, wartością lista imion. klasa[k].push_back(imie); dopisuje ucznia do listy tej klasy (gdy klasy jeszcze nie ma, [] tworzy pustą listę). Na koniec dwie pętle: po mapie i po liście w każdej klasie.",
+      "tests_count": 6
+    },
+    {
+      "id": "map-oceny-ucznia",
+      "number": 1816,
+      "title": "Dzienniczek ocen",
+      "category": "Mapy / krok 4: wartości złożone",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Nauczyciel wpisuje oceny w dowolnej kolejności: każdy wiersz to imię ucznia i ocena. Dla każdego ucznia (alfabetycznie) wypisz jego oceny w kolejności wpisywania, a po strzałce średnią z dokładnie dwiema cyframi po kropce."
+      ],
+      "input_format": [
+        "Wiersze imie ocena — do końca danych."
+      ],
+      "output_format": [
+        "Po jednym wierszu na ucznia: imię, oceny oddzielone spacjami, -> i średnia."
+      ],
+      "constraints": [
+        "Wierszy jest od 1 do 3000. Imiona: od 1 do 10 liter. Oceny: od 1 do 6.",
+        "Średnie nie wypadają dokładnie w połowie między dwoma wynikami."
+      ],
+      "examples": [
+        {
+          "input": "Ola 5\nBartek 3\nOla 4\nOla 6\nBartek 4",
+          "output": "Bartek 3 4 -> 3.50\nOla 5 4 6 -> 5.00",
+          "note": "Ola ma 5, 4 i 6 — średnia 5.00. Bartek ma 3 i 4 — średnia 3.50."
+        }
+      ],
+      "hint": "map<string, vector<int>> oceny; i oceny[imie].push_back(o); dla każdego wiersza. Potem dla każdego ucznia wypisz jego listę i średnią: suma listy podzielona przez jej size(), jako double, po cout << fixed << setprecision(2).",
+      "tests_count": 5
+    },
+    {
+      "id": "map-goscie-dzienni",
+      "number": 1817,
+      "title": "Goście w kawiarni",
+      "category": "Mapy / krok 4: wartości złożone",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Kawiarnia zapisuje każdą wizytę: numer dnia i imię gościa. Ten sam gość może przyjść kilka razy jednego dnia. Dla każdego dnia, w którym ktoś przyszedł (rosnąco), wypisz numer dnia i liczbę różnych gości tego dnia."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n wierszy: numer dnia i imię."
+      ],
+      "output_format": [
+        "Po jednym wierszu na dzień: numer dnia i liczba różnych gości — rosnąco po dniach."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "Dni: od 1 do 10⁹. Imiona: od 1 do 10 liter."
+      ],
+      "examples": [
+        {
+          "input": "6\n3 Ola\n1 Bartek\n3 Ola\n3 Kuba\n1 Ola\n100 Bartek",
+          "output": "1 2\n3 2\n100 1",
+          "note": "Dnia 3 Ola była dwa razy — liczy się raz, więc gości było dwoje."
+        }
+      ],
+      "hint": "map<int, set<string>> goscie; i goscie[dzien].insert(imie);. Zbiór sam pominie powtórne wizyty. Na koniec dla każdej pary (dzień, zbiór) wypisz dzień i rozmiar zbioru: zbior.size().",
+      "tests_count": 6
+    },
+    {
+      "id": "map-plansza-rzadka",
+      "number": 1818,
+      "title": "Ogromna plansza",
+      "category": "Mapy / krok 4: wartości złożone",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Gra toczy się na ogromnej planszy: współrzędne x i y sięgają od −10⁹ do 10⁹. Na początku na każdym polu leży 0. Polecenia: USTAW x y v — połóż na polu (x, y) liczbę v (zastępuje poprzednią); POKAZ x y — wypisz liczbę leżącą na polu (x, y)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "q poleceń, każde w osobnym wierszu."
+      ],
+      "output_format": [
+        "Wiersz dla każdego polecenia POKAZ."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 2500",
+        "−10⁹ ≤ x, y ≤ 10⁹, −10⁹ ≤ v ≤ 10⁹",
+        "Poleceń POKAZ jest od 1 do 2000."
+      ],
+      "examples": [
+        {
+          "input": "5\nUSTAW 1000000000 -5 7\nPOKAZ 1000000000 -5\nPOKAZ -5 1000000000\nUSTAW 1000000000 -5 0\nPOKAZ 1000000000 -5",
+          "output": "7\n0\n0",
+          "note": "Pole (−5, 10⁹) to inne pole niż (10⁹, −5) — kolejność w parze ma znaczenie."
+        }
+      ],
+      "hint": "Tablicy 2 · 10⁹ × 2 · 10⁹ nie da się utworzyć. map<pair<int, int>, int> pole; trzyma tylko pola, na których coś położono. USTAW: pole[{x, y}] = v;. POKAZ: jeśli pole.count({x, y}) — wypisz wartość, inaczej 0. (Odczyt pole[{x, y}] też by dał 0, ale dopisywałby puste pola do mapy.)",
+      "tests_count": 6
+    },
+    {
+      "id": "map-grupy-anagramow",
+      "number": 1819,
+      "title": "Grupy anagramów",
+      "category": "Mapy / krok 4: wartości złożone",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz n różnych słów. Słowa są anagramami, jeśli mają te same litery w tej samej liczbie (np. kot, tok, okt). Wypisz wszystkie grupy anagramów, w których są co najmniej dwa słowa: każdą grupę w osobnym wierszu, ze słowami w kolejności alfabetycznej. Grupy ułóż według ich pierwszego słowa. Jeśli żadnej takiej grupy nie ma, wypisz BRAK."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W drugim wierszu n różnych słów."
+      ],
+      "output_format": [
+        "Grupy anagramów, każda w osobnym wierszu, albo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "Słowa: od 1 do 10 małych liter, różne."
+      ],
+      "examples": [
+        {
+          "input": "7\nkot pies tok sep ala okt lis",
+          "output": "kot okt tok",
+          "note": "kot, tok i okt to anagramy — wypisujemy je alfabetycznie. pies i sep nimi nie są (sep nie ma litery i), a pozostałe słowa nie mają pary."
+        }
+      ],
+      "hint": "map<string, vector<string>> grupy; — kluczem jest słowo z posortowanymi literami (kopia słowa po sort), wartością lista słów. Po wczytaniu posortuj każdą listę i zbierz te z co najmniej dwoma słowami do vectora list. Posortuj ten vector — listy porównują się słowo po słowie, więc ułożą się według pierwszego słowa.",
+      "tests_count": 6
+    },
+    {
+      "id": "map-ceny-ofert",
+      "number": 1820,
+      "title": "Porównywarka cen",
+      "category": "Mapy / krok 4: wartości złożone",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Porównywarka zebrała n ofert: nazwa produktu i cena w groszach. Dla każdego produktu (alfabetycznie) wypisz najniższą cenę, najwyższą cenę i liczbę ofert."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n wierszy: produkt i cena."
+      ],
+      "output_format": [
+        "Po jednym wierszu na produkt: nazwa, najniższa cena, najwyższa cena, liczba ofert."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "Nazwy: od 1 do 10 małych liter. Ceny: od 1 do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "5\nmleko 349\nchleb 500\nmleko 299\nmleko 410\nchleb 500",
+          "output": "chleb 500 500 2\nmleko 299 410 3",
+          "note": "Mleko ma trzy oferty: od 299 do 410. Chleb — dwie, obie po 500."
+        }
+      ],
+      "hint": "map<string, pair<int, int>> zakres; i osobno map<string, int> ile;. Przy pierwszej ofercie produktu (zakres.count(p) == 0) zapisz {cena, cena}. Przy kolejnych popraw: zakres[p].first = min(zakres[p].first, cena), a second — przez max.",
+      "tests_count": 6
+    },
+    {
+      "id": "map-lista-sasiedztwa",
+      "number": 1821,
+      "title": "Kto kogo zna?",
+      "category": "Mapy / krok 4: wartości złożone",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz n znajomości: każda to dwa różne imiona i oznacza, że te osoby się znają (w obie strony). Ta sama znajomość może być zapisana kilka razy, także w odwrotnej kolejności.",
+        "Dla każdej osoby, która pojawia się w danych (alfabetycznie), wypisz jej imię, liczbę znajomych, dwukropek i imiona znajomych alfabetycznie."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n wierszy dwa różne imiona."
+      ],
+      "output_format": [
+        "Po jednym wierszu na osobę: imię liczba: znajomi."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 3000",
+        "Imiona: od 1 do 10 liter; różnych osób jest najwyżej 30."
+      ],
+      "examples": [
+        {
+          "input": "4\nOla Bartek\nBartek Kuba\nOla Bartek\nBartek Ola",
+          "output": "Bartek 2: Kuba Ola\nKuba 1: Bartek\nOla 1: Bartek",
+          "note": "Znajomość Ola–Bartek zapisano trzy razy — liczy się raz. Bartek zna Kubę i Olę."
+        }
+      ],
+      "hint": "map<string, set<string>> zna;. Znajomość a–b to dwa wpisy: zna[a].insert(b); i zna[b].insert(a);. Zbiór pominie powtórki i ułoży imiona alfabetycznie, a liczba znajomych to zna[osoba].size().",
+      "tests_count": 6
+    },
+    {
+      "id": "map-najlepszy-w-przedmiocie",
+      "number": 1822,
+      "title": "Najlepszy z każdego przedmiotu",
+      "category": "Mapy / krok 4: wartości złożone",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Szkolny konkurs ma kilka przedmiotów, a uczniowie zbierają punkty w wielu rundach. Każdy wpis to: przedmiot, uczeń i punkty z jednej rundy. Dla każdego przedmiotu (alfabetycznie) wypisz ucznia z największą sumą punktów w tym przedmiocie i tę sumę. Przy remisie wygrywa uczeń wcześniejszy alfabetycznie."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n wierszy: przedmiot, uczeń i liczba punktów."
+      ],
+      "output_format": [
+        "Po jednym wierszu na przedmiot: przedmiot, uczeń i jego suma."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 4000",
+        "Nazwy przedmiotów: od 1 do 12 małych liter; imiona: od 1 do 10 liter.",
+        "0 ≤ punkty ≤ 100"
+      ],
+      "examples": [
+        {
+          "input": "5\nmatma Ola 40\nfizyka Ola 10\nmatma Bartek 30\nmatma Bartek 15\nfizyka Kuba 10",
+          "output": "fizyka Kuba 10\nmatma Bartek 45",
+          "note": "Z matematyki Bartek ma 45, Ola 40. Z fizyki Ola i Kuba mają po 10 — wygrywa Kuba, bo jest wcześniej alfabetycznie."
+        }
+      ],
+      "hint": "map<string, map<string, int>> punkty; — dla każdego przedmiotu osobna mapa „uczeń → suma”. Wpis to punkty[przedmiot][uczen] += p;. Potem dla każdego przedmiotu przejdź jego wewnętrzną mapę i znajdź rekord z warunkiem > (uczniowie idą alfabetycznie, więc przy remisie zostaje wcześniejszy).",
+      "tests_count": 6
+    },
+    {
+      "id": "map-skrajne-klucze",
+      "number": 1823,
+      "title": "Najmniejszy i największy klucz",
+      "category": "Mapy / krok 5: iteratory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Program zapisuje n przypisań „klucz wartość” do mapy (klucze to liczby całkowite, wartości — słowa; późniejsze przypisanie do tego samego klucza zastępuje wcześniejsze). Wypisz parę z najmniejszym kluczem i parę z największym kluczem."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n wierszy: klucz i słowo."
+      ],
+      "output_format": [
+        "Dwa wiersze: min: klucz słowo oraz max: klucz słowo."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "−10⁹ ≤ klucz ≤ 10⁹; słowa: od 1 do 10 małych liter."
+      ],
+      "examples": [
+        {
+          "input": "4\n10 kot\n-3 pies\n42 mysz\n-3 sowa",
+          "output": "min: -3 sowa\nmax: 42 mysz",
+          "note": "Klucz −3 dostał najpierw psa, potem sowę. Najmniejszy klucz to −3, największy — 42."
+        }
+      ],
+      "hint": "m.begin() to strzałka na pierwszą parę mapy — z najmniejszym kluczem, a m.rbegin() — na ostatnią, z największym. Klucz i wartość odczytasz przez strzałkę: m.begin()->first i m.begin()->second. Nie potrzeba żadnej pętli.",
+      "tests_count": 6
+    },
+    {
+      "id": "map-od-konca-alfabetu",
+      "number": 1824,
+      "title": "Od końca alfabetu",
+      "category": "Mapy / krok 5: iteratory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz tekst (małe litery i białe znaki). Wypisz każde słowo i liczbę jego wystąpień — w odwrotnej kolejności alfabetycznej, od z do a."
+      ],
+      "input_format": [
+        "Słowa — do końca danych."
+      ],
+      "output_format": [
+        "Po jednym wierszu na słowo: słowo i liczba wystąpień — od końca alfabetu."
+      ],
+      "constraints": [
+        "Słów jest od 1 do 10 000, każde ma od 1 do 12 liter; różnych jest najwyżej 1000."
+      ],
+      "examples": [
+        {
+          "input": "ala ma kota a kot ma ale",
+          "output": "ma 2\nkota 1\nkot 1\nale 1\nala 1\na 1",
+          "note": "Od końca: ma (2), kota, kot, ale, ala, a."
+        }
+      ],
+      "hint": "Najpierw zliczanie: licznik[s]++. Potem pętla ze strzałką idącą od końca: for (auto it = licznik.rbegin(); it != licznik.rend(); it++) — rbegin wskazuje ostatnią parę, a rend to miejsce „przed pierwszą”. Klucz to it->first, liczba — it->second.",
+      "tests_count": 6
+    },
+    {
+      "id": "map-cennik-progowy",
+      "number": 1825,
+      "title": "Cennik z progami",
+      "category": "Mapy / krok 5: iteratory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Hurtownia ma cennik z progami: „od a sztuk — c groszy za sztukę”. Dla zamówienia na x sztuk obowiązuje cena z największego progu a, który nie przekracza x. Jeśli x jest mniejsze od najmniejszego progu, hurtownia takiego zamówienia nie przyjmuje.",
+        "Dla każdego zamówienia wypisz łączną cenę (x razy cena za sztukę) w formacie złote, kropka i dwie cyfry groszy — albo BRAK."
+      ],
+      "input_format": [
+        "W pierwszym wierszu k.",
+        "W każdym z k wierszy: próg a i cena c.",
+        "Dalej wiersz z q i q wierszy z ilościami x."
+      ],
+      "output_format": [
+        "q wierszy: cena w formacie Z.GG albo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ 50, 1 ≤ q ≤ 2000",
+        "Progi: od 1 do 10⁶, różne. Ceny: od 1 do 10⁵ groszy.",
+        "1 ≤ x ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "3\n10 500\n1 700\n100 350\n4\n5\n10\n250\n99",
+          "output": "35.00\n50.00\n875.00\n495.00",
+          "note": "5 sztuk — próg 1 (7.00 zł za sztukę): 35.00. 10 sztuk — próg 10: 50.00. 250 — próg 100: 875.00. 99 — próg 10: 495.00."
+        }
+      ],
+      "hint": "map<int, long long> cena; — próg → cena. cena.upper_bound(x) to pierwszy próg WIĘKSZY od x. Jeśli to begin(), żaden próg nie jest ≤ x — BRAK. Inaczej cofnij się o jeden: auto it = prev(cena.upper_bound(x)); — to największy próg ≤ x, a it->second to cena za sztukę.",
+      "tests_count": 6
+    },
+    {
+      "id": "map-podwyzka",
+      "number": 1826,
+      "title": "Podwyżki i premie",
+      "category": "Mapy / krok 5: iteratory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Firma ma n pracowników z pensjami (w złotych). Przychodzą polecenia:",
+        "WSZYSCY p — każdy dostaje podwyżkę o p procent: nowa pensja = pensja · (100 + p) / 100, zaokrąglona w dół;",
+        "PREMIA imie x — ta jedna osoba dostaje x złotych więcej (na stałe).",
+        "Wypisz końcowe pensje wszystkich pracowników, alfabetycznie."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n wierszy: imię i pensja.",
+        "Dalej wiersz z q i q poleceń."
+      ],
+      "output_format": [
+        "Po jednym wierszu na pracownika: imię i pensja — alfabetycznie."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 300, 1 ≤ q ≤ 200",
+        "Imiona: od 1 do 10 liter, różne. Pensje na start: od 1000 do 10⁶.",
+        "Poleceń WSZYSCY jest najwyżej 20, każde z p od 0 do 20; premie: od 1 do 10⁶; premie dostają tylko osoby z listy."
+      ],
+      "examples": [
+        {
+          "input": "2\nOla 4000\nBartek 3500\n3\nWSZYSCY 10\nPREMIA Ola 100\nWSZYSCY 5",
+          "output": "Bartek 4042\nOla 4725",
+          "note": "Po 10%: Ola 4400, Bartek 3850. Ola dostaje 100 — 4500. Po 5%: Ola 4725, Bartek 4042 (4042.5 zaokrąglone w dół)."
+        }
+      ],
+      "hint": "Pętla for (auto &[imie, p] : pensje) p = p * (100 + proc) / 100; zmienia wartości w samej mapie — dzięki znakowi &. Bez & pętla zmieniałaby tylko kopie. Kluczy w ten sposób zmieniać nie można (i nie trzeba). Pensje w long long.",
+      "tests_count": 5
+    },
+    {
+      "id": "map-czystka",
+      "number": 1827,
+      "title": "Czystka w słowniku",
+      "category": "Mapy / krok 5: iteratory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz liczbę k, a potem tekst. Zlicz słowa, a następnie usuń ze słownika wszystkie słowa, które wystąpiły mniej niż k razy. Wypisz słowa, które zostały, alfabetycznie, z liczbą wystąpień — albo PUSTO, jeśli nie zostało żadne."
+      ],
+      "input_format": [
+        "W pierwszym wierszu k.",
+        "Dalej słowa — do końca danych."
+      ],
+      "output_format": [
+        "Wiersze: słowo i liczba wystąpień — alfabetycznie — albo PUSTO."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ 100",
+        "Słów jest od 1 do 10 000, każde ma od 1 do 12 małych liter; różnych jest najwyżej 1000."
+      ],
+      "examples": [
+        {
+          "input": "2\nala ma kota a kot ma ale ala",
+          "output": "ala 2\nma 2",
+          "note": "Co najmniej dwa razy wystąpiły tylko ala i ma."
+        }
+      ],
+      "hint": "Usuwanie podczas przechodzenia wymaga ostrożności: po erase strzałka na usunięty element jest nieważna. Dlatego: for (auto it = m.begin(); it != m.end(); ) { if (it->second < k) it = m.erase(it); else it++; } — erase zwraca strzałkę na następny element. (Możesz też zebrać słowa do usunięcia w vectorze i usunąć je po pętli.)",
+      "tests_count": 6
+    },
+    {
+      "id": "map-najblizsza-stacja",
+      "number": 1828,
+      "title": "Najbliższa stacja",
+      "category": "Mapy / krok 5: iteratory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wzdłuż autostrady stoi n stacji benzynowych, każda na innym kilometrze. Kierowca pyta q razy: która stacja jest najbliżej kilometra x? Wypisz jej nazwę i odległość. Gdy dwie stacje są równie blisko, wybierz tę na mniejszym kilometrze."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n wierszy: kilometr i nazwa stacji.",
+        "Dalej wiersz z q i q wierszy z kilometrami."
+      ],
+      "output_format": [
+        "q wierszy: nazwa najbliższej stacji i odległość."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000, 1 ≤ q ≤ 1200",
+        "Kilometry: od 0 do 10⁹ (stacji — różne). Nazwy: od 1 do 12 liter."
+      ],
+      "examples": [
+        {
+          "input": "3\n10 Orlik\n50 Bocian\n30 Jastrzab\n3\n12\n40\n100",
+          "output": "Orlik 2\nJastrzab 10\nBocian 50",
+          "note": "Kilometr 40 jest w połowie między stacjami na 30 i 50 — wygrywa ta na mniejszym kilometrze, Jastrzab."
+        }
+      ],
+      "hint": "auto it = stacje.lower_bound(x); to pierwsza stacja na kilometrze ≥ x. Kandydaci są dwaj: it (jeśli nie jest end()) i prev(it) (jeśli it nie jest begin()). Policz obie odległości i wybierz mniejszą; przy remisie — tę z prev, bo stoi na mniejszym kilometrze.",
+      "tests_count": 5
+    },
+    {
+      "id": "map-kolejne-od-x",
+      "number": 1829,
+      "title": "Kolejka po numerkach",
+      "category": "Mapy / krok 5: iteratory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W urzędzie każdy klient ma numerek; numerki nie muszą być kolejne. Urzędnik pyta q razy: kto czeka z numerkami od x w górę? Wypisz imiona co najwyżej k klientów z najmniejszymi numerkami ≥ x, w kolejności numerków, oddzielone spacjami — albo BRAK, jeśli takich klientów nie ma."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n wierszy: numerek i imię.",
+        "Dalej wiersz z q i q wierszy z liczbami x i k."
+      ],
+      "output_format": [
+        "q wierszy z imionami albo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 3000, 1 ≤ q ≤ 400",
+        "Numerki: od 1 do 10⁶, różne. Imiona: od 1 do 10 liter.",
+        "1 ≤ x ≤ 10⁶, 1 ≤ k ≤ 5"
+      ],
+      "examples": [
+        {
+          "input": "4\n17 Ola\n3 Bartek\n25 Kuba\n18 Iga\n3\n10 2\n18 5\n26 1",
+          "output": "Ola Iga\nIga Kuba\nBRAK",
+          "note": "Od numerka 10: 17 (Ola) i 18 (Iga). Od 18: Iga i Kuba — więcej nie ma. Od 26 — nikt."
+        }
+      ],
+      "hint": "auto it = kolejka.lower_bound(x); wskazuje pierwszego klienta z numerkiem ≥ x. Potem zwykła pętla: dopóki it != kolejka.end() i wypisałeś mniej niż k osób — wypisz it->second i przesuń strzałkę: it++.",
+      "tests_count": 5
+    },
+    {
+      "id": "map-progi-ocen",
+      "number": 1830,
+      "title": "Progi ocen",
+      "category": "Mapy / krok 5: iteratory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Nauczyciel ustalił progi: „od a punktów — ocena o”. Najniższy próg to zawsze 0. Uczeń dostaje ocenę z największego progu, który nie przekracza jego punktów.",
+        "Dla każdego ucznia (w kolejności z wejścia) wypisz imię, ocenę i liczbę punktów brakujących do następnego progu — albo słowo max, jeśli uczeń jest już w najwyższym progu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu k.",
+        "W każdym z k wierszy: próg a i ocena o.",
+        "Dalej wiersz z n i n wierszy: imię i liczba punktów."
+      ],
+      "output_format": [
+        "n wierszy: imię, ocena i brakujące punkty albo max."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ 10, 1 ≤ n ≤ 1000",
+        "Progi: od 0 do 100, różne, jeden z nich to 0. Oceny: od 1 do 6.",
+        "Imiona: od 1 do 10 liter. Punkty: od 0 do 100."
+      ],
+      "examples": [
+        {
+          "input": "4\n0 1\n50 3\n70 4\n90 6\n3\nOla 69\nBartek 90\nKuba 12",
+          "output": "Ola 3 1\nBartek 6 max\nKuba 1 38",
+          "note": "Ola ma 69 punktów — próg 50, ocena 3, do progu 70 brakuje 1. Bartek jest w najwyższym progu. Kubie do progu 50 brakuje 38."
+        }
+      ],
+      "hint": "map<int, int> prog; — próg → ocena. auto it = prog.upper_bound(p); to pierwszy próg WIĘKSZY od p. Ocena to prev(it)->second (próg 0 gwarantuje, że prev istnieje). Jeśli it == prog.end() — uczeń ma max, inaczej brakuje mu it->first − p punktów.",
+      "tests_count": 5
+    },
+    {
+      "id": "map-numeracja-imion",
+      "number": 1831,
+      "title": "Numery dla imion",
+      "category": "Mapy / krok 6: mapa jako pamięć",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Szatnia wydaje numerki: każda osoba, która przychodzi pierwszy raz, dostaje kolejny wolny numer (1, 2, 3…), a osoba, która już była, dostaje ten sam numer co poprzednio. Dostajesz listę n imion w kolejności przychodzenia. Wypisz numer każdej osoby, a w drugim wierszu — ile różnych osób przyszło."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W drugim wierszu n imion."
+      ],
+      "output_format": [
+        "W pierwszym wierszu n numerów oddzielonych spacjami.",
+        "W drugim wierszu liczba różnych osób."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "Imiona: od 1 do 12 liter."
+      ],
+      "examples": [
+        {
+          "input": "6\nOla Bartek Ola Kuba Bartek Iga",
+          "output": "1 2 1 3 2 4\n4",
+          "note": "Ola dostaje 1, Bartek 2, Kuba 3, Iga 4. Powtórzone osoby dostają swoje stare numery."
+        }
+      ],
+      "hint": "map<string, int> numer;. Dla imienia, którego jeszcze nie ma (numer.count(imie) == 0), nadaj numer[imie] = numer.size() + 1; — rozmiar mapy to liczba osób, które już mają numery. Potem wypisz numer[imie].",
+      "tests_count": 6
+    },
+    {
+      "id": "map-kompresja",
+      "number": 1832,
+      "title": "Miejsca zamiast wartości",
+      "category": "Mapy / krok 6: mapa jako pamięć",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz n liczb (mogą być ogromne i się powtarzać). Zamień każdą liczbę na jej miejsce wśród różnych wartości: najmniejsza różna wartość dostaje 1, następna 2 i tak dalej; równe liczby dostają to samo miejsce. Taka zamiana to kompresja wartości — przydaje się, gdy liczby są za duże na indeksy tablicy."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jeden wiersz: n miejsc oddzielonych spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 4000",
+        "−10¹⁸ ≤ każda liczba ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "6\n1000000000000 -5 7 -5 7 0",
+          "output": "4 1 3 1 3 2",
+          "note": "Różne wartości rosnąco: −5, 0, 7, 10¹². Dostają miejsca 1, 2, 3, 4."
+        }
+      ],
+      "hint": "Najpierw wstaw wszystkie liczby jako klucze: miejsce[x] = 0;. Potem przejdź mapę — klucze idą rosnąco — i nadawaj kolejne numery: int nr = 0; for (auto &[x, m] : miejsce) m = ++nr;. Na koniec dla każdej liczby wejścia wypisz miejsce[x] (liczby trzeba więc zapamiętać w vectorze).",
+      "tests_count": 6
+    },
+    {
+      "id": "map-ile-par-o-sumie",
+      "number": 1833,
+      "title": "Ile par ma sumę k?",
+      "category": "Mapy / krok 6: mapa jako pamięć",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz n liczb i liczbę k. Policz, ile jest par pozycji (i, j), i < j, takich że a[i] + a[j] = k."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n i k.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba par."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 8000",
+        "−2 · 10⁹ ≤ k ≤ 2 · 10⁹",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "6 6\n1 5 3 3 5 3",
+          "output": "5",
+          "note": "Pary (1, 5): pozycje 1–2 i 1–5. Pary (3, 3): trzy trójki dają 3 pary. Razem 5."
+        }
+      ],
+      "hint": "Przechodź liczby od lewej i trzymaj map<long long, long long> ile; — ile razy każda wartość wystąpiła wcześniej. Dla liczby x wszystkie pasujące do niej wcześniejsze liczby to k − x, więc wynik += ile[k − x], a dopiero potem ile[x]++. Kolejność ma znaczenie: inaczej x sparowałby się sam ze sobą. Wynik może mieć 3 · 10⁷ — long long.",
+      "tests_count": 7
+    },
+    {
+      "id": "map-najdluzszy-o-sumie",
+      "number": 1834,
+      "title": "Najdłuższy fragment o sumie k",
+      "category": "Mapy / krok 6: mapa jako pamięć",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz n liczb (także ujemnych) i liczbę k. Znajdź najdłuższy spójny fragment, którego suma wynosi dokładnie k, i wypisz jego długość — albo 0, jeśli takiego fragmentu nie ma."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n i k.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jedna liczba — długość najdłuższego fragmentu o sumie k (albo 0)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 8000",
+        "−10⁹ ≤ k ≤ 10⁹",
+        "−10⁴ ≤ każda liczba ≤ 10⁴"
+      ],
+      "examples": [
+        {
+          "input": "7 5\n2 3 -4 4 1 0 -3",
+          "output": "4",
+          "note": "Sumę 5 mają fragmenty 2 3, 4 1, 4 1 0 oraz 2 3 −4 4. Najdłuższy z nich, 2 3 −4 4, ma długość 4."
+        }
+      ],
+      "hint": "Niech p to suma prefiksowa do pozycji i. Fragment kończący się na i ma sumę k, gdy wcześniej wystąpiła suma prefiksowa p − k. Żeby fragment był najdłuższy, zapamiętuj w mapie PIERWSZĄ pozycję każdej sumy prefiksowej (pierwsza[0] = 0 przed startem!). Dla każdej pozycji: jeśli pierwsza.count(p − k), długość to i − pierwsza[p − k].",
+      "tests_count": 8
+    },
+    {
+      "id": "map-rownowaga-liter",
+      "number": 1835,
+      "title": "Tyle samo a i b",
+      "category": "Mapy / krok 6: mapa jako pamięć",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz napis z liter a i b. Znajdź najdłuższy spójny fragment, w którym liter a jest dokładnie tyle samo co liter b, i wypisz jego długość (0, jeśli takiego fragmentu nie ma)."
+      ],
+      "input_format": [
+        "Jeden wiersz — napis."
+      ],
+      "output_format": [
+        "Jedna liczba — długość najdłuższego zrównoważonego fragmentu."
+      ],
+      "constraints": [
+        "Napis ma od 1 do 90 000 liter a i b."
+      ],
+      "examples": [
+        {
+          "input": "aabbbaab",
+          "output": "8",
+          "note": "Cały napis ma 4 litery a i 4 litery b — długość 8."
+        }
+      ],
+      "hint": "Idź po napisie i trzymaj równowagę: +1 za a, −1 za b. Fragment od pozycji i + 1 do j jest zrównoważony, gdy równowaga po i i po j jest taka sama. Zapamiętuj w mapie pierwszą pozycję każdej wartości równowagi (z wartością 0 na pozycji 0) — to dokładnie ta sama sztuczka co z sumami prefiksowymi.",
+      "tests_count": 8
+    },
+    {
+      "id": "map-poprzednie-wystapienie",
+      "number": 1836,
+      "title": "Jak dawno to było?",
+      "category": "Mapy / krok 6: mapa jako pamięć",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz n liczb. Dla każdej liczby wypisz, ile pozycji wcześniej wystąpiła poprzednio ta sama wartość (różnicę pozycji), albo 0, jeśli wcześniej jej nie było."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jeden wiersz: n liczb oddzielonych spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "7\n4 9 4 4 1 9 1",
+          "output": "0 0 2 1 0 4 2",
+          "note": "Trzecia liczba (4) wystąpiła poprzednio 2 pozycje wcześniej, czwarta (4) — 1 pozycję wcześniej, szósta (9) — 4 pozycje wcześniej."
+        }
+      ],
+      "hint": "map<int, int> ostatnia;. Dla liczby x na pozycji i: najpierw odpowiedź — i − ostatnia[x], jeśli ostatnia.count(x), inaczej 0 — a dopiero potem ostatnia[x] = i. W odwrotnej kolejności każda liczba widziałaby samą siebie.",
+      "tests_count": 6
+    },
+    {
+      "id": "map-najkrotsze-okno",
+      "number": 1837,
+      "title": "Najkrótszy fragment ze wszystkim",
+      "category": "Mapy / krok 6: mapa jako pamięć",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Kolekcjoner ma n naklejek w rzędzie; na każdej jest numer wzoru. Chce wyciąć jeden spójny kawałek rzędu, w którym znajdzie się co najmniej jedna naklejka każdego wzoru, jaki występuje w całym rzędzie. Jaka jest najmniejsza długość takiego kawałka?"
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W drugim wierszu n numerów wzorów."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejsza długość kawałka."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 8000",
+        "Numery wzorów: od 1 do 10⁹; różnych wzorów jest najwyżej 200."
+      ],
+      "examples": [
+        {
+          "input": "8\n5 1 5 7 5 1 7 7",
+          "output": "3",
+          "note": "Wzory to 1, 5 i 7. Kawałek 1 5 7 (pozycje 2–4) zawiera wszystkie trzy i ma długość 3."
+        }
+      ],
+      "hint": "Najpierw policz różne wzory: set albo mapa. Potem dwa wskaźniki: prawy koniec idzie po kolei i dokłada naklejkę do map<int, int> w_oknie. Dopóki okno ma wszystkie wzory (w_oknie.size() == ile_wzorow), zapisz długość i przesuń lewy koniec: zmniejsz licznik, a gdy spadnie do 0 — erase, żeby size() mówił prawdę.",
+      "tests_count": 7
+    },
+    {
+      "id": "map-zmiany-nickow",
+      "number": 1838,
+      "title": "Zmiany nicków",
+      "category": "Mapy / krok 6: mapa jako pamięć",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na serwerze gry gracze zmieniają nicki. Każda zmiana to para „stary nowy”: gracz, który teraz nazywa się stary, od tej chwili nazywa się nowy. Nowy nick nigdy wcześniej nie był używany przez nikogo.",
+        "Po wszystkich zmianach wypisz, ilu graczy zmieniło nick choć raz, a potem dla każdego z nich jego pierwszy nick i ostatni nick — w kolejności alfabetycznej pierwszych nicków."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W każdym z q wierszy dwa nicki: stary i nowy."
+      ],
+      "output_format": [
+        "W pierwszym wierszu liczba graczy.",
+        "Potem po jednym wierszu: pierwszy nick i ostatni nick."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 800",
+        "Nicki: od 1 do 15 znaków (małe litery i cyfry)."
+      ],
+      "examples": [
+        {
+          "input": "4\nola ola2008\nbartek bmx\nola2008 sowa\nkuba kuba2",
+          "output": "3\nbartek bmx\nkuba kuba2\nola sowa",
+          "note": "Ola zmieniła nick dwa razy: ola → ola2008 → sowa. W sumie trzech graczy zmieniło nick."
+        }
+      ],
+      "hint": "Trzymaj map<string, string> pierwszy; — obecny nick → pierwszy nick tego gracza. Przy zmianie a → b: pierwotny = pierwszy.count(a) ? pierwszy[a] : a; potem pierwszy.erase(a); i pierwszy[b] = pierwotny;. Na końcu przepisz pary (pierwszy, obecny) do vectora i posortuj.",
+      "tests_count": 7
+    },
+    {
+      "id": "map-kolejnosc-pojawienia",
+      "number": 1839,
+      "title": "W kolejności pojawienia się",
+      "category": "Mapy / krok 7: unordered_map",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz tekst. Wypisz każde słowo i liczbę jego wystąpień — w kolejności, w jakiej słowa pojawiły się w tekście po raz pierwszy (a nie alfabetycznie)."
+      ],
+      "input_format": [
+        "Słowa — do końca danych."
+      ],
+      "output_format": [
+        "Po jednym wierszu na każde różne słowo: słowo i liczba wystąpień — w kolejności pierwszego pojawienia się."
+      ],
+      "constraints": [
+        "Słów jest od 1 do 10 000, każde ma od 1 do 12 małych liter; różnych jest najwyżej 1000."
+      ],
+      "examples": [
+        {
+          "input": "ma ala kota\nala ma ma",
+          "output": "ma 3\nala 2\nkota 1",
+          "note": "Najpierw pojawiło się ma, potem ala, potem kota — i w tej kolejności je wypisujemy."
+        }
+      ],
+      "hint": "Ani map (porządek alfabetyczny), ani unordered_map (porządek przypadkowy) nie pamiętają, w jakiej kolejności wstawiano klucze. Zliczaj w unordered_map<string, int> ile;, a nowe słowo (ile.count(s) == 0) dopisuj dodatkowo do vector<string> kolejnosc;. Wypisuj, idąc po vectorze.",
+      "tests_count": 6
+    },
+    {
+      "id": "map-ktora-wizyta",
+      "number": 1840,
+      "title": "Która to wizyta?",
+      "category": "Mapy / krok 7: unordered_map",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Do klubu wchodzi po kolei n osób, każda pokazuje kartę z numerem. Przy każdym wejściu wypisz, który raz ta karta pojawia się przy wejściu (1 — pierwszy raz, 2 — drugi raz…). Na koniec, w osobnym wierszu, wypisz liczbę różnych kart."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W drugim wierszu n numerów kart."
+      ],
+      "output_format": [
+        "W pierwszym wierszu n liczb oddzielonych spacjami — numer wizyty przy każdym wejściu.",
+        "W drugim wierszu liczba różnych kart."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 6000",
+        "1 ≤ numer karty ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "6\n555 12 555 555 12 999999999999999999",
+          "output": "1 1 2 3 2 1\n3",
+          "note": "Karta 555 przychodzi po raz pierwszy, drugi i trzeci, karta 12 — pierwszy i drugi. Różne karty są trzy."
+        }
+      ],
+      "hint": "Kolejność kluczy nie jest tu potrzebna, więc wystarczy unordered_map<long long, int> ile;. Wyrażenie ++ile[x] najpierw zwiększa licznik (dla nowej karty z 0 na 1), a potem oddaje nową wartość — możesz ją od razu wypisać. Liczba różnych kart to ile.size().",
+      "tests_count": 8
+    },
+    {
+      "id": "map-kontrola-biletow",
+      "number": 1841,
+      "title": "Kontrola biletów",
+      "category": "Mapy / krok 7: unordered_map",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na koncert sprzedano n biletów o numerach od 1 do 10⁶. Przy wejściu skaner odczytuje q numerów. Dla każdego odczytu wypisz:",
+        "OK — gdy bilet był sprzedany i wchodzi pierwszy raz;",
+        "DUPLIKAT — gdy bilet był sprzedany, ale już raz go zeskanowano;",
+        "FALSZYWY — gdy takiego biletu nie sprzedano."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W drugim wierszu n różnych numerów sprzedanych biletów.",
+        "W trzecim wierszu q, a w czwartym — q odczytanych numerów."
+      ],
+      "output_format": [
+        "q wierszy: OK, DUPLIKAT albo FALSZYWY."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000, 1 ≤ q ≤ 3000",
+        "Numery biletów: od 1 do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "3\n15 7 900000\n4\n7 8 7 900000",
+          "output": "OK\nFALSZYWY\nDUPLIKAT\nOK",
+          "note": "Bilet 7 wchodzi raz, za drugim razem to duplikat. Biletu 8 nikt nie kupił."
+        }
+      ],
+      "hint": "Numery są małe (do 10⁶), więc najprostsza jest globalna tablica int stan[1000001]: 0 — nie sprzedany, 1 — sprzedany, 2 — już użyty. To szybsze i prostsze niż mapa. Mapa (albo unordered_map) też zadziała — przydałaby się, gdyby numery sięgały 10¹⁸.",
+      "tests_count": 6
+    },
+    {
+      "id": "map-wspolne-z-krotnoscia",
+      "number": 1842,
+      "title": "Wspólne naklejki",
+      "category": "Mapy / krok 7: unordered_map",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ola i Bartek mają klasery z naklejkami; naklejki mogą się powtarzać. Chcą wiedzieć, ile naklejek mają wspólnych — licząc z powtórzeniami: jeśli Ola ma trzy naklejki z numerem 5, a Bartek dwie, to wspólne są dwie piątki.",
+        "Wypisz liczbę wspólnych naklejek, a w drugim wierszu ich numery rosnąco (z powtórzeniami) — albo BRAK, jeśli nie mają nic wspólnego."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n i m.",
+        "W drugim wierszu n numerów Oli, w trzecim — m numerów Bartka."
+      ],
+      "output_format": [
+        "W pierwszym wierszu liczba wspólnych naklejek.",
+        "W drugim wierszu ich numery rosnąco albo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 3000",
+        "Numery: od 1 do 10⁹."
+      ],
+      "examples": [
+        {
+          "input": "5 4\n5 1 5 5 9\n5 7 5 1",
+          "output": "3\n1 5 5",
+          "note": "Wspólne są dwie piątki i jedynka — razem 3 naklejki."
+        }
+      ],
+      "hint": "Policz naklejki Oli w map<int, int> a, a Bartka w map<int, int> b. Potem przejdź mapę a (rosnąco!) i dla każdego numeru, który jest też w b, wypisz go min(a[x], b[x]) razy. Wygodnie jest najpierw zebrać wspólne numery do vectora — wtedy jego size() to liczba z pierwszego wiersza.",
+      "tests_count": 5
+    },
+    {
+      "id": "map-najczestsze-w-testach",
+      "number": 1843,
+      "title": "Najczęstsze słowo w każdym teście",
+      "category": "Mapy / krok 7: unordered_map",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W każdym z t testów dostajesz n słów. Wypisz słowo, które występuje w teście najczęściej, i liczbę jego wystąpień. Przy remisie wybierz słowo wcześniejsze alfabetycznie."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "Każdy test: n, a w następnym wierszu n słów."
+      ],
+      "output_format": [
+        "t wierszy: słowo i liczba wystąpień."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 500",
+        "1 ≤ n, suma wszystkich n ≤ 10 000",
+        "Słowa: od 1 do 10 małych liter."
+      ],
+      "examples": [
+        {
+          "input": "2\n5\nkot pies kot mysz pies\n3\nb a c",
+          "output": "kot 2\na 1",
+          "note": "W pierwszym teście kot i pies mają po 2 — wygrywa kot. W drugim wszystkie mają po 1 — wygrywa a."
+        }
+      ],
+      "hint": "unordered_map nie podaje kluczy alfabetycznie, więc „pierwszy z największą liczbą” nie musi być alfabetycznie pierwszy. Warunek rekordu musi więc sam pilnować remisu: ile > najlepsze || (ile == najlepsze && slowo < zwyciezca). (Ze zwykłą map wystarczyłoby samo >.) Mapę twórz w środku pętli po testach.",
+      "tests_count": 6
+    },
+    {
+      "id": "map-generator-w-petli",
+      "number": 1844,
+      "title": "Generator w pętli",
+      "category": "Mapy / krok 7: unordered_map",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ciąg tworzy generator z lekcji o złożoności: x₁ = s, xᵢ = (xᵢ₋₁ · a + b) mod m. Każdy wyraz zależy tylko od poprzedniego, więc gdy jakaś wartość pojawi się drugi raz, ciąg zaczyna krążyć w kółko.",
+        "Znajdź najmniejsze j ≤ n, dla którego xⱼ jest równe któremuś wcześniejszemu wyrazowi xᵢ (i < j). Wypisz i, j oraz długość pętli j − i. Jeśli wśród pierwszych n wyrazów nic się nie powtarza, wypisz BRAK."
+      ],
+      "input_format": [
+        "Jeden wiersz: n s a b m."
+      ],
+      "output_format": [
+        "Trzy liczby: i, j oraz j − i — albo słowo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5 · 10⁵",
+        "1 ≤ m ≤ 10⁹",
+        "0 ≤ s, a, b < m"
+      ],
+      "examples": [
+        {
+          "input": "10 3 7 5 10",
+          "output": "1 5 4",
+          "note": "Ciąg: 3, 6, 7, 4, 3, … Piąty wyraz jest równy pierwszemu, więc i = 1, j = 5, a pętla ma długość 4."
+        }
+      ],
+      "hint": "Trzymaj unordered_map<long long, int> gdzie; — wartość → numer wyrazu, w którym pojawiła się pierwszy raz. Dla kolejnego wyrazu sprawdź gdzie.count(x): jeśli wartość już była, masz odpowiedź i możesz zakończyć program. Przed pętlą wywołaj gdzie.reserve(n); — mapa od razu przygotuje miejsce i nie będzie się przebudowywać w trakcie.",
+      "tests_count": 12
+    },
+    {
+      "id": "map-pary-slow",
+      "number": 1845,
+      "title": "Najczęstsza para słów",
+      "category": "Mapy / krok 7: unordered_map",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz tekst. Para sąsiednich słów to dwa słowa stojące w tekście bezpośrednio po sobie (także na granicy wierszy). Znajdź parę, która występuje najczęściej, i wypisz ją z liczbą wystąpień. Przy remisie wybierz parę wcześniejszą alfabetycznie (najpierw porównujemy pierwsze słowo, potem drugie)."
+      ],
+      "input_format": [
+        "Słowa — do końca danych (co najmniej dwa)."
+      ],
+      "output_format": [
+        "Jeden wiersz: dwa słowa i liczba wystąpień tej pary."
+      ],
+      "constraints": [
+        "Słów jest od 2 do 10 000, każde ma od 1 do 12 małych liter."
+      ],
+      "examples": [
+        {
+          "input": "ala ma kota i ala ma psa\nala ma",
+          "output": "ala ma 3",
+          "note": "Para „ala ma” występuje trzy razy — także na granicy wierszy nic się nie przerywa."
+        }
+      ],
+      "hint": "Trzymaj poprzednie słowo i dla każdego kolejnego zwiększ licznik pary: ile[{poprz, s}]++;. Mapa par porównuje najpierw first, potem second — dokładnie tak, jak wymaga remis — więc wystarczy rekord z warunkiem >.",
+      "tests_count": 6
+    },
+    {
+      "id": "map-anagramy-wzorca",
+      "number": 1846,
+      "title": "Anagramy wzorca w tekście",
+      "category": "Mapy / krok 7: unordered_map",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz tekst i wzorzec — oba z małych liter. Policz, ile jest pozycji w tekście, od których zaczyna się fragment o długości wzorca będący jego anagramem (te same litery w tej samej liczbie, w dowolnej kolejności)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu tekst.",
+        "W drugim wierszu wzorzec."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba takich pozycji."
+      ],
+      "constraints": [
+        "Tekst ma od 1 do 90 000 liter, wzorzec — od 1 do 1000 liter (małe litery a–z)."
+      ],
+      "examples": [
+        {
+          "input": "abcbacab\nabc",
+          "output": "4",
+          "note": "Fragmenty o długości 3 to: abc, bcb, cba, bac, aca, cab. Anagramami abc są cztery z nich: abc, cba, bac i cab."
+        }
+      ],
+      "hint": "Liter jest tylko 26, więc liczniki trzymaj w tablicy int t[26], a nie w mapie. Policz litery wzorca. Okno o długości wzorca przesuwaj po tekście: dodaj literę wchodzącą, odejmij wychodzącą i porównaj obie tablice (26 porównań). Mapa też by zadziałała, ale tablica jest prostsza i szybsza.",
+      "tests_count": 7
+    },
+    {
+      "id": "map-lodowisko",
+      "number": 1847,
+      "title": "Tłok na lodowisku",
+      "category": "Mapy / krok 8: mapa na olimpiadzie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na lodowisku jeździło n osób. Osoba i weszła na lód w chwili aᵢ i zeszła w chwili bᵢ — w chwili bᵢ już jej nie ma, więc ktoś, kto wchodzi dokładnie wtedy, z nią się nie mija.",
+        "Ile najwięcej osób było jednocześnie na lodzie i od której chwili po raz pierwszy był taki tłok?"
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy dwie liczby aᵢ i bᵢ."
+      ],
+      "output_format": [
+        "Dwie liczby: największa liczba osób naraz i najwcześniejsza chwila, od której tyle osób było na lodzie."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 4000",
+        "0 ≤ aᵢ < bᵢ ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "4\n1 5\n2 6\n5 8\n7 9",
+          "output": "2 2",
+          "note": "Od chwili 2 na lodzie są dwie osoby. W chwili 5 pierwsza schodzi, a trzecia wchodzi — nadal dwie. Trzech naraz nie było nigdy, więc wynik to 2 i chwila 2."
+        }
+      ],
+      "hint": "Utwórz map<int, int> zmiana;. Dla każdej osoby: zmiana[a]++; i zmiana[b]--;. Mapa ułoży chwile rosnąco, a zmiany z tej samej chwili same się zsumują (wyjście i wejście w chwili 5 dają razem 0 — i dobrze, bo te osoby się nie mijają). Potem przejdź mapę z bieżącą sumą: teraz += d;. Rekord poprawiaj tylko przy >, żeby zapamiętać najwcześniejszą chwilę.",
+      "tests_count": 9
+    },
+    {
+      "id": "map-zasieg-nadajnikow",
+      "number": 1848,
+      "title": "Zasięg na autostradzie",
+      "category": "Mapy / krok 8: mapa na olimpiadzie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wzdłuż autostrady stoi n nadajników. Nadajnik i daje zasięg od kilometra aᵢ do kilometra bᵢ. Telefon działa dobrze tam, gdzie łapie sygnał z co najmniej k nadajników naraz.",
+        "Policz łączną długość autostrady (w kilometrach), na której telefon działa dobrze."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n i k.",
+        "W każdym z n kolejnych wierszy aᵢ i bᵢ."
+      ],
+      "output_format": [
+        "Jedna liczba — łączna długość."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 4000",
+        "0 ≤ aᵢ < bᵢ ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "3 2\n0 10\n5 15\n8 20",
+          "output": "10",
+          "note": "Od kilometra 5 do 15 sygnał dają co najmniej dwa nadajniki (od 8 do 10 nawet trzy) — to 10 km."
+        }
+      ],
+      "hint": "Zapisz zdarzenia jak w poprzednim zadaniu: zmiana[a]++; zmiana[b]--;. Idąc po mapie, pamiętaj poprzedni klucz: bieżąca liczba nadajników obowiązuje od poprzedniego klucza aż do obecnego. Zanim dodasz zmianę z obecnego klucza, sprawdź: jeśli teraz >= k, dolicz t − poprzedni.",
+      "tests_count": 9
+    },
+    {
+      "id": "map-sledzenie-paczek",
+      "number": 1849,
+      "title": "Gdzie jest paczka?",
+      "category": "Mapy / krok 8: mapa na olimpiadzie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Firma kurierska wykonuje po kolei q poleceń:",
+        "NADAJ p c — paczka o numerze p pojawia się w mieście c (paczki o tym numerze nie ma teraz w systemie);",
+        "PRZEWIEZ p c — paczka p jedzie do miasta c (paczka jest w systemie i nie leży już w c);",
+        "ODBIOR p — paczka p zostaje odebrana i znika z systemu (paczka jest w systemie);",
+        "GDZIE p — wypisz miasto, w którym leży paczka p, albo BRAK, jeśli nie ma jej w systemie;",
+        "ILE c — wypisz, ile paczek leży teraz w mieście c."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W każdym z q kolejnych wierszy jedno polecenie."
+      ],
+      "output_format": [
+        "Odpowiedzi na polecenia GDZIE i ILE, każda w osobnym wierszu."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 3000",
+        "1 ≤ p ≤ 10⁹",
+        "Nazwy miast: od 1 do 12 liter, bez spacji."
+      ],
+      "examples": [
+        {
+          "input": "7\nNADAJ 17 Krakow\nNADAJ 4 Gdansk\nPRZEWIEZ 17 Gdansk\nILE Gdansk\nGDZIE 17\nODBIOR 4\nILE Gdansk",
+          "output": "2\nGdansk\n1",
+          "note": "Po przewiezieniu w Gdańsku leżą dwie paczki, a po odbiorze paczki 4 — już tylko jedna."
+        }
+      ],
+      "hint": "map<int, string> gdzie; (paczka → miasto) i map<string, int> ile; (miasto → liczba paczek). Przy PRZEWIEZ najpierw zmniejsz licznik starego miasta: ile[gdzie[p]]--;, potem zmień miasto paczki i zwiększ licznik nowego. Przy ODBIOR zmniejsz licznik i usuń paczkę: gdzie.erase(p);. Przy GDZIE sprawdzaj przez count — nawiasy dopisałyby paczkę-widmo z pustym miastem.",
+      "tests_count": 8
+    },
+    {
+      "id": "map-bank-klasowy",
+      "number": 1850,
+      "title": "Bank klasowy",
+      "category": "Mapy / krok 8: mapa na olimpiadzie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W klasowym banku każdy uczeń ma konto ze stanem w groszach. Bank wykonuje po kolei m przelewów „od do kwota”. Dla każdego przelewu wypisz:",
+        "BLAD — gdy któregoś z kont nie ma w banku albo gdy ktoś przelewa sam do siebie;",
+        "BRAK SRODKOW — gdy nadawca ma mniej, niż chce przelać;",
+        "OK — gdy przelew się udał (nadawcy ubywa, odbiorcy przybywa).",
+        "Na koniec wypisz wszystkie konta od największego stanu do najmniejszego, a przy równym stanie — alfabetycznie."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n — liczba kont.",
+        "W każdym z n kolejnych wierszy imię właściciela i stan konta (imiona są różne).",
+        "Dalej wiersz z m, a po nim m wierszy „od do kwota”."
+      ],
+      "output_format": [
+        "m wierszy z odpowiedziami, a potem n wierszy „imię stan”."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 400, 1 ≤ m ≤ 1500",
+        "Stany początkowe i kwoty: od 1 do 10⁹ — stany mogą urosnąć ponad zakres int.",
+        "Imiona: od 1 do 12 liter."
+      ],
+      "examples": [
+        {
+          "input": "3\nOla 500\nJan 100\nEwa 300\n4\nJan Ola 150\nOla Jan 250\nEwa Ewa 10\nEwa Kuba 50",
+          "output": "BRAK SRODKOW\nOK\nBLAD\nBLAD\nJan 350\nEwa 300\nOla 250",
+          "note": "Jan ma za mało na pierwszy przelew. Drugi się udaje. Ewa nie może przelać sama sobie, a konta Kuby w banku nie ma."
+        }
+      ],
+      "hint": "Konta trzymaj w map<string, long long> konto;. Najpierw sprawdź, czy oba imiona są w mapie (count) i czy to nie ta sama osoba — inaczej BLAD. Nawiasy nie nadają się do sprawdzania: dopisałyby fałszywe konto ze stanem 0 i zepsuły ranking. Ranking: przepisz mapę do vector<pair<string, long long>> i posortuj lambdą — większy stan przodem, przy remisie mniejsze imię.",
+      "tests_count": 8
+    },
+    {
+      "id": "map-rowne-tempo",
+      "number": 1851,
+      "title": "Równe tempo",
+      "category": "Mapy / krok 8: mapa na olimpiadzie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ciąg tworzy generator z lekcji o złożoności: x₁ = s, xᵢ = (xᵢ₋₁ · a + b) mod m.",
+        "Policz pary pozycji i < j, dla których xⱼ − xᵢ = j − i — czyli takie, że od wyrazu i do wyrazu j ciąg rośnie średnio o dokładnie 1 na krok."
+      ],
+      "input_format": [
+        "Jeden wiersz: n s a b m."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba par."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 3 · 10⁵",
+        "1 ≤ m ≤ 10⁹",
+        "0 ≤ s, a, b < m"
+      ],
+      "examples": [
+        {
+          "input": "6 2 1 1 5",
+          "output": "6",
+          "note": "Ciąg: 2, 3, 4, 0, 1, 2. Wartości xᵢ − i: 1, 1, 1, −4, −4, −4. Trzy jedynki dają 3 pary, trzy razy −4 — kolejne 3. Razem 6."
+        }
+      ],
+      "hint": "Przenieś to, co dotyczy i, na jedną stronę, a to, co dotyczy j — na drugą: xⱼ − j = xᵢ − i. Szukane pary to więc pozycje z równą wartością x − pozycja. Idąc od lewej, dla każdej pozycji j dolicz do wyniku ile[x - j] (tyle razy widziałeś już tę wartość), a potem zwiększ ile[x - j]. Wynik może być ogromny — long long. Dwie pętle po wszystkich parach przy n = 3 · 10⁵ nie zdążą.",
+      "tests_count": 10
+    },
+    {
+      "id": "map-muzeum-w-chwili",
+      "number": 1852,
+      "title": "Ilu jest w muzeum?",
+      "category": "Mapy / krok 8: mapa na olimpiadzie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Bramki muzeum zapisały n wizyt: zwiedzający i był w środku od chwili aᵢ do chwili bᵢ (w chwili bᵢ już go nie ma).",
+        "Kierownik zadaje q pytań: ile osób było w muzeum w chwili t?"
+      ],
+      "input_format": [
+        "W pierwszym wierszu n i q.",
+        "W każdym z n kolejnych wierszy aᵢ i bᵢ.",
+        "W ostatnim wierszu q chwil t."
+      ],
+      "output_format": [
+        "Jeden wiersz: q odpowiedzi oddzielonych spacjami, w kolejności pytań."
+      ],
+      "constraints": [
+        "1 ≤ n, q ≤ 2500",
+        "0 ≤ aᵢ < bᵢ ≤ 10⁹, 0 ≤ t ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "3 5\n2 6\n4 9\n6 7\n1 2 5 6 9",
+          "output": "0 1 2 2 0",
+          "note": "Przed chwilą 2 nikogo nie ma. Od 4 są dwie osoby. W chwili 6 pierwsza wychodzi, a trzecia wchodzi — nadal dwie. W chwili 9 wychodzi ostatnia."
+        }
+      ],
+      "hint": "Najpierw zbierz zdarzenia: zmiana[a]++; zmiana[b]--;. Potem przejdź mapę z bieżącą sumą i zapisz w drugiej mapie stan[t] = teraz; — od chwili t aż do następnego klucza w środku jest tyle osób. Pytanie o chwilę t: auto it = stan.upper_bound(t); wskazuje pierwszą zmianę po t. Jeśli it == stan.begin(), przed t nic się jeszcze nie wydarzyło — odpowiedź 0. Inaczej odpowiedź to prev(it)->second.",
+      "tests_count": 6
+    },
+    {
+      "id": "map-historia-cen",
+      "number": 1853,
+      "title": "Historia cen",
+      "category": "Mapy / krok 8: mapa na olimpiadzie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Sklep internetowy zapisał n zmian cen: „p d c” oznacza, że od dnia d produkt p kosztuje c groszy — aż do następnej zmiany ceny tego produktu. Zmiany są wypisane w przypadkowej kolejności; jeden produkt nie zmienia ceny dwa razy tego samego dnia.",
+        "Odpowiedz na q pytań „p d”: ile kosztował produkt p w dniu d? Jeśli w dniu d produkt nie miał jeszcze ceny (albo nie ma go wcale w zapisach), wypisz BRAK."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy: produkt p, dzień d, cena c.",
+        "Dalej wiersz z q i q wierszy „p d”."
+      ],
+      "output_format": [
+        "q wierszy: cena albo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ n, q ≤ 2000",
+        "1 ≤ d ≤ 10⁹, 1 ≤ c ≤ 10⁹",
+        "Nazwy produktów: od 1 do 12 małych liter."
+      ],
+      "examples": [
+        {
+          "input": "4\nmleko 10 350\nchleb 5 600\nmleko 3 320\nmleko 20 399\n5\nmleko 2\nmleko 3\nmleko 15\nchleb 100\nser 7",
+          "output": "BRAK\n320\n350\n600\nBRAK",
+          "note": "Mleko: od dnia 3 kosztuje 320, od 10 — 350, od 20 — 399. W dniu 2 nie miało jeszcze ceny, a sera nie ma w zapisach."
+        }
+      ],
+      "hint": "map<string, map<int, int>> ceny; i ceny[p][d] = c; — wewnętrzna mapa sama ułoży dni rosnąco, nawet gdy zmiany przychodzą nie po kolei. Pytanie „p d”: najpierw ceny.count(p). Potem auto &h = ceny[p]; auto it = h.upper_bound(d); — to pierwsza zmiana po dniu d. Jeśli it == h.begin(), żadna cena jeszcze nie obowiązywała: BRAK. Inaczej odpowiedź to prev(it)->second.",
+      "tests_count": 6
+    },
+    {
+      "id": "map-lider-na-zywo",
+      "number": 1854,
+      "title": "Lider na żywo",
+      "category": "Mapy / krok 8: mapa na olimpiadzie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W grze biorą udział gracze, którzy zaczynają z 0 punktów; gracz pojawia się w rankingu przy swojej pierwszej zmianie. Przychodzi po kolei n zmian „imię x” — gracz dostaje x punktów (x może być ujemne albo równe 0).",
+        "Po każdej zmianie wypisz lidera — gracza z największą liczbą punktów (przy remisie wcześniejszego alfabetycznie) — i jego punkty."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy imię i liczba x."
+      ],
+      "output_format": [
+        "n wierszy: imię lidera i jego punkty."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1200",
+        "−10⁴ ≤ x ≤ 10⁴",
+        "Imiona: od 1 do 10 liter."
+      ],
+      "examples": [
+        {
+          "input": "5\nOla 10\nJan 15\nOla 5\nJan -20\nEwa -3",
+          "output": "Ola 10\nJan 15\nJan 15\nOla 15\nOla 15",
+          "note": "Po trzeciej zmianie Ola i Jan mają po 15 — prowadzi Jan, bo jest wcześniej alfabetycznie. Po czwartej Jan spada do −5. Ewa z −3 punktami nie zagraża Oli."
+        }
+      ],
+      "hint": "map<string, long long> pkt; — ile ma każdy gracz. map<long long, set<string>> kto; — kto ma daną liczbę punktów. Przy zmianie: jeśli gracz już jest w pkt, usuń go z kto[stare], a gdy ten zbiór zrobi się pusty — usuń cały klucz (kto.erase(stare)), inaczej pusty zbiór udawałby lidera. Potem zmień punkty i dopisz gracza do kto[nowe]. Lider: kto.rbegin() to największy klucz, a *kto.rbegin()->second.begin() — pierwsze alfabetycznie imię w jego zbiorze.",
+      "tests_count": 9
+    },
+    {
+      "id": "map-b-dlugosci-slow",
+      "number": 1855,
+      "title": "Długości słów",
+      "category": "Mapy / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz tekst. Dla każdej długości słowa, która w tekście występuje, wypisz tę długość i liczbę słów o tej długości — od najkrótszych. Na koniec, w osobnym wierszu, wypisz najczęstszą długość (przy remisie — mniejszą)."
+      ],
+      "input_format": [
+        "Słowa (ciągi znaków bez spacji) — do końca danych."
+      ],
+      "output_format": [
+        "Wiersze „długość liczba” rosnąco według długości, a na końcu wiersz z najczęstszą długością."
+      ],
+      "constraints": [
+        "Słów jest od 1 do 10 000, każde ma od 1 do 20 znaków; cały tekst ma mniej niż 90 000 znaków."
+      ],
+      "examples": [
+        {
+          "input": "Ala ma kota a kot ma Ale",
+          "output": "1 1\n2 2\n3 3\n4 1\n3",
+          "note": "Jedno słowo ma 1 znak, dwa — 2 znaki, trzy — 3 znaki, jedno — 4 znaki. Najczęstsza długość to 3."
+        }
+      ],
+      "hint": "map<int, int> ile; i dla każdego słowa ile[s.size()]++;. Mapa sama ułoży długości rosnąco. Najczęstszą długość znajdziesz w tej samej pętli, która wypisuje mapę: rekord poprawiaj tylko przy >, a wtedy przy remisie zostanie pierwsza, czyli najmniejsza długość.",
+      "tests_count": 7
+    },
+    {
+      "id": "map-b-numer-slowami",
+      "number": 1856,
+      "title": "Numer dyktowany słowami",
+      "category": "Mapy / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Numer telefonu podyktowano słowami: zero, jeden, dwa, trzy, cztery, piec, szesc, siedem, osiem, dziewiec. Czasem dyktujący mówi „podwojne” albo „potrojne” — wtedy następna cyfra powtarza się odpowiednio dwa albo trzy razy.",
+        "Wypisz podyktowany numer jako ciąg cyfr."
+      ],
+      "input_format": [
+        "Słowa w jednym wierszu — do końca danych."
+      ],
+      "output_format": [
+        "Jeden wiersz: cyfry numeru, bez spacji."
+      ],
+      "constraints": [
+        "Słów jest od 1 do 5000. Po „podwojne” i „potrojne” zawsze stoi słowo oznaczające cyfrę."
+      ],
+      "examples": [
+        {
+          "input": "piec zero podwojne siedem jeden potrojne dwa",
+          "output": "50771222",
+          "note": "5, 0, dwie siódemki, 1 i trzy dwójki."
+        }
+      ],
+      "hint": "Mapę możesz wypełnić od razu przy tworzeniu: map<string, int> cyfra = {{\"zero\", 0}, {\"jeden\", 1}, {\"dwa\", 2}, …};. Czytaj słowa po kolei i pamiętaj, ile razy trzeba wypisać następną cyfrę: zwykle 1, po „podwojne” 2, po „potrojne” 3. Po wypisaniu cyfry wróć do 1.",
+      "tests_count": 7
+    },
+    {
+      "id": "map-b-rekordy-zyciowe",
+      "number": 1857,
+      "title": "Rekordy życiowe",
+      "category": "Mapy / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na treningach zapisano n biegów na 100 m: imię biegacza i czas w setnych sekundy (1250 oznacza 12,50 s). Dla każdego biegacza (alfabetycznie) wypisz imię, liczbę jego biegów i najlepszy, czyli najmniejszy, czas."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy imię i czas."
+      ],
+      "output_format": [
+        "Wiersze „imię biegi najlepszy” — alfabetycznie."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "Czasy: od 900 do 3000. Imiona: od 1 do 12 liter; biegaczy jest najwyżej 300."
+      ],
+      "examples": [
+        {
+          "input": "5\nOla 1432\nJan 1298\nOla 1401\nOla 1455\nJan 1310",
+          "output": "Jan 2 1298\nOla 3 1401",
+          "note": "Ola biegła trzy razy, najlepiej w 14,01 s. Jan — dwa razy, najlepiej w 12,98 s."
+        }
+      ],
+      "hint": "Trzymaj map<string, int> biegi; i map<string, int> najlepszy;. Najlepszy czas to najmniejszy, więc nie możesz liczyć na zero z nawiasów — zero byłoby „rekordem” lepszym od każdego biegu. Przy pierwszym biegu zawodnika (najlepszy.count(imie) == 0) wpisz czas od razu, a później — tylko wtedy, gdy jest mniejszy.",
+      "tests_count": 6
+    },
+    {
+      "id": "map-b-urodziny",
+      "number": 1858,
+      "title": "Urodziny w klasie",
+      "category": "Mapy / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Zebrano daty urodzin n uczniów w postaci DD.MM. Wypisz wszystkie daty, w które urodziło się co najmniej dwoje uczniów — w kolejności kalendarzowej (od stycznia), każdą w postaci DD.MM z liczbą osób. Jeśli takich dat nie ma, wypisz BRAK."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W drugim wierszu n dat DD.MM oddzielonych spacjami."
+      ],
+      "output_format": [
+        "Wiersze „DD.MM liczba” w kolejności kalendarzowej albo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "Daty są poprawne (może się zdarzyć 29.02)."
+      ],
+      "examples": [
+        {
+          "input": "6\n15.03 01.12 15.03 07.01 01.12 15.03",
+          "output": "15.03 3\n01.12 2",
+          "note": "Gdyby kluczem był napis, 01.12 stanęłoby przed 15.03. W kalendarzu marzec jest przed grudniem."
+        }
+      ],
+      "hint": "Datę wczytaj jako dwie liczby i kropkę: int d, m; char kropka; cin >> d >> kropka >> m;. Kluczem niech będzie para {m, d} — pary porównują się najpierw po miesiącu, potem po dniu, czyli dokładnie jak w kalendarzu. Przy wypisywaniu dopisz zero przed jednocyfrowym dniem i miesiącem: setw(2) << setfill('0').",
+      "tests_count": 8
+    },
+    {
+      "id": "map-b-pierwsza-litera",
+      "number": 1859,
+      "title": "Na tę samą literę",
+      "category": "Mapy / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz tekst z małych liter. Dla każdej litery, od której zaczyna się co najmniej jedno słowo, wypisz (w kolejności alfabetu): tę literę, liczbę słów zaczynających się od niej (powtórzenia też się liczą) i najdłuższe z tych słów. Przy remisie długości wybierz słowo wcześniejsze alfabetycznie."
+      ],
+      "input_format": [
+        "Słowa — do końca danych."
+      ],
+      "output_format": [
+        "Wiersze „litera liczba najdłuższe”."
+      ],
+      "constraints": [
+        "Słów jest od 1 do 10 000, każde ma od 1 do 15 małych liter."
+      ],
+      "examples": [
+        {
+          "input": "kot ala kotlet as ananas arbuz kura",
+          "output": "a 4 ananas\nk 3 kotlet",
+          "note": "Na a zaczynają się cztery słowa, najdłuższe to ananas. Na k — trzy, najdłuższe to kotlet."
+        }
+      ],
+      "hint": "map<char, int> ile; i map<char, string> najdluzsze;, a kluczem jest s[0]. Słowo zastępuje dotychczasowe najdłuższe, gdy jest dłuższe albo tak samo długie i wcześniejsze alfabetycznie. Przy pierwszym słowie na daną literę najdluzsze[c] to pusty napis — każde słowo jest od niego dłuższe, więc nie trzeba niczego sprawdzać osobno.",
+      "tests_count": 6
+    },
+    {
+      "id": "map-b-suma-cyfr",
+      "number": 1860,
+      "title": "Ta sama suma cyfr",
+      "category": "Mapy / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz n liczb naturalnych. Pogrupuj je według sumy cyfr. Dla każdej sumy cyfr, która się pojawia (rosnąco), wypisz w jednym wierszu: sumę, dwukropek i liczby z tej grupy w kolejności z wejścia."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W drugim wierszu n liczb."
+      ],
+      "output_format": [
+        "Wiersze „suma: liczby”."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "0 ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "6\n12 30 111 7 5 1000000",
+          "output": "1: 1000000\n3: 12 30 111\n5: 5\n7: 7",
+          "note": "Liczby 12, 30 i 111 mają sumę cyfr 3, a milion — sumę 1."
+        }
+      ],
+      "hint": "Sumę cyfr liczby x policzysz pętlą: while (y > 0) { s += y % 10; y /= 10; } — rób to na kopii y = x, bo samą liczbę trzeba potem dopisać do grupy: grupy[s].push_back(x);. Mapa ułoży sumy rosnąco, a każdy vector zachowa kolejność z wejścia.",
+      "tests_count": 6
+    },
+    {
+      "id": "map-b-grafik-tygodnia",
+      "number": 1861,
+      "title": "Grafik tygodnia",
+      "category": "Mapy / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Kasia zapisuje, ile godzin trenowała: każdy wpis to nazwa dnia tygodnia (bez polskich liter: poniedzialek, wtorek, sroda, czwartek, piatek, sobota, niedziela) i liczba godzin. Wpisy pochodzą z wielu tygodni.",
+        "Wypisz sumę godzin dla każdego dnia tygodnia — w kolejności od poniedziałku do niedzieli, także dla dni bez treningów (wtedy 0). Na koniec wypisz dzień z największą sumą (przy remisie — wcześniejszy w tygodniu)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy nazwa dnia i liczba godzin."
+      ],
+      "output_format": [
+        "Siedem wierszy „dzień suma” od poniedziałku do niedzieli, a potem wiersz z nazwą dnia o największej sumie."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "Godziny: od 1 do 12."
+      ],
+      "examples": [
+        {
+          "input": "5\nsroda 2\npiatek 3\nsroda 2\nponiedzialek 1\nniedziela 4",
+          "output": "poniedzialek 1\nwtorek 0\nsroda 4\nczwartek 0\npiatek 3\nsobota 0\nniedziela 4\nsroda",
+          "note": "Środa i niedziela mają po 4 godziny — wygrywa środa, bo jest wcześniej w tygodniu."
+        }
+      ],
+      "hint": "Sumy zbieraj w map<string, int> godziny;. Gdybyś wypisał mapę pętlą, dni ułożyłyby się alfabetycznie (czwartek, niedziela, piatek…). Zrób więc vector<string> dni = {\"poniedzialek\", \"wtorek\", …}; i przejdź po nim — godziny[d] zwróci 0 dla dnia bez treningów.",
+      "tests_count": 7
+    },
+    {
+      "id": "map-b-czat",
+      "number": 1862,
+      "title": "Czat klasowy",
+      "category": "Mapy / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Z czatu klasowego zapisano n wiadomości. Każda zajmuje jeden wiersz: najpierw nick autora, potem spacja i treść (treść może zawierać spacje).",
+        "Dla każdego nicku (alfabetycznie, tak jak porównuje napisy C++: cyfry przed wielkimi literami, wielkie przed małymi) wypisz nick, liczbę jego wiadomości, dwukropek i treść jego ostatniej wiadomości."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy nick, spacja i treść wiadomości."
+      ],
+      "output_format": [
+        "Wiersze „nick liczba: ostatnia treść”."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "Nicki: od 1 do 12 liter i cyfr. Treść: od 1 do 40 znaków (litery, cyfry, spacje i znaki .,!?), nie zaczyna się ani nie kończy spacją."
+      ],
+      "examples": [
+        {
+          "input": "4\nola Hej wszystkim!\nkuba2 Kto ma zadanie z matmy?\nola Ja mam.\nola Zaraz wysle.",
+          "output": "kuba2 1: Kto ma zadanie z matmy?\nola 3: Zaraz wysle.",
+          "note": "Ola napisała trzy wiadomości, ostatnia to „Zaraz wysle.”."
+        }
+      ],
+      "hint": "Po cin >> nick; w wierszu zostaje spacja i treść. getline(cin, tresc); wczyta resztę wiersza — razem z tą pierwszą spacją, więc ją usuń: tresc = tresc.substr(1);. Potem ile[nick]++; i ostatnia[nick] = tresc; — każda kolejna wiadomość nadpisze poprzednią.",
+      "tests_count": 6
+    },
+    {
+      "id": "map-b-slowa-w-wierszach",
+      "number": 1863,
+      "title": "W ilu wierszach?",
+      "category": "Mapy / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz tekst złożony z wierszy. Dla każdego słowa (alfabetycznie) wypisz, w ilu różnych wierszach występuje. Słowo powtórzone w jednym wierszu liczy się dla tego wiersza tylko raz."
+      ],
+      "input_format": [
+        "Wiersze tekstu — do końca danych. Słowa są oddzielone spacjami; wiersz może być pusty."
+      ],
+      "output_format": [
+        "Wiersze „słowo liczba”."
+      ],
+      "constraints": [
+        "Wierszy jest od 1 do 3000, słów razem od 1 do 10 000; każde słowo ma od 1 do 10 małych liter."
+      ],
+      "examples": [
+        {
+          "input": "ala ma kota\nkot ma ale\nala ala ala",
+          "output": "ala 2\nale 1\nkot 1\nkota 1\nma 2",
+          "note": "Słowo ala jest w wierszach 1 i 3 — w trzecim trzy razy, ale ten wiersz liczy się raz."
+        }
+      ],
+      "hint": "Czytaj wiersze: while (getline(cin, w)), numeruj je od 1 i rozbieraj na słowa przez stringstream. Trzymaj map<string, int> ostatni; — numer wiersza, w którym słowo ostatnio policzyłeś. Licznik zwiększaj tylko wtedy, gdy ostatni[s] różni się od numeru bieżącego wiersza (nowe słowo ma w ostatni zero, a wiersze numerujesz od 1).",
+      "tests_count": 6
+    },
+    {
+      "id": "map-b-wielomiany",
+      "number": 1864,
+      "title": "Dodawanie wielomianów",
+      "category": "Mapy / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wielomian zapisujemy jako listę wyrazów „współczynnik wykładnik”, np. 3x¹⁰⁰ − 2x + 7 to wyrazy (3, 100), (−2, 1) i (7, 0). Dostajesz dwa wielomiany; w każdym z nich wykładniki są różne, a współczynniki — różne od zera.",
+        "Wypisz ich sumę: najpierw liczbę niezerowych wyrazów, a potem te wyrazy od najwyższego wykładnika do najniższego. Jeśli suma jest zerem, wypisz tylko 0."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n, a w kolejnych n wierszach wyrazy pierwszego wielomianu (w dowolnej kolejności).",
+        "Potem m i m wierszy z wyrazami drugiego wielomianu."
+      ],
+      "output_format": [
+        "W pierwszym wierszu liczba wyrazów sumy k, a w kolejnych k wierszach wyrazy „współczynnik wykładnik”."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 500",
+        "0 ≤ wykładnik ≤ 10⁹",
+        "1 ≤ |współczynnik| ≤ 10⁹ (suma może sięgnąć 2 · 10⁹ — użyj long long)"
+      ],
+      "examples": [
+        {
+          "input": "3\n3 100\n-2 1\n7 0\n2\n2 1\n5 4",
+          "output": "3\n3 100\n5 4\n7 0",
+          "note": "Wyrazy z x się znoszą: −2x + 2x = 0. Zostaje 3x¹⁰⁰ + 5x⁴ + 7."
+        }
+      ],
+      "hint": "map<int, long long> w; i dla każdego wyrazu obu wielomianów w[wykladnik] += wspolczynnik;. Potem usuń wyrazy, które się wyzerowały — w pętli po iteratorach: if (it->second == 0) it = w.erase(it); else it++;. Na koniec wypisz w.size() i wyrazy od rbegin() do rend().",
+      "tests_count": 7
+    },
+    {
+      "id": "map-b-ten-sam-wzor",
+      "number": 1865,
+      "title": "Ten sam wzór",
+      "category": "Mapy / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wzór to napis z małych liter, np. abba. Zdanie pasuje do wzoru, gdy ma tyle słów, ile wzór ma liter, i da się każdej literze przypisać słowo tak, żeby ta sama litera oznaczała zawsze to samo słowo, a różne litery — różne słowa. Na przykład „pies kot kot pies” pasuje do abba, a „pies kot kot ryba” i „pies pies pies pies” — nie.",
+        "Dla każdego z t testów odpowiedz TAK albo NIE."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "Każdy test zajmuje dwa wiersze: wzór, a pod nim zdanie."
+      ],
+      "output_format": [
+        "t wierszy: TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 300",
+        "Wzór ma od 1 do 26 liter, zdanie — od 1 do 40 słów; słowa mają od 1 do 10 małych liter i są oddzielone pojedynczymi spacjami."
+      ],
+      "examples": [
+        {
+          "input": "4\nabba\npies kot kot pies\nabba\npies kot kot ryba\nabba\npies pies pies pies\nab\nala",
+          "output": "TAK\nNIE\nNIE\nNIE",
+          "note": "W czwartym teście wzór ma dwie litery, a zdanie tylko jedno słowo."
+        }
+      ],
+      "hint": "Po cin >> t; zostaje koniec wiersza — zjedz go jednym getline. Potem wczytuj wzór i zdanie przez getline, a słowa zdania wyjmij stringstreamem do vectora. Jeśli liczba słów różni się od długości wzoru — od razu NIE. Inaczej trzymaj map<char, string> slowoDla; i map<string, char> literaDla; i przy każdej parze (litera, słowo) sprawdź, czy któraś z map nie pamięta już czegoś innego. Jedna mapa nie wystarczy: przy wzorze ab i zdaniu „pies pies” mapa litera → słowo niczego by nie zauważyła.",
+      "tests_count": 5
+    },
+    {
+      "id": "map-b-bransoletki",
+      "number": 1866,
+      "title": "Bransoletki z koralików",
+      "category": "Mapy / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Każdą bransoletkę opisuje napis: kolejne kolory koralików (małe litery), czytane od dowolnego koralika zgodnie z ruchem wskazówek zegara. Ta sama bransoletka może więc mieć kilka zapisów: abc, bca i cab to jedna bransoletka, ale acb — już inna (bransoletek nie odwracamy na drugą stronę).",
+        "Dostajesz n zapisów. Ile jest wśród nich różnych bransoletek i ile zapisów ma najczęstsza z nich?"
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W kolejnych n wierszach zapisy bransoletek."
+      ],
+      "output_format": [
+        "Dwie liczby: liczba różnych bransoletek i liczba zapisów najczęstszej z nich."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 3000",
+        "Każdy zapis ma od 1 do 20 liter."
+      ],
+      "examples": [
+        {
+          "input": "5\nabc\nbca\nacb\ncab\naab",
+          "output": "3 3",
+          "note": "abc, bca i cab to ta sama bransoletka. acb i aab są inne — razem 3 bransoletki, najczęstsza ma 3 zapisy."
+        }
+      ],
+      "hint": "Dwa zapisy opisują tę samą bransoletkę, gdy jeden jest obrotem drugiego. Wybierz jednego „przedstawiciela”: najmniejszy alfabetycznie ze wszystkich obrotów (obrót o k to s.substr(k) + s.substr(0, k)). Wszystkie zapisy jednej bransoletki mają tego samego przedstawiciela, więc wystarczy zliczać przedstawicieli w mapie.",
+      "tests_count": 7
+    },
+    {
+      "id": "map-b-dna",
+      "number": 1867,
+      "title": "Powtórki w DNA",
+      "category": "Mapy / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Łańcuch DNA to napis z liter A, C, G i T. Rozważ wszystkie fragmenty łańcucha o długości k — zaczynające się na każdej pozycji, także nachodzące na siebie.",
+        "Wypisz co najwyżej 10 najczęstszych fragmentów spośród tych, które występują co najmniej dwa razy — od najczęstszego, a przy równej liczbie wystąpień alfabetycznie — każdy z liczbą wystąpień. Jeśli żaden fragment się nie powtarza, wypisz BRAK."
+      ],
+      "input_format": [
+        "W pierwszym wierszu k.",
+        "W drugim wierszu łańcuch DNA."
+      ],
+      "output_format": [
+        "Co najwyżej 10 wierszy „fragment liczba” albo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ 12",
+        "Łańcuch ma od 1 do 50 000 liter."
+      ],
+      "examples": [
+        {
+          "input": "3\nACGTACGTTACG",
+          "output": "ACG 3\nCGT 2\nTAC 2",
+          "note": "ACG występuje 3 razy, CGT i TAC — po 2 razy. Reszta fragmentów się nie powtarza."
+        }
+      ],
+      "hint": "Fragment od pozycji i to s.substr(i, k); pętlę prowadź, dopóki i + k <= s.size() (łańcuch może być krótszy niż k!). Zlicz fragmenty w map<string, int>, potem przepisz do vector<pair<string, int>> tylko te z liczbą co najmniej 2 i posortuj lambdą: większa liczba przodem, przy remisie mniejszy napis. Wypisz najwyżej 10 pierwszych.",
+      "tests_count": 9
+    },
+    {
+      "id": "map-b-urlopy",
+      "number": 1868,
+      "title": "Wszyscy w pracy",
+      "category": "Mapy / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Firma pracuje przez D dni ponumerowanych od 1 do D. Każdy z n pracowników ma jeden urlop: od dnia aᵢ do dnia bᵢ włącznie.",
+        "Policz, przez ile dni wszyscy pracownicy byli w pracy (nikt nie miał urlopu), i podaj długość najdłuższej serii kolejnych takich dni."
+      ],
+      "input_format": [
+        "W pierwszym wierszu D i n.",
+        "W każdym z n kolejnych wierszy aᵢ i bᵢ."
+      ],
+      "output_format": [
+        "Dwie liczby: liczba dni, w które wszyscy byli w pracy, i długość najdłuższej serii takich dni."
+      ],
+      "constraints": [
+        "1 ≤ D ≤ 10⁹, 1 ≤ n ≤ 4000",
+        "1 ≤ aᵢ ≤ bᵢ ≤ D"
+      ],
+      "examples": [
+        {
+          "input": "20 3\n3 5\n4 8\n12 12",
+          "output": "13 8",
+          "note": "Wszyscy pracują w dniach 1–2, 9–11 i 13–20. To 2 + 3 + 8 = 13 dni, a najdłuższa seria ma 8 dni."
+        }
+      ],
+      "hint": "Urlop od a do b włącznie zapisz jako zmiana[a]++; zmiana[b + 1]--; — w dniu b + 1 pracownik już wraca. Dołóż „strażników” zmiana[1] += 0; i zmiana[D + 1] += 0;, żeby mapa miała klucz na początku i tuż za końcem okresu. Potem idź po kluczach: od poprzedniego klucza do dnia przed obecnym liczba osób na urlopie jest stała — jeśli wynosi 0, cały ten kawałek to dni pracy wszystkich i przedłuża bieżącą serię; inaczej seria się urywa.",
+      "tests_count": 9
+    },
+    {
+      "id": "map-b-sprawiedliwy-podzial",
+      "number": 1869,
+      "title": "Sprawiedliwy podział",
+      "category": "Mapy / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz ciąg n liczb. Cięcie po pozycji i (1 ≤ i < n) dzieli go na lewą część (pierwsze i liczb) i prawą (pozostałe). Cięcie jest sprawiedliwe, gdy w obu częściach jest tyle samo różnych wartości.",
+        "Policz sprawiedliwe cięcia."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba sprawiedliwych cięć."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 8000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "6\n1 2 2 1 2 1",
+          "output": "3",
+          "note": "Sprawiedliwe są cięcia po 2., 3. i 4. liczbie — po obu stronach są wtedy jedynki i dwójki."
+        }
+      ],
+      "hint": "Najpierw policz wszystkie liczby w mapie prawa. Potem przesuwaj cięcie od lewej: liczbę x przenoś z prawej części do lewej — lewa[x]++; prawa[x]--; — a gdy prawa[x] spadnie do zera, usuń klucz: prawa.erase(x);. Dzięki temu lewa.size() i prawa.size() to dokładnie liczby różnych wartości po obu stronach cięcia.",
+      "tests_count": 9
+    },
+    {
+      "id": "map-b-roboty",
+      "number": 1870,
+      "title": "Roboty w magazynie",
+      "category": "Mapy / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W magazynie stoi n robotów ponumerowanych od 1 do n; robot i stoi na polu (xᵢ, yᵢ), każdy na innym polu. Przychodzi q poleceń „i kierunek”, gdzie kierunek to N (y + 1), S (y − 1), E (x + 1) albo W (x − 1).",
+        "Robot wykonuje ruch, jeśli pole docelowe jest wolne; jeśli stoi tam inny robot, polecenie przepada. Dla każdego polecenia wypisz OK albo ZAJETE, a na końcu pozycje wszystkich robotów w kolejności numerów."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n i q.",
+        "W n kolejnych wierszach xᵢ i yᵢ.",
+        "W q kolejnych wierszach polecenia."
+      ],
+      "output_format": [
+        "q wierszy OK albo ZAJETE, a potem n wierszy „x y”."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 500, 1 ≤ q ≤ 2000",
+        "−10⁹ ≤ xᵢ, yᵢ ≤ 10⁹ — po wszystkich ruchach współrzędne nadal mieszczą się w int."
+      ],
+      "examples": [
+        {
+          "input": "3 5\n0 0\n1 0\n5 5\n1 E\n2 W\n2 N\n1 E\n3 S",
+          "output": "ZAJETE\nZAJETE\nOK\nOK\nOK\n1 0\n1 1\n5 4",
+          "note": "Roboty 1 i 2 najpierw się blokują. Gdy robot 2 odjedzie w górę, robot 1 może wjechać na jego dawne pole."
+        }
+      ],
+      "hint": "Trzymaj pozycje w dwóch miejscach: vector<pair<int, int>> poz(n + 1) (robot → pole) i map<pair<int, int>, int> zajete (pole → robot). Ruch: policz nowe pole; jeśli zajete.count(nowe) — ZAJETE. Inaczej usuń stare pole z mapy (zajete.erase(poz[i])), popraw poz[i] i wpisz zajete[poz[i]] = i.",
+      "tests_count": 7
+    },
+    {
+      "id": "map-b-interpreter",
+      "number": 1871,
+      "title": "Mini interpreter",
+      "category": "Mapy / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Napisz interpreter prostego języka. Zmienne mają nazwy z małych liter i przechowują liczby całkowite. Polecenia:",
+        "SET x a — zmienna x przyjmuje wartość a;",
+        "ADD x a — do x dodaj a;",
+        "MUL x a — x pomnóż przez a;",
+        "PRINT x — wypisz wartość x.",
+        "Argument a to liczba całkowita (może być ujemna) albo nazwa zmiennej — wtedy chodzi o jej obecną wartość. Zmienna, której nikt jeszcze nie ustawił, ma wartość 0."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W kolejnych q wierszach polecenia."
+      ],
+      "output_format": [
+        "Wyniki poleceń PRINT, każdy w osobnym wierszu."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 3000",
+        "Liczby w poleceniach: od −1000 do 1000; nazwy: od 1 do 10 małych liter.",
+        "Wszystkie wartości przez cały czas mieszczą się w przedziale od −10¹⁸ do 10¹⁸."
+      ],
+      "examples": [
+        {
+          "input": "8\nSET x 5\nADD x x\nMUL x -3\nSET y x\nADD y 100\nPRINT x\nPRINT y\nPRINT z",
+          "output": "-30\n70\n0",
+          "note": "x: 5, potem 10, potem −30. y dostaje wartość x, czyli −30, i rośnie do 70. Zmiennej z nikt nie ustawił — ma 0."
+        }
+      ],
+      "hint": "Zmienne trzymaj w map<string, long long> zm;. Argument wczytaj jako string a i sprawdź pierwszy znak: jeśli to cyfra albo minus, wartością jest stoll(a); inaczej to nazwa zmiennej i wartością jest zm[a] (nieznana zmienna da 0 — tak jak chce treść). Przy ADD x x najpierw policz wartość argumentu, a dopiero potem zmieniaj x.",
+      "tests_count": 6
+    },
+    {
+      "id": "map-b-k-rodzajow",
+      "number": 1872,
+      "title": "Co najwyżej k odmian",
+      "category": "Mapy / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ogrodnik posadził w rzędzie n krzewów; krzew i ma odmianę aᵢ. Chce wybrać jak najdłuższy spójny fragment rzędu, w którym rosną krzewy co najwyżej k różnych odmian.",
+        "Wypisz długość najdłuższego takiego fragmentu i pozycję, od której się zaczyna (jeśli jest kilka — najwcześniejszą)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n i k.",
+        "W drugim wierszu n liczb aᵢ."
+      ],
+      "output_format": [
+        "Dwie liczby: długość i pozycja początku (pozycje liczymy od 1)."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 8000",
+        "1 ≤ aᵢ ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "8 2\n1 2 1 3 3 4 3 3",
+          "output": "5 4",
+          "note": "Od pozycji 4 rosną 3, 3, 4, 3, 3 — tylko dwie odmiany, 5 krzewów."
+        }
+      ],
+      "hint": "Przesuwaj prawy koniec okna i dopisuj odmianę do map<int, int> ile;. Dopóki ile.size() > k, wyrzucaj z okna krzew z lewego końca: zmniejsz jego licznik, przy zerze usuń klucz (erase) i przesuń lewy koniec. Po tym okno [lewy, prawy] jest najdłuższym dobrym oknem kończącym się na prawym — porównaj jego długość z rekordem warunkiem >, żeby przy remisie zostać przy najwcześniejszym.",
+      "tests_count": 9
+    },
+    {
+      "id": "map-b-dysk",
+      "number": 1873,
+      "title": "Zajęte miejsce na dysku",
+      "category": "Mapy / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na dysku jest n plików. Każdy opisuje pełna ścieżka, np. /dom/zdjecia/kot.jpg, i rozmiar w kilobajtach. Rozmiar katalogu to suma rozmiarów wszystkich plików w nim i w jego podkatalogach. Katalog główny to /.",
+        "Wypisz wszystkie katalogi z ich rozmiarami — w kolejności, w jakiej porównuje je C++ (zwykłe porównanie napisów). Ścieżkę katalogu zapisuj z ukośnikiem na końcu, np. /dom/zdjecia/."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy ścieżka pliku i rozmiar."
+      ],
+      "output_format": [
+        "Wiersze „ścieżka_katalogu rozmiar”."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000; ścieżki plików są różne i mają do 60 znaków",
+        "Nazwy katalogów i plików składają się z małych liter, cyfr i kropek; katalogów jest najwyżej 400.",
+        "Rozmiary: od 1 do 10⁹ (sumy przekraczają zakres int)."
+      ],
+      "examples": [
+        {
+          "input": "4\n/dom/zdjecia/kot.jpg 300\n/dom/zdjecia/pies.jpg 200\n/dom/notatki.txt 5\n/szkola/matma/zad1.cpp 2",
+          "output": "/ 507\n/dom/ 505\n/dom/zdjecia/ 500\n/szkola/ 2\n/szkola/matma/ 2",
+          "note": "Katalog /dom/ zawiera notatki i oba zdjęcia: 505 KB. Katalog główny — wszystko: 507 KB."
+        }
+      ],
+      "hint": "Każdy ukośnik w ścieżce kończy nazwę jakiegoś katalogu. Przejdź po znakach ścieżki: gdy s[i] == '/', fragment s.substr(0, i + 1) to pełna ścieżka katalogu — dolicz do niego rozmiar pliku: rozmiar[s.substr(0, i + 1)] += r;. Nazwa pliku na końcu nie kończy się ukośnikiem, więc nie trafi do mapy. Mapa sama ułoży ścieżki tak, jak porównuje je C++.",
+      "tests_count": 6
+    },
+    {
+      "id": "map-b-zjazd-absolwentow",
+      "number": 1874,
+      "title": "Zjazd absolwentów",
+      "category": "Mapy / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na zjazd przyjechało n absolwentów. O każdym wiemy, z jakiego jest miasta i jaką szkołę skończył (szkoły o tej samej nazwie w różnych miastach to różne szkoły).",
+        "Organizatorzy chcą poznawać ze sobą osoby z tego samego miasta, ale z różnych szkół. Ile jest takich par osób?"
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy miasto i szkoła."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba par."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "Nazwy: od 1 do 12 liter i cyfr."
+      ],
+      "examples": [
+        {
+          "input": "5\nKrakow LO5\nKrakow LO5\nKrakow SP12\nGdansk LO5\nKrakow LO1",
+          "output": "5",
+          "note": "Z Krakowa są 4 osoby — to 6 par, ale jedna para skończyła tę samą szkołę LO5. Zostaje 5."
+        }
+      ],
+      "hint": "Z k osób da się utworzyć k · (k − 1) / 2 par. Policz osoby w map<string, long long> miasto; i w map<pair<string, string>, long long> szkola; (kluczem jest para: miasto i szkoła). Wynik to suma par po miastach minus suma par po szkołach — bo każda para z jednej szkoły jest też parą z jednego miasta. Użyj long long.",
+      "tests_count": 8
+    },
+    {
+      "id": "map-b-ciag-o-roznicy",
+      "number": 1875,
+      "title": "Najdłuższy ciąg o różnicy d",
+      "category": "Mapy / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ciąg tworzy generator z lekcji o złożoności: x₁ = s, xᵢ = (xᵢ₋₁ · a + b) mod m. Dostajesz też liczbę d.",
+        "Wybierz z ciągu kilka wyrazów (zachowując ich kolejność, niekoniecznie sąsiednich) tak, żeby każdy kolejny był o dokładnie d większy od poprzedniego. Jak długi może być najdłuższy taki wybór? Wypisz też jego pierwszy wyraz (jeśli jest kilka możliwości — najmniejszy)."
+      ],
+      "input_format": [
+        "Jeden wiersz: n s a b m d."
+      ],
+      "output_format": [
+        "Dwie liczby: długość najdłuższego wyboru i jego pierwszy wyraz."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 3 · 10⁵",
+        "1 ≤ m ≤ 10⁹, 0 ≤ s, a, b < m",
+        "−10⁹ ≤ d ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "8 2 1 3 10 3",
+          "output": "3 1",
+          "note": "Ciąg: 2, 5, 8, 1, 4, 7, 0, 3. Wybory 2, 5, 8 i 1, 4, 7 mają po 3 wyrazy — mniejszy pierwszy wyraz ma ten drugi."
+        }
+      ],
+      "hint": "Idź po ciągu i trzymaj map<long long, int> dl; — dl[v] to długość najdłuższego wyboru kończącego się wartością v wśród wyrazów już przeczytanych. Nowy wyraz x może przedłużyć najlepszy wybór kończący się na x − d: nowe = dl[x - d] + 1 (gdy takiego wyboru nie ma — 1; sprawdź przez count). Zapisz dl[x] = nowe;. Pierwszy wyraz takiego wyboru to x − (nowe − 1) · d — porównuj go z rekordem przy remisie długości.",
+      "tests_count": 10
+    },
+    {
+      "id": "map-b-autouzupelnianie",
+      "number": 1876,
+      "title": "Autouzupełnianie",
+      "category": "Mapy / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wyszukiwarka zna n słów, każde z liczbą wyszukań (to samo słowo może pojawić się na liście kilka razy — wtedy liczby się sumują).",
+        "Dla każdego z q zapytań — początku słowa p — wypisz do trzech słów zaczynających się od p: najpierw najczęściej wyszukiwane, a przy równej liczbie wyszukań alfabetycznie. Jeśli żadne słowo nie zaczyna się od p, wypisz BRAK."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy słowo i liczba wyszukań.",
+        "Dalej q i q wierszy z początkami słów."
+      ],
+      "output_format": [
+        "q wierszy: do trzech słów oddzielonych spacjami albo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 3000, 1 ≤ q ≤ 700",
+        "Słowa i początki: od 1 do 12 małych liter; liczby wyszukań: od 1 do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "6\nkot 50\nkotlet 20\nkoszula 50\nkino 7\nkot 5\nkotara 3\n4\nko\nkot\nki\nz",
+          "output": "kot koszula kotlet\nkot kotlet kotara\nkino\nBRAK",
+          "note": "kot ma razem 55 wyszukań. Na ko zaczynają się: kot (55), koszula (50), kotlet (20) i kotara (3)."
+        }
+      ],
+      "hint": "Zsumuj wyszukania w map<string, int> ile;. Wszystkie słowa zaczynające się od p leżą w mapie jedno po drugim, a pierwsze z nich wskazuje ile.lower_bound(p). Idź od niego dalej, dopóki słowo zaczyna się od p (sprawdzisz to przez it->first.substr(0, p.size()) == p), i zbieraj pary (słowo, liczba) do vectora. Posortuj go jak ranking i wypisz najwyżej trzy pierwsze słowa.",
+      "tests_count": 7
+    },
+    {
+      "id": "map-b-nww-wielu",
+      "number": 1877,
+      "title": "NWW wielu liczb",
+      "category": "Mapy / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz n liczb naturalnych. Ich najmniejsza wspólna wielokrotność (NWW) może być ogromna, więc wypisz ją modulo 1 000 000 007. Wypisz też, ile różnych liczb pierwszych dzieli tę NWW.",
+        "Uwaga: nie da się tu liczyć NWW krok po kroku wzorem a · b / NWD(a, b) — wynik szybko przestałby się mieścić w long long, a reszty z dzielenia nie wolno po prostu dzielić."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W drugim wierszu n liczb."
+      ],
+      "output_format": [
+        "Dwie liczby: NWW modulo 1 000 000 007 i liczba różnych liczb pierwszych w jej rozkładzie."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "1 ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "3\n12 18 7",
+          "output": "252 3",
+          "note": "12 = 2² · 3, 18 = 2 · 3², 7 = 7. NWW = 2² · 3² · 7 = 252 — trzy różne liczby pierwsze."
+        }
+      ],
+      "hint": "Rozłóż każdą liczbę na czynniki pierwsze: dziel przez kolejne d, dopóki d · d ≤ x, a to, co na końcu zostanie większe od 1, też jest liczbą pierwszą. Dla czynnika p z wykładnikiem e zapamiętaj największy wykładnik: wyk[p] = max(wyk[p], e);. NWW to iloczyn p do potęgi wyk[p] po wszystkich kluczach — licz go modulo 1 000 000 007, mnożąc e razy przez p i za każdym razem biorąc resztę.",
+      "tests_count": 9
+    },
+    {
+      "id": "map-b-wspolny-przodek",
+      "number": 1878,
+      "title": "Wspólny przodek",
+      "category": "Mapy / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Drzewo rodu opisuje n − 1 par „dziecko rodzic”: każda osoba oprócz założyciela rodu ma dokładnie jednego zapisanego rodzica, a wszyscy pochodzą od założyciela. Imiona są różne.",
+        "Odpowiedz na q pytań „a b”: kto jest najbliższym wspólnym przodkiem osób a i b — czyli osobą, od której pochodzą obie, położoną w drzewie jak najniżej? Każdy liczy się też jako swój własny przodek, więc gdy a pochodzi od b, odpowiedzią jest b."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n i q.",
+        "W n − 1 kolejnych wierszach pary „dziecko rodzic”.",
+        "W q kolejnych wierszach pytania „a b”."
+      ],
+      "output_format": [
+        "q wierszy z imionami najbliższych wspólnych przodków."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 2000, 1 ≤ q ≤ 1000",
+        "Imiona: od 1 do 12 liter. Drzewo może być bardzo wysokie — nawet n pokoleń."
+      ],
+      "examples": [
+        {
+          "input": "6 3\nBasia Ala\nCelina Ala\nDarek Basia\nEwa Basia\nFranek Celina\nDarek Ewa\nFranek Ewa\nBasia Darek",
+          "output": "Basia\nAla\nBasia",
+          "note": "Darek i Ewa to dzieci Basi. Franek i Ewa spotykają się dopiero na Ali. Darek pochodzi od Basi, więc odpowiedzią jest sama Basia."
+        }
+      ],
+      "hint": "Zapisz map<string, string> rodzic;. Dla pytania „a b” idź od a w górę aż do założyciela i każdą osobę po drodze (zaczynając od samego a) wrzuć do set<string> przodkowie;. Potem idź w górę od b — pierwsza osoba, która jest w zbiorze, to najbliższy wspólny przodek. Założyciela rozpoznasz po tym, że nie ma go wśród kluczy mapy rodzic.",
+      "tests_count": 6
+    },
+    {
+      "id": "map-b-cztery-sakiewki",
+      "number": 1879,
+      "title": "Cztery sakiewki",
+      "category": "Mapy / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz cztery sakiewki, w każdej po n monet o podanych wartościach (wartości mogą się powtarzać, ale monety są rozróżnialne; wartości mogą być ujemne — to długi). Wybierasz po jednej monecie z każdej sakiewki. Na ile sposobów suma czterech wybranych monet wynosi dokładnie S?"
+      ],
+      "input_format": [
+        "W pierwszym wierszu n i S.",
+        "W czterech kolejnych wierszach — po n wartości monet z kolejnych sakiewek."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba sposobów."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 400",
+        "−10⁹ ≤ wartości ≤ 10⁹, −4 · 10⁹ ≤ S ≤ 4 · 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "2 10\n1 2\n3 4\n2 5\n1 3",
+          "output": "3",
+          "note": "Pasują wybory 1 + 3 + 5 + 1, 1 + 4 + 2 + 3 i 2 + 3 + 2 + 3 — razem 3."
+        }
+      ],
+      "hint": "Wszystkich czwórek jest n⁴ — za dużo. Rozdziel je na dwie połówki: zapisz w map<long long, long long> ile; wszystkie sumy a + b z dwóch pierwszych sakiewek (n² sum). Potem dla każdej pary c + d z dwóch pozostałych dolicz do wyniku liczbę par (a, b) z sumą S − c − d. Szukaj jej przez find albo count — nawiasy dopisywałyby do mapy n² nowych kluczy. Wynik może być ogromny: long long.",
+      "tests_count": 8
+    },
+    {
+      "id": "map-b-prostokaty",
+      "number": 1880,
+      "title": "Prostokąty z gwoździ",
+      "category": "Mapy / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na tablicy wbito n gwoździ w punktach o współrzędnych całkowitych (każdy w innym punkcie). Policz prostokąty o bokach poziomych i pionowych, które mają gwoździe we wszystkich czterech wierzchołkach."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy x i y."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba prostokątów."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 800",
+        "−10⁹ ≤ x, y ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "6\n0 0\n0 2\n3 0\n3 2\n5 0\n5 2",
+          "output": "3",
+          "note": "Trzy kolumny mają gwoździe na wysokościach 0 i 2. Każde dwie z nich tworzą prostokąt: 3 prostokąty."
+        }
+      ],
+      "hint": "Prostokąt wyznaczają dwie kolumny i dwie wysokości y₁ < y₂, na których w obu kolumnach są gwoździe. Zbierz gwoździe w map<int, vector<int>> kolumna; (x → lista wysokości) i posortuj każdą listę. W każdej kolumnie przejdź wszystkie pary wysokości y₁ < y₂ i zwiększ licznik ile[{y1, y2}]. Para wysokości obecna w k kolumnach daje k · (k − 1) / 2 prostokątów.",
+      "tests_count": 9
+    },
+    {
+      "id": "map-b-wyszukiwarka",
+      "number": 1881,
+      "title": "Wyszukiwarka dokumentów",
+      "category": "Mapy / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz n dokumentów — każdy to jeden wiersz tekstu; dokumenty numerujemy od 1. Potem przychodzi q zapytań; każde to kilka słów.",
+        "Dla każdego zapytania policz dokumenty, które zawierają wszystkie słowa zapytania, i wypisz ich liczbę, a jeśli jest co najmniej jeden — także numer pierwszego i ostatniego z nich."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W n kolejnych wierszach dokumenty.",
+        "Dalej q i q wierszy z zapytaniami."
+      ],
+      "output_format": [
+        "q wierszy: liczba pasujących dokumentów, a po niej (gdy nie jest zerem) numer najmniejszego i największego z nich."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000, 1 ≤ q ≤ 1000",
+        "Dokument ma od 1 do 10 słów, zapytanie — od 1 do 4 słów; słowa mają od 1 do 10 małych liter i są oddzielone pojedynczymi spacjami."
+      ],
+      "examples": [
+        {
+          "input": "4\nala ma kota\nkot ma ale\nala ma psa i kota\npies\n3\nala kota\nma\nkot pies",
+          "output": "2 1 3\n3 1 3\n0",
+          "note": "Słowa ala i kota są razem w dokumentach 1 i 3. Słowo ma jest w 1, 2 i 3. Kot i pies nigdy nie są w jednym dokumencie."
+        }
+      ],
+      "hint": "Budując indeks, dla każdego słowa każdego dokumentu wykonaj gdzie[s].insert(nr); — zbiór sam usunie powtórzenia i ułoży numery rosnąco. Przy zapytaniu najpierw sprawdź, czy każde słowo jest w mapie (count); jeśli któregoś brakuje, wynik to 0. Potem wybierz słowo z najmniejszym zbiorem i przejdź jego numery: dokument pasuje, jeśli jest też w zbiorach pozostałych słów (count).",
+      "tests_count": 7
+    },
+    {
+      "id": "map-b-final-baza-danych",
+      "number": 1882,
+      "title": "Wielki finał: baza danych z transakcjami",
+      "category": "Mapy / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Napisz prostą bazę danych, która przechowuje pary klucz → wartość (klucze to słowa, wartości — liczby całkowite). Polecenia:",
+        "SET k v — ustaw wartość klucza k na v;",
+        "GET k — wypisz wartość klucza k albo NULL, jeśli klucza nie ma;",
+        "DELETE k — usuń klucz k (jeśli go nie ma, nic się nie dzieje);",
+        "COUNT v — wypisz, ile kluczy ma teraz wartość v;",
+        "BEGIN — rozpocznij transakcję (transakcje mogą być zagnieżdżone: BEGIN w trakcie innej transakcji otwiera nową, wewnętrzną);",
+        "ROLLBACK — cofnij wszystkie zmiany z ostatnio otwartej transakcji i ją zamknij; jeśli żadna nie jest otwarta, wypisz BRAK TRANSAKCJI;",
+        "COMMIT — zatwierdź i zamknij wszystkie otwarte transakcje (zmiany zostają); jeśli żadna nie jest otwarta, wypisz BRAK TRANSAKCJI."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W q kolejnych wierszach polecenia."
+      ],
+      "output_format": [
+        "Odpowiedzi na GET i COUNT oraz komunikaty BRAK TRANSAKCJI — każde w osobnym wierszu."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 4000",
+        "Klucze: od 1 do 10 małych liter; wartości: od −10⁹ do 10⁹."
+      ],
+      "examples": [
+        {
+          "input": "10\nSET a 10\nSET b 10\nCOUNT 10\nBEGIN\nSET a 20\nGET a\nROLLBACK\nGET a\nCOUNT 10\nROLLBACK",
+          "output": "2\n20\n10\n2\nBRAK TRANSAKCJI",
+          "note": "ROLLBACK przywraca a = 10, więc znów dwa klucze mają wartość 10. Drugi ROLLBACK nie ma już czego cofać."
+        },
+        {
+          "input": "9\nBEGIN\nSET x 1\nBEGIN\nDELETE x\nGET x\nROLLBACK\nGET x\nCOMMIT\nGET x",
+          "output": "NULL\n1\n1",
+          "note": "Wewnętrzny ROLLBACK cofa tylko usunięcie x. COMMIT zatwierdza x = 1 na stałe."
+        }
+      ],
+      "hint": "Trzymaj map<string, long long> baza; i map<long long, int> ile; (wartość → ile kluczy ją ma). Każda zmiana klucza poprawia obie mapy: najpierw zdejmij starą wartość z licznika, potem dopisz nową. Transakcje to vector map: dziennik.back() pamięta dla każdego klucza zmienionego w ostatniej transakcji jego stan sprzed niej — czy był i z jaką wartością (pair<bool, long long>). Zapisuj go tylko przy pierwszej zmianie tego klucza w tej transakcji. ROLLBACK przywraca zapisane stany i usuwa ostatnią mapę z vectora, a COMMIT czyści cały vector.",
+      "tests_count": 8
     }
   ]
 }

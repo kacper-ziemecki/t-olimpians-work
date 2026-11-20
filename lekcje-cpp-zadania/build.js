@@ -340,6 +340,27 @@ const RAW = (s) => {
     return `R"${d}(${s})${d}"`;
 };
 
+// return 0; → return; tylko w ciele main — inne funkcje (int f() { … return 0; }) zostają bez zmian.
+// Klamry liczymy z pominięciem napisów, znaków i komentarzy.
+function mainReturns(body) {
+    const m = body.match(/int\s+main\s*\(\s*\)\s*\{/);
+    if (!m) return body;
+    const start = m.index + m[0].length;
+    let depth = 1, i = start;
+    while (i < body.length && depth > 0) {
+        const c = body[i];
+        if (c === '/' && body[i + 1] === '/') { while (i < body.length && body[i] !== '\n') i++; continue; }
+        if (c === '/' && body[i + 1] === '*') { const k = body.indexOf('*/', i + 2); i = k < 0 ? body.length : k + 2; continue; }
+        if (c === '"' || c === "'") {
+            i++;
+            while (i < body.length && body[i] !== c) { if (body[i] === '\\') i++; i++; }
+        } else if (c === '{') depth++;
+        else if (c === '}') depth--;
+        i++;
+    }
+    return body.slice(0, start) + body.slice(start, i).replace(/return\s+0\s*;/g, 'return;') + body.slice(i);
+}
+
 // Jeden program z wieloma wzorcówkami naraz (każda w swojej przestrzeni nazw), żeby nie zasypywać
 // Compiler Explorera zapytaniami. main wzorcówki staje się funkcją void, a cin/cout — strumieniami
 // w pamięci, którym przed każdym testem przywracamy domyślne ustawienia (jak w świeżym programie).
@@ -352,10 +373,9 @@ static ostringstream __out;
 #define cout __out
 `;
     tasks.forEach((b, k) => {
-        let body = b._cpp
+        let body = mainReturns(b._cpp
             .replace(/^[ \t]*#include.*$/gm, '')
-            .replace(/^[ \t]*using\s+namespace\s+std\s*;[ \t]*$/gm, '')
-            .replace(/return\s+0\s*;/g, 'return;');
+            .replace(/^[ \t]*using\s+namespace\s+std\s*;[ \t]*$/gm, ''));
         const withMain = body.replace(/int\s+main\s*\(\s*\)/, 'void __ref_main()');
         if (withMain === body) throw new Error(`${b.id}: wzorcówka C++ bez int main()`);
         src += `namespace __t${k} {\n${withMain}\n}\n`;

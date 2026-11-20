@@ -1546,6 +1546,88 @@ const LEKCJE = [
             },
         ],
     },
+    {
+        temat: 'Funkcje',
+        prefix: 'fun-',
+        plik: 'c++_logika/funkcje.html',
+        pliki: ['funkcje-cwiczenia-1.js', 'funkcje-cwiczenia-2.js', 'funkcje-cwiczenia-3.js', 'funkcje-baza.js'],
+        note: 'Lekcja o funkcjach od podstaw: pierwsza funkcja void (definicja, wywołanie, przepływ programu, kolejność w pliku), parametry, ' +
+            'zwracanie wyniku przez return, funkcje-pytania typu bool i wczesny return, zmienne lokalne i globalne, referencje & (zmiana oryginału, ' +
+            'kilka wyników naraz, koszt kopiowania vectora i const &), funkcje z vectorem, napisem, parą i tablicą (także komparator do sort) ' +
+            'oraz przeciążanie, wartości domyślne, deklaracje i rozbijanie zadania na małe funkcje.',
+        bazaOpisy: {
+            latwe: 'Jedna, dwie funkcje naraz: przelicznik temperatur, liczby automorficzne, najbliższa liczba pierwsza, kwadrat łaciński, oczko, ' +
+                'data za k dni, palindromy w zdaniu, proporcje w przepisie, wartości wielomianu i statystyka klasówki.',
+            srednie: 'Kilka funkcji, które ze sobą współpracują: rzymski kalkulator, rzeka liczb, Mastermind, adres IP, algorytm Luhna, szyfr płotkowy, ' +
+                'ułamki egipskie i łańcuchowe, piłka w pudełku oraz węże i drabiny.',
+            trudne: 'Zadania, które bez podziału na funkcje stają się nie do ogarnięcia: dni robocze, podział książek, generał w kości, szach, ' +
+                'Mastermind od tyłu, Fibonacci z macierzy, punkt w wielokącie — a na koniec wielki finał: automat z przekąskami.',
+        },
+        kroki: [
+            {
+                nr: 1, kotwica: 'pierwsza-funkcja', spis: 'Pierwsza funkcja — nazwany kawałek kodu',
+                nazwa: 'Krok 1 · Pierwsza funkcja — nazwany kawałek kodu',
+                kategoria: 'Funkcje / krok 1: pierwsza funkcja',
+                note: 'Funkcja void bez parametrów: definicja i wywołanie, skok do funkcji i powrót, funkcja nad main, funkcja wywołująca funkcję, ' +
+                    'funkcja w pętli i funkcja, która sama wczytuje dane — jeden test, jedno wywołanie.',
+            },
+            {
+                nr: 2, kotwica: 'parametry', spis: 'Parametry — dane dla funkcji',
+                nazwa: 'Krok 2 · Parametry — funkcja dostaje dane',
+                kategoria: 'Funkcje / krok 2: parametry',
+                note: 'Parametry różnych typów, kilka parametrów i ich kolejność, argument będący wyrażeniem, parametr jako kopia, ' +
+                    'rysowanie i formatowanie funkcjami z parametrami: flagi, ramki, paski postępu, mur z cegieł.',
+            },
+            {
+                nr: 3, kotwica: 'zwracanie', spis: 'return — funkcja oddaje wynik',
+                nazwa: 'Krok 3 · return — funkcja oddaje wynik',
+                kategoria: 'Funkcje / krok 3: return',
+                note: 'Typ zwracany (int, long long, double, string), użycie wyniku w wyrażeniu, złożenie f(g(x)), return kończy funkcję, ' +
+                    'cout kontra return: taryfy, potęgi, obwód wielokąta, sumy cyfr, czas z napisu i liczby rzymskie.',
+            },
+            {
+                nr: 4, kotwica: 'pytania', spis: 'Funkcje-pytania: bool i wczesny return',
+                nazwa: 'Krok 4 · Funkcje-pytania — bool i wczesny return',
+                kategoria: 'Funkcje / krok 4: bool i wczesny return',
+                note: 'Funkcje bool, return warunku, return w środku pętli, każda ścieżka z return, funkcje-pytania w pętlach i warunkach: ' +
+                    'izogramy, cyfry rosnące, poprawne daty, reguły hasła, liczby pierwsze w obie strony i po obcięciu, filtr wielu warunków.',
+            },
+            {
+                nr: 5, kotwica: 'zasieg', spis: 'Zmienne lokalne i globalne',
+                nazwa: 'Krok 5 · Zasięg — zmienne lokalne i globalne',
+                kategoria: 'Funkcje / krok 5: zmienne lokalne i globalne',
+                note: 'Zmienne lokalne i parametry żyją tylko w wywołaniu, zmienne globalne widzi każda funkcja, globalne tablice (zera na start, ' +
+                    'duże rozmiary), czyszczenie przed każdym testem, liczniki wywołań i stan gry trzymany globalnie.',
+            },
+            {
+                nr: 6, kotwica: 'referencje', spis: 'Referencje & — praca na oryginale',
+                nazwa: 'Krok 6 · Referencje & — funkcja zmienia oryginał',
+                kategoria: 'Funkcje / krok 6: referencje',
+                note: 'Parametr z & zmienia zmienną wywołującego, kilka wyników przez referencje, bool i referencja razem, napis zmieniany w miejscu, ' +
+                    'ta sama funkcja dla różnych zmiennych i vectorów, koszt kopiowania vectora i const &.',
+            },
+            {
+                nr: 7, kotwica: 'kontenery', spis: 'Funkcje z vectorem, napisem i tablicą',
+                nazwa: 'Krok 7 · Funkcje z vectorem, napisem, parą i tablicą',
+                kategoria: 'Funkcje / krok 7: vector, string, pair i tablice',
+                note: 'Funkcja zwracająca vector, parę i napis, tablica int t[] jako parametr, komparator do sort jako zwykła funkcja, ' +
+                    'kompresja napisów, upraszczanie ścieżek i przekształcanie obrazków.',
+            },
+            {
+                nr: 8, kotwica: 'narzedzia', spis: 'Przeciążanie, domyślne i podział zadania',
+                nazwa: 'Krok 8 · Przeciążanie, wartości domyślne i rozbijanie zadania na funkcje',
+                kategoria: 'Funkcje / krok 8: przeciążanie i podział zadania',
+                note: 'Kilka funkcji o tej samej nazwie, parametry z wartością domyślną, deklaracja przed main, pułapka kolejności argumentów ' +
+                    'i duże zadania rozbite na małe funkcje: daty, ułamki, cztery w rzędzie, przecinanie odcinków.',
+            },
+            {
+                nr: 9, kotwica: 'baza', spis: 'Baza zadań', baza: true,
+                nazwa: 'Baza zadań — podsumowanie tematu',
+                kategoria: 'Funkcje / baza zadań',
+                note: '28 zadań na cały temat — od jednej funkcji liczącej, przez współpracujące funkcje i symulacje gier, po geometrię i wyszukiwanie binarne — a na koniec wielki finał: automat z przekąskami.',
+            },
+        ],
+    },
 ];
 
 module.exports = { SITE, KATEGORIA, LEKCJE };

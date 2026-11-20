@@ -61485,6 +61485,3016 @@
       ],
       "hint": "Trzymaj map<string, long long> baza; i map<long long, int> ile; (wartość → ile kluczy ją ma). Każda zmiana klucza poprawia obie mapy: najpierw zdejmij starą wartość z licznika, potem dopisz nową. Transakcje to vector map: dziennik.back() pamięta dla każdego klucza zmienionego w ostatniej transakcji jego stan sprzed niej — czy był i z jaką wartością (pair<bool, long long>). Zapisuj go tylko przy pierwszej zmianie tego klucza w tej transakcji. ROLLBACK przywraca zapisane stany i usuwa ostatnią mapę z vectora, a COMMIT czyści cały vector.",
       "tests_count": 8
+    },
+    {
+      "id": "fun-szlaczek",
+      "number": 1883,
+      "title": "Szlaczek między liczbami",
+      "category": "Funkcje / krok 1: pierwsza funkcja",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ola zapisuje w zeszycie wyniki pomiarów. Każdy wynik oddziela od sąsiednich szlaczkiem z dziesięciu tyld: ~~~~~~~~~~. Szlaczek stoi też nad pierwszym wynikiem i pod ostatnim.",
+        "Napisz funkcję void szlaczek(), która wypisuje jeden taki szlaczek, i wywołuj ją za każdym razem, gdy trzeba go narysować."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n — liczba wyników.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "2n + 1 wierszy: szlaczek, pierwsza liczba, szlaczek, druga liczba, …, ostatnia liczba, szlaczek."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "3\n12 -5 7",
+          "output": "~~~~~~~~~~\n12\n~~~~~~~~~~\n-5\n~~~~~~~~~~\n7\n~~~~~~~~~~",
+          "note": "Trzy liczby, więc szlaczków jest cztery: na górze, dwa między liczbami i na dole."
+        }
+      ],
+      "hint": "Nad main napisz: void szlaczek() { cout << \"~~~~~~~~~~\\n\"; }. W main najpierw wywołaj szlaczek(); raz, a potem w pętli: wczytaj liczbę, wypisz ją i znowu wywołaj szlaczek();. Treść szlaczka jest w jednym miejscu — gdyby trzeba go było zmienić, poprawiasz jedną linijkę.",
+      "tests_count": 6
+    },
+    {
+      "id": "fun-refren",
+      "number": 1884,
+      "title": "Refren po każdej zwrotce",
+      "category": "Funkcje / krok 1: pierwsza funkcja",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Klasa układa piosenkę o programowaniu. Każda zwrotka ma jeden wiersz, a po każdej zwrotce śpiewa się ten sam refren — dokładnie te dwa wiersze:",
+        "Raz, dwa, trzy - funkcja to jest to!",
+        "Napisz raz, wywolaj sto!",
+        "Wypisz całą piosenkę. Refren wypisuj funkcją void refren()."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n — liczba zwrotek.",
+        "W każdym z n kolejnych wierszy jedna zwrotka (litery, spacje, przecinki i kropki)."
+      ],
+      "output_format": [
+        "3n wierszy: zwrotka, dwa wiersze refrenu, następna zwrotka, refren i tak dalej."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 150",
+        "Każda zwrotka ma od 1 do 60 znaków i nie zaczyna się ani nie kończy spacją."
+      ],
+      "examples": [
+        {
+          "input": "2\nMamy main i mamy plan\nKazdy kod jest w funkcji sam",
+          "output": "Mamy main i mamy plan\nRaz, dwa, trzy - funkcja to jest to!\nNapisz raz, wywolaj sto!\nKazdy kod jest w funkcji sam\nRaz, dwa, trzy - funkcja to jest to!\nNapisz raz, wywolaj sto!",
+          "note": "Po każdej z dwóch zwrotek stoją te same dwa wiersze refrenu."
+        }
+      ],
+      "hint": "void refren() { cout << \"Raz, dwa, trzy - funkcja to jest to!\\n\"; cout << \"Napisz raz, wywolaj sto!\\n\"; }. Zwrotki mają spacje, więc czytaj je przez getline. Po cin >> n w wejściu zostaje enter — przed pierwszym getline wywołaj cin.ignore(); (albo czytaj getline(cin >> ws, zwrotka)).",
+      "tests_count": 6
+    },
+    {
+      "id": "fun-powitania",
+      "number": 1885,
+      "title": "Witaj, gościu!",
+      "category": "Funkcje / krok 1: pierwsza funkcja",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na bal przychodzi n gości. Przy wejściu każdy podaje imię, a automat wita go zdaniem Witaj, IMIE!",
+        "Napisz funkcję void przywitaj(), która sama wczytuje jedno imię i wypisuje powitanie. W main wczytaj n i wywołaj przywitaj() n razy."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy imię gościa."
+      ],
+      "output_format": [
+        "n wierszy w formacie Witaj, IMIE! — w kolejności przychodzenia gości."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "Imię ma od 1 do 15 liter: pierwsza wielka, reszta małe."
+      ],
+      "examples": [
+        {
+          "input": "3\nOla\nBartek\nZuzia",
+          "output": "Witaj, Ola!\nWitaj, Bartek!\nWitaj, Zuzia!",
+          "note": "Każde wywołanie przywitaj() czyta jedno imię i od razu wita tego gościa."
+        }
+      ],
+      "hint": "void przywitaj() { string imie; cin >> imie; cout << \"Witaj, \" << imie << \"!\\n\"; }. Zmienna imie powstaje w funkcji przy każdym wywołaniu od nowa. W main: cin >> n; i pętla, w której jest tylko przywitaj();.",
+      "tests_count": 6
+    },
+    {
+      "id": "fun-kazda-para",
+      "number": 1886,
+      "title": "Każda para osobno",
+      "category": "Funkcje / krok 1: pierwsza funkcja",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Kalkulator dostaje t par liczb całkowitych a i b. Dla każdej pary wypisuje sumę, różnicę a − b i iloczyn.",
+        "Obsługę jednej pary (wczytanie i wypisanie) zamknij w funkcji void obsluzPare(). main ma tylko wczytać t i t razy wywołać tę funkcję. Uważaj na zakres: liczby są duże."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy dwie liczby a i b."
+      ],
+      "output_format": [
+        "t wierszy w formacie: suma S, roznica R, iloczyn I"
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 300",
+        "−10⁹ ≤ a, b ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "2\n5 3\n-4 10",
+          "output": "suma 8, roznica 2, iloczyn 15\nsuma 6, roznica -14, iloczyn -40",
+          "note": "5 + 3 = 8, 5 − 3 = 2, 5 · 3 = 15. Dla drugiej pary: 6, −14 i −40."
+        }
+      ],
+      "hint": "W obsluzPare() utwórz long long a, b; — przy a = b = 10⁹ już suma (2 · 10⁹) nie mieści się w int, a iloczyn (10¹⁸) tym bardziej. Wypisz: cout << \"suma \" << a + b << \", roznica \" << a - b << \", iloczyn \" << a * b << \"\\n\";.",
+      "tests_count": 6
+    },
+    {
+      "id": "fun-piktogramy",
+      "number": 1887,
+      "title": "Piktogramy",
+      "category": "Funkcje / krok 1: pierwsza funkcja",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Słowo z liter K, T i L opisuje rysunek. Każdej literze odpowiada jeden obrazek:",
+        "K — kwadrat (3 wiersze): +--+, |  |, +--+",
+        "T — trójkąt (3 wiersze): dwie spacje i *, spacja i ***, *****",
+        "L — linia (1 wiersz): =====",
+        "Wypisz obrazki kolejnych liter, oddzielając sąsiednie obrazki jednym pustym wierszem. Każdy obrazek rysuj osobną funkcją: void kwadrat(), void trojkat(), void linia()."
+      ],
+      "input_format": [
+        "Jeden wiersz: słowo z liter K, T i L."
+      ],
+      "output_format": [
+        "Obrazki kolejnych liter, między sąsiednimi obrazkami pusty wiersz."
+      ],
+      "constraints": [
+        "Słowo ma od 1 do 100 liter."
+      ],
+      "examples": [
+        {
+          "input": "TLK",
+          "output": "*\n ***\n*****\n\n=====\n\n+--+\n|  |\n+--+",
+          "note": "Najpierw trójkąt, pusty wiersz, linia, pusty wiersz, kwadrat."
+        }
+      ],
+      "hint": "Trzy funkcje, każda z kilkoma cout, np. void trojkat() { cout << \"  *\\n\"; cout << \" ***\\n\"; cout << \"*****\\n\"; }. W main przejdź po literach słowa: if (s[i] == 'K') kwadrat(); else if (s[i] == 'T') trojkat(); else linia(); — a przed każdym obrazkiem oprócz pierwszego wypisz pusty wiersz.",
+      "tests_count": 7
+    },
+    {
+      "id": "fun-tabela",
+      "number": 1888,
+      "title": "Tabela z nagłówkiem",
+      "category": "Funkcje / krok 1: pierwsza funkcja",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wypisz tabelę wyników klasowego konkursu. Tabela wygląda tak (szerokość jest zawsze ta sama):",
+        "+------------+--------+",
+        "| imie       | punkty |",
+        "+------------+--------+",
+        "Potem po jednym wierszu na ucznia: | , imię dosunięte do lewej na 10 znakach, | , punkty dosunięte do prawej na 6 znakach i | — na końcu znowu pozioma kreska.",
+        "Poziomą kreskę rysuj funkcją void linia(), a nagłówek (kreska, napis, kreska) funkcją void naglowek(), która wywołuje linia()."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy imię i liczba punktów."
+      ],
+      "output_format": [
+        "Tabela: nagłówek (3 wiersze), n wierszy uczniów w kolejności z wejścia i pozioma kreska."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 500",
+        "Imię ma od 1 do 10 liter.",
+        "0 ≤ punkty ≤ 999999"
+      ],
+      "examples": [
+        {
+          "input": "2\nOla 12\nBartek 7",
+          "output": "+------------+--------+\n| imie       | punkty |\n+------------+--------+\n| Ola        |     12 |\n| Bartek     |      7 |\n+------------+--------+",
+          "note": "\"Ola\" uzupełniamy spacjami do 10 znaków, a 12 poprzedzamy czterema spacjami, żeby miało 6 znaków."
+        }
+      ],
+      "hint": "void linia() { cout << \"+------------+--------+\\n\"; } i void naglowek() { linia(); cout << \"| imie       | punkty |\\n\"; linia(); } — naglowek musi stać pod linia, bo jej używa. Wiersz ucznia: cout << \"| \" << left << setw(10) << imie << \" | \" << right << setw(6) << p << \" |\\n\";.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-choinki",
+      "number": 1889,
+      "title": "Choinki z pięter",
+      "category": "Funkcje / krok 1: pierwsza funkcja",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Choinka składa się z pięter i pnia. Każde piętro to te same trzy wiersze: dwie spacje i *, spacja i ***, *****. Pień to jeden wiersz: dwie spacje i #.",
+        "Narysuj t choinek. Choinka nr i ma nᵢ pięter (od góry) i pień na dole. Między sąsiednimi choinkami zostaw pusty wiersz. Napisz funkcje void pietro() i void pien()."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W drugim wierszu t liczb — liczby pięter kolejnych choinek."
+      ],
+      "output_format": [
+        "Kolejne choinki, oddzielone pustymi wierszami."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 20",
+        "1 ≤ nᵢ ≤ 50",
+        "Suma wszystkich nᵢ nie przekracza 500."
+      ],
+      "examples": [
+        {
+          "input": "2\n1 2",
+          "output": "*\n ***\n*****\n  #\n\n  *\n ***\n*****\n  *\n ***\n*****\n  #",
+          "note": "Pierwsza choinka: jedno piętro i pień. Druga: dwa piętra (6 wierszy z gwiazdkami) i pień."
+        }
+      ],
+      "hint": "void pietro() { cout << \"  *\\n\"; cout << \" ***\\n\"; cout << \"*****\\n\"; } i void pien() { cout << \"  #\\n\"; }. Dla każdej choinki: pusty wiersz (jeśli to nie pierwsza), pętla for (int j = 0; j < n; j++) pietro(); i na końcu pien();.",
+      "tests_count": 6
+    },
+    {
+      "id": "fun-kartkowki",
+      "number": 1890,
+      "title": "Kartkówki z jednym kluczem",
+      "category": "Funkcje / krok 1: pierwsza funkcja",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Pani od historii zrobiła kartkówkę z pięcioma pytaniami testowymi. Poprawne odpowiedzi to zawsze kolejno: A, C, B, D, A (klucz ACBDA).",
+        "Każdy uczeń oddał pięć liter. Napisz funkcję void sprawdzKartkowke(), która wczytuje imię i odpowiedzi jednego ucznia, liczy trafienia i wypisuje wynik w formacie IMIE: k/5. main wywołuje ją dla każdego ucznia."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n — liczba uczniów.",
+        "W każdym z n kolejnych wierszy imię i napis z 5 liter (każda to A, B, C albo D)."
+      ],
+      "output_format": [
+        "n wierszy w formacie IMIE: k/5 — w kolejności z wejścia."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "Imię ma od 1 do 15 liter."
+      ],
+      "examples": [
+        {
+          "input": "3\nOla ACBDA\nKuba ABCDA\nEla DDDDD",
+          "output": "Ola: 5/5\nKuba: 3/5\nEla: 1/5",
+          "note": "Ola ma wszystko dobrze. Kuba pomylił drugą i trzecią odpowiedź — 3 trafienia. Ela trafiła tylko czwartą odpowiedź (D)."
+        }
+      ],
+      "hint": "W funkcji: string imie, odp; cin >> imie >> odp; string klucz = \"ACBDA\"; int k = 0; for (int i = 0; i < 5; i++) if (odp[i] == klucz[i]) k++; i wypisanie. Zmienne imie, odp, klucz i k są lokalne — przy każdym wywołaniu powstają od nowa, więc k zawsze startuje od zera.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-flaga",
+      "number": 1891,
+      "title": "Flaga z pasków",
+      "category": "Funkcje / krok 2: parametry",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Projektant flag opisuje flagę jako k poziomych pasów. Każdy pas ma wysokość h (w wierszach) i jest zrobiony ze znaku c. Wszystkie pasy mają tę samą szerokość w.",
+        "Narysuj flagę od górnego pasa. Napisz funkcję void linia(int w, char c), która wypisuje w znaków c i enter, oraz void pas(int w, int h, char c), która wywołuje linia(w, c) h razy."
+      ],
+      "input_format": [
+        "W pierwszym wierszu w i k.",
+        "W każdym z k kolejnych wierszy wysokość pasa h i znak c."
+      ],
+      "output_format": [
+        "Flaga: kolejne pasy, bez pustych wierszy między nimi."
+      ],
+      "constraints": [
+        "1 ≤ w ≤ 60, 1 ≤ k ≤ 20",
+        "1 ≤ h ≤ 10, a suma wysokości wszystkich pasów nie przekracza 100.",
+        "c to jeden ze znaków # * = + - o @ % x X & $"
+      ],
+      "examples": [
+        {
+          "input": "6 3\n1 =\n2 #\n1 =",
+          "output": "======\n######\n######\n======",
+          "note": "Trzy pasy: jeden wiersz ze znaków =, dwa wiersze ze znaków #, jeden wiersz ze znaków =. Każdy wiersz ma 6 znaków."
+        }
+      ],
+      "hint": "void linia(int w, char c) { for (int i = 0; i < w; i++) cout << c; cout << \"\\n\"; } i void pas(int w, int h, char c) { for (int i = 0; i < h; i++) linia(w, c); }. W main dla każdego pasa: cin >> h >> c; pas(w, h, c);. Kolejność argumentów musi się zgadzać z kolejnością parametrów.",
+      "tests_count": 6
+    },
+    {
+      "id": "fun-ramki",
+      "number": 1892,
+      "title": "Ramki na zdjęcia",
+      "category": "Funkcje / krok 2: parametry",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Fotograf zamawia ramki do t zdjęć. Ramka o szerokości w i wysokości h ze znaku c to prostokąt, w którym znak c stoi tylko na brzegach, a w środku są spacje.",
+        "Narysuj wszystkie ramki, oddzielając je pustym wierszem. Napisz funkcję void ramka(int w, int h, char c)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy liczby w, h i znak c."
+      ],
+      "output_format": [
+        "Kolejne ramki (każda ma h wierszy po w znaków), oddzielone pustym wierszem."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 20",
+        "2 ≤ w ≤ 40, 2 ≤ h ≤ 20",
+        "c to jeden ze znaków # * = + - o @ % x X & $"
+      ],
+      "examples": [
+        {
+          "input": "2\n5 3 #\n2 2 *",
+          "output": "#####\n#   #\n#####\n\n**\n**",
+          "note": "Pierwsza ramka: wiersz #####, wiersz # (trzy spacje) # i znowu #####. Druga ramka 2 × 2 to same gwiazdki."
+        }
+      ],
+      "hint": "Pierwszy i ostatni wiersz to w znaków c. Każdy środkowy wiersz (jest ich h − 2): znak c, w − 2 spacji i znowu c. W funkcji przydadzą się dwie pętle — jedna na wiersze, druga na znaki w wierszu. Parametry w, h i c są zwykłymi zmiennymi, których wartości przyszły z wywołania.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-dwa-znaki",
+      "number": 1893,
+      "title": "Wzór z dwóch znaków",
+      "category": "Funkcje / krok 2: parametry",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wzór ma n wierszy i m kolumn. W każdym wierszu znaki a i b stoją na zmianę. Wiersze o numerach 1, 3, 5, … (licząc od 1) zaczynają się od a, a wiersze 2, 4, 6, … — od b.",
+        "Napisz funkcję void wiersz(int m, char x, char y), która wypisuje m znaków na zmianę: x, y, x, y, … W main wywołuj ją raz jako wiersz(m, a, b), a raz jako wiersz(m, b, a). Narysuj q takich wzorów, oddzielonych pustym wierszem."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W każdym z q kolejnych wierszy: n, m oraz dwa różne znaki a i b."
+      ],
+      "output_format": [
+        "Kolejne wzory (po n wierszy), oddzielone pustym wierszem."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 5",
+        "1 ≤ n, m ≤ 50",
+        "a i b to różne znaki spośród # * = + - o @ % x X & $"
+      ],
+      "examples": [
+        {
+          "input": "1\n3 5 # o",
+          "output": "#o#o#\no#o#o\n#o#o#",
+          "note": "Wiersz 1 i 3 zaczynają się od #, wiersz 2 — od o."
+        }
+      ],
+      "hint": "W funkcji: for (int i = 0; i < m; i++) { if (i % 2 == 0) cout << x; else cout << y; } i enter. W main dla wiersza i (od 0): if (i % 2 == 0) wiersz(m, a, b); else wiersz(m, b, a);. Funkcja się nie zmienia — zmieniasz tylko kolejność argumentów, a parametry x i y dostają je po kolei.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-starty",
+      "number": 1894,
+      "title": "Starty rakiet",
+      "category": "Funkcje / krok 2: parametry",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Z kosmodromu startuje n rakiet. Przed startem każda odlicza: najpierw jej nazwa i dwukropek, potem liczby od t w dół do 1, a na końcu słowo START!",
+        "Napisz funkcję void start(string nazwa, int t), która wypisuje jeden taki wiersz. Odliczaj w pętli while (t > 0), zmniejszając sam parametr t."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy nazwa rakiety i liczba t."
+      ],
+      "output_format": [
+        "n wierszy w formacie: NAZWA: t t−1 … 1 START!"
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 100",
+        "1 ≤ t ≤ 30",
+        "Nazwa ma od 1 do 12 znaków (wielkie litery i cyfry)."
+      ],
+      "examples": [
+        {
+          "input": "2\nAPOLLO 3\nX1 1",
+          "output": "APOLLO: 3 2 1 START!\nX1: 1 START!",
+          "note": "APOLLO odlicza 3 2 1, rakieta X1 tylko 1."
+        }
+      ],
+      "hint": "void start(string nazwa, int t) { cout << nazwa << \":\"; while (t > 0) { cout << \" \" << t; t--; } cout << \" START!\\n\"; }. Parametr t to kopia liczby z main — możesz go spokojnie zmniejszać. Zmienna w main zostanie taka, jaka była.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-etykiety",
+      "number": 1895,
+      "title": "Etykiety na słoikach",
+      "category": "Funkcje / krok 2: parametry",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Babcia robi przetwory i na każdym słoiku nakleja etykietę: nazwę przetworu i rok, w ramce ze znaku c. Szerokość W wnętrza to długość nazwy, ale co najmniej 4 (rok ma 4 cyfry).",
+        "Etykieta ma 4 wiersze: W + 4 znaków c; znak c, spacja, nazwa dopełniona spacjami do W znaków, spacja i c; tak samo dla roku; i znowu W + 4 znaków c.",
+        "Napisz funkcję void etykieta(string nazwa, int rok, char c). Etykiety oddzielaj pustym wierszem."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy: nazwa, rok i znak c."
+      ],
+      "output_format": [
+        "n etykiet po 4 wiersze, oddzielonych pustym wierszem."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 50",
+        "Nazwa ma od 1 do 20 małych liter.",
+        "1900 ≤ rok ≤ 2100",
+        "c to jeden ze znaków # * = + - o @ % x X & $"
+      ],
+      "examples": [
+        {
+          "input": "2\nmiod 2024 #\nag 2023 *",
+          "output": "########\n# miod #\n# 2024 #\n########\n\n********\n* ag   *\n* 2023 *\n********",
+          "note": "Obie nazwy mają co najwyżej 4 litery, więc W = 4 i ramka ma 8 znaków szerokości. \"ag\" dopełniamy dwiema spacjami."
+        }
+      ],
+      "hint": "W funkcji: int W = max((int)nazwa.size(), 4);. Kreska: for z W + 4 obrotami. Wiersz z nazwą: cout << c << \" \" << left << setw(W) << nazwa << \" \" << c << \"\\n\"; — tak samo z rokiem. setw działa też dla liczb.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-paski-postepu",
+      "number": 1896,
+      "title": "Paski postępu",
+      "category": "Funkcje / krok 2: parametry",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Program do nauki pokazuje postęp w każdym dziale jako pasek z 10 pól. Pełnych pól (#) jest tyle, ile pełnych dziesiątek procent: przy 47% są 4 krzyżyki, a reszta pól to kropki.",
+        "Napisz funkcję void pasek(string nazwa, int procent), która wypisuje wiersz: nazwa, spacja, [, krzyżyki, kropki, ], spacja i procent ze znakiem %."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy nazwa działu i procent."
+      ],
+      "output_format": [
+        "n wierszy z paskami, w kolejności z wejścia."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 500",
+        "0 ≤ procent ≤ 100",
+        "Nazwa ma od 1 do 15 małych liter."
+      ],
+      "examples": [
+        {
+          "input": "3\npetle 47\nfunkcje 100\nmapy 9",
+          "output": "petle [####......] 47%\nfunkcje [##########] 100%\nmapy [..........] 9%",
+          "note": "47 / 10 = 4 krzyżyki i 6 kropek; 100% to 10 krzyżyków; przy 9% nie ma jeszcze żadnego."
+        }
+      ],
+      "hint": "W funkcji: int pelne = procent / 10; — dzielenie całkowite obcina resztę. Potem for (int i = 0; i < pelne; i++) cout << '#'; i for (int i = pelne; i < 10; i++) cout << '.';. Całość: cout << nazwa << \" [\"; … cout << \"] \" << procent << \"%\\n\";.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-mur",
+      "number": 1897,
+      "title": "Mur z cegieł",
+      "category": "Funkcje / krok 2: parametry",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Murarz układa mur z n rzędów po k cegieł. Cegła to cztery znaki [__]. Rzędy liczymy od góry od 0: rzędy parzyste zaczynają się od razu od cegły, a nieparzyste są przesunięte o dwie spacje w prawo.",
+        "Napisz funkcję void rzad(int k, bool przesuniety). W main wywołuj ją jako rzad(k, i % 2 == 1) — wartość warunku sama trafi do parametru. Narysuj t murów, oddzielonych pustym wierszem."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy n i k."
+      ],
+      "output_format": [
+        "Kolejne mury po n wierszy, oddzielone pustym wierszem."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 10",
+        "1 ≤ n ≤ 30, 1 ≤ k ≤ 15"
+      ],
+      "examples": [
+        {
+          "input": "1\n3 2",
+          "output": "[__][__]\n  [__][__]\n[__][__]",
+          "note": "Rząd 0: [__][__]. Rząd 1 (nieparzysty): dwie spacje i [__][__]. Rząd 2: znowu bez przesunięcia."
+        }
+      ],
+      "hint": "void rzad(int k, bool przesuniety) { if (przesuniety) cout << \"  \"; for (int i = 0; i < k; i++) cout << \"[__]\"; cout << \"\\n\"; }. Wyrażenie i % 2 == 1 ma wartość true albo false — dokładnie taką, jakiej oczekuje parametr bool.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-ramka-napisu",
+      "number": 1898,
+      "title": "Napis w ramce z marginesem",
+      "category": "Funkcje / krok 2: parametry",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Słowo s trzeba otoczyć ramką ze znaku c, zostawiając margines z m spacji z lewej i z prawej oraz m pustych (wypełnionych spacjami) wierszy nad słowem i pod nim.",
+        "Ramka ma szerokość W = długość słowa + 2m + 2. Wiersze: W znaków c; m razy: c, W − 2 spacji, c; wiersz ze słowem: c, m spacji, słowo, m spacji, c; znowu m wierszy ze spacjami i W znaków c.",
+        "Napisz funkcję void ramka(string s, char c, int m). Ramki oddzielaj pustym wierszem."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy: słowo s, znak c i margines m."
+      ],
+      "output_format": [
+        "t ramek (każda ma 2m + 3 wiersze), oddzielonych pustym wierszem."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 20",
+        "Słowo ma od 1 do 30 liter.",
+        "0 ≤ m ≤ 5",
+        "c to jeden ze znaków # * = + - o @ % x X & $"
+      ],
+      "examples": [
+        {
+          "input": "2\nala * 1\nOK # 0",
+          "output": "*******\n*     *\n* ala *\n*     *\n*******\n\n####\n#OK#\n####",
+          "note": "Dla ala i m = 1: W = 3 + 2 + 2 = 7, wiersz z pustym marginesem nad i pod słowem. Dla m = 0 ramka przylega do słowa."
+        }
+      ],
+      "hint": "Najpierw policz int W = s.size() + 2 * m + 2;. Napisz sobie pomocniczą funkcję void znaki(int ile, char z) { for (…) cout << z; }, której użyjesz i do kresek (znaki(W, c)), i do spacji (znaki(m, ' ') albo znaki(W - 2, ' ')). Parametr może być też spacją.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-prad",
+      "number": 1899,
+      "title": "Rachunek za prąd",
+      "category": "Funkcje / krok 3: return",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Elektrownia liczy opłatę progowo. Za pierwsze 100 kWh płaci się 1 zł za każdą kWh, za kolejne 200 kWh (od 101. do 300.) — 2 zł za kWh, a za każdą kWh powyżej 300 — 3 zł.",
+        "Napisz funkcję long long koszt(long long kwh), która zwraca opłatę w złotych. Wypisz opłatę każdego z n domów, a na końcu sumę wszystkich opłat."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W drugim wierszu n liczb — zużycie prądu w kolejnych domach (w kWh)."
+      ],
+      "output_format": [
+        "n wierszy z opłatami, a po nich wiersz Razem: S"
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "0 ≤ zużycie ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "3\n50 250 400",
+          "output": "50\n400\n800\nRazem: 1250",
+          "note": "50 kWh to 50 zł. 250 kWh: 100 · 1 + 150 · 2 = 400 zł. 400 kWh: 100 + 200 · 2 + 100 · 3 = 800 zł. Razem 1250 zł."
+        }
+      ],
+      "hint": "long long koszt(long long kwh) { if (kwh <= 100) return kwh; if (kwh <= 300) return 100 + 2 * (kwh - 100); return 500 + 3 * (kwh - 300); } — 500 to koszt pierwszych 300 kWh. W main: long long razem = 0; i dla każdego domu razem += koszt(x);. Suma może przekroczyć 2 · 10⁹ — stąd long long.",
+      "tests_count": 6
+    },
+    {
+      "id": "fun-zlozenie",
+      "number": 1900,
+      "title": "f(g(x)) czy g(f(x))?",
+      "category": "Funkcje / krok 3: return",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na matematyce poznaliście złożenie funkcji: f(g(x)) znaczy „najpierw policz g(x), a wynik wstaw do f”. Kolejność ma znaczenie!",
+        "Napisz int f(int x), która zwraca 2x + 3, oraz int g(int x), która zwraca x² − 1. Dla każdego z q argumentów wypisz f(g(x)) i g(f(x))."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W drugim wierszu q liczb całkowitych x."
+      ],
+      "output_format": [
+        "q wierszy: f(g(x)) i g(f(x)), oddzielone spacją."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "−10⁴ ≤ x ≤ 10⁴"
+      ],
+      "examples": [
+        {
+          "input": "2\n2 -1",
+          "output": "9 48\n3 0",
+          "note": "Dla x = 2: g(2) = 3, więc f(g(2)) = f(3) = 9; f(2) = 7, więc g(f(2)) = g(7) = 48. Dla x = −1: f(g(−1)) = f(0) = 3, g(f(−1)) = g(1) = 0."
+        }
+      ],
+      "hint": "int f(int x) { return 2 * x + 3; } i int g(int x) { return x * x - 1; }. Złożenie zapisujesz dokładnie tak jak na matematyce: cout << f(g(x)) << \" \" << g(f(x)) << \"\\n\";. Najpierw liczy się wywołanie w środku, jego wynik staje się argumentem zewnętrznego.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-a-do-b",
+      "number": 1901,
+      "title": "a do b czy b do a?",
+      "category": "Funkcje / krok 3: return",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla dwóch liczb a i b porównaj aᵇ (a do potęgi b) z bᵃ.",
+        "Napisz funkcję long long potega(long long a, int b), która liczy aᵇ zwykłą pętlą (bez pow). Dla każdej pary wypisz obie potęgi i znak <, > albo = między nimi."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy liczby a i b."
+      ],
+      "output_format": [
+        "t wierszy w formacie: X < Y, X > Y albo X = Y, gdzie X = aᵇ, a Y = bᵃ."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 225",
+        "1 ≤ a, b ≤ 15"
+      ],
+      "examples": [
+        {
+          "input": "3\n2 3\n2 4\n3 2",
+          "output": "8 < 9\n16 = 16\n9 > 8",
+          "note": "2³ = 8 < 9 = 3². 2⁴ = 16 = 4². 3² = 9 > 8 = 2³."
+        }
+      ],
+      "hint": "long long potega(long long a, int b) { long long w = 1; for (int i = 0; i < b; i++) w *= a; return w; }. W main: long long x = potega(a, b), y = potega(b, a); i trzy if-y. 15¹⁵ ≈ 4 · 10¹⁷ — mieści się tylko w long long.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-pojedynek-cyfr",
+      "number": 1902,
+      "title": "Pojedynek na sumy cyfr",
+      "category": "Funkcje / krok 3: return",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W grze „pojedynek cyfr” każdy gracz podaje liczbę, a wygrywa ten, którego liczba ma większą sumę cyfr.",
+        "Napisz funkcję int sumaCyfr(long long x). Dla każdego z t pojedynków wypisz liczbę zwycięzcy albo słowo REMIS, gdy sumy są równe."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy dwie liczby a i b."
+      ],
+      "output_format": [
+        "t wierszy: liczba z większą sumą cyfr albo REMIS."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1000",
+        "0 ≤ a, b ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "3\n123 99\n45 54\n909 1000",
+          "output": "99\nREMIS\n909",
+          "note": "Sumy: 6 i 18 — wygrywa 99. 9 i 9 — remis. 18 i 1 — wygrywa 909."
+        }
+      ],
+      "hint": "int sumaCyfr(long long x) { int s = 0; while (x > 0) { s += x % 10; x /= 10; } return s; } — x jest kopią, więc możesz go „zjadać”. W main: int sa = sumaCyfr(a), sb = sumaCyfr(b); — funkcję wywołujesz dla obu liczb.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-lustro",
+      "number": 1903,
+      "title": "Liczba plus jej lustro",
+      "category": "Funkcje / krok 3: return",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Lustrem liczby nazwiemy liczbę o tych samych cyfrach w odwrotnej kolejności. Zera z przodu lustra znikają: lustro 120 to 21, a lustro 7 to 7.",
+        "Napisz funkcję long long odwroc(long long x). Dla każdej z n liczb wypisz sumę liczby i jej lustra."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W drugim wierszu n liczb."
+      ],
+      "output_format": [
+        "n wierszy: x + odwroc(x)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "0 ≤ x ≤ 10¹²"
+      ],
+      "examples": [
+        {
+          "input": "3\n12 120 7",
+          "output": "33\n141\n14",
+          "note": "12 + 21 = 33, 120 + 21 = 141, 7 + 7 = 14."
+        }
+      ],
+      "hint": "long long odwroc(long long x) { long long w = 0; while (x > 0) { w = w * 10 + x % 10; x /= 10; } return w; } — każda ostatnia cyfra x dopisuje się na koniec w. W main: cout << x + odwroc(x) << \"\\n\";. Liczby sięgają 10¹², więc wszystko w long long.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-czas-lekcji",
+      "number": 1904,
+      "title": "Najdłuższe zajęcia",
+      "category": "Funkcje / krok 3: return",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Plan dnia ma n zajęć. Każde zajęcia mają godzinę początku i końca w formacie HH:MM (zawsze dwie cyfry godzin i dwie cyfry minut). Zajęcia kończą się tego samego dnia, później niż się zaczęły.",
+        "Napisz funkcję int naMinuty(string hhmm), która zamienia godzinę na liczbę minut od północy. Wypisz długość każdych zajęć w minutach, a na końcu numer najdłuższych (przy remisie — wcześniejszych)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy dwie godziny: początek i koniec."
+      ],
+      "output_format": [
+        "n wierszy z długościami zajęć, a po nich wiersz Najdluzsze: k (numer liczony od 1)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "Godziny od 00:00 do 23:59."
+      ],
+      "examples": [
+        {
+          "input": "3\n08:00 08:45\n09:50 11:20\n12:00 12:30",
+          "output": "45\n90\n30\nNajdluzsze: 2",
+          "note": "Zajęcia trwają 45, 90 i 30 minut. Najdłuższe są drugie."
+        }
+      ],
+      "hint": "int naMinuty(string s) { int h = (s[0] - '0') * 10 + (s[1] - '0'); int m = (s[3] - '0') * 10 + (s[4] - '0'); return h * 60 + m; } — s[2] to dwukropek. Długość: naMinuty(koniec) - naMinuty(poczatek). Najdłuższe zapamiętuj jak rekord: nowy rekord tylko przy >.",
+      "tests_count": 6
+    },
+    {
+      "id": "fun-obwod",
+      "number": 1905,
+      "title": "Obwód ogrodzenia",
+      "category": "Funkcje / krok 3: return",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Rolnik ogradza działkę. Słupki stoją w n punktach o współrzędnych całkowitych, a siatka biegnie prosto od każdego słupka do następnego, a od ostatniego — z powrotem do pierwszego.",
+        "Napisz funkcję double odleglosc(int x1, int y1, int x2, int y2), która zwraca odległość dwóch punktów (z twierdzenia Pitagorasa). Wypisz długość całej siatki z dokładnością do dwóch miejsc po przecinku."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy współrzędne słupka x i y — w kolejności, w jakiej biegnie siatka."
+      ],
+      "output_format": [
+        "Jedna liczba — długość siatki, z dwiema cyframi po kropce."
+      ],
+      "constraints": [
+        "3 ≤ n ≤ 1000",
+        "−10⁴ ≤ x, y ≤ 10⁴",
+        "Kolejne słupki (także ostatni i pierwszy) stoją w różnych punktach."
+      ],
+      "examples": [
+        {
+          "input": "3\n0 0\n3 0\n0 4",
+          "output": "12.00",
+          "note": "Boki mają długości 3, 5 (od (3, 0) do (0, 4)) i 4 — razem 12."
+        }
+      ],
+      "hint": "double odleglosc(int x1, int y1, int x2, int y2) { double dx = x2 - x1, dy = y2 - y1; return sqrt(dx * dx + dy * dy); }. Wczytaj punkty do tablic (albo vectorów) x i y, a potem dodawaj odleglosc(x[i], y[i], x[i + 1], y[i + 1]) — i na koniec bok od ostatniego do pierwszego. Wypisz: cout << fixed << setprecision(2) << obwod;.",
+      "tests_count": 7
+    },
+    {
+      "id": "fun-na-rzymskie",
+      "number": 1906,
+      "title": "Z arabskich na rzymskie",
+      "category": "Funkcje / krok 3: return",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Liczby rzymskie zapisuje się znakami M = 1000, D = 500, C = 100, L = 50, X = 10, V = 5, I = 1, a także parami CM = 900, CD = 400, XC = 90, XL = 40, IX = 9, IV = 4. Liczbę zapisuje się od największych wartości: 1994 = M + CM + XC + IV = MCMXCIV.",
+        "Napisz funkcję string rzymska(int x) i zamień nią n liczb."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W drugim wierszu n liczb."
+      ],
+      "output_format": [
+        "n wierszy z zapisem rzymskim kolejnych liczb."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "1 ≤ x ≤ 3999"
+      ],
+      "examples": [
+        {
+          "input": "4\n4 9 14 1994",
+          "output": "IV\nIX\nXIV\nMCMXCIV",
+          "note": "4 = IV, 9 = IX, 14 = X + IV = XIV, 1994 = MCMXCIV."
+        }
+      ],
+      "hint": "Dwie tablice po 13 elementów: int w[] = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1}; i string z[] = {\"M\", \"CM\", \"D\", \"CD\", \"C\", \"XC\", \"L\", \"XL\", \"X\", \"IX\", \"V\", \"IV\", \"I\"};. W funkcji: string s = \"\"; for (int i = 0; i < 13; i++) while (x >= w[i]) { s += z[i]; x -= w[i]; } return s;.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-izogramy",
+      "number": 1907,
+      "title": "Słowa bez powtórzonych liter",
+      "category": "Funkcje / krok 4: bool i wczesny return",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Izogram to słowo, w którym każda litera występuje najwyżej raz — na przykład kot albo biurko. Słowo mama nie jest izogramem.",
+        "Napisz funkcję bool izogram(string s). Gdy tylko znajdziesz dwie takie same litery, od razu zwróć false. Dla każdego z n słów wypisz TAK albo NIE."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy jedno słowo."
+      ],
+      "output_format": [
+        "n wierszy: TAK, gdy słowo jest izogramem, NIE w przeciwnym razie."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "Słowa mają od 1 do 30 małych liter."
+      ],
+      "examples": [
+        {
+          "input": "4\nkot\nmama\nzeszyt\nbiurko",
+          "output": "TAK\nNIE\nNIE\nTAK",
+          "note": "W mama powtarza się m i a, w zeszyt — z. kot i biurko mają same różne litery."
+        }
+      ],
+      "hint": "bool izogram(string s) { for (int i = 0; i < s.size(); i++) for (int j = i + 1; j < s.size(); j++) if (s[i] == s[j]) return false; return true; }. return false przerywa obie pętle i całą funkcję. Do return true dochodzimy tylko wtedy, gdy żadna para się nie powtórzyła.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-rosnace-cyfry",
+      "number": 1908,
+      "title": "Cyfry jak po schodach",
+      "category": "Funkcje / krok 4: bool i wczesny return",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Liczba ma cyfry „jak po schodach”, jeśli każda jej cyfra jest większa od cyfry stojącej przed nią (z lewej): 1359 i 7 tak, ale 1123 i 980 nie.",
+        "Napisz funkcję bool rosnace(int x) i dla każdego z q przedziałów [a, b] policz, ile liczb z przedziału ma tę własność."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W każdym z q kolejnych wierszy liczby a i b."
+      ],
+      "output_format": [
+        "q wierszy z odpowiedziami."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 10",
+        "1 ≤ a ≤ b ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "1\n1 20",
+          "output": "17",
+          "note": "Wszystkie cyfry 1–9 (każda ma jedną cyfrę) i liczby 12, 13, …, 19 — razem 17. Liczby 10, 11 i 20 odpadają."
+        }
+      ],
+      "hint": "Najłatwiej sprawdzać od końca: ostatnia cyfra to x % 10, przedostatnia (x / 10) % 10. bool rosnace(int x) { while (x >= 10) { if (x % 10 <= (x / 10) % 10) return false; x /= 10; } return true; }. W main: for (int i = a; i <= b; i++) if (rosnace(i)) ile++;.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-data-poprawna",
+      "number": 1909,
+      "title": "Czy taka data istnieje?",
+      "category": "Funkcje / krok 4: bool i wczesny return",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Formularz w szkolnym systemie przyjmuje datę jako trzy liczby: dzień, miesiąc i rok. Sprawdź, które daty naprawdę istnieją (w kalendarzu gregoriańskim).",
+        "Rok jest przestępny, gdy dzieli się przez 4, ale nie przez 100 — albo gdy dzieli się przez 400. Luty ma wtedy 29 dni, w innych latach 28. Kwiecień, czerwiec, wrzesień i listopad mają 30 dni, pozostałe miesiące — 31.",
+        "Napisz funkcje bool przestepny(int r), int dniWMiesiacu(int m, int r) i bool poprawna(int d, int m, int r) — każda następna korzysta z poprzedniej."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy trzy liczby: d, m i r."
+      ],
+      "output_format": [
+        "n wierszy: TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "0 ≤ d, m ≤ 99",
+        "1 ≤ r ≤ 9999"
+      ],
+      "examples": [
+        {
+          "input": "4\n29 2 2024\n29 2 2023\n31 4 2025\n15 13 2020",
+          "output": "TAK\nNIE\nNIE\nNIE",
+          "note": "2024 jest przestępny, więc 29 lutego istnieje; w 2023 — nie. Kwiecień ma 30 dni. Miesiąca 13 nie ma."
+        }
+      ],
+      "hint": "bool poprawna(int d, int m, int r) { if (m < 1 || m > 12) return false; if (d < 1) return false; return d <= dniWMiesiacu(m, r); } — miesiąc sprawdź najpierw, bo dniWMiesiacu(13, r) nie ma sensu. Najczęstsze pułapki: rok 1900 nie jest przestępny, a 2000 jest.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-haslo-reguly",
+      "number": 1910,
+      "title": "Co jest nie tak z hasłem?",
+      "category": "Funkcje / krok 4: bool i wczesny return",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Serwis sprawdza hasła według pięciu reguł, zawsze w tej kolejności:",
+        "1) co najmniej 8 znaków — inaczej ZA KROTKIE; 2) co najmniej jedna cyfra — inaczej BRAK CYFRY; 3) co najmniej jedna wielka litera — inaczej BRAK WIELKIEJ LITERY; 4) co najmniej jedna mała litera — inaczej BRAK MALEJ LITERY; 5) co najmniej jeden ze znaków !@#$%^&* — inaczej BRAK ZNAKU SPECJALNEGO.",
+        "Dla każdego hasła wypisz komunikat pierwszej złamanej reguły albo OK, gdy hasło spełnia wszystkie. Napisz funkcje bool maCyfre(string s), bool maWielka(string s), bool maMala(string s), bool maSpecjalny(string s) oraz string ocena(string s)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy jedno hasło (bez spacji)."
+      ],
+      "output_format": [
+        "n wierszy z komunikatami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "Hasło ma od 1 do 30 znaków: litery angielskie, cyfry i znaki !@#$%^&*"
+      ],
+      "examples": [
+        {
+          "input": "4\nKot123\nKotki123\nKotki!23\nkotki!23",
+          "output": "ZA KROTKIE\nBRAK ZNAKU SPECJALNEGO\nOK\nBRAK WIELKIEJ LITERY",
+          "note": "Kot123 ma tylko 6 znaków. Kotki123 nie ma znaku specjalnego. Kotki!23 jest OK. kotki!23 nie ma wielkiej litery — i to jest pierwsza złamana reguła."
+        }
+      ],
+      "hint": "Każda funkcja-pytanie to pętla z return true przy pierwszym trafieniu, np. bool maCyfre(string s) { for (char c : s) if (c >= '0' && c <= '9') return true; return false; }. string ocena(string s) { if (s.size() < 8) return \"ZA KROTKIE\"; if (!maCyfre(s)) return \"BRAK CYFRY\"; … return \"OK\"; } — każdy return kończy funkcję, więc wypisze się tylko pierwszy problem.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-lustrzane-pierwsze",
+      "number": 1911,
+      "title": "Pierwsza w obie strony",
+      "category": "Funkcje / krok 4: bool i wczesny return",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Liczba jest pierwsza w obie strony, jeśli jest pierwsza ona sama i jej lustro — liczba o tych samych cyfrach w odwrotnej kolejności. 13 jest taka (31 też jest pierwsza), ale 23 nie (32 jest parzysta).",
+        "Napisz bool czyPierwsza(long long x), która sprawdza dzielniki tylko do √x i kończy się przy pierwszym znalezionym, oraz long long odwroc(long long x). Dla każdej liczby wypisz TAK albo NIE."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W drugim wierszu q liczb."
+      ],
+      "output_format": [
+        "q wierszy: TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "1 ≤ x ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "4\n13 23 2 11",
+          "output": "TAK\nNIE\nTAK\nTAK",
+          "note": "13 i 31 — obie pierwsze. 23 tak, ale 32 nie. 2 i 11 są swoimi lustrami i są pierwsze."
+        }
+      ],
+      "hint": "bool czyPierwsza(long long x) { if (x < 2) return false; for (long long d = 2; d * d <= x; d++) if (x % d == 0) return false; return true; }. W main jeden warunek: if (czyPierwsza(x) && czyPierwsza(odwroc(x))). Dzięki d * d <= x pętla robi najwyżej ok. 31 623 obrotów dla x ≈ 10⁹, a nie miliard.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-obcinane-pierwsze",
+      "number": 1912,
+      "title": "Pierwsza po każdym obcięciu",
+      "category": "Funkcje / krok 4: bool i wczesny return",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Liczbę nazwiemy uparcie pierwszą, jeśli jest pierwsza i pozostaje pierwsza po każdym obcięciu ostatniej cyfry — aż zostanie jedna cyfra. 7393 jest uparcie pierwsza: 7393, 739, 73 i 7 to liczby pierwsze. 41 nie jest: 4 nie jest pierwsza.",
+        "Napisz bool czyPierwsza(long long x) i bool uparta(long long x). Dla każdej liczby wypisz TAK albo NIE."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W drugim wierszu q liczb."
+      ],
+      "output_format": [
+        "q wierszy: TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "1 ≤ x ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "4\n7393 41 2399 10",
+          "output": "TAK\nNIE\nTAK\nNIE",
+          "note": "2399, 239, 23 i 2 są pierwsze — TAK. 10 nie jest pierwsza."
+        }
+      ],
+      "hint": "bool uparta(long long x) { while (x > 0) { if (!czyPierwsza(x)) return false; x /= 10; } return true; } — x /= 10 obcina ostatnią cyfrę. Jedna funkcja bool używa drugiej, a pierwsze false kończy sprawdzanie.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-niven-za-rogiem",
+      "number": 1913,
+      "title": "Najbliższa liczba Nivena",
+      "category": "Funkcje / krok 4: bool i wczesny return",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Liczba Nivena to liczba podzielna przez sumę swoich cyfr: 18 jest liczbą Nivena (18 : 9 = 2), a 19 nie (19 nie dzieli się przez 10).",
+        "Napisz funkcje int sumaCyfr(long long x) i bool niven(long long x). Dla każdego zapytania x wypisz najmniejszą liczbę Nivena, która jest większa lub równa x."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W drugim wierszu q liczb."
+      ],
+      "output_format": [
+        "q wierszy z odpowiedziami."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "1 ≤ x ≤ 10¹²"
+      ],
+      "examples": [
+        {
+          "input": "3\n10 11 13",
+          "output": "10\n12\n18",
+          "note": "10 dzieli się przez 1 — od razu jest liczbą Nivena. Od 11 trzeba dojść do 12 (12 : 3 = 4). Od 13 — aż do 18."
+        }
+      ],
+      "hint": "bool niven(long long x) { return x % sumaCyfr(x) == 0; }. Szukanie to krótka pętla: while (!niven(x)) x++; cout << x;. Funkcja-pytanie w warunku while czyta się jak zdanie: „dopóki x nie jest liczbą Nivena, idź dalej”.",
+      "tests_count": 6
+    },
+    {
+      "id": "fun-filtr-liczb",
+      "number": 1914,
+      "title": "Filtr liczb",
+      "category": "Funkcje / krok 4: bool i wczesny return",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Każda litera to jedna własność liczby: P — liczba pierwsza, K — kwadrat liczby całkowitej, L — palindrom (czyta się tak samo od tyłu), N — liczba nieparzysta, S — parzysta suma cyfr.",
+        "Każde zapytanie to przedział [a, b] i napis z liter. Policz liczby z przedziału, które mają wszystkie wymienione własności. Napisz osobną funkcję bool dla każdej własności i funkcję bool spelnia(int x, string w), która przechodzi po literach w i zwraca false przy pierwszej niespełnionej."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W każdym z q kolejnych wierszy: a, b i napis w."
+      ],
+      "output_format": [
+        "q wierszy z odpowiedziami."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 100",
+        "1 ≤ a ≤ b ≤ 10⁵",
+        "Suma długości wszystkich przedziałów nie przekracza 3 · 10⁵.",
+        "w ma od 1 do 5 różnych liter spośród P, K, L, N, S."
+      ],
+      "examples": [
+        {
+          "input": "2\n1 100 PL\n1 50 KN",
+          "output": "5\n4",
+          "note": "Pierwsze palindromy do 100: 2, 3, 5, 7, 11 — pięć. Nieparzyste kwadraty do 50: 1, 9, 25, 49 — cztery."
+        }
+      ],
+      "hint": "bool spelnia(int x, string w) { for (char c : w) { if (c == 'P' && !czyPierwsza(x)) return false; if (c == 'K' && !czyKwadrat(x)) return false; … } return true; }. czyKwadrat: int k = 0; while ((k + 1) * (k + 1) <= x) k++; return k * k == x; — albo z sqrt i poprawką. czyPalindrom: porównaj x z odwroc(x).",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-bramka",
+      "number": 1915,
+      "title": "Bramka na stadionie",
+      "category": "Funkcje / krok 5: zmienne lokalne i globalne",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Bramka na stadionie liczy kibiców. Dostaje polecenia: WEJDZ k (weszło k osób), WYJDZ k (wyszło k osób — nigdy więcej, niż jest w środku) oraz ILE (wypisz, ilu kibiców jest teraz na stadionie).",
+        "Na końcu wypisz rekord — największą liczbę kibiców, jaka była naraz na stadionie (na początku stadion jest pusty). Trzymaj liczbę kibiców i rekord w zmiennych globalnych, a każde polecenie obsługuj osobną funkcją."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q — liczba poleceń.",
+        "W każdym z q kolejnych wierszy jedno polecenie."
+      ],
+      "output_format": [
+        "Po jednym wierszu z liczbą kibiców dla każdego polecenia ILE, a na końcu wiersz Rekord: R"
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "1 ≤ k ≤ 10⁴"
+      ],
+      "examples": [
+        {
+          "input": "5\nWEJDZ 300\nWYJDZ 120\nILE\nWEJDZ 50\nILE",
+          "output": "180\n230\nRekord: 300",
+          "note": "Po dwóch poleceniach jest 180 osób, potem 230. Najwięcej naraz było 300 — zaraz po pierwszym wejściu."
+        }
+      ],
+      "hint": "Nad funkcjami: int naStadionie = 0, rekord = 0;. void wejdz(int k) { naStadionie += k; if (naStadionie > rekord) rekord = naStadionie; }, void wyjdz(int k) { naStadionie -= k; }, void pokaz() { cout << naStadionie << \"\\n\"; }. Funkcje nie dostają licznika w parametrze — widzą zmienną globalną.",
+      "tests_count": 6
+    },
+    {
+      "id": "fun-pytania-fragmenty",
+      "number": 1916,
+      "title": "Pytania o fragmenty",
+      "category": "Funkcje / krok 5: zmienne lokalne i globalne",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz ciąg n liczb (pozycje od 1 do n) i q pytań. Pytanie S a b — podaj sumę liczb na pozycjach od a do b; MAX a b — największą z nich; MIN a b — najmniejszą.",
+        "Trzymaj ciąg w globalnej tablicy long long t[1005] (i n w globalnej zmiennej), a odpowiedzi licz funkcjami long long suma(int a, int b), long long najwieksza(int a, int b) i long long najmniejsza(int a, int b)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W drugim wierszu n liczb.",
+        "W trzecim wierszu q, a w każdym z q kolejnych jedno pytanie."
+      ],
+      "output_format": [
+        "q wierszy z odpowiedziami."
+      ],
+      "constraints": [
+        "1 ≤ n, q ≤ 1000",
+        "1 ≤ a ≤ b ≤ n",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "5\n4 -2 7 1 3\n3\nS 1 3\nMAX 2 5\nMIN 1 5",
+          "output": "9\n7\n-2",
+          "note": "4 − 2 + 7 = 9. Na pozycjach 2–5 stoją −2, 7, 1, 3 — największa to 7. Najmniejsza w całym ciągu to −2."
+        }
+      ],
+      "hint": "Nad funkcjami: int n; long long t[1005];. long long suma(int a, int b) { long long s = 0; for (int i = a; i <= b; i++) s += t[i]; return s; }. Pozostałe dwie wyglądają podobnie — zacznij od t[a] i porównuj. Tablicy nie trzeba przekazywać: każda funkcja ją widzi.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-akwarium",
+      "number": 1917,
+      "title": "Akwarium",
+      "category": "Funkcje / krok 5: zmienne lokalne i globalne",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Akwarium mieści P litrów i na początku jest puste. DOLEJ x — dolewamy x litrów; to, co się nie zmieści, wylewa się na podłogę. ODLEJ x — odlewamy x litrów, a jeśli w akwarium jest mniej, odlewamy wszystko. POKAZ — wypisz, ile litrów jest teraz w akwarium.",
+        "Na końcu wypisz, ile litrów łącznie wylało się na podłogę. Napisz funkcje void dolej(long long x), void odlej(long long x) i void pokaz(), które zmieniają i czytają zmienne globalne."
+      ],
+      "input_format": [
+        "W pierwszym wierszu P i q.",
+        "W każdym z q kolejnych wierszy jedno polecenie."
+      ],
+      "output_format": [
+        "Wiersz z poziomem wody dla każdego POKAZ, a na końcu wiersz Wylano: W"
+      ],
+      "constraints": [
+        "1 ≤ P ≤ 10⁹, 1 ≤ q ≤ 1000",
+        "1 ≤ x ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "100 5\nDOLEJ 70\nDOLEJ 50\nPOKAZ\nODLEJ 500\nPOKAZ",
+          "output": "100\n0\nWylano: 20",
+          "note": "Po dolaniu 50 litrów do 70 akwarium ma 100, a 20 litrów się wylewa. Odlewamy wszystko, co jest — zostaje 0."
+        }
+      ],
+      "hint": "Globalnie: long long P, poziom = 0, wylano = 0;. void dolej(long long x) { poziom += x; if (poziom > P) { wylano += poziom - P; poziom = P; } } i void odlej(long long x) { if (x > poziom) x = poziom; poziom -= x; }. Wylana woda może przekroczyć 2 · 10⁹ — long long.",
+      "tests_count": 6
+    },
+    {
+      "id": "fun-kroki-euklidesa",
+      "number": 1918,
+      "title": "Kroki Euklidesa",
+      "category": "Funkcje / krok 5: zmienne lokalne i globalne",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Algorytm Euklidesa liczy NWD dwóch liczb tak: dopóki b ≠ 0, policz r = a mod b, a potem a = b i b = r. Gdy b = 0, NWD to a. Na przykład dla 12 i 18: (12, 18) → (18, 12) → (12, 6) → (6, 0), więc NWD = 6 po 3 dzieleniach z resztą.",
+        "Napisz long long nwd(long long a, long long b), która przy każdym dzieleniu z resztą zwiększa globalny licznik kroki. Dla każdej pary wypisz NWD i liczbę kroków."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy dwie liczby a i b."
+      ],
+      "output_format": [
+        "t wierszy: NWD i liczba kroków."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1000",
+        "1 ≤ a, b ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "3\n12 18\n18 12\n7 7",
+          "output": "6 3\n6 2\n7 1",
+          "note": "Dla (18, 12) wystarczą 2 kroki: (18, 12) → (12, 6) → (6, 0). Dla (7, 7): jeden krok, bo 7 mod 7 = 0."
+        }
+      ],
+      "hint": "Globalnie: int kroki = 0;. W nwd: while (b != 0) { long long r = a % b; a = b; b = r; kroki++; } return a;. W main przed każdą parą: kroki = 0; — bez tego licznik pamiętałby kroki z poprzednich par, bo zmienna globalna żyje przez cały program.",
+      "tests_count": 6
+    },
+    {
+      "id": "fun-czysta-tablica",
+      "number": 1919,
+      "title": "Nowy test, czysta tablica",
+      "category": "Funkcje / krok 5: zmienne lokalne i globalne",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W każdym z t testów dostajesz n liczb od 1 do 1000. Dla każdego testu wypisz, ile jest wśród nich różnych wartości, i najczęstszą wartość (przy remisie — najmniejszą).",
+        "Użyj globalnej tablicy int ile[1001] i funkcji: void wyczysc() (zeruje liczniki), void dodaj(int x), int rozne() i int najczestsza(). Pamiętaj, że globalna tablica nie zeruje się sama między testami."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "Każdy test: wiersz z n i wiersz z n liczbami."
+      ],
+      "output_format": [
+        "t wierszy: liczba różnych wartości i najczęstsza wartość."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1000",
+        "1 ≤ n ≤ 1000",
+        "Suma wszystkich n nie przekracza 2 · 10⁴.",
+        "1 ≤ każda liczba ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "2\n5\n3 7 3 1 7\n3\n2 2 9",
+          "output": "3 3\n2 2",
+          "note": "W pierwszym teście są 3 różne wartości; 3 i 7 występują po dwa razy — wygrywa mniejsza, 3. W drugim teście: 2 różne, najczęstsza 2."
+        }
+      ],
+      "hint": "void wyczysc() { for (int i = 0; i <= 1000; i++) ile[i] = 0; } — wywołaj ją na początku każdego testu. rozne() liczy, ile pól ile[x] jest większych od 0; najczestsza() szuka największego licznika, przechodząc x od 1 w górę i zmieniając wynik tylko przy >, dzięki czemu przy remisie zostaje mniejsza wartość.",
+      "tests_count": 6
+    },
+    {
+      "id": "fun-tablica-z-przepisu",
+      "number": 1920,
+      "title": "Tablica z przepisu",
+      "category": "Funkcje / krok 5: zmienne lokalne i globalne",
+      "time_limit": "2 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ciąg n liczb powstaje z przepisu z lekcji o złożoności: x₁ = s, a każdy następny to xᵢ = (xᵢ₋₁ · a + b) mod m. Posortuj ciąg rosnąco i odpowiedz na q pytań: jaka liczba stoi na pozycji p (liczonej od 1) w posortowanym ciągu?",
+        "Liczb może być aż 3 miliony. Tablica int t[3000000] utworzona w main nie zmieści się na stosie i program się wywróci — utwórz ją jako zmienną globalną (albo użyj vectora)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n, s, a, b, m.",
+        "W drugim wierszu q, a w trzecim q pozycji p."
+      ],
+      "output_format": [
+        "q wierszy z liczbami stojącymi na pytanych pozycjach."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 3 · 10⁶",
+        "1 ≤ m ≤ 10⁹, 0 ≤ s, a, b < m",
+        "1 ≤ q ≤ 1000, 1 ≤ p ≤ n"
+      ],
+      "examples": [
+        {
+          "input": "5 3 2 1 10\n3\n1 3 5",
+          "output": "1\n3\n7",
+          "note": "Ciąg: 3, 7 (= 3 · 2 + 1), 5 (= 15 mod 10), 1 (= 11 mod 10), 3. Posortowany: 1, 3, 3, 5, 7. Na pozycjach 1, 3 i 5 stoją 1, 3 i 7."
+        }
+      ],
+      "hint": "Nad main: int t[3000000];. Iloczyn x · a może sięgnąć 10¹⁸, więc licz w long long: long long x = s; for (int i = 0; i < n; i++) { t[i] = x; x = (x * a + b) % m; }. Potem sort(t, t + n); i dla każdego pytania cout << t[p - 1] << \"\\n\";.",
+      "tests_count": 6
+    },
+    {
+      "id": "fun-punkty-druzyn",
+      "number": 1921,
+      "title": "Tabela punktów na żywo",
+      "category": "Funkcje / krok 5: zmienne lokalne i globalne",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W lidze gra n drużyn o numerach od 1 do n, na początku każda ma 0 punktów. Polecenie MECZ a b x y znaczy: drużyna a strzeliła x goli, a drużyna b — y goli. Za wygraną drużyna dostaje 3 punkty, za remis obie po 1, za przegraną 0.",
+        "Na polecenie LIDER wypisz numer drużyny z największą liczbą punktów (przy remisie — z najmniejszym numerem) i jej punkty. Napisz funkcje void mecz(int a, int b, int x, int y) i int lider(), które korzystają z globalnej tablicy punktów."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n i q.",
+        "W każdym z q kolejnych wierszy jedno polecenie."
+      ],
+      "output_format": [
+        "Dla każdego LIDER wiersz: druzyna D: P pkt"
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 1000, 1 ≤ q ≤ 2000",
+        "a ≠ b, 0 ≤ x, y ≤ 20"
+      ],
+      "examples": [
+        {
+          "input": "3 4\nMECZ 1 2 2 0\nLIDER\nMECZ 2 3 1 1\nLIDER",
+          "output": "druzyna 1: 3 pkt\ndruzyna 1: 3 pkt",
+          "note": "Po pierwszym meczu drużyna 1 ma 3 punkty. Remis daje drużynom 2 i 3 po punkcie — liderem wciąż jest drużyna 1."
+        }
+      ],
+      "hint": "Globalnie: int n; int punkty[1001];. void mecz(int a, int b, int x, int y) { if (x > y) punkty[a] += 3; else if (x < y) punkty[b] += 3; else { punkty[a]++; punkty[b]++; } }. int lider() { int w = 1; for (int i = 2; i <= n; i++) if (punkty[i] > punkty[w]) w = i; return w; } — zwraca numer, a punkty odczytasz z tablicy.",
+      "tests_count": 6
+    },
+    {
+      "id": "fun-postac-w-grze",
+      "number": 1922,
+      "title": "Postać w grze",
+      "category": "Funkcje / krok 5: zmienne lokalne i globalne",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Bohater zaczyna z 100 punktami życia, 0 złota, 0 doświadczenia i na poziomie 1. Polecenia:",
+        "WALKA o z — bohater traci o punktów życia. Jeśli wciąż ma więcej niż 0, zdobywa z złota i 40 doświadczenia; za każde pełne 100 doświadczenia awansuje o poziom (doświadczenie zmniejsza się o 100). Jeśli życie spadnie do 0 lub niżej, wypisz KONIEC GRY — od tej chwili wszystkie dalsze polecenia są ignorowane.",
+        "LECZ k — jeśli bohater ma co najmniej k złota, płaci k i odzyskuje k punktów życia (ale nie więcej niż do 100); w przeciwnym razie wypisz ZA MALO ZLOTA. STAN — wypisz: zycie Z, zloto G, poziom P, doswiadczenie D."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W każdym z q kolejnych wierszy jedno polecenie."
+      ],
+      "output_format": [
+        "Wiersze wypisywane przez polecenia, w kolejności."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "0 ≤ o ≤ 200, 0 ≤ z ≤ 1000, 1 ≤ k ≤ 1000",
+        "Program zawsze wypisuje co najmniej jeden wiersz."
+      ],
+      "examples": [
+        {
+          "input": "6\nWALKA 30 50\nWALKA 20 10\nWALKA 10 0\nSTAN\nLECZ 100\nLECZ 40",
+          "output": "zycie 40, zloto 60, poziom 2, doswiadczenie 20\nZA MALO ZLOTA",
+          "note": "Po trzech walkach: życie 40, złoto 60, doświadczenie 120 — więc był awans na poziom 2 i zostało 20. Na leczenie za 100 nie starcza złota; za 40 — tak, życie wraca do 80."
+        }
+      ],
+      "hint": "Globalnie: int zycie = 100, zloto = 0, poziom = 1, dosw = 0; bool koniec = false;. void awans() { while (dosw >= 100) { poziom++; dosw -= 100; } } wywołuj z walka(). W main na początku pętli: if (koniec) continue; — ale polecenie i tak trzeba wczytać do końca, żeby nie rozjechało się czytanie.",
+      "tests_count": 8
+    },
+    {
+      "id": "fun-ile-zamian",
+      "number": 1923,
+      "title": "Trzy liczby i licznik zamian",
+      "category": "Funkcje / krok 6: referencje",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Trzy liczby a, b, c można uporządkować trzema krokami: popraw parę (a, b), potem parę (b, c), a na koniec znowu (a, b). „Popraw parę” znaczy: jeśli pierwsza liczba jest większa od drugiej, zamień je miejscami.",
+        "Napisz void zamienJesli(int &x, int &y, int &licznik), która poprawia parę i zwiększa licznik, gdy zrobiła zamianę. Dla każdej trójki wypisz uporządkowane liczby i liczbę wykonanych zamian."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy trzy liczby a, b, c."
+      ],
+      "output_format": [
+        "t wierszy: trzy liczby rosnąco i liczba zamian."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 600",
+        "−10⁹ ≤ a, b, c ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "3\n3 1 2\n1 2 3\n3 2 1",
+          "output": "1 2 3 2\n1 2 3 0\n1 2 3 3",
+          "note": "3 1 2: zamiana w (a, b) daje 1 3 2, zamiana w (b, c) daje 1 2 3 — dwie zamiany. 3 2 1 wymaga wszystkich trzech."
+        }
+      ],
+      "hint": "void zamienJesli(int &x, int &y, int &licznik) { if (x > y) { int pom = x; x = y; y = pom; licznik++; } }. W main: int k = 0; zamienJesli(a, b, k); zamienJesli(b, c, k); zamienJesli(a, b, k);. Bez & funkcja zamieniłaby tylko swoje kopie i w main nic by się nie zmieniło.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-skrajne",
+      "number": 1924,
+      "title": "Skrajne wartości w każdym teście",
+      "category": "Funkcje / krok 6: referencje",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W każdym z t testów dostajesz listę liczb. Wypisz najmniejszą i największą z nich.",
+        "Napisz funkcję void skrajne(const vector<int> &v, int &mn, int &mx), która niczego nie zwraca przez return — oba wyniki wpisuje do zmiennych przekazanych przez referencję. Listę przekaż przez const &: funkcja jej nie kopiuje i nie może jej zmienić."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "Każdy test: wiersz z n i wiersz z n liczbami."
+      ],
+      "output_format": [
+        "t wierszy: najmniejsza i największa liczba testu."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1000",
+        "1 ≤ n, a suma wszystkich n nie przekracza 10⁴.",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "2\n4\n3 -7 10 2\n1\n5",
+          "output": "-7 10\n5 5",
+          "note": "W pierwszym teście: −7 i 10. Lista z jedną liczbą ma ją jednocześnie jako minimum i maksimum."
+        }
+      ],
+      "hint": "void skrajne(const vector<int> &v, int &mn, int &mx) { mn = v[0]; mx = v[0]; for (int x : v) { if (x < mn) mn = x; if (x > mx) mx = x; } }. W main: int a, b; skrajne(v, a, b); cout << a << \" \" << b << \"\\n\"; — po wywołaniu a i b mają już wyniki.",
+      "tests_count": 6
+    },
+    {
+      "id": "fun-sklepik",
+      "number": 1925,
+      "title": "Sklepik w grze",
+      "category": "Funkcje / krok 6: referencje",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Gracz zaczyna z G sztukami złota. KUP c — jeśli ma co najmniej c złota, płaci c i wypisz OK; jeśli nie, nic się nie zmienia i wypisz ZA MALO. SPRZEDAJ c — gracz sprzedaje przedmiot wart c i dostaje połowę tej kwoty (zaokrągloną w dół).",
+        "Napisz funkcje bool kup(int &zloto, int cena) i void sprzedaj(int &zloto, int cena). Na końcu wypisz stan złota."
+      ],
+      "input_format": [
+        "W pierwszym wierszu G i q.",
+        "W każdym z q kolejnych wierszy jedno polecenie."
+      ],
+      "output_format": [
+        "Wiersz OK albo ZA MALO dla każdego KUP, a na końcu wiersz Zloto: G"
+      ],
+      "constraints": [
+        "0 ≤ G ≤ 10⁶, 1 ≤ q ≤ 1000",
+        "1 ≤ c ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "100 4\nKUP 70\nKUP 50\nSPRZEDAJ 45\nKUP 50",
+          "output": "OK\nZA MALO\nOK\nZloto: 2",
+          "note": "Po pierwszym zakupie zostaje 30 — na drugi nie starcza. Sprzedaż za 45 daje 22, czyli razem 52 — trzeci zakup się udaje i zostają 2 sztuki złota."
+        }
+      ],
+      "hint": "bool kup(int &zloto, int cena) { if (zloto < cena) return false; zloto -= cena; return true; } — return mówi „udało się albo nie”, a & pozwala zmienić złoto w main. W main: if (kup(zloto, c)) cout << \"OK\\n\"; else cout << \"ZA MALO\\n\";.",
+      "tests_count": 6
+    },
+    {
+      "id": "fun-cyfry-osobno",
+      "number": 1926,
+      "title": "Cyfry parzyste i nieparzyste osobno",
+      "category": "Funkcje / krok 6: referencje",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Z cyfr liczby x zbuduj dwa napisy: pierwszy z cyfr parzystych (0, 2, 4, 6, 8), drugi z nieparzystych — w obu zachowaj kolejność, w jakiej cyfry stoją w x. Pusty napis wypisz jako brak.",
+        "Napisz funkcję void rozdziel(string x, string &parzyste, string &nieparzyste). Liczbę wczytuj jako napis — wtedy zera w środku i na końcu zostaną na swoich miejscach."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy liczba x."
+      ],
+      "output_format": [
+        "n wierszy: napis z cyfr parzystych i napis z cyfr nieparzystych, oddzielone spacją."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "x ma od 1 do 18 cyfr i nie zaczyna się od zera."
+      ],
+      "examples": [
+        {
+          "input": "3\n2041\n135\n86420",
+          "output": "204 1\nbrak 135\n86420 brak",
+          "note": "2041: cyfry parzyste 2, 0, 4 i nieparzysta 1. 135 nie ma parzystych cyfr. 86420 nie ma nieparzystych."
+        }
+      ],
+      "hint": "void rozdziel(string x, string &p, string &np) { p = \"\"; np = \"\"; for (char c : x) { if ((c - '0') % 2 == 0) p += c; else np += c; } }. Na początku wyczyść oba napisy — nie wiadomo, co w nich było przed wywołaniem. W main: if (p == \"\") cout << \"brak\"; else cout << p;.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-licznik-km",
+      "number": 1927,
+      "title": "Licznik kilometrów",
+      "category": "Funkcje / krok 6: referencje",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Stary samochód ma mechaniczny licznik kilometrów z ustaloną liczbą cyfr. Każdy przejechany kilometr dodaje 1 do licznika; gdy wszystkie cyfry są dziewiątkami, licznik przeskakuje na same zera.",
+        "Napisz funkcję void dodajJeden(string &licznik), która dodaje 1 do napisu z cyframi (z przeniesieniem, jak przy dodawaniu pisemnym). Dla każdego samochodu wypisz stan licznika po przejechaniu k kilometrów."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W każdym z q kolejnych wierszy stan licznika (napis z cyfr, może zaczynać się od zer) i liczba k."
+      ],
+      "output_format": [
+        "q wierszy ze stanem licznika po k kilometrach — z tą samą liczbą cyfr."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 10",
+        "Licznik ma od 1 do 18 cyfr.",
+        "0 ≤ k ≤ 10⁵"
+      ],
+      "examples": [
+        {
+          "input": "2\n0997 5\n99 1",
+          "output": "1002\n00",
+          "note": "0997 → 0998 → 0999 → 1000 → 1001 → 1002. Licznik 99 po jednym kilometrze pokazuje 00."
+        }
+      ],
+      "hint": "void dodajJeden(string &s) { int i = s.size() - 1; while (i >= 0 && s[i] == '9') { s[i] = '0'; i--; } if (i >= 0) s[i]++; } — dziewiątki z końca zamieniają się w zera, a pierwsza cyfra, która nie jest dziewiątką, rośnie o 1. Gdy i spadnie do −1, wszystkie cyfry były dziewiątkami i licznik się przekręcił. W main wywołaj ją k razy.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-dwa-roboty",
+      "number": 1928,
+      "title": "Dwa roboty, jedna funkcja",
+      "category": "Funkcje / krok 6: referencje",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na kratce stoją dwa roboty: A w punkcie (0, 0) i B w punkcie (xb, yb). Polecenie składa się z litery robota i kierunku: G — w górę (y + 1), D — w dół (y − 1), L — w lewo (x − 1), P — w prawo (x + 1).",
+        "Po każdym ruchu sprawdź, czy roboty stoją w tym samym punkcie — wtedy jest spotkanie. Wypisz końcowe pozycje obu robotów i liczbę spotkań. Ruch obu robotów obsługuje jedna funkcja void ruch(char kierunek, int &x, int &y)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu xb, yb i q.",
+        "W każdym z q kolejnych wierszy: litera robota (A albo B) i kierunek."
+      ],
+      "output_format": [
+        "Trzy wiersze: A: x y, B: x y oraz Spotkania: k"
+      ],
+      "constraints": [
+        "−100 ≤ xb, yb ≤ 100, 1 ≤ q ≤ 10⁴"
+      ],
+      "examples": [
+        {
+          "input": "2 0 3\nA P\nB L\nA P",
+          "output": "A: 2 0\nB: 1 0\nSpotkania: 1",
+          "note": "Po drugim poleceniu oba roboty stoją w (1, 0) — spotkanie. Potem A idzie do (2, 0), a B zostaje w (1, 0)."
+        }
+      ],
+      "hint": "void ruch(char k, int &x, int &y) { if (k == 'G') y++; else if (k == 'D') y--; else if (k == 'L') x--; else x++; }. W main: if (kto == 'A') ruch(k, ax, ay); else ruch(k, bx, by); — funkcja jest jedna, a & sprawia, że zmienia te zmienne, które jej podasz. Po każdym ruchu: if (ax == bx && ay == by) spotkania++;.",
+      "tests_count": 7
+    },
+    {
+      "id": "fun-dwie-listy",
+      "number": 1929,
+      "title": "Dwie listy, te same funkcje",
+      "category": "Funkcje / krok 6: referencje",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz dwie listy liczb, A i B, na początku puste. Polecenia (X to A albo B): DODAJ X v — dopisz v na koniec listy X; PLUS X v — dodaj v do każdej liczby z listy X; ODWROC X — odwróć kolejność listy X; SUMA X — wypisz sumę liczb listy X (pusta lista ma sumę 0); WYPISZ X — wypisz liczby listy X oddzielone spacjami albo słowo pusta.",
+        "Napisz funkcje, które dostają listę przez referencję: zmieniające — vector<long long> &, a tylko czytające — const vector<long long> &."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W każdym z q kolejnych wierszy jedno polecenie."
+      ],
+      "output_format": [
+        "Wiersze wypisywane przez SUMA i WYPISZ, w kolejności poleceń."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 2000",
+        "−10⁶ ≤ v ≤ 10⁶",
+        "Wszystkie polecenia WYPISZ razem wypisują najwyżej 2000 liczb.",
+        "Co najmniej jedno polecenie to SUMA albo WYPISZ."
+      ],
+      "examples": [
+        {
+          "input": "6\nDODAJ A 5\nDODAJ A 7\nDODAJ B 1\nPLUS A 10\nODWROC A\nWYPISZ A",
+          "output": "17 15",
+          "note": "A to najpierw 5 7, po PLUS — 15 17, a po odwróceniu 17 15. Lista B zostaje nietknięta."
+        }
+      ],
+      "hint": "void plusWszystkim(vector<long long> &v, long long x) { for (long long &e : v) e += x; } i long long suma(const vector<long long> &v). Listę wybierzesz referencją: vector<long long> &L = (X == \"A\") ? A : B; — potem wywołujesz funkcje z L. Uwaga: funkcji nie nazywaj plus — tak nazywa się coś w bibliotece std i kompilator zgłosi niejednoznaczność.",
+      "tests_count": 6
+    },
+    {
+      "id": "fun-pytania-do-listy",
+      "number": 1930,
+      "title": "Pytania do wielkiej listy",
+      "category": "Funkcje / krok 6: referencje",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Liczby powstają z przepisu: x₁ = s, xᵢ = (xᵢ₋₁ · a + b) mod m. Pierwsze n liczb tworzy listę, a kolejne q liczb to pytania. Dla każdego pytania y policz, ile liczb z listy jest nie większych niż y. Wypisz sumę odpowiedzi na wszystkie pytania.",
+        "Posortuj listę raz, a odpowiedź na pytanie licz funkcją int ileNieWiekszych(const vector<int> &v, int y) z upper_bound. Spróbuj też wersji, w której parametr to zwykłe vector<int> v — i zobacz, co powie sprawdzarka."
+      ],
+      "input_format": [
+        "Jeden wiersz: n, q, s, a, b, m."
+      ],
+      "output_format": [
+        "Jedna liczba — suma odpowiedzi na wszystkie pytania."
+      ],
+      "constraints": [
+        "1 ≤ n, q ≤ 2 · 10⁵",
+        "1 ≤ m ≤ 10⁹, 0 ≤ s, a, b < m"
+      ],
+      "examples": [
+        {
+          "input": "5 3 3 2 1 10",
+          "output": "10",
+          "note": "Ciąg: 3, 7, 5, 1, 3, 7, 5, 1. Lista to 3, 7, 5, 1, 3 (posortowana: 1, 3, 3, 5, 7), pytania: 7, 5, 1. Odpowiedzi: 5, 4 i 1 — razem 10."
+        }
+      ],
+      "hint": "int ileNieWiekszych(const vector<int> &v, int y) { return upper_bound(v.begin(), v.end(), y) - v.begin(); } — upper_bound w posortowanym vectorze wskazuje pierwszy element większy od y. Bez & każde z 200 000 wywołań kopiowałoby 200 000 liczb: razem 4 · 10¹⁰ kopiowań — wiele sekund. Sumę trzymaj w long long.",
+      "tests_count": 7
+    },
+    {
+      "id": "fun-te-same-czynniki",
+      "number": 1931,
+      "title": "Te same czynniki pierwsze",
+      "category": "Funkcje / krok 7: vector, string, pair i tablice",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dwie liczby są spokrewnione, jeśli dzielą się przez dokładnie te same liczby pierwsze. 12 = 2 · 2 · 3 i 18 = 2 · 3 · 3 są spokrewnione (obie mają czynniki 2 i 3), a 12 i 15 = 3 · 5 — nie.",
+        "Napisz funkcję vector<int> czynniki(int n), która zwraca różne czynniki pierwsze liczby n rosnąco. Dla każdej pary wypisz TAK albo NIE."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W każdym z q kolejnych wierszy dwie liczby a i b."
+      ],
+      "output_format": [
+        "q wierszy: TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 500",
+        "2 ≤ a, b ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "3\n12 18\n12 15\n7 49",
+          "output": "TAK\nNIE\nTAK",
+          "note": "12 i 18: czynniki {2, 3} i {2, 3}. 12 i 15: {2, 3} i {3, 5}. 7 i 49 = 7 · 7: oba mają tylko 7."
+        }
+      ],
+      "hint": "vector<int> czynniki(int n) { vector<int> w; for (int d = 2; d * d <= n; d++) if (n % d == 0) { w.push_back(d); while (n % d == 0) n /= d; } if (n > 1) w.push_back(n); return w; } — to, co zostanie po pętli (większe od 1), jest ostatnim czynnikiem. W main: if (czynniki(a) == czynniki(b)) — vectory porównuje się element po elemencie.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-suma-iloczyn",
+      "number": 1932,
+      "title": "Suma równa iloczynowi",
+      "category": "Funkcje / krok 7: vector, string, pair i tablice",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Niektóre liczby mają sumę cyfr równą iloczynowi cyfr: wszystkie jednocyfrowe, 22 (2 + 2 = 2 · 2), 123 (1 + 2 + 3 = 1 · 2 · 3) czy 1124.",
+        "Napisz funkcję pair<int, long long> sumaIIloczyn(int x), która zwraca obie wartości naraz. Dla każdego z q przedziałów [a, b] policz takie liczby."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W każdym z q kolejnych wierszy liczby a i b."
+      ],
+      "output_format": [
+        "q wierszy z odpowiedziami."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 5",
+        "1 ≤ a ≤ b ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "1\n1 30",
+          "output": "10",
+          "note": "Dziewięć liczb jednocyfrowych i 22 — razem 10."
+        }
+      ],
+      "hint": "pair<int, long long> sumaIIloczyn(int x) { int s = 0; long long p = 1; while (x > 0) { s += x % 10; p *= x % 10; x /= 10; } return {s, p}; }. W main: auto [s, p] = sumaIIloczyn(i); if (s == p) ile++; — para pozwala oddać dwie liczby jednym return.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-wartosc-slowa",
+      "number": 1933,
+      "title": "Ranking słów według wartości",
+      "category": "Funkcje / krok 7: vector, string, pair i tablice",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wartość słowa to suma numerów jego liter w alfabecie angielskim: a = 1, b = 2, …, z = 26. Na przykład kot = 11 + 15 + 20 = 46.",
+        "Ułóż słowa od najcenniejszego. Przy równej wartości wcześniej idzie słowo wcześniejsze alfabetycznie. Napisz funkcje int wartosc(const string &s) oraz bool lepsze(const string &a, const string &b) i przekaż tę drugą do sort."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy jedno słowo."
+      ],
+      "output_format": [
+        "n wierszy: słowo i jego wartość, w kolejności rankingu."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "Słowa mają od 1 do 20 małych liter (mogą się powtarzać)."
+      ],
+      "examples": [
+        {
+          "input": "4\nkot\nala\nzebra\nab",
+          "output": "zebra 52\nkot 46\nala 14\nab 3",
+          "note": "zebra = 26 + 5 + 2 + 18 + 1 = 52, kot = 46, ala = 14, ab = 3."
+        }
+      ],
+      "hint": "bool lepsze(const string &a, const string &b) { int wa = wartosc(a), wb = wartosc(b); if (wa != wb) return wa > wb; return a < b; }. Do sort podajesz samą nazwę funkcji, bez nawiasów: sort(v.begin(), v.end(), lepsze); — sort sam będzie ją wywoływał. Z nawiasami (lepsze()) kompilator zgłosi „too few arguments”.",
+      "tests_count": 6
+    },
+    {
+      "id": "fun-po-dzielnikach",
+      "number": 1934,
+      "title": "Według liczby dzielników",
+      "category": "Funkcje / krok 7: vector, string, pair i tablice",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ułóż n liczb od tej, która ma najwięcej dzielników (12 ma ich sześć: 1, 2, 3, 4, 6, 12). Przy remisie wcześniej idzie mniejsza liczba.",
+        "Napisz funkcję int ileDzielnikow(int x), która sprawdza dzielniki do √x. Policz liczbę dzielników każdej liczby raz, zapisz pary (liczba dzielników, liczba) w vectorze i posortuj go własnym komparatorem bool porownaj(const pair<int, int> &a, const pair<int, int> &b)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W drugim wierszu n liczb."
+      ],
+      "output_format": [
+        "Jeden wiersz: liczby w nowej kolejności, oddzielone spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "1 ≤ każda liczba ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "5\n12 7 8 1 6",
+          "output": "12 6 8 7 1",
+          "note": "Dzielników: 12 → 6, 8 → 4, 6 → 4, 7 → 2, 1 → 1. Przy remisie 6 i 8 wygrywa mniejsza, czyli 6."
+        }
+      ],
+      "hint": "int ileDzielnikow(int x) { int k = 0; for (int d = 1; d * d <= x; d++) if (x % d == 0) { k++; if (d != x / d) k++; } return k; } — każdy dzielnik d ≤ √x ma parę x / d. Komparator: if (a.first != b.first) return a.first > b.first; return a.second < b.second;. Gdyby komparator sam liczył dzielniki, robiłby to przy każdym porównaniu — wielokrotnie dla tej samej liczby.",
+      "tests_count": 6
+    },
+    {
+      "id": "fun-obrot-fragmentu",
+      "number": 1935,
+      "title": "Karuzela na fragmencie",
+      "category": "Funkcje / krok 7: vector, string, pair i tablice",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W tablicy n liczb (pozycje od 1 do n) wykonujemy q operacji. Operacja a b obraca fragment od pozycji a do b o jedno miejsce w prawo: ostatni element fragmentu przechodzi na jego początek, a pozostałe przesuwają się o jedno miejsce dalej.",
+        "Napisz funkcję void obroc(int t[], int a, int b). Tablica przekazana do funkcji nie jest kopiowana — funkcja pracuje na tej samej tablicy co main. Wypisz tablicę po wszystkich operacjach."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n, w drugim n liczb.",
+        "W trzecim wierszu q, a w każdym z q kolejnych dwie liczby a i b."
+      ],
+      "output_format": [
+        "Jeden wiersz: tablica po wszystkich operacjach."
+      ],
+      "constraints": [
+        "1 ≤ n, q ≤ 1000",
+        "1 ≤ a ≤ b ≤ n",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "5\n1 2 3 4 5\n2\n1 3\n2 5",
+          "output": "3 5 1 2 4",
+          "note": "Po obrocie 1–3: 3 1 2 4 5. Fragment 2–5 to 1 2 4 5 — po obrocie 5 1 2 4, więc cała tablica: 3 5 1 2 4."
+        }
+      ],
+      "hint": "void obroc(int t[], int a, int b) { int ost = t[b]; for (int i = b; i > a; i--) t[i] = t[i - 1]; t[a] = ost; } — idziemy od końca, żeby niczego nie nadpisać przed przesunięciem. Wywołanie to obroc(t, a, b); — sama nazwa tablicy, bez nawiasów kwadratowych.",
+      "tests_count": 6
+    },
+    {
+      "id": "fun-spakuj-rozpakuj",
+      "number": 1936,
+      "title": "Spakuj i rozpakuj",
+      "category": "Funkcje / krok 7: vector, string, pair i tablice",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Pakowanie zamienia każdy ciąg takich samych liter na literę i długość ciągu: aaabcc → a3b1c2, zzzzzzzzzzzz → z12. Rozpakowanie robi odwrotnie.",
+        "Napisz funkcje string spakuj(const string &s) i string rozpakuj(const string &k). Polecenie S tekst — wypisz spakowany tekst; polecenie R kod — wypisz rozpakowany kod."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W każdym z q kolejnych wierszy polecenie S albo R i napis."
+      ],
+      "output_format": [
+        "q wierszy z wynikami."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 20",
+        "Teksty mają od 1 do 1000 małych liter.",
+        "Kody są poprawnym wynikiem pakowania tekstu o długości od 1 do 1000."
+      ],
+      "examples": [
+        {
+          "input": "3\nS aaabcc\nR a3b1c2\nR z12",
+          "output": "a3b1c2\naaabcc\nzzzzzzzzzzzz",
+          "note": "Kod a3b1c2 to trzy a, jedno b i dwa c. W z12 liczba ma dwie cyfry — trzeba je zebrać, zanim powtórzy się literę."
+        }
+      ],
+      "hint": "Pakowanie: idź po napisie i licz, ile razy z rzędu stoi ta sama litera; gdy się zmienia (albo napis się kończy) — dopisz literę i to_string(ile). Rozpakowanie: weź literę, potem zbieraj cyfry: ile = ile * 10 + (c - '0'), a na koniec wynik += string(ile, litera).",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-uprosc-sciezke",
+      "number": 1937,
+      "title": "Uprość ścieżkę",
+      "category": "Funkcje / krok 7: vector, string, pair i tablice",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ścieżka do folderu zaczyna się od / i składa się z nazw oddzielonych znakami /. Kropka . oznacza „ten sam folder”, a dwie kropki .. — „folder wyżej” (z folderu głównego / nie da się wyjść wyżej). Kilka ukośników pod rząd działa jak jeden, a ukośnik na końcu niczego nie zmienia.",
+        "Wypisz każdą ścieżkę w najprostszej postaci: / i nazwy folderów oddzielone pojedynczymi /, bez . i .. (folder główny to sam znak /). Napisz funkcje vector<string> podziel(const string &s), która zwraca kolejne niepuste nazwy, i string zlacz(const vector<string> &v)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy jedna ścieżka."
+      ],
+      "output_format": [
+        "n wierszy z uproszczonymi ścieżkami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 500",
+        "Ścieżka ma od 1 do 100 znaków, zaczyna się od / i zawiera tylko /, kropki, małe litery i cyfry.",
+        "Nazwy folderów (poza . i ..) mają co najmniej jedną literę albo cyfrę."
+      ],
+      "examples": [
+        {
+          "input": "3\n/home/ala/../ola/./dok\n/../a//b/\n/.",
+          "output": "/home/ola/dok\n/a/b\n/",
+          "note": "Z /home/ala wracamy do /home i wchodzimy do ola, a potem dok. W drugiej: .. z folderu głównego nic nie robi, a // działa jak /."
+        }
+      ],
+      "hint": "podziel: idź po znakach i zbieraj nazwę; przy / (i na końcu) dopisz ją do wyniku, jeśli nie jest pusta. Potem przejdź po nazwach z vectorem stos: \".\" pomijasz, \"..\" to if (!stos.empty()) stos.pop_back();, a inną nazwę push_back. zlacz: dla pustego vectora zwróć \"/\", inaczej dla każdej nazwy w += \"/\" + nazwa.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-obrazek",
+      "number": 1938,
+      "title": "Obrazek po przekształceniach",
+      "category": "Funkcje / krok 7: vector, string, pair i tablice",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Obrazek ma n wierszy po m znaków. Polecenia: OBROT — obróć obrazek o 90° zgodnie z ruchem wskazówek zegara (będzie miał m wierszy po n znaków); LUSTRO — odbij każdy wiersz od lewej do prawej; GORA — odwróć kolejność wierszy (do góry nogami).",
+        "Napisz funkcje vector<string> obroc(const vector<string> &a), vector<string> lustro(const vector<string> &a) i vector<string> doGory(const vector<string> &a). Każda zwraca nowy obrazek: obraz = obroc(obraz);. Wypisz obrazek po wszystkich poleceniach."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n, m i k.",
+        "W n kolejnych wierszach obrazek.",
+        "W k kolejnych wierszach polecenia."
+      ],
+      "output_format": [
+        "Obrazek po wszystkich poleceniach."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 50, 1 ≤ k ≤ 1000",
+        "Obrazek składa się z liter, cyfr i znaków # . * + o"
+      ],
+      "examples": [
+        {
+          "input": "2 3 2\nabc\ndef\nOBROT\nLUSTRO",
+          "output": "ad\nbe\ncf",
+          "note": "Po obrocie kolumny czytane od dołu stają się wierszami: da, eb, fc. Lustro odwraca każdy wiersz: ad, be, cf."
+        }
+      ],
+      "hint": "W obroc nowy obrazek ma m wierszy po n znaków: vector<string> b(m, string(n, ' '));, a b[i][j] = a[n - 1 - j][i]. lustro: skopiuj a i każdy wiersz reverse(…). doGory: skopiuj a i reverse(b.begin(), b.end()). Parametr const & nie kopiuje obrazka przy wywołaniu, a wynik i tak budujesz w nowej zmiennej.",
+      "tests_count": 7
+    },
+    {
+      "id": "fun-pola-figur",
+      "number": 1939,
+      "title": "Pola figur",
+      "category": "Funkcje / krok 8: przeciążanie i podział zadania",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Policz pola figur. K a — kwadrat o boku a; P a b — prostokąt o bokach a i b; O r — koło o promieniu r (pole π · r · r, z dwiema cyframi po kropce; przyjmij π = M_PI).",
+        "Napisz trzy funkcje o tej samej nazwie: int pole(int a), int pole(int a, int b) i double pole(double r). Kompilator wybierze właściwą po liczbie i typach argumentów."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W każdym z q kolejnych wierszy jedno polecenie."
+      ],
+      "output_format": [
+        "q wierszy z polami: dla kwadratu i prostokąta liczba całkowita, dla koła liczba z dwiema cyframi po kropce."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "1 ≤ a, b ≤ 10⁴",
+        "1 ≤ r ≤ 1000 (r jest liczbą całkowitą)"
+      ],
+      "examples": [
+        {
+          "input": "3\nK 4\nP 3 5\nO 2",
+          "output": "16\n15\n12.57",
+          "note": "4 · 4 = 16, 3 · 5 = 15, a π · 2 · 2 ≈ 12.566 — po zaokrągleniu 12.57."
+        }
+      ],
+      "hint": "double pole(double r) { return M_PI * r * r; }. Promień wczytaj do zmiennej double r; — wtedy pole(r) wywoła wersję dla double, a pole(a) dla int a — wersję kwadratu. Dla koła: cout << fixed << setprecision(2) << pole(r) << \"\\n\"; (fixed nie zmienia wypisywania liczb całkowitych).",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-drukarka-typow",
+      "number": 1940,
+      "title": "Drukarka różnych typów",
+      "category": "Funkcje / krok 8: przeciążanie i podział zadania",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Drukarka dostaje polecenia: L x — liczba; N s — napis; P a b — para liczb; T n a₁ … aₙ — lista n liczb. Wypisuje je tak:",
+        "liczba: x — napis: s (dlugosc k) — para: (a, b) — lista: [a₁, a₂, …, aₙ] (pusta lista to lista: []).",
+        "Napisz cztery funkcje o nazwie wypisz: void wypisz(int x), void wypisz(string s), void wypisz(int a, int b) i void wypisz(const vector<int> &v)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W każdym z q kolejnych wierszy jedno polecenie."
+      ],
+      "output_format": [
+        "q wierszy w opisanych formatach."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 300",
+        "−10⁶ ≤ x, a, b ≤ 10⁶",
+        "Napisy mają od 1 do 20 małych liter.",
+        "0 ≤ n ≤ 10, −1000 ≤ aᵢ ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "4\nL 42\nN kot\nP 3 -4\nT 3 1 2 3",
+          "output": "liczba: 42\nnapis: kot (dlugosc 3)\npara: (3, -4)\nlista: [1, 2, 3]",
+          "note": "Każde polecenie trafia do innej wersji funkcji wypisz — o wyborze decydują typy i liczba argumentów."
+        }
+      ],
+      "hint": "void wypisz(string s) { cout << \"napis: \" << s << \" (dlugosc \" << s.size() << \")\\n\"; }. W wersji dla listy przecinek wypisuj przed każdym elementem oprócz pierwszego. Uwaga: wypisz('a') z literą w apostrofach wybrałoby wersję dla int (znak to liczba) — dlatego napis zawsze wczytuj do zmiennej string.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-linie-domyslne",
+      "number": 1941,
+      "title": "Linie z wartościami domyślnymi",
+      "category": "Funkcje / krok 8: przeciążanie i podział zadania",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Każde polecenie to słowo LINIA, po którym mogą stać: nic, sama długość n albo długość n i znak c. Wypisz linię z n znaków c. Gdy znaku nie podano, użyj -, a gdy nie podano też długości — narysuj 10 znaków.",
+        "Napisz jedną funkcję void linia(int n = 10, char c = '-') i wywołuj ją jako linia(), linia(n) albo linia(n, c) — zależnie od tego, ile danych było w wierszu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W każdym z q kolejnych wierszy jedno polecenie."
+      ],
+      "output_format": [
+        "q wierszy z liniami."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 200",
+        "1 ≤ n ≤ 80",
+        "c to jeden ze znaków # * = + o @ % x X & $"
+      ],
+      "examples": [
+        {
+          "input": "3\nLINIA\nLINIA 4\nLINIA 6 *",
+          "output": "----------\n----\n******",
+          "note": "Bez danych: 10 znaków -. Z samą długością: 4 znaki -. Z obiema wartościami: 6 gwiazdek."
+        }
+      ],
+      "hint": "Wiersz czytaj w całości: getline(cin, w); (po cin >> q pamiętaj o cin.ignore();), a potem stringstream ss(w); ss >> slowo;. if (!(ss >> n)) linia(); else if (!(ss >> c)) linia(n); else linia(n, c); — ss >> x zwraca fałsz, gdy w wierszu nie ma już danych. Wartości domyślne piszesz tylko w nagłówku funkcji.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-kalkulator-funkcji",
+      "number": 1942,
+      "title": "Kalkulator z funkcjami",
+      "category": "Funkcje / krok 8: przeciążanie i podział zadania",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Kalkulator obsługuje polecenia: NWD a b, NWW a b, POT a b (a do potęgi b), SILNIA n, MAKS2 a b oraz MAKS3 a b c.",
+        "Napisz osobną funkcję dla każdego działania. NWW policz jako a / nwd(a, b) · b. Dla maksimum napisz dwie funkcje o tej samej nazwie: long long maks(long long a, long long b) i long long maks(long long a, long long b, long long c) — ta druga niech wywołuje pierwszą."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W każdym z q kolejnych wierszy jedno polecenie."
+      ],
+      "output_format": [
+        "q wierszy z wynikami."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "NWD: 1 ≤ a, b ≤ 10¹⁸; NWW: 1 ≤ a, b ≤ 10⁹",
+        "POT: −10 ≤ a ≤ 10, 0 ≤ b ≤ 18; SILNIA: 0 ≤ n ≤ 20",
+        "MAKS2, MAKS3: liczby od −10¹⁸ do 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "5\nNWD 12 18\nNWW 4 6\nPOT -2 5\nSILNIA 5\nMAKS3 3 -7 10",
+          "output": "6\n12\n-32\n120\n10",
+          "note": "NWD(12, 18) = 6; NWW(4, 6) = 4 / 2 · 6 = 12; (−2)⁵ = −32; 5! = 120; największa z 3, −7 i 10 to 10."
+        }
+      ],
+      "hint": "long long nww(long long a, long long b) { return a / nwd(a, b) * b; } — najpierw dzielenie, potem mnożenie, żeby nie przekroczyć zakresu. long long maks(long long a, long long b, long long c) { return maks(maks(a, b), c); } — kompilator po liczbie argumentów wie, która wersja ma się wywołać. 0! = 1, a a⁰ = 1.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-roznica-dat",
+      "number": 1943,
+      "title": "Ile dni między datami?",
+      "category": "Funkcje / krok 8: przeciążanie i podział zadania",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej pary poprawnych dat policz, ile dni je dzieli (w kalendarzu gregoriańskim, także „wstecz” — dla lat od 1 do 9999).",
+        "Rozbij zadanie na funkcje: bool przestepny(int r), int dniWMiesiacu(int m, int r) i long long numerDnia(int d, int m, int r), która mówi, którym dniem od 1 stycznia roku 1 (ten dzień ma numer 1) jest podana data. Odpowiedź to różnica numerów."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W każdym z q kolejnych wierszy dwie daty: d₁ m₁ r₁ d₂ m₂ r₂."
+      ],
+      "output_format": [
+        "q wierszy: liczba dni między datami (zawsze nieujemna)."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "Daty są poprawne, lata od 1 do 9999."
+      ],
+      "examples": [
+        {
+          "input": "2\n1 1 2024 1 3 2024\n31 12 1999 1 1 2000",
+          "output": "60\n1",
+          "note": "Styczeń 2024 ma 31 dni, a luty (rok przestępny) 29 — razem 60. Od sylwestra do Nowego Roku jest 1 dzień."
+        }
+      ],
+      "hint": "long long numerDnia(int d, int m, int r) { long long n = 0; for (int i = 1; i < r; i++) n += przestepny(i) ? 366 : 365; for (int i = 1; i < m; i++) n += dniWMiesiacu(i, r); return n + d; } — pętla po latach do 9999 jest wystarczająco szybka. Wynik: abs(numerDnia(…drugiej…) - numerDnia(…pierwszej…)).",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-kalkulator-ulamkow",
+      "number": 1944,
+      "title": "Kalkulator ułamków",
+      "category": "Funkcje / krok 8: przeciążanie i podział zadania",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Każdy wiersz to działanie na dwóch ułamkach: a/b op c/d, gdzie op to +, -, * albo : (dzielenie). Wypisz wynik w postaci nieskracalnej p/q z mianownikiem dodatnim (minus, jeśli jest, stoi przy liczniku; zero to 0/1).",
+        "Napisz funkcje long long nwd(long long a, long long b), pair<long long, long long> skroc(long long l, long long m) oraz po jednej funkcji na każde działanie — każda niech zwraca wynik przez skroc."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W każdym z q kolejnych wierszy działanie w formacie a/b op c/d (spacje tylko wokół znaku działania)."
+      ],
+      "output_format": [
+        "q wierszy z wynikami w postaci p/q."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "−10⁴ ≤ a, c ≤ 10⁴, 1 ≤ b, d ≤ 10⁴",
+        "Przy dzieleniu c ≠ 0."
+      ],
+      "examples": [
+        {
+          "input": "3\n1/2 + 1/3\n3/4 - 5/4\n2/3 : -4/9",
+          "output": "5/6\n-1/2\n-3/2",
+          "note": "1/2 + 1/3 = 5/6. 3/4 − 5/4 = −2/4 = −1/2. 2/3 : (−4/9) = 2/3 · 9/(−4) = 18/(−12) = −3/2."
+        }
+      ],
+      "hint": "skroc: if (m < 0) { l = -l; m = -m; } long long g = nwd(abs(l), m); return {l / g, m / g}; — dla l = 0 nwd(0, m) = m i wychodzi 0/1. Dzielenie to mnożenie przez odwrotność: {a * d, b * c} i skroc. Ułamek wczytasz tak: cin >> a >> kreska >> b;, gdzie kreska to char.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-cztery-w-rzedzie",
+      "number": 1945,
+      "title": "Cztery w rzędzie",
+      "category": "Funkcje / krok 8: przeciążanie i podział zadania",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Plansza ma 6 wierszy i 7 kolumn. Gracze X (zaczyna) i O na zmianę wrzucają krążek do wybranej kolumny — krążek spada na najniższe wolne pole. Gracz wygrywa, gdy jego cztery krążki stoją obok siebie w poziomie, w pionie albo po skosie.",
+        "Dla każdej gry podano ruchy (numery kolumn od 1 do 7, zawsze do kolumny, która nie jest pełna). Gra kończy się przy pierwszej wygranej — po niej nie ma już ruchów. Wypisz X wygrywa w ruchu k albo O wygrywa w ruchu k, a jeśli nikt nie wygrał: REMIS przy pełnej planszy (42 ruchy) albo GRA TRWA.",
+        "Napisz funkcje: int wrzuc(int kol, char g) (zwraca wiersz, w którym wylądował krążek), int policz(int r, int c, int dr, int dc, char g) (ile krążków g stoi w linii od pola obok (r, c) w kierunku (dr, dc)) i bool wygrana(int r, int c, char g)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "Każda gra: wiersz z liczbą ruchów k i wiersz z k numerami kolumn."
+      ],
+      "output_format": [
+        "t wierszy z wynikami gier."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100",
+        "1 ≤ k ≤ 42"
+      ],
+      "examples": [
+        {
+          "input": "2\n7\n1 2 1 2 1 2 1\n3\n4 4 5",
+          "output": "X wygrywa w ruchu 7\nGRA TRWA",
+          "note": "W pierwszej grze X buduje pionową czwórkę w kolumnie 1 — w swoim czwartym ruchu, czyli siódmym ruchu gry. Druga gra jeszcze się nie skończyła."
+        }
+      ],
+      "hint": "Globalnie char p[6][7]; — wyczyść ją przed każdą grą. wygrana: dla czterech kierunków (0, 1), (1, 0), (1, 1), (1, −1) sprawdź, czy 1 + policz(r, c, dr, dc, g) + policz(r, c, -dr, -dc, g) >= 4. W policz idziesz krokami r += dr, c += dc, dopóki pole jest na planszy i ma krążek g.",
+      "tests_count": 6
+    },
+    {
+      "id": "fun-przecinanie-odcinkow",
+      "number": 1946,
+      "title": "Czy odcinki się przecinają?",
+      "category": "Funkcje / krok 8: przeciążanie i podział zadania",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej pary odcinków na płaszczyźnie sprawdź, czy mają choć jeden punkt wspólny (także gdy tylko stykają się końcem albo leżą na jednej prostej i zachodzą na siebie). Odcinek może być pojedynczym punktem.",
+        "Iloczyn wektorowy (b − a) × (c − a) = (bx − ax)(cy − ay) − (by − ay)(cx − ax) mówi, po której stronie prostej ab leży c: dodatni — po lewej, ujemny — po prawej, zero — na prostej. Napisz int kierunek(…) zwracającą 1, −1 albo 0, bool naOdcinku(…) i bool przecinaja(…)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W każdym z q kolejnych wierszy osiem liczb: x1 y1 x2 y2 (pierwszy odcinek) i x3 y3 x4 y4 (drugi odcinek)."
+      ],
+      "output_format": [
+        "q wierszy: TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "−10⁹ ≤ współrzędne ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "4\n0 0 4 4 0 4 4 0\n0 0 2 2 3 3 5 5\n0 0 2 2 2 2 5 0\n0 0 4 0 1 0 3 0",
+          "output": "TAK\nNIE\nTAK\nTAK",
+          "note": "Przekątne kwadratu krzyżują się. Drugie odcinki leżą na jednej prostej, ale się nie stykają. Trzecie stykają się w punkcie (2, 2). Czwarte zachodzą na siebie."
+        }
+      ],
+      "hint": "int kierunek(long long ax, long long ay, long long bx, long long by, long long cx, long long cy) { long long w = (bx - ax) * (cy - ay) - (by - ay) * (cx - ax); return (w > 0) - (w < 0); }. Odcinki się przecinają, gdy d1 = kierunek(p3, p4, p1) i d2 = kierunek(p3, p4, p2) mają różne znaki i tak samo d3, d4 dla p1, p2 — albo gdy któryś kierunek to 0, a punkt leży na drugim odcinku (naOdcinku sprawdza, czy mieści się w prostokącie wyznaczonym przez końce).",
+      "tests_count": 6
+    },
+    {
+      "id": "fun-b-temperatury",
+      "number": 1947,
+      "title": "Przelicznik temperatur",
+      "category": "Funkcje / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Termometr pokazuje temperaturę w jednej skali, a trzeba ją podać w innej. Skale: C (Celsjusz), F (Fahrenheit) i K (Kelwin). Wzory: F = C · 9 / 5 + 32 oraz K = C + 273.15.",
+        "Zamiast sześciu wzorów (każda skala na każdą) napisz dwie funkcje: double naCelsjusza(double x, char skala) i double zCelsjusza(double c, char skala). Przeliczenie ze skali A na B to zCelsjusza(naCelsjusza(x, A), B). Licz dokładnie według podanych wzorów (z F na C: (x − 32) · 5 / 9, z K na C: x − 273.15)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W każdym z q kolejnych wierszy: temperatura x, skala źródłowa i skala docelowa."
+      ],
+      "output_format": [
+        "q wierszy: temperatura w skali docelowej z dwiema cyframi po kropce."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "−500 ≤ x ≤ 1000, x ma najwyżej jedną cyfrę po kropce."
+      ],
+      "examples": [
+        {
+          "input": "3\n100 C F\n32 F C\n0 K C",
+          "output": "212.00\n0.00\n-273.15",
+          "note": "Woda wrze w 212 °F, 32 °F to 0 °C, a 0 K to −273.15 °C."
+        }
+      ],
+      "hint": "double naCelsjusza(double x, char s) { if (s == 'F') return (x - 32) * 5 / 9; if (s == 'K') return x - 273.15; return x; } i odwrotnie double zCelsjusza(double c, char s) { if (s == 'F') return c * 9 / 5 + 32; if (s == 'K') return c + 273.15; return c; }. Wynik: cout << fixed << setprecision(2) << zCelsjusza(naCelsjusza(x, a), b);.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-b-automorficzne",
+      "number": 1948,
+      "title": "Liczby automorficzne",
+      "category": "Funkcje / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Liczba jest automorficzna, jeśli jej kwadrat kończy się jej cyframi: 5² = 25, 6² = 36, 25² = 625, 76² = 5776.",
+        "Napisz funkcję bool automorficzna(long long x). Dla każdego przedziału [a, b] wypisz wszystkie liczby automorficzne z tego przedziału rosnąco albo BRAK, jeśli nie ma żadnej."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W każdym z q kolejnych wierszy liczby a i b."
+      ],
+      "output_format": [
+        "q wierszy: liczby automorficzne z przedziału, oddzielone spacjami, albo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 10",
+        "1 ≤ a ≤ b ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "2\n1 100\n100 300",
+          "output": "1 5 6 25 76\nBRAK",
+          "note": "Do 100 są to 1, 5, 6, 25 i 76. Następna jest 376, więc w [100, 300] nie ma żadnej."
+        }
+      ],
+      "hint": "Weź p = najmniejszą potęgę 10 większą od x (long long p = 1; while (p <= x) p *= 10;) — wtedy x * x % p to ostatnie cyfry kwadratu, tyle, ile cyfr ma x. Funkcja: return x * x % p == x;. Kwadrat 10⁶ to 10¹² — potrzebny long long.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-b-najblizsza-pierwsza",
+      "number": 1949,
+      "title": "Najbliższa liczba pierwsza",
+      "category": "Funkcje / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej liczby x znajdź najbliższą jej liczbę pierwszą. Jeśli dwie liczby pierwsze są tak samo daleko (jedna mniejsza, druga większa od x), wybierz mniejszą. Sama x też może być pierwsza.",
+        "Napisz bool czyPierwsza(long long x) i sprawdzaj kolejne odległości d = 0, 1, 2, …: najpierw x − d, potem x + d."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W drugim wierszu q liczb."
+      ],
+      "output_format": [
+        "q wierszy z odpowiedziami."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "1 ≤ x ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "4\n10 1 8 13",
+          "output": "11\n2\n7\n13",
+          "note": "10: 9 nie jest pierwsza, 11 jest. 1: najbliższa jest 2. 8: 7 i 9 są w odległości 1, ale pierwsza jest tylko 7. 13 jest pierwsza."
+        }
+      ],
+      "hint": "for (long long d = 0; ; d++) { if (x - d >= 2 && czyPierwsza(x - d)) { cout << x - d; break; } if (czyPierwsza(x + d)) { cout << x + d; break; } } — kolejność sprawdzania załatwia remis: przy tej samej odległości mniejsza liczba wygrywa. Odstępy między liczbami pierwszymi do 10⁹ są krótkie (kilkaset), więc pętla szybko się kończy.",
+      "tests_count": 6
+    },
+    {
+      "id": "fun-b-proporcje",
+      "number": 1950,
+      "title": "Proporcje w przepisie",
+      "category": "Funkcje / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Przepis podaje ilości n składników (w gramach). Chcesz przygotować najmniejszą porcję, w której proporcje są takie same, a wszystkie ilości są całkowite.",
+        "Napisz funkcję long long nwd(long long a, long long b) (algorytm Euklidesa) i policz NWD całej listy: zacznij od pierwszej liczby i kolejno g = nwd(g, x). Wypisz ilości podzielone przez g."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W drugim wierszu n liczb."
+      ],
+      "output_format": [
+        "Jeden wiersz: nowe ilości, oddzielone spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "1 ≤ każda ilość ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "3\n200 300 500",
+          "output": "2 3 5",
+          "note": "NWD(200, 300, 500) = 100, więc porcja to 2, 3 i 5 gramów — proporcje 2 : 3 : 5 bez zmian."
+        }
+      ],
+      "hint": "long long nwd(long long a, long long b) { while (b != 0) { long long r = a % b; a = b; b = r; } return a; }. NWD wielu liczb liczy się „po kolei”: long long g = t[0]; for (…) g = nwd(g, t[i]);. Wynik funkcji od razu wraca do niej jako argument.",
+      "tests_count": 8
+    },
+    {
+      "id": "fun-b-wielomian",
+      "number": 1951,
+      "title": "Wartości wielomianu",
+      "category": "Funkcje / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wielomian stopnia d ma współczynniki a_d, a_{d−1}, …, a_0 (od najwyższej potęgi): W(x) = a_d · xᵈ + … + a_1 · x + a_0. Policz jego wartość w q punktach.",
+        "Napisz funkcję long long wartosc(const vector<long long> &a, long long x), która liczy W(x) schematem Hornera: zaczynasz od w = 0 i dla każdego współczynnika (od najwyższego) robisz w = w · x + a_i."
+      ],
+      "input_format": [
+        "W pierwszym wierszu d.",
+        "W drugim wierszu d + 1 współczynników: a_d, …, a_0.",
+        "W trzecim wierszu q, w czwartym q punktów x."
+      ],
+      "output_format": [
+        "q wierszy z wartościami W(x)."
+      ],
+      "constraints": [
+        "0 ≤ d ≤ 10",
+        "−100 ≤ a_i ≤ 100",
+        "1 ≤ q ≤ 1000, −10 ≤ x ≤ 10"
+      ],
+      "examples": [
+        {
+          "input": "2\n1 -3 2\n3\n0 1 5",
+          "output": "2\n0\n12",
+          "note": "W(x) = x² − 3x + 2. W(0) = 2, W(1) = 1 − 3 + 2 = 0, W(5) = 25 − 15 + 2 = 12."
+        }
+      ],
+      "hint": "long long wartosc(const vector<long long> &a, long long x) { long long w = 0; for (long long c : a) w = w * x + c; return w; } — dla 1, −3, 2 i x = 5: w = 1, potem 1 · 5 − 3 = 2, potem 2 · 5 + 2 = 12. Bez & funkcja kopiowałaby współczynniki przy każdym z q wywołań.",
+      "tests_count": 7
+    },
+    {
+      "id": "fun-b-oczko",
+      "number": 1952,
+      "title": "Oczko",
+      "category": "Funkcje / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W oczko karty mają wartości: 2–9 tyle, ile oczek, T (dziesiątka), J, Q, K po 10, a as (A) — 11. Gdy suma ręki przekracza 21, a w ręce są asy liczone za 11, kolejne asy zaczynają się liczyć za 1, dopóki suma nie spadnie do 21 albo asy się nie skończą.",
+        "W każdej rundzie grają dwaj gracze. Ręka powyżej 21 przegrywa; jeśli obie przekroczyły 21 albo mają tę samą wartość — remis; w przeciwnym razie wygrywa wyższa. Napisz int wartoscKarty(char c) i int wartoscReki(string reka)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy dwie ręce (napisy ze znaków 23456789TJQKA)."
+      ],
+      "output_format": [
+        "n wierszy: wartości obu rąk i werdykt — wygrywa 1, wygrywa 2 albo remis."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "Każda ręka ma od 2 do 10 kart."
+      ],
+      "examples": [
+        {
+          "input": "3\nAK T9\nAA 99\nT9A KQ5",
+          "output": "21 19 wygrywa 1\n12 18 wygrywa 2\n20 25 wygrywa 1",
+          "note": "AK to 21. AA: 22 to za dużo, więc jeden as liczy się za 1 — razem 12. T9A: 30, as za 1 daje 20; KQ5 to 25, czyli za dużo — wygrywa gracz 1."
+        }
+      ],
+      "hint": "int wartoscReki(string r) { int suma = 0, asy = 0; for (char c : r) { suma += wartoscKarty(c); if (c == 'A') asy++; } while (suma > 21 && asy > 0) { suma -= 10; asy--; } return suma; } — zamiana asa z 11 na 1 to odjęcie 10.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-b-kwadrat-lacinski",
+      "number": 1953,
+      "title": "Czy to kwadrat łaciński?",
+      "category": "Funkcje / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Kwadrat łaciński stopnia n to tablica n × n wypełniona liczbami od 1 do n tak, że w każdym wierszu i w każdej kolumnie każda liczba występuje dokładnie raz (jak w sudoku, ale bez małych kwadratów).",
+        "Dla każdej z t tablic wypisz TAK albo NIE. Trzymaj tablicę w zmiennej globalnej i napisz funkcje bool wierszOk(int r) i bool kolumnaOk(int c)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "Każda tablica: wiersz z n i n wierszy po n liczb."
+      ],
+      "output_format": [
+        "t wierszy: TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 10",
+        "1 ≤ n ≤ 40",
+        "Wszystkie liczby są od 1 do n."
+      ],
+      "examples": [
+        {
+          "input": "2\n3\n1 2 3\n2 3 1\n3 1 2\n3\n1 2 3\n2 3 1\n2 3 1",
+          "output": "TAK\nNIE",
+          "note": "Pierwsza tablica jest kwadratem łacińskim. W drugiej wiersze są dobre, ale w kolumnach liczby się powtarzają."
+        }
+      ],
+      "hint": "bool wierszOk(int r) { bool bylo[45] = {}; for (int c = 0; c < n; c++) { if (bylo[t[r][c]]) return false; bylo[t[r][c]] = true; } return true; } — tablica bylo jest lokalna, więc przy każdym wywołaniu jest pusta. kolumnaOk wygląda tak samo, tylko idzie w dół kolumny.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-b-data-za-k-dni",
+      "number": 1954,
+      "title": "Data za k dni",
+      "category": "Funkcje / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej daty i liczby k podaj datę, która wypadnie k dni później.",
+        "Napisz funkcje bool przestepny(int r), int dniWMiesiacu(int m, int r) i void jutro(int &d, int &m, int &r), która zmienia datę na następny dzień. Wypisz datę w formacie DD.MM.RRRR (dzień i miesiąc zawsze dwiema cyframi)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W każdym z q kolejnych wierszy: d, m, r i k."
+      ],
+      "output_format": [
+        "q wierszy z datami w formacie DD.MM.RRRR."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 100",
+        "Daty są poprawne, 1000 ≤ r ≤ 9000.",
+        "0 ≤ k ≤ 10⁵"
+      ],
+      "examples": [
+        {
+          "input": "2\n28 2 2024 2\n31 12 2023 1",
+          "output": "01.03.2024\n01.01.2024",
+          "note": "2024 jest przestępny: po 28 lutego jest 29 lutego, a potem 1 marca. Po sylwestrze — 1 stycznia następnego roku."
+        }
+      ],
+      "hint": "void jutro(int &d, int &m, int &r) { d++; if (d > dniWMiesiacu(m, r)) { d = 1; m++; if (m > 12) { m = 1; r++; } } }. Wypisanie z zerami: cout << setfill('0') << setw(2) << d << \".\" << setw(2) << m << \".\" << r << \"\\n\";.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-b-palindromy-w-zdaniu",
+      "number": 1955,
+      "title": "Najdłuższy palindrom w zdaniu",
+      "category": "Funkcje / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdego zdania znajdź najdłuższe słowo, które jest palindromem (czyta się tak samo od przodu i od tyłu, np. kajak, oko, a). Jeśli kilka ma tę samą długość, wybierz to, które występuje pierwsze. Jeśli żadne słowo nie jest palindromem, wypisz BRAK.",
+        "Napisz funkcję bool palindrom(const string &s)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy jedno zdanie: słowa z małych liter oddzielone pojedynczymi spacjami."
+      ],
+      "output_format": [
+        "n wierszy z odpowiedziami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 100",
+        "Zdanie ma od 1 do 200 znaków."
+      ],
+      "examples": [
+        {
+          "input": "3\nkajak i oko\npies je kosc\nala ma kota",
+          "output": "kajak\nBRAK\nala",
+          "note": "W pierwszym zdaniu palindromy to kajak, i, oko — najdłuższy jest kajak. W drugim nie ma żadnego. ala też jest palindromem."
+        }
+      ],
+      "hint": "bool palindrom(const string &s) { for (int i = 0, j = s.size() - 1; i < j; i++, j--) if (s[i] != s[j]) return false; return true; }. Zdanie: getline(cin, w); stringstream ss(w); while (ss >> slowo) if (palindrom(slowo) && slowo.size() > najlepsze.size()) najlepsze = slowo; — znak > (a nie >=) zostawia pierwsze z równie długich.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-b-statystyka-klasowki",
+      "number": 1956,
+      "title": "Statystyka klasówki",
+      "category": "Funkcje / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Nauczyciel chce trzy liczby opisujące wyniki klasówki: średnią (z dwiema cyframi po kropce), medianę (środkowy wynik po posortowaniu; przy parzystej liczbie wyników — średnia dwóch środkowych, z jedną cyfrą po kropce) i dominantę (najczęstszy wynik; przy remisie — najmniejszy).",
+        "Napisz double srednia(const vector<int> &v), double mediana(vector<int> v) i int dominanta(const vector<int> &v). Mediana dostaje kopię celowo: sortuje ją, a oryginalna lista zostaje w kolejności z wejścia."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W drugim wierszu n wyników."
+      ],
+      "output_format": [
+        "Trzy wiersze: srednia X.XX, mediana Y.Y, dominanta Z"
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "0 ≤ każdy wynik ≤ 100"
+      ],
+      "examples": [
+        {
+          "input": "6\n5 3 5 1 4 6",
+          "output": "srednia 4.00\nmediana 4.5\ndominanta 5",
+          "note": "Suma 24, więc średnia 4.00. Po posortowaniu: 1 3 4 5 5 6 — środkowe to 4 i 5, mediana 4.5. Najczęściej (dwa razy) pojawia się 5."
+        }
+      ],
+      "hint": "double mediana(vector<int> v) { sort(v.begin(), v.end()); int n = v.size(); if (n % 2 == 1) return v[n / 2]; return (v[n / 2 - 1] + v[n / 2]) / 2.0; }. Średnia: (double)suma / v.size(). Wypisz średnią z setprecision(2), a medianę z setprecision(1) — przy fixed.",
+      "tests_count": 8
+    },
+    {
+      "id": "fun-b-rzymski-kalkulator",
+      "number": 1957,
+      "title": "Rzymski kalkulator",
+      "category": "Funkcje / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Rzymianie liczyli bez zera i bez cyfr arabskich. Twój kalkulator dostaje działania na liczbach rzymskich: A op B, gdzie op to +, - albo *, i wypisuje wynik też po rzymsku. Wyniki zawsze mieszczą się w przedziale od 1 do 3999.",
+        "Wartości: M = 1000, D = 500, C = 100, L = 50, X = 10, V = 5, I = 1; znak mniejszy stojący przed większym odejmujemy (IV = 4, XC = 90). Napisz int zRzymskiej(string s) i string naRzymska(int x)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W każdym z q kolejnych wierszy działanie: liczba rzymska, znak działania i liczba rzymska."
+      ],
+      "output_format": [
+        "q wierszy z wynikami zapisanymi po rzymsku."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "Liczby są zapisane poprawnie, od I do MMMCMXCIX, a wynik każdego działania jest od 1 do 3999."
+      ],
+      "examples": [
+        {
+          "input": "3\nXIV + XXVIII\nM - I\nXII * XII",
+          "output": "XLII\nCMXCIX\nCXLIV",
+          "note": "14 + 28 = 42 = XLII, 1000 − 1 = 999 = CMXCIX, 12 · 12 = 144 = CXLIV."
+        }
+      ],
+      "hint": "zRzymskiej: przejdź po znakach; jeśli wartość znaku jest mniejsza niż wartość następnego, odejmij ją, w przeciwnym razie dodaj. Wartość znaku zwraca osobna funkcja int wartosc(char c). naRzymska znasz z części 3: tabela 13 wartości od 1000 do 1 i odejmowanie, dopóki się da.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-b-rzeka-liczb",
+      "number": 1958,
+      "title": "Rzeka liczb",
+      "category": "Funkcje / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Rzeka liczb zaczynająca się w k to ciąg: k, potem k + suma cyfr k, i tak dalej. Rzeka 32: 32, 37, 47, 58, … Dwie rzeki, które mają wspólną liczbę, od tego miejsca płyną już razem.",
+        "Dla każdej pary rzek (startujących w a i w b) znajdź pierwszą wspólną liczbę. Napisz funkcję long long nastepny(long long x) i zawsze przesuwaj tę rzekę, która jest akurat niżej — aż się zrównają."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W każdym z q kolejnych wierszy liczby a i b."
+      ],
+      "output_format": [
+        "q wierszy: miejsce spotkania rzek."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 100",
+        "1 ≤ a, b ≤ 10⁶",
+        "Rzeki z każdej pary na pewno się spotykają, w liczbie mniejszej niż 10⁹."
+      ],
+      "examples": [
+        {
+          "input": "2\n32 47\n471 480",
+          "output": "47\n519",
+          "note": "Rzeka 32 po dwóch krokach dochodzi do 47. Rzeka 471: 471, 483, 498, 519; rzeka 480: 480, 492, 507, 519."
+        }
+      ],
+      "hint": "long long nastepny(long long x) { return x + sumaCyfr(x); }. Spotkanie: while (a != b) { if (a < b) a = nastepny(a); else b = nastepny(b); } — skoro rzeki płyną tylko w górę, rzeka niższa nie może przegapić wyższej, jeśli mają się spotkać.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-b-mastermind",
+      "number": 1959,
+      "title": "Mastermind",
+      "category": "Funkcje / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W grze Mastermind jeden gracz wymyśla kod z czterech cyfr od 1 do 6 (cyfry mogą się powtarzać), a drugi zgaduje. Po każdym strzale dostaje dwie liczby: czarne — ile cyfr stoi na dobrym miejscu, i białe — ile jeszcze cyfr strzału występuje w kodzie, ale na innym miejscu.",
+        "Białe liczy się tak: dla każdej cyfry weź mniejszą z liczb jej wystąpień w kodzie i w strzale, dodaj te minima i odejmij czarne. Napisz pair<int, int> ocen(const string &kod, const string &strzal)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu tajny kod i n.",
+        "W każdym z n kolejnych wierszy jeden strzał."
+      ],
+      "output_format": [
+        "n wierszy: liczba czarnych i liczba białych."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "Kod i strzały to napisy z 4 cyfr od 1 do 6."
+      ],
+      "examples": [
+        {
+          "input": "1234 3\n1243\n5612\n1234",
+          "output": "2 2\n0 2\n4 0",
+          "note": "1243: 1 i 2 na miejscach (2 czarne), 3 i 4 zamienione (2 białe). 5612: żadnej cyfry na miejscu, ale 1 i 2 są w kodzie — 2 białe."
+        }
+      ],
+      "hint": "W ocen: int c = 0, ileK[7] = {}, ileS[7] = {}; for (int i = 0; i < 4; i++) { if (kod[i] == strzal[i]) c++; ileK[kod[i] - '0']++; ileS[strzal[i] - '0']++; } int w = 0; for (int d = 1; d <= 6; d++) w += min(ileK[d], ileS[d]); return {c, w - c};. W main: auto [c, b] = ocen(kod, s);.",
+      "tests_count": 6
+    },
+    {
+      "id": "fun-b-adres-ip",
+      "number": 1960,
+      "title": "Poprawny adres IP",
+      "category": "Funkcje / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Adres IP (w wersji 4) to cztery części oddzielone kropkami, np. 192.168.0.1. Każda część to liczba od 0 do 255 zapisana od jednej do trzech cyfr i bez zer z przodu (0 jest dobre, 01 i 00 — nie). Pustych części nie ma.",
+        "Dla każdego napisu wypisz TAK, jeśli jest poprawnym adresem, albo NIE. Napisz vector<string> podziel(const string &s) (dzieli po kropkach, zostawiając też puste kawałki), bool dobraCzesc(const string &p) i bool dobryAdres(const string &s)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy napis z cyfr i kropek."
+      ],
+      "output_format": [
+        "n wierszy: TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "Napisy mają od 1 do 20 znaków."
+      ],
+      "examples": [
+        {
+          "input": "5\n192.168.0.1\n256.1.1.1\n10.01.0.1\n1.2.3\n1..2.3",
+          "output": "TAK\nNIE\nNIE\nNIE\nNIE",
+          "note": "256 przekracza 255, 01 ma zero z przodu, 1.2.3 ma tylko trzy części, a 1..2.3 — pustą część."
+        }
+      ],
+      "hint": "podziel: string cz = \"\"; for (char c : s) { if (c == '.') { w.push_back(cz); cz = \"\"; } else cz += c; } w.push_back(cz); — dzięki temu \"1..2\" daje trzy kawałki, w tym pusty. dobraCzesc: niepusta, najwyżej 3 cyfry, nie zaczyna się od 0, chyba że to samo \"0\", i stoi(p) <= 255. dobryAdres: dokładnie 4 kawałki i każdy dobry.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-b-luhn",
+      "number": 1961,
+      "title": "Algorytm Luhna",
+      "category": "Funkcje / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Numery kart płatniczych kończą się cyfrą kontrolną według algorytmu Luhna: idąc od prawej, co drugą cyfrę (drugą, czwartą, szóstą… od końca) mnożymy przez 2, a jeśli wyjdzie więcej niż 9 — odejmujemy 9. Potem sumujemy wszystkie cyfry (zmienione i niezmienione). Numer jest poprawny, gdy suma dzieli się przez 10.",
+        "Dla każdego numeru wypisz POPRAWNY albo BLEDNY, ostatnia cyfra powinna byc d — gdzie d to jedyna cyfra, która wpisana na ostatnie miejsce dałaby poprawny numer. Napisz int sumaLuhna(const string &s) i funkcje, które z niej korzystają."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy numer (napis z cyfr)."
+      ],
+      "output_format": [
+        "n wierszy z werdyktami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "Numery mają od 2 do 19 cyfr."
+      ],
+      "examples": [
+        {
+          "input": "2\n79927398713\n79927398710",
+          "output": "POPRAWNY\nBLEDNY, ostatnia cyfra powinna byc 3",
+          "note": "Pierwszy numer daje sumę 70 — jest poprawny. Drugi różni się tylko ostatnią cyfrą: zamiast 0 powinno być 3."
+        }
+      ],
+      "hint": "int sumaLuhna(const string &s) { int suma = 0; for (int i = s.size() - 1, k = 0; i >= 0; i--, k++) { int c = s[i] - '0'; if (k % 2 == 1) { c *= 2; if (c > 9) c -= 9; } suma += c; } return suma; } — k liczy pozycje od końca od zera. Ostatnia cyfra nie jest podwajana, więc wystarczy policzyć sumę z ostatnią cyfrą równą 0: dobra cyfra to (10 − suma % 10) % 10.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-b-szyfr-plotkowy",
+      "number": 1962,
+      "title": "Szyfr płotkowy",
+      "category": "Funkcje / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W szyfrze płotkowym z k sztachetami litery tekstu pisze się zygzakiem: pierwsza na sztachecie 0, następna na 1, … aż do k − 1, potem z powrotem w górę do 0, znowu w dół i tak dalej. Szyfrogram to litery ze sztachety 0, potem ze sztachety 1, …, na końcu z k − 1 (w każdej w kolejności z tekstu).",
+        "Polecenie S k tekst — zaszyfruj; O k szyfrogram — odszyfruj. Napisz int sztacheta(int i, int k) (na której sztachecie stoi i-ta litera), string szyfruj(const string &s, int k) i string odszyfruj(const string &s, int k)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W każdym z q kolejnych wierszy polecenie: S albo O, liczba k i napis z wielkich liter."
+      ],
+      "output_format": [
+        "q wierszy z wynikami."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 20",
+        "2 ≤ k ≤ 10",
+        "Napisy mają od 1 do 1000 wielkich liter angielskich."
+      ],
+      "examples": [
+        {
+          "input": "2\nS 3 WEAREDISCOVERED\nO 3 WECRERDSOEEAIVD",
+          "output": "WECRERDSOEEAIVD\nWEAREDISCOVERED",
+          "note": "Sztacheta 0: W, E, C, R; sztacheta 1: E, R, D, S, O, E, E; sztacheta 2: A, I, V, D. Odszyfrowanie odtwarza tekst."
+        }
+      ],
+      "hint": "int sztacheta(int i, int k) { int okres = 2 * (k - 1); int r = i % okres; return r < k ? r : okres - r; }. Szyfrowanie: dla s = 0..k−1 dopisz litery, dla których sztacheta(i, k) == s. Odszyfrowanie: ten sam porządek pozycji — przejdź s = 0..k−1 i i = 0..n−1, a kolejną literę szyfrogramu wstaw na pozycję i, gdy sztacheta(i, k) == s.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-b-ulamki-egipskie",
+      "number": 1963,
+      "title": "Ułamki egipskie",
+      "category": "Funkcje / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Każdy ułamek a/b mniejszy od 1 da się zapisać jako sumę różnych ułamków postaci 1/c. Metoda zachłanna: weź największy ułamek 1/c, który nie przekracza tego, co zostało (c to a/b zaokrąglone w górę, czyli najmniejsze c z c · a ≥ b), odejmij go i powtarzaj, aż nic nie zostanie.",
+        "Napisz long long nwd(long long a, long long b) i long long wGore(long long b, long long a) (dzielenie b / a zaokrąglone w górę). Po każdym odejmowaniu skracaj ułamek."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W każdym z q kolejnych wierszy liczby a i b."
+      ],
+      "output_format": [
+        "q wierszy w formacie a/b = 1/c1 + 1/c2 + … (a i b tak jak w wejściu)."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 300",
+        "1 ≤ a < b ≤ 25"
+      ],
+      "examples": [
+        {
+          "input": "2\n4 13\n2 3",
+          "output": "4/13 = 1/4 + 1/18 + 1/468\n2/3 = 1/2 + 1/6",
+          "note": "4/13 − 1/4 = 3/52; 3/52 − 1/18 = 2/936 = 1/468. A 2/3 = 1/2 + 1/6."
+        }
+      ],
+      "hint": "Pętla: while (a > 0) { long long c = wGore(b, a); wypisz 1/c; a = a * c - b; b = b * c; long long g = nwd(a, b); a /= g; b /= g; } — z a/b − 1/c = (a · c − b) / (b · c). wGore(b, a) to (b + a − 1) / a. Mianowniki szybko rosną (nawet do milionów), więc wszystko w long long.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-b-ulamki-lancuchowe",
+      "number": 1964,
+      "title": "Ułamek łańcuchowy w obie strony",
+      "category": "Funkcje / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ułamek łańcuchowy [q₀; q₁, q₂, …, qₖ] to q₀ + 1 / (q₁ + 1 / (q₂ + … + 1 / qₖ)). Na przykład 415/93 = 4 + 43/93, 93/43 = 2 + 7/43, 43/7 = 6 + 1/7, 7/1 = 7, więc 415/93 = [4; 2, 6, 7] — to dokładnie kolejne ilorazy z algorytmu Euklidesa.",
+        "Polecenie R a b — rozwiń a/b i wypisz [q₀; q₁, …] (sam [q₀], gdy jest tylko jeden wyraz). Polecenie Z k q₀ … qₖ₋₁ — zwiń i wypisz ułamek p/q w postaci nieskracalnej. Napisz vector<long long> rozwin(long long a, long long b) i pair<long long, long long> zwin(const vector<long long> &q)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy jedno polecenie."
+      ],
+      "output_format": [
+        "n wierszy z wynikami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "R: 1 ≤ a, b ≤ 10⁹",
+        "Z: 1 ≤ k ≤ 10, 0 ≤ q₀ ≤ 50, 1 ≤ qᵢ ≤ 50 dla i ≥ 1"
+      ],
+      "examples": [
+        {
+          "input": "3\nR 415 93\nZ 4 4 2 6 7\nR 6 3",
+          "output": "[4; 2, 6, 7]\n415/93\n[2]",
+          "note": "Zwinięcie [4; 2, 6, 7] daje z powrotem 415/93. 6/3 = 2 — jeden wyraz."
+        }
+      ],
+      "hint": "rozwin: while (b != 0) { w.push_back(a / b); long long r = a % b; a = b; b = r; }. zwin od końca: p = q[k−1], m = 1; potem dla i = k−2 … 0: nowe p = q[i] · p + m, nowe m = stare p (bo q[i] + 1/(p/m) = (q[i] · p + m) / p). Tak liczony ułamek wychodzi od razu nieskracalny.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-b-pilka-w-pudelku",
+      "number": 1965,
+      "title": "Piłka w pudełku",
+      "category": "Funkcje / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W prostokątnym pudełku o szerokości W i wysokości H (punkty od (0, 0) do (W, H)) leci piłka. Startuje z punktu (x, y) i co sekundę przesuwa się o vx w poziomie i o vy w pionie (każde to 1 albo −1). Od ścian odbija się idealnie, jak światło od lustra. Gdzie będzie po t sekundach?",
+        "W poziomie i w pionie dzieje się to samo, niezależnie. Gdyby ścian nie było, piłka byłaby w x + vx · t. Odbicia „składają” tę prostą drogę: ruch powtarza się co 2W, a w drugiej połowie okresu piłka wraca. Napisz long long odbij(long long p, long long L) i użyj jej dla obu osi."
+      ],
+      "input_format": [
+        "W pierwszym wierszu W, H i q.",
+        "W każdym z q kolejnych wierszy: x, y, vx, vy i t."
+      ],
+      "output_format": [
+        "q wierszy: współrzędne piłki po t sekundach."
+      ],
+      "constraints": [
+        "1 ≤ W, H ≤ 10⁹, 1 ≤ q ≤ 1000",
+        "0 ≤ x ≤ W, 0 ≤ y ≤ H, vx, vy ∈ {−1, 1}",
+        "0 ≤ t ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "10 5 2\n0 0 1 1 3\n9 4 1 1 3",
+          "output": "3 3\n8 3",
+          "note": "Pierwsza piłka nie dolatuje do ścian: (3, 3). Druga: w poziomie 9 + 3 = 12, czyli 2 za ścianą W = 10 — wraca do 8; w pionie 4 + 3 = 7, czyli 2 za ścianą H = 5 — wraca do 3."
+        }
+      ],
+      "hint": "long long odbij(long long p, long long L) { long long okres = 2 * L; p %= okres; if (p < 0) p += okres; if (p > L) p = okres - p; return p; }. W main: cout << odbij(x + vx * t, W) << \" \" << odbij(y + vy * t, H);. Reszta z dzielenia liczby ujemnej jest w C++ ujemna — stąd poprawka if (p < 0).",
+      "tests_count": 6
+    },
+    {
+      "id": "fun-b-weze-i-drabiny",
+      "number": 1966,
+      "title": "Węże i drabiny",
+      "category": "Funkcje / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Plansza ma pola od 1 do 100, a gracze (od 2 do 4) zaczynają poza planszą — na polu 0. Rzucają po kolei: gracz 1, 2, …, p, znowu 1 i tak dalej. Ruch: nowe pole = pole + rzut; jeśli to więcej niż 100, gracz zostaje, gdzie był. Jeśli gracz stanie na początku drabiny albo na głowie węża, od razu przenosi się na jej koniec (ogon węża).",
+        "Wygrywa ten, kto pierwszy stanie dokładnie na polu 100 — wypisz Gracz g wygrywa w rzucie j (j to numer rzutu w całej grze, od 1). Dalsze rzuty się nie liczą. Jeśli rzuty się skończą, wypisz Nikt nie wygral: i pola wszystkich graczy. Napisz int ruch(int pole, int rzut) korzystającą z globalnej tablicy skok[101]."
+      ],
+      "input_format": [
+        "W pierwszym wierszu p i s — liczba graczy oraz liczba węży i drabin.",
+        "W każdym z s kolejnych wierszy a i b: z pola a przenosimy się na pole b.",
+        "Potem wiersz z n i wiersz z n rzutami."
+      ],
+      "output_format": [
+        "Jeden wiersz z wynikiem gry."
+      ],
+      "constraints": [
+        "2 ≤ p ≤ 4, 0 ≤ s ≤ 20",
+        "2 ≤ a ≤ 99, 1 ≤ b ≤ 100, a ≠ b; wszystkie a są różne i żadne b nie jest początkiem innego węża ani drabiny.",
+        "1 ≤ n ≤ 10⁴, każdy rzut od 1 do 6"
+      ],
+      "examples": [
+        {
+          "input": "2 2\n4 100\n50 5\n4\n1 2 3 6",
+          "output": "Gracz 1 wygrywa w rzucie 3",
+          "note": "Gracz 1: pole 1, gracz 2: pole 2, gracz 1 rzuca 3, staje na 4 i drabina wnosi go na 100 — wygrywa w trzecim rzucie."
+        },
+        {
+          "input": "2 1\n3 22\n6\n2 6 1 6 4 3",
+          "output": "Nikt nie wygral: 26 15",
+          "note": "Gracz 1: 2, potem 3 → drabina na 22, potem 26. Gracz 2: 6, 12, 15. Rzuty się skończyły."
+        }
+      ],
+      "hint": "int ruch(int pole, int rzut) { int nowe = pole + rzut; if (nowe > 100) return pole; if (skok[nowe] != 0) nowe = skok[nowe]; return nowe; }. Pola graczy trzymaj w vector<int> pole(p, 0);. Gracz, który rzuca j-ty rzut (od 0), to j % p. Wyzeruj skok przed wczytaniem węży i drabin.",
+      "tests_count": 9
+    },
+    {
+      "id": "fun-b-dni-robocze",
+      "number": 1967,
+      "title": "Dni robocze",
+      "category": "Funkcje / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Policz dni robocze (od poniedziałku do piątku) między dwiema datami — obie daty wliczają się do przedziału, a mogą być podane w dowolnej kolejności. Świąt nie uwzględniamy.",
+        "Wskazówka do kalendarza: jeśli dni numerujemy od 1 stycznia roku 1 (w kalendarzu gregoriańskim liczonym wstecz) jako dnia numer 1, to dzień numer 1 był poniedziałkiem — więc dni o numerach 1–5 każdego tygodnia (licząc po 7 od początku) są robocze. Napisz long long numerDnia(int d, int m, int r) oraz long long robocze(long long n) — liczbę dni roboczych wśród dni o numerach od 1 do n."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W każdym z q kolejnych wierszy dwie daty: d₁ m₁ r₁ d₂ m₂ r₂."
+      ],
+      "output_format": [
+        "q wierszy: liczba dni roboczych w przedziale."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "Daty są poprawne, lata od 1 do 9999."
+      ],
+      "examples": [
+        {
+          "input": "3\n20 11 2026 20 11 2026\n16 11 2026 22 11 2026\n22 11 2026 16 11 2026",
+          "output": "1\n5\n5",
+          "note": "20 listopada 2026 to piątek — 1 dzień roboczy. Od poniedziałku 16 do niedzieli 22 listopada jest ich 5, w obie strony."
+        }
+      ],
+      "hint": "robocze(n) = 5 · (n / 7) + min(n % 7, 5) — pełne tygodnie dają po 5 dni, a z niepełnego liczą się najwyżej pierwsze 5 dni. Odpowiedź to robocze(b) - robocze(a - 1), gdzie a ≤ b to numery dni. Przedział może mieć miliony dni, a pytań jest tysiąc — liczenie dzień po dniu byłoby za wolne.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-b-ksiazki",
+      "number": 1968,
+      "title": "Przepisywanie książek",
+      "category": "Funkcje / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W klasztorze trzeba przepisać n książek stojących w rzędzie; i-ta ma pᵢ stron. Jest k skrybów. Każdy dostaje spójny kawałek rzędu (kilka kolejnych książek, co najmniej jedną), a każda książka trafia do dokładnie jednego skryby.",
+        "Podziel książki tak, żeby najbardziej obciążony skryba miał jak najmniej stron, i wypisz tę liczbę. Napisz bool daSie(const vector<long long> &p, int k, long long limit) — czy da się podzielić książki tak, żeby nikt nie dostał więcej niż limit stron — i znajdź najmniejszy dobry limit wyszukiwaniem binarnym."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n i k.",
+        "W drugim wierszu n liczb pᵢ."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejsze możliwe obciążenie najbardziej zajętego skryby."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 10⁴",
+        "1 ≤ pᵢ ≤ 10⁵"
+      ],
+      "examples": [
+        {
+          "input": "5 2\n10 20 30 40 50",
+          "output": "90",
+          "note": "Podział 10 20 30 | 40 50 daje 60 i 90 stron. Każdy inny podział daje komuś więcej niż 90 (np. 10 20 30 40 | 50 to 100)."
+        }
+      ],
+      "hint": "daSie: idź po książkach i dokładaj je obecnemu skrybie; gdy następna przekroczyłaby limit — zacznij nowego skrybę. Jeśli wystarczy najwyżej k skrybów (i żadna książka sama nie przekracza limitu), odpowiedź brzmi tak. Im większy limit, tym łatwiej, więc szukaj binarnie między największą książką a sumą wszystkich.",
+      "tests_count": 10
+    },
+    {
+      "id": "fun-b-general",
+      "number": 1969,
+      "title": "Generał w kości",
+      "category": "Funkcje / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W grze w generała rzuca się pięcioma kośćmi i wybiera kategorię. Punkty: JEDYNKI, DWOJKI, TROJKI, CZWORKI, PIATKI, SZOSTKI — suma kości z tą liczbą oczek; TRZY — suma wszystkich kości, jeśli jakaś liczba oczek wypadła co najmniej 3 razy (inaczej 0); CZTERY — tak samo dla co najmniej 4 razy; FULL — 25 za trzy jednakowe i dwie inne jednakowe; MALYSTRIT — 30 za cztery kolejne liczby (1–4, 2–5 albo 3–6); DUZYSTRIT — 40 za pięć kolejnych; GENERAL — 50 za pięć jednakowych; SZANSA — suma wszystkich kości.",
+        "Dla każdego rzutu wypisz najlepiej punktowaną kategorię i jej punkty. Przy remisie wybierz kategorię wymienioną wcześniej (w kolejności z listy powyżej). Napisz int ile(const vector<int> &k, int oczka), int punkty(const vector<int> &k, int kategoria) i funkcje-pomocniki dla fulla i stritów."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy pięć liczb od 1 do 6."
+      ],
+      "output_format": [
+        "t wierszy: nazwa kategorii i liczba punktów."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "4\n1 1 1 2 2\n2 3 4 5 6\n6 6 6 5 5\n1 3 4 2 6",
+          "output": "FULL 25\nDUZYSTRIT 40\nTRZY 28\nMALYSTRIT 30",
+          "note": "Full za 25 bije trójkę (7). Duży strit to 40. W 6 6 6 5 5 trójka daje 28 — więcej niż full; szansa też daje 28, ale stoi dalej na liście. W ostatnim rzucie są 1, 2, 3, 4 — mały strit."
+        }
+      ],
+      "hint": "Trzymaj nazwy w tablicy string NAZWY[13] = {\"JEDYNKI\", …, \"SZANSA\"}; i napisz punkty(k, nr) z if-ami po numerze kategorii. Najlepsza: int naj = 0; for (int c = 1; c < 13; c++) if (punkty(k, c) > punkty(k, naj)) naj = c; — znak > zostawia wcześniejszą przy remisie. Mały strit: sprawdź trzy możliwe początki 1, 2 i 3 funkcją bool maKolejne(k, od, dl).",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-b-szach",
+      "number": 1970,
+      "title": "Szach!",
+      "category": "Funkcje / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Szachownica ma 8 wierszy po 8 pól (wiersz 0 na górze). Pole puste to kropka. Figury białe to wielkie litery, czarne — małe: K — król, H — hetman, W — wieża, G — goniec, S — skoczek, P — pion. Na planszy jest dokładnie jeden biały i jeden czarny król.",
+        "Wieża atakuje w pionie i poziomie, goniec po skosach, hetman na oba sposoby — każde z nich aż do pierwszej figury na drodze (tę figurę też atakuje). Skoczek atakuje pola o ruch „literą L”, król — 8 sąsiednich pól. Biały pion atakuje dwa pola po skosie w górę (wiersz o 1 mniejszy), czarny — po skosie w dół.",
+        "Dla każdej planszy wypisz BIALY, jeśli atakowany jest tylko biały król, CZARNY — tylko czarny, OBA albo BRAK. Napisz bool atakowane(int r, int c, bool przezBiale) i pomocnicze funkcje."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "Każda plansza to 8 wierszy po 8 znaków."
+      ],
+      "output_format": [
+        "t wierszy z odpowiedziami."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100"
+      ],
+      "examples": [
+        {
+          "input": "2\n....k...\n........\n..G.....\n........\n........\n........\n........\n....K...\n....k...\n....w...\n........\n........\n....P...\n........\n........\n....K...",
+          "output": "CZARNY\nBRAK",
+          "note": "Na pierwszej planszy biały goniec atakuje czarnego króla po skosie. Na drugiej czarna wieża patrzy w dół kolumny, ale zasłania ją biały pion — nikt nie jest szachowany."
+        }
+      ],
+      "hint": "bool promien(int r, int c, int dr, int dc, char a, char b) { r += dr; c += dc; while (naPlanszy(r, c)) { if (p[r][c] != '.') return p[r][c] == a || p[r][c] == b; r += dr; c += dc; } return false; } — pierwsza figura na drodze decyduje. Dla ataku białych: wieża/hetman w 4 prostych kierunkach to promien(…, 'W', 'H'), goniec/hetman po skosach — promien(…, 'G', 'H'). Biały pion atakuje pole (r, c), jeśli stoi na (r + 1, c ± 1).",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-b-mastermind-ile",
+      "number": 1971,
+      "title": "Mastermind od tyłu",
+      "category": "Funkcje / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Gracz w Mastermind (kody z 4 cyfr od 1 do 6, ocena: czarne i białe jak w zadaniu Mastermind) zapisał swoje strzały i oceny, które dostał. Policz, ile tajnych kodów jest zgodnych ze wszystkimi ocenami naraz, i podaj najmniejszy z nich (jako liczbę).",
+        "Napisz pair<int, int> ocen(const string &kod, const string &strzal) oraz bool pasuje(const string &kod, …), która sprawdza kod ze wszystkimi strzałami. Kodów jest tylko 6⁴ = 1296 — można sprawdzić każdy."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "Każdy test: wiersz z n i n wierszy: strzał, liczba czarnych, liczba białych."
+      ],
+      "output_format": [
+        "t wierszy: liczba pasujących kodów i najmniejszy z nich albo samo 0, gdy żaden nie pasuje."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 20",
+        "1 ≤ n ≤ 10"
+      ],
+      "examples": [
+        {
+          "input": "1\n3\n1234 2 0\n1256 1 1\n6543 0 2",
+          "output": "14 1135",
+          "note": "Pasuje 14 kodów, a najmniejszy z nich to 1135: dwie cyfry na miejscu przy 1234, jedna na miejscu i jedna nie przy 1256, dwie nie na miejscu przy 6543."
+        }
+      ],
+      "hint": "Kody wygeneruj czterema pętlami for (a = 1..6) … i złóż napis: string kod = {char('0' + a), char('0' + b), …};. Idąc w tej kolejności, pierwszy pasujący kod jest od razu najmniejszy. bool pasuje(…) zwraca false przy pierwszym strzale, którego ocena się nie zgadza.",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-b-fibonacci-macierz",
+      "number": 1972,
+      "title": "Olbrzymi Fibonacci",
+      "category": "Funkcje / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ciąg Fibonacciego: F(0) = 0, F(1) = 1, F(n) = F(n − 1) + F(n − 2). Dla każdego zapytania n wypisz F(n) mod 1 000 000 007.",
+        "Przyda się sztuczka: macierz M = [[1, 1], [1, 0]] podniesiona do potęgi n to [[F(n + 1), F(n)], [F(n), F(n − 1)]]. Napisz vector<vector<long long>> mnoz(const vector<vector<long long>> &a, const vector<vector<long long>> &b) (iloczyn macierzy 2 × 2 modulo 10⁹ + 7) i funkcję, która podnosi macierz do potęgi n szybkim potęgowaniem (kwadrat i mnożenie przy jedynkach w zapisie dwójkowym n)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W drugim wierszu q liczb n."
+      ],
+      "output_format": [
+        "q wierszy: F(n) mod 1 000 000 007."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "0 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "4\n0 1 10 100",
+          "output": "0\n1\n55\n687995182",
+          "note": "F(10) = 55. F(100) ma 21 cyfr — jego reszta z dzielenia przez 1 000 000 007 to 687995182."
+        }
+      ],
+      "hint": "Element iloczynu: c[i][j] = (a[i][0] * b[0][j] + a[i][1] * b[1][j]) % MOD — każdy iloczyn jest mniejszy niż 10¹⁸ + 1, więc suma dwóch mieści się w long long. Potęga: wynik = macierz jednostkowa [[1, 0], [0, 1]]; while (n > 0) { if (n % 2 == 1) wynik = mnoz(wynik, m); m = mnoz(m, m); n /= 2; }. Odpowiedź to wynik[0][1].",
+      "tests_count": 5
+    },
+    {
+      "id": "fun-b-punkt-w-wielokacie",
+      "number": 1973,
+      "title": "Punkt w wielokącie",
+      "category": "Funkcje / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Działka ma kształt wielokąta o n wierzchołkach (podanych po kolei, boki się nie przecinają). Dla każdego z q punktów wypisz WEWNATRZ, NA BRZEGU albo NA ZEWNATRZ.",
+        "Metoda promienia: z punktu puść poziomą półprostą w prawo i policz, ile boków przetnie — nieparzysta liczba znaczy, że punkt jest w środku. Bok (a, b) liczymy, gdy jeden koniec leży ostro powyżej wysokości punktu, a drugi nie (wtedy wierzchołki na wysokości punktu liczą się dobrze), i gdy przecięcie leży na prawo od punktu. Zanim zaczniesz liczyć, sprawdź funkcją bool naOdcinku(…), czy punkt nie leży na którymś boku."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n, potem n wierszy z wierzchołkami x y.",
+        "Następnie q i q wierszy z punktami x y."
+      ],
+      "output_format": [
+        "q wierszy: WEWNATRZ, NA BRZEGU albo NA ZEWNATRZ."
+      ],
+      "constraints": [
+        "3 ≤ n ≤ 1000, 1 ≤ q ≤ 1000",
+        "−10⁴ ≤ wszystkie współrzędne ≤ 10⁴"
+      ],
+      "examples": [
+        {
+          "input": "4\n0 0\n4 0\n4 4\n0 4\n3\n2 2\n4 1\n5 2",
+          "output": "WEWNATRZ\nNA BRZEGU\nNA ZEWNATRZ",
+          "note": "Kwadrat 4 × 4: punkt (2, 2) jest w środku, (4, 1) na prawym boku, a (5, 2) poza kwadratem."
+        }
+      ],
+      "hint": "naOdcinku(a, b, p): iloczyn wektorowy (b − a) × (p − a) równy 0 i p w prostokącie wyznaczonym przez a i b. Przecięcie: if ((a.y > p.y) != (b.y > p.y)) — x przecięcia to a.x + (p.y − a.y)(b.x − a.x)/(b.y − a.y); żeby nie dzielić, porównaj (p.x − a.x)(b.y − a.y) z (p.y − a.y)(b.x − a.x), pamiętając, że przy ujemnym b.y − a.y nierówność się odwraca.",
+      "tests_count": 8
+    },
+    {
+      "id": "fun-b-final-automat",
+      "number": 1974,
+      "title": "Wielki finał: automat z przekąskami",
+      "category": "Funkcje / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Symulujesz automat z przekąskami. Kwoty są w groszach, a wypisuje się je jako złote z dwiema cyframi po kropce (250 → 2.50). Monety: 10, 20, 50, 100, 200 i 500 groszy. Polecenia:",
+        "TOWAR kod nazwa cena ilosc — nowy towar w przegródce kod. MONETY a b c d e f — serwisant dokłada monety (kolejno a sztuk po 10 gr, b po 20 gr, …, f po 500 gr). WRZUC m — klient wrzuca monetę m; trafia ona od razu do automatu, a kredyt rośnie o m. (Te trzy polecenia niczego nie wypisują.)",
+        "WYBIERZ kod — jeśli takiego towaru nie ma albo się skończył: BRAK TOWARU; jeśli kredyt jest mniejszy od ceny: ZA MALO, brakuje X.XX; w przeciwnym razie automat wydaje resztę (kredyt − cena) zachłannie: zawsze największą monetą, jaką ma i która nie przekracza pozostałej kwoty. Jeśli tak się nie da wydać dokładnie: NIE MOGE WYDAC RESZTY (nic się nie zmienia). Jeśli się da: towar ubywa, kredyt spada do 0 i wypisz WYDANO nazwa albo — gdy jest reszta — WYDANO nazwa, reszta X.XX: i wydane monety od największej.",
+        "ZWROT — jeśli kredyt to 0: NIC DO ZWROTU; inaczej automat oddaje kredyt tak samo zachłannie: ZWROT X.XX: monety, albo NIE MOGE ZWROCIC, gdy się nie da. STAN — kredyt X.XX, monety: 10xA 20xB 50xC 100xD 200xE 500xF. RAPORT — dla każdego towaru w kolejności kodów: kod nazwa cena x ilosc (albo BRAK TOWAROW)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W każdym z q kolejnych wierszy jedno polecenie."
+      ],
+      "output_format": [
+        "Wiersze wypisywane przez polecenia, w kolejności."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "Kody: litera A–F i cyfra 1–9, różne dla różnych towarów; nazwy: od 1 do 15 małych liter.",
+        "Ceny to wielokrotności 10 od 10 do 2000, ilości od 1 do 20; w MONETY każda liczba od 0 do 50.",
+        "Kredyt nigdy nie przekracza 5000 groszy. Program wypisuje co najmniej jeden wiersz."
+      ],
+      "examples": [
+        {
+          "input": "9\nTOWAR A1 baton 250 2\nMONETY 0 2 1 0 0 0\nWRZUC 200\nWYBIERZ A1\nWRZUC 100\nWYBIERZ A1\nSTAN\nWYBIERZ B7\nRAPORT",
+          "output": "ZA MALO, brakuje 0.50\nWYDANO baton, reszta 0.50: 50\nkredyt 0.00, monety: 10x0 20x2 50x0 100x1 200x1 500x0\nBRAK TOWARU\nA1 baton 2.50 x 1",
+          "note": "Po 2.00 zł brakuje 0.50. Po dorzuceniu 1 zł kredyt to 3.00, reszta 0.50 — automat ma monetę 50 gr. Kredyt znowu jest zerowy, a monety: 2 po 20 gr, 1 po 2 zł i 1 po 1 zł."
+        }
+      ],
+      "hint": "Stan: int monety[6]; const int NOM[6] = {10, 20, 50, 100, 200, 500}; long long kredyt; i mapy map<string, string> nazwa; map<string, int> cena, ilosc;. Najważniejsza funkcja: bool wydaj(long long kwota, vector<int> &wydane) — liczy na kopii licznika monet, a monety z automatu zabiera dopiero wtedy, gdy uda się wydać całą kwotę. string zl(long long gr) zamienia grosze na tekst X.XX.",
+      "tests_count": 8
     }
   ]
 }

@@ -64495,6 +64495,2992 @@
       ],
       "hint": "Stan: int monety[6]; const int NOM[6] = {10, 20, 50, 100, 200, 500}; long long kredyt; i mapy map<string, string> nazwa; map<string, int> cena, ilosc;. Najważniejsza funkcja: bool wydaj(long long kwota, vector<int> &wydane) — liczy na kopii licznika monet, a monety z automatu zabiera dopiero wtedy, gdy uda się wydać całą kwotę. string zl(long long gr) zamienia grosze na tekst X.XX.",
       "tests_count": 8
+    },
+    {
+      "id": "rk-odliczanie-co-k",
+      "number": 1975,
+      "title": "Odliczanie co k",
+      "category": "Rekurencja / krok 1: pierwsza rekurencja",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Kontrola lotów odlicza przed startem rakiety, ale nie co 1, tylko co k: n, n − k, n − 2k, … Wypisuje tylko liczby dodatnie. Gdy kolejna liczba byłaby zerem albo liczbą ujemną, zamiast niej pada komenda Start!.",
+        "Napisz funkcję rekurencyjną void odliczaj(int n, int k), która wypisuje n i wywołuje samą siebie dla n − k. Pomyśl, jaki warunek stopu zadziała także wtedy, gdy odliczanie „przeskoczy” zero. Funkcja nie może mieć w środku żadnej pętli."
+      ],
+      "input_format": [
+        "W jedynym wierszu dwie liczby całkowite n i k."
+      ],
+      "output_format": [
+        "Kolejne dodatnie liczby odliczania, każda w osobnym wierszu, a w ostatnim wierszu napis Start!"
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 3000",
+        "1 ≤ k ≤ 3000"
+      ],
+      "examples": [
+        {
+          "input": "10 3",
+          "output": "10\n7\n4\n1\nStart!",
+          "note": "10, 7, 4, 1 — następna byłaby −2, więc zamiast niej Start!. Z warunkiem stopu n == 0 funkcja minęłaby zero i schodziłaby w nieskończoność: −2, −5, −8, …"
+        },
+        {
+          "input": "6 2",
+          "output": "6\n4\n2\nStart!",
+          "note": "Tu odliczanie trafia dokładnie w zero: 6, 4, 2, a potem Start!."
+        }
+      ],
+      "hint": "void odliczaj(int n, int k) { if (n <= 0) { cout << \"Start!\\n\"; return; } cout << n << \"\\n\"; odliczaj(n - k, k); }. Warunek n <= 0 łapie i zero, i „przeskoczenie” poniżej zera. W main wystarczy wczytać n, k i wywołać odliczaj(n, k);.",
+      "tests_count": 10
+    },
+    {
+      "id": "rk-polowki",
+      "number": 1976,
+      "title": "Pół na pół",
+      "category": "Rekurencja / krok 1: pierwsza rekurencja",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Bajtek ma tabliczkę czekolady o masie n gramów. Dzieli ją na pół, połowę zjada, a resztę znowu dzieli na pół… Przy dzieleniu okruszki odpadają, czyli dzieli całkowicie (tak jak / w C++). Kończy, gdy zostaje mu kawałek o masie 1.",
+        "Wypisz masy kolejnych kawałków: n, n / 2, n / 4, …, 1. Napisz funkcję rekurencyjną void polowki(long long n), która wypisuje n i — jeśli to jeszcze nie 1 — wywołuje samą siebie dla n / 2. Bez pętli."
+      ],
+      "input_format": [
+        "W jedynym wierszu liczba całkowita n."
+      ],
+      "output_format": [
+        "W jednym wierszu kolejne masy od n do 1, oddzielone spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "100",
+          "output": "100 50 25 12 6 3 1",
+          "note": "100 → 50 → 25 → 12 (okruszek odpada) → 6 → 3 → 1."
+        }
+      ],
+      "hint": "void polowki(long long n) { cout << n; if (n == 1) return; cout << \" \"; polowki(n / 2); }. Stop przy n == 1 jest bezpieczny: dla n ≥ 2 wynik n / 2 to co najmniej 1, więc nie da się go przeskoczyć. Głębokość rekurencji to tylko około 60 — tyle razy da się podzielić 10¹⁸ przez 2. Wczytuj do long long.",
+      "tests_count": 9
+    },
+    {
+      "id": "rk-podwajanie",
+      "number": 1977,
+      "title": "Ziarenka na szachownicy",
+      "category": "Rekurencja / krok 1: pierwsza rekurencja",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Legenda mówi, że wynalazca szachów poprosił króla o ziarenka ryżu: 1 na pierwszym polu szachownicy, 2 na drugim, 4 na trzecim — na każdym kolejnym dwa razy więcej. Król ma w spichlerzu worki po n ziarenek i chce wiedzieć, ile pól obsłuży jeden worek.",
+        "Wypisz wszystkie liczby 1, 2, 4, 8, … nie większe niż n. Napisz funkcję rekurencyjną void ziarenka(long long x, long long n), która wypisuje x i wywołuje samą siebie dla 2 · x. Warunek stopu: x > n."
+      ],
+      "input_format": [
+        "W jedynym wierszu liczba całkowita n."
+      ],
+      "output_format": [
+        "W jednym wierszu wszystkie potęgi dwójki nie większe niż n, rosnąco, oddzielone spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "20",
+          "output": "1 2 4 8 16",
+          "note": "1, 2, 4, 8, 16 — następna byłaby 32 > 20."
+        }
+      ],
+      "hint": "W main: ziarenka(1, n);. W funkcji najpierw stop: if (x > n) return;, potem cout << x << \" \"; i ziarenka(2 * x, n);. Krok to mnożenie, a nie odejmowanie — ważne tylko, żeby każdy krok zbliżał do stopu. Wszystko w long long: 2 · x dochodzi do 2 · 10¹⁸, a long long sięga około 9,2 · 10¹⁸.",
+      "tests_count": 9
+    },
+    {
+      "id": "rk-winda",
+      "number": 1978,
+      "title": "Winda",
+      "category": "Rekurencja / krok 1: pierwsza rekurencja",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Winda w wieżowcu ogłasza numer każdego piętra, które mija — także piętra, z którego rusza, i tego, na którym staje. Piętra mogą mieć numery ujemne (to parkingi pod ziemią).",
+        "Wczytaj a i b i wypisz numery pięter, przez które przejedzie winda z piętra a na piętro b. Napisz funkcję rekurencyjną void jedz(int a, int b): wypisuje a, a jeśli to jeszcze nie b — wywołuje samą siebie dla piętra o jeden bliżej celu."
+      ],
+      "input_format": [
+        "W jedynym wierszu dwie liczby całkowite a i b."
+      ],
+      "output_format": [
+        "W jednym wierszu numery kolejnych pięter od a do b, oddzielone spacjami."
+      ],
+      "constraints": [
+        "−1000 ≤ a, b ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "3 7",
+          "output": "3 4 5 6 7"
+        },
+        {
+          "input": "2 -2",
+          "output": "2 1 0 -1 -2",
+          "note": "Winda jedzie w dół: 2, 1, 0, −1, −2."
+        }
+      ],
+      "hint": "void jedz(int a, int b) { cout << a; if (a == b) return; cout << \" \"; if (a < b) jedz(a + 1, b); else jedz(a - 1, b); }. Gdy a == b, winda stoi — wypisuje jedno piętro. Każdy krok zmniejsza odległość między a i b o 1, więc stop na pewno nastąpi.",
+      "tests_count": 9
+    },
+    {
+      "id": "rk-echo",
+      "number": 1979,
+      "title": "Echo w górach",
+      "category": "Rekurencja / krok 1: pierwsza rekurencja",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W górach Bajtek krzyczy słowo s. Echo powtarza je kilka razy, ale za każdym razem cichnie i gubi ostatnią literę: najpierw słychać całe słowo, potem bez ostatniej litery, potem bez dwóch ostatnich… aż zostaje sama pierwsza litera.",
+        "Wypisz wszystkie powtórzenia echa, każde w osobnym wierszu. Napisz funkcję rekurencyjną void echo(string s, int k), która wypisuje pierwsze k liter słowa i wywołuje samą siebie dla k − 1."
+      ],
+      "input_format": [
+        "W jedynym wierszu słowo s złożone z wielkich liter."
+      ],
+      "output_format": [
+        "|s| wierszy: pierwsze |s| liter, pierwsze |s| − 1 liter, …, pierwsza litera."
+      ],
+      "constraints": [
+        "1 ≤ |s| ≤ 100"
+      ],
+      "examples": [
+        {
+          "input": "HALO",
+          "output": "HALO\nHAL\nHA\nH"
+        }
+      ],
+      "hint": "void echo(string s, int k) { if (k == 0) return; cout << s.substr(0, k) << \"\\n\"; echo(s, k - 1); }, a w main: echo(s, s.size());. Słowo jest krótkie, więc kopiowanie go przy każdym wywołaniu niczemu tu nie szkodzi — w części 4 zobaczysz, kiedy zaczyna szkodzić.",
+      "tests_count": 7
+    },
+    {
+      "id": "rk-plotek",
+      "number": 1980,
+      "title": "Płotek z dwóch znaków",
+      "category": "Rekurencja / krok 1: pierwsza rekurencja",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Bajtek rysuje w zeszycie płotek: sztacheta, przerwa, sztacheta, przerwa… Zamiast sztachet i przerw może użyć dowolnych dwóch znaków.",
+        "Wczytaj n oraz dwa znaki a i b i wypisz n znaków na zmianę: a, b, a, b, … (zaczynając od a). Napisz funkcję rekurencyjną void plotek(int n, char a, char b), która wypisuje a i wywołuje samą siebie dla n − 1 — z zamienionymi znakami."
+      ],
+      "input_format": [
+        "W jedynym wierszu liczba n i dwa znaki a oraz b, oddzielone spacjami."
+      ],
+      "output_format": [
+        "W jednym wierszu n znaków bez spacji."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "a i b to widoczne znaki ASCII (litery, cyfry albo znaki takie jak | - # * + o)."
+      ],
+      "examples": [
+        {
+          "input": "7 | -",
+          "output": "|-|-|-|",
+          "note": "W każdym wywołaniu znaki zamieniają się miejscami, więc kolejne wywołania wypisują |, -, |, -, …"
+        }
+      ],
+      "hint": "void plotek(int n, char a, char b) { if (n == 0) return; cout << a; plotek(n - 1, b, a); }. Najważniejsze jest plotek(n - 1, b, a) — w następnym wywołaniu „pierwszym” znakiem jest b. Znaki wczytaj zwykłym cin >> a >> b; (cin pomija spacje).",
+      "tests_count": 7
+    },
+    {
+      "id": "rk-tabliczka",
+      "number": 1981,
+      "title": "Tabliczka mnożenia",
+      "category": "Rekurencja / krok 1: pierwsza rekurencja",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Mała Ola uczy się tabliczki mnożenia. Poprosiła Cię o ściągę dla liczby k: wiersze k x 1 = …, k x 2 = …, aż do k x n.",
+        "Napisz funkcję rekurencyjną void tabliczka(int i, int n, long long k), która wypisuje wiersz dla i i wywołuje samą siebie dla i + 1. Zatrzymaj się po wierszu dla n. Bez pętli."
+      ],
+      "input_format": [
+        "W jedynym wierszu dwie liczby całkowite k i n."
+      ],
+      "output_format": [
+        "n wierszy w formacie k x i = wynik, dla i = 1, 2, …, n."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ 10⁹",
+        "1 ≤ n ≤ 500"
+      ],
+      "examples": [
+        {
+          "input": "7 4",
+          "output": "7 x 1 = 7\n7 x 2 = 14\n7 x 3 = 21\n7 x 4 = 28"
+        }
+      ],
+      "hint": "void tabliczka(int i, int n, long long k) { if (i > n) return; cout << k << \" x \" << i << \" = \" << k * i << \"\\n\"; tabliczka(i + 1, n, k); }, a w main tabliczka(1, n, k);. Porównaj z pętlą for (int i = 1; i <= n; i++): start (1) to argument pierwszego wywołania, odwrócony warunek (i > n) to warunek stopu, a i++ to argument i + 1. Iloczyn sięga 5 · 10¹¹ — long long.",
+      "tests_count": 6
+    },
+    {
+      "id": "rk-skarbonka",
+      "number": 1982,
+      "title": "Skarbonka",
+      "category": "Rekurencja / krok 1: pierwsza rekurencja",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Bajtek wrzuca do skarbonki monety. Licznik na skarbonce po każdej monecie pokazuje, ile pieniędzy jest w środku. Moneta o wartości 0 oznacza koniec wrzucania.",
+        "Napisz funkcję rekurencyjną void skarbonka(long long suma), która wczytuje jedną monetę: jeśli to 0 — kończy; inaczej wypisuje nowy stan skarbonki i wywołuje samą siebie z nową sumą. W main wystarczy skarbonka(0);."
+      ],
+      "input_format": [
+        "Ciąg liczb całkowitych dodatnich zakończony zerem (liczby mogą stać w kilku wierszach)."
+      ],
+      "output_format": [
+        "Po jednym wierszu na każdą monetę (bez kończącego zera): stan skarbonki zaraz po jej wrzuceniu."
+      ],
+      "constraints": [
+        "W ciągu jest od 1 do 2000 monet (nie licząc zera).",
+        "Każda moneta ma wartość od 1 do 500."
+      ],
+      "examples": [
+        {
+          "input": "5 2 1\n5 0",
+          "output": "5\n7\n8\n13",
+          "note": "Stan skarbonki: 5, potem 5 + 2 = 7, 8 i 13. Zero kończy wrzucanie."
+        }
+      ],
+      "hint": "void skarbonka(long long suma) { int x; cin >> x; if (x == 0) return; suma += x; cout << suma << \"\\n\"; skarbonka(suma); }. Każde wywołanie ma własną zmienną x i własną sumę — to, co trzeba pamiętać dalej, przekazujesz następnemu wywołaniu jako argument.",
+      "tests_count": 6
+    },
+    {
+      "id": "rk-matrioszki",
+      "number": 1983,
+      "title": "Matrioszki",
+      "category": "Rekurencja / krok 2: przed i po wywołaniu",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W pudełku stoi n matrioszek, jedna w drugiej: największa ma numer n, najmniejsza — 1. Bajtek otwiera je po kolei od największej. Najmniejsza lalka się nie otwiera — gdy do niej dojdzie, składa wszystkie z powrotem.",
+        "Wypisz, co robi Bajtek. Napisz jedną funkcję rekurencyjną void lalka(int k): dla k = 1 wypisuje najmniejsza; dla większego k najpierw wypisuje otwieram k, potem wywołuje lalka(k − 1), a na końcu wypisuje zamykam k."
+      ],
+      "input_format": [
+        "W jedynym wierszu n."
+      ],
+      "output_format": [
+        "2n − 1 wierszy: otwieram n, …, otwieram 2, najmniejsza, zamykam 2, …, zamykam n."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 500"
+      ],
+      "examples": [
+        {
+          "input": "3",
+          "output": "otwieram 3\notwieram 2\nnajmniejsza\nzamykam 2\nzamykam 3",
+          "note": "zamykam 2 wypisuje się przed zamykam 3, bo wywołanie dla 2 kończy się wcześniej niż wywołanie dla 3, które na nie czekało."
+        }
+      ],
+      "hint": "void lalka(int k) { if (k == 1) { cout << \"najmniejsza\\n\"; return; } cout << \"otwieram \" << k << \"\\n\"; lalka(k - 1); cout << \"zamykam \" << k << \"\\n\"; }. Linijka po wywołaniu wykonuje się dopiero wtedy, gdy wszystkie mniejsze lalki są już zamknięte.",
+      "tests_count": 6
+    },
+    {
+      "id": "rk-wspak-do-zera",
+      "number": 1984,
+      "title": "Od końca, bez tablicy",
+      "category": "Rekurencja / krok 2: przed i po wywołaniu",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Kasjerka nabija na szpikulec kolejne paragony, a wieczorem zdejmuje je od góry — czyli od ostatniego. Wczytuj liczby, aż trafisz na 0, i wypisz je w odwrotnej kolejności (bez zera).",
+        "Nie używaj tablicy ani vectora. Napisz funkcję rekurencyjną void wspak(), która wczytuje jedną liczbę i — jeśli to nie zero — najpierw wywołuje samą siebie, a dopiero potem wypisuje swoją liczbę."
+      ],
+      "input_format": [
+        "Ciąg liczb całkowitych różnych od zera, zakończony zerem (w jednym albo kilku wierszach)."
+      ],
+      "output_format": [
+        "W jednym wierszu wczytane liczby (bez zera) w odwrotnej kolejności, oddzielone spacjami."
+      ],
+      "constraints": [
+        "Liczb (bez zera) jest od 1 do 3000.",
+        "Każda z nich ma wartość bezwzględną od 1 do 999."
+      ],
+      "examples": [
+        {
+          "input": "3 -8 12\n5 0",
+          "output": "5 12 -8 3",
+          "note": "Ostatnia wczytana liczba (5) wypisuje się pierwsza, bo jej wywołanie kończy się najwcześniej."
+        }
+      ],
+      "hint": "void wspak() { int x; cin >> x; if (x == 0) return; wspak(); cout << x << \" \"; }. Każde wywołanie ma własne x i czeka, aż skończą się wszystkie późniejsze — dlatego liczby wypisują się od ostatniej. Stos wywołań działa tu jak tablica, której nie musiałeś deklarować.",
+      "tests_count": 6
+    },
+    {
+      "id": "rk-lustro",
+      "number": 1985,
+      "title": "Lustro",
+      "category": "Rekurencja / krok 2: przed i po wywołaniu",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Bajtek przykłada lusterko do końca słowa i widzi słowo razem z jego odbiciem: z kot robi się kottok.",
+        "Wypisz słowo s, a zaraz za nim (bez spacji) to samo słowo czytane od tyłu. Napisz funkcję rekurencyjną void lustro(const string &s, int i), która wypisuje s[i] przed wywołaniem lustro(s, i + 1) i jeszcze raz po nim."
+      ],
+      "input_format": [
+        "W jedynym wierszu słowo s z małych liter."
+      ],
+      "output_format": [
+        "W jedynym wierszu napis o długości 2 · |s|."
+      ],
+      "constraints": [
+        "1 ≤ |s| ≤ 10 000"
+      ],
+      "examples": [
+        {
+          "input": "kot",
+          "output": "kottok"
+        }
+      ],
+      "hint": "void lustro(const string &s, int i) { if (i == (int)s.size()) return; cout << s[i]; lustro(s, i + 1); cout << s[i]; }, a w main lustro(s, 0);. Zapis const string &s sprawia, że wszystkie wywołania pracują na tym samym napisie — bez kopiowania 10 000 liter na każdym z 10 000 poziomów.",
+      "tests_count": 7
+    },
+    {
+      "id": "rk-cyfry-slownie",
+      "number": 1986,
+      "title": "Cyfry słownie",
+      "category": "Rekurencja / krok 2: przed i po wywołaniu",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Automat w banku odczytuje numery kont cyfra po cyfrze. Dla każdej z t liczb wypisz jej cyfry słownie, od pierwszej do ostatniej. Słowa (bez polskich znaków): zero, jeden, dwa, trzy, cztery, piec, szesc, siedem, osiem, dziewiec.",
+        "Napisz funkcję rekurencyjną void slownie(long long n): dla liczby jednocyfrowej wypisuje jej słowo, a dla większej — najpierw wywołuje slownie(n / 10), a potem dopisuje spację i słowo ostatniej cyfry."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "t wierszy: słowa cyfr kolejnych liczb, oddzielone pojedynczymi spacjami."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100",
+        "0 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "3\n4821\n0\n105",
+          "output": "cztery osiem dwa jeden\nzero\njeden zero piec",
+          "note": "Dla 105 zero w środku nie znika, bo stop jest przy n < 10, a nie przy n == 0."
+        }
+      ],
+      "hint": "Tablica słów: string S[10] = {\"zero\", \"jeden\", \"dwa\", \"trzy\", \"cztery\", \"piec\", \"szesc\", \"siedem\", \"osiem\", \"dziewiec\"};. W funkcji: if (n < 10) { cout << S[n]; return; } slownie(n / 10); cout << \" \" << S[n % 10];. Warunek stopu n < 10 sprawia, że liczba 0 też dostaje swoje słowo.",
+      "tests_count": 4
+    },
+    {
+      "id": "rk-bloki",
+      "number": 1987,
+      "title": "Zagnieżdżone bloki",
+      "category": "Rekurencja / krok 2: przed i po wywołaniu",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Programista zagnieżdża bloki kodu n razy, każdy w środku poprzedniego. Poziom k zajmuje dwa wiersze: wiersz otwierający poziom k { i — po wszystkich głębszych poziomach — wiersz zamykający }. Oba wiersze poziomu k są wcięte o 2 · (k − 1) spacji.",
+        "Napisz funkcję rekurencyjną void blok(int k, int n): wypisuje wiersz otwierający, jeśli k < n — wywołuje blok(k + 1, n), a potem wypisuje wiersz zamykający. Spacje wcięcia też możesz wypisywać rekurencyjnie, osobną funkcją."
+      ],
+      "input_format": [
+        "W jedynym wierszu n."
+      ],
+      "output_format": [
+        "2n wierszy opisanych w treści (z wcięciami ze spacji)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 50"
+      ],
+      "examples": [
+        {
+          "input": "3",
+          "output": "poziom 1 {\n  poziom 2 {\n    poziom 3 {\n    }\n  }\n}"
+        }
+      ],
+      "hint": "void spacje(int ile) { if (ile == 0) return; cout << ' '; spacje(ile - 1); }. W blok(k, n): spacje(2 * (k - 1)); cout << \"poziom \" << k << \" {\\n\"; if (k < n) blok(k + 1, n); spacje(2 * (k - 1)); cout << \"}\\n\";. Klamra poziomu 1 zamyka się na samym końcu, bo wywołanie dla poziomu 1 czeka na wszystkie głębsze.",
+      "tests_count": 6
+    },
+    {
+      "id": "rk-tysiace",
+      "number": 1988,
+      "title": "Separatory tysięcy",
+      "category": "Rekurencja / krok 2: przed i po wywołaniu",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Duże kwoty łatwiej przeczytać, gdy cyfry są pogrupowane po trzy od prawej strony: 1234567 to 1 234 567, a 1000 to 1 000. Dla każdej z t liczb wypisz ją z pojedynczą spacją między grupami.",
+        "Napisz funkcję rekurencyjną void grupy(long long n): jeśli n < 1000, wypisuje n; inaczej najpierw wywołuje grupy(n / 1000), a potem wypisuje spację i ostatnią grupę — zawsze trzycyfrową."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy liczba całkowita n."
+      ],
+      "output_format": [
+        "t wierszy z liczbami pogrupowanymi po trzy cyfry."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100",
+        "0 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "4\n1234567\n1000\n5\n1002003",
+          "output": "1 234 567\n1 000\n5\n1 002 003",
+          "note": "W 1 002 003 środkowe grupy mają zera z przodu — bez nich wyszłoby 1 2 3."
+        }
+      ],
+      "hint": "Ostatnia grupa to r = n % 1000. Wypisz ją na trzech pozycjach: if (r < 100) cout << 0; if (r < 10) cout << 0; cout << r; (albo setw(3) i setfill('0')). Pierwsza grupa (n < 1000) jest bez zer z przodu. Całość: if (n < 1000) { cout << n; return; } grupy(n / 1000); cout << \" \"; … ostatnia grupa ….",
+      "tests_count": 3
+    },
+    {
+      "id": "rk-parzyste-nieparzyste",
+      "number": 1989,
+      "title": "Nieparzyste tam, parzyste z powrotem",
+      "category": "Rekurencja / krok 2: przed i po wywołaniu",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Bajtek ma zabawny sposób czytania liczb. Najpierw czyta od końca wszystkie cyfry nieparzyste, a potem od początku wszystkie parzyste. Na przykład dla 12345 najpierw przeczyta 5, 3, 1, a potem 2, 4.",
+        "Dla każdej z t liczb wypisz cyfry w kolejności Bajtka, bez spacji. Zrób to jedną funkcją rekurencyjną, która schodzi po cyfrach od prawej (ostatnia cyfra to n % 10, a reszta to n / 10): cyfrę nieparzystą wypisuje przed wywołaniem dla n / 10, a parzystą — po nim."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy liczba całkowita n."
+      ],
+      "output_format": [
+        "t wierszy — cyfry kolejnych liczb w kolejności Bajtka."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100",
+        "1 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "3\n12345\n2468\n9001",
+          "output": "53124\n2468\n1900",
+          "note": "Dla 9001: nieparzyste od końca to 1, 9, a parzyste od początku to 0, 0 — razem 1900."
+        }
+      ],
+      "hint": "void czytaj(long long n) { if (n == 0) return; int c = n % 10; if (c % 2 == 1) cout << c; czytaj(n / 10); if (c % 2 == 0) cout << c; }. Wypisywanie przed wywołaniem idzie w kolejności schodzenia, czyli od ostatniej cyfry. Wypisywanie po wywołaniu — w kolejności powrotów, czyli od pierwszej cyfry.",
+      "tests_count": 3
+    },
+    {
+      "id": "rk-czynniki-malejaco",
+      "number": 1990,
+      "title": "Czynniki od największego",
+      "category": "Rekurencja / krok 2: przed i po wywołaniu",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Rozkład liczby na czynniki pierwsze zwykle zapisuje się od najmniejszego czynnika. Bajtek chce go mieć od największego. Dla każdej z t liczb wypisz rozkład w formacie n = p1 * p2 * … * pk, gdzie p1 ≥ p2 ≥ … ≥ pk.",
+        "Napisz funkcję rekurencyjną void rozklad(long long n, long long d), która szuka najmniejszego dzielnika p ≥ d liczby n (zwykłą pętlą), wywołuje rozklad(n / p, p), a dopiero potem wypisuje p. Najmniejsze czynniki wypiszą się wtedy na końcu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy liczba całkowita n."
+      ],
+      "output_format": [
+        "t wierszy w formacie n = p1 * p2 * … * pk (czynniki od największego, oddzielone spacją, gwiazdką i spacją)."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 20",
+        "2 ≤ n ≤ 10¹²"
+      ],
+      "examples": [
+        {
+          "input": "3\n360\n13\n1001",
+          "output": "360 = 5 * 3 * 3 * 2 * 2 * 2\n13 = 13\n1001 = 13 * 11 * 7",
+          "note": "Liczba pierwsza (13) to rozkład z jednego czynnika."
+        }
+      ],
+      "hint": "W rozklad(n, d): if (n == 1) return; long long p = d; while (p * p <= n && n % p != 0) p++; if (p * p > n) p = n; rozklad(n / p, p); if (n / p > 1) cout << \" * \"; cout << p;. Separator: wywołanie, w którym n / p == 1, wypisuje się jako pierwsze (to największy czynnik) — przed nim nie ma gwiazdki. W main: cout << n << \" = \"; rozklad(n, 2);.",
+      "tests_count": 3
+    },
+    {
+      "id": "rk-piramida-pomaranczy",
+      "number": 1991,
+      "title": "Piramida z pomarańczy",
+      "category": "Rekurencja / krok 3: zwracanie wyniku",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Sprzedawca układa pomarańcze w piramidę: na dole kwadrat n × n, na nim kwadrat (n − 1) × (n − 1), i tak dalej, aż na samej górze leży jedna pomarańcza.",
+        "Dla każdej z t wysokości n policz, ile pomarańczy ma piramida. Napisz funkcję rekurencyjną long long piramida(long long n): piramida o wysokości 0 nie ma żadnej pomarańczy, a piramida o wysokości n to dolna warstwa (n · n) plus piramida o wysokości n − 1."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy jedna liczba n."
+      ],
+      "output_format": [
+        "t wierszy — liczby pomarańczy w kolejnych piramidach."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 10",
+        "1 ≤ n ≤ 100 000"
+      ],
+      "examples": [
+        {
+          "input": "3\n1\n3\n10",
+          "output": "1\n14\n385",
+          "note": "Piramida o wysokości 3: 9 + 4 + 1 = 14."
+        }
+      ],
+      "hint": "long long piramida(long long n) { if (n == 0) return 0; return n * n + piramida(n - 1); }. Parametr też jest long long: przy int iloczyn n * n dla n = 100 000 to 10¹⁰ — przepełnienie, zanim wynik trafi do long long. Głębokość rekurencji to n, czyli nawet 100 000 — sprawdzarka ma stos 8 MB, więc to bezpieczne.",
+      "tests_count": 4
+    },
+    {
+      "id": "rk-iloczyn-cyfr",
+      "number": 1992,
+      "title": "Iloczyn cyfr",
+      "category": "Rekurencja / krok 3: zwracanie wyniku",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej z t liczb policz iloczyn jej cyfr. Na przykład dla 2345 to 2 · 3 · 4 · 5 = 120, a dla 105 — 0.",
+        "Napisz funkcję rekurencyjną long long iloczyn(long long n): dla liczby jednocyfrowej iloczyn cyfr to ona sama, a dla większej — ostatnia cyfra razy iloczyn cyfr liczby n / 10."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy liczba całkowita n."
+      ],
+      "output_format": [
+        "t wierszy — iloczyny cyfr kolejnych liczb."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100",
+        "0 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "4\n2345\n105\n7\n0",
+          "output": "120\n0\n7\n0",
+          "note": "Dla 0 wynikiem jest 0 — liczba ma jedną cyfrę i jest nią zero."
+        }
+      ],
+      "hint": "long long iloczyn(long long n) { if (n < 10) return n; return (n % 10) * iloczyn(n / 10); }. Uwaga na stop: gdyby funkcja kończyła się przy n == 0 wynikiem 1 (bo „pusty iloczyn” to 1), liczba 0 dałaby 1 zamiast 0. Największy możliwy wynik to 9¹⁸ ≈ 1,5 · 10¹⁷ — mieści się w long long.",
+      "tests_count": 3
+    },
+    {
+      "id": "rk-skrajne-cyfry",
+      "number": 1993,
+      "title": "Najmniejsza i największa cyfra",
+      "category": "Rekurencja / krok 3: zwracanie wyniku",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej z t liczb wypisz jej najmniejszą i największą cyfrę.",
+        "Napisz dwie funkcje rekurencyjne: int najmniejsza(long long n) i int najwieksza(long long n). Każda porównuje ostatnią cyfrę z wynikiem dla n / 10, a dla liczby jednocyfrowej oddaje ją samą."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy liczba całkowita n."
+      ],
+      "output_format": [
+        "t wierszy: najmniejsza i największa cyfra liczby, oddzielone spacją."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100",
+        "0 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "3\n4821\n7\n900",
+          "output": "1 8\n7 7\n0 9"
+        }
+      ],
+      "hint": "int najmniejsza(long long n) { if (n < 10) return n; return min((int)(n % 10), najmniejsza(n / 10)); }. Rzutowanie (int) jest potrzebne, bo min chce dwóch argumentów tego samego typu, a n % 10 to long long. Funkcja najwieksza wygląda tak samo, tylko z max.",
+      "tests_count": 3
+    },
+    {
+      "id": "rk-szczesliwa-cyfra",
+      "number": 1994,
+      "title": "Szczęśliwa cyfra",
+      "category": "Rekurencja / krok 3: zwracanie wyniku",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Kasia uważa, że liczba przynosi szczęście, jeśli w jej zapisie pojawia się cyfra d. Wczytaj d i n liczb i policz, ile z nich przynosi szczęście.",
+        "Napisz funkcję rekurencyjną bool zawiera(long long x, int d), a w main — zwykłą pętlę, która wywołuje ją dla każdej wczytanej liczby."
+      ],
+      "input_format": [
+        "W pierwszym wierszu cyfra d i liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jedna liczba — ile wczytanych liczb zawiera cyfrę d."
+      ],
+      "constraints": [
+        "0 ≤ d ≤ 9",
+        "1 ≤ n ≤ 10 000",
+        "Każda liczba jest od 0 do 10¹⁸."
+      ],
+      "examples": [
+        {
+          "input": "7 6\n17 70 123 777 0 8",
+          "output": "3",
+          "note": "Siódemkę mają 17, 70 i 777."
+        },
+        {
+          "input": "0 4\n100 0 9 25",
+          "output": "2",
+          "note": "Zero ma 100 i samo 0."
+        }
+      ],
+      "hint": "bool zawiera(long long x, int d) { if (x < 10) return x == d; return x % 10 == d || zawiera(x / 10, d); }. Stop przy x < 10 sprawia, że liczba 0 „zawiera” cyfrę 0. Operator || nie liczy prawej strony, gdy lewa jest prawdziwa — rekurencja kończy się wtedy od razu.",
+      "tests_count": 6
+    },
+    {
+      "id": "rk-do-jedynki",
+      "number": 1995,
+      "title": "Droga do jedynki",
+      "category": "Rekurencja / krok 3: zwracanie wyniku",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Gra „Do jedynki”: jeśli liczba jest parzysta, dzielisz ją przez 2, a jeśli nieparzysta — odejmujesz od niej 1. Powtarzasz to, aż dojdziesz do 1. Na przykład 10 → 5 → 4 → 2 → 1 to 4 kroki.",
+        "Dla każdej z t liczb policz liczbę kroków. Napisz funkcję rekurencyjną int kroki(long long n): z jedynki nie trzeba robić żadnego kroku, a z innej liczby — jeden krok plus tyle kroków, ile trzeba z liczby, do której ten krok prowadzi."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy liczba całkowita n."
+      ],
+      "output_format": [
+        "t wierszy — liczby kroków."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1000",
+        "1 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "3\n10\n1\n7",
+          "output": "4\n0\n4",
+          "note": "7 → 6 → 3 → 2 → 1, czyli 4 kroki."
+        }
+      ],
+      "hint": "int kroki(long long n) { if (n == 1) return 0; if (n % 2 == 0) return 1 + kroki(n / 2); return 1 + kroki(n - 1); }. Nie musisz śledzić, co dzieje się głębiej — wystarczy zaufać, że kroki(n / 2) działa, i dodać jeden krok. Głębokość: najwyżej dwa wywołania na każde połowienie, czyli około 120 dla 10¹⁸.",
+      "tests_count": 3
+    },
+    {
+      "id": "rk-bakterie",
+      "number": 1996,
+      "title": "Bakterie i lekarstwo",
+      "category": "Rekurencja / krok 3: zwracanie wyniku",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W probówce jest a bakterii. Co godzinę każda bakteria dzieli się na k bakterii, a zaraz potem lekarstwo zabija d z nich. Jeśli bakterii jest wtedy d albo mniej, giną wszystkie — i probówka zostaje pusta już na zawsze.",
+        "Dla każdego z t doświadczeń policz, ile bakterii będzie po n godzinach. Napisz funkcję rekurencyjną long long bakterie(int h, …): po 0 godzinach jest a bakterii, a po h godzinach — max(0, k · bakterie(h − 1) − d)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy cztery liczby całkowite a, k, d i n."
+      ],
+      "output_format": [
+        "t wierszy — liczby bakterii po n godzinach."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100",
+        "1 ≤ a ≤ 10 000",
+        "1 ≤ k ≤ 3",
+        "0 ≤ d ≤ 10 000",
+        "0 ≤ n ≤ 30"
+      ],
+      "examples": [
+        {
+          "input": "3\n10 2 5 3\n5 1 3 4\n7 1 0 30",
+          "output": "45\n0\n7",
+          "note": "Pierwsze: 10 → 15 → 25 → 45. Drugie: 5 → 2 → 0 → 0 → 0 (gdy bakterii nie ma, już nie odrastają)."
+        }
+      ],
+      "hint": "long long bakterie(int h, long long a, long long k, long long d) { if (h == 0) return a; long long przed = bakterie(h - 1, a, k, d); return max(0LL, k * przed - d); }. Wynik wywołania zapisz do zmiennej i dopiero potem licz. Gdybyś napisał bakterie(h - 1, …) dwa razy w jednym wzorze, każde wywołanie liczyłoby wszystko od nowa (o tym więcej w części 6). Największy wynik, 3³⁰ · 10⁴ ≈ 2 · 10¹⁸, mieści się w long long.",
+      "tests_count": 3
+    },
+    {
+      "id": "rk-mnozenie-chlopskie",
+      "number": 1997,
+      "title": "Mnożenie po rosyjsku",
+      "category": "Rekurencja / krok 3: zwracanie wyniku",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dawniej na rosyjskich wsiach mnożono bez tabliczki mnożenia: w pierwszym wierszu zapisywano a i b, a w każdym kolejnym wierszu dzielono a przez 2 (odrzucając resztę) i podwajano b — aż a spadło do 0. Wiersze z nieparzystym a oznaczano znakiem + i sumowano ich b. Ta suma to a · b.",
+        "Napisz funkcję rekurencyjną long long razy(long long a, long long b), która dla a = 0 oddaje 0, a w przeciwnym razie wypisuje wiersz tabelki (a, b i znak +, gdy a jest nieparzyste), wywołuje razy(a / 2, 2 · b) i do wyniku tego wywołania dodaje b, jeśli a jest nieparzyste. W main na koniec wypisz zwrócony iloczyn."
+      ],
+      "input_format": [
+        "W jedynym wierszu dwie liczby całkowite a i b."
+      ],
+      "output_format": [
+        "Wiersze tabelki w formacie a b (z dopiskiem + po spacji, gdy a jest nieparzyste) — po jednym dla każdego a > 0 — a w ostatnim wierszu iloczyn a · b."
+      ],
+      "constraints": [
+        "0 ≤ a ≤ 10⁹",
+        "0 ≤ b ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "13 7",
+          "output": "13 7 +\n6 14\n3 28 +\n1 56 +\n91",
+          "note": "Wiersze z + mają b równe 7, 28 i 56, a 7 + 28 + 56 = 91 = 13 · 7."
+        }
+      ],
+      "hint": "long long razy(long long a, long long b) { if (a == 0) return 0; cout << a << \" \" << b; if (a % 2 == 1) cout << \" +\"; cout << \"\\n\"; long long w = razy(a / 2, 2 * b); if (a % 2 == 1) w += b; return w; }. Wiersze wypisują się w drodze w dół (przed wywołaniem), a suma zbiera się w drodze powrotnej (po wywołaniu).",
+      "tests_count": 8
+    },
+    {
+      "id": "rk-liczba-lustrzana",
+      "number": 1998,
+      "title": "Liczby lustrzane",
+      "category": "Rekurencja / krok 3: zwracanie wyniku",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Liczba jest lustrzana (palindromiczna), jeśli od tyłu czyta się ją tak samo jak od przodu, na przykład 1221 albo 7. Dla każdej z t liczb wypisz TAK albo NIE.",
+        "Napisz funkcję rekurencyjną long long odwroc(long long n, long long acc), która przenosi cyfry z n do acc: gdy n == 0, oddaje acc; inaczej wywołuje samą siebie dla n / 10 i acc · 10 + n % 10. Liczba jest lustrzana, gdy odwroc(n, 0) == n."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy liczba całkowita n."
+      ],
+      "output_format": [
+        "t wierszy: TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1000",
+        "0 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "4\n1221\n7\n120\n0",
+          "output": "TAK\nTAK\nNIE\nTAK",
+          "note": "120 od tyłu to 021, czyli 21 — nie 120."
+        }
+      ],
+      "hint": "long long odwroc(long long n, long long acc) { if (n == 0) return acc; return odwroc(n / 10, acc * 10 + n % 10); }. Dla 1234: odwroc(1234, 0) → odwroc(123, 4) → odwroc(12, 43) → odwroc(1, 432) → odwroc(0, 4321) → 4321. Ostatnie wywołanie zna cały wynik, a pozostałe tylko oddają go w górę.",
+      "tests_count": 3
+    },
+    {
+      "id": "rk-dni-mrozu",
+      "number": 1999,
+      "title": "Dni mrozu i dni upału",
+      "category": "Rekurencja / krok 4: tablice i napisy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Stacja meteo zapisała temperatury z n kolejnych dni. Policz, ile było dni mroźnych (temperatura poniżej zera) i ile upalnych (powyżej 20 stopni).",
+        "Napisz funkcje rekurencyjne, które idą po tablicy od indeksu i do końca: wynik dla i to 1 albo 0 (czy dzień i się liczy) plus wynik dla i + 1. Za tablicą (i == n) wynik to 0."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W drugim wierszu n liczb całkowitych — temperatury."
+      ],
+      "output_format": [
+        "Dwie liczby oddzielone spacją: liczba dni mroźnych i liczba dni upalnych."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "−50 ≤ temperatura ≤ 50"
+      ],
+      "examples": [
+        {
+          "input": "7\n-3 0 5 21 -1 25 20",
+          "output": "2 2",
+          "note": "Mroźne: −3 i −1. Upalne: 21 i 25 (20 to jeszcze nie upał, a 0 to nie mróz)."
+        }
+      ],
+      "hint": "int t[10005]; int n; int mrozne(int i) { if (i == n) return 0; return (t[i] < 0) + mrozne(i + 1); } — wyrażenie (t[i] < 0) ma wartość 1, gdy warunek jest prawdziwy, i 0, gdy fałszywy. Funkcję upalne napisz tak samo z t[i] > 20. W main: cout << mrozne(0) << \" \" << upalne(0);.",
+      "tests_count": 6
+    },
+    {
+      "id": "rk-najwyzszy-szczyt",
+      "number": 2000,
+      "title": "Najwyższy szczyt",
+      "category": "Rekurencja / krok 4: tablice i napisy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Przewodnik ma listę n szczytów z wysokościami, w kolejności z zachodu na wschód. Wypisz wysokość najwyższego szczytu i jego numer na liście (licząc od 1). Jeśli kilka szczytów ma tę samą największą wysokość, podaj ten najbardziej na zachód (o najmniejszym numerze).",
+        "Napisz funkcję rekurencyjną int najwyzszy(int i), która oddaje indeks najwyższego szczytu wśród szczytów od i do n − 1: dla ostatniego szczytu to on sam, a dla wcześniejszych — porównujesz szczyt i z najwyższym w reszcie listy."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W drugim wierszu n liczb całkowitych — wysokości szczytów."
+      ],
+      "output_format": [
+        "Dwie liczby: największa wysokość i numer szczytu, który ją ma."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "1 ≤ wysokość ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "6\n1200 2499 800 2499 1500 2000",
+          "output": "2499 2",
+          "note": "Dwa szczyty mają 2499 m — wygrywa ten o numerze 2."
+        }
+      ],
+      "hint": "int najwyzszy(int i) { if (i == n - 1) return i; int j = najwyzszy(i + 1); if (h[i] >= h[j]) return i; return j; }. Znak >= sprawia, że przy remisie wygrywa szczyt bardziej na zachód (i < j). Ze znakiem > wygrałby ten na wschodzie. W main wypisz h[k] i k + 1, gdzie k = najwyzszy(0).",
+      "tests_count": 6
+    },
+    {
+      "id": "rk-schody-rosnace",
+      "number": 2001,
+      "title": "Czy schody idą w górę?",
+      "category": "Rekurencja / krok 4: tablice i napisy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Stopnie schodów mają wysokości a₁, a₂, …, aₙ (licząc od dołu). Schody są dobre, jeśli każdy stopień jest wyżej niż poprzedni. Dla każdego z t zestawów wypisz TAK, jeśli schody są dobre, a jeśli nie — NIE i numer i pierwszego stopnia, za którym następny nie jest wyżej (czyli najmniejsze i, dla którego aᵢ ≥ aᵢ₊₁).",
+        "Napisz funkcję rekurencyjną int pierwszyZly(int i), która oddaje indeks pierwszego złego miejsca od i w prawo albo −1, gdy takiego nie ma."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "Każdy zestaw to dwa wiersze: n, a w następnym n liczb całkowitych."
+      ],
+      "output_format": [
+        "t wierszy: TAK albo NIE i numer stopnia (oddzielone spacją)."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 10",
+        "1 ≤ n ≤ 10 000",
+        "1 ≤ aᵢ ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "3\n4\n1 3 7 8\n5\n2 5 5 6 1\n1\n42",
+          "output": "TAK\nNIE 2\nTAK",
+          "note": "W drugim zestawie stopnie 2 i 3 są równe (5 i 5), więc pierwsze złe miejsce to stopień 2."
+        }
+      ],
+      "hint": "int pierwszyZly(int i) { if (i >= n - 1) return -1; if (a[i] >= a[i + 1]) return i; return pierwszyZly(i + 1); }. Wczesny return przerywa schodzenie — dalszych stopni nikt już nie ogląda. Wypisz i + 1, bo stopnie numerujemy od 1.",
+      "tests_count": 4
+    },
+    {
+      "id": "rk-gdzie-jest",
+      "number": 2002,
+      "title": "Gdzie jest numer?",
+      "category": "Rekurencja / krok 4: tablice i napisy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na liście zgłoszeń stoi n numerów startowych (numery mogą się powtarzać). Sędzia zadaje q pytań: na którym miejscu listy po raz pierwszy pojawia się numer x?",
+        "Napisz funkcję rekurencyjną int szukaj(int i, int x), która oddaje pierwszy indeks j ≥ i, dla którego t[j] == x, albo −1, gdy takiego nie ma. Miejsca na liście numeruj od 1."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n, w drugim — n numerów z listy.",
+        "W trzecim wierszu q, w czwartym — q szukanych numerów."
+      ],
+      "output_format": [
+        "q wierszy: miejsce pierwszego wystąpienia numeru albo −1."
+      ],
+      "constraints": [
+        "1 ≤ n, q ≤ 1000",
+        "Wszystkie numery są od 1 do 1000."
+      ],
+      "examples": [
+        {
+          "input": "6\n7 3 9 3 7 1\n4\n3 7 1 5",
+          "output": "2\n1\n6\n-1",
+          "note": "Numer 3 stoi na miejscach 2 i 4 — liczy się pierwsze. Numeru 5 nie ma."
+        }
+      ],
+      "hint": "int szukaj(int i, int x) { if (i == n) return -1; if (t[i] == x) return i; return szukaj(i + 1, x); }. W main dla każdego pytania: int j = szukaj(0, x); cout << (j == -1 ? -1 : j + 1) << \"\\n\";. Uważaj, żeby nie dodać 1 do −1.",
+      "tests_count": 5
+    },
+    {
+      "id": "rk-jakala",
+      "number": 2003,
+      "title": "Zacinająca się klawiatura",
+      "category": "Rekurencja / krok 4: tablice i napisy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Klawiatura Bajtka się zacina: niektóre klawisze wciskają się po kilka razy pod rząd. Usuń z napisu powtórzenia — z każdej grupy takich samych liter stojących obok siebie zostaw jedną.",
+        "Napisz funkcję rekurencyjną void popraw(const string &s, int i), która wypisuje s[i], jeśli i == 0 albo s[i] różni się od s[i − 1], i wywołuje samą siebie dla i + 1."
+      ],
+      "input_format": [
+        "W jedynym wierszu napis z małych liter."
+      ],
+      "output_format": [
+        "W jedynym wierszu poprawiony napis."
+      ],
+      "constraints": [
+        "1 ≤ długość napisu ≤ 10 000"
+      ],
+      "examples": [
+        {
+          "input": "mmmammmaaa",
+          "output": "mama"
+        },
+        {
+          "input": "abc",
+          "output": "abc",
+          "note": "Bez powtórzeń nic się nie zmienia."
+        }
+      ],
+      "hint": "void popraw(const string &s, int i) { if (i == (int)s.size()) return; if (i == 0 || s[i] != s[i - 1]) cout << s[i]; popraw(s, i + 1); }. Warunek i == 0 stoi pierwszy — dzięki temu przy i = 0 nikt nie zagląda do s[−1] (operator || nie liczy prawej strony, gdy lewa jest prawdziwa).",
+      "tests_count": 7
+    },
+    {
+      "id": "rk-kolejka-do-kasy",
+      "number": 2004,
+      "title": "Kolejka do kasy",
+      "category": "Rekurencja / krok 4: tablice i napisy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W kolejce do jedynej kasy stoi n klientów, obsługa i-tego trwa tᵢ sekund. Pierwszy klient nie czeka wcale, drugi czeka t₁ sekund, trzeci t₁ + t₂ i tak dalej.",
+        "Wypisz czas oczekiwania każdego klienta, a w drugim wierszu — łączny czas oczekiwania wszystkich klientów. Napisz funkcję rekurencyjną long long kolejka(int i, long long czeka): wypisuje czas oczekiwania klienta i (to właśnie czeka), wywołuje samą siebie dla i + 1 z czasem powiększonym o t[i], a oddaje czeka plus łączne oczekiwanie dalszych klientów."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W drugim wierszu n liczb całkowitych — czasy obsługi."
+      ],
+      "output_format": [
+        "W pierwszym wierszu n czasów oczekiwania oddzielonych spacjami.",
+        "W drugim wierszu ich suma."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "1 ≤ tᵢ ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "4\n3 1 4 2",
+          "output": "0 3 4 8\n15",
+          "note": "Czasy oczekiwania: 0, 3, 3 + 1 = 4 i 3 + 1 + 4 = 8. Razem 15."
+        }
+      ],
+      "hint": "long long kolejka(int i, long long czeka) { if (i == n) return 0; cout << czeka << \" \"; long long dalsi = kolejka(i + 1, czeka + t[i]); return czeka + dalsi; }. W main: long long suma = kolejka(0, 0); cout << \"\\n\" << suma << \"\\n\";. Parametr niesie informację w dół (ile już czekamy), a return — w górę (ile czekają wszyscy dalej).",
+      "tests_count": 5
+    },
+    {
+      "id": "rk-wzorzec",
+      "number": 2005,
+      "title": "Ile razy wzorzec?",
+      "category": "Rekurencja / krok 4: tablice i napisy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj napis s i krótki wzorzec p (oba z małych liter). Policz, na ilu pozycjach w s zaczyna się p — wystąpienia mogą na siebie nachodzić.",
+        "Napisz funkcję rekurencyjną int ile(int i), która oddaje liczbę wystąpień p zaczynających się na pozycjach od i w prawo. Gdy do końca s zostało mniej liter niż ma p, wynik to 0."
+      ],
+      "input_format": [
+        "W pierwszym wierszu napis s.",
+        "W drugim wierszu wzorzec p."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba wystąpień."
+      ],
+      "constraints": [
+        "1 ≤ |s| ≤ 10 000",
+        "1 ≤ |p| ≤ 10"
+      ],
+      "examples": [
+        {
+          "input": "abababa\naba",
+          "output": "3",
+          "note": "aba zaczyna się na pozycjach 0, 2 i 4 — wystąpienia nachodzą na siebie."
+        },
+        {
+          "input": "kot\nkotek",
+          "output": "0"
+        }
+      ],
+      "hint": "string s, p; int ile(int i) { if (i + (int)p.size() > (int)s.size()) return 0; return (s.substr(i, p.size()) == p) + ile(i + 1); }. substr robi tu tylko małą kopię (najwyżej 10 liter). Rzutowania (int) przy size() chronią przed pułapką liczb bez znaku.",
+      "tests_count": 8
+    },
+    {
+      "id": "rk-kajak",
+      "number": 2006,
+      "title": "Kajak i inne palindromy",
+      "category": "Rekurencja / krok 4: tablice i napisy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Zdanie „Kobyla ma maly bok.” czytane od tyłu brzmi tak samo — jeśli patrzymy tylko na litery i nie zwracamy uwagi na ich wielkość. Dla każdego z t wierszy sprawdź, czy jest takim palindromem, i wypisz TAK albo NIE.",
+        "Napisz funkcję rekurencyjną bool palindrom(const string &s, int l, int r): jeśli l ≥ r — to palindrom; jeśli s[l] nie jest literą — przesuń l; jeśli s[r] nie jest literą — przesuń r; inaczej porównaj litery (bez względu na wielkość) i idź do środka."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy zdanie złożone z liter alfabetu łacińskiego (bez polskich znaków), spacji i znaków , . ! ? -"
+      ],
+      "output_format": [
+        "t wierszy: TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 50",
+        "Każdy wiersz ma od 1 do 1000 znaków i zaczyna się literą."
+      ],
+      "examples": [
+        {
+          "input": "3\nKobyla ma maly bok.\nAla ma kota\nA!",
+          "output": "TAK\nNIE\nTAK"
+        }
+      ],
+      "hint": "bool palindrom(const string &s, int l, int r) { if (l >= r) return true; if (!isalpha(s[l])) return palindrom(s, l + 1, r); if (!isalpha(s[r])) return palindrom(s, l, r - 1); if (tolower(s[l]) != tolower(s[r])) return false; return palindrom(s, l + 1, r - 1); }. Wiersze czytaj przez getline, a po cin >> t wywołaj cin.ignore();. Napis przekazuj przez const & — z kopią albo z s.substr w każdym wywołaniu długie wiersze kosztowałyby ogromnie dużo pamięci i czasu.",
+      "tests_count": 4
+    },
+    {
+      "id": "rk-skracanie",
+      "number": 2007,
+      "title": "Skracanie ułamków",
+      "category": "Rekurencja / krok 5: NWD i szybkie potęgowanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdego z t ułamków a/b wypisz ułamek skrócony do postaci nieskracalnej.",
+        "Napisz funkcję rekurencyjną long long nwd(long long a, long long b): nwd(a, 0) = a, a w pozostałych przypadkach nwd(a, b) = nwd(b, a % b)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy dwie liczby całkowite a i b — licznik i mianownik."
+      ],
+      "output_format": [
+        "t wierszy w formacie licznik/mianownik (bez spacji)."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1000",
+        "1 ≤ a, b ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "3\n6 8\n10 5\n7 13",
+          "output": "3/4\n2/1\n7/13",
+          "note": "10/5 to 2/1 — mianownik 1 też wypisujemy."
+        }
+      ],
+      "hint": "long long nwd(long long a, long long b) { if (b == 0) return a; return nwd(b, a % b); }. Potem long long g = nwd(a, b); cout << a / g << \"/\" << b / g << \"\\n\";. Algorytm Euklidesa jest bardzo szybki: nawet dla liczb rzędu 10¹⁸ wykonuje najwyżej kilkadziesiąt wywołań.",
+      "tests_count": 3
+    },
+    {
+      "id": "rk-plytki",
+      "number": 2008,
+      "title": "Kwadratowe płytki",
+      "category": "Rekurencja / krok 5: NWD i szybkie potęgowanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Glazurnik ma wyłożyć prostokątną podłogę o wymiarach a × b centymetrów jednakowymi kwadratowymi płytkami — bez cięcia i bez szpar. Chce użyć jak największych płytek. Jaki bok mają płytki i ile ich potrzeba?",
+        "Bok płytki musi dzielić i a, i b — największy taki bok to NWD(a, b). Napisz NWD jako funkcję rekurencyjną."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy dwie liczby całkowite a i b."
+      ],
+      "output_format": [
+        "t wierszy: bok płytki i liczba płytek, oddzielone spacją."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1000",
+        "1 ≤ a, b ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "2\n12 18\n7 5",
+          "output": "6 6\n1 35",
+          "note": "Podłoga 12 × 18: płytki 6 × 6, w rzędzie 2, a rzędów 3 — razem 6 płytek."
+        }
+      ],
+      "hint": "long long g = nwd(a, b); cout << g << \" \" << (a / g) * (b / g) << \"\\n\";. Liczba płytek sięga 10¹⁸ (np. podłoga 10⁹ × (10⁹ − 1) wymaga płytek 1 × 1), więc licz ją w long long.",
+      "tests_count": 3
+    },
+    {
+      "id": "rk-kroki-euklidesa",
+      "number": 2009,
+      "title": "Kroki Euklidesa",
+      "category": "Rekurencja / krok 5: NWD i szybkie potęgowanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Algorytm Euklidesa zamienia parę (a, b) na (b, a % b), aż drugi element stanie się zerem. Każdą taką zamianę nazwijmy krokiem. Na przykład (21, 13) → (13, 8) → (8, 5) → (5, 3) → (3, 2) → (2, 1) → (1, 0) to 6 kroków, a NWD to 1.",
+        "Dla każdej z t par wypisz NWD i liczbę kroków. Napisz funkcję rekurencyjną int kroki(long long a, long long b): dla b == 0 nie trzeba żadnego kroku, a w przeciwnym razie — jeden krok plus kroki dla pary (b, a % b)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy dwie liczby całkowite a i b."
+      ],
+      "output_format": [
+        "t wierszy: NWD i liczba kroków, oddzielone spacją."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1000",
+        "1 ≤ a ≤ 10¹⁸",
+        "0 ≤ b ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "3\n21 13\n12 18\n5 0",
+          "output": "1 6\n6 3\n5 0",
+          "note": "(12, 18) → (18, 12) → (12, 6) → (6, 0): 3 kroki, bo pierwszy krok tylko zamienia liczby miejscami."
+        }
+      ],
+      "hint": "int kroki(long long a, long long b) { if (b == 0) return 0; return 1 + kroki(b, a % b); }. Najwięcej kroków robią pary sąsiednich liczb Fibonacciego, ale nawet one nie przekraczają kilkudziesięciu kroków dla 10¹⁸.",
+      "tests_count": 3
+    },
+    {
+      "id": "rk-autobusy",
+      "number": 2010,
+      "title": "Autobusy na pętli",
+      "category": "Rekurencja / krok 5: NWD i szybkie potęgowanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "O północy z pętli odjechały naraz autobusy n linii. Autobus linii i odjeżdża co aᵢ minut. Po ilu minutach od północy znowu wszystkie odjadą w tej samej chwili?",
+        "To najmniejsza wspólna wielokrotność liczb aᵢ. NWW(a, b) = a / NWD(a, b) · b — najpierw dziel, potem mnóż, żeby nie wyjść poza zakres. NWW wielu liczb licz po kolei: NWW(NWW(a₁, a₂), a₃) i tak dalej. NWD napisz rekurencyjnie."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W drugim wierszu n liczb całkowitych aᵢ."
+      ],
+      "output_format": [
+        "Jedna liczba — po ilu minutach wszystkie autobusy znowu odjadą razem."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 100",
+        "1 ≤ aᵢ ≤ 10⁹",
+        "Wynik nie przekracza 10¹⁸."
+      ],
+      "examples": [
+        {
+          "input": "3\n4 6 10",
+          "output": "60",
+          "note": "NWW(4, 6) = 12, a NWW(12, 10) = 60."
+        }
+      ],
+      "hint": "long long nww(long long a, long long b) { return a / nwd(a, b) * b; }, a w main: long long w = 1; for (…) w = nww(w, a);. Kolejność ma znaczenie: a * b / nwd(a, b) przy dużych liczbach przepełni long long, zanim zdążysz podzielić.",
+      "tests_count": 7
+    },
+    {
+      "id": "rk-ostatnie-cyfry",
+      "number": 2011,
+      "title": "Trzy ostatnie cyfry",
+      "category": "Rekurencja / krok 5: NWD i szybkie potęgowanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej z t par a, n wypisz trzy ostatnie cyfry liczby aⁿ — dokładnie trzy znaki, z zerami z przodu, jeśli trzeba. Na przykład 2¹⁰ = 1024 kończy się na 024, a 7² = 49 — na 049.",
+        "Napisz funkcję rekurencyjną long long potega(long long a, long long n), która liczy aⁿ mod 1000: a⁰ = 1, dla parzystego n aⁿ = (a^(n/2))², a dla nieparzystego — jeszcze razy a. Wynik wywołania dla n / 2 zapisz do zmiennej i użyj go dwa razy — nie wywołuj funkcji dwa razy!"
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy dwie liczby całkowite a i n."
+      ],
+      "output_format": [
+        "t wierszy, każdy z dokładnie trzema cyframi."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1000",
+        "1 ≤ a ≤ 10⁹",
+        "0 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "3\n2 10\n7 2\n123456789 0",
+          "output": "024\n049\n001",
+          "note": "Każda liczba do potęgi 0 to 1, czyli 001."
+        }
+      ],
+      "hint": "long long potega(long long a, long long n) { if (n == 0) return 1; long long p = potega(a, n / 2); long long w = p * p % 1000; if (n % 2 == 1) w = w * (a % 1000) % 1000; return w; }. Wypisz: cout << setw(3) << setfill('0') << potega(a, n) << \"\\n\";. Gdybyś napisał potega(a, n / 2) * potega(a, n / 2), funkcja wołałaby się dwa razy na każdym poziomie i straciłaby całą szybkość.",
+      "tests_count": 3
+    },
+    {
+      "id": "rk-upor-liczby",
+      "number": 2012,
+      "title": "Uparta liczba",
+      "category": "Rekurencja / krok 5: NWD i szybkie potęgowanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Upór liczby to liczba kroków, w których zamieniamy liczbę na iloczyn jej cyfr, aż zostanie liczba jednocyfrowa. Na przykład 39 → 3 · 9 = 27 → 2 · 7 = 14 → 1 · 4 = 4, więc upór 39 to 3. Liczba jednocyfrowa ma upór 0.",
+        "Dla każdej z t liczb wypisz jej upór. Napisz rekurencyjnie long long iloczyn(long long n) (iloczyn cyfr) i int upor(long long n): dla n < 10 zero, a inaczej 1 + upor(iloczyn(n))."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy liczba całkowita n."
+      ],
+      "output_format": [
+        "t wierszy — upory kolejnych liczb."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1000",
+        "0 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "3\n39\n7\n277777788888899",
+          "output": "3\n0\n11",
+          "note": "Ostatnia liczba ma upór 11 — to najmniejsza liczba o takim uporze."
+        }
+      ],
+      "hint": "int upor(long long n) { if (n < 10) return 0; return 1 + upor(iloczyn(n)); }. To rekurencja, która w środku wywołuje inną rekurencję: najpierw iloczyn(n) policzy iloczyn cyfr (sam rekurencyjnie), a dopiero potem upor wywoła się dla wyniku.",
+      "tests_count": 3
+    },
+    {
+      "id": "rk-z-systemu-do-systemu",
+      "number": 2013,
+      "title": "Z systemu do systemu",
+      "category": "Rekurencja / krok 5: NWD i szybkie potęgowanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdego z t zapytań dostajesz podstawy p i q oraz liczbę zapisaną w systemie o podstawie p. Wypisz tę liczbę w systemie o podstawie q. Cyfry większe niż 9 to wielkie litery: A = 10, B = 11, …, F = 15.",
+        "Napisz dwie funkcje rekurencyjne: long long wartosc(const string &s, int i, int p) — wartość pierwszych i cyfr napisu (to wartość pierwszych i − 1 cyfr razy p plus i-ta cyfra) — oraz void wypisz(long long x, int q), która wypisuje zapis x w systemie q (najpierw wypisz(x / q, q), potem ostatnia cyfra)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy p, q i zapis liczby w systemie p (bez zer z przodu)."
+      ],
+      "output_format": [
+        "t wierszy — zapisy liczb w systemie q (bez zer z przodu)."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1000",
+        "2 ≤ p, q ≤ 16",
+        "Wartość liczby jest od 0 do 10¹⁸."
+      ],
+      "examples": [
+        {
+          "input": "3\n10 2 13\n2 16 11111111\n16 10 FF",
+          "output": "1101\nFF\n255"
+        }
+      ],
+      "hint": "int cyfra(char c) { if (c <= '9') return c - '0'; return c - 'A' + 10; }. long long wartosc(const string &s, int i, int p) { if (i == 0) return 0; return wartosc(s, i - 1, p) * p + cyfra(s[i - 1]); } — wywołanie wartosc(s, s.size(), p). Wypisywanie: string Z = \"0123456789ABCDEF\"; void wypisz(long long x, int q) { if (x < q) { cout << Z[x]; return; } wypisz(x / q, q); cout << Z[x % q]; }.",
+      "tests_count": 3
+    },
+    {
+      "id": "rk-mnozenie-modulo",
+      "number": 2014,
+      "title": "Mnożenie modulo bez przepełnienia",
+      "category": "Rekurencja / krok 5: NWD i szybkie potęgowanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej z t trójek a, b, m wypisz (a · b) mod m. Liczby sięgają 10¹⁸, więc iloczyn a · b może mieć nawet 37 cyfr — nie zmieści się w long long, który ma ich najwyżej 19.",
+        "Napisz funkcję rekurencyjną long long razy(long long a, long long b, long long m) na wzór szybkiego potęgowania: razy(a, 0, m) = 0, a w pozostałych przypadkach policz x = razy(a, b / 2, m), podwój je modulo m i — jeśli b jest nieparzyste — dodaj jeszcze a (też modulo m). Zadbaj, żeby na początku a było mniejsze od m."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy trzy liczby całkowite a, b i m."
+      ],
+      "output_format": [
+        "t wierszy — wartości (a · b) mod m."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1000",
+        "0 ≤ a, b ≤ 10¹⁸",
+        "1 ≤ m ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "3\n3 4 5\n1000000000000000000 1000000000000000000 999999999999999999\n7 0 3",
+          "output": "2\n1\n0",
+          "note": "10¹⁸ mod (10¹⁸ − 1) = 1, więc wynik to 1 · 1 = 1."
+        }
+      ],
+      "hint": "long long razy(long long a, long long b, long long m) { if (b == 0) return 0; long long x = razy(a, b / 2, m); x = (x + x) % m; if (b % 2 == 1) x = (x + a) % m; return x; }, a w main wywołaj razy(a % m, b, m). Każda wartość jest mniejsza niż m ≤ 10¹⁸, więc x + x i x + a są mniejsze niż 2 · 10¹⁸ — bez przepełnienia.",
+      "tests_count": 3
+    },
+    {
+      "id": "rk-tribonacci",
+      "number": 2015,
+      "title": "Tribonacci",
+      "category": "Rekurencja / krok 6: drzewo wywołań i memoizacja",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ciąg Tribonacciego zaczyna się od T(0) = 0, T(1) = 0, T(2) = 1, a każdy następny wyraz to suma trzech poprzednich: T(n) = T(n − 1) + T(n − 2) + T(n − 3). Dla każdego z t zapytań wypisz T(n).",
+        "Napisz funkcję rekurencyjną long long trib(int n) z zapamiętywaniem: zanim zaczniesz liczyć, sprawdź, czy wynik dla n jest już w tablicy, a po policzeniu — zapisz go tam. Bez pamięci liczenie T(70) zajęłoby lata."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy liczba n."
+      ],
+      "output_format": [
+        "t wierszy — wartości T(n)."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100",
+        "0 ≤ n ≤ 70"
+      ],
+      "examples": [
+        {
+          "input": "4\n0\n2\n5\n10",
+          "output": "0\n1\n4\n81",
+          "note": "Początek ciągu: 0, 0, 1, 1, 2, 4, 7, 13, 24, 44, 81."
+        }
+      ],
+      "hint": "long long memo[75]; bool jest[75]; long long trib(int n) { if (n <= 1) return 0; if (n == 2) return 1; if (jest[n]) return memo[n]; memo[n] = trib(n - 1) + trib(n - 2) + trib(n - 3); jest[n] = true; return memo[n]; }. Każde n liczy się tylko raz — kolejne zapytania o to samo n odpowiadają od razu.",
+      "tests_count": 4
+    },
+    {
+      "id": "rk-kafelki",
+      "number": 2016,
+      "title": "Kafelki w korytarzu",
+      "category": "Rekurencja / krok 6: drzewo wywołań i memoizacja",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Korytarz ma wymiary 2 × n. Masz kafelki 1 × 2 (można je kłaść poziomo albo pionowo) i kwadratowe kafelki 2 × 2. Na ile sposobów można wyłożyć cały korytarz — bez cięcia kafelków i bez dziur?",
+        "Spójrz na prawy koniec korytarza. Albo stoi tam jeden pionowy kafelek 1 × 2 — zostaje korytarz 2 × (n − 1); albo dwa poziome kafelki jeden nad drugim, albo kwadrat 2 × 2 — w obu przypadkach zostaje 2 × (n − 2). Stąd f(n) = f(n − 1) + 2 · f(n − 2), przy czym f(0) = f(1) = 1. Napisz to rekurencyjnie z zapamiętywaniem wyników."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy liczba n."
+      ],
+      "output_format": [
+        "t wierszy — liczby sposobów."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100",
+        "0 ≤ n ≤ 60"
+      ],
+      "examples": [
+        {
+          "input": "3\n1\n2\n3",
+          "output": "1\n3\n5",
+          "note": "Dla n = 2: dwa pionowe, dwa poziome albo jeden kwadrat — 3 sposoby."
+        }
+      ],
+      "hint": "long long memo[65]; long long f(int n) { if (n <= 1) return 1; if (memo[n] != 0) return memo[n]; return memo[n] = f(n - 1) + 2 * f(n - 2); }. Wynik nigdy nie jest zerem, więc 0 w tablicy może oznaczać „jeszcze nie policzone”. Bez pamięci f(60) wymagałoby ponad 10¹² wywołań.",
+      "tests_count": 3
+    },
+    {
+      "id": "rk-zepsute-stopnie",
+      "number": 2017,
+      "title": "Zepsute stopnie",
+      "category": "Rekurencja / krok 6: drzewo wywołań i memoizacja",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Schody mają n stopni ponumerowanych od 1 (najniższy) do n (szczyt), a Bajtek stoi na ziemi (stopień 0). Jednym krokiem wchodzi o 1, 2 albo 3 stopnie. Niektóre stopnie są zepsute — nie wolno na nich stanąć (szczyt na pewno jest cały). Na ile sposobów Bajtek może wejść na szczyt? Wynik podaj modulo 1 000 000 007.",
+        "Napisz funkcję rekurencyjną long long sposoby(int k) — liczbę sposobów dojścia ze stopnia k na szczyt: na szczycie to 1, za szczytem i na zepsutym stopniu — 0, a w pozostałych przypadkach suma wyników dla k + 1, k + 2 i k + 3. Wyniki zapamiętuj w tablicy."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n i m — liczba stopni i liczba zepsutych stopni.",
+        "W drugim wierszu m różnych numerów zepsutych stopni (gdy m = 0, ten wiersz jest pusty)."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba sposobów modulo 1 000 000 007."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "0 ≤ m < n",
+        "Zepsute stopnie mają numery od 1 do n − 1."
+      ],
+      "examples": [
+        {
+          "input": "4 0",
+          "output": "7",
+          "note": "Bez zepsutych stopni: 1+1+1+1, 1+1+2, 1+2+1, 2+1+1, 2+2, 1+3, 3+1 — 7 sposobów."
+        },
+        {
+          "input": "5 1\n2",
+          "output": "5"
+        }
+      ],
+      "hint": "long long sposoby(int k) { if (k > n || zepsuty[k]) return 0; if (k == n) return 1; if (jest[k]) return memo[k]; memo[k] = (sposoby(k + 1) + sposoby(k + 2) + sposoby(k + 3)) % MOD; jest[k] = true; return memo[k]; }, a w main sposoby(0). Tablica zepsuty ma rozmiar n + 4, żeby k + 3 nie wyszło poza nią. Głębokość rekurencji to najwyżej n.",
+      "tests_count": 9
+    },
+    {
+      "id": "rk-sciezki-krola",
+      "number": 2018,
+      "title": "Król idzie do rogu",
+      "category": "Rekurencja / krok 6: drzewo wywołań i memoizacja",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Plansza ma n wierszy i m kolumn; pola ze skałami oznaczono #, wolne — kropką. Król stoi w lewym górnym rogu i chce dojść do prawego dolnego. W jednym ruchu idzie o jedno pole w prawo, w dół albo na skos w prawo w dół — nigdy na skałę. Ile jest różnych dróg? Wynik podaj modulo 1 000 000 007.",
+        "Napisz funkcję rekurencyjną long long drogi(int r, int c) — liczbę dróg z pola (r, c) do celu: poza planszą i na skale to 0, w celu — 1, a w pozostałych przypadkach suma wyników dla trzech pól, na które można przejść. Wyniki zapamiętuj w tablicy 2D."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n i m.",
+        "W każdym z n kolejnych wierszy m znaków: # albo kropka."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba dróg modulo 1 000 000 007."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 100",
+        "Lewy górny i prawy dolny róg są wolne."
+      ],
+      "examples": [
+        {
+          "input": "2 2\n..\n..",
+          "output": "3",
+          "note": "Prawo i dół, dół i prawo albo jeden skok na skos."
+        },
+        {
+          "input": "3 3\n...\n.#.\n...",
+          "output": "4"
+        }
+      ],
+      "hint": "long long drogi(int r, int c) { if (r >= n || c >= m || g[r][c] == '#') return 0; if (r == n - 1 && c == m - 1) return 1; if (jest[r][c]) return memo[r][c]; memo[r][c] = (drogi(r, c + 1) + drogi(r + 1, c) + drogi(r + 1, c + 1)) % MOD; jest[r][c] = true; return memo[r][c]; }. Bez pamięci liczba wywołań rosłaby wykładniczo — z pamięcią każde pole liczy się raz.",
+      "tests_count": 9
+    },
+    {
+      "id": "rk-kamienie",
+      "number": 2019,
+      "title": "Gra w kamienie",
+      "category": "Rekurencja / krok 6: drzewo wywołań i memoizacja",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ala i Bartek grają w kamienie. Na stole leży n kamieni, a gracze ruszają się na zmianę (zaczyna Ala). W jednym ruchu zabiera się ze stosu dokładnie r kamieni, gdzie r to jedna z k dozwolonych liczb. Kto nie może wykonać żadnego ruchu, przegrywa. Oboje grają najlepiej, jak się da.",
+        "Dla każdego z q zapytań (różne n, ruchy te same) wypisz, kto wygra. Napisz funkcję rekurencyjną bool wygrywa(int n) — czy gracz, który ma ruch przy n kamieniach, wygra. Wygrywa, jeśli istnieje dozwolony ruch r ≤ n, po którym przeciwnik przegrywa, czyli !wygrywa(n − r). Wyniki zapamiętuj."
+      ],
+      "input_format": [
+        "W pierwszym wierszu k, w drugim — k różnych dozwolonych ruchów.",
+        "W trzecim wierszu q, w czwartym — q liczb n."
+      ],
+      "output_format": [
+        "q wierszy: Ala albo Bartek — kto wygra przy n kamieniach."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ 5",
+        "1 ≤ każdy ruch ≤ 20",
+        "1 ≤ q ≤ 1000",
+        "0 ≤ n ≤ 10 000"
+      ],
+      "examples": [
+        {
+          "input": "3\n1 3 4\n4\n1 2 7 10",
+          "output": "Ala\nBartek\nBartek\nAla",
+          "note": "Przy 2 kamieniach Ala musi wziąć 1, a wtedy Bartek bierze ostatni. Przy 0 kamieniach przegrywa ten, kto ma ruch."
+        }
+      ],
+      "hint": "int stan[10005]; // 0 — nie wiem, 1 — wygrywa, 2 — przegrywa. bool wygrywa(int n) { if (stan[n] != 0) return stan[n] == 1; bool w = false; for (int i = 0; i < k; i++) if (ruch[i] <= n && !wygrywa(n - ruch[i])) w = true; stan[n] = w ? 1 : 2; return w; }. Przy n = 0 nie ma ruchu, więc pętla nic nie znajdzie i wynik to przegrana.",
+      "tests_count": 6
+    },
+    {
+      "id": "rk-szyfr-liczbowy",
+      "number": 2020,
+      "title": "Szyfr z liczb",
+      "category": "Rekurencja / krok 6: drzewo wywołań i memoizacja",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Bajtek zaszyfrował wiadomość, zamieniając każdą literę na jej numer w alfabecie (A = 1, B = 2, …, Z = 26) i sklejając liczby bez odstępów. Na przykład 1121 można odczytać jako AABA (1 1 2 1), KBA (11 2 1), ALA (1 12 1), AAU (1 1 21) albo KU (11 21) — razem 5 sposobów. Na ile sposobów można odczytać podany ciąg cyfr? Wynik podaj modulo 1 000 000 007.",
+        "Napisz funkcję rekurencyjną long long sposoby(int i) — liczbę sposobów odczytania końcówki napisu od pozycji i. Gdy i dojdzie do końca napisu, jest jeden sposób. Cyfra 0 nie jest literą — może wystąpić tylko jako druga cyfra liczby 10 albo 20. Wyniki zapamiętuj."
+      ],
+      "input_format": [
+        "W jedynym wierszu ciąg cyfr."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba sposobów odczytania modulo 1 000 000 007 (może być 0)."
+      ],
+      "constraints": [
+        "1 ≤ długość ciągu ≤ 10 000"
+      ],
+      "examples": [
+        {
+          "input": "1121",
+          "output": "5"
+        },
+        {
+          "input": "230",
+          "output": "0",
+          "note": "Zero nie może stać samo, a 30 to nie litera — ciągu nie da się odczytać."
+        }
+      ],
+      "hint": "long long sposoby(int i) { if (i == n) return 1; if (s[i] == '0') return 0; if (jest[i]) return memo[i]; long long w = sposoby(i + 1); if (i + 1 < n && (s[i] == '1' || (s[i] == '2' && s[i + 1] <= '6'))) w += sposoby(i + 2); memo[i] = w % MOD; jest[i] = true; return memo[i]; }. Pierwsza cyfra końcówki to albo jedna litera, albo — razem z następną — litera o numerze od 10 do 26.",
+      "tests_count": 12
+    },
+    {
+      "id": "rk-grupy-uczniow",
+      "number": 2021,
+      "title": "Podział na grupy",
+      "category": "Rekurencja / krok 6: drzewo wywołań i memoizacja",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Nauczycielka dzieli n uczniów na k grup projektowych. Każda grupa musi mieć co najmniej jednego ucznia, a grupy nie mają nazw — liczy się tylko, kto jest z kim. Na ile sposobów może to zrobić? Na przykład 3 uczniów (A, B, C) na 2 grupy: {A, B} i {C}, {A, C} i {B}, {B, C} i {A} — 3 sposoby.",
+        "Pomyśl o ostatnim uczniu. Albo jest sam w swojej grupie — wtedy pozostałych n − 1 uczniów dzielimy na k − 1 grup; albo dołącza do jednej z k grup ułożonych z pozostałych — wtedy n − 1 uczniów dzielimy na k grup i mamy k możliwości dołączenia. Napisz funkcję rekurencyjną long long grupy(int n, int k) z zapamiętywaniem. Przypadki brzegowe: grupy(0, 0) = 1, a grupy(n, 0) i grupy(0, k) dla dodatnich n i k to 0."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy dwie liczby n i k."
+      ],
+      "output_format": [
+        "t wierszy — liczby sposobów."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100",
+        "1 ≤ k ≤ n ≤ 25"
+      ],
+      "examples": [
+        {
+          "input": "3\n3 2\n4 2\n5 3",
+          "output": "3\n7\n25"
+        }
+      ],
+      "hint": "long long memo[26][26]; bool jest[26][26]; long long grupy(int n, int k) { if (n == 0 && k == 0) return 1; if (n == 0 || k == 0) return 0; if (jest[n][k]) return memo[n][k]; memo[n][k] = grupy(n - 1, k - 1) + k * grupy(n - 1, k); jest[n][k] = true; return memo[n][k]; }. Dla n = 25 wyniki sięgają 10¹⁸ — long long jest konieczny.",
+      "tests_count": 3
+    },
+    {
+      "id": "rk-nawiasowania",
+      "number": 2022,
+      "title": "Na ile sposobów wstawić nawiasy?",
+      "category": "Rekurencja / krok 6: drzewo wywołań i memoizacja",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Iloczyn czterech czynników a · b · c · d można obliczyć na 5 sposobów, zależnie od nawiasów: ((ab)c)d, (a(bc))d, (ab)(cd), a((bc)d) i a(b(cd)). Na ile sposobów można wstawić nawiasy w iloczynie n + 1 czynników, czyli z n mnożeniami?",
+        "Spójrz na mnożenie wykonywane jako ostatnie. Dzieli ono pozostałe n − 1 mnożeń na i mnożeń po lewej stronie i n − 1 − i po prawej, gdzie i = 0, 1, …, n − 1. Liczba sposobów dla n to suma iloczynów sposoby(i) · sposoby(n − 1 − i), a sposoby(0) = 1 (jeden czynnik nie potrzebuje nawiasów). Napisz to rekurencyjnie z zapamiętywaniem."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy liczba n."
+      ],
+      "output_format": [
+        "t wierszy — liczby sposobów."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100",
+        "0 ≤ n ≤ 35"
+      ],
+      "examples": [
+        {
+          "input": "3\n3\n1\n0",
+          "output": "5\n1\n1"
+        }
+      ],
+      "hint": "long long memo[40]; long long sposoby(int n) { if (n == 0) return 1; if (memo[n] != 0) return memo[n]; long long w = 0; for (int i = 0; i < n; i++) w += sposoby(i) * sposoby(n - 1 - i); return memo[n] = w; }. To liczby Catalana — wychodzą w wielu zadaniach (poprawne nawiasowania, drzewa, podziały wielokąta). Dla n = 35 wynik ma 19 cyfr i ledwo mieści się w long long.",
+      "tests_count": 3
+    },
+    {
+      "id": "rk-zestawy-obiadowe",
+      "number": 2023,
+      "title": "Zestawy obiadowe",
+      "category": "Rekurencja / krok 7: generowanie możliwości",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Stołówka ma menu z k kategorii (na przykład zupa, drugie danie, deser). Zestaw obiadowy to jedna potrawa z każdej kategorii. Wypisz wszystkie zestawy: najpierw wszystkie z pierwszą potrawą pierwszej kategorii, potem z drugą i tak dalej — a w ramach tej samej potrawy z pierwszej kategorii tak samo dla drugiej kategorii (zawsze w kolejności z menu).",
+        "Napisz funkcję rekurencyjną void zestaw(int i), która dla kategorii i po kolei bierze każdą potrawę, dopisuje ją do vectora wybranych, wywołuje zestaw(i + 1) i usuwa ją z vectora. Gdy i == k, wypisuje cały zestaw."
+      ],
+      "input_format": [
+        "W pierwszym wierszu k — liczba kategorii.",
+        "W każdym z k kolejnych wierszy liczba m, a po niej m nazw potraw tej kategorii."
+      ],
+      "output_format": [
+        "Wszystkie zestawy, każdy w osobnym wierszu: nazwy potraw oddzielone napisem \" + \" (spacja, plus, spacja)."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ 4",
+        "1 ≤ m ≤ 4",
+        "Nazwy mają od 1 do 10 małych liter."
+      ],
+      "examples": [
+        {
+          "input": "2\n2 rosol pomidorowa\n3 kotlet ryba pierogi",
+          "output": "rosol + kotlet\nrosol + ryba\nrosol + pierogi\npomidorowa + kotlet\npomidorowa + ryba\npomidorowa + pierogi",
+          "note": "2 · 3 = 6 zestawów. Pierwsza kategoria zmienia się najwolniej."
+        }
+      ],
+      "hint": "vector<vector<string>> menu; vector<string> wybrane; void zestaw(int i) { if (i == k) { for (int j = 0; j < k; j++) { if (j > 0) cout << \" + \"; cout << wybrane[j]; } cout << \"\\n\"; return; } for (string p : menu[i]) { wybrane.push_back(p); zestaw(i + 1); wybrane.pop_back(); } }. push_back przed wywołaniem i pop_back po nim to „wybierz” i „cofnij wybór”.",
+      "tests_count": 6
+    },
+    {
+      "id": "rk-plot-kolory",
+      "number": 2024,
+      "title": "Malowanie płotu",
+      "category": "Rekurencja / krok 7: generowanie możliwości",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Płot ma n sztachet stojących w rzędzie. Każdą malujemy jednym z k kolorów oznaczonych literami a, b, c, … Dwie sąsiednie sztachety nie mogą mieć tego samego koloru. Wypisz wszystkie sposoby pomalowania płotu w kolejności alfabetycznej (każdy sposób to napis z n liter). Jeśli nie ma żadnego sposobu, wypisz BRAK.",
+        "Napisz funkcję rekurencyjną void maluj(string plot), która dopisuje do napisu kolejno litery od a do k-tej litery alfabetu — pomijając literę równą ostatniej literze napisu — i wywołuje samą siebie. Gdy napis ma n liter, wypisuje go."
+      ],
+      "input_format": [
+        "W jedynym wierszu dwie liczby n i k."
+      ],
+      "output_format": [
+        "Wszystkie sposoby pomalowania płotu, każdy w osobnym wierszu, albo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 6",
+        "1 ≤ k ≤ 4"
+      ],
+      "examples": [
+        {
+          "input": "3 2",
+          "output": "aba\nbab",
+          "note": "Przy dwóch kolorach kolory muszą się przeplatać: aba albo bab."
+        },
+        {
+          "input": "2 3",
+          "output": "ab\nac\nba\nbc\nca\ncb"
+        }
+      ],
+      "hint": "void maluj(string plot) { if ((int)plot.size() == n) { cout << plot << \"\\n\"; ile++; return; } for (char c = 'a'; c < 'a' + k; c++) { if (!plot.empty() && plot.back() == c) continue; maluj(plot + c); } }. W main: maluj(\"\"); a jeśli ile == 0 — BRAK. Napisy są krótkie, więc przekazywanie ich przez wartość nic nie kosztuje.",
+      "tests_count": 9
+    },
+    {
+      "id": "rk-cyfry-rosnace",
+      "number": 2025,
+      "title": "Liczby o rosnących cyfrach",
+      "category": "Rekurencja / krok 7: generowanie możliwości",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Liczba ma cyfry rosnące, jeśli każda jej cyfra jest większa od poprzedniej, na przykład 1358 albo 279. Wczytaj n i wypisz rosnąco wszystkie dodatnie n-cyfrowe liczby o rosnących cyfrach. Jeśli takich liczb nie ma, wypisz BRAK.",
+        "Napisz funkcję rekurencyjną void buduj(int ile, int od, long long liczba): ile — ile cyfr jeszcze brakuje, od — najmniejsza cyfra, którą można teraz dopisać, liczba — to, co już zbudowane. Dopisanie cyfry c to liczba · 10 + c."
+      ],
+      "input_format": [
+        "W jedynym wierszu n."
+      ],
+      "output_format": [
+        "Liczby o rosnących cyfrach, każda w osobnym wierszu (rosnąco), albo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10"
+      ],
+      "examples": [
+        {
+          "input": "8",
+          "output": "12345678\n12345679\n12345689\n12345789\n12346789\n12356789\n12456789\n13456789\n23456789"
+        },
+        {
+          "input": "10",
+          "output": "BRAK",
+          "note": "Cyfr różnych od zera jest tylko 9, a zero nie może stać na początku."
+        }
+      ],
+      "hint": "void buduj(int ile, int od, long long liczba) { if (ile == 0) { cout << liczba << \"\\n\"; znalezione++; return; } for (int c = od; c <= 9; c++) buduj(ile - 1, c + 1, liczba * 10 + c); }, a w main buduj(n, 1, 0);. Zaczynamy od cyfry 1, bo liczba nie może zaczynać się zerem — a po pierwszej cyfrze zero i tak już nie może się pojawić.",
+      "tests_count": 8
+    },
+    {
+      "id": "rk-klodka",
+      "number": 2026,
+      "title": "Kłódka z sumą",
+      "category": "Rekurencja / krok 7: generowanie możliwości",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Bajtek zapomniał kodu do kłódki rowerowej. Pamięta tylko, że kod ma n cyfr, każda cyfra jest od 1 do k, a suma cyfr wynosi s. Wypisz wszystkie pasujące kody w kolejności rosnącej (jak liczby), każdy w osobnym wierszu. Jeśli nie ma żadnego, wypisz BRAK.",
+        "Buduj kod cyfra po cyfrze. Zanim dopiszesz cyfrę c, sprawdź, czy da się jeszcze dojść do sumy s: pozostałe cyfry dadzą co najmniej 1 · (ile ich zostało) i co najwyżej k · (ile ich zostało). Jeśli nie da się — nie wchodź w tę gałąź."
+      ],
+      "input_format": [
+        "W jedynym wierszu trzy liczby n, k i s."
+      ],
+      "output_format": [
+        "Pasujące kody, każdy w osobnym wierszu (rosnąco), albo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5",
+        "1 ≤ k ≤ 9",
+        "1 ≤ s ≤ 50"
+      ],
+      "examples": [
+        {
+          "input": "3 3 7",
+          "output": "133\n223\n232\n313\n322\n331",
+          "note": "Trzy cyfry od 1 do 3 o sumie 7: 133, 223, 232, 313, 322, 331."
+        },
+        {
+          "input": "2 4 9",
+          "output": "BRAK"
+        }
+      ],
+      "hint": "void kod(int i, int suma, string s) { if (i == n) { if (suma == S) { cout << s << \"\\n\"; ile++; } return; } int zostanie = n - i - 1; for (int c = 1; c <= k; c++) { int nowa = suma + c; if (nowa + zostanie > S || nowa + k * zostanie < S) continue; kod(i + 1, nowa, s + char('0' + c)); } }. Bez obcinania program też by zdążył, ale sprawdzałby wszystkie kᵒ kodów — z obcinaniem idzie tylko tam, gdzie jest szansa na wynik.",
+      "tests_count": 10
+    },
+    {
+      "id": "rk-plus-minus",
+      "number": 2027,
+      "title": "Plus czy minus?",
+      "category": "Rekurencja / krok 7: generowanie możliwości",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na tablicy zapisano n liczb. Przed każdą z nich trzeba postawić znak + albo − tak, żeby wartość całego wyrażenia była równa S. Na ile sposobów można to zrobić? Znak przed pierwszą liczbą też wybierasz.",
+        "Napisz funkcję rekurencyjną long long ile(int i, long long suma): gdy i == n, oddaje 1, jeśli suma == S, a 0 w przeciwnym razie; inaczej oddaje sumę wyników dwóch wywołań — z liczbą i dodaną do sumy i z liczbą i odjętą."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n i S.",
+        "W drugim wierszu n liczb całkowitych dodatnich."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba sposobów."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 20",
+        "1 ≤ każda liczba ≤ 1000",
+        "−20 000 ≤ S ≤ 20 000"
+      ],
+      "examples": [
+        {
+          "input": "4 2\n1 1 1 1",
+          "output": "4",
+          "note": "Trzy plusy i jeden minus — minus może stać przed dowolną z czterech jedynek."
+        },
+        {
+          "input": "3 2\n1 2 3",
+          "output": "1",
+          "note": "Tylko +1 − 2 + 3 = 2."
+        }
+      ],
+      "hint": "long long ile(int i, long long suma) { if (i == n) return suma == S ? 1 : 0; return ile(i + 1, suma + a[i]) + ile(i + 1, suma - a[i]); }, a w main ile(0, 0). Dla n = 20 to około 2 miliony wywołań — sprawdzarka zrobi to w ułamku sekundy. Każde dodatkowe n podwaja pracę, więc dla n = 40 ten sposób by już nie zdążył.",
+      "tests_count": 9
+    },
+    {
+      "id": "rk-waga-szalkowa",
+      "number": 2028,
+      "title": "Waga szalkowa",
+      "category": "Rekurencja / krok 7: generowanie możliwości",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Sprzedawca ma wagę szalkową i n odważników. Towar kładzie na lewą szalkę. Każdy odważnik może położyć na prawą szalkę (wtedy dodaje się do zważonej masy), na lewą — obok towaru (wtedy się odejmuje) albo nie użyć go wcale. Ile różnych dodatnich mas towaru da się w ten sposób dokładnie zważyć?",
+        "Napisz funkcję rekurencyjną void wazy(int i, int roznica), która dla odważnika i wywołuje samą siebie trzy razy: z roznica + w[i], z roznica − w[i] i bez zmiany. Gdy i == n i roznica > 0, wstawia ją do set<int>. Wynik to rozmiar zbioru."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W drugim wierszu n mas odważników."
+      ],
+      "output_format": [
+        "Jedna liczba — ile różnych dodatnich mas da się zważyć."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10",
+        "1 ≤ masa odważnika ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "2\n1 3",
+          "output": "4",
+          "note": "Da się zważyć 1, 3, 1 + 3 = 4 i 3 − 1 = 2 (odważnik 1 leży obok towaru)."
+        }
+      ],
+      "hint": "set<int> masy; void wazy(int i, int roznica) { if (i == n) { if (roznica > 0) masy.insert(roznica); return; } wazy(i + 1, roznica + w[i]); wazy(i + 1, roznica - w[i]); wazy(i + 1, roznica); }. Dla n = 10 to 3¹⁰ = 59 049 zakończeń — set sam usunie powtórzenia.",
+      "tests_count": 7
+    },
+    {
+      "id": "rk-zdjecie-klasowe",
+      "number": 2029,
+      "title": "Zdjęcie klasowe",
+      "category": "Rekurencja / krok 7: generowanie możliwości",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Do zdjęcia klasowego n osób staje w jednym rzędzie. Niektóre pary osób są skłócone i nie mogą stać obok siebie. Policz, na ile sposobów można ustawić rząd, i wypisz ustawienie pierwsze w kolejności alfabetycznej (porównujemy najpierw pierwszą osobę w rzędzie, przy remisie drugą i tak dalej). Jeśli żadne ustawienie nie jest dobre, w drugim wierszu wypisz BRAK.",
+        "Posortuj imiona i generuj ustawienia rekurencyjnie: na kolejne miejsce próbuj każdej osoby, która jeszcze nie stoi w rzędzie (tablica bool uzyty[]), ale tylko wtedy, gdy nie jest skłócona z osobą stojącą przed nią. Pierwsze znalezione ustawienie jest wtedy pierwsze alfabetycznie."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n i m — liczba osób i liczba skłóconych par.",
+        "W drugim wierszu n różnych imion.",
+        "W każdym z m kolejnych wierszy dwa imiona skłóconej pary."
+      ],
+      "output_format": [
+        "W pierwszym wierszu liczba dobrych ustawień.",
+        "W drugim wierszu pierwsze alfabetycznie dobre ustawienie (imiona oddzielone spacjami) albo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 8",
+        "0 ≤ m ≤ n · (n − 1) / 2, pary się nie powtarzają",
+        "Imiona mają od 1 do 10 liter: pierwsza wielka, reszta małe."
+      ],
+      "examples": [
+        {
+          "input": "3 1\nCelina Ala Bartek\nAla Bartek",
+          "output": "2\nAla Celina Bartek",
+          "note": "Ala i Bartek muszą stać na końcach, a Celina w środku: Ala Celina Bartek albo Bartek Celina Ala."
+        }
+      ],
+      "hint": "sort(imiona.begin(), imiona.end()); — potem bool zle[8][8] dla skłóconych par (po indeksach). void ustaw() { if ((int)rzad.size() == n) { ile++; if (ile == 1) pierwsze = rzad; return; } for (int i = 0; i < n; i++) { if (uzyty[i]) continue; if (!rzad.empty() && zle[rzad.back()][i]) continue; uzyty[i] = true; rzad.push_back(i); ustaw(); rzad.pop_back(); uzyty[i] = false; } }.",
+      "tests_count": 9
+    },
+    {
+      "id": "rk-kod-graya",
+      "number": 2030,
+      "title": "Kod Graya",
+      "category": "Rekurencja / krok 7: generowanie możliwości",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Licznik w starej maszynie może na raz przestawić tylko jeden przełącznik. Dlatego zamiast zwykłego liczenia dwójkowego używa się kodu Graya: ciągu wszystkich 2ⁿ napisów zero-jedynkowych długości n, w którym każde dwa kolejne napisy różnią się dokładnie jedną cyfrą. Kod Graya dla n = 1 to 0, 1. Kod dla n powstaje z kodu dla n − 1 tak: najpierw wszystkie napisy kodu n − 1 z dopisanym z przodu 0, a potem wszystkie napisy kodu n − 1 w odwrotnej kolejności z dopisanym z przodu 1.",
+        "Wypisz kod Graya dla podanego n, każdy napis w osobnym wierszu. Napisz funkcję rekurencyjną vector<string> gray(int n)."
+      ],
+      "input_format": [
+        "W jedynym wierszu n."
+      ],
+      "output_format": [
+        "2ⁿ wierszy — kolejne napisy kodu Graya."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10"
+      ],
+      "examples": [
+        {
+          "input": "2",
+          "output": "00\n01\n11\n10",
+          "note": "Kod dla n = 1 to 0, 1. Z zerem z przodu: 00, 01. Odwrócony z jedynką z przodu: 11, 10."
+        },
+        {
+          "input": "3",
+          "output": "000\n001\n011\n010\n110\n111\n101\n100"
+        }
+      ],
+      "hint": "vector<string> gray(int n) { if (n == 1) return {\"0\", \"1\"}; vector<string> mniejszy = gray(n - 1), w; for (string s : mniejszy) w.push_back(\"0\" + s); for (int i = mniejszy.size() - 1; i >= 0; i--) w.push_back(\"1\" + mniejszy[i]); return w; }. Na łączeniu dwóch połówek różnica jest tylko w pierwszej cyfrze, bo ostatni napis pierwszej połówki i pierwszy napis drugiej mają ten sam koniec.",
+      "tests_count": 6
+    },
+    {
+      "id": "rk-plama",
+      "number": 2031,
+      "title": "Plama atramentu",
+      "category": "Rekurencja / krok 8: plansze i dziel i zwyciężaj",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Kartka w kratkę ma n wierszy i m kolumn. Kratki zamalowane atramentem oznaczono znakiem #, a czyste — kropką. Dwie zamalowane kratki należą do tej samej plamy, jeśli od jednej do drugiej można przejść po zamalowanych kratkach sąsiadujących bokiem. Bajtek wskazuje kratkę w wierszu r i kolumnie c (numerowane od 1). Ile kratek ma plama, do której ona należy? Jeśli wskazana kratka jest czysta, odpowiedź to 0.",
+        "Napisz funkcję rekurencyjną int zalej(int x, int y): jeśli (x, y) leży poza kartką, jest czysta albo już policzona — oddaje 0; inaczej zaznacza kratkę jako policzoną i oddaje 1 plus wyniki dla czterech sąsiadów."
+      ],
+      "input_format": [
+        "W pierwszym wierszu cztery liczby n, m, r i c.",
+        "W każdym z n kolejnych wierszy m znaków: # albo kropka."
+      ],
+      "output_format": [
+        "Jedna liczba — wielkość plamy."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 100",
+        "1 ≤ r ≤ n",
+        "1 ≤ c ≤ m"
+      ],
+      "examples": [
+        {
+          "input": "4 5 1 2\n##..#\n.#..#\n.###.\n....#",
+          "output": "6",
+          "note": "Plama z kratką (1, 2) to 6 kratek. Kratki # w prawej kolumnie to osobne plamy."
+        }
+      ],
+      "hint": "int zalej(int x, int y) { if (x < 0 || y < 0 || x >= n || y >= m) return 0; if (g[x][y] != '#' || odw[x][y]) return 0; odw[x][y] = true; return 1 + zalej(x + 1, y) + zalej(x - 1, y) + zalej(x, y + 1) + zalej(x, y - 1); }. Najpierw sprawdzaj granice, potem pole — inaczej g[−1][…] wyjdzie poza tablicę. Bez tablicy odw dwie sąsiednie kratki wołałyby się nawzajem bez końca. W main pamiętaj o r − 1 i c − 1.",
+      "tests_count": 8
+    },
+    {
+      "id": "rk-pozar-lasu",
+      "number": 2032,
+      "title": "Pożar lasu",
+      "category": "Rekurencja / krok 8: plansze i dziel i zwyciężaj",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Mapa lasu ma n wierszy i m kolumn: T to drzewo, kropka — puste pole. Piorun trafił w drzewo w wierszu r i kolumnie c (numerowane od 1). Ogień przenosi się z płonącego drzewa na każde drzewo sąsiadujące z nim bokiem albo rogiem (każde pole ma do 8 sąsiadów). Policz, ile drzew spłonie, i wypisz mapę po pożarze ze spalonymi drzewami oznaczonymi gwiazdką *.",
+        "Napisz funkcję rekurencyjną void pal(int x, int y), która zamienia T na * i wywołuje samą siebie dla 8 sąsiadów. Spalone pole nie jest już drzewem — dlatego osobna tablica odwiedzonych nie jest potrzebna."
+      ],
+      "input_format": [
+        "W pierwszym wierszu cztery liczby n, m, r i c.",
+        "W każdym z n kolejnych wierszy m znaków: T albo kropka. W polu (r, c) rośnie drzewo."
+      ],
+      "output_format": [
+        "W pierwszym wierszu liczba spalonych drzew.",
+        "Potem n wierszy — mapa po pożarze."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 100"
+      ],
+      "examples": [
+        {
+          "input": "3 4 1 1\nT.T.\n.T..\n...T",
+          "output": "3\n*.*.\n.*..\n...T",
+          "note": "Ogień idzie po skosie: (1, 1) → (2, 2) → (1, 3). Drzewo w rogu (3, 4) nie sąsiaduje z żadnym płonącym."
+        }
+      ],
+      "hint": "void pal(int x, int y) { if (x < 0 || y < 0 || x >= n || y >= m || g[x][y] != 'T') return; g[x][y] = '*'; spalone++; for (int dx = -1; dx <= 1; dx++) for (int dy = -1; dy <= 1; dy++) if (dx != 0 || dy != 0) pal(x + dx, y + dy); }. Dwie pętle po dx i dy dają wszystkich 8 sąsiadów bez wypisywania ich ręcznie.",
+      "tests_count": 7
+    },
+    {
+      "id": "rk-wyspy",
+      "number": 2033,
+      "title": "Wyspy",
+      "category": "Rekurencja / krok 8: plansze i dziel i zwyciężaj",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Mapa ma n wierszy i m kolumn: # to ląd, kropka — woda. Wyspa to największy obszar lądu, po którym można chodzić między polami sąsiadującymi bokiem. Policz wyspy i podaj powierzchnię największej (w polach). Jeśli na mapie nie ma lądu, wypisz 0 0.",
+        "Przejdź pętlą po wszystkich polach. Gdy trafisz na ląd, którego jeszcze nie odwiedziłeś, to początek nowej wyspy: zwiększ licznik wysp i wywołaj zalewanie, które odwiedzi całą tę wyspę i odda jej powierzchnię."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n i m.",
+        "W każdym z n kolejnych wierszy m znaków: # albo kropka."
+      ],
+      "output_format": [
+        "Dwie liczby: liczba wysp i powierzchnia największej wyspy."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 100"
+      ],
+      "examples": [
+        {
+          "input": "4 5\n##..#\n.#..#\n.###.\n....#",
+          "output": "3 6",
+          "note": "Wyspy mają powierzchnie 6, 2 i 1. Pola stykające się tylko rogiem nie tworzą jednej wyspy."
+        }
+      ],
+      "hint": "for (int i = 0; i < n; i++) for (int j = 0; j < m; j++) if (g[i][j] == '#' && !odw[i][j]) { wyspy++; najwieksza = max(najwieksza, zalej(i, j)); }. Funkcja zalej jest taka sama jak w zadaniu „Plama atramentu”. Każde pole odwiedzisz tylko raz, więc całość działa szybko nawet dla planszy 100 × 100.",
+      "tests_count": 8
+    },
+    {
+      "id": "rk-przejscie",
+      "number": 2034,
+      "title": "Po kamieniach na drugi brzeg",
+      "category": "Rekurencja / krok 8: plansze i dziel i zwyciężaj",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Rzeka ma n wierszy i m kolumn: o to kamień, ~ to woda. Górny brzeg leży nad pierwszym wierszem, a dolny — pod ostatnim. Bajtek może wejść na dowolny kamień w pierwszym wierszu i przechodzić z kamienia na kamień sąsiadujący bokiem. Czy dojdzie do jakiegoś kamienia w ostatnim wierszu, a stamtąd na dolny brzeg?",
+        "Uruchom zalewanie z każdego kamienia w pierwszym wierszu (tablica odwiedzonych jest wspólna dla wszystkich startów — pole odwiedzone raz nie musi być odwiedzane drugi raz). Na końcu sprawdź, czy któryś kamień w ostatnim wierszu został odwiedzony."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n i m.",
+        "W każdym z n kolejnych wierszy m znaków: o albo ~."
+      ],
+      "output_format": [
+        "TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 100"
+      ],
+      "examples": [
+        {
+          "input": "4 5\no~~o~\noo~oo\n~o~~o\n~ooo~",
+          "output": "TAK",
+          "note": "Z kamienia (1, 1) idziemy w dół na (2, 1), w prawo na (2, 2), a potem w dół na (3, 2) i (4, 2) — to już ostatni wiersz."
+        },
+        {
+          "input": "3 3\nooo\n~~~\nooo",
+          "output": "NIE"
+        }
+      ],
+      "hint": "for (int j = 0; j < m; j++) zalej(0, j); — zalej od razu wraca z pola, które nie jest kamieniem albo było już odwiedzone. Potem: bool da = false; for (int j = 0; j < m; j++) if (odw[n - 1][j]) da = true;. Wspólna tablica odw sprawia, że każde pole odwiedzisz najwyżej raz, nawet przy 100 startach.",
+      "tests_count": 10
+    },
+    {
+      "id": "rk-jeziora",
+      "number": 2035,
+      "title": "Jeziora na wyspie",
+      "category": "Rekurencja / krok 8: plansze i dziel i zwyciężaj",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Mapa wyspy ma n wierszy i m kolumn: # to ląd, kropka — woda. Woda, z której da się dopłynąć (przez pola wody sąsiadujące bokiem) do brzegu mapy, należy do morza. Każdy inny spójny obszar wody to jezioro. Policz jeziora i ich łączną powierzchnię.",
+        "Najpierw uruchom zalewanie wody z każdego pola wody leżącego na brzegu mapy — oznaczy całe morze. Potem przejdź po wszystkich polach: każde nieodwiedzone pole wody to początek nowego jeziora — zalej je i dolicz jego powierzchnię."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n i m.",
+        "W każdym z n kolejnych wierszy m znaków: # albo kropka."
+      ],
+      "output_format": [
+        "Dwie liczby: liczba jezior i ich łączna powierzchnia."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 100"
+      ],
+      "examples": [
+        {
+          "input": "5 6\n######\n#..#.#\n####.#\n#.####\n######",
+          "output": "3 5",
+          "note": "Jeziora: dwa pola w drugim wierszu, dwa pola w prawej kolumnie i jedno pole w czwartym wierszu — 3 jeziora o łącznej powierzchni 5."
+        }
+      ],
+      "hint": "for (int i = 0; i < n; i++) for (int j = 0; j < m; j++) if (i == 0 || j == 0 || i == n - 1 || j == m - 1) zalej(i, j); — to oznacza morze. Potem jeziora: if (g[i][j] == '.' && !odw[i][j]) { jeziora++; pow += zalej(i, j); }. Ta sama funkcja zalej (oddająca liczbę pól) służy do obu etapów.",
+      "tests_count": 8
+    },
+    {
+      "id": "rk-turniej",
+      "number": 2036,
+      "title": "Turniej pucharowy",
+      "category": "Rekurencja / krok 8: plansze i dziel i zwyciężaj",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W turnieju pucharowym gra n = 2ᵏ zawodników ustawionych w drabince w kolejności z wejścia. W pierwszej rundzie grają pary (1, 2), (3, 4), …; zwycięzcy kolejnych par grają ze sobą w następnej rundzie w tej samej kolejności i tak dalej, aż do finału. W każdym meczu wygrywa zawodnik o większej sile (siły są różne). Wypisz, ile meczów wygrał każdy zawodnik.",
+        "Napisz funkcję rekurencyjną int turniej(int l, int r), która rozgrywa turniej na fragmencie drabinki od l do r − 1 (jego długość jest potęgą dwójki): dzieli go na dwie połowy, rozgrywa każdą rekurencyjnie, a zwycięzcy połówek grają ze sobą. Zwycięzca tego meczu dostaje +1 do licznika wygranych i jest zwycięzcą całego fragmentu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu k.",
+        "W drugim wierszu 2ᵏ różnych liczb — siły zawodników."
+      ],
+      "output_format": [
+        "W jednym wierszu 2ᵏ liczb — ile meczów wygrał każdy zawodnik."
+      ],
+      "constraints": [
+        "0 ≤ k ≤ 12",
+        "1 ≤ siła ≤ 10⁹, siły są różne"
+      ],
+      "examples": [
+        {
+          "input": "2\n5 8 3 1",
+          "output": "0 2 1 0",
+          "note": "8 pokonuje 5, a 3 pokonuje 1. W finale 8 pokonuje 3 — razem 2 wygrane."
+        }
+      ],
+      "hint": "int turniej(int l, int r) { if (r - l == 1) return l; int s = (l + r) / 2; int a = turniej(l, s), b = turniej(s, r); int w = sila[a] > sila[b] ? a : b; wygrane[w]++; return w; }. Każdy poziom rekurencji to jedna runda. Przy k = 0 jest jeden zawodnik — wygrał 0 meczów.",
+      "tests_count": 7
+    },
+    {
+      "id": "rk-pierwiastek",
+      "number": 2037,
+      "title": "Pierwiastek bez sqrt",
+      "category": "Rekurencja / krok 8: plansze i dziel i zwyciężaj",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej z t liczb n wypisz część całkowitą pierwiastka kwadratowego, czyli największe x, dla którego x · x ≤ n. Funkcja sqrt na liczbach rzędu 10¹⁸ potrafi się pomylić o 1 — pamiętasz z lekcji o zaokrąglaniu, że (long long)sqrt(10¹⁸ − 1) daje 10⁹, choć powinno wyjść 999 999 999.",
+        "Napisz funkcję rekurencyjną long long szukaj(long long lo, long long hi), która szuka odpowiedzi w przedziale [lo, hi]: gdy lo == hi, to jest odpowiedź; inaczej bierze środek mid = (lo + hi + 1) / 2 i jeśli mid · mid ≤ n, szuka w [mid, hi], a jeśli nie — w [lo, mid − 1]. Zacznij od szukaj(0, 1000000000)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy liczba całkowita n."
+      ],
+      "output_format": [
+        "t wierszy — części całkowite pierwiastków."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1000",
+        "0 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "4\n10\n16\n0\n999999999999999999",
+          "output": "3\n4\n0\n999999999"
+        }
+      ],
+      "hint": "long long n; long long szukaj(long long lo, long long hi) { if (lo == hi) return lo; long long mid = (lo + hi + 1) / 2; if (mid * mid <= n) return szukaj(mid, hi); return szukaj(lo, mid - 1); }. „+ 1” w środku jest ważne: bez niego przy lo + 1 == hi środek byłby równy lo i przy warunku prawdziwym przedział by się nie zmniejszył — nieskończona rekurencja. Przedział połowi się za każdym razem, więc wywołań jest około 30.",
+      "tests_count": 3
+    },
+    {
+      "id": "rk-trojkat-sierpinskiego",
+      "number": 2038,
+      "title": "Trójkąt Sierpińskiego",
+      "category": "Rekurencja / krok 8: plansze i dziel i zwyciężaj",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Trójkąt Sierpińskiego rzędu 0 to jedna gwiazdka *. Trójkąt rzędu k ma 2ᵏ wierszy i 2ᵏ⁺¹ − 1 kolumn: w górnej połowie, pośrodku, stoi trójkąt rzędu k − 1, a w dolnej połowie dwa trójkąty rzędu k − 1 obok siebie, oddzielone jedną kolumną spacji. Narysuj trójkąt rzędu k.",
+        "Przygotuj tablicę wierszy wypełnionych spacjami i napisz funkcję rekurencyjną void rysuj(int k, int x, int y), która rysuje trójkąt rzędu k tak, że jego lewy górny róg (prostokąta, w którym się mieści) jest w wierszu x i kolumnie y: dla k = 0 stawia gwiazdkę, a dla większego k wywołuje samą siebie trzy razy z k − 1. Spacji na końcach wierszy nie musisz usuwać."
+      ],
+      "input_format": [
+        "W jedynym wierszu k."
+      ],
+      "output_format": [
+        "2ᵏ wierszy rysunku."
+      ],
+      "constraints": [
+        "0 ≤ k ≤ 6"
+      ],
+      "examples": [
+        {
+          "input": "2",
+          "output": "*\n  * *\n *   *\n* * * *"
+        }
+      ],
+      "hint": "Niech h = 2ᵏ⁻¹ (wysokość mniejszego trójkąta). Górny trójkąt zaczyna się w (x, y + h), lewy dolny w (x + h, y), a prawy dolny w (x + h, y + 2h). void rysuj(int k, int x, int y) { if (k == 0) { obraz[x][y] = '*'; return; } int h = 1 << (k - 1); rysuj(k - 1, x, y + h); rysuj(k - 1, x + h, y); rysuj(k - 1, x + h, y + 2 * h); }. Tablica: vector<string> obraz(1 << k, string((2 << k) - 1, ' '));.",
+      "tests_count": 7
+    },
+    {
+      "id": "rk-b-schodki",
+      "number": 2039,
+      "title": "Schodki bez pętli",
+      "category": "Rekurencja / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n i wypisz schodki z liczb: w pierwszym wierszu 1, w drugim 1 2, w trzecim 1 2 3 i tak dalej, aż do wiersza z liczbami od 1 do n.",
+        "Haczyk: w programie nie może być żadnej pętli. Napisz dwie funkcje rekurencyjne — jedną, która wypisuje jeden wiersz (liczby od j do i), i drugą, która wypisuje kolejne wiersze."
+      ],
+      "input_format": [
+        "W jedynym wierszu n."
+      ],
+      "output_format": [
+        "n wierszy schodków; liczby w wierszu oddzielone spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 50"
+      ],
+      "examples": [
+        {
+          "input": "3",
+          "output": "1\n1 2\n1 2 3"
+        }
+      ],
+      "hint": "void wiersz(int j, int i) { cout << j; if (j == i) { cout << \"\\n\"; return; } cout << \" \"; wiersz(j + 1, i); } oraz void schodki(int i, int n) { if (i > n) return; wiersz(1, i); schodki(i + 1, n); }. Pętla zagnieżdżona w pętli zamienia się w rekurencję, która wywołuje inną rekurencję.",
+      "tests_count": 5
+    },
+    {
+      "id": "rk-b-suma-przedzialu",
+      "number": 2040,
+      "title": "Suma od a do b",
+      "category": "Rekurencja / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej z t par liczb a i b policz sumę wszystkich liczb całkowitych leżących między nimi, razem z a i b. Liczba a może być większa od b — wtedy też liczymy sumę liczb od mniejszej do większej.",
+        "Napisz funkcję rekurencyjną long long suma(int a, int b) dla a ≤ b: gdy a > b, przedział jest pusty i suma to 0; inaczej to a + suma(a + 1, b)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy dwie liczby całkowite a i b."
+      ],
+      "output_format": [
+        "t wierszy — kolejne sumy."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 10",
+        "−10 000 ≤ a, b ≤ 10 000"
+      ],
+      "examples": [
+        {
+          "input": "3\n1 100\n5 -2\n-3 -3",
+          "output": "5050\n12\n-3",
+          "note": "Dla 5 i −2 sumujemy −2, −1, 0, 1, 2, 3, 4, 5 — wychodzi 12."
+        }
+      ],
+      "hint": "long long suma(int a, int b) { if (a > b) return 0; return a + suma(a + 1, b); }. W main, jeśli a > b, zamień je miejscami: if (a > b) swap(a, b);. Głębokość rekurencji to najwyżej 20 001 — w sam raz.",
+      "tests_count": 3
+    },
+    {
+      "id": "rk-b-ile-jedynek",
+      "number": 2041,
+      "title": "Jedynki w zapisie dwójkowym",
+      "category": "Rekurencja / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej z t liczb policz, ile jedynek ma jej zapis dwójkowy. Na przykład 5 to dwójkowo 101 — dwie jedynki, a 255 to 11111111 — osiem jedynek.",
+        "Napisz funkcję rekurencyjną int jedynki(long long n): dla zera to 0, a w pozostałych przypadkach ostatnia cyfra dwójkowa (n % 2) plus liczba jedynek w n / 2."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy liczba całkowita n."
+      ],
+      "output_format": [
+        "t wierszy — liczby jedynek."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1000",
+        "0 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "3\n5\n0\n255",
+          "output": "2\n0\n8"
+        }
+      ],
+      "hint": "int jedynki(long long n) { if (n == 0) return 0; return n % 2 + jedynki(n / 2); }. Nie musisz budować zapisu dwójkowego — wystarczy liczyć ostatnie cyfry. Głębokość to około 60.",
+      "tests_count": 3
+    },
+    {
+      "id": "rk-b-zera-na-koncu",
+      "number": 2042,
+      "title": "Zera na końcu",
+      "category": "Rekurencja / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej z t liczb wypisz, ile zer stoi na jej końcu, oraz liczbę, która zostanie po starciu tych zer. Na przykład 12000 ma na końcu 3 zera, a po ich starciu zostaje 12.",
+        "Napisz dwie funkcje rekurencyjne: int zera(long long n) i long long bezZer(long long n). Obie kończą pracę, gdy ostatnia cyfra nie jest zerem."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy liczba całkowita n."
+      ],
+      "output_format": [
+        "t wierszy: liczba zer na końcu i liczba bez tych zer, oddzielone spacją."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1000",
+        "1 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "3\n12000\n7\n1000000000000000000",
+          "output": "3 12\n0 7\n18 1"
+        }
+      ],
+      "hint": "int zera(long long n) { if (n % 10 != 0) return 0; return 1 + zera(n / 10); } i long long bezZer(long long n) { if (n % 10 != 0) return n; return bezZer(n / 10); }. Liczba n ≥ 1 zawsze ma jakąś niezerową cyfrę, więc rekurencja na pewno się zatrzyma. Dla n = 0 tak by nie było!",
+      "tests_count": 3
+    },
+    {
+      "id": "rk-b-domek-z-kart",
+      "number": 2043,
+      "title": "Domek z kart",
+      "category": "Rekurencja / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Bajtek buduje domki z kart. Domek o n piętrach wygląda tak: na najniższym piętrze stoi n „namiotów” — par kart opartych o siebie — a na nich leży n − 1 kart poziomych. Na tych kartach stoi domek o n − 1 piętrach. Domek o 0 piętrach nie ma żadnych kart.",
+        "Dla każdego z t domków policz, ile kart potrzeba. Napisz funkcję rekurencyjną long long karty(long long n), która korzysta z tego, że domek o n piętrach to 2n + (n − 1) = 3n − 1 kart najniższego piętra plus domek o n − 1 piętrach."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy liczba n."
+      ],
+      "output_format": [
+        "t wierszy — liczby kart."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 10",
+        "1 ≤ n ≤ 100 000"
+      ],
+      "examples": [
+        {
+          "input": "3\n1\n2\n3",
+          "output": "2\n7\n15",
+          "note": "Jedno piętro to jeden namiot (2 karty). Dwa piętra: 2 namioty, 1 karta pozioma i namiot na górze — 7 kart."
+        }
+      ],
+      "hint": "long long karty(long long n) { if (n == 0) return 0; return 3 * n - 1 + karty(n - 1); }. Głębokość rekurencji sięga 100 000 — to bezpieczne na sprawdzarce. Wynik dla n = 100 000 przekracza zakres int.",
+      "tests_count": 3
+    },
+    {
+      "id": "rk-b-cyfry-parzyste",
+      "number": 2044,
+      "title": "Parzyste cyfry od lewej",
+      "category": "Rekurencja / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej z t liczb wypisz jej parzyste cyfry (0, 2, 4, 6, 8) w kolejności, w jakiej stoją w liczbie, bez spacji. Jeśli liczba nie ma żadnej parzystej cyfry, wypisz BRAK.",
+        "Napisz funkcję rekurencyjną void parzyste(long long n), która najpierw wywołuje samą siebie dla n / 10, a potem wypisuje ostatnią cyfrę, jeśli jest parzysta. Drugą funkcją rekurencyjną policz, ile jest parzystych cyfr — żeby wiedzieć, kiedy wypisać BRAK."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy liczba całkowita n."
+      ],
+      "output_format": [
+        "t wierszy — parzyste cyfry albo BRAK."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100",
+        "1 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "3\n12345\n2468\n135",
+          "output": "24\n2468\nBRAK"
+        }
+      ],
+      "hint": "void parzyste(long long n) { if (n == 0) return; parzyste(n / 10); if (n % 10 % 2 == 0) cout << n % 10; } i int ile(long long n) { if (n == 0) return 0; return (n % 10 % 2 == 0) + ile(n / 10); }. Stop przy n == 0 jest tu dobry, bo n ≥ 1 — zero „po lewej stronie” liczby nie zostanie wypisane.",
+      "tests_count": 3
+    },
+    {
+      "id": "rk-b-nwd-trzech",
+      "number": 2045,
+      "title": "NWD i NWW trzech liczb",
+      "category": "Rekurencja / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej z t trójek liczb a, b, c wypisz ich największy wspólny dzielnik i najmniejszą wspólną wielokrotność.",
+        "Napisz funkcję rekurencyjną long long nwd(long long a, long long b) (algorytm Euklidesa). NWD trzech liczb to nwd(nwd(a, b), c), a NWW — nww(nww(a, b), c), gdzie nww(x, y) = x / nwd(x, y) · y."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy trzy liczby całkowite a, b, c."
+      ],
+      "output_format": [
+        "t wierszy: NWD i NWW, oddzielone spacją."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1000",
+        "1 ≤ a, b, c ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "2\n12 18 30\n7 5 3",
+          "output": "6 180\n1 105"
+        }
+      ],
+      "hint": "long long nwd(long long a, long long b) { if (b == 0) return a; return nwd(b, a % b); } i long long nww(long long a, long long b) { return a / nwd(a, b) * b; }. NWW trzech liczb do 10⁶ może sięgać 10¹⁸ — long long, i najpierw dziel, potem mnóż.",
+      "tests_count": 3
+    },
+    {
+      "id": "rk-b-dwojkowo-k",
+      "number": 2046,
+      "title": "Dwójkowo na k bitach",
+      "category": "Rekurencja / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Rejestr w procesorze ma k bitów. Dla każdej z t par n i k wypisz zapis dwójkowy liczby n na dokładnie k bitach — z zerami z przodu, jeśli trzeba. Na przykład 5 na 8 bitach to 00000101.",
+        "Napisz funkcję rekurencyjną void bity(long long n, int k), która wypisuje k ostatnich bitów liczby n: dla k = 0 nic, a inaczej najpierw bity(n / 2, k − 1), a potem n % 2."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy dwie liczby n i k."
+      ],
+      "output_format": [
+        "t wierszy, każdy z dokładnie k znaków 0 i 1."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 400",
+        "1 ≤ k ≤ 60",
+        "0 ≤ n < 2ᵏ"
+      ],
+      "examples": [
+        {
+          "input": "3\n5 8\n0 3\n1 1",
+          "output": "00000101\n000\n1"
+        }
+      ],
+      "hint": "void bity(long long n, int k) { if (k == 0) return; bity(n / 2, k - 1); cout << n % 2; }. Zera z przodu pojawiają się same: gdy n spadnie do 0, n % 2 wypisuje 0 aż do wyczerpania licznika k.",
+      "tests_count": 3
+    },
+    {
+      "id": "rk-b-zdanie-wspak",
+      "number": 2047,
+      "title": "Zdanie wspak",
+      "category": "Rekurencja / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wejście zawiera słowa oddzielone spacjami i enterami — nie wiadomo, ile ich jest. Wypisz je w jednym wierszu w odwrotnej kolejności, oddzielone pojedynczymi spacjami.",
+        "Nie używaj tablicy ani vectora. Napisz funkcję rekurencyjną void wspak(), która próbuje wczytać słowo: jeśli się nie udało (koniec danych) — kończy; inaczej najpierw wywołuje samą siebie, a potem wypisuje swoje słowo."
+      ],
+      "input_format": [
+        "Słowa z liter i cyfr, oddzielone spacjami i znakami nowego wiersza."
+      ],
+      "output_format": [
+        "W jednym wierszu wszystkie słowa w odwrotnej kolejności."
+      ],
+      "constraints": [
+        "Słów jest od 1 do 2000.",
+        "Każde słowo ma od 1 do 10 znaków."
+      ],
+      "examples": [
+        {
+          "input": "Ala ma kota\ni psa",
+          "output": "psa i kota ma Ala",
+          "note": "Podział na wiersze nie ma znaczenia — liczy się kolejność słów."
+        }
+      ],
+      "hint": "void wspak() { string s; if (!(cin >> s)) return; wspak(); cout << s << \" \"; }. Wyrażenie cin >> s jest fałszywe, gdy nie udało się wczytać słowa — to jest warunek stopu. Spacja na końcu wiersza nie przeszkadza sprawdzarce.",
+      "tests_count": 5
+    },
+    {
+      "id": "rk-b-collatz-szczyt",
+      "number": 2048,
+      "title": "Najwyższy punkt lotu",
+      "category": "Rekurencja / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Weź liczbę n. Jeśli jest parzysta, podziel ją przez 2, a jeśli nieparzysta — zamień na 3n + 1. Powtarzaj, aż dojdziesz do 1 (dla wszystkich liczb z zadania tak się dzieje). Liczby po drodze potrafią mocno urosnąć: 7 → 22 → 11 → 34 → 17 → 52 → 26 → … → 1. Dla każdej z t liczb wypisz największą wartość, jaka pojawi się w jej ciągu (licząc też samo n).",
+        "Napisz funkcję rekurencyjną long long szczyt(long long n): dla n = 1 to 1, a inaczej większa z liczb n i szczyt(następnej liczby w ciągu)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy liczba n."
+      ],
+      "output_format": [
+        "t wierszy — najwyższe wartości."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1000",
+        "1 ≤ n ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "3\n6\n1\n7",
+          "output": "16\n1\n52",
+          "note": "6 → 3 → 10 → 5 → 16 → 8 → 4 → 2 → 1, najwyżej 16."
+        }
+      ],
+      "hint": "long long szczyt(long long n) { if (n == 1) return 1; long long nast = (n % 2 == 0) ? n / 2 : 3 * n + 1; return max(n, szczyt(nast)); }. Wartości po drodze przekraczają zakres int (dla n ≤ 10⁶ dochodzą do ponad 5 · 10¹⁰), dlatego long long. Ciąg ma najwyżej kilkaset wyrazów, więc głębokość rekurencji jest mała.",
+      "tests_count": 3
+    },
+    {
+      "id": "rk-b-zlodziej",
+      "number": 2049,
+      "title": "Złodziej w szeregowcu",
+      "category": "Rekurencja / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W szeregowcu stoi n domów, w i-tym jest skarb wart aᵢ. Złodziej nie może okraść dwóch sąsiednich domów — włączy się alarm. Jaką największą wartość może ukraść?",
+        "Napisz funkcję rekurencyjną long long lup(int i) — największy łup z domów od i do końca. Przy domu i są dwie możliwości: pominąć go (lup(i + 1)) albo okraść i przeskoczyć sąsiada (aᵢ + lup(i + 2)). Bez pamięci liczba wywołań rośnie jak ciąg Fibonacciego — zapamiętuj wyniki."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W drugim wierszu n liczb całkowitych aᵢ."
+      ],
+      "output_format": [
+        "Jedna liczba — największy możliwy łup."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "0 ≤ aᵢ ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "5\n2 7 9 3 1",
+          "output": "12",
+          "note": "Domy 1, 3 i 5: 2 + 9 + 1 = 12. Dom 2 (7) kusi, ale wtedy odpada sąsiadujący z nim dom 3 (9)."
+        }
+      ],
+      "hint": "long long lup(int i) { if (i >= n) return 0; if (jest[i]) return memo[i]; memo[i] = max(lup(i + 1), a[i] + lup(i + 2)); jest[i] = true; return memo[i]; }. Warunek i >= n łapie oba „wyjścia za szeregowiec” — i == n oraz i == n + 1.",
+      "tests_count": 7
+    },
+    {
+      "id": "rk-b-trojkat-liczb",
+      "number": 2050,
+      "title": "Droga w dół trójkąta",
+      "category": "Rekurencja / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Liczby ułożono w trójkąt o n wierszach: w wierszu r (od 1) stoi r liczb. Zaczynasz na samej górze i schodzisz wiersz po wierszu — z liczby w kolumnie c możesz zejść na liczbę w kolumnie c albo c + 1 w następnym wierszu. Jaka jest największa suma liczb na drodze z góry do dolnego wiersza?",
+        "Napisz funkcję rekurencyjną int najlepsza(int r, int c): w dolnym wierszu to sama liczba, a wyżej — liczba plus większa z wartości najlepsza(r + 1, c) i najlepsza(r + 1, c + 1). Wyniki zapamiętuj — bez tego drogi liczyłyby się wiele razy."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W r-tym z kolejnych n wierszy r liczb całkowitych."
+      ],
+      "output_format": [
+        "Jedna liczba — największa suma."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 100",
+        "−10 000 ≤ każda liczba ≤ 10 000"
+      ],
+      "examples": [
+        {
+          "input": "4\n3\n7 4\n2 4 6\n8 5 9 3",
+          "output": "23",
+          "note": "Najlepsza droga: 3 → 7 → 4 → 9 = 23. Zachłanne schodzenie na większą liczbę też tu działa, ale nie zawsze!"
+        }
+      ],
+      "hint": "int najlepsza(int r, int c) { if (r == n - 1) return a[r][c]; if (jest[r][c]) return memo[r][c]; memo[r][c] = a[r][c] + max(najlepsza(r + 1, c), najlepsza(r + 1, c + 1)); jest[r][c] = true; return memo[r][c]; }. Bez pamięci dróg jest 2ⁿ⁻¹ — dla n = 100 to więcej niż atomów na Ziemi.",
+      "tests_count": 7
+    },
+    {
+      "id": "rk-b-liczby-schodkowe",
+      "number": 2051,
+      "title": "Liczby schodkowe",
+      "category": "Rekurencja / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Liczba jest schodkowa, jeśli każde dwie sąsiednie cyfry różnią się dokładnie o 1 — na przykład 4545, 1210 albo 7. Dla każdego z t zapytań policz, ile jest dodatnich n-cyfrowych liczb schodkowych (bez zera na początku).",
+        "Napisz funkcję rekurencyjną long long dopisz(int ile, int ostatnia) — na ile sposobów można dopisać jeszcze ile cyfr za cyfrą ostatnia: gdy ile == 0, jest jeden sposób; inaczej następna cyfra to ostatnia − 1 albo ostatnia + 1 (o ile jest od 0 do 9). Odpowiedź to suma dopisz(n − 1, c) po pierwszych cyfrach c od 1 do 9. Wyniki zapamiętuj."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy liczba n."
+      ],
+      "output_format": [
+        "t wierszy — liczby n-cyfrowych liczb schodkowych."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100",
+        "1 ≤ n ≤ 60"
+      ],
+      "examples": [
+        {
+          "input": "2\n1\n2",
+          "output": "9\n17",
+          "note": "Jednocyfrowe: 1, …, 9. Dwucyfrowe: 10, 12, 21, 23, …, 89, 98 — jest ich 17."
+        }
+      ],
+      "hint": "long long memo[61][10]; bool jest[61][10]; long long dopisz(int ile, int c) { if (ile == 0) return 1; if (jest[ile][c]) return memo[ile][c]; long long w = 0; if (c > 0) w += dopisz(ile - 1, c - 1); if (c < 9) w += dopisz(ile - 1, c + 1); jest[ile][c] = true; return memo[ile][c] = w; }. Stanów jest tylko 61 · 10, choć samych liczb są tryliony.",
+      "tests_count": 3
+    },
+    {
+      "id": "rk-b-hanoi-sasiednie",
+      "number": 2052,
+      "title": "Hanoi na sąsiednie pręty",
+      "category": "Rekurencja / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na pręcie A leży n krążków, od największego (n) na dole do najmniejszego (1) na górze. Trzeba przenieść całą wieżę na pręt C. Jeden ruch to przełożenie górnego krążka z jednego pręta na drugi; nigdy nie wolno kłaść większego krążka na mniejszy. Haczyk: pręty stoją w rzędzie A, B, C i wolno przenosić krążki tylko między sąsiednimi prętami — między A i B albo między B i C.",
+        "Przeniesienie n krążków z jednego końca (A albo C) na drugi koniec zrób tak: przenieś n − 1 górnych krążków na drugi koniec, przełóż krążek n na B, przenieś n − 1 krążków z powrotem na pierwszy koniec, przełóż krążek n z B na drugi koniec i na koniec przenieś n − 1 krążków na drugi koniec. Wypisz liczbę ruchów i wszystkie ruchy w tej kolejności."
+      ],
+      "input_format": [
+        "W jedynym wierszu n."
+      ],
+      "output_format": [
+        "W pierwszym wierszu liczba ruchów.",
+        "W kolejnych wierszach ruchy w formacie X->Y (skąd i dokąd)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 7"
+      ],
+      "examples": [
+        {
+          "input": "1",
+          "output": "2\nA->B\nB->C",
+          "note": "Jedyny krążek musi przejść przez środkowy pręt: A->B, potem B->C."
+        }
+      ],
+      "hint": "void przenies(int n, char z, char na) { if (n == 0) return; przenies(n - 1, z, na); cout << z << \"->B\\n\"; przenies(n - 1, na, z); cout << \"B->\" << na << \"\\n\"; przenies(n - 1, z, na); }. Wywołanie przenies(n, 'A', 'C') — z i na to zawsze końce rzędu (A i C), a środkiem jest B. Liczba ruchów: R(n) = 3 · R(n − 1) + 2, czyli 3ⁿ − 1.",
+      "tests_count": 5
+    },
+    {
+      "id": "rk-b-skoczek",
+      "number": 2053,
+      "title": "Skoczek w k ruchach",
+      "category": "Rekurencja / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Plansza ma n × n pól; pola zajęte oznaczono #, wolne — kropką. Skoczek szachowy stoi na wolnym polu w wierszu r i kolumnie c (numerowane od 1). Skoczek rusza się „w kształt litery L”: o 2 pola w jednym kierunku i o 1 w prostopadłym (8 możliwości). Może przeskakiwać nad zajętymi polami, ale nie może na nich stanąć ani wyjść poza planszę. Na ile różnych pól może trafić w co najwyżej k ruchach (licząc pole startowe)?",
+        "Napisz funkcję rekurencyjną void skacz(int x, int y, int zostalo), która zaznacza pole (x, y) jako osiągnięte i — jeśli zostały jeszcze ruchy — wywołuje samą siebie dla każdego dozwolonego skoku z zostalo − 1. Wynik to liczba zaznaczonych pól."
+      ],
+      "input_format": [
+        "W pierwszym wierszu cztery liczby n, k, r i c.",
+        "W każdym z n kolejnych wierszy n znaków: # albo kropka."
+      ],
+      "output_format": [
+        "Jedna liczba — ile różnych pól może odwiedzić skoczek."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 8",
+        "0 ≤ k ≤ 6"
+      ],
+      "examples": [
+        {
+          "input": "4 1 1 1\n....\n....\n....\n....",
+          "output": "3",
+          "note": "Z rogu skoczek ma tylko dwa skoki — razem z polem startowym to 3 pola."
+        }
+      ],
+      "hint": "int dx[8] = {1, 2, 2, 1, -1, -2, -2, -1}, dy[8] = {2, 1, -1, -2, -2, -1, 1, 2}; void skacz(int x, int y, int zostalo) { osiagniete[x][y] = true; if (zostalo == 0) return; for (int d = 0; d < 8; d++) { int nx = x + dx[d], ny = y + dy[d]; if (nx < 0 || ny < 0 || nx >= n || ny >= n || g[nx][ny] == '#') continue; skacz(nx, ny, zostalo - 1); } }. Nie przerywaj na polu już osiągniętym — mogłeś tam dojść wcześniej „dłuższą drogą” i mieć teraz więcej ruchów w zapasie. 8⁶ to tylko 262 144 wywołania.",
+      "tests_count": 9
+    },
+    {
+      "id": "rk-b-podzial-na-slowa",
+      "number": 2054,
+      "title": "Podział na słowa",
+      "category": "Rekurencja / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ktoś napisał zdanie bez spacji, na przykład alamakota. Masz słownik d słów. Na ile sposobów można pociąć tekst na kawałki tak, żeby każdy kawałek był słowem ze słownika? Słów można używać wiele razy. Wynik podaj modulo 1 000 000 007.",
+        "Napisz funkcję rekurencyjną long long sposoby(int i) — na ile sposobów można pociąć końcówkę tekstu od pozycji i. Na samym końcu tekstu jest jeden sposób (nic nie zostało). Inaczej sprawdź każde słowo ze słownika: jeśli tekst od pozycji i zaczyna się tym słowem, dolicz sposoby(i + długość słowa). Wyniki zapamiętuj."
+      ],
+      "input_format": [
+        "W pierwszym wierszu d.",
+        "W drugim wierszu d różnych słów słownika.",
+        "W trzecim wierszu tekst."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba sposobów modulo 1 000 000 007 (może być 0)."
+      ],
+      "constraints": [
+        "1 ≤ d ≤ 50",
+        "Słowa mają od 1 do 10 małych liter.",
+        "1 ≤ długość tekstu ≤ 2000, tekst składa się z małych liter."
+      ],
+      "examples": [
+        {
+          "input": "6\nala ma kota alama ko ta\nalamakota",
+          "output": "4",
+          "note": "ala|ma|kota, ala|ma|ko|ta, alama|kota i alama|ko|ta."
+        }
+      ],
+      "hint": "long long sposoby(int i) { if (i == (int)tekst.size()) return 1; if (jest[i]) return memo[i]; long long w = 0; for (string s : slowa) if (tekst.compare(i, s.size(), s) == 0) w += sposoby(i + s.size()); memo[i] = w % MOD; jest[i] = true; return memo[i]; }. Zamiast compare możesz porównać tekst.substr(i, s.size()) == s — słowa są krótkie. Bez pamięci tekst z samych liter a i słownik a, aa, aaa liczyłby się w nieskończoność.",
+      "tests_count": 7
+    },
+    {
+      "id": "rk-b-pierwsze-z-cyfr",
+      "number": 2055,
+      "title": "Liczby pierwsze z kartoników",
+      "category": "Rekurencja / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Bajtek ma kartoniki z cyframi (cyfry mogą się powtarzać). Układa z nich liczby: bierze kilka kartoników (co najmniej jeden, każdy najwyżej raz) i kładzie je w dowolnej kolejności. Zero na początku nie przeszkadza — 011 to po prostu 11. Ile różnych liczb pierwszych może ułożyć?",
+        "Napisz funkcję rekurencyjną void ukladaj(long long liczba), która wstawia aktualną liczbę do zbioru (jeśli użyto już jakiegoś kartonika), a potem po kolei dokłada każdy nieużyty kartonik na koniec: oznacza go jako użyty, wywołuje ukladaj(liczba · 10 + cyfra) i cofa oznaczenie. Na koniec sprawdź, które liczby ze zbioru są pierwsze."
+      ],
+      "input_format": [
+        "W jedynym wierszu napis z cyfr na kartonikach."
+      ],
+      "output_format": [
+        "Jedna liczba — ile różnych liczb pierwszych da się ułożyć."
+      ],
+      "constraints": [
+        "1 ≤ liczba kartoników ≤ 7"
+      ],
+      "examples": [
+        {
+          "input": "17",
+          "output": "3",
+          "note": "Da się ułożyć 1, 7, 17 i 71 — pierwsze są 7, 17 i 71."
+        },
+        {
+          "input": "011",
+          "output": "2",
+          "note": "Pierwsze: 11 (także jako 011) i 101."
+        }
+      ],
+      "hint": "set<long long> zbior; bool uzyty[7]; void ukladaj(long long liczba, int ile) { if (ile > 0) zbior.insert(liczba); for (int i = 0; i < n; i++) { if (uzyty[i]) continue; uzyty[i] = true; ukladaj(liczba * 10 + (s[i] - '0'), ile + 1); uzyty[i] = false; } }. Zbiór sam usunie powtórzenia (np. przy dwóch takich samych kartonikach). Liczby mają najwyżej 7 cyfr, więc test pierwszości do pierwiastka jest szybki.",
+      "tests_count": 11
+    },
+    {
+      "id": "rk-b-firma",
+      "number": 2056,
+      "title": "Firma i podwładni",
+      "category": "Rekurencja / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W firmie pracuje n osób ponumerowanych od 1 do n. Osoba 1 to prezes, a każda inna osoba ma dokładnie jednego bezpośredniego szefa. Szef mojego szefa też jest moim przełożonym — i tak dalej aż do prezesa. Dla każdej osoby policz, ilu ma podwładnych (bezpośrednich i pośrednich).",
+        "Zapisz dla każdej osoby listę jej bezpośrednich podwładnych (vector<int> pod[]). Napisz funkcję rekurencyjną int podwladni(int v), która dla każdego bezpośredniego podwładnego u dolicza 1 (samego u) plus podwladni(u), zapisuje wynik osoby v w tablicy i go oddaje."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W drugim wierszu n − 1 liczb: numery szefów osób 2, 3, …, n (gdy n = 1, ten wiersz jest pusty)."
+      ],
+      "output_format": [
+        "W jednym wierszu n liczb — liczby podwładnych osób 1, 2, …, n."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 3000",
+        "Każda osoba ma przełożonych aż do prezesa (struktura firmy to drzewo)."
+      ],
+      "examples": [
+        {
+          "input": "5\n1 1 2 2",
+          "output": "4 2 0 0 0",
+          "note": "Prezes ma 4 podwładnych, osoba 2 — dwóch (4 i 5), a osoby 3, 4 i 5 nie mają żadnych."
+        }
+      ],
+      "hint": "vector<int> pod[3005]; int wynik[3005]; int podwladni(int v) { int s = 0; for (int u : pod[v]) s += 1 + podwladni(u); wynik[v] = s; return s; }. W main: for (int i = 2; i <= n; i++) { int sz; cin >> sz; pod[sz].push_back(i); } i podwladni(1);. Szef może mieć większy numer niż podwładny — dlatego zwykła pętla po numerach nie wystarczy, a rekurencja od prezesa tak.",
+      "tests_count": 7
+    },
+    {
+      "id": "rk-b-gra-na-koncach",
+      "number": 2057,
+      "title": "Gra na końcach",
+      "category": "Rekurencja / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na stole leży w rzędzie n kart z liczbami. Ala i Bartek ruszają się na zmianę (zaczyna Ala): w swoim ruchu gracz zabiera kartę z lewego albo prawego końca rzędu i dopisuje sobie jej wartość. Gra kończy się, gdy kart zabraknie. Oboje grają tak, żeby zdobyć jak najwięcej punktów. Ile punktów zdobędzie Ala, a ile Bartek?",
+        "Napisz funkcję rekurencyjną int przewaga(int l, int r) — o ile więcej punktów od przeciwnika zdobędzie gracz, który ma ruch, gdy na stole leżą karty od l do r. Gdy kart nie ma, przewaga to 0; inaczej gracz wybiera lepszą z opcji: a[l] − przewaga(l + 1, r) albo a[r] − przewaga(l, r − 1). Wyniki zapamiętuj w tablicy 2D. Z sumy S i przewagi d policzysz punkty: Ala ma (S + d) / 2, a Bartek (S − d) / 2."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W drugim wierszu n liczb na kartach."
+      ],
+      "output_format": [
+        "Dwie liczby: punkty Ali i punkty Bartka."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 100",
+        "1 ≤ każda liczba ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "4\n3 9 1 2",
+          "output": "11 4",
+          "note": "Ala bierze 2 (nie 3!) — wtedy Bartek musi odsłonić jej dziewiątkę. Ala: 2 + 9 = 11, Bartek: 3 + 1 = 4."
+        }
+      ],
+      "hint": "int przewaga(int l, int r) { if (l > r) return 0; if (jest[l][r]) return memo[l][r]; memo[l][r] = max(a[l] - przewaga(l + 1, r), a[r] - przewaga(l, r - 1)); jest[l][r] = true; return memo[l][r]; }. Odejmowanie oddaje sedno gry: to, co zyskuje przeciwnik w dalszej części, jest moją stratą. Fragmentów [l, r] jest tylko około 5000.",
+      "tests_count": 8
+    },
+    {
+      "id": "rk-b-rozwin-napis",
+      "number": 2058,
+      "title": "Rozwiń skrót",
+      "category": "Rekurencja / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Skrót zapisuje napis krócej: k[tekst] oznacza tekst powtórzony k razy (k to jedna cyfra od 1 do 9), a w środku nawiasów mogą być kolejne skróty. Na przykład 3[ab]c to abababc, a 2[x3[y]] to xyyyxyyy. Wczytaj skrót i wypisz rozwinięty napis.",
+        "Trzymaj w zmiennej globalnej pozycję, którą właśnie czytasz. Napisz funkcję rekurencyjną string czytaj(), która czyta znaki aż do końca napisu albo do znaku ]: literę dopisuje do wyniku, a cyfrę k — pomija ją razem z [, wywołuje czytaj() (to rozwinie wnętrze nawiasu), pomija ] i dopisuje wynik k razy."
+      ],
+      "input_format": [
+        "W jedynym wierszu skrót złożony z małych liter, cyfr od 1 do 9 i nawiasów kwadratowych."
+      ],
+      "output_format": [
+        "Jeden wiersz — rozwinięty napis."
+      ],
+      "constraints": [
+        "Skrót ma od 1 do 1000 znaków i jest poprawny (każda cyfra stoi tuż przed [, nawiasy są dobrze zagnieżdżone).",
+        "Rozwinięty napis ma od 1 do 10 000 liter."
+      ],
+      "examples": [
+        {
+          "input": "3[ab]c",
+          "output": "abababc"
+        },
+        {
+          "input": "2[x3[y]]",
+          "output": "xyyyxyyy",
+          "note": "Najpierw rozwija się wnętrze: x3[y] to xyyy, a potem całość powtarza się 2 razy."
+        }
+      ],
+      "hint": "string s; int poz = 0; string czytaj() { string w = \"\"; while (poz < (int)s.size() && s[poz] != ']') { if (isalpha(s[poz])) { w += s[poz]; poz++; } else { int k = s[poz] - '0'; poz += 2; string wn = czytaj(); poz++; for (int i = 0; i < k; i++) w += wn; } } return w; }. Każde wywołanie czyta dokładnie jeden poziom nawiasów — o głębsze poziomy dba rekurencja.",
+      "tests_count": 9
+    },
+    {
+      "id": "rk-b-wieze",
+      "number": 2059,
+      "title": "Wieże bez bicia",
+      "category": "Rekurencja / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Szachownica ma n × n pól, ale w niektórych są dziury (#) — na nich nie da się postawić figury. Na pozostałych polach (kropki) trzeba postawić n wież tak, żeby żadne dwie się nie biły, czyli żeby w każdym wierszu i w każdej kolumnie stała dokładnie jedna wieża. Na ile sposobów można to zrobić?",
+        "Napisz funkcję rekurencyjną long long postaw(int w), która stawia wieżę w wierszu w: próbuje każdej kolumny, która jest wolna (tablica bool zajeta[]) i nie ma w tym wierszu dziury, oznacza ją, wywołuje postaw(w + 1) i cofa oznaczenie. Gdy w == n, znaleziono jedno ustawienie."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy n znaków: kropka albo #."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba ustawień."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10"
+      ],
+      "examples": [
+        {
+          "input": "3\n...\n.#.\n...",
+          "output": "4",
+          "note": "Bez dziury byłoby 3! = 6 ustawień; 2 z nich używają środkowego pola."
+        }
+      ],
+      "hint": "long long postaw(int w) { if (w == n) return 1; long long s = 0; for (int c = 0; c < n; c++) { if (zajeta[c] || g[w][c] == '#') continue; zajeta[c] = true; s += postaw(w + 1); zajeta[c] = false; } return s; }. Dla pustej planszy 10 × 10 to 10! = 3 628 800 ustawień — rekurencja je wszystkie odwiedzi, ale zdąży, bo w każdym wierszu od razu odrzuca zajęte kolumny.",
+      "tests_count": 9
+    },
+    {
+      "id": "rk-b-rowne-grupy",
+      "number": 2060,
+      "title": "Sprawiedliwy podział",
+      "category": "Rekurencja / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Bajtek ma n patyczków o długościach a₁, …, aₙ i chce ułożyć z nich k figur z równymi obwodami — czyli rozdzielić wszystkie patyczki na k grup o równej sumie długości (każdy patyczek trafia do dokładnie jednej grupy). Dla każdego z t zestawów wypisz TAK, jeśli to możliwe, albo NIE.",
+        "Jeśli suma S nie dzieli się przez k, odpowiedź to od razu NIE. Inaczej każda grupa ma mieć sumę cel = S / k. Napisz funkcję rekurencyjną bool rozdziel(int i), która próbuje dołożyć patyczek i do każdej grupy, do której się jeszcze mieści (suma grupy + aᵢ ≤ cel), i wywołuje rozdziel(i + 1); po nieudanej próbie cofa patyczek. Gdy i == n, wszystkie grupy mają sumę cel."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "Każdy zestaw to dwa wiersze: n i k, a w następnym n długości patyczków."
+      ],
+      "output_format": [
+        "t wierszy: TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 5",
+        "1 ≤ n ≤ 12",
+        "1 ≤ k ≤ 4",
+        "1 ≤ aᵢ ≤ 100"
+      ],
+      "examples": [
+        {
+          "input": "2\n4 2\n1 2 3 4\n3 2\n1 1 3",
+          "output": "TAK\nNIE",
+          "note": "Pierwszy zestaw: 1 + 4 = 2 + 3. W drugim suma 5 nie dzieli się na 2."
+        }
+      ],
+      "hint": "bool rozdziel(int i) { if (i == n) return true; for (int g = 0; g < k; g++) { if (suma[g] + a[i] > cel) continue; suma[g] += a[i]; if (rozdziel(i + 1)) return true; suma[g] -= a[i]; if (suma[g] == 0) break; } return false; }. Linijka if (suma[g] == 0) break; to sprytne obcięcie: jeśli patyczek nie pasował do pustej grupy, to do kolejnych pustych też nie (puste grupy są takie same). Pomaga też posortowanie patyczków malejąco.",
+      "tests_count": 5
+    },
+    {
+      "id": "rk-b-hanoi-po-k",
+      "number": 2061,
+      "title": "Hanoi po k ruchach",
+      "category": "Rekurencja / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na pręcie A leży n krążków (od n na dole do 1 na górze). Optymalne przeniesienie wieży na pręt C (przez B) robi się rekurencyjnie: przenieś n − 1 krążków z A na B, przełóż krążek n z A na C, przenieś n − 1 krążków z B na C. Trwa to 2ⁿ − 1 ruchów. Jak wyglądają pręty po pierwszych k ruchach?",
+        "Dla n = 60 ruchów jest około 10¹⁸ — symulacja nie wchodzi w grę. Zauważ: przez pierwsze 2ⁿ⁻¹ − 1 ruchów krążek n leży na pręcie startowym, a ruch numer 2ⁿ⁻¹ przekłada go na docelowy. Napisz funkcję rekurencyjną void stan(int n, long long k, int z, int na, int przez): jeśli k < 2ⁿ⁻¹, krążek n leży na z, a dalej dzieje się stan(n − 1, k, z, przez, na); w przeciwnym razie krążek n leży na na, a dalej — stan(n − 1, k − 2ⁿ⁻¹, przez, na, z)."
+      ],
+      "input_format": [
+        "W jedynym wierszu n i k."
+      ],
+      "output_format": [
+        "Trzy wiersze w formacie A: …, B: … i C: … — krążki na każdym pręcie od dołu do góry, oddzielone spacjami (pusty pręt to sam napis A:, B: albo C:)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 60",
+        "0 ≤ k ≤ 2ⁿ − 1"
+      ],
+      "examples": [
+        {
+          "input": "3 2",
+          "output": "A: 3\nB: 2\nC: 1",
+          "note": "Dwa pierwsze ruchy to A→C (krążek 1) i A→B (krążek 2)."
+        }
+      ],
+      "hint": "vector<int> pret[3]; void stan(int n, long long k, int z, int na, int przez) { if (n == 0) return; long long pol = 1LL << (n - 1); if (k < pol) { pret[z].push_back(n); stan(n - 1, k, z, przez, na); } else { pret[na].push_back(n); stan(n - 1, k - pol, przez, na, z); } }, wywołanie stan(n, k, 0, 2, 1). Krążki dokładamy od największego, więc w każdym vectorze leżą od dołu do góry. Pamiętaj o 1LL — zwykłe 1 << 59 przepełni int.",
+      "tests_count": 12
+    },
+    {
+      "id": "rk-b-krzywa-smoka",
+      "number": 2062,
+      "title": "Smocza krzywa",
+      "category": "Rekurencja / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Gdy złożysz pasek papieru na pół n razy (zawsze w tę samą stronę) i rozłożysz go, zagięcia układają się w słynną smoczą krzywą. Kierunki zagięć tworzą napis D(n) z liter L i P: D(1) = P, a D(n) = D(n − 1), potem P, a potem D(n − 1) zapisane od tyłu, w którym każde L zamieniono na P i odwrotnie. Na przykład D(2) = PPL, a D(3) = PPLPPLL.",
+        "D(60) ma ponad 10¹⁸ liter — nie da się go zbudować. Dla każdego z t zapytań (n, k) wypisz k-tą literę D(n) (litery numerujemy od 1). Napisz funkcję rekurencyjną char znak(int n, long long k): środek ma numer 2ⁿ⁻¹ i jest tam P; dla k mniejszego od środka to znak(n − 1, k), a dla większego — odwrotność litery znak(n − 1, 2ⁿ − k)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy dwie liczby n i k."
+      ],
+      "output_format": [
+        "t wierszy — litery L albo P."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1000",
+        "1 ≤ n ≤ 60",
+        "1 ≤ k ≤ 2ⁿ − 1"
+      ],
+      "examples": [
+        {
+          "input": "3\n3 1\n3 3\n3 7",
+          "output": "P\nL\nL",
+          "note": "D(3) = PPLPPLL."
+        }
+      ],
+      "hint": "char znak(int n, long long k) { long long srodek = 1LL << (n - 1); if (k == srodek) return 'P'; if (k < srodek) return znak(n - 1, k); char c = znak(n - 1, (1LL << n) - k); return c == 'P' ? 'L' : 'P'; }. Litera k w drugiej połowie odpowiada literze 2ⁿ − k w pierwszej (odbicie względem środka), tylko zamienionej. Każde wywołanie zmniejsza n o 1, więc głębokość to najwyżej 60.",
+      "tests_count": 3
+    },
+    {
+      "id": "rk-b-gra-24",
+      "number": 2063,
+      "title": "Gra w 24",
+      "category": "Rekurencja / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W grze w 24 losuje się cztery karty z liczbami od 1 do 13. Trzeba użyć każdej karty dokładnie raz i za pomocą dodawania, odejmowania, mnożenia, dzielenia i nawiasów otrzymać 24. Wyniki pośrednie mogą być ułamkami: na przykład z 3, 3, 8, 8 da się zrobić 8 / (3 − 8 / 3) = 24. Dla każdego z t zestawów wypisz TAK albo NIE.",
+        "Każde działanie łączy dwie liczby w jedną. Napisz funkcję rekurencyjną bool da(vector<pair<long long, long long>> v), gdzie para to licznik i mianownik ułamka: jeśli w v została jedna liczba, sprawdź, czy równa się 24; inaczej dla każdej pary liczb i każdego działania (a + b, a − b, b − a, a · b, a / b, b / a — dzielenie tylko przez liczbę różną od zera) zbuduj vector z wynikiem zamiast tej pary i wywołaj da."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy cztery liczby."
+      ],
+      "output_format": [
+        "t wierszy: TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100",
+        "Każda liczba jest od 1 do 13."
+      ],
+      "examples": [
+        {
+          "input": "3\n4 1 8 7\n1 1 1 1\n3 3 8 8",
+          "output": "TAK\nNIE\nTAK",
+          "note": "(8 − 4) · (7 − 1) = 24. Z czterech jedynek nie da się dojść dalej niż do 4."
+        }
+      ],
+      "hint": "Ułamek a/b to para (a, b) z b różnym od 0. Działania: (a/b) + (c/d) = (ad + cb)/(bd), (a/b) · (c/d) = (ac)/(bd), (a/b) / (c/d) = (ad)/(bc) — o ile c ≠ 0. Ułamek x/y równa się 24, gdy x == 24 · y. Liczby są małe, więc nie musisz skracać ułamków. Wszystkich możliwości jest tylko kilka tysięcy.",
+      "tests_count": 3
+    },
+    {
+      "id": "rk-b-drzewo-czworkowe",
+      "number": 2064,
+      "title": "Kompresja obrazka",
+      "category": "Rekurencja / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Czarno-biały obrazek ma 2ᵏ × 2ᵏ pikseli zapisanych cyframi 0 i 1. Kompresujemy go tak: jeśli wszystkie piksele kwadratu mają ten sam kolor, kod kwadratu to ta jedna cyfra. W przeciwnym razie kod to litera Q, a za nią kody czterech ćwiartek w kolejności: lewa górna, prawa górna, lewa dolna, prawa dolna. Wypisz kod całego obrazka.",
+        "Napisz funkcję rekurencyjną string kod(int x, int y, int bok) dla kwadratu o lewym górnym rogu (x, y): sprawdź pętlą, czy wszystkie piksele są takie same; jeśli tak — oddaj tę cyfrę, jeśli nie — oddaj \"Q\" + kody czterech ćwiartek o boku bok / 2."
+      ],
+      "input_format": [
+        "W pierwszym wierszu k.",
+        "W każdym z 2ᵏ kolejnych wierszy 2ᵏ cyfr 0 albo 1."
+      ],
+      "output_format": [
+        "Jeden wiersz — kod obrazka."
+      ],
+      "constraints": [
+        "0 ≤ k ≤ 7"
+      ],
+      "examples": [
+        {
+          "input": "1\n10\n00",
+          "output": "Q1000",
+          "note": "Obrazek nie jest jednolity, więc Q, a potem kody pikseli: 1, 0, 0, 0."
+        },
+        {
+          "input": "2\n0011\n0011\n0101\n1111",
+          "output": "Q01Q0111Q0111"
+        }
+      ],
+      "hint": "string kod(int x, int y, int bok) { bool jednolity = true; for (int i = x; i < x + bok; i++) for (int j = y; j < y + bok; j++) if (g[i][j] != g[x][y]) jednolity = false; if (jednolity) return string(1, g[x][y]); int h = bok / 2; return \"Q\" + kod(x, y, h) + kod(x, y + h, h) + kod(x + h, y, h) + kod(x + h, y + h, h); }. Każdy poziom rekurencji przegląda łącznie cały obrazek, a poziomów jest k + 1 — to szybkie.",
+      "tests_count": 9
+    },
+    {
+      "id": "rk-b-domino",
+      "number": 2065,
+      "title": "Domino na planszy",
+      "category": "Rekurencja / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Plansza ma n wierszy i m kolumn; pola zajęte oznaczono #, wolne — kropką. Na ile sposobów można pokryć wszystkie wolne pola kostkami domina 1 × 2 (poziomo albo pionowo), tak żeby kostki nie nachodziły na siebie ani na zajęte pola? Jeśli się nie da, odpowiedź to 0.",
+        "Sztuczka, która porządkuje przeszukiwanie: znajdź pierwsze wolne pole (wiersz po wierszu, od lewej). Jakaś kostka musi je przykryć — a skoro wszystkie pola przed nim są już zajęte, to tylko kostka leżąca w prawo albo w dół. Napisz funkcję rekurencyjną long long pokrycia(), która próbuje obu możliwości, wywołuje samą siebie i zdejmuje kostkę. Gdy wolnych pól nie ma — znaleziono jedno pokrycie."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n i m.",
+        "W każdym z n kolejnych wierszy m znaków: kropka albo #."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba pokryć."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 8",
+        "Wolnych pól jest najwyżej 40."
+      ],
+      "examples": [
+        {
+          "input": "2 3\n...\n...",
+          "output": "3",
+          "note": "Trzy pionowe kostki, albo jedna pionowa i dwie poziome (z lewej albo z prawej strony)."
+        },
+        {
+          "input": "3 3\n...\n.#.\n...",
+          "output": "2"
+        }
+      ],
+      "hint": "long long pokrycia() { int x = -1, y = -1; for (int i = 0; i < n && x < 0; i++) for (int j = 0; j < m; j++) if (g[i][j] == '.') { x = i; y = j; break; } if (x < 0) return 1; long long w = 0; if (y + 1 < m && g[x][y + 1] == '.') { g[x][y] = g[x][y + 1] = 'X'; w += pokrycia(); g[x][y] = g[x][y + 1] = '.'; } if (x + 1 < n && g[x + 1][y] == '.') { … to samo w dół … } return w; }. Każde pokrycie powstaje dokładnie raz — dzięki temu, że zawsze kładziesz kostkę na pierwszym wolnym polu.",
+      "tests_count": 12
+    },
+    {
+      "id": "rk-b-kalkulator",
+      "number": 2066,
+      "title": "Wielki finał: kalkulator z nawiasami",
+      "category": "Rekurencja / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdego z t wierszy policz wartość zapisanego w nim wyrażenia. Wyrażenie składa się z nieujemnych liczb całkowitych, działań +, −, * i / oraz nawiasów okrągłych; między nimi mogą stać spacje. Obowiązuje zwykła kolejność działań: najpierw nawiasy, potem mnożenie i dzielenie, na końcu dodawanie i odejmowanie, a działania tego samego rodzaju wykonuje się od lewej. Dzielenie jest całkowite, jak w C++ (wynik obcięty w stronę zera).",
+        "Rozbij zadanie na trzy funkcje, które wywołują się nawzajem. wyrazenie() liczy składnik, a potem — dopóki widzi + albo − — kolejne składniki. skladnik() liczy czynnik, a potem — dopóki widzi * albo / — kolejne czynniki. czynnik() to albo liczba, albo nawias: (, wyrazenie() i ). Pozycję w napisie trzymaj w zmiennej globalnej. Ponieważ czynnik wywołuje wyrazenie, które jest zdefiniowane niżej, nad czynnik napisz deklarację long long wyrazenie();."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy jedno poprawne wyrażenie."
+      ],
+      "output_format": [
+        "t wierszy — wartości wyrażeń."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100",
+        "Każde wyrażenie ma od 1 do 1000 znaków.",
+        "Liczby w wyrażeniach są od 0 do 10⁹, nigdy nie dzielimy przez zero, a każdy wynik pośredni ma wartość bezwzględną najwyżej 10¹⁸."
+      ],
+      "examples": [
+        {
+          "input": "3\n2 + 3 * 4\n(2 + 3) * 4\n100 / 7 / 2 - 3 * (4 - 10)",
+          "output": "14\n20\n25",
+          "note": "W ostatnim: 100 / 7 = 14, 14 / 2 = 7, a 3 · (4 − 10) = −18, więc 7 − (−18) = 25."
+        }
+      ],
+      "hint": "string s; int poz; void spacje() { while (poz < (int)s.size() && s[poz] == ' ') poz++; } long long wyrazenie(); long long czynnik() { spacje(); if (s[poz] == '(') { poz++; long long w = wyrazenie(); spacje(); poz++; return w; } long long w = 0; while (poz < (int)s.size() && isdigit(s[poz])) w = w * 10 + (s[poz++] - '0'); return w; }. skladnik i wyrazenie wyglądają tak samo: pierwszy kawałek, a potem pętla while po operatorach. Wiersze czytaj getline (po cin >> t zjedz resztę wiersza).",
+      "tests_count": 5
     }
   ]
 }

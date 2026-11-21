@@ -33,28 +33,73 @@ Hasła nie wpisuj do kodu.
 
 Przelew na konto działa od razu, bez tego kroku. Żeby uczniowie (albo rodzice)
 mogli płacić kartą, BLIK-iem i Google Pay, potrzebne jest konto u operatora
-płatności. Kalendarz współpracuje ze **Stripe**:
+płatności. Kalendarz współpracuje ze **Stripe**. **Firma nie jest potrzebna:**
+Stripe przyjmuje osoby prywatne i wypłaca pieniądze na konto osobiste.
 
-1. Załóż konto na <https://dashboard.stripe.com/register> i dokończ
-   weryfikację (dane, konto do wypłat: `36 1090 1623 0000 0001 5199 7290`).
-2. **Settings → Payment methods**: włącz **Cards**, **BLIK** i **Google Pay**
-   (Apple Pay i Przelewy24 też możesz).
-3. **Developers → API keys** → skopiuj **Secret key** (`sk_live_…`; do testów
-   `sk_test_…`).
-4. W Apps Script: **Ustawienia projektu → Właściwości skryptu → Dodaj**:
+1. **Załóż konto** na <https://dashboard.stripe.com/register> (kraj: Polska).
+   Jako rodzaj działalności wybierz **osobę fizyczną / jednoosobową działalność**
+   (nie spółkę). Branża: edukacja / korepetycje, strona: `https://t-olimpians.com`.
+   Stripe poprosi o dane osobowe i dokument tożsamości — to robisz tylko Ty.
+2. **Konto do wypłat:** `PL36 1090 1623 0000 0001 5199 7290`. Musi być na Twoje
+   imię i nazwisko — Stripe porównuje je z danymi konta.
+3. **Settings → Public details:** nazwa widoczna dla płacących `T-Olimpians`,
+   opis na wyciągu karty (statement descriptor) np. `T-OLIMPIANS`, mail kontaktowy.
+4. **Settings → Payment methods:** włącz **Cards**, **BLIK** i **Google Pay**
+   (Apple Pay też warto, Przelewy24 — jeśli chcesz).
+5. **Settings → Customer emails:** włącz „Successful payments”, żeby płacący
+   dostał mailem potwierdzenie płatności.
+6. **Najpierw test.** Przełącz panel Stripe na **Test mode**, w **Developers → API
+   keys** skopiuj **Secret key** (`sk_test_…`) i dodaj go w Apps Script:
+   **Ustawienia projektu → Właściwości skryptu → Dodaj**:
 
-   | Właściwość          | Wartość             |
-   |---------------------|---------------------|
-   | `STRIPE_SECRET_KEY` | `sk_live_…`         |
+   | Właściwość          | Wartość     |
+   |---------------------|-------------|
+   | `STRIPE_SECRET_KEY` | `sk_test_…` |
 
-5. Uruchom ponownie `setup` (zgoda na „połączenia zewnętrzne”) i wdróż nową wersję.
+   Uruchom funkcję **`setup`**. Ustawia ona sprawdzanie płatności co 10 minut
+   i wypisuje w logu stan konta Stripe. Potem wdróż nową wersję (krok 6).
+   Zapłać za dowolną lekcję kartą testową `4242 4242 4242 4242` (dowolna
+   przyszła data i CVC) albo BLIK-iem z dowolnym 6-cyfrowym kodem. Lekcja
+   powinna dostać ✓, a Ty — maila „💳 Opłacona lekcja”.
+7. **Na żywo.** Gdy Stripe zatwierdzi konto, zmień wartość `STRIPE_SECRET_KEY` na
+   `sk_live_…` i uruchom funkcję **`stripeStatus`**. Log pokaże, czy przyjmowanie
+   płatności, wypłaty i BLIK są włączone.
 
-Klucza nie wpisuj do kodu. Po płatności lekcja sama oznacza się jako opłacona,
-a Ty dostajesz maila. Stripe pobiera prowizję i wypłaca pieniądze na konto.
+Klucza nie wpisuj do kodu i nikomu go nie wysyłaj. Stripe może przy weryfikacji
+poprosić, żeby na stronie były zasady zwrotów i odwołań lekcji oraz kontakt.
+
+**Jak płyną pieniądze:** płacący → Stripe → Twoje konto. Wypłaty są automatyczne
+i zbiorcze: pierwsza zwykle po ok. 7 dniach, potem co kilka dni roboczych.
+Prowizje Stripe (listopad 2026): BLIK 1,6% + 1 zł, karty z EOG 1,5% + 1 zł
+(premium 1,9% + 1 zł), Google Pay jak karta. Bez opłat miesięcznych, wypłaty
+bez opłat. Z lekcji za 150 zł zostaje 146,75 zł (karta) albo 146,60 zł (BLIK).
+
+**Tytuły:** przelew ma tytuł „Lekcja Jan Kowalski 24.10.2026 17:00”, a kod QR
+ten sam, skrócony do 32 znaków. Odbiorca: `PAY_RECIPIENT` z `CONFIG` (imię
+i nazwisko właściciela konta). Płatność przez Stripe ma ten sam opis w panelu
+Stripe (Płatności) i metadane `uczen` oraz `termin`. Wypłata ze Stripe to jeden
+przelew za kilka lekcji. Które lekcje się na nią składają, widać w panelu Stripe
+(Wypłaty → szczegóły wypłaty).
+
+**Co kalendarz robi sam:**
+- Lekcja oznacza się jako opłacona zaraz po powrocie ze Stripe. Gdy ktoś zamknie
+  kartę wcześniej, dzieje się to w ciągu kilkunastu minut.
+- Drugi „Zapłać” za tę samą lekcję (np. rodzic i uczeń) otwiera tę samą stronę
+  płatności, więc nie da się zapłacić dwa razy.
+- Odwołanie lekcji zamyka jej otwartą płatność. Jeśli lekcja była już opłacona
+  albo ktoś zapłacił za odwołaną, dostajesz mail „⚠️ Płatność do rozliczenia”.
+  Zwrot robisz w panelu Stripe (Płatności → Zwróć).
+- „Cofnij” przy opłaconej lekcji to Twoja decyzja — Stripe jej nie nadpisze.
+
+**Bez firmy (działalność nierejestrowana):** w 2026 r. limit przychodu to
+10 813,50 zł na kwartał (225% płacy minimalnej). Liczą się wszystkie lekcje, nie
+tylko te opłacone przez Stripe. Po przekroczeniu masz 7 dni na rejestrację
+w CEIDG. Zasady rozliczenia: <https://www.podatki.gov.pl> (Działalność
+nierejestrowana), w razie wątpliwości zapytaj księgowego.
 
 ### 3b. (opcjonalnie) Bot Discord — przypomnienia na kanałach uczniów
 
-Bot jest w osobnym folderze `Documents	-olimpians-discord-bot` (pełna instrukcja
+Bot jest w osobnym folderze `Documents\t-olimpians-discord-bot` (pełna instrukcja
 w jego `README.md`). Po stronie kalendarza:
 
 1. Wybierz funkcję **`discordKey`** → **▶ Uruchom**. Tworzy ona właściwość skryptu
@@ -76,8 +121,10 @@ Dopóki nie ma `DISCORD_BOT_KEY`, kalendarz nie zapisuje zmian dla bota.
   („Jan K.”), `'full'` (pełne imię i nazwisko) albo `'hidden'` (tylko „Zajęte”).
   Ty w panelu zawsze widzisz wszystko.
 - `APP_URL`: adres strony, używany w linkach w mailach.
-- `PAY_ACCOUNT` / `PAY_RECIPIENT`: numer konta do przelewów i nazwa odbiorcy
-  (`'T-Olimpians'`), którą płacący widzi w swoim banku.
+- `PAY_ACCOUNT` / `PAY_RECIPIENT`: numer konta do przelewów i nazwa odbiorcy,
+  którą płacący widzi w swoim banku. Przy koncie osobistym to imię i nazwisko
+  właściciela konta (`'Kacper Ziemecki'`), bo banki coraz częściej porównują
+  nazwę odbiorcy z numerem konta.
 
 ## 5. Uruchom `setup` (także po każdej aktualizacji, która prosi o nowe uprawnienia)
 
@@ -134,7 +181,8 @@ jest niepotrzebny).
   termin swoich lekcji (**⇄ Zamień termin**) i je odwoływać. Zamiany lekcji
   między uczniami nie ma.
 - **Maile do Ciebie** przychodzą przy nowej lekcji lub serii, zmianie terminu,
-  odwołaniu i płatności kartą.
+  odwołaniu i płatności kartą (oraz „Płatność do rozliczenia”, gdy ktoś zapłacił
+  za odwołaną albo już opłaconą lekcję).
 - **Aplikacja na telefon:** na Androidzie przycisk „Zainstaluj” (baner nad
   kalendarzem albo „Moje lekcje”). Na iPhonie i iPadzie: Safari → Udostępnij →
   „Do ekranu początkowego”. Zainstalowana aplikacja na iPhonie ma osobną pamięć,
@@ -154,9 +202,10 @@ jest niepotrzebny).
 - **Ceny i płatności:** w panelu → „Wszyscy uczniowie i ceny” wpisujesz cenę
   za lekcję każdego ucznia. Każdy, kto kliknie lekcję w kalendarzu (przeszłą
   albo przyszłą), widzi **💳 Zapłać za lekcję**: kwotę, numer konta, tytuł
-  przelewu („uczeń data godzina”) z przyciskami „Kopiuj” i kod QR do aplikacji
-  banku, a gdy Stripe jest włączony — także kartę, BLIK i Google Pay. Gdy
-  przelew dojdzie, kliknij lekcję → **✓ Oznacz jako opłaconą**. Opłacone lekcje
+  przelewu („Lekcja uczeń data godzina”) z przyciskami „Kopiuj” i kod QR do
+  aplikacji banku, a gdy Stripe jest włączony — także kartę, BLIK i Google Pay.
+  Płatność przez Stripe oznacza lekcję sama. Gdy dojdzie zwykły przelew, kliknij
+  lekcję → **✓ Oznacz jako opłaconą**. Opłacone lekcje
   mają zielony znaczek ✓, a panel pokazuje „opłacone 1/2” przy każdym uczniu.
   Inni widzą w tytule skrócone imię („Jan K.”), uczeń i Ty — pełne.
 - **Synchronizacja:** źródłem prawdy jest Twój Kalendarz Google. Jeśli

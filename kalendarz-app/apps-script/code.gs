@@ -47,9 +47,11 @@ const CONFIG = {
   PUSH_SUBJECT: 'mailto:t.olympians.poland@gmail.com',
 
   // Płatności za lekcje. Przelew działa od razu; karta / BLIK / Google Pay — po dodaniu właściwości
-  // skryptu STRIPE_SECRET_KEY (instrukcja w INSTRUKCJA.md). Cenę bierzemy z panelu nauczyciela.
+  // skryptu STRIPE_SECRET_KEY (instrukcja w INSTRUKCJA.md, krok 3a). Cenę bierzemy z panelu nauczyciela.
+  // Konto osobiste (bez firmy): odbiorca = imię i nazwisko właściciela konta, tak jak w banku — banki
+  // coraz częściej porównują nazwę odbiorcy z numerem konta. Na to samo konto wypłaca pieniądze Stripe.
   PAY_ACCOUNT: '36109016230000000151997290',
-  PAY_RECIPIENT: 'T-Olimpians'         // nazwa odbiorcy przelewu (najlepiej imię i nazwisko właściciela konta)
+  PAY_RECIPIENT: 'Kacper Ziemecki'     // nazwa odbiorcy przelewu (do 20 znaków trafia też do kodu QR)
 };
 
 const PALETTE = ['1', '2', '3', '4', '5', '6', '7', '9', '10', '11'];   // kolory wydarzeń Google (bez grafitowego)
@@ -62,7 +64,7 @@ function doGet(e) {
   const p = (e && e.parameter) || {};
   try {
     if (p.action === 'busyWeek') return json_(legacyBusyWeek_(p.start));
-    if (p.action === 'week') { maybeMaintenance_(); return json_(actionWeek_({ from: p.from || p.start, to: p.to })); }
+    if (p.action === 'week') { maybeMaintenance_(); maybePaySync_(); return json_(actionWeek_({ from: p.from || p.start, to: p.to })); }
     return json_({ ok: true, service: 'kalendarz-lekcji', api: 2 });
   } catch (err) {
     return json_(fail_(err));
@@ -79,7 +81,7 @@ function doPost(e) {
   try {
     const fn = ACTIONS[body.action];
     if (!fn) throw userError_('Nieznana akcja.');
-    if (body.action === 'week') maybeMaintenance_();
+    if (body.action === 'week') { maybeMaintenance_(); maybePaySync_(); }
     return json_(fn(body));
   } catch (err) {
     return json_(fail_(err));
@@ -115,10 +117,14 @@ function setup() {
   Logger.log('Konto skryptu (tu zapisują się lekcje): ' + Session.getEffectiveUser().getEmail());
   try {
     ScriptApp.getProjectTriggers()
-      .filter((t) => t.getHandlerFunction() === 'dailyMaintenance')
+      .filter((t) => t.getHandlerFunction() === 'dailyMaintenance' || t.getHandlerFunction() === 'paymentsTick')
       .forEach((t) => ScriptApp.deleteTrigger(t));
     ScriptApp.newTrigger('dailyMaintenance').timeBased().everyDays(1).atHour(3).create();
     Logger.log('Codzienne zadanie (3:00) ustawione.');
+    if (stripeKey_()) {
+      ScriptApp.newTrigger('paymentsTick').timeBased().everyMinutes(10).create();
+      Logger.log('Sprawdzanie płatności kartą co 10 min ustawione.');
+    }
   } catch (e) {
     // bez wyzwalacza też działa: porządki robi pierwsze odświeżenie strony danego dnia
     Logger.log('UWAGA: nie udało się ustawić codziennego zadania (' + e.message + '). Uruchom setup ponownie po nadaniu uprawnień.');
@@ -130,9 +136,11 @@ function setup() {
     ? 'Hasło panelu nauczyciela jest ustawione.'
     : 'UWAGA: dodaj właściwość skryptu ADMIN_PASSWORD (Ustawienia projektu → Właściwości skryptu).');
   migrateOldBookings();
-  Logger.log(stripeKey_()
-    ? 'Płatności kartą / BLIK / Google Pay (Stripe) są włączone.'
-    : 'Płatności kartą wyłączone — działa sam przelew (dodaj STRIPE_SECRET_KEY, żeby włączyć).');
+  try {
+    stripeStatus();                       // płatności kartą / BLIK / Google Pay: klucz i stan konta Stripe
+  } catch (e) {
+    Logger.log('UWAGA: Stripe nie przyjął klucza STRIPE_SECRET_KEY (' + e.message + '). Sprawdź, czy wkleiłeś cały „Secret key”.');
+  }
   Logger.log(props_().getProperty('DISCORD_BOT_KEY')
     ? 'Bot Discord jest włączony (kolejka zmian działa).'
     : 'Bot Discord wyłączony — uruchom funkcję discordKey, żeby go włączyć.');
@@ -387,6 +395,7 @@ function actionMove_(body) {
 function actionCancel_(body) {
   const ctx = auth_(body);
   let after = null;
+  let cancelledIds = [];
   const res = withLock_(() => {
     const L = getLesson_(body.id);
     if (!L) throw goneError_();
@@ -403,9 +412,11 @@ function actionCancel_(body) {
     discordQueue_(ctx, L.email, L.name, { type: 'cancelled', following: following, count: targets.length, lesson: discordLite_(L) });
     bumpVersion_();
     after = () => mailCancelled_(L, targets, ctx, following);
+    cancelledIds = targets.map((t) => t.id);
     return { ok: true, cancelled: targets.length };
   });
   safeRun_(after);
+  safeRun_(() => closePendingPays_(cancelledIds));   // nikt już nie zapłaci kartą za odwołaną lekcję
   return res;
 }
 
@@ -523,19 +534,35 @@ function actionSetDiscord_(body) {
 
 /* ─── płatności za lekcje ───
    Zapłacić może każdy, kto kliknie lekcję w kalendarzu (np. rodzic). Kwota = cena ucznia z panelu.
-   Przelew: numer konta + tytuł (uczeń, data, godzina) + kod QR dla aplikacji banku — nauczyciel
-   oznacza lekcję jako opłaconą po zaksięgowaniu. Karta / BLIK / Google Pay: Stripe Checkout,
-   lekcja oznacza się sama po powrocie ze Stripe (a gdyby ktoś nie wrócił — przy codziennych porządkach). */
+   Przelew: numer konta + tytuł („Lekcja Jan Kowalski 24.10.2026 17:00”) + kod QR dla aplikacji banku;
+   nauczyciel oznacza lekcję jako opłaconą po zaksięgowaniu.
+   Karta / BLIK / Google Pay: strona płatności Stripe (Checkout). Dane karty nie trafiają do kalendarza,
+   a Stripe sam wypłaca pieniądze na konto bankowe podane w jego ustawieniach. Lekcja oznacza się jako
+   opłacona sama: zaraz po powrocie ze Stripe, a gdy ktoś nie wrócił na stronę — przy najbliższym
+   odświeżeniu kalendarza (najwyżej raz na minutę), z wyzwalacza co 10 min i przy codziennych porządkach.
+   Otwarte płatności są we właściwości PAY_PENDING (lekcja → sesja Stripe): drugi „Zapłać” za tę samą
+   lekcję (np. rodzic i uczeń naraz) trafia na tę samą stronę płatności, więc nie da się zapłacić dwa razy. */
+
+const PAY_PENDING_KEY = 'PAY_PENDING';       // { idLekcji: { sid, t } } — otwarte strony płatności Stripe
+const PAY_SEEN_KEY = 'PAY_SEEN';             // końcówki id sesji już zapisanych (żeby nic nie poszło dwa razy)
+const PAY_SESSION_MIN = 60;                  // tyle minut ważna jest strona płatności (Stripe pozwala 30 min – 24 h)
+const PAY_PROCESSING_MSG = 'Płatność za tę lekcję jest w toku — lekcja oznaczy się jako opłacona, gdy bank ją potwierdzi.';
 
 function actionPayInfo_(body) {
   const ctx = auth_(body);
-  const m = getLesson_(body.id);
+  let m = getLesson_(body.id);
   if (!m) throw goneError_();
+  let pending = '';
+  if (!m.paid && stripeKey_() && pendingPays_()[m.id]) {               // ktoś zaczął płacić kartą — co na to Stripe?
+    const st = checkPendingPays_(m.id)[m.id];
+    if (st && st.state === 'paid' && st.lesson) m = st.lesson;
+    else if (st && st.state === 'processing') pending = 'processing';
+  }
   const price = priceFor_(m);
   const name = payerName_(m, ctx);
   return {
     ok: true, id: m.id, s: m.s, e: m.e, duration: m.duration, name: name,
-    title: payTitle_(name, m), price: price, paid: !!m.paid,
+    title: payTitle_(name, m), price: price, paid: !!m.paid, pending: pending,
     account: CONFIG.PAY_ACCOUNT, recipient: CONFIG.PAY_RECIPIENT,
     card: !!stripeKey_() && price !== null && price >= 2
   };
@@ -549,19 +576,44 @@ function actionPayCard_(body) {
   if (m.paid) throw userError_('Ta lekcja jest już opłacona.', 'PAID');
   const price = priceFor_(m);
   if (price === null || price < 2) throw userError_('Nauczyciel nie ustawił jeszcze ceny tej lekcji.', 'NO_PRICE');
+  const amount = Math.round(price * 100);
+
+  // Ta lekcja ma już otwartą płatność (np. rodzic i uczeń klikają naraz) → ta sama strona Stripe.
+  const prev = pendingPays_()[m.id] ? checkPendingPays_(m.id)[m.id] : null;
+  if (prev && prev.state === 'paid') throw userError_('Ta lekcja jest już opłacona.', 'PAID');
+  if (prev && prev.state === 'processing') throw userError_(PAY_PROCESSING_MSG, 'PENDING');
+  if (prev && prev.state === 'open') {
+    if (prev.amount === amount && prev.exp - Date.now() > 10 * 60000) return { ok: true, url: prev.url };
+    expireSession_(prev.sid);                                          // zmieniła się cena albo strona zaraz wygaśnie
+  }
+
   const back = CONFIG.APP_URL + '?data=' + dateOf_(m);
+  const when = dateOf_(m) + ' ' + m.s.slice(11, 16);
   const session = stripe_('post', 'checkout/sessions', {
     mode: 'payment',
     locale: 'pl',
+    submit_type: 'pay',
+    expires_at: Math.floor(Date.now() / 1000) + PAY_SESSION_MIN * 60,
     'line_items[0][quantity]': 1,
-    'line_items[0][price_data][currency]': 'pln',
-    'line_items[0][price_data][unit_amount]': Math.round(price * 100),
-    'line_items[0][price_data][product_data][name]': 'Lekcja: ' + payTitle_(payerName_(m, ctx), m),
+    'line_items[0][price_data][currency]': 'pln',                     // w złotówkach Stripe pokazuje też BLIK
+    'line_items[0][price_data][unit_amount]': amount,
+    'line_items[0][price_data][product_data][name]': payTitle_(payerName_(m, ctx), m),
+    'line_items[0][price_data][product_data][description]': CONFIG.BRAND + ' · lekcja ' + m.duration + ' min',
     'payment_intent_data[description]': payTitle_(m.name, m),          // pełne imię widzi tylko nauczyciel w panelu Stripe
+    'payment_intent_data[metadata][lessonId]': m.id,
+    'payment_intent_data[metadata][uczen]': m.name,
+    'payment_intent_data[metadata][termin]': when,
     'metadata[lessonId]': m.id,
+    'metadata[uczen]': m.name,
+    'metadata[termin]': when,
     client_reference_id: m.id,
     success_url: back + '&platnosc={CHECKOUT_SESSION_ID}',
     cancel_url: back
+  });
+  withLock_(() => {
+    const map = pendingPays_();
+    map[m.id] = { sid: session.id, t: Date.now() };
+    savePendingPays_(map);
   });
   return { ok: true, url: session.url };
 }
@@ -573,7 +625,15 @@ function actionPayConfirm_(body) {
   const s = stripe_('get', 'checkout/sessions/' + sid);
   const paid = s.payment_status === 'paid';
   let m = null;
-  if (paid) m = withLock_(() => recordCardPayment_(s));
+  if (paid) {
+    m = withLock_(() => {
+      const r = recordCardPayment_(s);
+      const map = pendingPays_();
+      const id = s.metadata && s.metadata.lessonId;
+      if (id && map[id] && map[id].sid === s.id) { delete map[id]; savePendingPays_(map); }
+      return r;
+    });
+  }
   return {
     ok: true, paid: paid, status: s.status,
     lesson: m ? { id: m.id, s: m.s, e: m.e, duration: m.duration } : null,
@@ -588,7 +648,7 @@ function actionSetPaid_(body) {
   return withLock_(() => {
     const it = lessonEvent_(body.id);
     if (!it) throw goneError_();
-    patchPaid_(it, body.paid ? 'manual' : '', '');
+    patchPaid_(it, body.paid ? 'manual' : '');                         // tolPaidRef zostaje — Stripe nie cofnie Twojej decyzji
     return { ok: true, id: it.id, paid: !!body.paid };
   });
 }
@@ -605,10 +665,10 @@ function payerName_(m, ctx) {
   return n === 'Zajęte' ? '' : n;
 }
 
-/** „Jan Kowalski 24.10.2026 17:00” */
+/** „Lekcja Jan Kowalski 24.10.2026 17:00” — tytuł przelewu i opis płatności w Stripe. */
 function payTitle_(name, m) {
   const p = ymd_(dateOf_(m));
-  return (name ? name + ' ' : '') + pad_(p[2]) + '.' + pad_(p[1]) + '.' + p[0] + ' ' + m.s.slice(11, 16);
+  return 'Lekcja ' + (name ? name + ' ' : '') + pad_(p[2]) + '.' + pad_(p[1]) + '.' + p[0] + ' ' + m.s.slice(11, 16);
 }
 
 function lessonEvent_(id) {
@@ -622,36 +682,165 @@ function lessonEvent_(id) {
   }
 }
 
-/** how: 'card' | 'manual' | '' (nieopłacona). Zapisujemy w ukrytych polach wydarzenia — przesunięcie lekcji ich nie gubi. */
+/** Jak lessonEvent_, ale błąd Kalendarza Google (np. chwilowy) rzuca wyjątek, zamiast udawać, że lekcji nie ma. */
+function lessonEventStrict_(id) {
+  if (!id || typeof id !== 'string' || id.charAt(0) === 'x') return null;
+  let it;
+  try {
+    it = Calendar.Events.get(CONFIG.CALENDAR_ID, id);
+  } catch (e) {
+    if (/not ?found|deleted|\b40[04]\b|\b410\b/i.test(String(e && e.message))) return null;
+    throw e;
+  }
+  const m = modelOf_(it);
+  return m && m.kind === 'lesson' ? it : null;
+}
+
+/** how: 'card' | 'manual' | '' (nieopłacona). Zapisujemy w ukrytych polach wydarzenia — przesunięcie lekcji ich nie gubi.
+    ref (id sesji Stripe) podajemy tylko przy płatności kartą; bez niego zostaje poprzedni. */
 function patchPaid_(it, how, ref) {
-  const priv = Object.assign({}, it.extendedProperties.private, { tolPaid: how, tolPaidRef: ref || '' });
+  const add = { tolPaid: how };
+  if (ref !== undefined) add.tolPaidRef = ref;
+  const priv = Object.assign({}, it.extendedProperties.private, add);
   const m = modelOf_(journalUp_(Calendar.Events.patch({ extendedProperties: { private: priv } }, CONFIG.CALENDAR_ID, it.id, { sendUpdates: 'none' })));
   bumpVersion_();
   return m;
 }
 
+/** Zapisuje opłaconą sesję Stripe w lekcji — raz na sesję, choćby sprawdzało ją kilka miejsc naraz.
+    Wywołuj pod blokadą. Zwraca model lekcji (null, gdy lekcji już nie ma). */
 function recordCardPayment_(s) {
-  const it = lessonEvent_(s.metadata && s.metadata.lessonId);
-  if (!it) return null;                                                // lekcję w międzyczasie odwołano — płatność zostaje w Stripe
-  const p = it.extendedProperties.private;
-  if (p.tolPaidRef === s.id) return modelOf_(it);                      // już zapisane wcześniej
-  const m = patchPaid_(it, 'card', s.id);
-  safeRun_(() => mailPaid_(m, s));
+  const it = lessonEventStrict_(s.metadata && s.metadata.lessonId);
+  const m0 = it ? modelOf_(it) : null;
+  if (paySeen_(s.id)) return m0;                                       // już zapisane wcześniej
+  const p = it ? it.extendedProperties.private : {};
+  let m = m0;
+  if (it && !p.tolPaid && p.tolPaidRef !== s.id) {
+    m = patchPaid_(it, 'card', s.id);
+    safeRun_(() => mailPaid_(m, s));
+  } else if (!it || p.tolPaidRef !== s.id) {                           // lekcję odwołano albo opłacono inaczej → do rozliczenia
+    safeRun_(() => mailExtraPayment_(s, m0));
+  }
+  markPaySeen_(s.id);
   return m;
 }
 
-/** Codziennie: płatności z ostatnich 3 dni, po których ktoś zamknął kartę zamiast wrócić na stronę. */
+/** Codziennie: płatności z ostatnich 3 dni, których nie złapało nic wcześniej (np. Przelewy24 potwierdzone po czasie). */
 function syncCardPayments_() {
   if (!stripeKey_()) return;
   const list = stripe_('get', 'checkout/sessions', {
     limit: 100, status: 'complete', 'created[gte]': Math.floor(Date.now() / 1000) - 3 * 86400
   });
   (list.data || []).forEach((s) => {
-    if (s.payment_status === 'paid' && s.metadata && s.metadata.lessonId) {
-      try { recordCardPayment_(s); } catch (e) { console.error(e); }
+    if (s.payment_status === 'paid' && s.metadata && s.metadata.lessonId && !paySeen_(s.id)) {
+      try { withLock_(() => recordCardPayment_(s)); } catch (e) { console.error(e); }
     }
   });
 }
+
+/* ─── otwarte płatności (PAY_PENDING) ─── */
+
+function pendingPays_() {
+  try { return JSON.parse(props_().getProperty(PAY_PENDING_KEY) || '{}') || {}; } catch (e) { return {}; }
+}
+
+function savePendingPays_(map) {
+  const ids = Object.keys(map).sort((a, b) => map[b].t - map[a].t).slice(0, 60);   // ~120 B na wpis, limit właściwości 9 KB
+  if (!ids.length) {
+    if (props_().getProperty(PAY_PENDING_KEY) !== null) props_().deleteProperty(PAY_PENDING_KEY);
+    return;
+  }
+  const out = {};
+  ids.forEach((id) => { out[id] = map[id]; });
+  props_().setProperty(PAY_PENDING_KEY, JSON.stringify(out));
+}
+
+/** Sprawdza u Stripe otwarte płatności (wszystkie albo jednej lekcji), zapisuje opłacone, zapomina zamknięte.
+    Zwraca { idLekcji: { state: 'paid' | 'open' | 'processing' | 'closed', … } }. Nie wołaj pod blokadą. */
+function checkPendingPays_(onlyId) {
+  const map = pendingPays_();
+  const ids = Object.keys(map).filter((id) => !onlyId || id === onlyId);
+  if (!ids.length) return {};
+  const got = stripeGetAll_(ids.map((id) => 'checkout/sessions/' + map[id].sid));   // równolegle, bez blokady
+  return withLock_(() => {
+    const cur = pendingPays_();
+    const out = {};
+    let dirty = false;
+    ids.forEach((id, i) => {
+      const s = got[i];
+      const e = map[id];
+      if (!s) return;                                                  // Stripe nie odpowiedział — spróbujemy później
+      let st;
+      try {
+        if (s.missing) st = { state: 'closed' };                       // np. sesja testowa po zmianie klucza na produkcyjny
+        else if (s.payment_status === 'paid') st = { state: 'paid', lesson: recordCardPayment_(s) };
+        else if (s.status === 'open') st = { state: 'open', sid: s.id, url: s.url, amount: s.amount_total, exp: (s.expires_at || 0) * 1000 };
+        else if (s.status === 'complete' && Date.now() - e.t < 3 * 86400000) st = { state: 'processing' };   // np. Przelewy24
+        else st = { state: 'closed' };                                 // wygasła albo płatność się nie udała
+      } catch (err) {
+        console.error(err);
+        return;
+      }
+      out[id] = st;
+      if ((st.state === 'paid' || st.state === 'closed') && cur[id] && cur[id].sid === e.sid) {
+        delete cur[id];
+        dirty = true;
+      }
+    });
+    if (dirty) savePendingPays_(cur);
+    return out;
+  });
+}
+
+/** Przy odświeżeniu kalendarza: najwyżej raz na minutę sprawdź otwarte płatności (jeśli jakieś są). */
+function maybePaySync_() {
+  if (!props_().getProperty(PAY_PENDING_KEY) || !stripeKey_()) return;
+  const cache = CacheService.getScriptCache();
+  if (cache.get('paysync')) return;
+  cache.put('paysync', '1', 60);
+  try { checkPendingPays_(); } catch (e) { console.error(e); }
+}
+
+/** Wyzwalacz co 10 min (ustawia go setup, gdy Stripe jest włączony): płatności, po których nikt nie wrócił na stronę. */
+function paymentsTick() {
+  if (!props_().getProperty(PAY_PENDING_KEY) || !stripeKey_()) return;
+  checkPendingPays_();
+}
+
+/** Odwołane lekcje: zamknij ich otwarte strony płatności, żeby nikt nie zapłacił za odwołaną lekcję. */
+function closePendingPays_(ids) {
+  if (!stripeKey_()) return;
+  const map = pendingPays_();
+  const closed = ids.filter((id) => map[id] && expireSession_(map[id].sid));
+  if (!closed.length) return;                     // niezamknięte (np. już opłacone) rozliczy checkPendingPays_
+  withLock_(() => {
+    const cur = pendingPays_();
+    closed.forEach((id) => { if (cur[id] && cur[id].sid === map[id].sid) delete cur[id]; });
+    savePendingPays_(cur);
+  });
+}
+
+function expireSession_(sid) {
+  try {
+    stripe_('post', 'checkout/sessions/' + sid + '/expire');
+    return true;
+  } catch (e) {
+    return false;                                 // już zakończona (opłacona albo wygasła)
+  }
+}
+
+function paySeen_(sid) {
+  return (props_().getProperty(PAY_SEEN_KEY) || '').split(',').indexOf(String(sid).slice(-24)) >= 0;
+}
+function markPaySeen_(sid) {
+  const list = (props_().getProperty(PAY_SEEN_KEY) || '').split(',').filter(Boolean);
+  const k = String(sid).slice(-24);
+  if (list.indexOf(k) >= 0) return;
+  list.push(k);
+  props_().setProperty(PAY_SEEN_KEY, list.slice(-150).join(','));
+}
+
+/* ─── Stripe API ─── */
 
 function stripeKey_() { return props_().getProperty('STRIPE_SECRET_KEY') || ''; }
 
@@ -672,14 +861,73 @@ function stripe_(method, path, params) {
   return json;
 }
 
+/** Kilka zapytań GET naraz. Element: obiekt Stripe, { missing: true } (404) albo null (błąd — spróbuj później). */
+function stripeGetAll_(paths) {
+  const key = stripeKey_();
+  if (!key || !paths.length) return paths.map(() => null);
+  let res;
+  try {
+    res = UrlFetchApp.fetchAll(paths.map((p) => ({
+      url: 'https://api.stripe.com/v1/' + p, method: 'get', headers: { Authorization: 'Bearer ' + key }, muteHttpExceptions: true
+    })));
+  } catch (e) {
+    console.error(e);
+    return paths.map(() => null);
+  }
+  return res.map((r, i) => {
+    const code = r.getResponseCode();
+    if (code === 404) return { missing: true };
+    if (code >= 300) { console.error('Stripe ' + paths[i] + ': ' + r.getContentText()); return null; }
+    try { return JSON.parse(r.getContentText()); } catch (e) { return null; }
+  });
+}
+
+/** Uruchom z edytora po dodaniu STRIPE_SECRET_KEY (robi to też setup): sprawdza klucz i stan konta Stripe. */
+function stripeStatus() {
+  const key = stripeKey_();
+  if (!key) {
+    Logger.log('Płatności kartą wyłączone — dodaj właściwość skryptu STRIPE_SECRET_KEY (instrukcja: INSTRUKCJA.md, krok 3a).');
+    return;
+  }
+  const a = stripe_('get', 'account');
+  const caps = a.capabilities || {};
+  const name = (a.settings && a.settings.dashboard && a.settings.dashboard.display_name) || (a.business_profile && a.business_profile.name) || a.id;
+  Logger.log('Stripe: klucz ' + (/_live_/.test(key) ? 'PRODUKCYJNY — prawdziwe płatności' : 'TESTOWY — płatności na niby (karta 4242 4242 4242 4242)') + ', konto „' + name + '”.');
+  Logger.log('Przyjmowanie płatności: ' + (a.charges_enabled ? 'tak' : 'NIE') + ' · wypłaty na konto bankowe: ' + (a.payouts_enabled ? 'tak' : 'NIE'));
+  Logger.log('Karty i Google Pay: ' + (caps.card_payments || 'brak') + ' · BLIK: ' + (caps.blik_payments || 'brak — włącz w Settings → Payment methods'));
+  const due = (a.requirements && a.requirements.currently_due) || [];
+  if (due.length) Logger.log('Stripe czeka jeszcze na dane: ' + due.join(', ') + ' — dokończ je w panelu Stripe.');
+}
+
+/* ─── maile o płatnościach ─── */
+
+function fmtPln_(grosze) { return (Number(grosze || 0) / 100).toFixed(2).replace('.', ',') + ' zł'; }
+
 function mailPaid_(m, s) {
-  const amount = (s.amount_total / 100).toFixed(2).replace('.', ',') + ' zł';
+  const amount = fmtPln_(s.amount_total);
   const when = whenOf_(m);
   const rows = [['Uczeń', m.name], ['Lekcja', when], ['Kwota', amount], ['Metoda', 'karta / BLIK / Google Pay (Stripe)']];
   if (s.customer_details && s.customer_details.email) rows.push(['Płacący', s.customer_details.email]);
   sendMail_(notifyTo_(), '💳 Opłacona lekcja: ' + m.name + ' — ' + when, 'Lekcja opłacona',
-    'Ktoś zapłacił za lekcję przez stronę. Lekcja jest już oznaczona w kalendarzu jako opłacona.', rows, [weekCta_(dateOf_(m))]);
+    'Ktoś zapłacił za lekcję przez stronę. Lekcja jest już oznaczona w kalendarzu jako opłacona.', rows, [weekCta_(dateOf_(m))],
+    'Stripe przeleje te pieniądze (minus prowizja) na Twoje konto z najbliższą wypłatą. Szczegóły: panel Stripe → Płatności.');
   pushTeacher_({ role: 'public' }, { title: '💳 Opłacona lekcja: ' + m.name, body: when + ' · ' + amount, url: weekUrl_(dateOf_(m)), tag: 'paid-' + m.id });
+}
+
+/** Płatność kartą, której nie ma już do czego przypisać: lekcję odwołano albo była już opłacona. */
+function mailExtraPayment_(s, m) {
+  const md = s.metadata || {};
+  const who = m ? m.name : (md.uczen || '—');
+  const when = m ? whenOf_(m) : (md.termin || '—');
+  const amount = fmtPln_(s.amount_total);
+  const rows = [['Uczeń', who], ['Lekcja', when], ['Kwota', amount],
+    ['Powód', m ? 'lekcja była już opłacona — to druga płatność za nią' : 'lekcji nie ma już w kalendarzu (odwołana)']];
+  if (s.customer_details && s.customer_details.email) rows.push(['Płacący', s.customer_details.email]);
+  sendMail_(notifyTo_(), '⚠️ Płatność do rozliczenia: ' + who + ' — ' + when, 'Płatność do rozliczenia',
+    'Ktoś zapłacił kartą / BLIK-iem za lekcję, której nie da się już opłacić. Zwróć pieniądze w panelu Stripe ' +
+    '(Płatności → ta płatność → Zwróć) albo zalicz je na inną lekcję i oznacz ją w kalendarzu jako opłaconą.',
+    rows, m ? [weekCta_(dateOf_(m))] : []);
+  pushTeacher_({ role: 'public' }, { title: '⚠️ Płatność do rozliczenia: ' + who, body: when + ' · ' + amount, url: CONFIG.APP_URL, tag: 'payx-' + String(s.id).slice(-12) });
 }
 
 /** Zgodność ze starą wersją strony: zajęte pełne godziny w tygodniu. */
@@ -1096,14 +1344,14 @@ function maybeMaintenance_() {
   if (cache.get('maint') === today) return;
   const p = props_();
   if (p.getProperty('MAINT_DAY') !== today) {
-    const lock = LockService.getScriptLock();
-    if (!lock.tryLock(100)) return;
+    const release = acquireLock_(100);
+    if (!release) return;
     try {
       if (p.getProperty('MAINT_DAY') !== today) dailyMaintenance();
     } catch (e) {
       console.error(e);
     } finally {
-      lock.releaseLock();
+      release();
     }
   }
   cache.put('maint', today, 21600);
@@ -1407,8 +1655,12 @@ function mailCancelled_(L, targets, ctx, following) {
   const when = plShort_(dateOf_(L)) + ' ' + L.s.slice(11, 16) + ' (' + L.duration + ' min)';
   const rows = [['Uczeń', L.name], ['Termin', when]];
   if (following) rows.push(['Zakres', 'ta i wszystkie następne (' + targets.length + ' lekcji)']);
+  const paid = targets.filter((t) => t.paid);                         // targets = [L] albo L i następne z serii
+  const payRow = !paid.length ? [] : [['Płatność',
+    (following ? 'opłacone lekcje: ' + paid.length : L.paid === 'card' ? 'była opłacona kartą / BLIK-iem (Stripe)' : 'była oznaczona jako opłacona') +
+    (paid.some((t) => t.paid === 'card') ? ' — zwróć pieniądze w panelu Stripe (Płatności → Zwróć) albo zalicz je na inną lekcję' : ' — zwróć pieniądze albo zalicz je na inną lekcję')]];
   teacherMail_(ctx, '❌ Odwołana lekcja: ' + L.name + ' — ' + when + (following ? ' i następne' : ''),
-    following ? 'Odwołana seria lekcji' : 'Odwołana lekcja', L.name + ' — lekcja została odwołana.', rows, [weekCta_(dateOf_(L))]);
+    following ? 'Odwołana seria lekcji' : 'Odwołana lekcja', L.name + ' — lekcja została odwołana.', rows.concat(payRow), [weekCta_(dateOf_(L))]);
   studentMail_(L.email, '❌ Lekcja odwołana: ' + when, 'Lekcja odwołana',
     'Cześć ' + firstName_(L.name) + '! ' + (following ? 'Twoje lekcje (od tej daty) zostały odwołane.' : 'Twoja lekcja została odwołana.'),
     rows.slice(1), [manageCta_(L.email)]);
@@ -1576,8 +1828,8 @@ function pushTo_(match, n) {
   if (!CONFIG.PUSH_ENABLED) return;
   try {
     let subs = [];
-    const lock = LockService.getScriptLock();
-    if (!lock.tryLock(15000)) return;
+    const release = acquireLock_(15000);                       // pod blokadą wywołującego (np. zapis płatności) — bez drugiej
+    if (!release) return;
     try {
       props_().reload();
       const all = props_().getProperties();
@@ -1588,7 +1840,7 @@ function pushTo_(match, n) {
         props_().setProperty('push_' + x.id, JSON.stringify(x));
       });
     } finally {
-      lock.releaseLock();
+      release();
     }
     if (subs.length) sendTickles_(subs);
   } catch (e) {
@@ -1629,8 +1881,8 @@ function vapidKeys_() {
   let pub = p.getProperty('VAPID_PUB');
   if (d && pub) return { d: d, pub: pub };
   // pierwsze użycie: generujemy parę kluczy pod blokadą (dwa równoległe zapytania nie mogą zrobić dwóch różnych)
-  const lock = LockService.getScriptLock();
-  if (!lock.tryLock(20000)) throw new Error('VAPID: brak blokady');
+  const release = acquireLock_(20000);
+  if (!release) throw new Error('VAPID: brak blokady');
   try {
     p.reload();
     d = p.getProperty('VAPID_D');
@@ -1647,7 +1899,7 @@ function vapidKeys_() {
     p.setProperty('VAPID_PUB', pub);
     return { d: d, pub: pub };
   } finally {
-    lock.releaseLock();
+    release();
   }
 }
 
@@ -1924,16 +2176,34 @@ function bumpVersion_() {
   props_().setProperty('VER', String(Date.now()));
 }
 
-function withLock_(fn) {
+// Blokada skryptu liczona w głąb. Apps Script nie obiecuje, co robi drugie tryLock w tym samym wykonaniu:
+// albo czeka do limitu czasu, albo przechodzi — i wtedy wewnętrzne releaseLock zwalnia też zewnętrzną blokadę.
+// Dlatego kod, który już ją trzyma (np. zapis płatności → mail → powiadomienie push), nie bierze jej drugi raz.
+let lockDepth_ = 0;
+function acquireLock_(timeoutMs) {
+  if (lockDepth_ > 0) {
+    lockDepth_++;
+    return () => { lockDepth_--; };
+  }
   const lock = LockService.getScriptLock();
-  if (!lock.tryLock(25000)) throw userError_('Serwer jest teraz zajęty. Spróbuj ponownie za chwilę.', 'BUSY');
+  if (!lock.tryLock(timeoutMs)) return null;
+  lockDepth_ = 1;
+  return () => { lockDepth_ = 0; lock.releaseLock(); };
+}
+
+function withLock_(fn) {
+  const nested = lockDepth_ > 0;
+  const release = acquireLock_(25000);
+  if (!release) throw userError_('Serwer jest teraz zajęty. Spróbuj ponownie za chwilę.', 'BUSY');
   try {
-    props_().reload();          // pod blokadą czytamy świeże dane (mogły się zmienić w innym wykonaniu)
-    journalMemo_ = null;
-    availMemo_ = null;
+    if (!nested) {
+      props_().reload();        // pod blokadą czytamy świeże dane (mogły się zmienić w innym wykonaniu)
+      journalMemo_ = null;
+      availMemo_ = null;
+    }
     return fn();
   } finally {
-    lock.releaseLock();
+    release();
   }
 }
 

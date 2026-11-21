@@ -583,7 +583,9 @@
             margin-top: 14px; padding: 12px 14px; border-radius: 12px; font-size: 14px; font-weight: 600;
             background: rgba(52,211,153,.1); border: 1px solid rgba(52,211,153,.35); color: #6ee7b7;
         }
+        .pay-done.wait { background: rgba(251,191,36,.08); border-color: rgba(251,191,36,.35); color: #fcd34d; }
         .pay-card { width: 100%; height: 48px; margin-top: 16px; font-size: 15px; }
+        .pay-secure { margin-top: 8px; font-size: 12px; line-height: 1.5; color: var(--text-muted); text-align: center; }
         .pay-or { display: flex; align-items: center; gap: 12px; margin: 18px 0 4px; font-size: 12px; color: var(--text-muted); }
         .pay-or::before, .pay-or::after { content: ''; flex: 1; height: 1px; background: var(--border); }
         .pay-h { font: 500 11px var(--font-mono); text-transform: uppercase; letter-spacing: .09em; color: var(--text-muted); margin: 18px 0 8px; }
@@ -2084,15 +2086,22 @@ const fmtAmount = (n) => n.toFixed(2).replace('.', ',');
 // kod QR wg rekomendacji ZBP („Płatności → Skanuj kod QR” w polskich bankach): bez polskich znaków, tytuł do 32 znaków
 const asciiPl = (s) => String(s || '').replace(/ł/g, 'l').replace(/Ł/g, 'L').normalize('NFD').replace(/[̀-ͯ]/g, '')
     .replace(/[^\x20-\x7e]/g, '').replace(/\|/g, ' ').trim();
-function payTitleOf(name, date, start) {
+function payWhenOf(date, start) {
     const [y, m, d] = date.split('-');
-    return (name ? name + ' ' : '') + `${d}.${m}.${y} ${start}`;
+    return `${d}.${m}.${y} ${start}`;
+}
+// tytuł przelewu, taki sam jak na serwerze: „Lekcja Jan Kowalski 24.10.2026 17:00”
+const payTitleOf = (name, date, start) => 'Lekcja ' + (name ? name + ' ' : '') + payWhenOf(date, start);
+// w kodzie QR najwyżej 32 znaki: pełny tytuł, a gdy się nie mieści — bez „Lekcja”, w ostateczności z uciętym imieniem
+function bankQrTitle(d) {
+    const when = payWhenOf(d.date, d.start);
+    const name = asciiPl(d.name);
+    const fit = [payTitleOf(name, d.date, d.start), (name ? name + ' ' : '') + when].find((t) => t.length <= 32);
+    return fit || name.slice(0, 32 - when.length - 1).trim() + ' ' + when;
 }
 function bankQrText(d) {
-    const when = payTitleOf('', d.date, d.start);
-    const name = asciiPl(d.name).slice(0, 32 - when.length - 1).trim();
     return ['', 'PL', d.account, String(Math.round(d.price * 100)).padStart(6, '0'),
-        asciiPl(d.recipient).slice(0, 20), (name ? name + ' ' : '') + when, '', '', ''].join('|');
+        asciiPl(d.recipient).slice(0, 20), bankQrTitle(d), '', '', ''].join('|');
 }
 async function copyText(text) {
     try { await navigator.clipboard.writeText(text); return true; } catch (e) { /* starsze przeglądarki */ }
@@ -2115,11 +2124,15 @@ function payHtml(d) {
             <span>${cap(fmtLong(d.date))} · ${d.start}–${d.end} · ${d.duration} min</span></div>
         <div class="pay-amt${loading ? ' loading' : ''}">${loading ? '…' : d.price !== null ? fmtPrice(d.price) : '—'}</div></div>`;
     if (d.paid) return h + '<div class="pay-done">✓ Ta lekcja jest już opłacona — dziękujemy!</div>';
+    if (d.pending === 'processing') {
+        return h + '<div class="pay-done wait">⏳ Płatność za tę lekcję jest w toku — lekcja oznaczy się jako opłacona, gdy bank ją potwierdzi.</div>';
+    }
     if (!loading && d.price === null) {
         h += '<p class="pay-note">Cena tej lekcji nie jest jeszcze ustawiona — kwotę ustal z nauczycielem. Dane do przelewu są poniżej.</p>';
     }
     if (loading ? d.cardMaybe : d.card) {
         h += `<button class="btn primary pay-card" type="button" data-pay="card"${loading ? ' disabled' : ''}>💳 Zapłać kartą · BLIK · Google Pay</button>
+            <p class="pay-secure">🔒 Bezpieczna strona płatności Stripe — dane karty nie trafiają do nas. Lekcja oznaczy się jako opłacona sama.</p>
             <div class="pay-or">albo zwykłym przelewem</div>`;
     }
     h += `<div class="pay-h">Przelew na konto</div>
@@ -2217,7 +2230,7 @@ async function confirmCardPayment(session) {
             S.sig = '';
             refresh();
         } else {
-            showPopup('error', 'Operator nie potwierdził jeszcze płatności. Jeśli pieniądze zeszły z konta, lekcja oznaczy się jako opłacona automatycznie (najpóźniej następnego dnia).', 'Płatność w toku');
+            showPopup('wait', 'Operator nie potwierdził jeszcze płatności. Jeśli pieniądze zeszły z konta, lekcja oznaczy się jako opłacona automatycznie — zwykle w ciągu kilkunastu minut. Nie płać drugi raz.', 'Płatność w toku');
         }
     } catch (err) {
         showPopup('error', err.message, 'Nie udało się sprawdzić płatności');
@@ -3094,7 +3107,9 @@ function showPopup(state, desc, title) {
         setTimeout(spawnConfetti, 300);
         setTimeout(() => close.focus(), 50);
     } else {
-        icon.innerHTML = '<div style="font-size:40px;color:var(--err);font-weight:700;">✕</div>';
+        icon.innerHTML = state === 'wait'                 // np. płatność, którą bank jeszcze potwierdza — to nie błąd
+            ? '<div style="font-size:40px;line-height:1;">⏳</div>'
+            : '<div style="font-size:40px;color:var(--err);font-weight:700;">✕</div>';
         $('#bookingPopupTitle').textContent = title || 'Coś poszło nie tak';
         $('#bookingPopupDesc').textContent = desc || 'Spróbuj ponownie za chwilę.';
         close.style.display = 'inline-flex';

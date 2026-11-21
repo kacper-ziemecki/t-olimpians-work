@@ -1628,6 +1628,88 @@ const LEKCJE = [
             },
         ],
     },
+    {
+        temat: 'Rekurencja',
+        prefix: 'rk-',
+        plik: 'c++_logika/rekurencja.html',
+        pliki: ['rekurencja-cwiczenia-1.js', 'rekurencja-cwiczenia-2.js', 'rekurencja-cwiczenia-3.js', 'rekurencja-baza.js'],
+        note: 'Lekcja o rekurencji od podstaw: funkcja, która wywołuje samą siebie (warunek stopu, krok w stronę stopu, stos wywołań), ' +
+            'kod przed wywołaniem i po nim (droga w dół i z powrotem), funkcje rekurencyjne oddające wynik i metoda „zaufaj rekurencji”, ' +
+            'rekurencja na tablicach i napisach, NWD i szybkie potęgowanie, drzewo wywołań i zapamiętywanie wyników (memoizacja), ' +
+            'generowanie wszystkich możliwości oraz zalewanie planszy i dziel i zwyciężaj.',
+        bazaOpisy: {
+            latwe: 'Jedna rekurencja naraz: schodki bez pętli, suma przedziału, jedynki w zapisie dwójkowym, zera na końcu, domek z kart, ' +
+                'cyfry parzyste od lewej, NWD i NWW trzech liczb, zapis dwójkowy na k bitach, zdanie wspak i najwyższy punkt ciągu Collatza.',
+            srednie: 'Rekurencja z pamięcią i przeszukiwanie: złodziej w szeregowcu, droga w dół trójkąta, liczby schodkowe, Hanoi na sąsiednie pręty, ' +
+                'skoczek, podział na słowa, liczby pierwsze z cyfr, firma i podwładni, gra na końcach i rozwijanie skrótów.',
+            trudne: 'Pomysłowa rekurencja: wieże bez bicia, podział na równe grupy, Hanoi po k ruchach, smocza krzywa, gra w 24, ' +
+                'kompresja obrazka, domino na planszy — a na koniec wielki finał: kalkulator z nawiasami.',
+        },
+        kroki: [
+            {
+                nr: 1, kotwica: 'pierwsza-rekurencja', spis: 'Funkcja, która woła samą siebie',
+                nazwa: 'Krok 1 · Pierwsza rekurencja — funkcja woła samą siebie',
+                kategoria: 'Rekurencja / krok 1: pierwsza rekurencja',
+                note: 'Funkcja wywołująca samą siebie: warunek stopu, krok w stronę stopu, każde wywołanie z własnymi zmiennymi na stosie, ' +
+                    'rekurencja zamiast pętli — odliczanie, połowienie, podwajanie, winda, echo, płotek i skarbonka. Zadania tylko wypisują.',
+            },
+            {
+                nr: 2, kotwica: 'w-dol-i-w-gore', spis: 'Przed wywołaniem i po wywołaniu',
+                nazwa: 'Krok 2 · W dół i z powrotem — kod przed wywołaniem i po nim',
+                kategoria: 'Rekurencja / krok 2: przed i po wywołaniu',
+                note: 'Kod przed wywołaniem działa w drodze w dół, kod po wywołaniu — w drodze powrotnej: odwracanie kolejności bez tablicy, ' +
+                    'cyfry od lewej, matrioszki, zagnieżdżone bloki, separatory tysięcy i czynniki pierwsze od największego.',
+            },
+            {
+                nr: 3, kotwica: 'zwracanie', spis: 'Rekurencja, która oddaje wynik',
+                nazwa: 'Krok 3 · Rekurencja oddaje wynik — zaufaj rekurencji',
+                kategoria: 'Rekurencja / krok 3: zwracanie wyniku',
+                note: 'Funkcje rekurencyjne z return: najmniejszy przypadek, założenie, że mniejsze działa, i budowanie wyniku z mniejszego. ' +
+                    'Sumy, iloczyny i cyfry liczb, funkcje bool, parametr-akumulator, ciągi z przepisu i mnożenie po rosyjsku.',
+            },
+            {
+                nr: 4, kotwica: 'tablice-i-napisy', spis: 'Rekurencja na tablicach i napisach',
+                nazwa: 'Krok 4 · Rekurencja na tablicach i napisach',
+                kategoria: 'Rekurencja / krok 4: tablice i napisy',
+                note: 'Rekurencja z indeksem: liczenie, maksimum i szukanie w tablicy, sprawdzanie porządku, palindromy na dwóch indeksach, ' +
+                    'napisy bez kopiowania (const & zamiast substr), sumy narastające przez parametr.',
+            },
+            {
+                nr: 5, kotwica: 'liczby', spis: 'NWD i szybkie potęgowanie',
+                nazwa: 'Krok 5 · Klasyki na liczbach — NWD i szybkie potęgowanie',
+                kategoria: 'Rekurencja / krok 5: NWD i szybkie potęgowanie',
+                note: 'Algorytm Euklidesa rekurencyjnie, NWW, szybkie potęgowanie modulo (głębokość log n zamiast n), zamiana systemów liczbowych ' +
+                    'i mnożenie modulo bez przepełnienia.',
+            },
+            {
+                nr: 6, kotwica: 'drzewo-wywolan', spis: 'Drzewo wywołań i memoizacja',
+                nazwa: 'Krok 6 · Drzewo wywołań — Fibonacci i zapamiętywanie wyników',
+                kategoria: 'Rekurencja / krok 6: drzewo wywołań i memoizacja',
+                note: 'Kilka wywołań naraz i drzewo rekurencji, wykładnicza liczba wywołań, memoizacja w tablicy, liczenie sposobów: ' +
+                    'kafelki, schody, ścieżki na planszy, gry, szyfry, podziały na grupy i nawiasowania.',
+            },
+            {
+                nr: 7, kotwica: 'generowanie', spis: 'Generowanie wszystkich możliwości',
+                nazwa: 'Krok 7 · Generowanie wszystkich możliwości',
+                kategoria: 'Rekurencja / krok 7: generowanie możliwości',
+                note: 'Drzewo wyborów: ciągi, podzbiory (bierzemy albo nie), permutacje z tablicą użytych, obcinanie gałęzi, ' +
+                    'liczenie zamiast wypisywania, kod Graya.',
+            },
+            {
+                nr: 8, kotwica: 'plansze-i-podzial', spis: 'Zalewanie planszy, dziel i zwyciężaj',
+                nazwa: 'Krok 8 · Zalewanie planszy oraz dziel i zwyciężaj',
+                kategoria: 'Rekurencja / krok 8: plansze i dziel i zwyciężaj',
+                note: 'Zalewanie (flood fill) na planszy: plamy, pożary, wyspy i jeziora, przejścia; dziel i zwyciężaj: turniej, ' +
+                    'wyszukiwanie binarne rekurencyjnie, sortowanie przez scalanie i fraktale.',
+            },
+            {
+                nr: 9, kotwica: 'baza', spis: 'Baza zadań', baza: true,
+                nazwa: 'Baza zadań — podsumowanie tematu',
+                kategoria: 'Rekurencja / baza zadań',
+                note: '28 zadań na cały temat — od prostych rekurencji na liczbach, przez memoizację, przeszukiwanie i rekurencję na drzewie, po pomysłowe rozwiązania przez połowienie — a na koniec wielki finał: kalkulator z nawiasami.',
+            },
+        ],
+    },
 ];
 
 module.exports = { SITE, KATEGORIA, LEKCJE };

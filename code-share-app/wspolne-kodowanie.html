@@ -1063,6 +1063,49 @@ body.resizing-y, body.resizing-y * { cursor: row-resize !important; user-select:
     font-size: 13px;
     margin-right: 4px;
 }
+/* Narzędzia (mazak, prostokąt, koło, trójkąt, gumka) i kolory w "pigułkach" */
+.board-tool-group,
+.board-color-group {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    padding: 3px;
+    border-radius: 10px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+}
+.board-color-group { gap: 7px; padding: 5px 9px; }
+.board-tool-btn {
+    width: 32px; height: 32px;
+    border-radius: 7px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+.board-tool-btn:hover { color: var(--text-primary); background: var(--accent-dim); }
+.board-tool-btn:active { transform: scale(0.92); }
+.board-tool-btn:focus-visible { outline: 2px solid var(--accent-bright); outline-offset: 1px; }
+.board-tool-btn.active {
+    color: #fff;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.42), rgba(139, 92, 246, 0.34));
+    border-color: rgba(147, 197, 253, 0.35);
+    box-shadow: 0 2px 10px rgba(59, 130, 246, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+.board-tool-sep {
+    width: 1px;
+    height: 20px;
+    margin: 0 3px;
+    background: var(--border);
+    flex-shrink: 0;
+}
 .board-color {
     width: 26px; height: 26px;
     border-radius: 50%;
@@ -1074,6 +1117,8 @@ body.resizing-y, body.resizing-y * { cursor: row-resize !important; user-select:
 }
 .board-color:hover { transform: scale(1.1); }
 .board-color.active { border-color: #fff; box-shadow: 0 0 0 2px var(--bg-base), 0 0 0 4px var(--accent-bright); }
+/* Przy gumce kolor nie jest używany — wyszarzamy jego obwódkę */
+.board-wrap.tool-eraser .board-color.active { border-color: rgba(255,255,255,0.35); box-shadow: 0 0 0 2px var(--bg-base), 0 0 0 4px rgba(148, 163, 184, 0.35); }
 .board-width-group {
     display: flex;
     align-items: center;
@@ -1101,8 +1146,9 @@ body.resizing-y, body.resizing-y * { cursor: row-resize !important; user-select:
 .board-width-btn.active { background: var(--accent-dim); border-color: var(--border-accent); }
 .board-width-dot {
     border-radius: 50%;
-    background: var(--text-primary);
+    background: var(--board-ink, var(--text-primary));   /* kropki grubości w kolorze mazaka */
     flex-shrink: 0;
+    transition: background 0.15s ease;
 }
 .board-clear-btn {
     padding: 8px 16px !important;
@@ -1172,20 +1218,25 @@ body.resizing-y, body.resizing-y * { cursor: row-resize !important; user-select:
 .board-scroll::-webkit-scrollbar-track { background: transparent; }
 .board-scroll::-webkit-scrollbar-thumb { background: var(--bg-elevated); border-radius: 8px; border: 1px solid var(--border); }
 .board-scroll::-webkit-scrollbar-thumb:hover { background: var(--accent-dim); }
+/* Granatowa ("czarno-niebieska") tablica: delikatne przejście od granatu u góry
+   do prawie czerni u dołu + subtelna kratka. Te same kolory są w JS (BOARD_BG_*),
+   żeby pobrany PNG wyglądał tak samo. Rozmiar kratki ustawia JS (1/50 szerokości). */
 .board-card {
+    --board-grid: 28px;
     width: 100%;
     aspect-ratio: 1 / 1.4142;
     flex-shrink: 0;
-    background-color: #fdfdfa;
+    background-color: #0c1528;
     background-image:
-        linear-gradient(to right, rgba(30, 41, 59, 0.09) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(30, 41, 59, 0.09) 1px, transparent 1px);
-    background-size: 26px 26px;
-    border: 1px solid var(--border);
+        linear-gradient(to right, rgba(148, 163, 184, 0.085) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(148, 163, 184, 0.085) 1px, transparent 1px),
+        linear-gradient(to bottom, #101c33, #080e1b);
+    background-size: var(--board-grid) var(--board-grid), var(--board-grid) var(--board-grid), 100% 100%;
+    border: 1px solid rgba(96, 165, 250, 0.18);
     border-radius: var(--radius-md);
     overflow: hidden;
     position: relative;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.55), 0 0 0 1px rgba(0,0,0,0.35);
     animation: fadeInUp 0.6s 0.05s ease both;
 }
 #boardCanvas {
@@ -1195,17 +1246,26 @@ body.resizing-y, body.resizing-y * { cursor: row-resize !important; user-select:
     cursor: none;
     touch-action: none;
 }
+.board-card.tool-shape #boardCanvas { cursor: crosshair; }
+/* Warstwa z tym, co ktoś właśnie rysuje — nad tablicą, przepuszcza kliknięcia */
+#boardLiveCanvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
 .board-cursor {
     position: absolute;
     left: 0; top: 0;
     width: 3px; height: 3px;
     border-radius: 50%;
-    border: 2px solid rgba(26,26,34,0.85);
-    background: rgba(26,26,34,0.06);
+    border: 2px solid rgba(241, 245, 249, 0.9);
+    background: rgba(241, 245, 249, 0.08);
     box-shadow:
-        0 0 0 1.5px rgba(255,255,255,0.95),
-        0 1px 4px rgba(0,0,0,0.35),
-        0 0 0 4px rgba(0,0,0,0.12);
+        0 0 0 1px rgba(2, 6, 23, 0.7),
+        0 1px 6px rgba(0, 0, 0, 0.45);
     transform: translate(-50%, -50%);
     pointer-events: none;
     display: none;
@@ -2259,7 +2319,8 @@ body.resizing-y, body.resizing-y * { cursor: row-resize !important; user-select:
 
     .board-wrap { padding: 10px; gap: 10px; }
     .board-toolbar { gap: 8px; }
-    .board-color { width: 32px; height: 32px; }
+    .board-color { width: 30px; height: 30px; }
+    .board-tool-btn { width: 36px; height: 36px; }
     .board-page-nav { margin-left: 0; }
     .board-page-btn, .board-page-del-btn { width: 34px; height: 34px; }
     .board-clear-btn { margin-left: 0; min-height: 38px; }
@@ -2937,16 +2998,27 @@ body.resizing-y, body.resizing-y * { cursor: row-resize !important; user-select:
 
 <div class="board-wrap hidden" id="boardWrap">
     <div class="board-toolbar">
-        <button type="button" class="board-color active" id="boardColorBlack" style="background:#1a1a22" data-color="#1a1a22" title="Czarny"></button>
-        <button type="button" class="board-color" id="boardColorRed" style="background:#e11d48" data-color="#e11d48" title="Czerwony"></button>
-        <button type="button" class="board-color" id="boardColorBlue" style="background:#2563eb" data-color="#2563eb" title="Niebieski"></button>
-        <button type="button" class="board-color" id="boardColorGreen" style="background:#16a34a" data-color="#16a34a" title="Zielony"></button>
-        <button type="button" class="board-color" id="boardColorEraser" style="background:#fff;box-shadow:inset 0 0 0 1px #ccc" data-color="erase" data-width="26" title="Gumka"></button>
-        <div class="board-width-group" id="boardWidthGroup">
-            <button type="button" class="board-width-btn" data-width="2" title="Cienki mazak"><span class="board-width-dot" style="width:5px;height:5px"></span></button>
-            <button type="button" class="board-width-btn active" data-width="3" title="Średni mazak"><span class="board-width-dot" style="width:9px;height:9px"></span></button>
-            <button type="button" class="board-width-btn" data-width="6" title="Gruby mazak"><span class="board-width-dot" style="width:13px;height:13px"></span></button>
-            <button type="button" class="board-width-btn" data-width="10" title="Bardzo gruby mazak"><span class="board-width-dot" style="width:17px;height:17px"></span></button>
+        <div class="board-tool-group" role="group" aria-label="Narzędzie">
+            <button type="button" class="board-tool-btn active" data-tool="pen" aria-pressed="true" aria-label="Mazak" title="Mazak — pisanie i rysowanie odręczne"><svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 3.5a2.12 2.12 0 0 1 3 3L7 16l-4 1 1-4z"></path><path d="M12 5l3 3"></path></svg></button>
+            <button type="button" class="board-tool-btn" data-tool="rect" aria-pressed="false" aria-label="Prostokąt" title="Prostokąt — przeciągnij po tablicy (z Shift: kwadrat)"><svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3" y="4.5" width="14" height="11" rx="1.5"></rect></svg></button>
+            <button type="button" class="board-tool-btn" data-tool="ellipse" aria-pressed="false" aria-label="Koło" title="Koło — przeciągnij po tablicy"><svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="10" cy="10" r="6.75"></circle></svg></button>
+            <button type="button" class="board-tool-btn" data-tool="triangle" aria-pressed="false" aria-label="Trójkąt" title="Trójkąt — przeciągnij po tablicy (z Shift: równoboczny; przeciągnięty w górę jest odwrócony)"><svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M10 3.75 17.25 16.25H2.75z"></path></svg></button>
+            <span class="board-tool-sep" aria-hidden="true"></span>
+            <button type="button" class="board-tool-btn" data-tool="eraser" aria-pressed="false" aria-label="Gumka" title="Gumka"><svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 3.5 16.5 7.5 9 15 5 11z"></path><path d="M8 8l4 4"></path><path d="M7.5 17.25h9"></path></svg></button>
+        </div>
+        <div class="board-color-group" role="group" aria-label="Kolor">
+            <button type="button" class="board-color active" style="background:#f1f5f9" data-color="#f1f5f9" title="Biały" aria-label="Biały"></button>
+            <button type="button" class="board-color" style="background:#fde047" data-color="#fde047" title="Żółty" aria-label="Żółty"></button>
+            <button type="button" class="board-color" style="background:#f87171" data-color="#f87171" title="Czerwony" aria-label="Czerwony"></button>
+            <button type="button" class="board-color" style="background:#4ade80" data-color="#4ade80" title="Zielony" aria-label="Zielony"></button>
+            <button type="button" class="board-color" style="background:#60a5fa" data-color="#60a5fa" title="Niebieski" aria-label="Niebieski"></button>
+            <button type="button" class="board-color" style="background:#c084fc" data-color="#c084fc" title="Fioletowy" aria-label="Fioletowy"></button>
+        </div>
+        <div class="board-width-group" id="boardWidthGroup" role="group" aria-label="Grubość">
+            <button type="button" class="board-width-btn" data-width="2" title="Cienka kreska" aria-label="Cienka kreska"><span class="board-width-dot" style="width:5px;height:5px"></span></button>
+            <button type="button" class="board-width-btn active" data-width="3" title="Średnia kreska" aria-label="Średnia kreska"><span class="board-width-dot" style="width:9px;height:9px"></span></button>
+            <button type="button" class="board-width-btn" data-width="6" title="Gruba kreska" aria-label="Gruba kreska"><span class="board-width-dot" style="width:13px;height:13px"></span></button>
+            <button type="button" class="board-width-btn" data-width="10" title="Bardzo gruba kreska" aria-label="Bardzo gruba kreska"><span class="board-width-dot" style="width:17px;height:17px"></span></button>
         </div>
         <div class="board-page-nav">
             <button type="button" class="board-page-btn" id="boardPagePrev" title="Poprzednia strona">‹</button>
@@ -2958,8 +3030,9 @@ body.resizing-y, body.resizing-y * { cursor: row-resize !important; user-select:
         <button type="button" class="join-btn board-clear-btn" id="boardClearBtn" title="Wyczyść bieżącą stronę u wszystkich">Wyczyść stronę</button>
     </div>
     <div class="board-scroll" id="boardScroll">
-        <div class="board-card">
+        <div class="board-card" id="boardCard">
             <canvas id="boardCanvas"></canvas>
+            <canvas id="boardLiveCanvas" aria-hidden="true"></canvas>
             <div class="board-cursor" id="boardCursor"></div>
         </div>
     </div>
@@ -5037,6 +5110,9 @@ body.resizing-y, body.resizing-y * { cursor: row-resize !important; user-select:
         } else if (msg.type === 'board-stroke-add') {
             applyRemoteBoardStrokeAdd(msg.stroke);
             relay(msg, fromConn.peer);
+        } else if (msg.type === 'board-shape') {
+            applyRemoteBoardShape(msg);
+            relay(msg, fromConn.peer);
         }
     }
 
@@ -5175,6 +5251,8 @@ body.resizing-y, body.resizing-y * { cursor: row-resize !important; user-select:
             applyRemoteBoardRemoveStroke(msg.id);
         } else if (msg.type === 'board-stroke-add') {
             applyRemoteBoardStrokeAdd(msg.stroke);
+        } else if (msg.type === 'board-shape') {
+            applyRemoteBoardShape(msg);
         }
     }
 
@@ -5800,13 +5878,26 @@ body.resizing-y, body.resizing-y * { cursor: row-resize !important; user-select:
     // ── WSPÓLNA TABLICA (whiteboard) — zamiennik edytora kodu, widoczny naraz
     // u wszystkich w pokoju. Guzik "Tablica" przełącza CAŁY pokój (nie tylko
     // osobę, która kliknęła) między edytorem kodu a rysowaniem; stan obu
-    // (kod i to, co narysowano) jest zachowywany niezależnie przy przełączaniu. ──
+    // (kod i to, co narysowano) jest zachowywany niezależnie przy przełączaniu.
+    // Tablica jest granatowa (jasny "tusz" na ciemnym tle), ma mazak z pismem
+    // o zmiennej grubości, kształty (prostokąt, koło, trójkąt) i gumkę. ──
     const boardBtn = document.getElementById('boardBtn');
+    const boardDownloadBtn = document.getElementById('boardDownloadBtn');
     const boardWrapEl = document.getElementById('boardWrap');
     const editorWrapEl = document.querySelector('.editor-wrap');
+    const boardToolbarEl = boardWrapEl.querySelector('.board-toolbar');
+    const boardCardEl = document.getElementById('boardCard');
     const boardCanvas = document.getElementById('boardCanvas');
     const boardCtx = boardCanvas.getContext('2d');
+    // Druga, przezroczysta warstwa nad tablicą. Trafia na nią tylko to, co ktoś
+    // rysuje W TEJ CHWILI (kreska w trakcie, przeciągany kształt) — jest czyszczona
+    // i rysowana od nowa co klatkę, więc kreska może się "dopracowywać" (wygładzanie,
+    // grubość), a kształt zmieniać rozmiar za kursorem. Po puszczeniu myszy/rysika
+    // gotowy element ląduje na właściwym płótnie i znika z tej warstwy.
+    const boardLiveCanvas = document.getElementById('boardLiveCanvas');
+    const boardLiveCtx = boardLiveCanvas.getContext('2d');
     const boardClearBtn = document.getElementById('boardClearBtn');
+    const boardToolBtns = Array.from(document.querySelectorAll('.board-tool-btn'));
     const boardColorBtns = Array.from(document.querySelectorAll('.board-color'));
     const boardWidthBtns = Array.from(document.querySelectorAll('.board-width-btn'));
     const boardPagePrevBtn = document.getElementById('boardPagePrev');
@@ -5816,10 +5907,35 @@ body.resizing-y, body.resizing-y * { cursor: row-resize !important; user-select:
     const boardPageDelBtn = document.getElementById('boardPageDelBtn');
     const boardCursorEl = document.getElementById('boardCursor');
 
+    // Grubości (mazak 2/3/6/10, gumka 26) są podane dla tablicy szerokiej na
+    // BOARD_REF_W px i skalowane do faktycznej szerokości płótna. Dzięki temu
+    // u ucznia z mniejszym ekranem pismo jest po prostu proporcjonalnie mniejsze
+    // — a nie pogrubione i "zalane" — a eksport PNG wygląda tak jak tablica.
+    const BOARD_REF_W = 1400;
+    const BOARD_GRID_CELLS = 50;   // kratka = 1/50 szerokości tablicy → u wszystkich ta sama siatka
+    const BOARD_ERASER_WIDTH = 26;
+    const BOARD_SHAPES = new Set(['rect', 'ellipse', 'triangle']);
+    // Tło tablicy — te same wartości co w CSS (.board-card), potrzebne przy eksporcie PNG.
+    const BOARD_BG_TOP = '#101c33';
+    const BOARD_BG_BOTTOM = '#080e1b';
+    const BOARD_GRID_COLOR = 'rgba(148, 163, 184, 0.085)';
+    // Kolory z czasów białej tablicy → czytelne odpowiedniki na granacie (stare
+    // kreski w otwartym pokoju albo od osoby, która jeszcze nie odświeżyła strony).
+    const BOARD_LEGACY_INK = { '#1a1a22': '#f1f5f9', '#e11d48': '#f87171', '#2563eb': '#60a5fa', '#16a34a': '#4ade80' };
+    function boardInk(color) { return BOARD_LEGACY_INK[color] || color; }
+    function boardScaledWidth(width, w) { return Math.max(0.75, (Number(width) || 3) * w / BOARD_REF_W); }
+    function boardRound(v, f) { return Math.round(v * f) / f; }
+    function boardSend(msg) {
+        if (isHost) relay(msg, null);
+        else if (hostConn && hostConn.open) hostConn.send(msg);
+    }
+
     let boardMode = false;                 // czy pokój jest teraz w trybie tablicy
     // Tablica ma wiele stron; każda strona trzyma własną historię rysunku:
-    // [{ id, color, width, points:[{x,y}, …] }]. Strony są wspólne dla całego
-    // pokoju (tak jak sam tryb tablicy) — dodanie/przełączenie strony synchronizuje się u wszystkich.
+    // kreski { id, color, width, points:[{x,y,p?}, …] } (p = nacisk 0–1) oraz kształty
+    // { id, color, width, shape:'rect'|'ellipse'|'triangle', points:[róg startowy, róg końcowy] }.
+    // Strony są wspólne dla całego pokoju (tak jak sam tryb tablicy) — dodanie/przełączenie
+    // strony synchronizuje się u wszystkich.
     let boardPages = [{ strokes: [] }];
     let boardPageIndex = 0;
     let boardStrokes = boardPages[0].strokes;   // referencja do rysunku bieżącej strony
@@ -5836,113 +5952,333 @@ body.resizing-y, body.resizing-y * { cursor: row-resize !important; user-select:
     // cofa Twój własny ostatni pociągnięty element (i usuwa go u wszystkich).
     let boardUndoStacks = [[]];            // po jednej liście id-ków własnych kresek na stronę
     let boardRedoStacks = [[]];            // po jednej liście cofniętych kresek (do ponowienia) na stronę
-    let boardDrawing = false;
-    let boardActiveStroke = null;
-    let boardColor = '#1a1a22';
-    let boardWidth = 3;
-    let boardPenWidth = 3;   // grubość mazaka pamiętana osobno od grubości gumki,
-                              // żeby przełączanie się na gumkę i z powrotem jej nie zmieniało
+    let boardTool = 'pen';                 // 'pen' | 'rect' | 'ellipse' | 'triangle' | 'eraser'
+    let boardColor = '#f1f5f9';
+    let boardPenWidth = 3;                 // grubość mazaka i obrysu kształtów (gumka ma własną)
     let boardDpr = window.devicePixelRatio || 1;
+    let boardW = 0, boardH = 0;            // rozmiar płótna w px CSS (0 = jeszcze nie zmierzone)
 
-    // Współrzędne trzymamy znormalizowane (0–1 względem szerokości/wysokości
-    // płótna), żeby rysunek dobrze się skalował u osób z innym rozmiarem okna.
-    function boardPointFromEvent(e) {
-        const rect = boardCanvas.getBoundingClientRect();
-        const clientX = e.clientX, clientY = e.clientY;
-        return {
-            x: Math.min(1, Math.max(0, (clientX - rect.left) / rect.width)),
-            y: Math.min(1, Math.max(0, (clientY - rect.top) / rect.height))
-        };
+    // ── Rysowanie ──
+    // Współrzędne punktów trzymamy znormalizowane (0–1 względem szerokości/wysokości
+    // płótna), żeby rysunek dobrze się skalował u osób z innym rozmiarem okna. Każda
+    // funkcja rysująca dostaje (ctx, w, h) — rozmiar powierzchni w px — więc ten sam
+    // kod rysuje na tablicy, na warstwie "na żywo" i przy eksporcie PNG.
+
+    // Gumka (color === 'erase') nie maluje kolorem tła, tylko realnie wycina piksele
+    // płótna (destination-out), żeby pod spodem było widać tło z kratką, a nie plamę.
+    function boardEraseDot(ctx, w, h, width, p) {
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.fillStyle = '#000';
+        ctx.beginPath();
+        ctx.arc(p.x * w, p.y * h, width / 2, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.globalCompositeOperation = 'source-over';
     }
-    function boardToPx(p) {
-        return { x: p.x * boardCanvas.clientWidth, y: p.y * boardCanvas.clientHeight };
-    }
-    function boardMid(a, b) {
-        return { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
-    }
-    // Gumka (color === 'erase') nie maluje na biało, tylko realnie wycina piksele
-    // płótna (destination-out), żeby pod spodem było widać kratkę tła, a nie plamę.
-    function boardDrawDot(color, width, p) {
-        const px = boardToPx(p);
-        boardCtx.globalCompositeOperation = color === 'erase' ? 'destination-out' : 'source-over';
-        boardCtx.beginPath();
-        boardCtx.fillStyle = color === 'erase' ? '#000' : color;
-        boardCtx.arc(px.x, px.y, width / 2, 0, Math.PI * 2);
-        boardCtx.fill();
-        boardCtx.globalCompositeOperation = 'source-over';
-    }
-    function boardDrawSegment(color, width, p1, p2) {
-        const a = boardToPx(p1), b = boardToPx(p2);
-        boardCtx.globalCompositeOperation = color === 'erase' ? 'destination-out' : 'source-over';
-        boardCtx.strokeStyle = color === 'erase' ? '#000' : color;
-        boardCtx.lineWidth = width;
-        boardCtx.lineCap = 'round';
-        boardCtx.lineJoin = 'round';
-        boardCtx.beginPath();
-        boardCtx.moveTo(a.x, a.y);
-        boardCtx.lineTo(b.x, b.y);
-        boardCtx.stroke();
-        boardCtx.globalCompositeOperation = 'source-over';
-    }
-    // Rysuje kreskę WYGŁADZONĄ krzywymi kwadratowymi przez punkty środkowe sąsiednich
-    // punktów (klasyczna technika wygładzania rysunku odręcznego) zamiast surowych
-    // łamanych linii — dzięki temu kreska nie "łamie się" przy każdym mikro-drgnięciu
-    // ręki/myszy. `points` to PEŁNA tablica punktów kreski, `startIdx` to indeks
-    // pierwszego NOWEGO punktu do dorysowania (punkty [0..startIdx-1] są już na
-    // płótnie) — punkt points[startIdx-1] jest dokładnym końcem już narysowanej
-    // ścieżki (bo każde poprzednie wywołanie kończyło się dokładnie w ostatnim
-    // punkcie), więc od niego zaczynamy nowy odcinek bez żadnego "przeskoku".
-    function boardDrawSegments(color, width, points, startIdx) {
+    // Dorysowuje kawałek gumki od punktu points[startIdx-1] (dokładny koniec tego,
+    // co już wycięto) do ostatniego punktu — wygładzony krzywymi przez środki odcinków.
+    function boardEraseSegments(ctx, w, h, width, points, startIdx) {
         const n = points.length;
         if (startIdx < 1 || startIdx > n - 1) return;
-        boardCtx.globalCompositeOperation = color === 'erase' ? 'destination-out' : 'source-over';
-        boardCtx.strokeStyle = color === 'erase' ? '#000' : color;
-        boardCtx.lineWidth = width;
-        boardCtx.lineCap = 'round';
-        boardCtx.lineJoin = 'round';
-        boardCtx.beginPath();
-        const anchor = boardToPx(points[startIdx - 1]);
-        boardCtx.moveTo(anchor.x, anchor.y);
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.strokeStyle = '#000';
+        ctx.lineWidth = width;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.beginPath();
+        ctx.moveTo(points[startIdx - 1].x * w, points[startIdx - 1].y * h);
         for (let i = startIdx; i < n - 1; i++) {
-            const ctrl = boardToPx(points[i]);
-            const mid = boardToPx(boardMid(points[i], points[i + 1]));
-            boardCtx.quadraticCurveTo(ctrl.x, ctrl.y, mid.x, mid.y);
+            const a = points[i], b = points[i + 1];
+            ctx.quadraticCurveTo(a.x * w, a.y * h, (a.x + b.x) / 2 * w, (a.y + b.y) / 2 * h);
         }
-        // Ostatni odcinek zawsze kończy się dokładnie w ostatnim znanym punkcie
-        // (żeby kreska "trzymała się" kursora), reszta jest gładko przybliżona.
-        const lastCtrl = boardToPx(points[n - 2]);
-        const lastPt = boardToPx(points[n - 1]);
-        boardCtx.quadraticCurveTo(lastCtrl.x, lastCtrl.y, lastPt.x, lastPt.y);
-        boardCtx.stroke();
-        boardCtx.globalCompositeOperation = 'source-over';
+        ctx.lineTo(points[n - 1].x * w, points[n - 1].y * h);
+        ctx.stroke();
+        ctx.globalCompositeOperation = 'source-over';
     }
-    function boardDrawStroke(s) {
-        if (!s.points || !s.points.length) return;
-        if (s.points.length === 1) {
-            boardDrawDot(s.color, s.width, s.points[0]);
+
+    // ── Pismo odręczne "jak tusz" ──
+    // Dawniej kreska była zwykłą linią o stałej grubości przez surowe punkty myszy —
+    // litery wychodziły kanciaste i drżące. Teraz każda kreska jest wypełnionym kształtem:
+    //  1) punkty są lekko "doganiane": drobne drgnięcia ręki/myszy znikają, a koniec
+    //     kreski i tak trafia dokładnie tam, gdzie był kursor,
+    //  2) przez punkty prowadzimy gładką krzywą (krzywe kwadratowe przez środki
+    //     sąsiednich odcinków) i gęsto ją próbkujemy,
+    //  3) grubość w każdym miejscu zależy od nacisku: prawdziwego (rysik) albo
+    //     udawanego z prędkości (mysz/palec — szybki zamach daje cieńszą linię),
+    //  4) lewa i prawa krawędź + okrągłe końce dają obrys, który wypełniamy jednym
+    //     fill() — tanio nawet przy setkach kresek na stronie.
+    // Liczone za każdym razem z tych samych punktów, więc u wszystkich (i w PNG) wygląda tak samo.
+    const BOARD_INK_STEP = 1.4;            // co ile px (tablicy wzorcowej) próbkujemy wygładzoną krzywą
+    const BOARD_INK_SMOOTH = 3;            // zasięg wygładzania drgań (px tablicy wzorcowej)
+    const BOARD_DEFAULT_PRESSURE = 0.76;   // brak danych o nacisku → dokładnie nominalna grubość
+    function boardPressureOf(pt) {
+        const p = pt.p;
+        return (typeof p === 'number' && isFinite(p)) ? Math.min(1, Math.max(0, p)) : BOARD_DEFAULT_PRESSURE;
+    }
+    function boardInkRadius(p, size) {
+        return size * (0.62 + 0.5 * p) / 2;   // nacisk 0 → 62% grubości, 1 → 112%
+    }
+    const BOARD_INK_KERNEL = [1, 8, 28, 56, 70, 56, 28, 8, 1];   // filtr dwumianowy (σ ≈ 1,4 próbki)
+    function boardFillInk(ctx, pts, size, w, h) {
+        const n = pts.length;
+        const k = w / BOARD_REF_W;
+        const reach = BOARD_INK_SMOOTH * Math.max(0.3, k);
+        const step = Math.min(2.5, Math.max(0.7, BOARD_INK_STEP * k));
+        // 1) px + wygładzanie drgań (im bliżej poprzedniego punktu, tym mocniej "doganiamy")
+        const S = [];
+        let sx = pts[0].x * w, sy = pts[0].y * h;
+        S.push({ x: sx, y: sy, p: boardPressureOf(pts[0]) });
+        for (let i = 1; i < n; i++) {
+            const px = pts[i].x * w, py = pts[i].y * h;
+            if (i === n - 1) { sx = px; sy = py; }
+            else {
+                const a = 1 - Math.exp(-Math.hypot(px - sx, py - sy) / reach);
+                sx += (px - sx) * a;
+                sy += (py - sy) * a;
+            }
+            const last = S[S.length - 1];
+            if (Math.hypot(sx - last.x, sy - last.y) < 0.4) {
+                if (i === n - 1) { last.x = sx; last.y = sy; }
+                continue;
+            }
+            S.push({ x: sx, y: sy, p: boardPressureOf(pts[i]) });
+        }
+        const m = S.length;
+        if (m === 1) {
+            ctx.beginPath();
+            ctx.arc(S[0].x, S[0].y, boardInkRadius(S[0].p, size), 0, Math.PI * 2);
+            ctx.fill();
+            return;
+        }
+        // 2) gęsta, gładka linia środkowa: punkty { x, y, r }
+        const C = [];
+        const add = (x, y, p) => {
+            const last = C[C.length - 1];
+            if (last && Math.abs(last.x - x) < 0.05 && Math.abs(last.y - y) < 0.05) return;
+            C.push({ x, y, r: boardInkRadius(p, size) });
+        };
+        const line = (ax, ay, ap, bx, by, bp) => {
+            const steps = Math.max(1, Math.ceil(Math.hypot(bx - ax, by - ay) / step));
+            for (let t = 1; t <= steps; t++) {
+                const u = t / steps;
+                add(ax + (bx - ax) * u, ay + (by - ay) * u, ap + (bp - ap) * u);
+            }
+        };
+        const quad = (ax, ay, ap, cx, cy, cp, bx, by, bp) => {
+            const steps = Math.max(1, Math.ceil((Math.hypot(cx - ax, cy - ay) + Math.hypot(bx - cx, by - cy)) / step));
+            for (let t = 1; t <= steps; t++) {
+                const u = t / steps, v = 1 - u;
+                add(v * v * ax + 2 * v * u * cx + u * u * bx,
+                    v * v * ay + 2 * v * u * cy + u * u * by,
+                    v * v * ap + 2 * v * u * cp + u * u * bp);
+            }
+        };
+        add(S[0].x, S[0].y, S[0].p);
+        if (m === 2) {
+            line(S[0].x, S[0].y, S[0].p, S[1].x, S[1].y, S[1].p);
         } else {
-            boardDrawSegments(s.color, s.width, s.points, 1);
+            let mx = (S[0].x + S[1].x) / 2, my = (S[0].y + S[1].y) / 2, mp = (S[0].p + S[1].p) / 2;
+            line(S[0].x, S[0].y, S[0].p, mx, my, mp);
+            for (let i = 1; i < m - 1; i++) {
+                const nx = (S[i].x + S[i + 1].x) / 2, ny = (S[i].y + S[i + 1].y) / 2, np = (S[i].p + S[i + 1].p) / 2;
+                quad(mx, my, mp, S[i].x, S[i].y, S[i].p, nx, ny, np);
+                mx = nx; my = ny; mp = np;
+            }
+            line(mx, my, mp, S[m - 1].x, S[m - 1].y, S[m - 1].p);
+        }
+        // 2b) symetryczne wygładzenie gęstych próbek: zjada resztki drżenia ręki/myszy
+        // bez opóźnienia (w przeciwieństwie do "doganiania") i bez ruszania końców kreski
+        const N = C.length;
+        if (N > 4) {
+            const R = (BOARD_INK_KERNEL.length - 1) / 2;
+            const sm = new Array(N);
+            for (let j = 0; j < N; j++) {
+                const r = Math.min(R, j, N - 1 - j);
+                let ax = 0, ay = 0, ar = 0, aw = 0;
+                for (let q = -r; q <= r; q++) {
+                    const wq = BOARD_INK_KERNEL[q + R], c = C[j + q];
+                    ax += c.x * wq; ay += c.y * wq; ar += c.r * wq; aw += wq;
+                }
+                sm[j] = { x: ax / aw, y: ay / aw, r: ar / aw };
+            }
+            for (let j = 0; j < N; j++) C[j] = sm[j];
+        }
+        if (N < 2) {
+            ctx.beginPath();
+            ctx.arc(C[0].x, C[0].y, C[0].r, 0, Math.PI * 2);
+            ctx.fill();
+            return;
+        }
+        // 3) normalne (prostopadłe do kierunku kreski) w każdym punkcie
+        const nX = new Array(N), nY = new Array(N);
+        let tx = 1, ty = 0;
+        for (let j = 0; j < N; j++) {
+            const a = C[j > 0 ? j - 1 : 0], b = C[j < N - 1 ? j + 1 : N - 1];
+            const dx = b.x - a.x, dy = b.y - a.y, len = Math.hypot(dx, dy);
+            if (len > 1e-6) { tx = dx / len; ty = dy / len; }
+            nX[j] = -ty; nY[j] = tx;
+        }
+        // 4) obrys: lewa krawędź → okrągły koniec → prawa krawędź (wstecz) → okrągły początek
+        ctx.beginPath();
+        ctx.moveTo(C[0].x + nX[0] * C[0].r, C[0].y + nY[0] * C[0].r);
+        for (let j = 1; j < N; j++) ctx.lineTo(C[j].x + nX[j] * C[j].r, C[j].y + nY[j] * C[j].r);
+        const e = C[N - 1], aE = Math.atan2(nY[N - 1], nX[N - 1]);
+        ctx.arc(e.x, e.y, e.r, aE, aE - Math.PI, true);
+        for (let j = N - 1; j >= 0; j--) ctx.lineTo(C[j].x - nX[j] * C[j].r, C[j].y - nY[j] * C[j].r);
+        const s0 = C[0], aS = Math.atan2(nY[0], nX[0]);
+        ctx.arc(s0.x, s0.y, s0.r, aS + Math.PI, aS, true);
+        ctx.closePath();
+        ctx.fill();
+        // 5) Na bardzo ciasnych zakrętach (promień zakrętu mniejszy niż grubość kreski,
+        // np. ostry "dziobek" cyfry 1 albo litery n) wewnętrzna krawędź obrysu zawija
+        // się i mogłaby zostawić szczelinę — łatamy takie miejsca kółkiem o promieniu kreski.
+        let patched = false;
+        for (let j = 1; j < N - 1; j++) {
+            const ax = C[j].x - C[j - 1].x, ay = C[j].y - C[j - 1].y;
+            const bx = C[j + 1].x - C[j].x, by = C[j + 1].y - C[j].y;
+            const la = Math.hypot(ax, ay), lb = Math.hypot(bx, by);
+            const ang = Math.acos(Math.max(-1, Math.min(1, (ax * bx + ay * by) / ((la * lb) || 1))));
+            if ((la + lb) / 2 > C[j].r * 1.6 * ang) continue;
+            if (!patched) { ctx.beginPath(); patched = true; }
+            ctx.moveTo(C[j].x + C[j].r, C[j].y);
+            ctx.arc(C[j].x, C[j].y, C[j].r, 0, Math.PI * 2);
+        }
+        if (patched) ctx.fill();
+    }
+
+    // ── Kształty: prostokąt, koło, trójkąt — wpisane w prostokąt między rogiem, od
+    // którego zaczęto przeciągać (a), a miejscem puszczenia (b). Wierzchołek trójkąta
+    // jest po stronie startu, więc przeciągnięcie w górę rysuje trójkąt odwrócony. ──
+    function boardTraceShape(ctx, shape, a, b, w, h) {
+        const x0 = a.x * w, y0 = a.y * h, x1 = b.x * w, y1 = b.y * h;
+        ctx.beginPath();
+        if (shape === 'rect') {
+            ctx.rect(Math.min(x0, x1), Math.min(y0, y1), Math.abs(x1 - x0), Math.abs(y1 - y0));
+        } else if (shape === 'ellipse') {
+            ctx.ellipse((x0 + x1) / 2, (y0 + y1) / 2, Math.abs(x1 - x0) / 2, Math.abs(y1 - y0) / 2, 0, 0, Math.PI * 2);
+        } else {
+            ctx.moveTo((x0 + x1) / 2, y0);
+            ctx.lineTo(x1, y1);
+            ctx.lineTo(x0, y1);
+            ctx.closePath();
         }
     }
+
+    // Rysuje dowolny element tablicy (kreskę, kształt albo gumkę) na wskazanej powierzchni.
+    function boardRenderStroke(ctx, s, w, h) {
+        const pts = s && s.points;
+        if (!pts || !pts.length || !w || !h) return;
+        const width = boardScaledWidth(s.width, w);
+        if (s.color === 'erase') {
+            if (pts.length === 1) boardEraseDot(ctx, w, h, width, pts[0]);
+            else boardEraseSegments(ctx, w, h, width, pts, 1);
+            return;
+        }
+        ctx.globalCompositeOperation = 'source-over';
+        if (BOARD_SHAPES.has(s.shape) && pts.length >= 2) {
+            boardTraceShape(ctx, s.shape, pts[0], pts[pts.length - 1], w, h);
+            ctx.strokeStyle = boardInk(s.color);
+            ctx.lineWidth = width;
+            ctx.lineJoin = 'round';
+            ctx.lineCap = 'round';
+            ctx.stroke();
+            return;
+        }
+        ctx.fillStyle = boardInk(s.color);
+        boardFillInk(ctx, pts, width, w, h);
+    }
+
+    // ── Warstwa "na żywo": elementy w trakcie rysowania (id → { stroke, timer }) ──
+    const boardLive = new Map();
+    let boardLiveFrame = 0;
+    function redrawBoard() {
+        if (!boardW || !boardH) return;
+        boardCtx.clearRect(0, 0, boardW, boardH);
+        for (const s of boardStrokes) {
+            if (!boardLive.has(s.id)) boardRenderStroke(boardCtx, s, boardW, boardH);
+        }
+    }
+    function boardRenderLive() {
+        if (boardLiveFrame) { cancelAnimationFrame(boardLiveFrame); boardLiveFrame = 0; }
+        if (!boardW || !boardH) return;
+        boardLiveCtx.clearRect(0, 0, boardW, boardH);
+        if (!boardMode) return;
+        for (const entry of boardLive.values()) boardRenderStroke(boardLiveCtx, entry.stroke, boardW, boardH);
+    }
+    function boardScheduleLive() {
+        if (!boardLiveFrame) boardLiveFrame = requestAnimationFrame(() => { boardLiveFrame = 0; boardRenderLive(); });
+    }
+    function boardSetLive(stroke) {
+        let entry = boardLive.get(stroke.id);
+        if (entry) entry.stroke = stroke;
+        else { entry = { stroke, timer: 0 }; boardLive.set(stroke.id, entry); }
+        return entry;
+    }
+    function boardDropLive(id) {
+        const entry = boardLive.get(id);
+        if (!entry) return;
+        clearTimeout(entry.timer);
+        boardLive.delete(id);
+        boardScheduleLive();
+    }
+    function boardClearLive() {
+        for (const entry of boardLive.values()) clearTimeout(entry.timer);
+        boardLive.clear();
+        boardScheduleLive();
+    }
+    // Koniec rysowania elementu: znika z warstwy "na żywo" i zostaje narysowany na
+    // tablicy. Przenosimy go przy tym na koniec kolejności rysowania — dokładnie tak,
+    // jak go widać (na wierzchu) — żeby późniejsze przerysowanie strony go nie zmieniło.
+    function boardCommitLive(id) {
+        const entry = boardLive.get(id);
+        if (!entry) return;
+        clearTimeout(entry.timer);
+        boardLive.delete(id);
+        const s = entry.stroke;
+        if (boardStrokeIndex.get(id) === s) {
+            const i = boardStrokes.lastIndexOf(s);
+            if (i !== -1 && i !== boardStrokes.length - 1) { boardStrokes.splice(i, 1); boardStrokes.push(s); }
+            if (boardMode) boardRenderStroke(boardCtx, s, boardW, boardH);
+        }
+        boardRenderLive();
+    }
+    // Cudza kreska w trakcie. Nowe wersje strony wysyłają na końcu `end: true`, ale
+    // osoba z nieodświeżoną kartą (albo zerwane łącze) tego nie zrobi — wtedy kreskę
+    // "zamykamy" sami po chwili bez nowych punktów.
+    const BOARD_REMOTE_IDLE_MS = 1500;
+    const BOARD_REMOTE_SHAPE_IDLE_MS = 8000;
+    function boardTouchRemoteLive(stroke, wasOnBoard) {
+        const entry = boardSetLive(stroke);
+        clearTimeout(entry.timer);
+        entry.timer = setTimeout(() => boardCommitLive(stroke.id), BOARD_REMOTE_IDLE_MS);
+        // Kreska była już "zamknięta" i narysowana na tablicy, a autor jednak rysuje
+        // dalej — zdejmujemy ją z tablicy, żeby nie była widoczna podwójnie.
+        if (wasOnBoard && boardMode) { redrawBoard(); boardRenderLive(); }
+        else boardScheduleLive();
+    }
+
     function resizeBoardCanvas() {
         boardDpr = window.devicePixelRatio || 1;
         const w = boardCanvas.clientWidth, h = boardCanvas.clientHeight;
         if (w === 0 || h === 0) return;
-        boardCanvas.width = Math.round(w * boardDpr);
-        boardCanvas.height = Math.round(h * boardDpr);
-        boardCtx.setTransform(boardDpr, 0, 0, boardDpr, 0, 0);
+        boardW = w;
+        boardH = h;
+        for (const [cv, ctx] of [[boardCanvas, boardCtx], [boardLiveCanvas, boardLiveCtx]]) {
+            cv.width = Math.round(w * boardDpr);
+            cv.height = Math.round(h * boardDpr);
+            ctx.setTransform(boardDpr, 0, 0, boardDpr, 0, 0);
+        }
+        // Kratka liczona względem szerokości tablicy (a nie stałe px), żeby rysunek
+        // wyrównany do kratek u nauczyciela był wyrównany do nich także u ucznia.
+        boardCardEl.style.setProperty('--board-grid', (w / BOARD_GRID_CELLS) + 'px');
         redrawBoard();
-    }
-    function redrawBoard() {
-        boardCtx.clearRect(0, 0, boardCanvas.clientWidth, boardCanvas.clientHeight);
-        for (const s of boardStrokes) boardDrawStroke(s);
+        boardRenderLive();
     }
     window.addEventListener('resize', () => { if (boardMode) resizeBoardCanvas(); });
-    // Karta ma teraz stały format A4 (aspect-ratio) i szerokość zależną od
-    // kontenera, więc jej rozmiar może się zmienić bez zmiany rozmiaru okna
-    // (np. zwężenie panelu) — ResizeObserver łapie i takie przypadki.
+    // Karta ma stały format A4 (aspect-ratio) i szerokość zależną od kontenera,
+    // więc jej rozmiar może się zmienić bez zmiany rozmiaru okna (np. zwężenie
+    // panelu) — ResizeObserver łapie i takie przypadki.
     if (window.ResizeObserver) {
-        new ResizeObserver(() => { if (boardMode) resizeBoardCanvas(); }).observe(boardCanvas.closest('.board-card'));
+        new ResizeObserver(() => { if (boardMode) resizeBoardCanvas(); }).observe(boardCardEl);
     }
 
     // ── Nawigacja stron tablicy ──
@@ -5953,6 +6289,8 @@ body.resizing-y, body.resizing-y * { cursor: row-resize !important; user-select:
         boardPageDelBtn.disabled = boardPages.length <= 1;
     }
     function boardSwitchToPage(index) {
+        boardAbortLocal();
+        boardClearLive();
         boardPageIndex = index;
         boardStrokes = boardPages[boardPageIndex].strokes;
         boardRebuildStrokeIndex();
@@ -5962,18 +6300,14 @@ body.resizing-y, body.resizing-y * { cursor: row-resize !important; user-select:
     function goToBoardPage(index) {
         if (index < 0 || index >= boardPages.length || index === boardPageIndex) return;
         boardSwitchToPage(index);
-        const msg = { type: 'board-page-switch', index };
-        if (isHost) relay(msg, null);
-        else if (hostConn && hostConn.open) hostConn.send(msg);
+        boardSend({ type: 'board-page-switch', index });
     }
     function addBoardPage() {
         boardPages.push({ strokes: [] });
         boardUndoStacks.push([]);
         boardRedoStacks.push([]);
         boardSwitchToPage(boardPages.length - 1);
-        const msg = { type: 'board-page-add' };
-        if (isHost) relay(msg, null);
-        else if (hostConn && hostConn.open) hostConn.send(msg);
+        boardSend({ type: 'board-page-add' });
     }
     function deleteBoardPage() {
         if (boardPages.length <= 1) return;
@@ -5982,26 +6316,24 @@ body.resizing-y, body.resizing-y * { cursor: row-resize !important; user-select:
         boardUndoStacks.splice(idx, 1);
         boardRedoStacks.splice(idx, 1);
         boardSwitchToPage(Math.min(idx, boardPages.length - 1));
-        const msg = { type: 'board-page-delete', index: idx };
-        if (isHost) relay(msg, null);
-        else if (hostConn && hostConn.open) hostConn.send(msg);
+        boardSend({ type: 'board-page-delete', index: idx });
     }
 
     // ── Cofanie / ponawianie (Ctrl+Z) — lokalne dla każdego użytkownika,
-    // usuwa/przywraca WŁASNE ostatnie kreski, synchronizując zmianę u wszystkich. ──
+    // usuwa/przywraca WŁASNE ostatnie elementy, synchronizując zmianę u wszystkich. ──
     function boardUndo() {
         const stack = boardUndoStacks[boardPageIndex];
         if (!stack || !stack.length) return;
         const id = stack.pop();
+        if (boardActiveStroke && boardActiveStroke.id === id) boardAbortLocal();
+        boardDropLive(id);
         const idx = boardStrokes.findIndex(s => s.id === id);
         if (idx === -1) return;
         const [removed] = boardStrokes.splice(idx, 1);
         boardStrokeIndex.delete(id);
         boardRedoStacks[boardPageIndex].push(removed);
         redrawBoard();
-        const msg = { type: 'board-remove-stroke', id };
-        if (isHost) relay(msg, null);
-        else if (hostConn && hostConn.open) hostConn.send(msg);
+        boardSend({ type: 'board-remove-stroke', id });
     }
     function boardRedo() {
         const stack = boardRedoStacks[boardPageIndex];
@@ -6010,17 +6342,8 @@ body.resizing-y, body.resizing-y * { cursor: row-resize !important; user-select:
         boardStrokes.push(stroke);
         boardStrokeIndex.set(stroke.id, stroke);
         boardUndoStacks[boardPageIndex].push(stroke.id);
-        redrawBoard();
-        const msg = { type: 'board-stroke-add', stroke };
-        if (isHost) relay(msg, null);
-        else if (hostConn && hostConn.open) hostConn.send(msg);
-    }
-
-    // ── Wysyłanie zdarzeń tablicy do reszty pokoju (ten sam wzorzec relay/hostConn co reszta) ──
-    function sendBoardPoint(payload) {
-        const msg = { type: 'board-point', ...payload };
-        if (isHost) relay(msg, null);
-        else if (hostConn && hostConn.open) hostConn.send(msg);
+        if (boardMode) boardRenderStroke(boardCtx, stroke, boardW, boardH);
+        boardSend({ type: 'board-stroke-add', stroke });
     }
 
     // ── Zdalne wskaźniki na tablicy (gdzie kto aktualnie wskazuje) ──
@@ -6028,9 +6351,7 @@ body.resizing-y, body.resizing-y * { cursor: row-resize !important; user-select:
     let boardCursorSendTimer = null;
     let boardCursorPending = null;
     function flushBoardCursor(point) {
-        const msg = { type: 'board-cursor', id: myId, name: myName, color: myColor, point };
-        if (isHost) relay(msg, null);
-        else if (hostConn && hostConn.open) hostConn.send(msg);
+        boardSend({ type: 'board-cursor', id: myId, name: myName, color: myColor, point });
     }
     function sendBoardCursor(point) {
         if (boardCursorSendTimer) { boardCursorPending = point; return; }
@@ -6053,7 +6374,7 @@ body.resizing-y, body.resizing-y * { cursor: row-resize !important; user-select:
             label.className = 'board-remote-pointer-label';
             el.appendChild(dot);
             el.appendChild(label);
-            boardCanvas.parentElement.appendChild(el);
+            boardCardEl.appendChild(el);
             cached = { el, dot, label };
             boardRemotePointers.set(msg.id, cached);
         }
@@ -6070,21 +6391,25 @@ body.resizing-y, body.resizing-y * { cursor: row-resize !important; user-select:
     function clearAllBoardRemotePointers() {
         for (const id of Array.from(boardRemotePointers.keys())) removeBoardRemotePointer(id);
     }
-    function sendBoardClear() {
+
+    // ── Wysyłanie stanu tablicy do reszty pokoju ──
+    function boardResetCurrentPage() {
+        boardAbortLocal();
+        boardClearLive();
         boardStrokes.length = 0;
         boardStrokeIndex.clear();
         boardUndoStacks[boardPageIndex] = [];
         boardRedoStacks[boardPageIndex] = [];
         redrawBoard();
-        const msg = { type: 'board-clear' };
-        if (isHost) relay(msg, null);
-        else if (hostConn && hostConn.open) hostConn.send(msg);
+    }
+    function sendBoardClear() {
+        boardResetCurrentPage();
+        boardSend({ type: 'board-clear' });
     }
     function sendBoardMode(target) {
         const msg = { type: 'board-mode', on: boardMode };
         if (target) { if (target.open) target.send(msg); return; }
-        if (isHost) relay(msg, null);
-        else if (hostConn && hostConn.open) hostConn.send(msg);
+        boardSend(msg);
     }
     function sendBoardState(target) {
         const msg = { type: 'board-state', pages: boardPages.map(p => p.strokes), pageIndex: boardPageIndex };
@@ -6092,37 +6417,68 @@ body.resizing-y, body.resizing-y * { cursor: row-resize !important; user-select:
     }
 
     // ── Odbiór zdalnych zdarzeń tablicy ──
-    // Punkty przychodzą w paczkach (msg.points — patrz sendBoardPoint niżej), a nie
-    // pojedynczo, więc jedna wiadomość może dorysować od razu kilka odcinków. Rysujemy
-    // je w JEDNEJ ścieżce canvasu (jeden beginPath/stroke na paczkę) zamiast osobnego
-    // stroke() na każdy mikro-odcinek — to była druga główna przyczyna zacinania się
-    // przy szybkim rysowaniu, obok liniowego przeszukiwania kresek (patrz boardStrokeIndex).
+    // Punkty przychodzą w paczkach (msg.points — patrz boardFlushSend niżej), a nie
+    // pojedynczo. Kreska mazaka w trakcie trafia na warstwę "na żywo" (rysowaną raz na
+    // klatkę), gumka od razu wycina piksele na tablicy, a `end: true` zamyka kreskę.
     function applyRemoteBoardPoint(msg) {
+        const pts = Array.isArray(msg.points) ? msg.points : (msg.point ? [msg.point] : []);
         let stroke = boardStrokeIndex.get(msg.strokeId);
-        const pts = msg.points || (msg.point ? [msg.point] : []);
-        if (!pts.length) return;
-        let startIdx = 0;
-        if (msg.start || !stroke) {
-            stroke = { id: msg.strokeId, color: msg.color, width: msg.width, points: [pts[0]] };
+        if (!pts.length) {
+            if (msg.end && stroke) boardCommitLive(stroke.id);
+            return;
+        }
+        const isNew = !stroke;
+        let beforeLen = 0;
+        if (isNew) {
+            stroke = { id: msg.strokeId, color: msg.color, width: msg.width, points: pts.slice() };
             boardStrokes.push(stroke);
             boardStrokeIndex.set(stroke.id, stroke);
-            boardDrawDot(stroke.color, stroke.width, pts[0]);
-            startIdx = 1;
+        } else {
+            beforeLen = stroke.points.length;
+            for (const p of pts) stroke.points.push(p);
         }
-        if (startIdx < pts.length) {
-            const beforeLen = stroke.points.length;
-            for (let i = startIdx; i < pts.length; i++) stroke.points.push(pts[i]);
-            boardDrawSegments(stroke.color, stroke.width, stroke.points, beforeLen);
+        if (stroke.color === 'erase') {
+            if (boardMode && boardW) {
+                const width = boardScaledWidth(stroke.width, boardW);
+                if (isNew) boardEraseDot(boardCtx, boardW, boardH, width, stroke.points[0]);
+                boardEraseSegments(boardCtx, boardW, boardH, width, stroke.points, Math.max(1, beforeLen));
+            }
+            return;
         }
+        boardTouchRemoteLive(stroke, !isNew && !boardLive.has(stroke.id));
+        if (msg.end) boardCommitLive(stroke.id);
+    }
+    // Kształt przeciągany przez kogoś innego: podgląd na warstwie "na żywo", aż autor
+    // puści mysz (`end`) albo zrezygnuje (`cancel` — np. za mały, przypadkowy klik).
+    function applyRemoteBoardShape(msg) {
+        const s = msg && msg.stroke;
+        if (!s || typeof s.id !== 'string') return;
+        if (msg.cancel) { boardDropLive(s.id); return; }
+        if (!BOARD_SHAPES.has(s.shape) || !Array.isArray(s.points) || s.points.length < 2) return;
+        const stroke = { id: s.id, color: s.color, width: s.width, shape: s.shape, points: [s.points[0], s.points[1]] };
+        if (msg.end) {
+            boardDropLive(s.id);
+            if (!boardStrokeIndex.has(s.id)) {
+                boardStrokes.push(stroke);
+                boardStrokeIndex.set(s.id, stroke);
+                if (boardMode) boardRenderStroke(boardCtx, stroke, boardW, boardH);
+            }
+            boardRenderLive();
+            return;
+        }
+        const entry = boardSetLive(stroke);
+        clearTimeout(entry.timer);
+        // Autor zniknął w trakcie przeciągania (zamknięta karta, zerwane łącze) — po
+        // dłuższej ciszy porzucamy podgląd, zamiast zostawiać "ducha" na tablicy.
+        entry.timer = setTimeout(() => boardDropLive(s.id), BOARD_REMOTE_SHAPE_IDLE_MS);
+        boardScheduleLive();
     }
     function applyRemoteBoardClear() {
-        boardStrokes.length = 0;
-        boardStrokeIndex.clear();
-        boardUndoStacks[boardPageIndex] = [];
-        boardRedoStacks[boardPageIndex] = [];
-        redrawBoard();
+        boardResetCurrentPage();
     }
     function applyRemoteBoardState(pages, pageIndex) {
+        boardAbortLocal();
+        boardClearLive();
         boardPages = (pages && pages.length ? pages : [[]]).map(strokes => ({ strokes: strokes || [] }));
         boardUndoStacks = boardPages.map(() => []);
         boardRedoStacks = boardPages.map(() => []);
@@ -6153,6 +6509,7 @@ body.resizing-y, body.resizing-y * { cursor: row-resize !important; user-select:
         boardSwitchToPage(Math.min(boardPageIndex, boardPages.length - 1));
     }
     function applyRemoteBoardRemoveStroke(id) {
+        boardDropLive(id);
         const idx = boardStrokes.findIndex(s => s.id === id);
         if (idx === -1) return;
         boardStrokes.splice(idx, 1);
@@ -6160,9 +6517,10 @@ body.resizing-y, body.resizing-y * { cursor: row-resize !important; user-select:
         redrawBoard();
     }
     function applyRemoteBoardStrokeAdd(stroke) {
+        if (!stroke || !stroke.id || boardStrokeIndex.has(stroke.id)) return;
         boardStrokes.push(stroke);
         boardStrokeIndex.set(stroke.id, stroke);
-        if (boardMode) boardDrawStroke(stroke);
+        if (boardMode) boardRenderStroke(boardCtx, stroke, boardW, boardH);
     }
 
     // ── Ikona "kod" (SVG) używana zamiast emoji 💻 przy powrocie do edytora ──
@@ -6182,73 +6540,55 @@ body.resizing-y, body.resizing-y * { cursor: row-resize !important; user-select:
         boardBtn.title = on ? 'Wróć do edytora kodu (dla całego pokoju)' : 'Przełącz cały pokój na wspólną tablicę';
         runBtn.style.display = on ? 'none' : '';
         boardDownloadBtn.classList.toggle('hidden', !on);
-        if (!on) clearAllBoardRemotePointers();
+        if (!on) { boardAbortLocal(); clearAllBoardRemotePointers(); }
         if (on) requestAnimationFrame(() => { resizeBoardCanvas(); refreshEditors(); });
         else requestAnimationFrame(refreshEditors);
         if (shouldBroadcast) sendBoardMode();
     }
 
-    const boardDownloadBtn = document.getElementById('boardDownloadBtn');
-
     // ── Pobieranie treści wszystkich stron tablicy jako jeden obraz PNG ──
     // Każda strona jest renderowana na osobnym "kafelku" formatu A4 i sklejana
     // pionowo w jeden plik, żeby móc zabrać całą tablicę (wszystkie strony) za jednym razem.
+    function boardPaintBackground(ctx, y0, w, h) {
+        const g = ctx.createLinearGradient(0, y0, 0, y0 + h);
+        g.addColorStop(0, BOARD_BG_TOP);
+        g.addColorStop(1, BOARD_BG_BOTTOM);
+        ctx.fillStyle = g;
+        ctx.fillRect(0, y0, w, h);
+        const cell = w / BOARD_GRID_CELLS;
+        ctx.fillStyle = BOARD_GRID_COLOR;
+        for (let i = 0; i * cell < w; i++) ctx.fillRect(Math.round(i * cell), y0, 1, h);
+        for (let j = 0; j * cell < h; j++) ctx.fillRect(0, y0 + Math.round(j * cell), w, 1);
+    }
     function downloadAllBoardPages() {
-        const pageW = 1000;
-        const pageH = Math.round(pageW * 1.4142); // proporcje A4, tak jak .board-card
-        const gap = 24;
         const n = boardPages.length;
+        const gap = 24;
+        // Przeglądarki nie tworzą płócien wyższych niż ~32 000 px — przy bardzo wielu
+        // stronach zmniejszamy szerokość kafelka, zamiast dostać pusty plik.
+        const pageW = Math.max(400, Math.min(BOARD_REF_W, Math.floor((32000 - (n - 1) * gap) / (n * 1.4142))));
+        const pageH = Math.round(pageW * 1.4142); // proporcje A4, tak jak .board-card
         const out = document.createElement('canvas');
         out.width = pageW;
         out.height = n * pageH + (n - 1) * gap;
         const ctx = out.getContext('2d');
-        ctx.fillStyle = '#e2e5ea';
+        ctx.fillStyle = '#1e293b';
         ctx.fillRect(0, 0, out.width, out.height);
-
-        // Skala grubości kresek: dostosowuje szerokość linii z rozmiaru "na żywo"
-        // płótna do stałego rozmiaru eksportu, żeby rysunek wyglądał proporcjonalnie.
-        const liveW = boardCanvas.clientWidth || pageW;
-        const widthScale = pageW / liveW;
-
-        function drawStrokeOn(ctx, s, offsetY) {
-            if (!s.points || !s.points.length) return;
-            const w = Math.max(1, s.width * widthScale);
-            const toPx = p => ({ x: p.x * pageW, y: offsetY + p.y * pageH });
-            ctx.globalCompositeOperation = 'source-over';
-            if (s.points.length === 1) {
-                const px = toPx(s.points[0]);
-                ctx.beginPath();
-                ctx.fillStyle = s.color === 'erase' ? '#fdfdfa' : s.color;
-                ctx.arc(px.x, px.y, w / 2, 0, Math.PI * 2);
-                ctx.fill();
-                return;
-            }
-            ctx.strokeStyle = s.color === 'erase' ? '#fdfdfa' : s.color;
-            ctx.lineWidth = w;
-            ctx.lineCap = 'round';
-            ctx.lineJoin = 'round';
-            ctx.beginPath();
-            const start = toPx(s.points[0]);
-            ctx.moveTo(start.x, start.y);
-            const n = s.points.length;
-            for (let i = 1; i < n - 1; i++) {
-                const ctrl = toPx(s.points[i]);
-                const mid = toPx({ x: (s.points[i].x + s.points[i + 1].x) / 2, y: (s.points[i].y + s.points[i + 1].y) / 2 });
-                ctx.quadraticCurveTo(ctrl.x, ctrl.y, mid.x, mid.y);
-            }
-            const lastCtrl = toPx(s.points[n - 2]);
-            const lastPt = toPx(s.points[n - 1]);
-            ctx.quadraticCurveTo(lastCtrl.x, lastCtrl.y, lastPt.x, lastPt.y);
-            ctx.stroke();
-        }
-
+        // Strona jest najpierw rysowana na osobnym, przezroczystym płótnie (dokładnie
+        // jak na żywo — gumka wycina piksele), a dopiero potem kładziona na tło z kratką.
+        const layer = document.createElement('canvas');
+        layer.width = pageW;
+        layer.height = pageH;
+        const lctx = layer.getContext('2d');
         boardPages.forEach((page, i) => {
             const offsetY = i * (pageH + gap);
-            ctx.fillStyle = '#fdfdfa';
-            ctx.fillRect(0, offsetY, pageW, pageH);
-            for (const s of page.strokes) drawStrokeOn(ctx, s, offsetY);
-            ctx.fillStyle = 'rgba(30,41,59,0.55)';
-            ctx.font = '600 20px system-ui, sans-serif';
+            boardPaintBackground(ctx, offsetY, pageW, pageH);
+            lctx.globalCompositeOperation = 'source-over';
+            lctx.clearRect(0, 0, pageW, pageH);
+            for (const s of page.strokes) boardRenderStroke(lctx, s, pageW, pageH);
+            lctx.globalCompositeOperation = 'source-over';
+            ctx.drawImage(layer, 0, offsetY);
+            ctx.fillStyle = 'rgba(203, 213, 225, 0.55)';
+            ctx.font = '600 20px "DM Sans", system-ui, sans-serif';
             ctx.textBaseline = 'top';
             ctx.fillText(`Strona ${i + 1}/${n}`, 16, offsetY + 12);
         });
@@ -6267,6 +6607,37 @@ body.resizing-y, body.resizing-y * { cursor: row-resize !important; user-select:
     }
     boardDownloadBtn.addEventListener('click', downloadAllBoardPages);
 
+    // ── Pasek narzędzi ──
+    function boardSetTool(tool) {
+        boardTool = tool;
+        for (const b of boardToolBtns) {
+            const on = b.dataset.tool === tool;
+            b.classList.toggle('active', on);
+            b.setAttribute('aria-pressed', on ? 'true' : 'false');
+        }
+        boardCardEl.classList.toggle('tool-shape', BOARD_SHAPES.has(tool));
+        boardWrapEl.classList.toggle('tool-eraser', tool === 'eraser');
+    }
+    boardToolBtns.forEach(btn => btn.addEventListener('click', () => boardSetTool(btn.dataset.tool)));
+    boardColorBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            boardColorBtns.forEach(b => b.classList.toggle('active', b === btn));
+            boardColor = btn.dataset.color;
+            boardToolbarEl.style.setProperty('--board-ink', boardColor);
+            // Kliknięcie koloru przy aktywnej gumce = powrót do pisania tym kolorem.
+            if (boardTool === 'eraser') boardSetTool('pen');
+        });
+    });
+    boardWidthBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            boardWidthBtns.forEach(b => b.classList.toggle('active', b === btn));
+            // Grubość mazaka zmienia się od razu, nawet jeśli aktywna jest gumka —
+            // po powrocie do mazaka będzie już ustawiona nowa grubość.
+            boardPenWidth = parseInt(btn.dataset.width, 10);
+        });
+    });
+    boardToolbarEl.style.setProperty('--board-ink', boardColor);
+
     boardBtn.addEventListener('click', () => setBoardMode(!boardMode, true));
     boardClearBtn.addEventListener('click', () => sendBoardClear());
     boardPagePrevBtn.addEventListener('click', () => goToBoardPage(boardPageIndex - 1));
@@ -6276,140 +6647,321 @@ body.resizing-y, body.resizing-y * { cursor: row-resize !important; user-select:
     updateBoardPageLabel();
 
     // Ctrl+Z / Cmd+Z cofa, Ctrl+Shift+Z lub Ctrl+Y ponawia — tylko gdy tablica jest aktywna.
+    // Sam Shift w trakcie przeciągania kształtu przełącza kwadrat / trójkąt równoboczny.
     window.addEventListener('keydown', e => {
         if (!boardMode) return;
+        if (e.key === 'Shift') { if (boardShape) boardUpdateShape(true, boardShape.lastEvent); return; }
         if (!(e.ctrlKey || e.metaKey)) return;
         const key = e.key.toLowerCase();
         if (key === 'z' && e.shiftKey) { e.preventDefault(); boardRedo(); }
         else if (key === 'z') { e.preventDefault(); boardUndo(); }
         else if (key === 'y') { e.preventDefault(); boardRedo(); }
     });
-
-    boardColorBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            boardColorBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            boardColor = btn.dataset.color;
-            // Gumka ma własną, stałą grubość (z data-width); mazaki wracają
-            // do ostatnio wybranej grubości pisaka, żeby wybór nie "gubił się"
-            // przy przełączaniu kolorów.
-            boardWidth = btn.dataset.color === 'erase'
-                ? (btn.dataset.width ? parseInt(btn.dataset.width, 10) : 26)
-                : boardPenWidth;
-        });
+    window.addEventListener('keyup', e => {
+        if (boardMode && e.key === 'Shift' && boardShape) boardUpdateShape(false, boardShape.lastEvent);
     });
 
-    boardWidthBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            boardWidthBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            boardPenWidth = parseInt(btn.dataset.width, 10);
-            // Grubość mazaka zmienia się od razu, nawet jeśli aktywna jest gumka —
-            // po powrocie do mazaka będzie już ustawiona nowa grubość.
-            if (boardColor !== 'erase') boardWidth = boardPenWidth;
-        });
-    });
-
-    boardCanvas.addEventListener('pointerdown', e => {
-        if (!boardMode) return;
-        e.preventDefault();
-        boardCanvas.setPointerCapture(e.pointerId);
-        boardDrawing = true;
-        const p = boardPointFromEvent(e);
-        boardActiveStroke = {
-            id: myId + '-' + Date.now() + '-' + Math.random().toString(36).slice(2, 7),
-            color: boardColor, width: boardWidth, points: [p]
-        };
-        boardStrokes.push(boardActiveStroke);
-        boardStrokeIndex.set(boardActiveStroke.id, boardActiveStroke);
-        boardUndoStacks[boardPageIndex].push(boardActiveStroke.id);
-        boardRedoStacks[boardPageIndex] = [];
-        boardDrawDot(boardColor, boardWidth, p);
-        boardDrawnCount = 1;
-        boardDrawBuffer = [];
-        boardSendBuffer = [];
-        sendBoardPoint({ strokeId: boardActiveStroke.id, color: boardColor, width: boardWidth, points: [p], start: true });
-    });
-    // Rysowanie: NIE reagujemy na każdy pojedynczy pointermove z osobna (przy szybkim
-    // ruchu myszy/rysika to potrafi być >100 zdarzeń/s — każde z osobnym rysowaniem NA
-    // CANVASIE i osobną wiadomością sieciową, co właśnie powodowało zacinanie się przy
-    // żywym rysowaniu, zwłaszcza u gospodarza, który dodatkowo przekazuje to dalej do
-    // wszystkich innych osób). Zamiast tego zbieramy punkty w buforze i:
-    //  - rysujemy je lokalnie zbiorczo raz na klatkę (requestAnimationFrame),
-    //  - wysyłamy do reszty pokoju zbiorczo co ~30ms — jedna wiadomość z kilkoma
-    //    punktami zamiast osobnej wiadomości na każdy punkt.
-    let boardDrawBuffer = [];
+    // ── Rysowanie myszą / rysikiem / palcem ──
+    // NIE rysujemy i nie wysyłamy niczego przy każdym pojedynczym pointermove (przy
+    // szybkim ruchu to potrafi być >100 zdarzeń/s, co powodowało zacinanie się,
+    // zwłaszcza u gospodarza, który dodatkowo przekazuje to dalej). Punkty zbieramy:
+    //  - rysujemy zbiorczo raz na klatkę (requestAnimationFrame),
+    //  - wysyłamy do reszty pokoju zbiorczo co ~30 ms, kilka punktów w jednej wiadomości.
+    // Bierzemy przy tym WSZYSTKIE punkty, które przeglądarka zebrała między klatkami
+    // (getCoalescedEvents) — bez nich szybko pisane litery składały się z kilku prostych
+    // odcinków — ale pomijamy punkty leżące bliżej niż ~1,5 px od poprzedniego.
+    let boardDrawing = false;
+    let boardPointerId = null;
+    let boardActiveStroke = null;   // kreska mazaka albo gumki w trakcie rysowania
+    let boardShape = null;          // przeciągany kształt: { stroke, origin, lastEvent, sent }
     let boardSendBuffer = [];
-    let boardDrawnCount = 0;   // ile punktów aktywnej kreski jest już wyrysowane na płótnie
-    let boardDrawFlushScheduled = false;
     let boardSendTimer = null;
-    function boardFlushDraw() {
-        boardDrawFlushScheduled = false;
-        if (!boardDrawBuffer.length || !boardActiveStroke) { boardDrawBuffer = []; return; }
-        boardDrawBuffer = [];
-        boardDrawSegments(boardActiveStroke.color, boardActiveStroke.width, boardActiveStroke.points, boardDrawnCount);
-        boardDrawnCount = boardActiveStroke.points.length;
+    let boardShapeSendTimer = null;
+    let boardEraseDrawn = 0;        // ile punktów gumki jest już wyciętych na płótnie
+    let boardEraseFrame = 0;
+    let boardLastPx = null;         // ostatni zapisany punkt (px na płótnie)
+    let boardLastT = 0;
+    let boardSpeed = 0;             // wygładzona prędkość (px tablicy wzorcowej / ms)
+    let boardPressure = 0.55;       // wygładzony nacisk 0–1
+    let boardUsePenPressure = false;
+
+    function boardNewId() { return myId + '-' + Date.now() + '-' + Math.random().toString(36).slice(2, 7); }
+    function boardLocalPoint(ev, rect) {
+        return {
+            x: Math.min(rect.width, Math.max(0, ev.clientX - rect.left)),
+            y: Math.min(rect.height, Math.max(0, ev.clientY - rect.top))
+        };
     }
-    function boardFlushSend() {
+    // Nacisk: rysik podaje prawdziwy (e.pressure), mysz i palec nie — wtedy udajemy go
+    // z prędkości: powolne prowadzenie = pełna grubość, szybki zamach = cieńsza linia.
+    // Wygładzanie zależy od czasu, a nie od liczby zdarzeń, więc mysz 125 Hz i 1000 Hz
+    // dają tę samą kreskę.
+    function boardNextPressure(ev, distRef, dt) {
+        if (boardUsePenPressure && ev.pressure > 0) {
+            boardPressure += (ev.pressure - boardPressure) * (1 - Math.exp(-dt / 25));
+            return boardPressure;
+        }
+        boardSpeed += (distRef / dt - boardSpeed) * (1 - Math.exp(-dt / 40));
+        const target = 1 - 0.8 * (1 - Math.exp(-boardSpeed / 1.2));
+        boardPressure += (target - boardPressure) * (1 - Math.exp(-dt / 70));
+        return boardPressure;
+    }
+
+    function boardFlushErase() {
+        boardEraseFrame = 0;
+        const s = boardActiveStroke;
+        if (!s || s.color !== 'erase' || !boardMode || !boardW) return;
+        if (s.points.length > boardEraseDrawn) {
+            boardEraseSegments(boardCtx, boardW, boardH, boardScaledWidth(s.width, boardW), s.points, Math.max(1, boardEraseDrawn));
+            boardEraseDrawn = s.points.length;
+        }
+    }
+    function boardFlushSend(end) {
+        clearTimeout(boardSendTimer);
         boardSendTimer = null;
-        if (!boardSendBuffer.length || !boardActiveStroke) { boardSendBuffer = []; return; }
+        const s = boardActiveStroke;
         const pts = boardSendBuffer;
         boardSendBuffer = [];
-        sendBoardPoint({ strokeId: boardActiveStroke.id, color: boardActiveStroke.color, width: boardActiveStroke.width, points: pts, start: false });
+        if (!s || (!pts.length && end !== true)) return;
+        boardSend({ type: 'board-point', strokeId: s.id, color: s.color, width: s.width, points: pts, start: false, end: end === true });
     }
-    boardCanvas.addEventListener('pointermove', e => {
-        if (!boardDrawing || !boardActiveStroke) return;
+
+    function boardShapePayload(s) {
+        return { id: s.id, color: s.color, width: s.width, shape: s.shape, points: [s.points[0], s.points[1]] };
+    }
+    function boardShapeBigEnough(s, w, h) {
+        const a = s.points[0], b = s.points[1];
+        return Math.max(Math.abs(b.x - a.x) * w, Math.abs(b.y - a.y) * h) >= 4;
+    }
+    // Koło jest zawsze kołem (bok kwadratu = dłuższy z wymiarów przeciągnięcia), Shift
+    // robi z prostokąta kwadrat, a z trójkąta trójkąt równoboczny. Liczymy w px, bo
+    // tablica ma u wszystkich te same proporcje A4 — koło zostaje kołem na każdym ekranie.
+    function boardConstrainShape(shape, a, b, shift, w, h) {
+        const x0 = a.x * w, y0 = a.y * h;
+        let dx = b.x * w - x0, dy = b.y * h - y0;
+        const sx = dx < 0 ? -1 : 1, sy = dy < 0 ? -1 : 1;
+        const roomX = sx > 0 ? w - x0 : x0, roomY = sy > 0 ? h - y0 : y0;
+        if (shape === 'ellipse' || (shape === 'rect' && shift)) {
+            const side = Math.min(Math.max(Math.abs(dx), Math.abs(dy)), roomX, roomY);
+            dx = sx * side;
+            dy = sy * side;
+        } else if (shape === 'triangle' && shift) {
+            const r = Math.sqrt(3) / 2;
+            const base = Math.min(Math.max(Math.abs(dx), Math.abs(dy) / r), roomX, roomY / r);
+            dx = sx * base;
+            dy = sy * base * r;
+        }
+        return { x: (x0 + dx) / w, y: (y0 + dy) / h };
+    }
+    function boardFlushShapeSend() {
+        clearTimeout(boardShapeSendTimer);
+        boardShapeSendTimer = null;
+        const sh = boardShape;
+        if (!sh) return;
+        sh.sent = true;
+        boardSend({ type: 'board-shape', stroke: boardShapePayload(sh.stroke) });
+    }
+    function boardUpdateShape(shift, ev, rect) {
+        const sh = boardShape;
+        if (!sh || !ev) return;
+        rect = rect || boardCanvas.getBoundingClientRect();
+        if (!rect.width || !rect.height) return;
+        const lp = boardLocalPoint(ev, rect);
+        const b = boardConstrainShape(sh.stroke.shape, sh.origin, { x: lp.x / rect.width, y: lp.y / rect.height }, shift, rect.width, rect.height);
+        sh.stroke.points = [sh.origin, { x: boardRound(b.x, 1e5), y: boardRound(b.y, 1e5) }];
+        boardSetLive(sh.stroke);
+        boardScheduleLive();
+        if ((sh.sent || boardShapeBigEnough(sh.stroke, rect.width, rect.height)) && !boardShapeSendTimer) {
+            boardShapeSendTimer = setTimeout(boardFlushShapeSend, 40);
+        }
+    }
+    function boardFinishShape() {
+        const sh = boardShape;
+        boardShape = null;
+        clearTimeout(boardShapeSendTimer);
+        boardShapeSendTimer = null;
+        if (!sh) return;
+        const s = sh.stroke;
+        boardDropLive(s.id);
+        // Samo kliknięcie (albo przeciągnięcie o 1–2 px) nie zostawia kropki na tablicy.
+        if (!boardShapeBigEnough(s, boardW, boardH)) {
+            if (sh.sent) boardSend({ type: 'board-shape', stroke: { id: s.id }, cancel: true });
+            return;
+        }
+        boardStrokes.push(s);
+        boardStrokeIndex.set(s.id, s);
+        boardUndoStacks[boardPageIndex].push(s.id);
+        boardRedoStacks[boardPageIndex] = [];
+        if (boardMode) boardRenderStroke(boardCtx, s, boardW, boardH);
+        boardRenderLive();
+        boardSend({ type: 'board-shape', stroke: boardShapePayload(s), end: true });
+    }
+
+    // Przerywa to, co rysujemy lokalnie, bez wysyłania reszty (strona wyczyszczona,
+    // przełączona albo podmieniona przez kogoś innego w trakcie naszego rysowania) —
+    // inaczej zaległe punkty pojawiłyby się u wszystkich jako "zabłąkana" kreska.
+    function boardAbortLocal() {
+        if (!boardDrawing && !boardActiveStroke && !boardShape) return;
+        boardDrawing = false;
+        try { if (boardPointerId != null) boardCanvas.releasePointerCapture(boardPointerId); } catch (err) {}
+        boardPointerId = null;
+        clearTimeout(boardSendTimer);
+        boardSendTimer = null;
+        boardSendBuffer = [];
+        if (boardEraseFrame) { cancelAnimationFrame(boardEraseFrame); boardEraseFrame = 0; }
+        boardEraseDrawn = 0;
+        if (boardActiveStroke) { boardDropLive(boardActiveStroke.id); boardActiveStroke = null; }
+        if (boardShape) {
+            clearTimeout(boardShapeSendTimer);
+            boardShapeSendTimer = null;
+            if (boardShape.sent) boardSend({ type: 'board-shape', stroke: { id: boardShape.stroke.id }, cancel: true });
+            boardDropLive(boardShape.stroke.id);
+            boardShape = null;
+        }
+    }
+
+    boardCanvas.addEventListener('pointerdown', e => {
+        if (!boardMode || boardDrawing || e.button !== 0) return;
         e.preventDefault();
-        const p = boardPointFromEvent(e);
-        boardActiveStroke.points.push(p);
-        boardDrawBuffer.push(p);
-        boardSendBuffer.push(p);
-        if (!boardDrawFlushScheduled) { boardDrawFlushScheduled = true; requestAnimationFrame(boardFlushDraw); }
+        const rect = boardCanvas.getBoundingClientRect();
+        if (!rect.width || !rect.height) return;
+        try { boardCanvas.setPointerCapture(e.pointerId); } catch (err) {}
+        boardDrawing = true;
+        boardPointerId = e.pointerId;
+        const lp = boardLocalPoint(e, rect);
+        const p = { x: boardRound(lp.x / rect.width, 1e5), y: boardRound(lp.y / rect.height, 1e5) };
+        if (BOARD_SHAPES.has(boardTool)) {
+            boardShape = {
+                stroke: { id: boardNewId(), color: boardColor, width: boardPenWidth, shape: boardTool, points: [p, p] },
+                origin: p, lastEvent: e, sent: false
+            };
+            return;
+        }
+        const erase = boardTool === 'eraser';
+        boardUsePenPressure = e.pointerType === 'pen';
+        boardSpeed = 0;
+        boardPressure = (boardUsePenPressure && e.pressure > 0) ? e.pressure : 0.55;
+        if (!erase) p.p = boardRound(boardPressure, 100);
+        boardLastPx = lp;
+        boardLastT = e.timeStamp;
+        const stroke = {
+            id: boardNewId(),
+            color: erase ? 'erase' : boardColor,
+            width: erase ? BOARD_ERASER_WIDTH : boardPenWidth,
+            points: [p]
+        };
+        boardActiveStroke = stroke;
+        boardStrokes.push(stroke);
+        boardStrokeIndex.set(stroke.id, stroke);
+        boardUndoStacks[boardPageIndex].push(stroke.id);
+        boardRedoStacks[boardPageIndex] = [];
+        boardSendBuffer = [];
+        if (erase) {
+            boardEraseDot(boardCtx, boardW, boardH, boardScaledWidth(stroke.width, boardW), p);
+            boardEraseDrawn = 1;
+        } else {
+            boardSetLive(stroke);
+            boardScheduleLive();
+        }
+        boardSend({ type: 'board-point', strokeId: stroke.id, color: stroke.color, width: stroke.width, points: [p], start: true });
+    });
+    boardCanvas.addEventListener('pointermove', e => {
+        if (!boardDrawing || e.pointerId !== boardPointerId) return;
+        e.preventDefault();
+        const rect = boardCanvas.getBoundingClientRect();
+        if (!rect.width || !rect.height) return;
+        if (boardShape) {
+            boardShape.lastEvent = e;
+            boardUpdateShape(e.shiftKey, e, rect);
+            return;
+        }
+        const stroke = boardActiveStroke;
+        if (!stroke) return;
+        const erase = stroke.color === 'erase';
+        const k = rect.width / BOARD_REF_W;
+        const minDist = erase ? Math.max(2, stroke.width * k * 0.2) : Math.max(1.2, 1.6 * k);
+        const coalesced = typeof e.getCoalescedEvents === 'function' ? e.getCoalescedEvents() : null;
+        const events = coalesced && coalesced.length ? coalesced : [e];
+        let added = 0;
+        for (const ev of events) {
+            const lp = boardLocalPoint(ev, rect);
+            const d = Math.hypot(lp.x - boardLastPx.x, lp.y - boardLastPx.y);
+            if (d < minDist) continue;
+            const dt = Math.max(1, ev.timeStamp - boardLastT);
+            const pt = { x: boardRound(lp.x / rect.width, 1e5), y: boardRound(lp.y / rect.height, 1e5) };
+            if (!erase) pt.p = boardRound(boardNextPressure(ev, d / k, dt), 100);
+            boardLastPx = lp;
+            boardLastT = ev.timeStamp;
+            stroke.points.push(pt);
+            boardSendBuffer.push(pt);
+            added++;
+        }
+        if (!added) return;
+        if (erase) { if (!boardEraseFrame) boardEraseFrame = requestAnimationFrame(boardFlushErase); }
+        else boardScheduleLive();
         if (!boardSendTimer) boardSendTimer = setTimeout(boardFlushSend, 30);
     });
     function boardEndStroke(e) {
-        if (!boardDrawing) return;
+        if (!boardDrawing || (e && e.pointerId !== boardPointerId)) return;
         boardDrawing = false;
+        try { boardCanvas.releasePointerCapture(boardPointerId); } catch (err) {}
+        boardPointerId = null;
+        if (boardShape) { boardFinishShape(); return; }
+        const s = boardActiveStroke;
+        if (!s) return;
         // Domykamy od razu wszystko, co jeszcze czeka w buforach, zamiast czekać na
         // najbliższą klatkę/timer — inaczej ostatni kawałek kreski mógłby "zniknąć"
         // (albo spóźnić się o ułamek sekundy) tuż po puszczeniu przycisku/rysika.
-        if (boardDrawBuffer.length) boardFlushDraw();
-        clearTimeout(boardSendTimer);
-        if (boardSendBuffer.length) boardFlushSend(); else boardSendTimer = null;
+        if (s.color === 'erase') {
+            if (boardEraseFrame) { cancelAnimationFrame(boardEraseFrame); boardEraseFrame = 0; }
+            boardFlushErase();
+        }
+        boardFlushSend(true);
         boardActiveStroke = null;
-        boardDrawnCount = 0;
-        try { boardCanvas.releasePointerCapture(e.pointerId); } catch (err) {}
+        boardEraseDrawn = 0;
+        if (s.color !== 'erase') boardCommitLive(s.id);
     }
     boardCanvas.addEventListener('pointerup', boardEndStroke);
     boardCanvas.addEventListener('pointercancel', boardEndStroke);
     boardCanvas.addEventListener('pointerleave', boardEndStroke);
+    boardCanvas.addEventListener('lostpointercapture', boardEndStroke);
 
-    // ── Wizualny wskaźnik rysika: kółko w rozmiarze i kolorze aktualnego
-    // narzędzia, podążające za kursorem (systemowy kursor jest ukryty na płótnie). ──
+    // ── Wizualny wskaźnik rysika: kółko w rozmiarze i kolorze aktualnego narzędzia,
+    // podążające za kursorem (systemowy kursor jest ukryty na płótnie). Przy kształtach
+    // zamiast kółka jest zwykły celownik (cursor: crosshair z CSS). ──
     function updateBoardCursor(e) {
+        if (BOARD_SHAPES.has(boardTool)) { boardCursorEl.style.display = 'none'; return; }
         const rect = boardCanvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const size = Math.max(boardWidth, 6);
+        const eraser = boardTool === 'eraser';
+        const size = Math.max(boardScaledWidth(eraser ? BOARD_ERASER_WIDTH : boardPenWidth, rect.width), 6);
+        boardCursorEl.style.display = 'block';
         boardCursorEl.style.width = size + 'px';
         boardCursorEl.style.height = size + 'px';
-        boardCursorEl.style.left = x + 'px';
-        boardCursorEl.style.top = y + 'px';
-        if (boardColor === 'erase') {
-            boardCursorEl.style.borderColor = 'rgba(30,41,59,0.9)';
-            boardCursorEl.style.background = 'rgba(255,255,255,0.7)';
+        boardCursorEl.style.left = (e.clientX - rect.left) + 'px';
+        boardCursorEl.style.top = (e.clientY - rect.top) + 'px';
+        if (eraser) {
+            boardCursorEl.style.borderColor = 'rgba(226, 232, 240, 0.85)';
+            boardCursorEl.style.background = 'rgba(148, 163, 184, 0.14)';
         } else {
             boardCursorEl.style.borderColor = boardColor;
-            boardCursorEl.style.background = boardColor + '33';
+            boardCursorEl.style.background = boardColor + '2e';
         }
     }
-    boardCanvas.addEventListener('pointerenter', e => { if (boardMode) { boardCursorEl.style.display = 'block'; updateBoardCursor(e); } });
+    boardCanvas.addEventListener('pointerenter', e => { if (boardMode) updateBoardCursor(e); });
     boardCanvas.addEventListener('pointermove', e => {
         if (!boardMode) return;
         updateBoardCursor(e);
         sendBoardCursor(boardPointFromEvent(e));
     });
     boardCanvas.addEventListener('pointerleave', () => { boardCursorEl.style.display = 'none'; if (boardMode) sendBoardCursor(null); });
+    function boardPointFromEvent(e) {
+        const rect = boardCanvas.getBoundingClientRect();
+        return {
+            x: Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width)),
+            y: Math.min(1, Math.max(0, (e.clientY - rect.top) / rect.height))
+        };
+    }
+    boardSetTool('pen');
 
     // ── Konfiguracja ICE (STUN + TURN) ──
     // Sam STUN (domyślny w PeerJS) wystarcza tylko, gdy obie osoby mają "prostą" sieć.

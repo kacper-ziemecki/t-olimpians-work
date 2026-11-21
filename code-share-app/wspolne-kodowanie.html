@@ -1218,20 +1218,20 @@ body.resizing-y, body.resizing-y * { cursor: row-resize !important; user-select:
 .board-scroll::-webkit-scrollbar-track { background: transparent; }
 .board-scroll::-webkit-scrollbar-thumb { background: var(--bg-elevated); border-radius: 8px; border: 1px solid var(--border); }
 .board-scroll::-webkit-scrollbar-thumb:hover { background: var(--accent-dim); }
-/* Granatowa ("czarno-niebieska") tablica: delikatne przejście od granatu u góry
-   do prawie czerni u dołu + subtelna kratka. Te same kolory są w JS (BOARD_BG_*),
-   żeby pobrany PNG wyglądał tak samo. Rozmiar kratki ustawia JS (1/50 szerokości). */
+/* Granatowa ("czarno-niebieska") tablica: jednolity kolor + subtelna kratka.
+   Celowo BEZ gradientu — na wysokiej karcie A4 przejście kolorów robiło się przy
+   przewijaniu w dół coraz ciemniejsze i pasiaste. Ten sam kolor jest w JS
+   (BOARD_BG), żeby pobrany PNG wyglądał tak samo. Rozmiar kratki ustawia JS (1/50 szerokości). */
 .board-card {
     --board-grid: 28px;
     width: 100%;
     aspect-ratio: 1 / 1.4142;
     flex-shrink: 0;
-    background-color: #0c1528;
+    background-color: #0f1a30;
     background-image:
         linear-gradient(to right, rgba(148, 163, 184, 0.085) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(148, 163, 184, 0.085) 1px, transparent 1px),
-        linear-gradient(to bottom, #101c33, #080e1b);
-    background-size: var(--board-grid) var(--board-grid), var(--board-grid) var(--board-grid), 100% 100%;
+        linear-gradient(to bottom, rgba(148, 163, 184, 0.085) 1px, transparent 1px);
+    background-size: var(--board-grid) var(--board-grid);
     border: 1px solid rgba(96, 165, 250, 0.18);
     border-radius: var(--radius-md);
     overflow: hidden;
@@ -5916,8 +5916,7 @@ body.resizing-y, body.resizing-y * { cursor: row-resize !important; user-select:
     const BOARD_ERASER_WIDTH = 26;
     const BOARD_SHAPES = new Set(['rect', 'ellipse', 'triangle']);
     // Tło tablicy — te same wartości co w CSS (.board-card), potrzebne przy eksporcie PNG.
-    const BOARD_BG_TOP = '#101c33';
-    const BOARD_BG_BOTTOM = '#080e1b';
+    const BOARD_BG = '#0f1a30';
     const BOARD_GRID_COLOR = 'rgba(148, 163, 184, 0.085)';
     // Kolory z czasów białej tablicy → czytelne odpowiedniki na granacie (stare
     // kreski w otwartym pokoju albo od osoby, która jeszcze nie odświeżyła strony).
@@ -6550,10 +6549,7 @@ body.resizing-y, body.resizing-y * { cursor: row-resize !important; user-select:
     // Każda strona jest renderowana na osobnym "kafelku" formatu A4 i sklejana
     // pionowo w jeden plik, żeby móc zabrać całą tablicę (wszystkie strony) za jednym razem.
     function boardPaintBackground(ctx, y0, w, h) {
-        const g = ctx.createLinearGradient(0, y0, 0, y0 + h);
-        g.addColorStop(0, BOARD_BG_TOP);
-        g.addColorStop(1, BOARD_BG_BOTTOM);
-        ctx.fillStyle = g;
+        ctx.fillStyle = BOARD_BG;
         ctx.fillRect(0, y0, w, h);
         const cell = w / BOARD_GRID_CELLS;
         ctx.fillStyle = BOARD_GRID_COLOR;

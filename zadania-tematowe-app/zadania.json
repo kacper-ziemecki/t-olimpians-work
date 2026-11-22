@@ -67481,6 +67481,3011 @@
       ],
       "hint": "string s; int poz; void spacje() { while (poz < (int)s.size() && s[poz] == ' ') poz++; } long long wyrazenie(); long long czynnik() { spacje(); if (s[poz] == '(') { poz++; long long w = wyrazenie(); spacje(); poz++; return w; } long long w = 0; while (poz < (int)s.size() && isdigit(s[poz])) w = w * 10 + (s[poz++] - '0'); return w; }. skladnik i wyrazenie wyglądają tak samo: pierwszy kawałek, a potem pętla while po operatorach. Wiersze czytaj getline (po cin >> t zjedz resztę wiersza).",
       "tests_count": 5
+    },
+    {
+      "id": "st-legitymacja",
+      "number": 2067,
+      "title": "Legitymacja szkolna",
+      "category": "Struct / krok 1: pierwsza struktura",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Sekretariat drukuje legitymacje. Dane jednego ucznia to imię, nazwisko, klasa (np. 7b) i rok urodzenia.",
+        "Zadeklaruj nad main strukturę struct Uczen z czterema polami: string imie, string nazwisko, string klasa i int rok. Wczytaj dane do jednej zmiennej tego typu i wypisz legitymację dokładnie w formacie z przykładu. W ostatnim wierszu jest wiek, który uczeń kończy w 2026 roku (2026 − rok urodzenia)."
+      ],
+      "input_format": [
+        "Jeden wiersz: imię, nazwisko, klasa i rok urodzenia, oddzielone spacjami."
+      ],
+      "output_format": [
+        "Pięć wierszy: LEGITYMACJA SZKOLNA, potem Imie i nazwisko: …, Klasa: …, Rok urodzenia: … i Wiek w 2026: …"
+      ],
+      "constraints": [
+        "Imię ma od 1 do 15 liter, nazwisko od 1 do 20 liter; obie nazwy zaczynają się wielką literą, reszta to małe litery.",
+        "Klasa to cyfra od 1 do 8 i mała litera od a do f.",
+        "2005 ≤ rok ≤ 2020"
+      ],
+      "examples": [
+        {
+          "input": "Ala Nowak 7b 2012",
+          "output": "LEGITYMACJA SZKOLNA\nImie i nazwisko: Ala Nowak\nKlasa: 7b\nRok urodzenia: 2012\nWiek w 2026: 14",
+          "note": "Wszystkie cztery dane siedzą w jednej zmiennej: u.imie, u.nazwisko, u.klasa i u.rok. Wiek: 2026 − 2012 = 14."
+        }
+      ],
+      "hint": "struct Uczen { string imie; string nazwisko; string klasa; int rok; }; — pamiętaj o średniku po klamrze. W main: Uczen u; cin >> u.imie >> u.nazwisko >> u.klasa >> u.rok;. Wiek to 2026 - u.rok.",
+      "tests_count": 7
+    },
+    {
+      "id": "st-dwa-prostokaty",
+      "number": 2068,
+      "title": "Dwie działki",
+      "category": "Struct / krok 1: pierwsza struktura",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Pan Zenon wybiera między dwiema prostokątnymi działkami. Każdą opisują dwie liczby: szerokość i długość w metrach.",
+        "Zadeklaruj strukturę struct Dzialka z polami szerokosc i dlugosc i utwórz dwie zmienne tego typu. Dla każdej działki wypisz pole i obwód, a na końcu napisz, która działka ma większe pole: pierwsza, druga albo rowne, jeśli pola są równe."
+      ],
+      "input_format": [
+        "W pierwszym wierszu szerokość i długość pierwszej działki, w drugim — drugiej."
+      ],
+      "output_format": [
+        "Trzy wiersze: pierwsza: pole P, obwod O, potem druga: pole P, obwod O, a na końcu wieksza: pierwsza / druga / rowne."
+      ],
+      "constraints": [
+        "1 ≤ szerokość, długość ≤ 100 000"
+      ],
+      "examples": [
+        {
+          "input": "3 4\n2 6",
+          "output": "pierwsza: pole 12, obwod 14\ndruga: pole 12, obwod 16\nwieksza: rowne",
+          "note": "Pola są równe (12 m²), choć działki mają różne kształty — druga ma za to dłuższy obwód (16 m)."
+        }
+      ],
+      "hint": "Przy wymiarach 100 000 × 100 000 pole to 10¹⁰ — nie zmieści się w int. Zadeklaruj pola jako long long: struct Dzialka { long long szerokosc, dlugosc; };. Potem Dzialka a, b; cin >> a.szerokosc >> a.dlugosc >> b.szerokosc >> b.dlugosc;.",
+      "tests_count": 8
+    },
+    {
+      "id": "st-robot-krok-po-kroku",
+      "number": 2069,
+      "title": "Robot krok po kroku",
+      "category": "Struct / krok 1: pierwsza struktura",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Robot stoi w punkcie (0, 0). Dostaje n poleceń; każde to dwie liczby dx i dy — robot przesuwa się o dx w poziomie i o dy w pionie.",
+        "Pozycję robota trzymaj w jednej zmiennej typu struct Punkt { int x, y; }. Po każdym ruchu wypisz jego pozycję. Na końcu wypisz, jak daleko od startu robot był najdalej — w odległości „taksówkowej” |x| + |y| (licząc wszystkie pozycje po ruchach)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy dwie liczby dx i dy."
+      ],
+      "output_format": [
+        "n wierszy z pozycją x y po kolejnych ruchach, a potem wiersz najdalej od startu: D."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "−1000 ≤ dx, dy ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "4\n2 3\n-5 0\n1 -4\n2 1",
+          "output": "2 3\n-3 3\n-2 -1\n0 0\nnajdalej od startu: 6",
+          "note": "Pozycje: (2, 3), (−3, 3), (−2, −1), (0, 0). Odległości od startu: 5, 6, 3 i 0 — najdalej było 6."
+        }
+      ],
+      "hint": "Punkt p; p.x = 0; p.y = 0; (albo Punkt p = {0, 0};). W pętli: cin >> dx >> dy; p.x += dx; p.y += dy; cout << p.x << \" \" << p.y << \"\\n\";. Odległość od startu to abs(p.x) + abs(p.y) — porównuj ją z dotychczasowym maksimum.",
+      "tests_count": 7
+    },
+    {
+      "id": "st-zegar",
+      "number": 2070,
+      "title": "Zegar za k sekund",
+      "category": "Struct / krok 1: pierwsza struktura",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Zegar elektroniczny pokazuje godzinę, minutę i sekundę. Zadeklaruj strukturę struct Czas { int h, m, s; }, wczytaj do niej aktualny czas, a potem liczbę sekund k.",
+        "Wypisz, co pokaże zegar za k sekund (zegar 24-godzinny, po 23:59:59 jest 00:00:00), w formacie HH:MM:SS — zawsze z dwiema cyframi. W drugim wierszu wypisz, ile razy w tym czasie zegar przeszedł przez północ."
+      ],
+      "input_format": [
+        "W pierwszym wierszu trzy liczby: godzina, minuta i sekunda.",
+        "W drugim wierszu k."
+      ],
+      "output_format": [
+        "Dwa wiersze: czas HH:MM:SS i przejsc przez polnoc: D."
+      ],
+      "constraints": [
+        "0 ≤ godzina ≤ 23, 0 ≤ minuta, sekunda ≤ 59",
+        "0 ≤ k ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "23 59 30\n45",
+          "output": "00:00:15\nprzejsc przez polnoc: 1",
+          "note": "23:59:30 + 45 s = 00:00:15 następnego dnia — zegar raz przeszedł przez północ."
+        }
+      ],
+      "hint": "Zamień czas na sekundy od północy: long long t = c.h * 3600 + c.m * 60 + c.s + k;. Doby: t / 86400. Reszta t % 86400 to nowy czas: c.h = reszta / 3600, c.m = reszta / 60 % 60, c.s = reszta % 60. Dwie cyfry: cout << setw(2) << setfill('0') << c.h (setw działa tylko na najbliższą liczbę — powtórz go przed każdą).",
+      "tests_count": 9
+    },
+    {
+      "id": "st-kto-starszy",
+      "number": 2071,
+      "title": "Kto jest starszy?",
+      "category": "Struct / krok 1: pierwsza struktura",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dane osoby to imię i data urodzenia: dzień, miesiąc i rok. Zadeklaruj strukturę struct Osoba { string imie; int d, m, r; } i wczytaj dwie osoby.",
+        "Wypisz imię osoby starszej, czyli urodzonej wcześniej. Jeśli obie urodziły się tego samego dnia, wypisz rowiesnicy. Pamiętaj, że o tym, kto jest starszy, decyduje najpierw rok; gdy lata są równe — miesiąc; gdy także miesiące są równe — dzień."
+      ],
+      "input_format": [
+        "Dwa wiersze; w każdym imię, dzień, miesiąc i rok urodzenia."
+      ],
+      "output_format": [
+        "Imię starszej osoby albo słowo rowiesnicy."
+      ],
+      "constraints": [
+        "Imiona są różne, mają od 1 do 15 liter i zaczynają się wielką literą.",
+        "Daty są poprawne, lata od 1950 do 2020."
+      ],
+      "examples": [
+        {
+          "input": "Ola 12 5 2011\nKuba 30 1 2011",
+          "output": "Kuba",
+          "note": "Ten sam rok, więc decyduje miesiąc: styczeń jest wcześniej niż maj — starszy jest Kuba."
+        }
+      ],
+      "hint": "Najpierw porównaj a.r z b.r. Jeśli są różne, starszy jest ten z mniejszym rokiem. Jeśli równe — porównaj a.m z b.m, a jeśli i te są równe — a.d z b.d. Gdy wszystkie trzy pola są równe: rowiesnicy.",
+      "tests_count": 8
+    },
+    {
+      "id": "st-porownaj-ulamki",
+      "number": 2072,
+      "title": "Który ułamek większy?",
+      "category": "Struct / krok 1: pierwsza struktura",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Zadeklaruj strukturę struct Ulamek { long long l, m; } — licznik i mianownik. Dla każdej z t par ułamków a/b i c/d wypisz, który jest większy, wstawiając między nie znak <, > albo =.",
+        "Nie dziel liczb: dla dodatnich mianowników a/b < c/d dokładnie wtedy, gdy a · d < c · b. Tak porównanie jest dokładne, a double mógłby się pomylić przy bardzo bliskich ułamkach. Ułamki wypisuj tak, jak je wczytano (bez skracania)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy cztery liczby a, b, c, d — ułamki a/b i c/d."
+      ],
+      "output_format": [
+        "t wierszy w formacie a/b ZNAK c/d."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 500",
+        "−10⁹ ≤ a, c ≤ 10⁹",
+        "1 ≤ b, d ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "3\n1 2 2 4\n-3 7 -1 3\n999999999 1000000000 999999998 999999999",
+          "output": "1/2 = 2/4\n-3/7 < -1/3\n999999999/1000000000 > 999999998/999999999",
+          "note": "1/2 = 2/4. −3/7 ≈ −0,4286 jest mniejsze niż −1/3. Ostatnie dwa ułamki różnią się dopiero na 18. miejscu po przecinku: 999999999 · 999999999 = 999999998000000001, a 999999998 · 1000000000 = 999999998000000000 — lewy jest większy."
+        }
+      ],
+      "hint": "Ulamek x, y; cin >> x.l >> x.m >> y.l >> y.m;. Porównaj long long lewa = x.l * y.m, prawa = y.l * x.m;. Iloczyn sięga 10¹⁸ — mieści się w long long (do ok. 9,2 · 10¹⁸), ale nie w int.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-paragon",
+      "number": 2073,
+      "title": "Paragon ze sklepu",
+      "category": "Struct / krok 1: pierwsza struktura",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Kasa fiskalna drukuje paragon. Każda pozycja to nazwa produktu, cena za sztukę w groszach i liczba sztuk. Zadeklaruj strukturę struct Pozycja { string nazwa; int cena; int ilosc; }.",
+        "Dla każdej pozycji wypisz wiersz nazwa: ilosc x CENA = WARTOSC, a na końcu SUMA: S. Kwoty wypisuj w złotych z dokładnie dwiema cyframi groszy, np. 1250 groszy to 12.50, a 7 groszy to 0.07."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n — liczba pozycji.",
+        "W każdym z n kolejnych wierszy nazwa, cena w groszach i ilość."
+      ],
+      "output_format": [
+        "n wierszy z pozycjami i wiersz SUMA: S."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 500",
+        "Nazwa ma od 1 do 15 małych liter.",
+        "1 ≤ cena ≤ 1 000 000, 1 ≤ ilość ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "3\nmleko 349 2\nchleb 599 1\njajka 105 10",
+          "output": "mleko: 2 x 3.49 = 6.98\nchleb: 1 x 5.99 = 5.99\njajka: 10 x 1.05 = 10.50\nSUMA: 23.47",
+          "note": "mleko: 2 × 3.49 = 6.98, chleb: 5.99, jajka: 10 × 1.05 = 10.50. Razem 23.47."
+        }
+      ],
+      "hint": "Wartość pozycji to p.cena * p.ilosc — do 10⁹, a suma do 10¹² — trzymaj ją w long long. Kwotę w groszach g wypisz tak: cout << g / 100 << \".\" << setw(2) << setfill('0') << g % 100;. Najwygodniej zrobić z tego funkcję albo powtórzyć ten zapis trzy razy.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-trojkat",
+      "number": 2074,
+      "title": "Trójkąt z trzech punktów",
+      "category": "Struct / krok 1: pierwsza struktura",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdego z t zestawów trzech punktów A, B, C (zapisanych w trzech zmiennych typu struct Punkt { long long x, y; }) sprawdź, jaki to trójkąt.",
+        "Podwojone pole trójkąta liczy się ze wzoru 2P = |(xB − xA)·(yC − yA) − (xC − xA)·(yB − yA)|. Jeśli wychodzi 0, punkty leżą na jednej prostej — wypisz zdegenerowany. W przeciwnym razie wypisz podwojone pole i to, czy trójkąt ma kąt prosty. Kąt przy wierzchołku A jest prosty, gdy (xB − xA)·(xC − xA) + (yB − yA)·(yC − yA) = 0 — tak samo sprawdzasz kąty przy B i przy C."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy sześć liczb: xA yA xB yB xC yC."
+      ],
+      "output_format": [
+        "t wierszy: zdegenerowany albo podwojone pole P, prostokatny / podwojone pole P, nieprostokatny."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 500",
+        "−10⁶ ≤ każda współrzędna ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "3\n0 0 4 0 0 3\n1 1 2 2 5 5\n0 0 5 1 2 7",
+          "output": "podwojone pole 12, prostokatny\nzdegenerowany\npodwojone pole 33, nieprostokatny",
+          "note": "Pierwszy to trójkąt 3-4-5 z kątem prostym przy A (pole 6, podwojone 12). Drugi — trzy punkty na prostej y = x. Trzeci: 2P = |5 · 7 − 2 · 1| = 33, żaden kąt nie jest prosty."
+        }
+      ],
+      "hint": "Różnice współrzędnych sięgają 2 · 10⁶, a iloczyny 4 · 10¹² — dlatego pola są long long. Zrób funkcję pomocniczą albo zapisz trzy warunki kąta prostego: przy A z wektorami AB i AC, przy B z BA i BC, przy C z CA i CB.",
+      "tests_count": 5
+    },
+    {
+      "id": "st-najlepszy-uczen",
+      "number": 2075,
+      "title": "Najlepszy w klasie",
+      "category": "Struct / krok 2: kopiowanie i porównywanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Nauczycielka wpisuje wyniki sprawdzianu: imię ucznia i liczbę punktów. Znajdź najlepszego ucznia — jeśli kilku ma ten sam najwyższy wynik, najlepszy jest ten, który był wpisany najwcześniej.",
+        "Trzymaj najlepszego w jednej zmiennej Uczen najlepszy i gdy trafisz na lepszego, przepisz go w całości: najlepszy = u;. Policz też, ilu uczniów ma dokładnie tyle punktów co najlepszy."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy imię i liczba punktów."
+      ],
+      "output_format": [
+        "Dwa wiersze: najlepszy: IMIE PUNKTY i z takim samym wynikiem: K (K liczy także samego najlepszego)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "Imię ma od 1 do 15 liter (pierwsza wielka); imiona mogą się powtarzać.",
+        "0 ≤ punkty ≤ 100"
+      ],
+      "examples": [
+        {
+          "input": "5\nOla 82\nKuba 97\nZosia 64\nIga 97\nAdam 97",
+          "output": "najlepszy: Kuba 97\nz takim samym wynikiem: 3",
+          "note": "Najwyższy wynik to 97 — ma go trzech uczniów, a najlepszy jest Kuba, bo był wpisany pierwszy."
+        }
+      ],
+      "hint": "Uczen najlepszy; cin >> najlepszy.imie >> najlepszy.punkty; int ile = 1; — potem pętla po pozostałych n − 1 uczniach: wczytaj Uczen u; jeśli u.punkty > najlepszy.punkty, to najlepszy = u; ile = 1;, a jeśli równe — ile++. Przy remisie nie podmieniaj (znak >, nie >=).",
+      "tests_count": 8
+    },
+    {
+      "id": "st-najtanszy-najdrozszy",
+      "number": 2076,
+      "title": "Najtańszy i najdroższy",
+      "category": "Struct / krok 2: kopiowanie i porównywanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W sklepie internetowym jest n produktów, każdy ma nazwę i cenę w groszach. Wypisz najtańszy i najdroższy produkt.",
+        "Remisy rozstrzygaj tak: jeśli kilka produktów ma tę samą najniższą cenę, wypisz ten, który był na liście najwcześniej; jeśli kilka ma tę samą najwyższą cenę — ten, który był na liście najpóźniej. Najwygodniej trzymać dwie zmienne typu Produkt i kopiować do nich całe rekordy."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy nazwa i cena w groszach."
+      ],
+      "output_format": [
+        "Dwa wiersze: najtanszy: NAZWA Z.GG i najdrozszy: NAZWA Z.GG."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "Nazwy są różne, mają od 1 do 15 małych liter.",
+        "1 ≤ cena ≤ 10⁸"
+      ],
+      "examples": [
+        {
+          "input": "5\nlampa 4999\nkubek 1250\nfotel 89900\nzegar 1250\nbiurko 89900",
+          "output": "najtanszy: kubek 12.50\nnajdrozszy: biurko 899.00",
+          "note": "Najniższa cena 12.50 jest dwa razy — wygrywa wcześniejszy kubek. Najwyższa 899.00 też dwa razy — wygrywa późniejsze biurko."
+        }
+      ],
+      "hint": "Produkt tani = pierwszy, drogi = pierwszy;. Dla kolejnych: if (p.cena < tani.cena) tani = p; (ostre <, więc remis zostawia wcześniejszy) oraz if (p.cena >= drogi.cena) drogi = p; (z >=, więc remis podmienia na późniejszy).",
+      "tests_count": 7
+    },
+    {
+      "id": "st-najstarszy",
+      "number": 2077,
+      "title": "Najstarszy i najmłodszy",
+      "category": "Struct / krok 2: kopiowanie i porównywanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W drużynie harcerskiej jest n osób; każda ma imię i datę urodzenia. Znajdź osobę najstarszą (urodzoną najwcześniej) i najmłodszą (urodzoną najpóźniej). Jeśli kilka osób urodziło się tego samego dnia, wybierz tę, która była na liście wcześniej — dotyczy to obu wyników.",
+        "Datę wypisuj w formacie DD.MM.RRRR, z zerami na początku dnia i miesiąca."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy imię, dzień, miesiąc i rok urodzenia."
+      ],
+      "output_format": [
+        "Dwa wiersze: najstarszy: IMIE DD.MM.RRRR i najmlodszy: IMIE DD.MM.RRRR."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "Imiona są różne, mają od 1 do 20 znaków (litery i cyfry, pierwsza wielka litera).",
+        "Daty są poprawne, lata od 1990 do 2020."
+      ],
+      "examples": [
+        {
+          "input": "4\nOla 5 3 2012\nKuba 17 11 2011\nIga 1 12 2012\nAdam 17 11 2011",
+          "output": "najstarszy: Kuba 17.11.2011\nnajmlodszy: Iga 01.12.2012",
+          "note": "Najwcześniej urodzili się Kuba i Adam (17.11.2011) — wygrywa wcześniejszy na liście Kuba. Najpóźniej — Iga."
+        }
+      ],
+      "hint": "Napisz warunek „a urodził się wcześniej niż b”: a.r < b.r albo (a.r == b.r i a.m < b.m) albo (a.r == b.r i a.m == b.m i a.d < b.d). Najstarszego podmieniaj, gdy nowy jest wcześniej; najmłodszego — gdy obecny najmłodszy jest wcześniej niż nowy. Remisy nic nie zmieniają.",
+      "tests_count": 7
+    },
+    {
+      "id": "st-kopia-zapasowa",
+      "number": 2078,
+      "title": "Kopia zapasowa dokumentu",
+      "category": "Struct / krok 2: kopiowanie i porównywanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Edytor tekstu pamięta dokument: tytuł, liczbę stron i liczbę słów. Na początku dokument ma tytuł bez_tytulu, 0 stron i 0 słów, a kopia zapasowa wygląda tak samo. Obsłuż q poleceń:",
+        "TYTUL t — zmienia tytuł na t. PISZ s w — dopisuje s stron i w słów. ZAPISZ — robi kopię zapasową: zapamiętuje cały obecny dokument. COFNIJ — przywraca dokument z kopii zapasowej (kopia zostaje, można ją przywrócić jeszcze raz). POKAZ — wypisuje dokument w formacie tytul: S stron, W slow.",
+        "Dokument i kopię trzymaj w dwóch zmiennych typu struct Dokument. Zapis i przywracanie to wtedy jedno przypisanie."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W każdym z q kolejnych wierszy jedno polecenie."
+      ],
+      "output_format": [
+        "Po jednym wierszu dla każdego polecenia POKAZ."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "Tytuły mają od 1 do 20 znaków (małe litery i _).",
+        "0 ≤ s ≤ 100, 0 ≤ w ≤ 100 000",
+        "Jest co najmniej jedno polecenie POKAZ."
+      ],
+      "examples": [
+        {
+          "input": "8\nTYTUL wypracowanie\nPISZ 2 900\nZAPISZ\nPISZ 1 450\nPOKAZ\nCOFNIJ\nTYTUL lektura\nPOKAZ",
+          "output": "wypracowanie: 3 stron, 1350 slow\nlektura: 2 stron, 900 slow",
+          "note": "Po ZAPISZ kopia ma 2 strony i 900 słów. Dopisanie strony zmienia tylko dokument, nie kopię. COFNIJ wraca do 2 stron i 900 słów (i tytułu wypracowanie), a potem zmieniamy tytuł."
+        }
+      ],
+      "hint": "Dokument dok = {\"bez_tytulu\", 0, 0}; Dokument kopia = dok;. ZAPISZ to kopia = dok;, COFNIJ to dok = kopia;. Przypisanie kopiuje wszystkie pola naraz, a późniejsze zmiany dok nie ruszają kopii.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-bez-powtorzen",
+      "number": 2079,
+      "title": "Zgłoszenia bez powtórzeń",
+      "category": "Struct / krok 2: kopiowanie i porównywanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na zawody zgłosiło się n osób: imię, nazwisko i rok urodzenia. Czasem formularz wysyłał się dwa razy z rzędu — wtedy w danych stoją obok siebie dwa identyczne zgłoszenia (wszystkie trzy pola równe).",
+        "Wypisz listę bez takich powtórzeń: zgłoszenie pomijasz, jeśli jest identyczne z bezpośrednio poprzednim zgłoszeniem w danych. Na końcu wypisz, ile zgłoszeń usunięto. Uwaga: zapis a == b dla dwóch struktur się nie skompiluje — porównaj pola osobno."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy imię, nazwisko i rok urodzenia."
+      ],
+      "output_format": [
+        "Zgłoszenia bez powtórzeń (po jednym w wierszu, w formacie z wejścia), a potem wiersz usunieto: K."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "Imiona i nazwiska mają od 1 do 20 liter, pierwsza wielka.",
+        "1990 ≤ rok ≤ 2020"
+      ],
+      "examples": [
+        {
+          "input": "6\nOla Lis 2011\nOla Lis 2011\nOla Lis 2012\nKuba Mazur 2010\nKuba Mazur 2010\nOla Lis 2011",
+          "output": "Ola Lis 2011\nOla Lis 2012\nKuba Mazur 2010\nOla Lis 2011\nusunieto: 2",
+          "note": "Drugie zgłoszenie jest kopią pierwszego, piąte — czwartego. Trzecie ma inny rok, a ostatnie nie stoi obok swojego bliźniaka — oba zostają."
+        }
+      ],
+      "hint": "Trzymaj Zgloszenie poprzednie;. Dla każdego nowego z (od drugiego): jeśli z.imie == poprzednie.imie && z.nazwisko == poprzednie.nazwisko && z.rok == poprzednie.rok — usunieto++, w przeciwnym razie wypisz z. Na końcu obrotu pętli: poprzednie = z;.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-pomiary",
+      "number": 2080,
+      "title": "Pomiary ze stacji pogodowej",
+      "category": "Struct / krok 2: kopiowanie i porównywanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Stacja pogodowa zapisuje w ciągu dnia n pomiarów: godzinę w formacie HH:MM i temperaturę (liczbę całkowitą). Pomiary są uporządkowane od najwcześniejszego.",
+        "Wypisz najwyższą temperaturę i godzinę, o której ją zmierzono, tak samo najniższą, a potem największy skok temperatury między dwoma kolejnymi pomiarami (wartość bezwzględną różnicy) razem z godzinami tych dwóch pomiarów. Przy remisach wybieraj zawsze pomiar (albo parę pomiarów), który wystąpił najwcześniej. Jeśli jest tylko jeden pomiar, skoku nie ma."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy godzina HH:MM i temperatura."
+      ],
+      "output_format": [
+        "Trzy wiersze: max: T o HH:MM, min: T o HH:MM oraz najwiekszy skok: D miedzy HH:MM a HH:MM (albo najwiekszy skok: brak)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1440, godziny rosną (różne minuty doby)",
+        "−40 ≤ temperatura ≤ 45"
+      ],
+      "examples": [
+        {
+          "input": "5\n06:00 -3\n09:30 4\n12:00 11\n15:45 11\n21:10 2",
+          "output": "max: 11 o 12:00\nmin: -3 o 06:00\nnajwiekszy skok: 9 miedzy 15:45 a 21:10",
+          "note": "Najcieplej było 11° — pierwszy raz o 12:00. Najzimniej −3° o 06:00. Skoki: 7, 7, 0, 9 — największy, 9°, między 15:45 a 21:10."
+        }
+      ],
+      "hint": "Wczytuj godzinę przez znak: char dwukropek; cin >> p.h >> dwukropek >> p.m >> p.t;. Trzymaj rekordy Pomiar mx, mn, poprzedni oraz pary skokOd, skokDo. Godzinę wypisuj z zerami: setw(2) << setfill('0').",
+      "tests_count": 8
+    },
+    {
+      "id": "st-zmiana-lidera",
+      "number": 2081,
+      "title": "Zmiany lidera",
+      "category": "Struct / krok 2: kopiowanie i porównywanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W konkursie skoków narciarskich zawodnicy skaczą po kolei, a po każdym skoku komentator patrzy na tablicę wyników. Każdy skok to imię zawodnika i liczba punktów.",
+        "Liderem jest zawodnik z najlepszym wynikiem spośród tych, którzy już skoczyli. Gdy po skoku numer i lider się zmienia (także po pierwszym skoku, gdy pojawia się pierwszy lider), wypisz po skoku i prowadzi IMIE z wynikiem W. Wyrównanie wyniku lidera nie odbiera mu prowadzenia. Na końcu wypisz wygrywa IMIE z wynikiem W."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy imię i wynik skoczka."
+      ],
+      "output_format": [
+        "Ogłoszenia o nowych liderach (w kolejności skoków), a na końcu wiersz o zwycięzcy."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "Imiona mają od 1 do 15 liter (pierwsza wielka).",
+        "0 ≤ wynik ≤ 300"
+      ],
+      "examples": [
+        {
+          "input": "5\nKamil 121\nDawid 118\nPiotr 130\nAdam 130\nMaciej 142",
+          "output": "po skoku 1 prowadzi Kamil z wynikiem 121\npo skoku 3 prowadzi Piotr z wynikiem 130\npo skoku 5 prowadzi Maciej z wynikiem 142\nwygrywa Maciej z wynikiem 142",
+          "note": "Kamil prowadzi po 1. skoku, Piotr po 3. Adam tylko wyrównuje — Piotr dalej prowadzi. Po 5. skoku prowadzi Maciej i on wygrywa."
+        }
+      ],
+      "hint": "Skoczek lider; wczytaj pierwszego do lider i od razu ogłoś go jako lidera po skoku 1. Dla i od 2 do n: wczytaj Skoczek s; jeśli s.wynik > lider.wynik, to lider = s; i ogłoś.",
+      "tests_count": 7
+    },
+    {
+      "id": "st-podium",
+      "number": 2082,
+      "title": "Podium w jednym przejściu",
+      "category": "Struct / krok 2: kopiowanie i porównywanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W biegu wzięło udział n zawodników; każdy ma imię i liczbę punktów. Wypisz podium: trzech zawodników z najwyższymi wynikami, od pierwszego miejsca. Przy równych wynikach wyżej jest ten, kto był wcześniej na liście.",
+        "Zrób to w jednym przejściu przez dane, bez tablicy: trzymaj trzy zmienne typu Zawodnik — m1, m2, m3. Gdy nowy zawodnik jest lepszy od m1, brązowy medal przechodzi na m2, srebrny na m1, a nowy zostaje złotym: m3 = m2; m2 = m1; m1 = z; — i podobnie dla pozostałych miejsc."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy imię i wynik."
+      ],
+      "output_format": [
+        "Trzy wiersze: 1. IMIE WYNIK, 2. IMIE WYNIK, 3. IMIE WYNIK."
+      ],
+      "constraints": [
+        "3 ≤ n ≤ 5000",
+        "Imiona mają od 1 do 15 liter (pierwsza wielka); mogą się powtarzać.",
+        "0 ≤ wynik ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "6\nOla 70\nKuba 95\nIga 80\nAdam 95\nZosia 99\nEla 80",
+          "output": "1. Zosia 99\n2. Kuba 95\n3. Adam 95",
+          "note": "Zosia (99) wygrywa. Kuba i Adam mają po 95 — Kuba był wcześniej, więc jest drugi, a Adam trzeci. Iga i Ela (80) są już poza podium."
+        }
+      ],
+      "hint": "Zacznij od Zawodnik m1 = {\"\", -1}, m2 = {\"\", -1}, m3 = {\"\", -1}; (wyniki są nieujemne, więc pierwszy zawodnik na pewno jest lepszy). Dla każdego z: if (z.wynik > m1.wynik) { m3 = m2; m2 = m1; m1 = z; } else if (z.wynik > m2.wynik) { m3 = m2; m2 = z; } else if (z.wynik > m3.wynik) m3 = z;. Ostre > daje pierwszeństwo wcześniejszym przy remisie.",
+      "tests_count": 8
+    },
+    {
+      "id": "st-lista-obecnosci",
+      "number": 2083,
+      "title": "Lista obecności",
+      "category": "Struct / krok 3: vector struktur",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wychowawca sprawdza obecność. Dla każdego z n uczniów ma imię, nazwisko i znak 1 (obecny) albo 0 (nieobecny).",
+        "Wypisz najpierw wiersz obecni: K i listę obecnych, a potem wiersz nieobecni: M i listę nieobecnych. W obu grupach zachowaj kolejność z dziennika. Wczytaj wszystkich uczniów do vector<Uczen>, a potem przejdź po nim dwa razy."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy imię, nazwisko i 1 albo 0."
+      ],
+      "output_format": [
+        "Wiersz obecni: K, K wierszy Imie Nazwisko, wiersz nieobecni: M i M wierszy Imie Nazwisko."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "Imiona i nazwiska mają od 1 do 20 liter, pierwsza wielka."
+      ],
+      "examples": [
+        {
+          "input": "4\nOla Lis 1\nKuba Mazur 0\nIga Nowak 1\nAdam Krol 0",
+          "output": "obecni: 2\nOla Lis\nIga Nowak\nnieobecni: 2\nKuba Mazur\nAdam Krol",
+          "note": "Obecni są Ola i Iga, nieobecni — Kuba i Adam. Kolejność w obu grupach jest taka jak w dzienniku."
+        }
+      ],
+      "hint": "struct Uczen { string imie, nazwisko; int obecny; };. vector<Uczen> v(n); for (int i = 0; i < n; i++) cin >> v[i].imie >> v[i].nazwisko >> v[i].obecny;. Najpierw policz obecnych, wypisz nagłówek i przejdź po v, wypisując tych z obecny == 1; potem to samo dla 0.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-powyzej-sredniej",
+      "number": 2084,
+      "title": "Powyżej średniej",
+      "category": "Struct / krok 3: vector struktur",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Po konkursie matematycznym n uczniów dostało punkty. Wypisz średnią liczbę punktów z dokładnością do dwóch miejsc po przecinku, a potem listę uczniów, którzy zdobyli więcej punktów niż średnia (w kolejności z wejścia).",
+        "Dopóki nie wczytasz wszystkich wyników, nie znasz średniej — dlatego uczniów trzeba najpierw zapamiętać w vector<Uczen>."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy imię i liczba punktów."
+      ],
+      "output_format": [
+        "Wiersz srednia: X.XX, wiersz powyzej sredniej: K i K wierszy z imionami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "Imiona mają od 1 do 20 znaków (litery i cyfry, pierwsza wielka).",
+        "0 ≤ punkty ≤ 100",
+        "Średnia nigdy nie wypada dokładnie w połowie między dwoma wynikami z dwoma miejscami po przecinku."
+      ],
+      "examples": [
+        {
+          "input": "5\nOla 70\nKuba 45\nIga 90\nAdam 60\nZosia 62",
+          "output": "srednia: 65.40\npowyzej sredniej: 2\nOla\nIga",
+          "note": "Suma 327, średnia 65.40. Więcej mają Ola i Iga."
+        }
+      ],
+      "hint": "Najpierw suma (int wystarczy), a średnią wypisz przez cout << fixed << setprecision(2) << (double)suma / n;. Przy wybieraniu uczniów nie porównuj z zaokrągloną średnią — porównaj bez ułamków: u.punkty * n > suma.",
+      "tests_count": 7
+    },
+    {
+      "id": "st-ksiazka-telefoniczna",
+      "number": 2085,
+      "title": "Książka telefoniczna",
+      "category": "Struct / krok 3: vector struktur",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Telefon pamięta n kontaktów: imię i numer (dziewięć cyfr). Imiona są różne i numery też są różne. Obsłuż q zapytań dwóch rodzajów:",
+        "NUMER imie — wypisz numer tej osoby albo brak kontaktu. KTO numer — wypisz imię osoby o tym numerze albo nieznany numer. Kontakty trzymaj w vector<Kontakt> i przeszukuj go po kolei."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n, w kolejnych n wierszach imię i numer.",
+        "Potem wiersz z q i q wierszy z zapytaniami."
+      ],
+      "output_format": [
+        "q wierszy — odpowiedzi na zapytania."
+      ],
+      "constraints": [
+        "1 ≤ n, q ≤ 1000",
+        "Imiona mają od 1 do 20 znaków (litery i cyfry, pierwsza wielka).",
+        "Numer to 9 cyfr, pierwsza od 5 do 8."
+      ],
+      "examples": [
+        {
+          "input": "3\nOla 501234567\nKuba 602000111\nIga 777888999\n4\nNUMER Kuba\nKTO 777888999\nNUMER Ela\nKTO 500000000",
+          "output": "602000111\nIga\nbrak kontaktu\nnieznany numer",
+          "note": "Kuby szukasz po polu imie, a właściciela numeru 777888999 — po polu numer."
+        }
+      ],
+      "hint": "Numer trzymaj jako string — to etykieta, a nie liczba do liczenia. Dla zapytania przejdź po vectorze: for (const Kontakt &k : v) if (k.imie == x) { … }. Użyj zmiennej bool znaleziono, żeby po pętli wiedzieć, czy wypisać brak kontaktu.",
+      "tests_count": 4
+    },
+    {
+      "id": "st-podwyzki",
+      "number": 2086,
+      "title": "Podwyżki w firmie",
+      "category": "Struct / krok 3: vector struktur",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Firma zatrudnia n pracowników; każdy ma imię, stanowisko i pensję w groszach. Zarząd ogłasza kolejno q podwyżek: stanowisko i procent p. Każdy pracownik na tym stanowisku dostaje nową pensję pensja · (100 + p) / 100, zaokrągloną w dół do pełnego grosza.",
+        "Po wszystkich podwyżkach wypisz pracowników w kolejności z wejścia (imię, stanowisko i pensja w złotych z dwiema cyframi groszy), a na końcu sumę wszystkich pensji. Podwyżki rób pętlą for (Pracownik &p : v) — z ampersandem."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n, w kolejnych n wierszach imię, stanowisko i pensja w groszach.",
+        "Potem wiersz z q i q wierszy: stanowisko i procent."
+      ],
+      "output_format": [
+        "n wierszy IMIE STANOWISKO Z.GG i wiersz razem: Z.GG."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000, 0 ≤ q ≤ 20",
+        "Stanowiska to małe litery (od 1 do 15).",
+        "100 000 ≤ pensja ≤ 1 000 000 groszy, 1 ≤ p ≤ 50"
+      ],
+      "examples": [
+        {
+          "input": "3\nOla kasjer 450000\nKuba kierowca 520000\nIga kasjer 470050\n2\nkasjer 10\nkasjer 5",
+          "output": "Ola kasjer 5197.50\nKuba kierowca 5200.00\nIga kasjer 5429.07\nrazem: 15826.57",
+          "note": "Pensja Oli: 450000 → 495000 → 519750. Pensja Igi: 470050 → 517055 → 542907 (z 542907,75 zostaje pełny grosz). Kuby żadna podwyżka nie dotyczy."
+        }
+      ],
+      "hint": "Pensje rosną nawet do kilku miliardów groszy — trzymaj je w long long. Podwyżka: for (Pracownik &p : v) if (p.stanowisko == s) p.pensja = p.pensja * (100 + proc) / 100;. Bez & pętla zmieniałaby kopie i nic by się nie zapisało.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-najblizsza-stacja",
+      "number": 2087,
+      "title": "Najbliższa stacja rowerowa",
+      "category": "Struct / krok 3: vector struktur",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W mieście jest n stacji rowerów miejskich; każda ma nazwę i położenie (x, y) na siatce ulic. Rowerzysta w punkcie (a, b) jedzie ulicami, więc do stacji ma |a − x| + |b − y| kwartałów.",
+        "Dla każdego z q rowerzystów wypisz nazwę najbliższej stacji i odległość do niej. Jeśli kilka stacji jest równie blisko, wybierz tę, która była wcześniej na liście."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n, potem n wierszy: nazwa, x, y.",
+        "Potem wiersz z q i q wierszy: a, b."
+      ],
+      "output_format": [
+        "q wierszy: NAZWA ODLEGLOSC."
+      ],
+      "constraints": [
+        "1 ≤ n, q ≤ 1000",
+        "Nazwy mają od 1 do 12 małych liter i są różne.",
+        "−10⁶ ≤ x, y, a, b ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "3\nrynek 0 0\ndworzec 5 -2\npark -3 4\n3\n1 1\n4 0\n-1 2",
+          "output": "rynek 2\ndworzec 3\nrynek 3",
+          "note": "Z (1, 1): rynek 2, dworzec 7, park 7 — wygrywa rynek. Z (4, 0): dworzec 3. Z (−1, 2): rynek 3 i park 4 — rynek."
+        }
+      ],
+      "hint": "Dla każdego pytania: int best = 0; for (int i = 1; i < n; i++) if (odl(v[i]) < odl(v[best])) best = i; — ostre <, więc przy remisie zostaje wcześniejsza stacja. Odległość mieści się w int (do 4 · 10⁶).",
+      "tests_count": 6
+    },
+    {
+      "id": "st-wycieczki",
+      "number": 2088,
+      "title": "Biuro podróży",
+      "category": "Struct / krok 3: vector struktur",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Biuro podróży ma n ofert; każda to cel, liczba dni i cena w złotych. Klient podaje budżet B i minimalną liczbę dni D. Pasują oferty, które kosztują najwyżej B i trwają co najmniej D dni.",
+        "Dla każdego z q klientów wypisz, ile ofert pasuje, i najlepszą z nich: najtańszą, a przy równej cenie — dłuższą, a jeśli i to się zgadza — wcześniejszą na liście. Jeśli nic nie pasuje, wypisz tylko pasuje 0."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n, potem n wierszy: cel, dni, cena.",
+        "Potem wiersz z q i q wierszy: B i D."
+      ],
+      "output_format": [
+        "q wierszy: pasuje K, najlepsza: CEL albo pasuje 0."
+      ],
+      "constraints": [
+        "1 ≤ n, q ≤ 1000",
+        "Cele mają od 1 do 20 znaków (litery, pierwsza wielka); mogą się powtarzać.",
+        "1 ≤ dni ≤ 30, 100 ≤ cena ≤ 20 000",
+        "0 ≤ B ≤ 20 000, 1 ≤ D ≤ 30"
+      ],
+      "examples": [
+        {
+          "input": "4\nHel 7 2400\nZakopane 5 1900\nMalbork 3 900\nSopot 10 2400\n3\n2500 5\n1000 4\n5000 1",
+          "output": "pasuje 3, najlepsza: Zakopane\npasuje 0\npasuje 4, najlepsza: Malbork",
+          "note": "Klient 1: pasują Hel, Zakopane i Sopot — najtańsze Zakopane. Klient 2: nic. Klient 3: wszystkie — najtańszy Malbork."
+        }
+      ],
+      "hint": "Dla każdego klienta: int ile = 0, best = -1;. Przejdź po ofertach; jeśli o.cena <= B && o.dni >= D, to ile++ i sprawdź, czy jest lepsza od v[best]: best == -1 albo o.cena < v[best].cena albo (o.cena == v[best].cena && o.dni > v[best].dni).",
+      "tests_count": 6
+    },
+    {
+      "id": "st-upaly",
+      "number": 2089,
+      "title": "Fale upałów",
+      "category": "Struct / krok 3: vector struktur",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Meteorolog ma pomiary z n kolejnych dni: datę DD.MM i najwyższą temperaturę dnia. Fala upałów to co najmniej 3 kolejne pomiary z temperaturą 30° lub wyższą (najdłuższa możliwa seria — nie dzielimy jej na kawałki).",
+        "Wypisz każdą falę upałów w kolejności: od DD.MM do DD.MM: K dni, max T, a na końcu fal upalow: W. Najwygodniej wczytać wszystkie dni do vector<Dzien>, a potem szukać serii, pamiętając indeks jej początku."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy data DD.MM i temperatura."
+      ],
+      "output_format": [
+        "Po jednym wierszu na każdą falę upałów i wiersz fal upalow: W."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 365, daty to kolejne dni jednego roku (nieprzestępnego)",
+        "−30 ≤ temperatura ≤ 45"
+      ],
+      "examples": [
+        {
+          "input": "8\n28.06 29\n29.06 31\n30.06 33\n01.07 30\n02.07 27\n03.07 30\n04.07 34\n05.07 31",
+          "output": "od 29.06 do 01.07: 3 dni, max 33\nod 03.07 do 05.07: 3 dni, max 34\nfal upalow: 2",
+          "note": "Pierwsza fala: 29.06–01.07 (3 dni, max 33). Potem 02.07 przerywa serię, a 03.07–05.07 to druga fala (3 dni, max 34)."
+        }
+      ],
+      "hint": "Wczytaj datę: cin >> v[i].d >> kropka >> v[i].m >> v[i].t;. Idź indeksem i; gdy v[i].t >= 30, przesuwaj j od i, dopóki v[j].t >= 30. Seria to v[i]…v[j − 1]; jeśli j − i >= 3, wypisz ją. Potem i = j.",
+      "tests_count": 7
+    },
+    {
+      "id": "st-magazyn",
+      "number": 2090,
+      "title": "Magazyn sklepu",
+      "category": "Struct / krok 3: vector struktur",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Sklep ma n towarów; każdy to kod (np. A12), nazwa, liczba sztuk w magazynie i cena za sztukę w groszach. Obsłuż q operacji:",
+        "SPRZEDAZ kod k — jeśli towar istnieje i jest co najmniej k sztuk, ubywa k sztuk, a utarg rośnie o k · cena; jeśli sztuk jest za mało, wypisz brak towaru: KOD. DOSTAWA kod k — przybywa k sztuk. Gdy kodu nie ma w magazynie (przy obu operacjach), wypisz nieznany kod: KOD.",
+        "Po wszystkich operacjach wypisz stan magazynu w kolejności z wejścia (kod, nazwa, liczba sztuk) i utarg w złotych."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n, potem n wierszy: kod, nazwa, sztuki, cena.",
+        "Potem wiersz z q i q wierszy z operacjami."
+      ],
+      "output_format": [
+        "Komunikaty o błędach (w kolejności operacji), potem n wierszy KOD NAZWA SZTUKI i wiersz utarg: Z.GG."
+      ],
+      "constraints": [
+        "1 ≤ n, q ≤ 1000",
+        "Kody są różne: wielka litera i od 1 do 3 cyfr. Nazwy: od 1 do 15 małych liter.",
+        "0 ≤ sztuki ≤ 10⁴, 1 ≤ cena ≤ 10⁵, 1 ≤ k ≤ 10⁴"
+      ],
+      "examples": [
+        {
+          "input": "3\nA1 mleko 10 349\nB7 chleb 2 599\nC3 maslo 0 899\n5\nSPRZEDAZ A1 4\nSPRZEDAZ B7 3\nDOSTAWA C3 5\nSPRZEDAZ C3 5\nSPRZEDAZ X9 1",
+          "output": "brak towaru: B7\nnieznany kod: X9\nA1 mleko 6\nB7 chleb 2\nC3 maslo 0\nutarg: 58.91",
+          "note": "Mleko: 4 × 3.49 = 13.96. Chleba jest za mało. Masło: dostawa 5 i sprzedaż 5 = 44.95. X9 nie istnieje. Utarg: 58.91."
+        }
+      ],
+      "hint": "Napisz pętlę szukającą: int idx = -1; for (int i = 0; i < n; i++) if (v[i].kod == kod) idx = i;. Jeśli idx == -1 — nieznany kod. Inaczej zmieniaj v[idx].sztuki. Utarg trzymaj w long long (może przekroczyć 2 · 10⁹ groszy).",
+      "tests_count": 5
+    },
+    {
+      "id": "st-trasa-kuriera",
+      "number": 2091,
+      "title": "Trasa kuriera",
+      "category": "Struct / krok 4: struktury w funkcjach",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Kurier jeździ po mieście o prostokątnej siatce ulic i odwiedza n punktów w podanej kolejności. Między dwoma punktami jedzie najkrótszą drogą po ulicach, czyli |x₁ − x₂| + |y₁ − y₂| kwartałów.",
+        "Napisz funkcję long long odleglosc(Punkt a, Punkt b) i użyj jej, żeby policzyć długość całej trasy oraz znaleźć najdłuższy odcinek (od punktu i do punktu i + 1, punkty numerujemy od 1). Przy remisie wybierz odcinek, który jest wcześniej."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy współrzędne x i y punktu."
+      ],
+      "output_format": [
+        "Dwa wiersze: trasa: D i najdluzszy odcinek: I -> J (D)."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 1000",
+        "−10⁹ ≤ x, y ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "4\n0 0\n3 4\n-2 4\n-2 -3",
+          "output": "trasa: 19\nnajdluzszy odcinek: 1 -> 2 (7)",
+          "note": "Odcinki: 7, 5 i 7 — razem 19. Najdłuższe są pierwszy i trzeci; wygrywa wcześniejszy (1 → 2)."
+        }
+      ],
+      "hint": "long long odleglosc(Punkt a, Punkt b) { return llabs(a.x - b.x) + llabs(a.y - b.y); } — współrzędne do 10⁹, więc różnica może mieć 2 · 10⁹ i pola Punkt muszą być long long. W main: vector<Punkt> v(n); i pętla po i od 0 do n − 2 z odleglosc(v[i], v[i + 1]).",
+      "tests_count": 6
+    },
+    {
+      "id": "st-srodek-odcinka",
+      "number": 2092,
+      "title": "Środek odcinka",
+      "category": "Struct / krok 4: struktury w funkcjach",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdego z q odcinków podanych końcami A i B wypisz środek odcinka. Środek ma współrzędne ((xA + xB) / 2, (yA + yB) / 2) — mogą to być połówki.",
+        "Końce trzymaj w strukturze Punkt { long long x, y; }, a wynik — w drugiej strukturze PunktD { double x, y; }. Napisz funkcję PunktD srodek(Punkt a, Punkt b), która oddaje cały środek naraz. Współrzędne wypisuj z jedną cyfrą po kropce."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W każdym z q kolejnych wierszy cztery liczby: xA yA xB yB."
+      ],
+      "output_format": [
+        "q wierszy: współrzędne środka z jedną cyfrą po kropce, oddzielone spacją."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "−10⁹ ≤ każda współrzędna ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "3\n0 0 4 2\n1 1 2 2\n-5 3 2 -3",
+          "output": "2.0 1.0\n1.5 1.5\n-1.5 0.0",
+          "note": "Środki: (2, 1), (1.5, 1.5) i (−1.5, 0)."
+        }
+      ],
+      "hint": "PunktD srodek(Punkt a, Punkt b) { PunktD s; s.x = (a.x + b.x) / 2.0; s.y = (a.y + b.y) / 2.0; return s; } — dzielenie przez 2.0, a nie przez 2, bo inaczej połówka by zginęła. Wypisuj: cout << fixed << setprecision(1) << s.x << \" \" << s.y << \"\\n\";.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-plan-dnia",
+      "number": 2093,
+      "title": "Plan dnia",
+      "category": "Struct / krok 4: struktury w funkcjach",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ola planuje dzień. Zaczyna o podanej godzinie i robi kolejno n rzeczy — każda ma nazwę i czas trwania w minutach; następna zaczyna się dokładnie wtedy, gdy kończy się poprzednia. Zegar jest 24-godzinny: po 23:59 jest 00:00.",
+        "Wypisz harmonogram: dla każdej czynności godzinę początku i końca w formacie HH:MM-HH:MM i nazwę, a na końcu godzinę zakończenia całego planu. Napisz funkcje Czas dodaj(Czas c, int minuty) oraz void wypisz(Czas c)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu godzina startu HH:MM i n.",
+        "W każdym z n kolejnych wierszy nazwa czynności i liczba minut."
+      ],
+      "output_format": [
+        "n wierszy HH:MM-HH:MM nazwa i wiersz koniec: HH:MM."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "Nazwy mają od 1 do 20 znaków (małe litery i _).",
+        "1 ≤ minuty ≤ 600"
+      ],
+      "examples": [
+        {
+          "input": "07:30 4\nsniadanie 25\nszkola 400\nobiad 45\ntrening 90",
+          "output": "07:30-07:55 sniadanie\n07:55-14:35 szkola\n14:35-15:20 obiad\n15:20-16:50 trening\nkoniec: 16:50",
+          "note": "07:30 + 25 min = 07:55, potem 400 minut szkoły do 14:35, obiad do 15:20 i trening do 16:50."
+        }
+      ],
+      "hint": "Czas dodaj(Czas c, int minuty) { int t = (c.h * 60 + c.m + minuty) % (24 * 60); Czas w; w.h = t / 60; w.m = t % 60; return w; }. W pętli: Czas koniec = dodaj(teraz, ile); wypisz(teraz); cout << \"-\"; wypisz(koniec); … i na koniec obrotu teraz = koniec;.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-skracanie-ulamkow",
+      "number": 2094,
+      "title": "Skracanie ułamków",
+      "category": "Struct / krok 4: struktury w funkcjach",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdego z t ułamków l/m wypisz ułamek skrócony do postaci nieskracalnej, w której mianownik jest dodatni. Ułamek równy zero wypisz jako 0/1.",
+        "Napisz funkcję Ulamek skroc(Ulamek u), która oddaje skrócony ułamek (oraz pomocniczą funkcję long long nwd(long long a, long long b)). Minus może stać w liczniku, w mianowniku albo w obu — zawsze przenieś go do licznika."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy dwie liczby l i m."
+      ],
+      "output_format": [
+        "t wierszy w formacie l/m."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 500",
+        "−10¹⁸ ≤ l ≤ 10¹⁸, 1 ≤ |m| ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "4\n6 8\n-10 -4\n7 -21\n0 -5",
+          "output": "3/4\n5/2\n-1/3\n0/1",
+          "note": "6/8 = 3/4, −10/−4 = 5/2, 7/−21 = −1/3, a 0/−5 = 0/1."
+        }
+      ],
+      "hint": "Najpierw znak: if (u.m < 0) { u.l = -u.l; u.m = -u.m; }. Potem long long g = nwd(llabs(u.l), u.m); — dla l = 0 wyjdzie g = m, więc 0/m zamieni się w 0/1. Na koniec u.l /= g; u.m /= g; return u;. Funkcja dostaje kopię, więc może ją swobodnie zmieniać.",
+      "tests_count": 5
+    },
+    {
+      "id": "st-katalog-ksiazek",
+      "number": 2095,
+      "title": "Katalog biblioteki",
+      "category": "Struct / krok 4: struktury w funkcjach",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Biblioteka ma n książek; każda to tytuł (jedno słowo, zamiast spacji podkreślenia), autor, rok wydania i liczba stron. Czytelnik pyta o książki wydane w roku R albo później.",
+        "Wypisz tabelę takich książek w kolejności z katalogu: tytuł wyrównany do lewej w polu szerokości 20, autor do lewej w polu szerokości 15, rok i liczba stron wyrównana do prawej w polu szerokości 6. Na końcu wypisz razem stron: S. Napisz funkcje Ksiazka wczytaj() i void wypisz(const Ksiazka &k)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n i R.",
+        "W każdym z n kolejnych wierszy tytuł, autor, rok i liczba stron."
+      ],
+      "output_format": [
+        "Wiersze tabeli (być może żaden) i wiersz razem stron: S."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 500",
+        "Tytuły mają od 1 do 19 znaków (litery i _), autorzy od 1 do 14 liter.",
+        "1500 ≤ rok, R ≤ 2026, 1 ≤ strony ≤ 5000"
+      ],
+      "examples": [
+        {
+          "input": "3 1900\nPan_Tadeusz Mickiewicz 1834 340\nFerdydurke Gombrowicz 1937 288\nSolaris Lem 1961 224",
+          "output": "Ferdydurke          Gombrowicz     1937   288\nSolaris             Lem            1961   224\nrazem stron: 512",
+          "note": "Pan Tadeusz jest starszy niż 1900, więc w tabeli są dwie książki: 288 + 224 = 512 stron."
+        }
+      ],
+      "hint": "Ksiazka wczytaj() { Ksiazka k; cin >> k.tytul >> k.autor >> k.rok >> k.strony; return k; }. W wypisz: cout << left << setw(20) << k.tytul << setw(15) << k.autor << right << k.rok << setw(6) << k.strony << \"\\n\";. Uwaga: left i right zostają włączone, dopóki ich nie zmienisz.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-statystyka",
+      "number": 2096,
+      "title": "Statystyka w jednej funkcji",
+      "category": "Struct / krok 4: struktury w funkcjach",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdego z t zestawów liczb policz najmniejszą i największą liczbę, sumę oraz to, ile liczb jest parzystych.",
+        "Napisz strukturę Wynik z czterema polami i funkcję Wynik policz(const vector<int> &v), która oddaje wszystkie cztery wyniki naraz. W main tylko wczytuj zestawy, wołaj funkcję i wypisuj pola wyniku."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "Każdy zestaw to wiersz z n i wiersz z n liczbami całkowitymi."
+      ],
+      "output_format": [
+        "t wierszy: min A max B suma S parzystych P."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100",
+        "1 ≤ n ≤ 5000, w sumie najwyżej 8000 liczb",
+        "−10⁹ ≤ każda liczba ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "2\n5\n3 -8 12 7 0\n1\n-5",
+          "output": "min -8 max 12 suma 14 parzystych 3\nmin -5 max -5 suma -5 parzystych 0",
+          "note": "Pierwszy zestaw: min −8, max 12, suma 14, parzyste: −8, 12 i 0. Drugi: jedna liczba −5 — nieparzysta."
+        }
+      ],
+      "hint": "struct Wynik { int mn, mx; long long suma; int parzystych; };. W policz zacznij od w.mn = w.mx = v[0], w.suma = 0, w.parzystych = 0. Parzystość ujemnych: x % 2 == 0 działa także dla −8 (reszta 0), ale nie pisz x % 2 == 1 dla nieparzystych — dla −5 reszta to −1.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-suma-ulamkow",
+      "number": 2097,
+      "title": "Suma ułamków krok po kroku",
+      "category": "Struct / krok 4: struktury w funkcjach",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na tablicy jest n ułamków. Dodawaj je po kolei i po każdym dodaniu wypisz dotychczasową sumę jako ułamek nieskracalny z dodatnim mianownikiem (zero to 0/1).",
+        "Napisz funkcje Ulamek skroc(Ulamek u) oraz Ulamek dodaj(Ulamek a, Ulamek b), która liczy a.l · b.m + b.l · a.m przez a.m · b.m i od razu skraca wynik. Skracaj po każdym dodawaniu — inaczej mianownik szybko urósłby ponad zakres long long."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy licznik i mianownik."
+      ],
+      "output_format": [
+        "n wierszy — sumy po kolejnych ułamkach."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 100",
+        "−100 ≤ licznik ≤ 100, 1 ≤ mianownik ≤ 30"
+      ],
+      "examples": [
+        {
+          "input": "4\n1 2\n1 3\n1 6\n-5 4",
+          "output": "1/2\n5/6\n1/1\n-1/4",
+          "note": "1/2, potem 1/2 + 1/3 = 5/6, potem 5/6 + 1/6 = 1/1, a na końcu 1 − 5/4 = −1/4."
+        }
+      ],
+      "hint": "Ulamek dodaj(Ulamek a, Ulamek b) { Ulamek w; w.l = a.l * b.m + b.l * a.m; w.m = a.m * b.m; return skroc(w); }. Zacznij od sumy {0, 1}. Mianowniki są dodatnie, więc w skroc wystarczy podzielić przez nwd(|l|, m).",
+      "tests_count": 7
+    },
+    {
+      "id": "st-pojedynek",
+      "number": 2098,
+      "title": "Pojedynek rycerzy",
+      "category": "Struct / krok 4: struktury w funkcjach",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dwaj rycerze walczą na zmianę: najpierw atakuje pierwszy, potem drugi, potem znowu pierwszy i tak dalej. Każdy rycerz ma imię, punkty życia (hp), atak i obronę. Cios zadaje obrażenia równe atakowi napastnika minus obrona obrońcy — ale zawsze co najmniej 1. Walka kończy się, gdy hp któregoś rycerza spadnie do 0 lub niżej.",
+        "Napisz funkcję void atakuj(const Rycerz &a, Rycerz &b), w której a zadaje cios b. Dla każdego z t pojedynków wypisz zwycięzcę, ile hp mu zostało i ile ciosów zadano w całej walce."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "Każdy pojedynek to dwa wiersze; w każdym imię, hp, atak i obrona rycerza."
+      ],
+      "output_format": [
+        "t wierszy: wygrywa IMIE, zostalo H hp, ciosow K."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100",
+        "1 ≤ hp ≤ 10 000, 0 ≤ atak, obrona ≤ 100",
+        "Imiona mają od 1 do 15 liter (pierwsza wielka); w pojedynku są różne."
+      ],
+      "examples": [
+        {
+          "input": "2\nLancelot 30 12 4\nGawain 28 9 6\nAla 5 0 50\nOla 2 0 0",
+          "output": "wygrywa Lancelot, zostalo 10 hp, ciosow 9\nwygrywa Ala, zostalo 4 hp, ciosow 3",
+          "note": "Lancelot zadaje 12 − 6 = 6, Gawain 9 − 4 = 5. Po 5 ciosach Lancelota Gawain ma −2 hp, a Lancelotowi zostało 30 − 4 · 5 = 10. W drugiej walce cios to zawsze 1: Ala wygrywa po trzech ciosach (dwóch swoich i jednym Oli)."
+        }
+      ],
+      "hint": "void atakuj(const Rycerz &a, Rycerz &b) { b.hp -= max(1, a.atak - b.obrona); }. W pętli: atakuj(r1, r2); ciosy++; if (r2.hp <= 0) — wygrał r1; inaczej atakuj(r2, r1); ciosy++; itd. Bez & przy b funkcja zmieniłaby tylko kopię i walka trwałaby wiecznie.",
+      "tests_count": 5
+    },
+    {
+      "id": "st-ranking",
+      "number": 2099,
+      "title": "Ranking graczy",
+      "category": "Struct / krok 5: sortowanie struktur",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Serwer gry ma listę n graczy: nick i liczbę punktów. Wypisz ranking: gracze od największej liczby punktów, a przy równej liczbie punktów — alfabetycznie według nicku. Przed każdym graczem stoi jego pozycja na liście.",
+        "Graczy trzymaj w vector<Gracz> i posortuj jednym wywołaniem sort z komparatorem — lambdą, która mówi, czy gracz a ma stać przed graczem b."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy nick i punkty."
+      ],
+      "output_format": [
+        "n wierszy: POZYCJA. NICK PUNKTY."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "Nicki są różne, mają od 1 do 12 małych liter.",
+        "0 ≤ punkty ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "5\nzeus 1200\nara 950\nbaltazar 1200\nmilo 3000\ncyryl 950",
+          "output": "1. milo 3000\n2. baltazar 1200\n3. zeus 1200\n4. ara 950\n5. cyryl 950",
+          "note": "milo ma najwięcej. zeus i baltazar mają po 1200 — pierwszy alfabetycznie jest baltazar. Tak samo ara przed cyrylem."
+        }
+      ],
+      "hint": "sort(v.begin(), v.end(), [](const Gracz &a, const Gracz &b) { if (a.punkty != b.punkty) return a.punkty > b.punkty; return a.nick < b.nick; });. Komparator odpowiada na pytanie „czy a stoi przed b?” — przy remisie punktów decyduje drugie kryterium.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-lista-alfabetyczna",
+      "number": 2100,
+      "title": "Lista alfabetyczna",
+      "category": "Struct / krok 5: sortowanie struktur",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Sekretariat układa listę uczniów do dziennika: alfabetycznie według nazwiska, a gdy nazwiska są takie same — według imienia. Wypisz listę w formacie NAZWISKO IMIE z numerem w dzienniku.",
+        "Porównanie napisów w C++ (a.nazwisko < b.nazwisko) działa jak w słowniku dla małych liter; wszystkie nazwiska i imiona zaczynają się wielką literą, a dalej mają małe, więc wynik jest taki, jakiego się spodziewasz."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy imię i nazwisko."
+      ],
+      "output_format": [
+        "n wierszy: NUMER. NAZWISKO IMIE."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "Imiona i nazwiska mają od 1 do 20 liter: pierwsza wielka, reszta małe."
+      ],
+      "examples": [
+        {
+          "input": "4\nZosia Nowak\nAdam Lis\nAnna Nowak\nKuba Adamczyk",
+          "output": "1. Adamczyk Kuba\n2. Lis Adam\n3. Nowak Anna\n4. Nowak Zosia",
+          "note": "Najpierw Adamczyk, potem Lis, a dwie Nowak ustawiamy według imion: Anna przed Zosią."
+        }
+      ],
+      "hint": "Komparator: if (a.nazwisko != b.nazwisko) return a.nazwisko < b.nazwisko; return a.imie < b.imie;. Wypisuj najpierw nazwisko, potem imię.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-punkty-od-srodka",
+      "number": 2101,
+      "title": "Punkty od środka",
+      "category": "Struct / krok 5: sortowanie struktur",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na tarczy strzelniczej jest n trafień — punktów (x, y), środek tarczy to (0, 0). Wypisz trafienia od najbliższego środka do najdalszego. Przy tej samej odległości wcześniej jest punkt z mniejszym x, a przy tym samym x — z mniejszym y.",
+        "Porównuj kwadraty odległości x² + y² — to liczby całkowite, więc nie ma kłopotu z pierwiastkami i zaokrągleniami."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy x i y."
+      ],
+      "output_format": [
+        "n wierszy z punktami w nowej kolejności."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "−10⁹ ≤ x, y ≤ 10⁹ (punkty mogą się powtarzać)"
+      ],
+      "examples": [
+        {
+          "input": "5\n3 4\n-5 0\n0 1\n4 -3\n1 0",
+          "output": "0 1\n1 0\n-5 0\n3 4\n4 -3",
+          "note": "Odległości: 5, 5, 1, 5, 1. Najpierw (0, 1) i (1, 0) — po x. Potem trzy punkty w odległości 5: (−5, 0), (3, 4), (4, −3)."
+        }
+      ],
+      "hint": "Przy współrzędnych do 10⁹ kwadrat ma 10¹⁸, a suma dwóch — 2 · 10¹⁸: long long jeszcze wystarcza (do ok. 9,2 · 10¹⁸), int — nie. Napisz funkcję long long d2(const Punkt &p) { return p.x * p.x + p.y * p.y; } (pola jako long long) i użyj jej w komparatorze.",
+      "tests_count": 7
+    },
+    {
+      "id": "st-kalendarz",
+      "number": 2102,
+      "title": "Kalendarz wydarzeń",
+      "category": "Struct / krok 5: sortowanie struktur",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Szkolny kalendarz ma n wydarzeń: nazwę i datę. Wypisz wydarzenia chronologicznie, a wydarzenia z tego samego dnia — alfabetycznie według nazwy. Datę wypisuj jako DD.MM.RRRR."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy nazwa wydarzenia i data: dzień, miesiąc, rok."
+      ],
+      "output_format": [
+        "n wierszy: DD.MM.RRRR NAZWA."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "Nazwy mają od 1 do 20 znaków (małe litery i _).",
+        "Daty są poprawne, lata od 2000 do 2030."
+      ],
+      "examples": [
+        {
+          "input": "4\nwycieczka 12 5 2027\nklasowka 3 11 2026\nakademia 12 5 2027\nbal 31 1 2027",
+          "output": "03.11.2026 klasowka\n31.01.2027 bal\n12.05.2027 akademia\n12.05.2027 wycieczka",
+          "note": "Klasówka jest w 2026, potem bal w styczniu 2027. 12.05.2027 są dwa wydarzenia — alfabetycznie akademia przed wycieczką."
+        }
+      ],
+      "hint": "Komparator: if (a.r != b.r) return a.r < b.r; if (a.m != b.m) return a.m < b.m; if (a.d != b.d) return a.d < b.d; return a.nazwa < b.nazwa;. Wypisanie z zerami: setfill('0') i setw(2) przed dniem i miesiącem.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-ex-aequo",
+      "number": 2103,
+      "title": "Miejsca ex aequo",
+      "category": "Struct / krok 5: sortowanie struktur",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na zawodach n zawodników dostało punkty. Ułóż listę wyników: od największej liczby punktów, a przy równej liczbie punktów alfabetycznie według imienia.",
+        "Miejsca przydziela się ex aequo: zawodnicy z tą samą liczbą punktów dzielą miejsce, a następne miejsce przeskakuje o tyle osób, ile je dzieliło (np. 1, 2, 2, 4). Inaczej mówiąc — miejsce zawodnika to 1 + liczba zawodników z większą liczbą punktów."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy imię i punkty."
+      ],
+      "output_format": [
+        "n wierszy: MIEJSCE. IMIE PUNKTY."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "Imiona są różne, mają od 1 do 20 znaków (litery i cyfry, pierwsza wielka).",
+        "0 ≤ punkty ≤ 100"
+      ],
+      "examples": [
+        {
+          "input": "6\nOla 90\nKuba 75\nIga 90\nAdam 60\nEla 75\nJan 75",
+          "output": "1. Iga 90\n1. Ola 90\n3. Ela 75\n3. Jan 75\n3. Kuba 75\n6. Adam 60",
+          "note": "Iga i Ola dzielą 1. miejsce, więc trzej zawodnicy z 75 pkt są na 3. miejscu (Ela, Jan, Kuba), a Adam — na 6."
+        }
+      ],
+      "hint": "Po sortowaniu idź po vectorze z licznikiem i: jeśli i == 0 albo v[i].punkty != v[i - 1].punkty, to miejsce = i + 1; inaczej miejsce zostaje takie jak u poprzednika.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-numery-startowe",
+      "number": 2104,
+      "title": "Numery startowe",
+      "category": "Struct / krok 5: sortowanie struktur",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W biegu wystartowało n zawodników z numerami 1, 2, …, n (w kolejności z wejścia); każdy ma imię i czas w sekundach. Wypisz wyniki: od najkrótszego czasu, a przy równym czasie — od mniejszego numeru startowego. Czas wypisuj jako MM:SS.",
+        "Potem odpowiedz na q pytań: na którym miejscu skończył zawodnik z numerem k? Numer startowy zapisz w polu struktury, zanim posortujesz vector — po sortowaniu pozycja w vectorze nie mówi już nic o numerze."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n, potem n wierszy: imię i czas w sekundach.",
+        "Potem wiersz z q i wiersz z q numerami startowymi."
+      ],
+      "output_format": [
+        "n wierszy MIEJSCE. NR IMIE MM:SS, a potem q wierszy: nr K: miejsce M."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 600, 1 ≤ q ≤ 400",
+        "Imiona mają od 1 do 15 liter (pierwsza wielka).",
+        "1 ≤ czas ≤ 5999"
+      ],
+      "examples": [
+        {
+          "input": "4\nOla 754\nKuba 698\nIga 754\nAdam 1203\n2\n3 1",
+          "output": "1. 2 Kuba 11:38\n2. 1 Ola 12:34\n3. 3 Iga 12:34\n4. 4 Adam 20:03\nnr 3: miejsce 3\nnr 1: miejsce 2",
+          "note": "Kuba (nr 2) jest pierwszy. Ola (nr 1) i Iga (nr 3) mają ten sam czas — wyżej mniejszy numer, czyli Ola. Zawodnik nr 3 zajął 3. miejsce, nr 1 — 2."
+        }
+      ],
+      "hint": "Przy wczytywaniu: v[i].nr = i + 1;. Po sortowaniu zbuduj tablicę miejsc: vector<int> miejsce(n + 1); for (int i = 0; i < n; i++) miejsce[v[i].nr] = i + 1;. Wtedy odpowiedź na pytanie to miejsce[k].",
+      "tests_count": 6
+    },
+    {
+      "id": "st-srednia-ocen",
+      "number": 2105,
+      "title": "Ranking średnich",
+      "category": "Struct / krok 5: sortowanie struktur",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Każdy z n uczniów ma kilka ocen. Ułóż ranking od najwyższej średniej, a przy równych średnich — alfabetycznie według imienia. Wypisz imię i średnią z dwiema cyframi po kropce.",
+        "W strukturze trzymaj sumę ocen i ich liczbę. W komparatorze nie dziel — średnia a jest większa od średniej b dokładnie wtedy, gdy a.suma · b.ile > b.suma · a.ile. Dzielenie (na double) zrób dopiero przy wypisywaniu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy imię, liczba ocen k i k ocen."
+      ],
+      "output_format": [
+        "n wierszy: IMIE SREDNIA (z dwiema cyframi po kropce)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "Imiona są różne, mają od 1 do 20 znaków (litery i cyfry, pierwsza wielka).",
+        "1 ≤ k ≤ 20, oceny od 1 do 6",
+        "Żadna średnia nie wypada dokładnie w połowie między dwoma wynikami z dwoma miejscami po przecinku."
+      ],
+      "examples": [
+        {
+          "input": "4\nOla 3 5 5 4\nKuba 2 6 3\nIga 4 4 5 5 6\nAdam 1 5",
+          "output": "Adam 5.00\nIga 5.00\nOla 4.67\nKuba 4.50",
+          "note": "Średnie: Ola 4.67, Kuba 4.50, Iga 5.00, Adam 5.00. Iga i Adam mają po 5 — alfabetycznie Adam pierwszy."
+        }
+      ],
+      "hint": "struct Uczen { string imie; int suma, ile; };. Komparator: long long lewa = 1LL * a.suma * b.ile, prawa = 1LL * b.suma * a.ile; if (lewa != prawa) return lewa > prawa; return a.imie < b.imie;. Wypisanie: cout << fixed << setprecision(2) << (double)u.suma / u.ile.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-plan-lekcji",
+      "number": 2106,
+      "title": "Plan lekcji",
+      "category": "Struct / krok 5: sortowanie struktur",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Lekcje w planie są zapisane w przypadkowej kolejności: dzień tygodnia (pon, wt, sr, czw, pt), godzina rozpoczęcia HH:MM i przedmiot. Wypisz plan uporządkowany: od poniedziałku do piątku, w ramach dnia według godziny, a przy tej samej godzinie (różne grupy) — alfabetycznie według przedmiotu.",
+        "Napisz funkcję int numerDnia(const string &d), która zamienia skrót dnia na liczbę 0–4, i użyj jej w komparatorze. Porównując same napisy, dostałbyś czw, pon, pt, sr, wt — alfabetycznie, ale nie po kolei."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy dzień, godzina HH:MM i przedmiot."
+      ],
+      "output_format": [
+        "n wierszy w formacie z wejścia, w nowej kolejności."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "Godziny od 07:00 do 18:59, przedmioty od 1 do 20 znaków (małe litery i _)."
+      ],
+      "examples": [
+        {
+          "input": "5\nsr 08:00 fizyka\npon 09:50 matematyka\npt 08:00 wf\npon 08:00 polski\nsr 08:00 chemia",
+          "output": "pon 08:00 polski\npon 09:50 matematyka\nsr 08:00 chemia\nsr 08:00 fizyka\npt 08:00 wf",
+          "note": "Najpierw poniedziałek (08:00 przed 09:50), potem środa — dwie lekcje o 08:00, alfabetycznie chemia przed fizyką — i piątek."
+        }
+      ],
+      "hint": "int numerDnia(const string &d) { if (d == \"pon\") return 0; if (d == \"wt\") return 1; if (d == \"sr\") return 2; if (d == \"czw\") return 3; return 4; }. Godzinę wczytaj jako h, ':' i m, a do porównań używaj h * 60 + m.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-prostokat-metody",
+      "number": 2107,
+      "title": "Prostokąt z metodami",
+      "category": "Struct / krok 6: metody i konstruktory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Prostokąt o bokach równoległych do osi podano dwoma przeciwległymi wierzchołkami (x1, y1) i (x2, y2) — w dowolnej kolejności. Napisz strukturę Prostokat z polami x1, y1, x2, y2 i metodami:",
+        "void popraw() — ustawia pola tak, żeby x1 ≤ x2 i y1 ≤ y2 (zamienia je, jeśli trzeba); long long pole(); long long obwod(); bool kwadrat(); bool zawiera(long long x, long long y) — czy punkt leży w prostokącie albo na jego brzegu.",
+        "Wypisz pole, obwód i to, czy prostokąt jest kwadratem, a potem dla każdego z q punktów odpowiedz TAK albo NIE."
+      ],
+      "input_format": [
+        "W pierwszym wierszu x1 y1 x2 y2.",
+        "W drugim wierszu q, potem q wierszy z punktami x y."
+      ],
+      "output_format": [
+        "Wiersze pole P, obwod O, kwadrat: TAK/NIE, a potem q wierszy TAK albo NIE."
+      ],
+      "constraints": [
+        "−10⁹ ≤ wszystkie współrzędne ≤ 10⁹, x1 ≠ x2, y1 ≠ y2",
+        "1 ≤ q ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "4 5 -1 2\n4\n0 3\n4 2\n5 3\n-1 6",
+          "output": "pole 15\nobwod 16\nkwadrat: NIE\nTAK\nTAK\nNIE\nNIE",
+          "note": "Po popraw() prostokąt to x od −1 do 4 i y od 2 do 5: boki 5 i 3, pole 15, obwód 16. (4, 2) leży na rogu — liczy się. (5, 3) i (−1, 6) są poza."
+        }
+      ],
+      "hint": "Metoda to funkcja wewnątrz struct: long long pole() { return (x2 - x1) * (y2 - y1); }. Widzi pola swojego prostokąta bez pisania p.x1. W main: Prostokat p; cin >> p.x1 >> p.y1 >> p.x2 >> p.y2; p.popraw(); cout << \"pole \" << p.pole() << \"\\n\";. W popraw użyj swap(x1, x2), gdy x1 > x2.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-konto",
+      "number": 2108,
+      "title": "Konto w banku",
+      "category": "Struct / krok 6: metody i konstruktory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Napisz strukturę Konto z polami wlasciciel i saldo (saldo ma wartość domyślną 0 — zapisaną przy polu: long long saldo = 0;) oraz metodami void wplac(long long x), bool wyplac(long long x) i void wypisz().",
+        "Obsłuż q operacji na koncie jednej osoby (kwoty w groszach): WPLATA x — dopisuje x do salda; WYPLATA x — jeśli saldo jest co najmniej x, zmniejsza je o x, a w przeciwnym razie nic nie zmienia i wypisuje odmowa, brakuje Z.GG; SALDO — wypisuje IMIE: Z.GG."
+      ],
+      "input_format": [
+        "W pierwszym wierszu imię właściciela.",
+        "W drugim wierszu q, potem q wierszy z operacjami."
+      ],
+      "output_format": [
+        "Wiersze wypisane przez operacje WYPLATA (tylko odmowy) i SALDO."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "1 ≤ x ≤ 10⁹",
+        "Imię ma od 1 do 15 liter (pierwsza wielka).",
+        "Jest co najmniej jedno polecenie SALDO."
+      ],
+      "examples": [
+        {
+          "input": "Ola\n5\nWPLATA 5000\nWYPLATA 1999\nSALDO\nWYPLATA 3100\nSALDO",
+          "output": "Ola: 30.01\nodmowa, brakuje 0.99\nOla: 30.01",
+          "note": "Po wpłacie 50.00 i wypłacie 19.99 zostaje 30.01. Wypłata 31.00 się nie udaje — brakuje 0.99 — i saldo zostaje bez zmian."
+        }
+      ],
+      "hint": "bool wyplac(long long x) { if (x > saldo) return false; saldo -= x; return true; }. W main: if (!k.wyplac(x)) { cout << \"odmowa, brakuje \"; kwota(x - k.saldo); }. Saldo może urosnąć do 10¹² groszy — long long.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-robot-kierunki",
+      "number": 2109,
+      "title": "Robot z kompasem",
+      "category": "Struct / krok 6: metody i konstruktory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Robot startuje w punkcie (0, 0), zwrócony na północ (N). Kierunki to N (w górę, y rośnie), E (w prawo, x rośnie), S (w dół) i W (w lewo). Robot wykonuje n poleceń: L — obrót w lewo o 90°, R — obrót w prawo o 90°, F k — k kroków naprzód.",
+        "Napisz strukturę Robot z polami int x = 0, y = 0; char kier = 'N'; i metodami void lewo(), void prawo(), void naprzod(int k). Po wszystkich poleceniach wypisz pozycję i kierunek oraz największą odległość |x| + |y| od startu, w jakiej robot był po którymś poleceniu F."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy polecenie L, R albo F k."
+      ],
+      "output_format": [
+        "Dwa wiersze: pozycja X Y, kierunek K i najdalej: D."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "1 ≤ k ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "6\nF 3\nR\nF 2\nR\nR\nF 7",
+          "output": "pozycja -5 3, kierunek W\nnajdalej: 8",
+          "note": "Po F 3 robot jest w (0, 3), po obrocie w prawo patrzy na E i idzie do (2, 3) — odległość 5. Dwa obroty w prawo to W, więc F 7 kończy w (−5, 3): odległość 8."
+        }
+      ],
+      "hint": "Obrót w prawo: N → E → S → W → N; w lewo odwrotnie. Najprościej trzymać string KIER = \"NESW\" i indeks — prawo to (i + 1) % 4, lewo to (i + 3) % 4. W naprzod: if (kier == 'N') y += k; i tak dalej. Odległość sprawdzaj po każdym F — w czasie jednego ruchu po prostej największa jest na którymś końcu.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-stoper",
+      "number": 2110,
+      "title": "Stoper z okrążeniami",
+      "category": "Struct / krok 6: metody i konstruktory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Trener mierzy czasy okrążeń zawodnika. Napisz strukturę Stoper z polami (z wartościami domyślnymi) razem = 0, licznik = 0, najlepszy = 0, nrNajlepszego = 0 i metodą void okrazenie(int s), która dolicza okrążenie trwające s sekund: zwiększa licznik i łączny czas i sprawdza, czy to nowe najszybsze okrążenie (przy remisie najszybsze zostaje wcześniejsze).",
+        "Po każdym okrążeniu wypisz okrazenie I: MM:SS, razem MM:SS, a na końcu najszybsze: okrazenie K (MM:SS)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W drugim wierszu n czasów okrążeń w sekundach."
+      ],
+      "output_format": [
+        "n wierszy z okrążeniami i wiersz o najszybszym okrążeniu."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 30",
+        "1 ≤ czas okrążenia ≤ 199"
+      ],
+      "examples": [
+        {
+          "input": "4\n75 71 80 71",
+          "output": "okrazenie 1: 01:15, razem 01:15\nokrazenie 2: 01:11, razem 02:26\nokrazenie 3: 01:20, razem 03:46\nokrazenie 4: 01:11, razem 04:57\nnajszybsze: okrazenie 2 (01:11)",
+          "note": "Łącznie: 01:15, 02:26, 03:46, 04:57. Najszybsze jest 71 s — dwa razy, więc wygrywa okrążenie 2."
+        }
+      ],
+      "hint": "void okrazenie(int s) { licznik++; razem += s; if (licznik == 1 || s < najlepszy) { najlepszy = s; nrNajlepszego = licznik; } }. Czas MM:SS: setw(2) << setfill('0') << s / 60 << \":\" << setw(2) << s % 60 — zrób z tego funkcję.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-zamek-szyfrowy",
+      "number": 2111,
+      "title": "Zamek szyfrowy",
+      "category": "Struct / krok 6: metody i konstruktory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Szafka w szatni ma zamek szyfrowy. Na początku jest zamknięta, niezablokowana i bez błędnych prób. Obsłuż q poleceń:",
+        "WPISZ k — gdy zamek jest zablokowany: zablokowany; gdy jest otwarty: juz otwarty; gdy k to poprawny kod: zamek się otwiera, licznik błędów wraca do 0 — wypisz otwarty; w przeciwnym razie licznik błędów rośnie o 1 i wypisz zly kod, a jeśli to już trzecia błędna próba z rzędu — zamek się blokuje i wypisz zly kod, zamek zablokowany. ZAMKNIJ — gdy zamek jest otwarty, zamyka go (zamkniety), inaczej juz zamkniety. ZMIEN a b — gdy zamek jest otwarty i a to obecny kod, kod zmienia się na b (kod zmieniony), inaczej odmowa. ODBLOKUJ — serwisant zdejmuje blokadę i zeruje licznik błędów (odblokowany). STAN — zablokowany, otwarty albo zamkniety.",
+        "Napisz strukturę Zamek z polami i metodą dla każdego polecenia."
+      ],
+      "input_format": [
+        "W pierwszym wierszu początkowy kod.",
+        "W drugim wierszu q, potem q wierszy z poleceniami."
+      ],
+      "output_format": [
+        "q wierszy — odpowiedzi zamka."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "Kody to napisy z 4–8 cyfr."
+      ],
+      "examples": [
+        {
+          "input": "1234\n8\nWPISZ 1111\nWPISZ 1234\nZMIEN 1234 4321\nZAMKNIJ\nWPISZ 1234\nWPISZ 0000\nWPISZ 9999\nWPISZ 4321",
+          "output": "zly kod\notwarty\nkod zmieniony\nzamkniety\nzly kod\nzly kod\nzly kod, zamek zablokowany\nzablokowany",
+          "note": "Pomyłka, potem poprawny kod otwiera zamek i zeruje błędy. Kod zmienia się na 4321, zamek się zamyka, a trzy złe kody z rzędu go blokują — nawet dobry kod już nie pomaga."
+        }
+      ],
+      "hint": "struct Zamek { string kod; bool otwarty = false, zablokowany = false; int bledne = 0; … };. Każde polecenie to jedna metoda, która sprawdza warunki w kolejności z treści i wypisuje odpowiedź. Kody porównuj jako napisy — 0042 to nie to samo co 42.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-data-metody",
+      "number": 2112,
+      "title": "Kalendarz z metodami",
+      "category": "Struct / krok 6: metody i konstruktory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Napisz strukturę Data z polami d, m, r i metodami: bool przestepny(), int dniWMiesiacu() (korzysta z przestepny), void nastepny() — przesuwa datę na następny dzień (także przez koniec miesiąca i roku) — oraz int dzienRoku() — numer dnia w roku (1 stycznia to 1).",
+        "Dla każdego z t zapytań wypisz datę po k dniach i jej numer dnia w roku. Rok jest przestępny, gdy dzieli się przez 4, ale nie przez 100 — albo gdy dzieli się przez 400."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy data (d m r) i k."
+      ],
+      "output_format": [
+        "t wierszy: DD.MM.RRRR, dzien roku N."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100",
+        "Daty są poprawne, lata od 1900 do 2100.",
+        "0 ≤ k ≤ 100 000"
+      ],
+      "examples": [
+        {
+          "input": "3\n28 2 2024 1\n31 12 2025 1\n1 3 1900 365",
+          "output": "29.02.2024, dzien roku 60\n01.01.2026, dzien roku 1\n01.03.1901, dzien roku 60",
+          "note": "2024 jest przestępny, więc po 28 lutego jest 29 lutego (dzień 60.). Po sylwestrze 2025 jest 1.01.2026. Rok 1900 nie jest przestępny — 365 dni po 1 marca 1900 jest 1 marca 1901."
+        }
+      ],
+      "hint": "void nastepny() { d++; if (d > dniWMiesiacu()) { d = 1; m++; if (m > 12) { m = 1; r++; } } }. dzienRoku: zsumuj dni miesięcy przed m — do tego wygodnie jest na chwilę zmienić m w kopii: Data x = *this; … albo napisać pętlę z tablicą długości miesięcy.",
+      "tests_count": 5
+    },
+    {
+      "id": "st-poziomy-postaci",
+      "number": 2113,
+      "title": "Poziomy postaci",
+      "category": "Struct / krok 6: metody i konstruktory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W grze postać zaczyna na poziomie 1 z 0 punktami doświadczenia (xp). Żeby awansować z poziomu p na p + 1, potrzeba 100 · p xp: gdy xp osiągnie ten próg, odejmujemy go, a poziom rośnie o 1 — i może od razu awansować dalej, jeśli xp wciąż wystarcza.",
+        "Napisz strukturę Postac z polami nick, poziom = 1, xp = 0 i metodami long long potrzeba() oraz void dodajXP(long long x). Obsłuż q zdarzeń: XP x — postać dostaje x punktów (każdy awans wypisz jako NICK awansuje na poziom P), STAN — wypisz NICK: poziom P, xp X/Y, gdzie Y to próg na następny poziom."
+      ],
+      "input_format": [
+        "W pierwszym wierszu nick.",
+        "W drugim wierszu q, potem q wierszy ze zdarzeniami."
+      ],
+      "output_format": [
+        "Komunikaty o awansach i stanie, w kolejności zdarzeń."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 400",
+        "1 ≤ x ≤ 10 000",
+        "Nick ma od 1 do 12 znaków (litery i cyfry)."
+      ],
+      "examples": [
+        {
+          "input": "Smok7\n4\nXP 50\nSTAN\nXP 290\nSTAN",
+          "output": "Smok7: poziom 1, xp 50/100\nSmok7 awansuje na poziom 2\nSmok7 awansuje na poziom 3\nSmok7: poziom 3, xp 40/300",
+          "note": "Po 50 xp: poziom 1, 50/100. Dostaje 290: ma 340 — awans na 2 (zostaje 240), awans na 3 (zostaje 40), bo próg na 3 to 200. Próg na 4 to 300."
+        }
+      ],
+      "hint": "void dodajXP(long long x) { xp += x; while (xp >= potrzeba()) { xp -= potrzeba(); poziom++; cout << nick << \" awansuje na poziom \" << poziom << \"\\n\"; } }. Kolejność ma znaczenie: najpierw odejmij próg obecnego poziomu, dopiero potem zwiększ poziom.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-termometr",
+      "number": 2114,
+      "title": "Termometr ze statystyką",
+      "category": "Struct / krok 6: metody i konstruktory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Inteligentny termometr zbiera pomiary. Napisz strukturę Termometr z polami ile = 0, suma = 0, mn, mx i metodami void dodaj(int t), void reset() (zapomina wszystkie pomiary), bool pusty() i double srednia().",
+        "Obsłuż q poleceń: POMIAR t — nowy pomiar; SREDNIA — wypisz srednia: X.XX; MIN i MAX — wypisz min: T albo max: T; RESET — zapomnij pomiary (nic nie wypisuje). Jeśli od ostatniego resetu (albo od początku) nie było pomiarów, SREDNIA, MIN i MAX wypisują brak pomiarow."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W każdym z q kolejnych wierszy jedno polecenie."
+      ],
+      "output_format": [
+        "Wiersze wypisane przez SREDNIA, MIN i MAX."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "−50 ≤ t ≤ 50",
+        "Średnia nigdy nie wypada dokładnie w połowie między dwoma wynikami z dwoma miejscami po przecinku.",
+        "Program wypisuje co najmniej jeden wiersz."
+      ],
+      "examples": [
+        {
+          "input": "8\nMAX\nPOMIAR 12\nPOMIAR -3\nPOMIAR 7\nSREDNIA\nMIN\nRESET\nSREDNIA",
+          "output": "brak pomiarow\nsrednia: 5.33\nmin: -3\nbrak pomiarow",
+          "note": "Na początku nie ma pomiarów. Średnia z 12, −3 i 7 to 16 / 3 = 5.33, minimum −3. Po RESET znowu nic nie ma."
+        }
+      ],
+      "hint": "void dodaj(int t) { if (ile == 0) { mn = t; mx = t; } else { mn = min(mn, t); mx = max(mx, t); } ile++; suma += t; }. reset() ustawia ile = 0 i suma = 0 — mn i mx nie trzeba czyścić, bo przy pierwszym pomiarze i tak się nadpiszą.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-unikalne-punkty",
+      "number": 2115,
+      "title": "Różne punkty",
+      "category": "Struct / krok 7: operatory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na mapie zaznaczono n punktów, niektóre kilka razy. Wypisz, ile jest różnych punktów, a potem wszystkie różne punkty posortowane według x, a przy równym x — według y.",
+        "Wrzuć punkty do set<Punkt>. Żeby set umiał je ułożyć, dopisz w strukturze operator< — metodę bool operator<(const Punkt &o) const. Słowo const na końcu jest obowiązkowe: set porównuje punkty, których nie wolno zmieniać."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy x i y."
+      ],
+      "output_format": [
+        "Wiersz roznych: K, a potem K wierszy z punktami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "−10⁹ ≤ x, y ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "6\n3 1\n-2 5\n3 1\n3 -4\n-2 5\n0 0",
+          "output": "roznych: 4\n-2 5\n0 0\n3 -4\n3 1",
+          "note": "Punkty (3, 1) i (−2, 5) są dwa razy — różnych jest 4. Po sortowaniu: najpierw x = −2, potem 0, a dwa punkty z x = 3 według y."
+        }
+      ],
+      "hint": "struct Punkt { int x, y; bool operator<(const Punkt &o) const { if (x != o.x) return x < o.x; return y < o.y; } };. Potem set<Punkt> s; s.insert({x, y}); — a na końcu for (const Punkt &p : s) wypisuje je już w kolejności.",
+      "tests_count": 7
+    },
+    {
+      "id": "st-trafienia",
+      "number": 2116,
+      "title": "Trafienia w tarczę",
+      "category": "Struct / krok 7: operatory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na tarczy z kratkami padło n strzałów; każdy trafił w kratkę (x, y). Wypisz kratkę trafioną najwięcej razy (przy remisie — najmniejszą: o mniejszym x, a przy równym x — o mniejszym y) i liczbę jej trafień, a potem odpowiedz na q pytań: ile razy trafiono w kratkę (a, b)?",
+        "Użyj map<Punkt, int> ile; i ile[p]++. Mapa przechodzi klucze w kolejności operatora<, więc remis rozstrzygnie się sam, jeśli podmieniasz najlepszą kratkę tylko przy ostrej nierówności."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n, potem n wierszy z kratkami x y.",
+        "Potem wiersz z q i q wierszy z pytaniami a b."
+      ],
+      "output_format": [
+        "Wiersz najczesciej: X Y (K razy), a potem q wierszy z liczbami trafień."
+      ],
+      "constraints": [
+        "1 ≤ n, q ≤ 1000",
+        "−1000 ≤ x, y, a, b ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "6\n0 0\n1 2\n0 0\n1 2\n5 5\n-1 3\n3\n1 2\n2 1\n-1 3",
+          "output": "najczesciej: 0 0 (2 razy)\n2\n0\n1",
+          "note": "Kratki (0, 0) i (1, 2) mają po 2 trafienia — mniejsza jest (0, 0). W (2, 1) nikt nie trafił."
+        }
+      ],
+      "hint": "Najczęstszą kratkę znajdź pętlą po mapie: for (auto [p, k] : ile) if (k > najwiecej) { najwiecej = k; best = p; }. Przy pytaniu nie używaj ile[{a, b}] — to dopisałoby pustą kratkę do mapy; lepiej ile.count({a, b}) ? ile[{a, b}] : 0 albo find.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-suma-wektorow",
+      "number": 2117,
+      "title": "Dodawanie wektorów",
+      "category": "Struct / krok 7: operatory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dron zaczyna w punkcie (0, 0). Dostaje n poleceń; każde to wektor (x, y) i liczba powtórzeń k — dron przesuwa się k razy o ten wektor. Po każdym poleceniu wypisz pozycję drona, a na końcu jego odległość od startu w metryce taksówkowej |x| + |y|.",
+        "Napisz strukturę Wektor z polami long long x, y i dwoma operatorami: Wektor operator+(const Wektor &o) const oraz Wektor operator*(long long k) const. Wtedy całe polecenie to jedna linijka: poz = poz + w * k;."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy x, y i k."
+      ],
+      "output_format": [
+        "n wierszy z pozycjami X Y i wiersz odleglosc: D."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 800",
+        "−10⁶ ≤ x, y ≤ 10⁶, 1 ≤ k ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "3\n1 2 3\n-4 0 2\n0 -1 10",
+          "output": "3 6\n-5 6\n-5 -4\nodleglosc: 9",
+          "note": "Po 3 razy (1, 2) dron jest w (3, 6), potem 2 razy (−4, 0) daje (−5, 6), a 10 razy (0, −1) — (−5, −4). Odległość: 9."
+        }
+      ],
+      "hint": "Wektor operator+(const Wektor &o) const { return {x + o.x, y + o.y}; } i Wektor operator*(long long k) const { return {x * k, y * k}; }. Operator to zwykła metoda — oddaje nowy wektor i nie zmienia ani siebie, ani o (stąd const). Pozycje sięgają 10¹⁵: long long.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-sortuj-ulamki",
+      "number": 2118,
+      "title": "Ułamki po kolei",
+      "category": "Struct / krok 7: operatory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ułóż n ułamków od najmniejszego do największego. Ułamki równe co do wartości (np. 1/2 i 3/6) zostaw w takiej kolejności, w jakiej były na wejściu. Wypisuj je tak, jak je wczytano. Na końcu wypisz, ile jest różnych wartości.",
+        "W strukturze Ulamek zdefiniuj bool operator<(const Ulamek &o) const (mnożąc na krzyż — mianowniki są dodatnie) i bool operator==(const Ulamek &o) const. Do sortowania użyj stable_sort(v.begin(), v.end()) — działa jak sort, ale nie przestawia elementów równych sobie. Różne wartości policz, porównując sąsiadów po sortowaniu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy licznik i mianownik."
+      ],
+      "output_format": [
+        "n wierszy l/m w nowej kolejności i wiersz roznych wartosci: K."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "−10⁹ ≤ licznik ≤ 10⁹, 1 ≤ mianownik ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "5\n1 2\n-3 4\n3 6\n2 3\n0 5",
+          "output": "-3/4\n0/5\n1/2\n3/6\n2/3\nroznych wartosci: 4",
+          "note": "−3/4 < 0/5 < 1/2 = 3/6 < 2/3. Ułamki 1/2 i 3/6 są równe, więc zostają w kolejności z wejścia. Różnych wartości jest 4."
+        }
+      ],
+      "hint": "bool operator<(const Ulamek &o) const { return l * o.m < o.l * m; } i bool operator==(const Ulamek &o) const { return l * o.m == o.l * m; } — pola jako long long, bo iloczyn sięga 10¹⁸. Po stable_sort: int rozne = 1; for (int i = 1; i < n; i++) if (!(v[i] == v[i - 1])) rozne++;.",
+      "tests_count": 7
+    },
+    {
+      "id": "st-przyjazdy",
+      "number": 2119,
+      "title": "Tablica przyjazdów",
+      "category": "Struct / krok 7: operatory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na dworcu odjeżdża n pociągów; każdy ma nazwę, godzinę odjazdu HH:MM i czas jazdy w minutach (każdy dojeżdża tego samego dnia). Wypisz tablicę przyjazdów: pociągi od najwcześniejszego przyjazdu, przy równym przyjeździe — od wcześniejszego odjazdu, a jeśli i to równe — alfabetycznie po nazwie.",
+        "Napisz strukturę Czas z polami h, m i operatorami Czas operator+(int minuty) const oraz bool operator<(const Czas &o) const (i operator== albo !=, jeśli go potrzebujesz). Pociąg to struktura z nazwą, odjazdem i przyjazdem."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy nazwa, odjazd HH:MM i czas jazdy."
+      ],
+      "output_format": [
+        "n wierszy: NAZWA HH:MM -> HH:MM (odjazd i przyjazd)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "Nazwy pociągów mają od 1 do 15 znaków (wielkie litery i cyfry).",
+        "1 ≤ czas jazdy ≤ 600; każdy pociąg przyjeżdża najpóźniej o 23:59."
+      ],
+      "examples": [
+        {
+          "input": "4\nIC100 06:15 135\nTLK5 07:00 90\nR21 08:20 10\nEIP3 07:30 60",
+          "output": "IC100 06:15 -> 08:30\nTLK5 07:00 -> 08:30\nEIP3 07:30 -> 08:30\nR21 08:20 -> 08:30",
+          "note": "Przyjazdy: IC100 08:30, TLK5 08:30, R21 08:30, EIP3 08:30 — wszystkie o tej samej godzinie! Decyduje odjazd: 06:15, 07:00, 07:30, 08:20."
+        }
+      ],
+      "hint": "Czas operator+(int minuty) const { int t = h * 60 + m + minuty; return {t / 60, t % 60}; }. operator< porównuje h * 60 + m. Komparator pociągów: if (a.przyjazd < b.przyjazd || b.przyjazd < a.przyjazd) return a.przyjazd < b.przyjazd; — i tak samo dla odjazdu, a na końcu nazwa.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-kalkulator-ulamkow",
+      "number": 2120,
+      "title": "Kalkulator ułamków",
+      "category": "Struct / krok 7: operatory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Kalkulator dostaje q działań w postaci a/b OP c/d, gdzie OP to +, -, * albo /. Dla każdego wypisz wynik jako ułamek nieskracalny z dodatnim mianownikiem (zero to 0/1). Jeśli trzeba podzielić przez ułamek równy zero, wypisz blad.",
+        "Zdefiniuj w strukturze Ulamek operatory +, -, * i / (każdy oddaje nowy, już skrócony ułamek) i funkcję skracającą, która przenosi minus z mianownika do licznika."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W każdym z q kolejnych wierszy działanie a/b OP c/d (ze spacjami wokół OP)."
+      ],
+      "output_format": [
+        "q wierszy z wynikami l/m albo słowem blad."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "−10⁴ ≤ a, c ≤ 10⁴, 1 ≤ b, d ≤ 10⁴"
+      ],
+      "examples": [
+        {
+          "input": "4\n1/2 + 1/3\n3/4 - 5/4\n-2/3 * 9/4\n7/5 / 0/2",
+          "output": "5/6\n-1/2\n-3/2\nblad",
+          "note": "1/2 + 1/3 = 5/6, 3/4 − 5/4 = −2/4 = −1/2, −2/3 · 9/4 = −18/12 = −3/2, a dzielenia przez 0/2 nie da się wykonać."
+        }
+      ],
+      "hint": "Wczytuj: cin >> a.l >> kreska >> a.m >> op >> c.l >> kreska >> c.m; (kreska i op to char). Dzielenie: a / c to a · (c.m / c.l) — gdy c.l == 0, wypisz blad, a gdy c.l < 0, minus wędruje do licznika w skracaniu. Iloczyny są małe (do 10⁸), ale i tak trzymaj pola w long long.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-ten-sam-ksztalt",
+      "number": 2121,
+      "title": "Ten sam kształt",
+      "category": "Struct / krok 7: operatory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Figura to zbiór różnych kratek (x, y) na kratkowanym papierze. Dla każdego z t testów sprawdź, czy dwie figury mają ten sam kształt, czyli czy jedną da się dostać z drugiej przez samo przesunięcie (bez obracania i odbijania). Wypisz TAK albo NIE.",
+        "Pomysł: posortuj kratki każdej figury (operator<), a potem odejmij od każdej kratki współrzędne pierwszej — figura „przesuwa się” tak, że jej pierwsza kratka trafia w (0, 0). Dwie figury mają ten sam kształt dokładnie wtedy, gdy po takim przesunięciu ich vectory są równe. Porównanie v1 == v2 dla dwóch vectorów działa, gdy struktura ma operator==."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "Każdy test to wiersz z k, k wierszy z kratkami pierwszej figury, wiersz z m i m wierszy z kratkami drugiej."
+      ],
+      "output_format": [
+        "t wierszy: TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 50",
+        "1 ≤ k, m ≤ 1000, suma wszystkich k i m najwyżej 6000",
+        "−10⁶ ≤ x, y ≤ 10⁶; w figurze kratki się nie powtarzają"
+      ],
+      "examples": [
+        {
+          "input": "2\n3\n0 0\n1 0\n1 1\n3\n5 7\n6 8\n6 7\n3\n0 0\n1 0\n2 0\n3\n0 0\n0 1\n0 2",
+          "output": "TAK\nNIE",
+          "note": "W pierwszym teście druga figura to pierwsza przesunięta o (5, 7) — kratki są tylko w innej kolejności. W drugim teście pozioma kreska i pionowa kreska to różne kształty, bo nie wolno obracać."
+        }
+      ],
+      "hint": "Napisz funkcję void normalizuj(vector<Punkt> &f) { sort(f.begin(), f.end()); Punkt p = f[0]; for (Punkt &q : f) { q.x -= p.x; q.y -= p.y; } }. Po posortowaniu pierwsza kratka jest „najmniejsza”, a przesunięcie nie zmienia kolejności. Potem if (f1 == f2) — vector porównuje rozmiary i kolejne elementy operatorem ==.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-dziennik-wizyt",
+      "number": 2122,
+      "title": "Dziennik wizyt",
+      "category": "Struct / krok 7: operatory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Recepcja zapisuje wizyty w przypadkowej kolejności: datę DD.MM.RRRR i imię gościa. Ta sama osoba może przyjść kilka razy jednego dnia. Dla każdego dnia, w którym ktoś był — chronologicznie — wypisz liczbę wizyt i liczbę różnych osób.",
+        "Napisz strukturę Data z operatorem<, a potem użyj map<Data, int> wizyt i map<Data, set<string>> osoby (albo jednej mapy ze strukturą jako wartością). Mapa przechodzi klucze od najmniejszego, czyli od najwcześniejszej daty."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy data DD.MM.RRRR i imię."
+      ],
+      "output_format": [
+        "Po jednym wierszu dla każdego dnia: DD.MM.RRRR: wizyt W, osob O."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 900",
+        "Daty są poprawne, lata od 2020 do 2030; imiona mają od 1 do 15 liter (pierwsza wielka)."
+      ],
+      "examples": [
+        {
+          "input": "5\n03.02.2026 Ola\n28.01.2026 Kuba\n03.02.2026 Ola\n03.02.2026 Iga\n15.12.2025 Ola",
+          "output": "15.12.2025: wizyt 1, osob 1\n28.01.2026: wizyt 1, osob 1\n03.02.2026: wizyt 3, osob 2",
+          "note": "Najwcześniej 15.12.2025, potem 28.01.2026. 3 lutego były trzy wizyty, ale tylko dwie różne osoby — Ola przyszła dwa razy."
+        }
+      ],
+      "hint": "bool operator<(const Data &o) const { if (r != o.r) return r < o.r; if (m != o.m) return m < o.m; return d < o.d; }. Wczytanie: cin >> x.d >> kropka >> x.m >> kropka >> x.r >> imie;. Potem wizyt[x]++; osoby[x].insert(imie);, a na końcu for (auto [data, ile] : wizyt).",
+      "tests_count": 7
+    },
+    {
+      "id": "st-odcinki",
+      "number": 2123,
+      "title": "Odcinki na planszy",
+      "category": "Struct / krok 8: zagnieżdżanie i schematy olimpijskie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na planszy narysowano n odcinków; każdy jest poziomy albo pionowy i ma dodatnią długość. Policz poziome i pionowe odcinki, ich łączną długość i znajdź najdłuższy (przy remisie — pierwszy na liście).",
+        "Zadeklaruj struct Punkt { int x, y; }; i struct Odcinek { Punkt a, b; }; — odcinek składa się z dwóch punktów. Koniec odcinka to o.a, a jego współrzędna x to o.a.x."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy cztery liczby: x1 y1 x2 y2 — końce odcinka."
+      ],
+      "output_format": [
+        "Trzy wiersze: poziome: H, pionowe: V, potem razem: L i najdluzszy: x1 y1 x2 y2 (końce w kolejności z wejścia)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "−10⁶ ≤ współrzędne ≤ 10⁶",
+        "Każdy odcinek ma x1 = x2 albo y1 = y2 (ale nie oba naraz)."
+      ],
+      "examples": [
+        {
+          "input": "3\n0 0 5 0\n2 -1 2 7\n-3 4 1 4",
+          "output": "poziome: 2, pionowe: 1\nrazem: 17\nnajdluzszy: 2 -1 2 7",
+          "note": "Odcinki 1 i 3 są poziome (długości 5 i 4), odcinek 2 jest pionowy (długość 8). Razem 17, najdłuższy jest drugi."
+        }
+      ],
+      "hint": "Długość odcinka poziomego lub pionowego to abs(o.a.x - o.b.x) + abs(o.a.y - o.b.y) — jedna z różnic jest zerem. Odcinek jest poziomy, gdy o.a.y == o.b.y. Łączna długość sięga 2 · 10⁹ — long long.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-dziennik-ocen",
+      "number": 2124,
+      "title": "Dziennik z ocenami",
+      "category": "Struct / krok 8: zagnieżdżanie i schematy olimpijskie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dziennik ma n uczniów; każdy ma imię i listę ocen (od 1 do 6). Dla każdego ucznia wypisz średnią z dwiema cyframi po kropce, najwyższą i najniższą ocenę, a jeśli ma choć jedną jedynkę — dopisz (zagrozony). Na końcu wypisz ucznia z najwyższą średnią (przy remisie — pierwszego na liście).",
+        "Zadeklaruj struct Uczen { string imie; vector<int> oceny; }; z metodą double srednia() const. Oceny wczytuj przez u.oceny.push_back(o)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy imię, liczba ocen k i k ocen."
+      ],
+      "output_format": [
+        "n wierszy: IMIE: srednia X.XX, max A, min B (i ewentualnie (zagrozony)), a potem najlepszy: IMIE."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 500",
+        "1 ≤ k ≤ 30",
+        "Imiona mają od 1 do 20 znaków (litery i cyfry, pierwsza wielka).",
+        "Żadna średnia nie wypada dokładnie w połowie między dwoma wynikami z dwoma miejscami po przecinku."
+      ],
+      "examples": [
+        {
+          "input": "3\nOla 4 5 6 5 4\nKuba 3 1 4 6\nIga 2 5 5",
+          "output": "Ola: srednia 5.00, max 6, min 4\nKuba: srednia 3.67, max 6, min 1 (zagrozony)\nIga: srednia 5.00, max 5, min 5\nnajlepszy: Ola",
+          "note": "Ola: 20 / 4 = 5.00. Kuba ma jedynkę — jest zagrożony, choć jego średnia to 3.67. Iga też ma 5.00, ale była niżej na liście, więc najlepsza jest Ola."
+        }
+      ],
+      "hint": "Metoda: double srednia() const { int s = 0; for (int o : oceny) s += o; return (double)s / oceny.size(); }. Najlepszego szukaj bez zaokrągleń: porównuj sumę · liczba ocen drugiego ucznia, jak przy ułamkach — albo trzymaj sumę w osobnym polu.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-druzyny",
+      "number": 2125,
+      "title": "Siła drużyn",
+      "category": "Struct / krok 8: zagnieżdżanie i schematy olimpijskie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na turniej zgłosiło się m drużyn; każda ma nazwę i skład: zawodników z imieniem i siłą. Moc drużyny to suma sił jej trzech najsilniejszych zawodników (albo wszystkich, jeśli ma ich mniej niż trzech).",
+        "Wypisz drużyny od najmocniejszej (przy równej mocy — alfabetycznie według nazwy), a przy każdej jej liderów: tych trzech (albo mniej) najsilniejszych zawodników, od najsilniejszego, a przy równej sile — alfabetycznie. Zadeklaruj struct Zawodnik { string imie; int sila; }; i struct Druzyna { string nazwa; vector<Zawodnik> sklad; };."
+      ],
+      "input_format": [
+        "W pierwszym wierszu m.",
+        "Każda drużyna to wiersz z nazwą i liczbą zawodników k, a potem k wierszy: imię i siła."
+      ],
+      "output_format": [
+        "m wierszy: NAZWA: moc M, liderzy: IMIE1, IMIE2, IMIE3."
+      ],
+      "constraints": [
+        "1 ≤ m ≤ 100, 1 ≤ k ≤ 30",
+        "Nazwy drużyn są różne (od 1 do 15 znaków: litery i _); imiona mają od 1 do 20 znaków (litery i cyfry), w drużynie się nie powtarzają.",
+        "1 ≤ siła ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "2\nOrly 4\nOla 70\nKuba 95\nIga 70\nAdam 40\nSokoly 2\nZosia 120\nEla 115",
+          "output": "Orly: moc 235, liderzy: Kuba, Iga, Ola\nSokoly: moc 235, liderzy: Zosia, Ela",
+          "note": "Orły: 95 + 70 + 70 = 235 (Iga i Ola mają po 70 — alfabetycznie Iga pierwsza). Sokoły mają tylko dwóch zawodników: 120 + 115 = 235. Remis mocy — alfabetycznie Orly przed Sokoly."
+        }
+      ],
+      "hint": "Najpierw w każdej drużynie posortuj skład: sort(d.sklad.begin(), d.sklad.end(), …) — po sile malejąco, przy remisie po imieniu. Wtedy liderzy to pierwsze min(3, k) elementy, a moc to ich suma (zapisz ją w polu struktury). Potem posortuj vector<Druzyna> po mocy i nazwie.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-banki",
+      "number": 2126,
+      "title": "Przelewy między kontami",
+      "category": "Struct / krok 8: zagnieżdżanie i schematy olimpijskie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Mały bank obsługuje q operacji (kwoty w groszach): WPLATA imie x, WYPLATA imie x i PRZELEW a b x (z konta a na konto b). Każde imię, które pojawi się w operacji, ma konto, zaczynające z saldem 0.",
+        "Wypłata i przelew udają się tylko wtedy, gdy na koncie (a) jest co najmniej x — inaczej nic się nie zmienia i wypisz odrzucono: OPERACJA (cały wiersz polecenia). Udana operacja zwiększa licznik operacji każdego konta, którego dotyczy (przelew — obu). Na końcu wypisz raport: wszystkie konta alfabetycznie — imię, saldo w złotych i liczba udanych operacji.",
+        "Zadeklaruj struct Konto { long long saldo = 0; int operacji = 0; }; i użyj map<string, Konto>."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W każdym z q kolejnych wierszy jedna operacja."
+      ],
+      "output_format": [
+        "Komunikaty o odrzuceniach (w kolejności), a potem po jednym wierszu na konto: IMIE Z.GG, operacji K."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "Imiona mają od 1 do 15 liter (pierwsza wielka); w przelewie a ≠ b.",
+        "1 ≤ x ≤ 10⁸"
+      ],
+      "examples": [
+        {
+          "input": "5\nWPLATA Ola 10000\nPRZELEW Ola Kuba 2550\nWYPLATA Kuba 3000\nPRZELEW Kuba Iga 2550\nWYPLATA Iga 1",
+          "output": "odrzucono: WYPLATA Kuba 3000\nIga 25.49, operacji 2\nKuba 0.00, operacji 2\nOla 74.50, operacji 2",
+          "note": "Kuba ma tylko 25.50, więc wypłata 30.00 jest odrzucona. Przelew całych 25.50 do Igi się udaje. Ola: 2 operacje, Kuba: 2 (dostał przelew, wysłał przelew), Iga: 2."
+        }
+      ],
+      "hint": "map<string, Konto> konta; — konta[imie] tworzy konto z wartościami domyślnymi, gdy go jeszcze nie ma. Przelew: if (konta[a].saldo >= x) { konta[a].saldo -= x; konta[b].saldo += x; konta[a].operacji++; konta[b].operacji++; } — ale najpierw „dotknij” konta b (konta[b];), żeby powstało także przy odrzuceniu.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-scalanie-przedzialow",
+      "number": 2127,
+      "title": "Scalanie przedziałów",
+      "category": "Struct / krok 8: zagnieżdżanie i schematy olimpijskie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Malarz pomalował na płocie n pasów; pas to przedział [a, b] na osi (a < b). Pasy mogą na siebie zachodzić albo się stykać. Wypisz pomalowane kawałki płotu po scaleniu: przedziały, które mają choć jeden wspólny punkt (także tylko koniec), łączą się w jeden. Wypisz je od lewej i na końcu łączną pomalowaną długość.",
+        "Zadeklaruj struct Przedzial { int a, b; }, posortuj vector przedziałów po a i przejdź po nim raz, trzymając bieżący scalony przedział."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy a i b."
+      ],
+      "output_format": [
+        "Scalone przedziały A B (po jednym w wierszu, od lewej), a potem wiersz pomalowane: L."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "−10⁹ ≤ a < b ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "5\n6 9\n1 3\n2 5\n9 10\n12 14",
+          "output": "1 5\n6 10\n12 14\npomalowane: 10",
+          "note": "Po sortowaniu: [1, 3] i [2, 5] zachodzą na siebie → [1, 5]. [6, 9] i [9, 10] stykają się w 9 → [6, 10]. [12, 14] jest osobno. Długość: 4 + 4 + 2 = 10."
+        }
+      ],
+      "hint": "Po sortowaniu: Przedzial cur = v[0]; for (int i = 1; i < n; i++) { if (v[i].a <= cur.b) cur.b = max(cur.b, v[i].b); else { wypisz(cur); cur = v[i]; } } — i na końcu wypisz ostatni cur. Długość sumuj w long long: przedziały sięgają 2 · 10⁹.",
+      "tests_count": 8
+    },
+    {
+      "id": "st-najwiecej-naraz",
+      "number": 2128,
+      "title": "Najwięcej osób naraz",
+      "category": "Struct / krok 8: zagnieżdżanie i schematy olimpijskie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W muzeum było n zwiedzających; każdy wszedł o godzinie WE i wyszedł o godzinie WY (WE < WY, obie HH:MM tego samego dnia). Osoba jest w muzeum od minuty WE do minuty tuż przed WY — kto wychodzi o 12:00, nie spotyka się z kimś, kto wchodzi o 12:00.",
+        "Wypisz największą liczbę osób przebywających naraz w muzeum, godzinę, o której ta liczba pojawiła się pierwszy raz, i ile minut łącznie w ciągu dnia w muzeum była taka liczba osób. Każde wejście i wyjście zamień na zdarzenie struct Zdarzenie { int czas, zmiana; } (+1 albo −1) i posortuj je po czasie, a przy równym czasie wyjścia (−1) przed wejściami (+1)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy godziny wejścia i wyjścia HH:MM HH:MM."
+      ],
+      "output_format": [
+        "Trzy wiersze: najwiecej: K, pierwszy raz o HH:MM i przez M minut."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000"
+      ],
+      "examples": [
+        {
+          "input": "4\n10:00 12:00\n11:00 13:30\n12:00 12:30\n11:45 11:50",
+          "output": "najwiecej: 3\npierwszy raz o 11:45\nprzez 5 minut",
+          "note": "Od 11:45 do 11:50 w muzeum są trzy osoby — 5 minut. O 12:00 jedna osoba wychodzi i jedna wchodzi, więc są dwie, nie trzy."
+        }
+      ],
+      "hint": "Zdarzenia: v.push_back({we, +1}); v.push_back({wy, -1});. Komparator: if (a.czas != b.czas) return a.czas < b.czas; return a.zmiana < b.zmiana; (−1 przed +1). Idąc po zdarzeniach, trzymaj liczbę osób; czas między zdarzeniem i a i + 1 (v[i + 1].czas − v[i].czas) dolicz do „minut z maksimum”, jeśli po zdarzeniu i liczba osób równa się maksimum.",
+      "tests_count": 7
+    },
+    {
+      "id": "st-konferencja",
+      "number": 2129,
+      "title": "Konferencja",
+      "category": "Struct / krok 8: zagnieżdżanie i schematy olimpijskie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na konferencji jest n wykładów; każdy ma nazwę, początek i koniec (HH:MM, początek przed końcem). Ola chce wysłuchać jak najwięcej całych wykładów, a nie da się być na dwóch naraz. Nowy wykład może zacząć się dokładnie wtedy, gdy poprzedni się kończy.",
+        "Wypisz największą możliwą liczbę wykładów oraz najwcześniejszą godzinę, o której Ola może skończyć ostatni z nich przy takiej największej liczbie. Sposób: posortuj wykłady po godzinie końca i idź po kolei — bierz każdy wykład, który zaczyna się nie wcześniej, niż skończył się ostatni wzięty. Taki wybór daje najwięcej wykładów i kończy każdy kolejny tak wcześnie, jak się da."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy nazwa, początek i koniec."
+      ],
+      "output_format": [
+        "Dwa wiersze: wykladow: K i ostatni konczy sie o HH:MM."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "Nazwy mają od 1 do 20 znaków (małe litery i _)."
+      ],
+      "examples": [
+        {
+          "input": "5\ngrafy 09:00 10:30\nsortowanie 09:30 10:00\nstruktury 10:00 11:00\nrekurencja 10:30 11:30\ndp 11:00 12:00",
+          "output": "wykladow: 3\nostatni konczy sie o 12:00",
+          "note": "Po sortowaniu po końcu: sortowanie (10:00), grafy (10:30), struktury (11:00), rekurencja (11:30), dp (12:00). Bierzemy sortowanie, struktury i dp — trzy wykłady, ostatni kończy się o 12:00."
+        }
+      ],
+      "hint": "struct Wyklad { string nazwa; int start, koniec; };. Komparator: return a.koniec < b.koniec;. Potem int ile = 0, ostatni = -1; for (const Wyklad &w : v) if (w.start >= ostatni) { ile++; ostatni = w.koniec; }. Nazwy nie są potrzebne do wyniku — ale tak wyglądają prawdziwe dane.",
+      "tests_count": 7
+    },
+    {
+      "id": "st-wyciag",
+      "number": 2130,
+      "title": "Narciarze i trasy",
+      "category": "Struct / krok 8: zagnieżdżanie i schematy olimpijskie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ośrodek narciarski ma n tras; każda ma nazwę i trudność. W kolejce do wyciągu stoi q narciarzy; każdy ma imię i umiejętności s — może zjechać każdą trasą o trudności nie większej niż s.",
+        "Dla każdego narciarza (w kolejności z kolejki) wypisz, iloma trasami może zjechać, i najtrudniejszą z nich (przy kilku trasach o tej samej największej trudności — tę, której nazwa jest pierwsza alfabetycznie). Polecany sposób: struct Narciarz { string imie; int s, nr; }, posortuj trasy po trudności (i nazwie), a narciarzy po s; idź po narciarzach i dokładaj kolejne trasy, a odpowiedź zapisz w tablicy pod numerem nr narciarza."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n, potem n wierszy: nazwa trasy i trudność.",
+        "Potem wiersz z q i q wierszy: imię narciarza i jego umiejętności."
+      ],
+      "output_format": [
+        "q wierszy: IMIE: K tras, najtrudniejsza NAZWA albo IMIE: 0 tras."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000, 1 ≤ q ≤ 500",
+        "Nazwy tras mają od 1 do 15 małych liter, imiona od 1 do 15 liter (pierwsza wielka).",
+        "1 ≤ trudność, s ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "4\nbiala 10\nczarna 40\nczerwona 25\nzielona 10\n3\nOla 30\nKuba 5\nIga 40",
+          "output": "Ola: 3 tras, najtrudniejsza czerwona\nKuba: 0 tras\nIga: 4 tras, najtrudniejsza czarna",
+          "note": "Ola zjedzie trasami o trudności 10, 10 i 25 — najtrudniejsza czerwona. Kuba nie zjedzie żadną. Iga — wszystkimi czterema."
+        }
+      ],
+      "hint": "Trasy posortuj po (trudność, nazwa). Narciarzy z nr = i posortuj po s. Wskaźnik j przesuwaj, dopóki trasy[j].trudnosc <= s — wtedy liczba tras to j, a najtrudniejsza to pierwsza trasa o trudności trasy[j - 1].trudnosc (zapamiętuj ją, gdy trudność rośnie). Wynik: odp[n.nr] = …. Wypisz odp po kolei.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-b-skoki",
+      "number": 2131,
+      "title": "Konkurs skoków",
+      "category": "Struct / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Każdy z n skoczków ma imię, odległość skoku w metrach i pięć not za styl. Punkty skoczka to podwojona odległość plus suma trzech środkowych not (najwyższą i najniższą notę się odrzuca — jeśli kilka not jest równych, odrzuca się tylko jedną najwyższą i jedną najniższą).",
+        "Wypisz ranking: od największej liczby punktów, przy równych punktach — od dłuższego skoku, a jeśli i to równe — alfabetycznie według imienia."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy imię, odległość i pięć not."
+      ],
+      "output_format": [
+        "n wierszy: MIEJSCE. IMIE PUNKTY."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "Imiona są różne (od 1 do 20 znaków: litery i cyfry, pierwsza wielka).",
+        "50 ≤ odległość ≤ 150, noty od 10 do 20"
+      ],
+      "examples": [
+        {
+          "input": "3\nKamil 132 18 19 18 20 17\nDawid 135 17 17 16 18 17\nPiotr 130 19 19 20 20 19",
+          "output": "1. Dawid 321\n2. Kamil 319\n3. Piotr 318",
+          "note": "Kamil: 264 + (18 + 19 + 18) = 319. Dawid: 270 + (17 + 17 + 17) = 321. Piotr: 260 + (19 + 19 + 20) = 318."
+        }
+      ],
+      "hint": "struct Skoczek { string imie; int odl; int noty[5]; int punkty; };. Punkty: 2 * odl + suma wszystkich not − największa − najmniejsza. Policz je raz po wczytaniu i zapisz w polu, zamiast liczyć w komparatorze przy każdym porównaniu.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-b-pociagi",
+      "number": 2132,
+      "title": "Czas przejazdu",
+      "category": "Struct / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Rozkład ma n pociągów: nazwę, godzinę odjazdu i godzinę przyjazdu (HH:MM). Każdy pociąg jedzie krócej niż dobę; jeśli godzina przyjazdu jest wcześniejsza niż godzina odjazdu, pociąg dojechał następnego dnia.",
+        "Dla każdego pociągu wypisz czas jazdy w formacie G:MM (godziny bez zera z przodu, minuty zawsze dwiema cyframi), a na końcu najszybszy i najwolniejszy pociąg (przy remisie — wcześniejszy w rozkładzie)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy nazwa, odjazd i przyjazd."
+      ],
+      "output_format": [
+        "n wierszy NAZWA G:MM, potem najszybszy: NAZWA i najwolniejszy: NAZWA."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "Nazwy mają od 1 do 15 znaków (wielkie litery i cyfry).",
+        "Godzina przyjazdu jest różna od godziny odjazdu."
+      ],
+      "examples": [
+        {
+          "input": "3\nIC101 06:40 09:05\nNOC7 22:30 06:15\nR12 12:00 12:45",
+          "output": "IC101 2:25\nNOC7 7:45\nR12 0:45\nnajszybszy: R12\nnajwolniejszy: NOC7",
+          "note": "IC101 jedzie 2:25. NOC7 jedzie przez północ: 22:30 → 06:15 to 7:45. R12 jedzie 0:45 i jest najszybszy."
+        }
+      ],
+      "hint": "Zamień godziny na minuty od północy. int czas = przyjazd - odjazd; if (czas < 0) czas += 24 * 60;. Wypisanie: czas / 60 << \":\" << setw(2) << setfill('0') << czas % 60.",
+      "tests_count": 5
+    },
+    {
+      "id": "st-b-punkty-w-prostokatach",
+      "number": 2133,
+      "title": "Punkty w prostokątach",
+      "category": "Struct / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na mapie zaznaczono n prostokątnych stref (boki równoległe do osi), każda podana lewym dolnym (x1, y1) i prawym górnym (x2, y2) rogiem. Dla każdego z q punktów wypisz, w ilu strefach leży — punkt na brzegu strefy też w niej leży.",
+        "Zadeklaruj strukturę Prostokat z metodą bool zawiera(int x, int y)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n, potem n wierszy: x1 y1 x2 y2.",
+        "Potem wiersz z q i q wierszy z punktami x y."
+      ],
+      "output_format": [
+        "q wierszy z liczbami stref."
+      ],
+      "constraints": [
+        "1 ≤ n, q ≤ 1000",
+        "−10⁶ ≤ współrzędne ≤ 10⁶, x1 < x2, y1 < y2"
+      ],
+      "examples": [
+        {
+          "input": "3\n0 0 4 4\n2 2 6 5\n-1 3 1 8\n4\n3 3\n0 4\n5 5\n7 0",
+          "output": "2\n2\n1\n0",
+          "note": "(3, 3) leży w dwóch pierwszych strefach. (0, 4) — w pierwszej (brzeg) i w trzeciej. (5, 5) — na brzegu drugiej. (7, 0) — w żadnej."
+        }
+      ],
+      "hint": "bool zawiera(int x, int y) { return x1 <= x && x <= x2 && y1 <= y && y <= y2; }. Dla każdego pytania przejdź po wszystkich strefach — n · q to najwyżej milion sprawdzeń.",
+      "tests_count": 5
+    },
+    {
+      "id": "st-b-wspolna-czesc",
+      "number": 2134,
+      "title": "Wspólna część prostokątów",
+      "category": "Struct / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdego z t testów dane są dwa prostokąty o bokach równoległych do osi (lewy dolny i prawy górny róg). Wypisz pole ich części wspólnej. Jeśli prostokąty się nie nakładają albo tylko stykają bokiem lub rogiem, pole wynosi 0.",
+        "Napisz funkcję long long wspolne(const Prostokat &a, const Prostokat &b)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy osiem liczb: ax1 ay1 ax2 ay2 bx1 by1 bx2 by2."
+      ],
+      "output_format": [
+        "t wierszy z polami."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1000",
+        "−10⁹ ≤ współrzędne ≤ 10⁹, x1 < x2 i y1 < y2 w każdym prostokącie"
+      ],
+      "examples": [
+        {
+          "input": "3\n0 0 4 3 2 1 6 5\n0 0 2 2 2 0 4 2\n-5 -5 5 5 -1 -2 1 2",
+          "output": "4\n0\n8",
+          "note": "Pierwsze: wspólna część to x od 2 do 4 i y od 1 do 3 — pole 4. Drugie: prostokąty stykają się tylko bokiem. Trzecie: mały prostokąt leży w dużym — pole 2 · 4 = 8."
+        }
+      ],
+      "hint": "Szerokość części wspólnej: max(0, min(a.x2, b.x2) - max(a.x1, b.x1)), tak samo wysokość. Pole może mieć 4 · 10¹⁸ — mieści się w long long, ale tylko na styk.",
+      "tests_count": 5
+    },
+    {
+      "id": "st-b-swiadectwo",
+      "number": 2135,
+      "title": "Świadectwo z paskiem",
+      "category": "Struct / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Każdy z n uczniów ma imię, ocenę z zachowania (wzorowe, bardzo_dobre, dobre, poprawne, nieodpowiednie albo naganne) i m ocen z przedmiotów (od 1 do 6). Świadectwo z paskiem dostaje uczeń, którego średnia ocen z przedmiotów wynosi co najmniej 4.75, a zachowanie jest wzorowe albo bardzo dobre.",
+        "Wypisz uczniów z paskiem od najwyższej średniej (przy równych — alfabetycznie), ze średnią z dwiema cyframi po kropce, a na końcu z paskiem: K. Średnią porównuj z 4.75 bez zaokrągleń: suma · 4 ≥ 19 · m."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n i m.",
+        "W każdym z n kolejnych wierszy imię, zachowanie i m ocen."
+      ],
+      "output_format": [
+        "Wiersze IMIE SREDNIA dla uczniów z paskiem i wiersz z paskiem: K."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000, 1 ≤ m ≤ 15",
+        "Imiona są różne (od 1 do 20 znaków: litery i cyfry, pierwsza wielka).",
+        "Żadna średnia nie wypada dokładnie w połowie między dwoma wynikami z dwoma miejscami po przecinku."
+      ],
+      "examples": [
+        {
+          "input": "4 4\nOla wzorowe 5 5 5 4\nKuba bardzo_dobre 6 6 5 5\nIga dobre 6 6 6 6\nAdam wzorowe 5 5 4 4",
+          "output": "Kuba 5.50\nOla 4.75\nz paskiem: 2",
+          "note": "Ola: 19 / 4 = 4.75 — dokładnie próg, pasek jest. Kuba: 5.50. Iga ma 6.00, ale zachowanie tylko dobre. Adam: 4.50 — za mało."
+        }
+      ],
+      "hint": "struct Uczen { string imie, zachowanie; int suma; };. Pasek: (u.zachowanie == \"wzorowe\" || u.zachowanie == \"bardzo_dobre\") && u.suma * 4 >= 19 * m. Wszyscy mają tyle samo ocen, więc średnie porównujesz po samej sumie.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-b-wydatki",
+      "number": 2136,
+      "title": "Wydatki według kategorii",
+      "category": "Struct / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Rodzina zapisuje zakupy: nazwę produktu, kategorię, cenę za sztukę w groszach i liczbę sztuk. Policz, ile wydano w każdej kategorii, i wypisz kategorie od największych wydatków (przy równych kwotach — alfabetycznie), a na końcu łączną kwotę.",
+        "Sumy po kategoriach zbierz w map<string, long long>, a potem przepisz je do vectora struktur { kategoria, suma } i posortuj."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy produkt, kategoria, cena w groszach i liczba sztuk."
+      ],
+      "output_format": [
+        "Wiersze KATEGORIA: Z.GG i wiersz razem: Z.GG."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "Produkty i kategorie mają od 1 do 15 małych liter.",
+        "1 ≤ cena ≤ 10⁶, 1 ≤ sztuki ≤ 100"
+      ],
+      "examples": [
+        {
+          "input": "5\nmleko spozywcze 349 2\nzeszyt szkolne 450 4\nchleb spozywcze 599 1\nkredki szkolne 1200 1\nbilet transport 340 2",
+          "output": "szkolne: 30.00\nspozywcze: 12.97\ntransport: 6.80\nrazem: 49.77",
+          "note": "Spożywcze: 6.98 + 5.99 = 12.97. Szkolne: 18.00 + 12.00 = 30.00. Transport: 6.80. Razem 49.77."
+        }
+      ],
+      "hint": "map<string, long long> suma; suma[kategoria] += 1LL * cena * sztuki;. Potem vector<Kategoria> v; for (auto [k, s] : suma) v.push_back({k, s}); i sort po s malejąco, a przy remisie po nazwie.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-b-dni-miedzy-datami",
+      "number": 2137,
+      "title": "Ile dni między datami?",
+      "category": "Struct / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdego z t zapytań podano dwie daty (kalendarz gregoriański). Wypisz, ile dni dzieli te daty (zawsze liczbę nieujemną — kolejność dat nie ma znaczenia).",
+        "Napisz funkcję long long numer(const Data &x), która oddaje numer dnia — na przykład liczbę dni od 1 stycznia roku 1 (1.01.0001 to dzień 1). Wtedy odpowiedź to |numer(a) − numer(b)|. Pamiętaj o latach przestępnych: rok podzielny przez 4 jest przestępny, chyba że dzieli się przez 100, ale nie przez 400."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy dwie daty: d1 m1 r1 d2 m2 r2."
+      ],
+      "output_format": [
+        "t wierszy z liczbami dni."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 1000",
+        "Daty są poprawne, lata od 1600 do 2400."
+      ],
+      "examples": [
+        {
+          "input": "3\n1 1 2024 1 1 2025\n1 3 2100 28 2 2100\n22 11 2026 14 7 1789",
+          "output": "366\n1\n86693",
+          "note": "2024 jest przestępny — 366 dni. W 2100 nie ma 29 lutego, więc 28.02 i 1.03 dzieli jeden dzień. Od zdobycia Bastylii do 22.11.2026 minęło 86 693 dni."
+        }
+      ],
+      "hint": "Numer dnia: lata pełne przed rokiem r to (r − 1) · 365 plus dni przestępne: (r − 1) / 4 − (r − 1) / 100 + (r − 1) / 400. Do tego dni pełnych miesięcy roku r (luty liczy się po swojemu) i d.",
+      "tests_count": 5
+    },
+    {
+      "id": "st-b-talia-kart",
+      "number": 2138,
+      "title": "Układanie kart",
+      "category": "Struct / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Gracz ma w ręce k kart. Karta to wartość (2, 3, …, 10, J, Q, K, A) i kolor: C (trefl), D (karo), H (kier) albo S (pik), zapisane razem, np. 10H, QS, 2C, AD.",
+        "Dla każdego z t rozdań wypisz karty ułożone według koloru w kolejności C, D, H, S, a w ramach koloru — od najmniejszej wartości (2 jest najmniejsza, A największa). Zamień każdą kartę na strukturę Karta { int wartosc; char kolor; } — wartość J to 11, Q 12, K 13, A 14."
+      ],
+      "input_format": [
+        "W pierwszym wierszu t.",
+        "W każdym z t kolejnych wierszy k i k kart."
+      ],
+      "output_format": [
+        "t wierszy z kartami po ułożeniu, oddzielonymi spacjami."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100, 1 ≤ k ≤ 52",
+        "Karty mogą się powtarzać (gra się kilkoma taliami)."
+      ],
+      "examples": [
+        {
+          "input": "2\n5 10H QS 2C AD 9H\n3 AS 2S 10S",
+          "output": "2C AD 9H 10H QS\n2S 10S AS",
+          "note": "Najpierw trefl (2C), potem karo (AD), kier (9H, 10H) i pik (QS). W drugim rozdaniu same piki: 2, 10, A."
+        }
+      ],
+      "hint": "Wartość to wszystko oprócz ostatniego znaku: string w = s.substr(0, s.size() - 1);, a kolor to s.back(). Kolejność kolorów: string(\"CDHS\").find(kolor). Przy wypisywaniu zamień wartość z powrotem: 11 → J itd.",
+      "tests_count": 5
+    },
+    {
+      "id": "st-b-meta",
+      "number": 2139,
+      "title": "Meta biegu",
+      "category": "Struct / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W biegu ze startem falowym każdy zawodnik (numer, imię) ma własną godzinę startu i godzinę dobiegnięcia do mety (HH:MM:SS, ten sam dzień). Liczy się czas netto: meta − start.",
+        "Wypisz wyniki: od najkrótszego czasu netto, przy równych czasach — od mniejszego numeru, w formacie MIEJSCE. NUMER IMIE HH:MM:SS (czas netto)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy numer, imię, start i meta."
+      ],
+      "output_format": [
+        "n wierszy z wynikami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 800",
+        "Numery są różne, od 1 do 9999; imiona mają od 1 do 15 liter (pierwsza wielka).",
+        "Meta jest później niż start."
+      ],
+      "examples": [
+        {
+          "input": "3\n12 Ola 09:00:00 09:41:20\n7 Kuba 09:05:00 09:44:59\n30 Iga 09:10:00 09:51:20",
+          "output": "1. 7 Kuba 00:39:59\n2. 12 Ola 00:41:20\n3. 30 Iga 00:41:20",
+          "note": "Czasy netto: Ola 41:20, Kuba 39:59, Iga 41:20. Ola i Iga remisują — wyżej Ola z mniejszym numerem."
+        }
+      ],
+      "hint": "Godzinę HH:MM:SS wczytaj jako h, ':', m, ':', s i zamień na sekundy: h * 3600 + m * 60 + s. Czas netto = meta − start. Wypisanie: setw(2) << setfill('0') przed godzinami, minutami i sekundami.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-b-bagaz",
+      "number": 2140,
+      "title": "Odprawa bagażowa",
+      "category": "Struct / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na lotnisku odprawia się n pasażerów: imię, klasę (E — ekonomiczna albo B — biznes) i wagę bagażu w kilogramach. W klasie ekonomicznej limit to 20 kg, a za każdy kilogram ponad limit płaci się 40 zł; w biznesowej limit to 32 kg, a dopłata — 25 zł za kilogram.",
+        "Wypisz pasażerów, którzy muszą dopłacić (w kolejności odprawy), z kwotą dopłaty, potem liczbę takich pasażerów i sumę dopłat, a na końcu pasażera z najcięższym bagażem (przy remisie — pierwszego)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy imię, klasa i waga."
+      ],
+      "output_format": [
+        "Wiersze IMIE: X zl, potem doplaty: K pasazerow, razem Y zl i najciezszy bagaz: IMIE (W kg)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "Imiona mają od 1 do 15 liter (pierwsza wielka).",
+        "0 ≤ waga ≤ 100"
+      ],
+      "examples": [
+        {
+          "input": "4\nOla E 23\nKuba B 30\nIga B 35\nAdam E 20",
+          "output": "Ola: 120 zl\nIga: 75 zl\ndoplaty: 2 pasazerow, razem 195 zl\nnajciezszy bagaz: Iga (35 kg)",
+          "note": "Ola: 3 kg nadwagi · 40 zł = 120 zł. Iga: 3 kg · 25 zł = 75 zł. Kuba i Adam mieszczą się w limitach. Najcięższy bagaż ma Iga."
+        }
+      ],
+      "hint": "struct Pasazer { string imie; char klasa; int waga; };. Dopłata: int limit = (p.klasa == 'E') ? 20 : 32, stawka = (p.klasa == 'E') ? 40 : 25; int dop = max(0, p.waga - limit) * stawka;.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-b-tabela-ligowa",
+      "number": 2141,
+      "title": "Tabela ligowa",
+      "category": "Struct / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W lidze rozegrano n meczów. Za zwycięstwo drużyna dostaje 3 punkty, za remis 1, za porażkę 0. Ułóż tabelę: od największej liczby punktów, przy równych punktach — od lepszego bilansu bramek (strzelone − stracone), potem od większej liczby strzelonych bramek, a na końcu alfabetycznie.",
+        "Dla każdej drużyny wypisz liczbę meczów, punkty i bramki w formacie strzelone:stracone. Zadeklaruj struct Druzyna z polami nazwa, mecze, pkt, strzelone, stracone i trzymaj drużyny w map<string, Druzyna> — każdy mecz zmienia dwa rekordy."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy mecz: A gA gB B — drużyna A strzeliła gA bramek, drużyna B — gB."
+      ],
+      "output_format": [
+        "Po jednym wierszu na drużynę: MIEJSCE. NAZWA mecze M, pkt P, bramki S:T."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "Nazwy drużyn mają od 1 do 15 liter (pierwsza wielka); w meczu A ≠ B.",
+        "0 ≤ gA, gB ≤ 20"
+      ],
+      "examples": [
+        {
+          "input": "4\nOrly 2 1 Sokoly\nSokoly 3 0 Jastrzebie\nJastrzebie 1 1 Orly\nSokoly 1 1 Orly",
+          "output": "1. Orly mecze 3, pkt 5, bramki 4:3\n2. Sokoly mecze 3, pkt 4, bramki 5:3\n3. Jastrzebie mecze 2, pkt 1, bramki 1:4",
+          "note": "Orły: wygrana i dwa remisy — 5 pkt, bramki 4:3. Sokoły: wygrana, remis i porażka — 4 pkt, 5:3. Jastrzębie: 1 pkt, 1:4."
+        }
+      ],
+      "hint": "map<string, Druzyna> t; Druzyna &a = t[A]; a.nazwa = A; Druzyna &b = t[B]; b.nazwa = B; — referencje & pozwalają wygodnie zmieniać rekord w mapie. Po wszystkich meczach przepisz drużyny do vector<Druzyna> i posortuj komparatorem z czterema kryteriami.",
+      "tests_count": 7
+    },
+    {
+      "id": "st-b-ranking-olimpiady",
+      "number": 2142,
+      "title": "Ranking olimpiady",
+      "category": "Struct / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na olimpiadzie n uczestników rozwiązywało k zadań; za każde dostali od 0 do 100 punktów. Uczestnik jest lepszy od drugiego, jeśli ma większą sumę punktów, a przy równej sumie — więcej zadań za pełne 100 punktów.",
+        "Wypisz ranking: od najlepszego; uczestników równie dobrych (ta sama suma i ta sama liczba setek) wypisz alfabetycznie i daj im to samo miejsce. Miejsce uczestnika to 1 + liczba uczestników od niego lepszych."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n i k.",
+        "W każdym z n kolejnych wierszy imię i k wyników."
+      ],
+      "output_format": [
+        "n wierszy: MIEJSCE. IMIE SUMA (pelne: C)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000, 1 ≤ k ≤ 10",
+        "Imiona są różne (od 1 do 20 znaków: litery i cyfry, pierwsza wielka).",
+        "Wyniki od 0 do 100."
+      ],
+      "examples": [
+        {
+          "input": "4 3\nOla 100 50 100\nKuba 100 100 50\nIga 90 90 70\nAdam 100 100 0",
+          "output": "1. Kuba 250 (pelne: 2)\n1. Ola 250 (pelne: 2)\n3. Iga 250 (pelne: 0)\n4. Adam 200 (pelne: 2)",
+          "note": "Ola i Kuba: po 250 punktów i dwie setki — dzielą 1. miejsce. Iga też ma 250, ale bez setek — 3. miejsce. Adam: 200."
+        }
+      ],
+      "hint": "Po sortowaniu (suma malejąco, pelne malejąco, imię rosnąco) miejsce wylicza się z sąsiada: if (i == 0 || v[i].suma != v[i - 1].suma || v[i].pelne != v[i - 1].pelne) miejsce = i + 1;.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-b-biblioteka",
+      "number": 2143,
+      "title": "Biblioteka i kary",
+      "category": "Struct / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Biblioteka ma po jednym egzemplarzu każdej książki. Polecenia przychodzą w kolejności dni (numery dni nie maleją): WYPOZYCZ dzien czytelnik tytul — jeśli książka jest akurat wypożyczona, wypisz niedostepna: TYTUL; ZWROC dzien tytul — jeśli książka nie jest wypożyczona, wypisz nie byla wypozyczona: TYTUL.",
+        "Książkę można trzymać 14 dni. Jeśli od wypożyczenia do zwrotu minęło więcej niż 14 dni, czytelnik dostaje karę 50 groszy za każdy dzień ponad 14. Na końcu wypisz kary (od największej, przy równych — alfabetycznie), a potem książki, które wciąż są wypożyczone (alfabetycznie, z czytelnikiem)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W każdym z q kolejnych wierszy jedno polecenie."
+      ],
+      "output_format": [
+        "Komunikaty z poleceń, potem wiersz kary: i wiersze CZYTELNIK Z.GG (albo kary: brak), a potem wiersz wypozyczone: i wiersze TYTUL - CZYTELNIK (albo wypozyczone: brak)."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 2000",
+        "1 ≤ dzien ≤ 10 000, dni nie maleją",
+        "Tytuły mają od 1 do 20 znaków (małe litery i _), czytelnicy od 1 do 15 liter (pierwsza wielka)."
+      ],
+      "examples": [
+        {
+          "input": "6\nWYPOZYCZ 1 Ola hobbit\nWYPOZYCZ 3 Kuba hobbit\nWYPOZYCZ 3 Kuba lalka\nZWROC 20 hobbit\nZWROC 21 dziady\nWYPOZYCZ 22 Kuba hobbit",
+          "output": "niedostepna: hobbit\nnie byla wypozyczona: dziady\nkary:\nOla 2.50\nwypozyczone:\nhobbit - Kuba\nlalka - Kuba",
+          "note": "Ola oddała Hobbita po 19 dniach — 5 dni spóźnienia, kara 2.50. Lalka i Hobbit zostają u Kuby."
+        }
+      ],
+      "hint": "struct Wypozyczenie { string czytelnik; int dzien; }; map<string, Wypozyczenie> u; — tytuł prowadzi do rekordu. Przy zwrocie: int dni = d - u[t].dzien; if (dni > 14) kara[u[t].czytelnik] += (dni - 14) * 50; i u.erase(t);. Kary przepisz do vectora i posortuj.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-b-najblizsza-para",
+      "number": 2144,
+      "title": "Najbliższa para",
+      "category": "Struct / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na mapie jest n miejsc z nazwami i współrzędnymi. Znajdź dwa miejsca położone najbliżej siebie (w zwykłej odległości, ale wystarczy porównywać kwadraty odległości: dx² + dy²). Wypisz ich nazwy (najpierw to, które było wcześniej na liście) i kwadrat odległości.",
+        "Jeśli kilka par jest równie blisko, wybierz parę (i, j), i < j, o najmniejszym i, a przy równym i — o najmniejszym j. Przy n ≤ 2000 wystarczy sprawdzić wszystkie pary."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy nazwa i współrzędne x y."
+      ],
+      "output_format": [
+        "Jeden wiersz: NAZWA1 NAZWA2 D."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 2000",
+        "Nazwy są różne, mają od 1 do 12 małych liter.",
+        "−10⁶ ≤ x, y ≤ 10⁶; miejsca mogą leżeć w tym samym punkcie."
+      ],
+      "examples": [
+        {
+          "input": "4\nszkola 0 0\nkino 5 5\nsklep 3 4\npark 8 9",
+          "output": "kino sklep 5",
+          "note": "Kwadraty odległości: szkoła–sklep 25, kino–sklep 5, kino–park 25 … Najbliżej są kino i sklep: 2² + 1² = 5."
+        }
+      ],
+      "hint": "Dwie pętle: for i, for j > i. Najlepszą parę trzymaj w strukturze { int i, j; long long d; } i podmieniaj tylko przy ostrym <, wtedy remisy rozstrzygną się same. dx² + dy² dochodzi do 8 · 10¹² — long long.",
+      "tests_count": 7
+    },
+    {
+      "id": "st-b-kolejka-do-lekarza",
+      "number": 2145,
+      "title": "Kolejka do lekarza",
+      "category": "Struct / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Lekarz zaczyna przyjmować o 08:00. Pacjenci są przyjmowani w kolejności przyjścia (przy tej samej godzinie — alfabetycznie). Wizyta pacjenta zaczyna się wtedy, gdy lekarz jest wolny i pacjent już przyszedł, i trwa podaną liczbę minut.",
+        "Wypisz pacjentów w kolejności przyjmowania: imię, godziny wizyty i ile minut pacjent czekał (od przyjścia do początku wizyty). Na końcu wypisz, kto czekał najdłużej (przy remisie — przyjęty wcześniej). Pacjenci są podani w przypadkowej kolejności."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy imię, godzina przyjścia HH:MM i długość wizyty w minutach."
+      ],
+      "output_format": [
+        "n wierszy IMIE HH:MM-HH:MM, czekal W min i wiersz najdluzej czekal: IMIE (W min)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 60",
+        "Imiona są różne (od 1 do 20 znaków: litery i cyfry, pierwsza wielka).",
+        "1 ≤ długość wizyty ≤ 30",
+        "Wszystkie wizyty kończą się najpóźniej o 23:59."
+      ],
+      "examples": [
+        {
+          "input": "4\nOla 08:10 20\nKuba 07:45 15\nIga 08:10 10\nAdam 09:00 5",
+          "output": "Kuba 08:00-08:15, czekal 15 min\nIga 08:15-08:25, czekal 5 min\nOla 08:25-08:45, czekal 15 min\nAdam 09:00-09:05, czekal 0 min\nnajdluzej czekal: Kuba (15 min)",
+          "note": "Kuba przyszedł przed otwarciem: wizyta 08:00–08:15, czekał 15 minut. Iga i Ola przyszły o 08:10 — alfabetycznie najpierw Iga: 08:15–08:25. Ola: 08:25–08:45. Adam wchodzi od razu o 09:00."
+        }
+      ],
+      "hint": "Posortuj pacjentów po (przyjście, imię). int wolny = 8 * 60; dla każdego: int start = max(wolny, p.przyjscie); int koniec = start + p.czas; czekal = start - p.przyjscie; wolny = koniec;.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-b-wybory",
+      "number": 2146,
+      "title": "Wybory do samorządu",
+      "category": "Struct / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W wyborach startuje c kandydatów; każdy ma imię i komitet. Oddano v głosów — każdy to imię kandydata. Głos na imię, którego nie ma na liście, jest nieważny.",
+        "Wypisz kandydatów od największej liczby głosów (przy remisie — alfabetycznie) z komitetem, liczbą głosów i procentem ważnych głosów obciętym (nie zaokrąglonym) do dwóch miejsc po przecinku. Potem wypisz komitety z sumą głosów ich kandydatów (od największej, przy remisie — alfabetycznie), a na końcu liczbę głosów nieważnych. Gdy nie ma żadnego ważnego głosu, procent to 0.00."
+      ],
+      "input_format": [
+        "W pierwszym wierszu c, potem c wierszy: imię i komitet.",
+        "Potem wiersz z v i v wierszy z głosami."
+      ],
+      "output_format": [
+        "c wierszy IMIE (KOMITET): G glosow, P%, potem wiersze KOMITET: G glosow i wiersz niewazne: K."
+      ],
+      "constraints": [
+        "1 ≤ c ≤ 100, 1 ≤ v ≤ 5000",
+        "Imiona kandydatów są różne; imiona i komitety mają od 1 do 15 liter (pierwsza wielka). Głos to słowo z liter, od 1 do 15."
+      ],
+      "examples": [
+        {
+          "input": "3\nOla Zieloni\nKuba Niebiescy\nIga Zieloni\n6\nOla\nKuba\nOla\nZosia\nIga\nKuba",
+          "output": "Kuba (Niebiescy): 2 glosow, 40.00%\nOla (Zieloni): 2 glosow, 40.00%\nIga (Zieloni): 1 glosow, 20.00%\nZieloni: 3 glosow\nNiebiescy: 2 glosow\nniewazne: 1",
+          "note": "Zosi nie ma na liście — głos nieważny. Ważnych 5: Ola i Kuba po 2 (40.00%), Iga 1 (20.00%). Zieloni 3, Niebiescy 2."
+        }
+      ],
+      "hint": "Procent obcięty do setnych: long long p = 10000LL * glosy / wazne; cout << p / 100 << \".\" << setw(2) << setfill('0') << p % 100;. Indeks kandydata po imieniu najprościej trzymać w map<string, int>.",
+      "tests_count": 7
+    },
+    {
+      "id": "st-b-magazyn-fifo",
+      "number": 2147,
+      "title": "Magazyn FIFO",
+      "category": "Struct / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Hurtownia kupuje towar partiami: DOSTAWA ilosc cena — przybywa ilosc sztuk kupionych po cena groszy za sztukę. Przy sprzedaży SPRZEDAZ ilosc towar wydaje się zawsze z najstarszych partii (najpierw cała najstarsza, potem następna — zasada FIFO).",
+        "Dla każdej sprzedaży wypisz koszt zakupu sprzedanych sztuk (suma po partiach: ile sztuk z partii · cena partii) w formacie koszt Z.GG. Jeśli w magazynie jest mniej sztuk, niż chcą kupić, nic się nie zmienia i wypisz brak towaru (jest K szt.). Na końcu wypisz, ile sztuk zostało i ile są warte (po cenach zakupu)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W każdym z q kolejnych wierszy DOSTAWA ilosc cena albo SPRZEDAZ ilosc."
+      ],
+      "output_format": [
+        "Wiersz dla każdej sprzedaży i wiersz zostalo: K szt., wartosc Z.GG."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 2000",
+        "1 ≤ ilosc ≤ 1000, 1 ≤ cena ≤ 100 000"
+      ],
+      "examples": [
+        {
+          "input": "5\nDOSTAWA 10 500\nDOSTAWA 5 800\nSPRZEDAZ 12\nSPRZEDAZ 4\nDOSTAWA 2 100",
+          "output": "koszt 66.00\nbrak towaru (jest 3 szt.)\nzostalo: 5 szt., wartosc 26.00",
+          "note": "Sprzedaż 12 sztuk: 10 z pierwszej partii (50.00) i 2 z drugiej (16.00) — 66.00. Zostały 3 sztuki, a ktoś chce 4. Na końcu: 3 sztuki po 8.00 i 2 po 1.00 — 26.00."
+        }
+      ],
+      "hint": "struct Partia { int ilosc; long long cena; }; vector<Partia> p; int pierwsza = 0;. Sprzedaż: najpierw sprawdź, czy suma sztuk wystarczy. Potem w pętli: int bierz = min(zostalo, p[pierwsza].ilosc); koszt += bierz * p[pierwsza].cena; p[pierwsza].ilosc -= bierz; if (p[pierwsza].ilosc == 0) pierwsza++;.",
+      "tests_count": 6
+    },
+    {
+      "id": "st-b-pole-sumy",
+      "number": 2148,
+      "title": "Pole sumy prostokątów",
+      "category": "Struct / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na kartce w kratkę narysowano n prostokątów o wierzchołkach w punktach kratowych (lewy dolny róg (x1, y1), prawy górny (x2, y2)). Prostokąty mogą na siebie nachodzić.",
+        "Policz pole figury zakrytej przez prostokąty (ich sumy) i pole części zakrytej przez co najmniej dwa prostokąty. Wskazówka: kratka o lewym dolnym rogu (x, y) należy do prostokąta, gdy x1 ≤ x < x2 i y1 ≤ y < y2 — wystarczy policzyć, ile prostokątów zakrywa każdą kratkę."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy x1 y1 x2 y2."
+      ],
+      "output_format": [
+        "Dwa wiersze: pole: A i co najmniej dwa razy: B."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 200",
+        "0 ≤ x1 < x2 ≤ 300, 0 ≤ y1 < y2 ≤ 300"
+      ],
+      "examples": [
+        {
+          "input": "3\n0 0 4 3\n2 1 6 5\n10 10 11 11",
+          "output": "pole: 25\nco najmniej dwa razy: 4",
+          "note": "Pierwsze dwa prostokąty mają pola 12 i 16, a nakładają się na kwadracie 2 × 2 — suma ma pole 12 + 16 − 4 = 24, do tego mały kwadrat 1. Dwa razy zakryte są 4 kratki."
+        }
+      ],
+      "hint": "int ile[300][300] (globalnie — same zera). Dla każdego prostokąta: for (x = x1; x < x2; x++) for (y = y1; y < y2; y++) ile[x][y]++;. Potem przejdź po wszystkich kratkach i policz te z ile ≥ 1 i ile ≥ 2. Najwyżej 200 · 90 000 = 18 milionów kroków.",
+      "tests_count": 7
+    },
+    {
+      "id": "st-b-wolne-terminy",
+      "number": 2149,
+      "title": "Wspólny wolny termin",
+      "category": "Struct / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "m osób szuka terminu wspólnego spotkania w godzinach pracy, od 08:00 do 18:00. Każda osoba podała swoje zajęte przedziały HH:MM–HH:MM (osoba jest zajęta od pierwszej godziny do drugiej; spotkanie może zacząć się dokładnie wtedy, gdy ktoś kończy zajęcie).",
+        "Wypisz wszystkie wolne dla wszystkich przedziały w godzinach pracy, które trwają co najmniej d minut — od najwcześniejszego. Jeśli takich nie ma, wypisz brak terminow."
+      ],
+      "input_format": [
+        "W pierwszym wierszu m i d.",
+        "Każda osoba to wiersz z imieniem i liczbą przedziałów k, a potem k wierszy HH:MM HH:MM."
+      ],
+      "output_format": [
+        "Wiersze HH:MM-HH:MM albo jeden wiersz brak terminow."
+      ],
+      "constraints": [
+        "1 ≤ m ≤ 50, 0 ≤ k ≤ 20, 1 ≤ d ≤ 600",
+        "Każdy przedział leży w godzinach 08:00–18:00 i ma dodatnią długość."
+      ],
+      "examples": [
+        {
+          "input": "2 30\nOla 2\n09:00 10:30\n13:00 14:00\nKuba 2\n10:00 11:00\n15:45 18:00",
+          "output": "08:00-09:00\n11:00-13:00\n14:00-15:45",
+          "note": "Zajęte razem: 09:00–11:00, 13:00–14:00, 15:45–18:00. Wolne: 08:00–09:00, 11:00–13:00 i 14:00–15:45 — każde ma co najmniej 30 minut."
+        }
+      ],
+      "hint": "Wrzuć wszystkie przedziały do jednego vector<Przedzial>, posortuj po początku. Idź z kursorem t = 8 * 60: jeśli przedział zaczyna się po t, to [t, początek] jest wolne; potem t = max(t, koniec). Na końcu sprawdź jeszcze [t, 18 * 60].",
+      "tests_count": 7
+    },
+    {
+      "id": "st-b-prostokaty-z-punktow",
+      "number": 2150,
+      "title": "Prostokąty z punktów",
+      "category": "Struct / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na płaszczyźnie jest n różnych punktów. Policz prostokąty o bokach równoległych do osi (o dodatnim polu), których wszystkie cztery wierzchołki są wśród tych punktów.",
+        "Pomysł: każdy taki prostokąt ma dokładnie jedną przekątną z lewego dolnego do prawego górnego rogu. Przejdź po wszystkich parach punktów (x1, y1), (x2, y2) z x1 < x2 i y1 < y2 i sprawdź w set<Punkt>, czy są w nim punkty (x1, y2) i (x2, y1)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy x i y."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba prostokątów."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1500",
+        "0 ≤ x, y ≤ 10⁹; punkty są różne."
+      ],
+      "examples": [
+        {
+          "input": "6\n0 0\n0 2\n3 0\n3 2\n5 0\n5 2",
+          "output": "3",
+          "note": "Trzy pionowe pary punktów na wysokościach 0 i 2 dają trzy prostokąty: x od 0 do 3, od 3 do 5 i od 0 do 5."
+        }
+      ],
+      "hint": "struct Punkt z bool operator<(const Punkt &o) const. Dwie pętle po parach (i, j); gdy v[i].x < v[j].x && v[i].y < v[j].y, sprawdź s.count({v[i].x, v[j].y}) && s.count({v[j].x, v[i].y}). Par jest ok. miliona, każde sprawdzenie w secie jest szybkie.",
+      "tests_count": 7
+    },
+    {
+      "id": "st-b-sale-wykladowe",
+      "number": 2151,
+      "title": "Przydział sal",
+      "category": "Struct / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na uczelni jest n wykładów; każdy ma nazwę, początek i koniec (HH:MM, wykład trwa od początku do tuż przed końcem — sala jest wolna już o godzinie końca). Sale numerujemy od 1. Dziekanat przydziela sale tak:",
+        "wykłady rozpatruje według godziny początku (przy równych — według końca, a potem według kolejności z wejścia). Gdy przychodzi pora na wykład zaczynający się o godzinie s, wszystkie sale, w których wykład skończył się najpóźniej o s, są wolne. Wykład dostaje wolną salę o najmniejszym numerze, a gdy żadna nie jest wolna — nową salę o numerze o jeden większym niż dotąd największy.",
+        "Wypisz liczbę użytych sal, a potem dla każdego wykładu (w kolejności z wejścia) jego salę. Zapamiętaj w strukturze wykładu jego numer z wejścia, żeby po sortowaniu móc zapisać wynik na właściwe miejsce."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy nazwa, początek i koniec."
+      ],
+      "output_format": [
+        "Wiersz sal: S, a potem n wierszy NAZWA: sala X."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "Nazwy mają od 1 do 10 znaków (małe litery i cyfry); początek jest przed końcem."
+      ],
+      "examples": [
+        {
+          "input": "5\nanaliza 08:00 10:00\nfizyka 09:00 11:00\nalgebra 10:00 12:00\nlogika 08:30 09:00\nbazy 11:00 12:30",
+          "output": "sal: 2\nanaliza: sala 1\nfizyka: sala 2\nalgebra: sala 1\nlogika: sala 2\nbazy: sala 2",
+          "note": "analiza → sala 1, logika (08:30) → sala 2, fizyka (09:00) → sala 2 (logika właśnie się skończyła), algebra (10:00) → sala 1, bazy (11:00) → sala 2. Wystarczą 2 sale."
+        }
+      ],
+      "hint": "set<int> wolne; set<pair<int, int>> zajete; — para (koniec, sala). Przed wykładem o początku s: while (!zajete.empty() && zajete.begin()->first <= s) { wolne.insert(zajete.begin()->second); zajete.erase(zajete.begin()); }. Potem weź *wolne.begin() albo nową salę, wpisz zajete.insert({koniec, sala}) i sala[w.nr] = ….",
+      "tests_count": 7
+    },
+    {
+      "id": "st-b-ranking-na-zywo",
+      "number": 2152,
+      "title": "Ranking na żywo",
+      "category": "Struct / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Gracze zdobywają punkty w grze online. Obsłuż q poleceń: PUNKTY nick x — gracz dostaje x punktów (gracz, który pojawia się pierwszy raz, zaczyna od 0); MIEJSCE nick — wypisz NICK: miejsce M, punkty P, gdzie M to 1 + liczba graczy z większą liczbą punktów, albo NICK: brak, jeśli gracz jeszcze nie grał; TOP k — wypisz top: i k najlepszych graczy w formacie NICK (PUNKTY), oddzielonych przecinkami (mniej, jeśli graczy jest mniej; top: brak, gdy nie ma żadnego).",
+        "Ranking: więcej punktów wyżej, przy równych punktach — alfabetycznie. Trzymaj graczy w set<Gracz> uporządkowanym operatorem< i w map<string, long long> z punktami: przy zmianie punktów usuń z setu stary rekord i wstaw nowy."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W każdym z q kolejnych wierszy jedno polecenie."
+      ],
+      "output_format": [
+        "Odpowiedzi na polecenia MIEJSCE i TOP, po jednej w wierszu."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 3000, poleceń MIEJSCE i TOP jest łącznie najwyżej 400",
+        "Nicki mają od 1 do 10 małych liter i cyfr; graczy jest najwyżej 1000.",
+        "1 ≤ x ≤ 1000, 1 ≤ k ≤ 3"
+      ],
+      "examples": [
+        {
+          "input": "7\nPUNKTY ala 50\nPUNKTY bob 70\nTOP 3\nPUNKTY ala 20\nMIEJSCE bob\nTOP 2\nMIEJSCE ewa",
+          "output": "top: bob (70), ala (50)\nbob: miejsce 1, punkty 70\ntop: ala (70), bob (70)\newa: brak",
+          "note": "Po dwóch wynikach prowadzi bob (70). Gdy ala ma też 70, oboje mają miejsce 1, a w TOP ala jest pierwsza alfabetycznie. ewa jeszcze nie grała."
+        }
+      ],
+      "hint": "struct Gracz { long long punkty; string nick; bool operator<(const Gracz &o) const { if (punkty != o.punkty) return punkty > o.punkty; return nick < o.nick; } };. Zmiana: if (pkt.count(n)) s.erase({pkt[n], n}); pkt[n] += x; s.insert({pkt[n], n});. MIEJSCE: idź od s.begin() i licz graczy z punkty > P.",
+      "tests_count": 7
+    },
+    {
+      "id": "st-b-rozklad-jazdy",
+      "number": 2153,
+      "title": "Rozkład jazdy",
+      "category": "Struct / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Sieć kolejowa ma m połączeń; połączenie to stacja odjazdu, stacja przyjazdu, godzina odjazdu i godzina przyjazdu (HH:MM tego samego dnia, przyjazd po odjeździe). Przesiadka nic nie kosztuje: jeśli dojedziesz na stację o godzinie t, możesz odjechać każdym połączeniem, które odjeżdża o t albo później.",
+        "Dla każdego z q pytań S T D (start ze stacji S o godzinie T, cel D) wypisz najwcześniejszą godzinę dotarcia do D albo nie da sie. Gdy S = D, odpowiedzią jest T.",
+        "Pomysł: posortuj połączenia po godzinie odjazdu i trzymaj dla każdej stacji najwcześniejszą znaną godzinę dotarcia (na starcie tylko S ma T). Idąc po połączeniach w tej kolejności, z połączenia można skorzystać, jeśli na jego stację odjazdu już dotarliśmy nie później niż o godzinie odjazdu — wtedy poprawiamy godzinę dla stacji przyjazdu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu m, potem m wierszy: skad dokad odjazd przyjazd.",
+        "Potem wiersz z q i q wierszy: S T D."
+      ],
+      "output_format": [
+        "q wierszy: HH:MM albo nie da sie."
+      ],
+      "constraints": [
+        "1 ≤ m ≤ 3000, 1 ≤ q ≤ 100",
+        "Stacje mają od 1 do 12 małych liter; skad ≠ dokad."
+      ],
+      "examples": [
+        {
+          "input": "4\nkrakow tarnow 08:00 09:10\ntarnow rzeszow 09:15 10:30\nkrakow rzeszow 08:30 11:00\ntarnow rzeszow 09:05 10:00\n3\nkrakow 07:50 rzeszow\nkrakow 08:10 rzeszow\nrzeszow 12:00 krakow",
+          "output": "10:30\n11:00\nnie da sie",
+          "note": "Z Krakowa o 07:50: pociąg 08:00 do Tarnowa (09:10), ale ten o 09:05 już odjechał — przesiadka na 09:15, przyjazd 10:30, wcześniej niż bezpośredni (11:00). Od 08:10 zostaje tylko bezpośredni. Z Rzeszowa nic nie jedzie."
+        }
+      ],
+      "hint": "struct Polaczenie { string skad, dokad; int odjazd, przyjazd; };. Dla każdego pytania: map<string, int> najw; najw[S] = T;. Po posortowanych połączeniach: if (najw.count(p.skad) && najw[p.skad] <= p.odjazd && (!najw.count(p.dokad) || p.przyjazd < najw[p.dokad])) najw[p.dokad] = p.przyjazd;.",
+      "tests_count": 7
+    },
+    {
+      "id": "st-b-zlecenia",
+      "number": 2154,
+      "title": "Zlecenia z największym zyskiem",
+      "category": "Struct / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Firma transportowa ma jedną ciężarówkę i n ofert zleceń; zlecenie zajmuje ciężarówkę od chwili start do chwili koniec i daje zysk. Zlecenia nie mogą na siebie nachodzić, ale nowe może zacząć się dokładnie wtedy, gdy poprzednie się kończy. Wybierz zlecenia tak, żeby łączny zysk był największy, i wypisz ten zysk.",
+        "Sposób: posortuj zlecenia po końcu. Niech dp[i] to największy zysk, jaki da się osiągnąć zleceniami spośród pierwszych i (po sortowaniu). Dla i-tego zlecenia albo go nie bierzesz (dp[i − 1]), albo bierzesz — wtedy do jego zysku dodajesz dp[j], gdzie j to liczba zleceń kończących się nie później niż start i-tego."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy start, koniec i zysk."
+      ],
+      "output_format": [
+        "Jedna liczba — największy łączny zysk."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 3000",
+        "0 ≤ start < koniec ≤ 10⁹, 1 ≤ zysk ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "4\n1 3 50\n3 5 20\n2 6 100\n6 7 30",
+          "output": "130",
+          "note": "Zlecenia 1, 2 i 4 dają 100, a zlecenia 3 i 4 — 130. Lepiej nie da się."
+        }
+      ],
+      "hint": "Po sortowaniu zapisz końce w vector<long long> konce. Liczbę zleceń kończących się najpóźniej w chwili s da upper_bound(konce.begin(), konce.end(), s) - konce.begin(). dp ma n + 1 elementów: dp[0] = 0, dp[i + 1] = max(dp[i], v[i].zysk + dp[j]). Wynik sięga 3 · 10⁹ — long long.",
+      "tests_count": 7
+    },
+    {
+      "id": "st-b-wieza-z-pudelek",
+      "number": 2155,
+      "title": "Wieża z pudełek",
+      "category": "Struct / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz n rodzajów pudełek (prostopadłościanów) o wymiarach a × b × c — każdego rodzaju dowolnie wiele sztuk. Pudełko można obrócić i postawić na dowolnej ścianie. Budujesz wieżę: pudełko można postawić na drugim tylko wtedy, gdy oba wymiary jego podstawy są ostro mniejsze od wymiarów podstawy pudełka pod spodem (podstawę też wolno obracać).",
+        "Wypisz największą możliwą wysokość wieży. Sposób: każde pudełko daje trzy struktury Klocek { int w, d, h } (wysokość to jeden wymiar, a podstawa to dwa pozostałe, ułożone tak, żeby w ≤ d). Posortuj klocki po w, a potem po d, i policz dp[i] — najwyższą wieżę z klockiem i na samej górze — jak przy najdłuższym podciągu rosnącym."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n.",
+        "W każdym z n kolejnych wierszy trzy wymiary a b c."
+      ],
+      "output_format": [
+        "Jedna liczba — największa wysokość wieży."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 300",
+        "1 ≤ a, b, c ≤ 10⁴"
+      ],
+      "examples": [
+        {
+          "input": "2\n4 6 7\n1 2 3",
+          "output": "15",
+          "note": "Pudełko 4 × 6 × 7 dzieli się na trzy klocki: podstawa 6 × 7 z wysokością 4, podstawa 4 × 7 z wysokością 6, podstawa 4 × 6 z wysokością 7. Najlepiej: 6 × 7 (4), na nim 4 × 6 (7), potem 2 × 3 (1) i 1 × 2 (3) — razem 15."
+        }
+      ],
+      "hint": "Klocek „na” klocku j: v[i].w < v[j].w && v[i].d < v[j].d. Po sortowaniu (po w rosnąco, potem d) każdy klocek, który może stać pod i (ma większą podstawę), jest w tablicy później — więc licz od góry wieży: dp[i] = v[i].h + max(dp[j]) po j < i z mniejszą podstawą. Wynik to max(dp).",
+      "tests_count": 7
+    },
+    {
+      "id": "st-b-ciag-fareya",
+      "number": 2156,
+      "title": "Ciąg Fareya",
+      "category": "Struct / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ciąg Fareya rzędu n to wszystkie ułamki nieskracalne p/q z przedziału od 0 do 1 (włącznie), których mianownik q wynosi najwyżej n, ułożone rosnąco. Na przykład dla n = 4: 0/1, 1/4, 1/3, 1/2, 2/3, 3/4, 1/1.",
+        "Wypisz, ile wyrazów ma ciąg Fareya rzędu n, a potem odpowiedz na q pytań: jaki ułamek stoi na k-tym miejscu (od 1)? Wygeneruj wszystkie ułamki p/q z 0 ≤ p ≤ q ≤ n i NWD(p, q) = 1 do vector<Ulamek>, posortuj operatorem< (porównanie na krzyż) i odpowiadaj z tablicy."
+      ],
+      "input_format": [
+        "W pierwszym wierszu n i q.",
+        "W drugim wierszu q liczb k."
+      ],
+      "output_format": [
+        "Wiersz wyrazow: C, a potem q wierszy z ułamkami p/q."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 300, 1 ≤ q ≤ 1000",
+        "1 ≤ k ≤ C (liczba wyrazów)"
+      ],
+      "examples": [
+        {
+          "input": "4 3\n1 4 7",
+          "output": "wyrazow: 7\n0/1\n1/2\n1/1",
+          "note": "Ciąg rzędu 4 ma 7 wyrazów: 0/1, 1/4, 1/3, 1/2, 2/3, 3/4, 1/1 — pierwszy to 0/1, czwarty 1/2, siódmy 1/1."
+        }
+      ],
+      "hint": "Dwie pętle: for (q = 1..n) for (p = 0..q) if (__gcd(p, q) == 1) v.push_back({p, q});. Ułamek 0/q jest nieskracalny tylko dla q = 1 (NWD(0, q) = q), a q/q — też tylko dla q = 1. operator<: return p * o.q < o.p * q;.",
+      "tests_count": 7
+    },
+    {
+      "id": "st-b-hotel",
+      "number": 2157,
+      "title": "Hotel",
+      "category": "Struct / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Hotel ma R pokoi o numerach 1, …, R. Rezerwacja obejmuje noce od dnia od do dnia do − 1 (wyjazd w dniu do — tej nocy pokój jest już wolny). Obsłuż q poleceń:",
+        "REZERWUJ id od do — nowa rezerwacja dostaje pokój o najniższym numerze, w którym żadna aktywna rezerwacja nie zajmuje żadnej z tych nocy; wypisz ID: pokoj P albo ID: brak miejsc (wtedy rezerwacja przepada). ODWOLAJ id — jeśli rezerwacja jest aktywna, usuń ją i wypisz ID: odwolana, inaczej ID: brak rezerwacji. KTO p noc — wypisz pokoj P, noc N: ID albo pokoj P, noc N: wolny.",
+        "Dwie rezerwacje [a, b) i [c, d) zajmują wspólną noc dokładnie wtedy, gdy a < d i c < b."
+      ],
+      "input_format": [
+        "W pierwszym wierszu R i q.",
+        "W każdym z q kolejnych wierszy jedno polecenie."
+      ],
+      "output_format": [
+        "Po jednym wierszu na każde polecenie."
+      ],
+      "constraints": [
+        "1 ≤ R ≤ 50, 1 ≤ q ≤ 1000",
+        "Identyfikatory rezerwacji to liczby od 1 do 10⁶, każda REZERWUJ ma nowy, jeszcze nieużyty identyfikator.",
+        "1 ≤ od < do ≤ 366, 1 ≤ p ≤ R, 1 ≤ noc ≤ 365"
+      ],
+      "examples": [
+        {
+          "input": "2 7\nREZERWUJ 1 10 15\nREZERWUJ 2 12 20\nREZERWUJ 3 15 16\nREZERWUJ 4 11 13\nKTO 2 14\nODWOLAJ 2\nREZERWUJ 5 13 14",
+          "output": "1: pokoj 1\n2: pokoj 2\n3: pokoj 1\n4: brak miejsc\npokoj 2, noc 14: 2\n2: odwolana\n5: pokoj 2",
+          "note": "Rezerwacja 1 → pokój 1, 2 nachodzi na nią → pokój 2, 3 zaczyna się w dniu wyjazdu 1 → pokój 1. Rezerwacja 4 nachodzi na obie — brak miejsc. Po odwołaniu 2 pokój 2 jest wolny."
+        }
+      ],
+      "hint": "struct Rezerwacja { int pokoj, od, doo; }; map<int, Rezerwacja> aktywne;. REZERWUJ: vector<bool> zajety(R + 1, false); dla każdej aktywnej r, która nachodzi na [od, do), zajety[r.pokoj] = true; potem najmniejszy wolny pokój. (Słowo do jest zarezerwowane w C++ — pole nazwij inaczej.)",
+      "tests_count": 7
+    },
+    {
+      "id": "st-b-final-gielda",
+      "number": 2158,
+      "title": "Wielki finał: giełda",
+      "category": "Struct / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Symulujesz arkusz zleceń na giełdzie. Zlecenie kupna to identyfikator, liczba akcji i najwyższa cena, jaką kupujący zapłaci; zlecenie sprzedaży — identyfikator, liczba akcji i najniższa cena, za jaką sprzedający sprzeda. Polecenia:",
+        "KUP id ilosc cena — dopóki zlecenie ma jeszcze akcje do kupienia, a w arkuszu jest zlecenie sprzedaży z ceną nie wyższą niż cena: weź najlepsze z nich (najtańsze, a przy równej cenie — najstarsze), zawrzyj transakcję na min(obie ilości) akcji po cenie zlecenia z arkusza i wypisz TRANSAKCJA kupujacy sprzedajacy ilosc cena. To, czego nie kupiono, czeka w arkuszu. SPRZEDAJ id ilosc cena — tak samo, tylko z czekającymi zleceniami kupna o cenie nie niższej niż cena, od najdroższego (przy równej cenie — najstarszego); transakcja po cenie zlecenia kupna.",
+        "ANULUJ id — jeśli zlecenie czeka w arkuszu, usuń je i wypisz ANULOWANO id, inaczej BRAK id. ARKUSZ — wypisz dwa wiersze: kupno: CENA x ILOSC dla najlepszej ceny kupna (ILOSC to suma akcji wszystkich czekających zleceń kupna z tą ceną) albo kupno: brak, i tak samo sprzedaz: CENA x ILOSC albo sprzedaz: brak."
+      ],
+      "input_format": [
+        "W pierwszym wierszu q.",
+        "W każdym z q kolejnych wierszy jedno polecenie."
+      ],
+      "output_format": [
+        "Wiersze wypisywane przez polecenia, w kolejności."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 2000",
+        "Identyfikatory zleceń są różne, od 1 do 10⁶; 1 ≤ ilosc ≤ 1000, 1 ≤ cena ≤ 10⁶",
+        "Program wypisuje co najmniej 1 i najwyżej 700 wierszy."
+      ],
+      "examples": [
+        {
+          "input": "7\nSPRZEDAJ 1 50 102\nSPRZEDAJ 2 30 100\nKUP 3 60 101\nARKUSZ\nKUP 4 70 105\nANULUJ 1\nARKUSZ",
+          "output": "TRANSAKCJA 3 2 30 100\nkupno: 101 x 30\nsprzedaz: 102 x 50\nTRANSAKCJA 4 1 50 102\nBRAK 1\nkupno: 105 x 20\nsprzedaz: brak",
+          "note": "Kupno 3 zawiera transakcję z najtańszym zleceniem 2 (30 akcji po 100); zlecenie 1 po 102 jest za drogie, więc 30 akcji czeka po 101. Kupno 4 bierze całe zlecenie 1 (50 po 102), a 20 akcji czeka po 105. Zlecenie 1 już nie istnieje."
+        }
+      ],
+      "hint": "Dwie struktury: Kupno z operator< (cena malejąco, potem czas rosnąco) i Sprzedaz (cena rosnąco, potem czas). set<Kupno> kupno; set<Sprzedaz> sprzedaz;. Elementów setu nie wolno zmieniać, więc pozostałe ilości trzymaj osobno: map<int, int> zostalo; — a map<int, Kupno> i map<int, Sprzedaz> pozwolą znaleźć zlecenie do anulowania. Najlepsze zlecenie to *s.begin().",
+      "tests_count": 7
     }
   ]
 }

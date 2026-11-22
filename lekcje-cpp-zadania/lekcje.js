@@ -1710,6 +1710,89 @@ const LEKCJE = [
             },
         ],
     },
+    {
+        temat: 'Struct',
+        prefix: 'st-',
+        plik: 'c++_logika/struct.html',
+        pliki: ['struct-cwiczenia-1.js', 'struct-cwiczenia-2.js', 'struct-cwiczenia-3.js', 'struct-baza.js'],
+        note: 'Lekcja o strukturach od podstaw: własny typ struct (pola, kropka, wczytywanie, wypisywanie i inicjalizacja klamrami), ' +
+            'kopiowanie całych rekordów i porównywanie pole po polu (najlepszy rekord w pętli, podium, kopia zapasowa), vector struktur, ' +
+            'struktury w funkcjach (kopia, & i const &, funkcja zwracająca strukturę), sortowanie struktur z komparatorem i kilkoma kryteriami, ' +
+            'metody, wartości domyślne pól i konstruktory, operatory (operator< do sort, set i map, operator== i operator+) ' +
+            'oraz struktury w strukturach i olimpijskie schematy: zdarzenia, przedziały i zapytania z numerami.',
+        bazaOpisy: {
+            latwe: 'Jedna, dwie struktury naraz: skoki narciarskie, rozkład pociągów, punkty w prostokątach, wspólna część prostokątów, świadectwo z wyróżnieniem, ' +
+                'paragony według kategorii, dni między datami, talia kart, meta biegu i trasa wycieczki.',
+            srednie: 'Struktury z sortowaniem, mapami i symulacją: tabela ligowa, ranking olimpiady, biblioteka z karami, najbliższa para punktów, kolejka do lekarza, ' +
+                'wybory, magazyn FIFO, pole sumy prostokątów, wolne terminy i prostokąty z punktów.',
+            trudne: 'Struktury w poważnych algorytmach: przydział sal, ranking na żywo, rozkład jazdy, zlecenia z największym zyskiem, wieża z pudełek, ciąg Fareya, ' +
+                'hotel z rezerwacjami — a na koniec wielki finał: giełda ze zleceniami kupna i sprzedaży.',
+        },
+        kroki: [
+            {
+                nr: 1, kotwica: 'pierwsza-struktura', spis: 'Pierwsza struktura — własny typ',
+                nazwa: 'Krok 1 · Pierwsza struktura — kilka wartości w jednej zmiennej',
+                kategoria: 'Struct / krok 1: pierwsza struktura',
+                note: 'Deklaracja struct ze średnikiem, pola różnych typów, dostęp kropką, wczytywanie i wypisywanie pole po polu, ' +
+                    'inicjalizacja klamrami: legitymacja, prostokąty, robot, zegar, daty urodzenia, ułamki, paragon i trójkąt z punktów.',
+            },
+            {
+                nr: 2, kotwica: 'kopiowanie', spis: 'Kopiowanie i porównywanie rekordów',
+                nazwa: 'Krok 2 · Kopiowanie i porównywanie — cały rekord naraz',
+                kategoria: 'Struct / krok 2: kopiowanie i porównywanie',
+                note: 'Przypisanie kopiuje wszystkie pola, najlepszy rekord w pętli, swap, porównywanie pole po polu i kilka kryteriów: ' +
+                    'najlepszy uczeń, najtańszy i najdroższy, najstarszy, kopia zapasowa, powtórzenia, pomiary, zmiany lidera i podium.',
+            },
+            {
+                nr: 3, kotwica: 'vector-struktur', spis: 'Vector struktur — lista rekordów',
+                nazwa: 'Krok 3 · Vector struktur — lista rekordów',
+                kategoria: 'Struct / krok 3: vector struktur',
+                note: 'Tablica i vector struktur, v[i].pole, push_back({…}), pętla for z & i const &, kilka przejść po danych, wyszukiwanie po polu ' +
+                    'i zmiany w miejscu: obecności, średnia, książka telefoniczna, podwyżki, stacje, wycieczki, upały i magazyn.',
+            },
+            {
+                nr: 4, kotwica: 'funkcje', spis: 'Struktury w funkcjach',
+                nazwa: 'Krok 4 · Struktury w funkcjach — kopia, & i zwracanie',
+                kategoria: 'Struct / krok 4: struktury w funkcjach',
+                note: 'Struktura jako parametr (kopia, & i const &), funkcja zwracająca strukturę i kilka wyników naraz, funkcje na punktach, ' +
+                    'czasie i ułamkach: trasa, środek odcinka, plan dnia, skracanie i suma ułamków, katalog, statystyka i pojedynek rycerzy.',
+            },
+            {
+                nr: 5, kotwica: 'sortowanie', spis: 'Sortowanie struktur',
+                nazwa: 'Krok 5 · Sortowanie struktur — komparator i kilka kryteriów',
+                kategoria: 'Struct / krok 5: sortowanie struktur',
+                note: 'sort z lambdą i z funkcją porównującą, kilka kryteriów i remisy, stable_sort, sortowanie po wartości liczonej, numery sprzed sortowania ' +
+                    'i miejsca ex aequo: ranking, lista alfabetyczna, punkty, kalendarz, numery startowe, średnie ocen i plan lekcji.',
+            },
+            {
+                nr: 6, kotwica: 'metody', spis: 'Metody i konstruktory',
+                nazwa: 'Krok 6 · Metody, wartości domyślne i konstruktory',
+                kategoria: 'Struct / krok 6: metody i konstruktory',
+                note: 'Funkcje wewnątrz struktury (metody), metody zmieniające pola, wartości domyślne pól i konstruktory: prostokąt, konto, robot, ' +
+                    'stoper, zamek szyfrowy, kalendarz z metodami, poziomy postaci i termometr ze statystyką.',
+            },
+            {
+                nr: 7, kotwica: 'operatory', spis: 'Operatory: <, == i +',
+                nazwa: 'Krok 7 · Operatory — porównywanie, dodawanie, set i map',
+                kategoria: 'Struct / krok 7: operatory',
+                note: 'operator< (const!) do sort, set i map, operator== i operator+: unikalne punkty, trafienia w tarczę, suma wektorów, ' +
+                    'sortowanie ułamków, przyjazdy pociągów, kalkulator ułamków, figury po przesunięciu i dziennik wizyt.',
+            },
+            {
+                nr: 8, kotwica: 'olimpiada', spis: 'Struktury w strukturach i schematy olimpijskie',
+                nazwa: 'Krok 8 · Struktury w strukturach i schematy olimpijskie',
+                kategoria: 'Struct / krok 8: zagnieżdżanie i schematy olimpijskie',
+                note: 'Struktura w strukturze, vector w strukturze, map struktur, zdarzenia posortowane po czasie, przedziały i zapytania z numerami: ' +
+                    'odcinki, dziennik, drużyny, banki, scalanie przedziałów, najwięcej osób naraz, konferencja i wyciąg narciarski.',
+            },
+            {
+                nr: 9, kotwica: 'baza', spis: 'Baza zadań', baza: true,
+                nazwa: 'Baza zadań — podsumowanie tematu',
+                kategoria: 'Struct / baza zadań',
+                note: '28 zadań na cały temat — od jednej struktury i rekordu w pętli, przez sortowanie z kilkoma kryteriami, mapy struktur i symulacje, po zdarzenia, przedziały i programowanie dynamiczne na posortowanych strukturach — a na koniec wielki finał: giełda.',
+            },
+        ],
+    },
 ];
 
 module.exports = { SITE, KATEGORIA, LEKCJE };

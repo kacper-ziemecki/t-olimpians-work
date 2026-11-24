@@ -1793,6 +1793,89 @@ const LEKCJE = [
             },
         ],
     },
+    {
+        temat: 'Kolejka',
+        prefix: 'kol-',
+        plik: 'c++_logika/kolejka.html',
+        pliki: ['kolejka-cwiczenia-1.js', 'kolejka-cwiczenia-2.js', 'kolejka-cwiczenia-3.js', 'kolejka-baza.js'],
+        note: 'Lekcja o kolejce od podstaw: queue i zasada „kto pierwszy, ten pierwszy” (push, front, back, pop, size, empty, opróżnianie kolejki), ' +
+            'polecenia i symulacje (obroty, wyliczanki, czyszczenie między testami, dlaczego nie vector z erase), kolejka par i struktur ' +
+            '(symulacje z czasem, procesor z kwantem czasu, rezygnacje), kolejka jako okno czasu i strumień, deque — kolejka z dwoma końcami, ' +
+            'maksimum w przesuwanym oknie (kolejka monotoniczna) oraz przeszukiwanie wszerz (BFS) na liczbach, grafach i planszach.',
+        bazaOpisy: {
+            latwe: 'Kolejka i deque w prostych symulacjach: czarna skrzynka, najlepszy tydzień, szczęśliwe liczby, playlista, stołówka, tasowanie kart, ' +
+                'gra w wojnę, wyliczanka z kartami, plotka w klasie i ewakuacja.',
+            srednie: 'Kilka kolejek naraz, sprytne symulacje i BFS w nowych przebraniach: talia magika, kolejka drużynowa, wagoniki, liczby z dwójek, trójek i piątek, ' +
+                'metro, wieża na planszy, wielokrotność z zer i jedynek, labirynt z kluczem, spokojne fragmenty i supermarket.',
+            trudne: 'Kolejki w poważnych algorytmach: burzenie ścian (BFS z deque), pożar i ucieczka, przesuwanka, maksimum w kwadracie, teleporty, ' +
+                'najkrótszy most, serwerownia — a na koniec wielki finał: gra w węża.',
+        },
+        kroki: [
+            {
+                nr: 1, kotwica: 'pierwsza-kolejka', spis: 'Pierwsza kolejka — kto pierwszy, ten lepszy',
+                nazwa: 'Krok 1 · Pierwsza kolejka — kto pierwszy, ten lepszy',
+                kategoria: 'Kolejka / krok 1: pierwsza kolejka',
+                note: 'queue i zasada FIFO: push, front, back, pop, size i empty, opróżnianie kolejki pętlą, brak indeksów, kopia kolejki i dwie kolejki naraz: ' +
+                    'bilety, obsługa po kolei, co zostało, kolejka po każdej zmianie, dwie kolejki na zmianę, najpierw parzyste, sito i wagony pociągu.',
+            },
+            {
+                nr: 2, kotwica: 'polecenia', spis: 'Polecenia, obroty i wyliczanki',
+                nazwa: 'Krok 2 · Polecenia, obroty i wyliczanki',
+                kategoria: 'Kolejka / krok 2: polecenia i obroty',
+                note: 'Polecenia dla kolejki i pusta kolejka, obrót push(front()) + pop(), wyliczanki, kilka testów i czyszczenie kolejki, ' +
+                    'dlaczego nie vector z erase(begin()): poczta, obrót, wyrzucanie kart, gorący ziemniak, ostatnia karta, dni w urzędzie i zamknięcie kasy.',
+            },
+            {
+                nr: 3, kotwica: 'pary-i-struktury', spis: 'Kolejka par i struktur',
+                nazwa: 'Krok 3 · Kolejka par i struktur — kto czeka i z czym',
+                kategoria: 'Kolejka / krok 3: kolejka par i struktur',
+                note: 'queue<pair> i queue<struct>, front() jako referencja, powrót na koniec z licznikiem, symulacje z czasem: weterynarz, karuzela, ' +
+                    'bilety, procesor z kwantem czasu, przystanek autobusowy, drukarka z priorytetami, rezygnacje i myjnia z poczekalnią.',
+            },
+            {
+                nr: 4, kotwica: 'okno', spis: 'Kolejka jako okno i strumień',
+                nazwa: 'Krok 4 · Kolejka jako okno — tylko świeże elementy',
+                kategoria: 'Kolejka / krok 4: okno i strumień',
+                note: 'Ostatnie k elementów, suma w oknie, ostatnie T sekund, gąsienica, okno z mapą i scalanie kolejek: suma ostatnich k, licznik odwiedzin, ' +
+                    'alarm temperatury, limit wiadomości, najdłuższy fragment, różne w oknie, scalanie i najaktywniejszy na czacie.',
+            },
+            {
+                nr: 5, kotwica: 'deque', spis: 'Deque — kolejka z dwoma końcami',
+                nazwa: 'Krok 5 · Deque — kolejka z dwoma końcami',
+                kategoria: 'Kolejka / krok 5: deque',
+                note: 'push_front, push_back, pop_front, pop_back, d[i] i pętla po deque: polecenia, palindromy, klub z VIP-ami, liczby na stole, gra z końców, ' +
+                    'obroty w obie strony, tekst z klawiatury z Home i End oraz obracanie do celu.',
+            },
+            {
+                nr: 6, kotwica: 'monotoniczna', spis: 'Maksimum w przesuwanym oknie',
+                nazwa: 'Krok 6 · Maksimum w przesuwanym oknie — kolejka monotoniczna',
+                kategoria: 'Kolejka / krok 6: kolejka monotoniczna',
+                note: 'Kolejka indeksów, deque z malejącymi wartościami, maksimum i minimum w oknie, dwie deque naraz i okno w programowaniu dynamicznym: ' +
+                    'pierwszy ujemny, maksimum w oknie, najzimniejszy dzień, rozpiętość, suma maksimów, dni rekordowe, spokojny fragment i skoki żaby.',
+            },
+            {
+                nr: 7, kotwica: 'bfs-liczby', spis: 'BFS — fala na liczbach i grafach',
+                nazwa: 'Krok 7 · BFS — najkrótsza droga falą przez kolejkę',
+                kategoria: 'Kolejka / krok 7: BFS na liczbach i grafach',
+                note: 'Przeszukiwanie wszerz: warstwy, tablica odległości z -1, oznaczanie przy wkładaniu, lista sąsiadów, odtwarzanie drogi i spójne grupy: ' +
+                    'przyciski kalkulatora, winda, znajomi, najdalej od startu, trasa, grupy znajomych, zamek szyfrowy i dzbanki z wodą.',
+            },
+            {
+                nr: 8, kotwica: 'bfs-plansza', spis: 'BFS na planszy',
+                nazwa: 'Krok 8 · BFS na planszy — labirynty i rozprzestrzenianie',
+                kategoria: 'Kolejka / krok 8: BFS na planszy',
+                note: 'BFS na kratkach z tablicami kierunków, wiele startów naraz, odtwarzanie drogi i duże plansze bez rekurencji: labirynt, fala w liczbach, ' +
+                    'najbliższe wyjście, pożar lasu, skoczek szachowy, droga z gwiazdek, najbliższy sklep i wielka mapa wysp.',
+            },
+            {
+                nr: 9, kotwica: 'baza', spis: 'Baza zadań', baza: true,
+                nazwa: 'Baza zadań — podsumowanie tematu',
+                kategoria: 'Kolejka / baza zadań',
+                note: '28 zadań na cały temat — od prostych symulacji z kolejką i deque, przez kilka kolejek naraz i BFS w nowych przebraniach, po BFS z deque, ' +
+                    'przeszukiwanie stanów i maksimum w kwadracie — a na koniec wielki finał: gra w węża.',
+            },
+        ],
+    },
 ];
 
 module.exports = { SITE, KATEGORIA, LEKCJE };

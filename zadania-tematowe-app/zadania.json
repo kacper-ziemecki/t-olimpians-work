@@ -70486,6 +70486,3109 @@
       ],
       "hint": "Dwie struktury: Kupno z operator< (cena malejąco, potem czas rosnąco) i Sprzedaz (cena rosnąco, potem czas). set<Kupno> kupno; set<Sprzedaz> sprzedaz;. Elementów setu nie wolno zmieniać, więc pozostałe ilości trzymaj osobno: map<int, int> zostalo; — a map<int, Kupno> i map<int, Sprzedaz> pozwolą znaleźć zlecenie do anulowania. Najlepsze zlecenie to *s.begin().",
       "tests_count": 7
+    },
+    {
+      "id": "kol-bilety-do-kina",
+      "number": 2159,
+      "title": "Kolejka do kina",
+      "category": "Kolejka / krok 1: pierwsza kolejka",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Przed kasą kina ustawiło się n osób. Wczytaj ich imiona w kolejności przychodzenia i wstaw każde do kolejki queue<string> poleceniem push.",
+        "Wypisz, kto stoi pierwszy (front), kto ostatni (back) i ile osób czeka (size). Potem kasjer sprzedaje bilety dwóm pierwszym osobom — dwa razy usuń pierwszą osobę z kolejki poleceniem pop, ale tylko wtedy, gdy ktoś jeszcze stoi. Na koniec wypisz, kto jest teraz pierwszy, albo słowo nikt, jeśli kolejka jest pusta."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n imion oddzielonych spacjami — w kolejności, w jakiej osoby przyszły."
+      ],
+      "output_format": [
+        "Cztery wiersze: pierwszy: …, ostatni: …, czeka: … oraz teraz pierwszy: … (imię albo słowo nikt)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 100",
+        "Imiona mają od 1 do 15 liter; pierwsza jest wielka, reszta małe. Imiona mogą się powtarzać."
+      ],
+      "examples": [
+        {
+          "input": "4\nAla Ola Kuba Ewa",
+          "output": "pierwszy: Ala\nostatni: Ewa\nczeka: 4\nteraz pierwszy: Kuba",
+          "note": "Pierwsza przyszła Ala, ostatnia Ewa. Po sprzedaży biletów Ali i Oli pierwszy w kolejce jest Kuba."
+        }
+      ],
+      "hint": "queue<string> q; i w pętli: cin >> imie; q.push(imie);. Potem q.front(), q.back() i q.size(). Dwie sprzedaże: for (int i = 0; i < 2; i++) if (!q.empty()) q.pop();. Na końcu: if (q.empty()) cout << \"nikt\"; else cout << q.front();.",
+      "tests_count": 7
+    },
+    {
+      "id": "kol-po-kolei",
+      "number": 2160,
+      "title": "Obsługa po kolei",
+      "category": "Kolejka / krok 1: pierwsza kolejka",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W urzędzie jest jedno okienko. Przyszło n osób — wczytaj ich imiona do kolejki queue<string>.",
+        "Potem obsługuj osoby po kolei, dopóki kolejka nie jest pusta: wypisz numer obsługi i imię pierwszej osoby, usuń ją z kolejki, a w nawiasie podaj, ile osób czeka jeszcze za nią. Na koniec wypisz, ile osób obsłużono."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n imion oddzielonych spacjami."
+      ],
+      "output_format": [
+        "n wierszy w formacie nr. imie (czeka jeszcze k), a potem wiersz obsluzono: n."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 500",
+        "Imiona mają od 1 do 15 liter i zaczynają się wielką literą; mogą się powtarzać."
+      ],
+      "examples": [
+        {
+          "input": "3\nKuba Ala Ola",
+          "output": "1. Kuba (czeka jeszcze 2)\n2. Ala (czeka jeszcze 1)\n3. Ola (czeka jeszcze 0)\nobsluzono: 3",
+          "note": "Kuba jest obsłużony pierwszy i za nim czekają jeszcze dwie osoby. Po obsłużeniu Oli kolejka jest pusta."
+        }
+      ],
+      "hint": "int nr = 1; while (!q.empty()) { string kto = q.front(); q.pop(); cout << nr << \". \" << kto << \" (czeka jeszcze \" << q.size() << \")\\n\"; nr++; }. Zwróć uwagę: najpierw pop, potem size — wtedy size mówi, ile osób zostało.",
+      "tests_count": 6
+    },
+    {
+      "id": "kol-co-zostalo",
+      "number": 2161,
+      "title": "Co zostało w kolejce?",
+      "category": "Kolejka / krok 1: pierwsza kolejka",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W kolejce do kasy stoi n klientów; każdy ma swój numer. Zanim kasa się zamknie, kasjer zdąży obsłużyć k klientów — po kolei, od pierwszego w kolejce.",
+        "Wstaw numery do kolejki queue<int>, a potem usuń z jej przodu k numerów — albo wszystkie, jeśli k jest większe niż liczba czekających (pop na pustej kolejce to błąd, więc pilnuj tego). Wypisz, ilu klientów obsłużono, a w drugim wierszu numery tych, którzy wciąż czekają, od pierwszego do ostatniego — albo słowo nikt."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n numerów klientów w kolejności z kolejki."
+      ],
+      "output_format": [
+        "Dwa wiersze: obsluzono: X oraz czekaja: … (numery oddzielone spacjami albo słowo nikt)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "0 ≤ k ≤ 2000",
+        "Numery klientów są od 1 do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "5 2\n17 4 9 30 2",
+          "output": "obsluzono: 2\nczekaja: 9 30 2",
+          "note": "Obsłużeni zostają 17 i 4. Czekają 9, 30 i 2 — w tej samej kolejności co na początku."
+        },
+        {
+          "input": "3 7\n5 6 7",
+          "output": "obsluzono: 3\nczekaja: nikt",
+          "note": "Kasjer mógłby obsłużyć 7 osób, ale czekają tylko 3. Kolejka jest pusta."
+        }
+      ],
+      "hint": "int obsluzono = 0; while (k > 0 && !q.empty()) { q.pop(); k--; obsluzono++; }. Potem wypisz resztę: while (!q.empty()) { cout << q.front() << \" \"; q.pop(); } — a jeśli kolejka była pusta od razu, wypisz nikt.",
+      "tests_count": 9
+    },
+    {
+      "id": "kol-po-kazdej-zmianie",
+      "number": 2162,
+      "title": "Kolejka po każdej zmianie",
+      "category": "Kolejka / krok 1: pierwsza kolejka",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Kolejka liczb jest na początku pusta. Wykonaj q poleceń: + x oznacza, że liczba x staje na końcu kolejki, a - — że pierwsza liczba wychodzi z kolejki. Polecenie - pojawia się tylko wtedy, gdy kolejka nie jest pusta.",
+        "Po każdym poleceniu wypisz całą kolejkę od pierwszej do ostatniej liczby (oddzielone spacjami) albo słowo pusta. Kolejki nie da się przejść pętlą for jak vectora — trzeba ją opróżniać. Napisz więc funkcję void wypisz(queue<int> q): parametr bez & to kopia, więc funkcja opróżnia tylko swoją kopię, a kolejka w main zostaje nietknięta."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z q kolejnych wierszy jedno polecenie: + x albo -."
+      ],
+      "output_format": [
+        "q wierszy — zawartość kolejki po każdym poleceniu (albo pusta)."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 60",
+        "1 ≤ x ≤ 999",
+        "Polecenie - nigdy nie dotyczy pustej kolejki."
+      ],
+      "examples": [
+        {
+          "input": "5\n+ 4\n+ 7\n+ 1\n-\n+ 9",
+          "output": "4\n4 7\n4 7 1\n7 1\n7 1 9",
+          "note": "Po trzech poleceniach + kolejka to 4 7 1. Polecenie - usuwa 4 (pierwszą), a 9 staje na końcu."
+        }
+      ],
+      "hint": "void wypisz(queue<int> q) { if (q.empty()) { cout << \"pusta\\n\"; return; } while (!q.empty()) { cout << q.front() << \" \"; q.pop(); } cout << \"\\n\"; } — w main po każdym poleceniu wołasz wypisz(q);. Polecenie czytaj jako char albo string: cin >> c; if (c == '+') { cin >> x; q.push(x); } else q.pop();.",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-na-zmiane",
+      "number": 2163,
+      "title": "Dwie kolejki na zmianę",
+      "category": "Kolejka / krok 1: pierwsza kolejka",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W sklepie stały dwie kolejki do dwóch kas: w pierwszej n osób, w drugiej m osób. Jedna kasa się zepsuła, więc kierownik zarządził: obsługujemy na zmianę — najpierw pierwszą osobę z pierwszej kolejki, potem pierwszą z drugiej, potem znów z pierwszej i tak dalej. Gdy jedna kolejka się skończy, obsługujemy już tylko osoby z drugiej.",
+        "Wczytaj obie kolejki do dwóch zmiennych queue<string> i wypisz imiona w kolejności obsługi, każde w osobnym wierszu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n, w drugim n imion z pierwszej kolejki (gdy n = 0, ten wiersz jest pusty).",
+        "W trzecim wierszu liczba m, w czwartym m imion z drugiej kolejki (gdy m = 0, wiersz jest pusty)."
+      ],
+      "output_format": [
+        "n + m wierszy — imiona w kolejności obsługi."
+      ],
+      "constraints": [
+        "0 ≤ n, m ≤ 500",
+        "n + m ≥ 1",
+        "Imiona mają od 1 do 15 liter i zaczynają się wielką literą."
+      ],
+      "examples": [
+        {
+          "input": "3\nAla Bartek Celina\n1\nDawid",
+          "output": "Ala\nDawid\nBartek\nCelina",
+          "note": "Najpierw Ala (kolejka 1), potem Dawid (kolejka 2). Druga kolejka jest już pusta, więc dalej tylko Bartek i Celina."
+        }
+      ],
+      "hint": "while (!a.empty() || !b.empty()) { if (!a.empty()) { cout << a.front() << \"\\n\"; a.pop(); } if (!b.empty()) { cout << b.front() << \"\\n\"; b.pop(); } }. Każde front() poprzedź sprawdzeniem empty().",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-najpierw-parzyste",
+      "number": 2164,
+      "title": "Najpierw parzyste",
+      "category": "Kolejka / krok 1: pierwsza kolejka",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb całkowitych. Każdą parzystą wstaw do kolejki parzyste, a każdą nieparzystą — do kolejki nieparzyste. Obie kolejki zachowują kolejność, w jakiej liczby przyszły.",
+        "Wypisz w pierwszym wierszu, ile jest liczb parzystych, i je same (opróżniając kolejkę), a w drugim — to samo dla nieparzystych. Jeśli jakaś kolejka jest pusta, zamiast liczb wypisz słowo brak. Uwaga: liczby mogą być ujemne."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Dwa wiersze: parzyste (k): … oraz nieparzyste (k): … — liczby oddzielone spacjami albo słowo brak."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "−10⁹ ≤ liczby ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "7\n3 -4 8 -7 0 5 12",
+          "output": "parzyste (4): -4 8 0 12\nnieparzyste (3): 3 -7 5",
+          "note": "Parzyste: −4, 8, 0 i 12 (zero też jest parzyste). Nieparzyste: 3, −7 i 5 — w tej samej kolejności co na wejściu."
+        }
+      ],
+      "hint": "Parzystość sprawdzaj warunkiem x % 2 == 0. Nie pisz x % 2 == 1 dla nieparzystych: dla −7 reszta wynosi −1, a nie 1 (lekcja o modulo). Wypisując, najpierw sprawdź q.empty() i ewentualnie wypisz brak.",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-sito",
+      "number": 2165,
+      "title": "Sito na kolejce",
+      "category": "Kolejka / krok 1: pierwsza kolejka",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W kolejce stoi n liczb. Potem kolejno działa m sit: sito k usuwa z kolejki wszystkie liczby podzielne przez k, a pozostałe zostawia w tej samej kolejności.",
+        "Przepuść kolejkę przez każde sito tak: tyle razy, ile liczb było w kolejce na początku tego sita, wyjmij liczbę z przodu i — jeśli nie jest podzielna przez k — wstaw ją z powrotem na koniec. Po każdym sicie wypisz, ile liczb zostało i która jest pierwsza. Na koniec wypisz całą kolejkę."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W drugim wierszu n liczb — zawartość kolejki od pierwszej do ostatniej.",
+        "W trzecim wierszu m liczb k — sita w kolejności działania."
+      ],
+      "output_format": [
+        "m wierszy: sito k: zostalo X, pierwsza Y (gdy X = 0 — tylko sito k: zostalo 0).",
+        "Na końcu wiersz kolejka: … (liczby oddzielone spacjami albo słowo pusta)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "1 ≤ m ≤ 50",
+        "1 ≤ liczby ≤ 10⁶",
+        "2 ≤ k ≤ 100"
+      ],
+      "examples": [
+        {
+          "input": "10 2\n2 3 4 5 6 7 8 9 10 11\n2 3",
+          "output": "sito 2: zostalo 5, pierwsza 3\nsito 3: zostalo 3, pierwsza 5\nkolejka: 5 7 11",
+          "note": "Sito 2 zostawia 3 5 7 9 11. Sito 3 usuwa 3 i 9 — zostają 5 7 11."
+        }
+      ],
+      "hint": "Najpierw int ile = q.size();, potem for (int i = 0; i < ile; i++) { int x = q.front(); q.pop(); if (x % k != 0) q.push(x); }. Nie pisz i < q.size() — rozmiar zmienia się w trakcie pętli i przejdziesz tylko część kolejki.",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-wagony",
+      "number": 2166,
+      "title": "Wagony pociągu",
+      "category": "Kolejka / krok 1: pierwsza kolejka",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Pociąg towarowy to kolejka wagonów z numerami: na początku ma n wagonów. Na każdej z s stacji najpierw z przodu pociągu odłącza się a wagonów (albo wszystkie, jeśli jest ich mniej), a potem na końcu dołącza się b nowych wagonów o podanych numerach.",
+        "Po każdej stacji wypisz, ile wagonów ma pociąg, oraz numer pierwszego i ostatniego wagonu. Jeśli pociąg nie ma żadnego wagonu, wypisz pociag pusty."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n, a po niej n numerów wagonów od pierwszego do ostatniego.",
+        "W drugim wierszu liczba s.",
+        "W każdym z s kolejnych wierszy liczby a i b, a po nich b numerów nowych wagonów (w kolejności doczepiania)."
+      ],
+      "output_format": [
+        "s wierszy: stacja i: wagonow c, pierwszy x, ostatni y albo stacja i: pociag pusty."
+      ],
+      "constraints": [
+        "0 ≤ n ≤ 1000",
+        "1 ≤ s ≤ 200",
+        "0 ≤ a ≤ 2000, 0 ≤ b ≤ 50",
+        "Numery wagonów są od 1 do 9999."
+      ],
+      "examples": [
+        {
+          "input": "3 11 12 13\n3\n1 2 20 21\n5 0\n0 1 30",
+          "output": "stacja 1: wagonow 4, pierwszy 12, ostatni 21\nstacja 2: pociag pusty\nstacja 3: wagonow 1, pierwszy 30, ostatni 30",
+          "note": "Stacja 1: odpada 11, dochodzą 20 i 21 — wagony 12 13 20 21. Stacja 2: odpada 5 wagonów, ale są tylko 4 — pociąg jest pusty. Stacja 3: dochodzi wagon 30."
+        }
+      ],
+      "hint": "Odłączanie: while (a > 0 && !q.empty()) { q.pop(); a--; }. Doczepianie: b razy cin >> x; q.push(x);. Potem if (q.empty()) … else cout << q.size() << \", pierwszy \" << q.front() << \", ostatni \" << q.back();.",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-polecenia",
+      "number": 2167,
+      "title": "Polecenia dla kolejki",
+      "category": "Kolejka / krok 2: polecenia i obroty",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Napisz program, który obsługuje kolejkę liczb całkowitych (na początku pustą) i wykonuje q poleceń:",
+        "• PUSH x — wstaw x na koniec kolejki (nic nie wypisuj),",
+        "• POP — usuń pierwszą liczbę i wypisz ją,",
+        "• FRONT — wypisz pierwszą liczbę, nie usuwając jej,",
+        "• BACK — wypisz ostatnią liczbę, nie usuwając jej,",
+        "• SIZE — wypisz, ile liczb jest w kolejce,",
+        "• EMPTY — wypisz TAK, jeśli kolejka jest pusta, albo NIE.",
+        "Jeśli POP, FRONT albo BACK dotyczą pustej kolejki, wypisz blad. W C++ nie wolno wywołać front() ani pop() na pustej kolejce — program mógłby się wywrócić albo po cichu zepsuć kolejkę — więc zawsze najpierw sprawdź empty()."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z q kolejnych wierszy jedno polecenie."
+      ],
+      "output_format": [
+        "Po jednym wierszu dla każdego polecenia innego niż PUSH."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 3000",
+        "1 ≤ x ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "9\nPUSH 5\nPUSH 8\nFRONT\nBACK\nSIZE\nPOP\nPOP\nPOP\nEMPTY",
+          "output": "5\n8\n2\n5\n8\nblad\nTAK",
+          "note": "Po dwóch PUSH kolejka to 5 8. Dwa POP wypisują 5 i 8, trzeci trafia na pustą kolejkę — blad. Na koniec kolejka jest pusta: TAK."
+        }
+      ],
+      "hint": "string p; cin >> p; if (p == \"PUSH\") { cin >> x; q.push(x); } else if (p == \"POP\") { if (q.empty()) cout << \"blad\\n\"; else { cout << q.front() << \"\\n\"; q.pop(); } } … — pop() nic nie zwraca, więc wartość odczytaj przez front() przed pop().",
+      "tests_count": 9
+    },
+    {
+      "id": "kol-poczta",
+      "number": 2168,
+      "title": "Okienko na poczcie",
+      "category": "Kolejka / krok 2: polecenia i obroty",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na poczcie jest jedno okienko. W ciągu dnia zdarza się q zdarzeń, w kolejności z wejścia:",
+        "• PRZYCHODZI imie — osoba staje na końcu kolejki,",
+        "• OKIENKO — urzędniczka obsługuje pierwszą osobę z kolejki: wypisz imie zalatwia sprawe, a jeśli nikt nie czeka — nikt nie czeka,",
+        "• ILE — wypisz, ile osób czeka w kolejce.",
+        "Po wszystkich zdarzeniach poczta się zamyka. Wypisz nieobsluzeni: i imiona osób, które wciąż czekają (w kolejności z kolejki), albo nieobsluzeni: brak."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z q kolejnych wierszy jedno zdarzenie."
+      ],
+      "output_format": [
+        "Po jednym wierszu dla każdego zdarzenia OKIENKO i ILE, a na końcu wiersz nieobsluzeni: …."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 2000",
+        "Imiona mają od 1 do 15 liter i zaczynają się wielką literą; mogą się powtarzać."
+      ],
+      "examples": [
+        {
+          "input": "7\nPRZYCHODZI Zosia\nPRZYCHODZI Adam\nILE\nOKIENKO\nPRZYCHODZI Ewa\nOKIENKO\nILE",
+          "output": "2\nZosia zalatwia sprawe\nAdam zalatwia sprawe\n1\nnieobsluzeni: Ewa",
+          "note": "Zosia przyszła pierwsza, więc pierwsza załatwia sprawę. Na końcu czeka jeszcze Ewa."
+        }
+      ],
+      "hint": "string z; cin >> z; if (z == \"PRZYCHODZI\") { cin >> imie; q.push(imie); } else if (z == \"OKIENKO\") { if (q.empty()) cout << \"nikt nie czeka\\n\"; else { cout << q.front() << \" zalatwia sprawe\\n\"; q.pop(); } } else cout << q.size() << \"\\n\";. Po pętli wypisz resztę kolejki.",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-obrot",
+      "number": 2169,
+      "title": "Obrót kolejki",
+      "category": "Kolejka / krok 2: polecenia i obroty",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W kolejce stoi n liczb. Jeden obrót to przeniesienie pierwszej liczby na koniec kolejki: q.push(q.front()); q.pop();.",
+        "Wykonaj k obrotów i wypisz kolejkę od pierwszej do ostatniej liczby. Uwaga: k może być ogromne (do 10¹⁸) — pętla wykonująca k obrotów nie skończyłaby się przez wiele lat. Zauważ, że po n obrotach kolejka wygląda dokładnie tak jak na początku."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n liczb — kolejka od pierwszej do ostatniej."
+      ],
+      "output_format": [
+        "Jeden wiersz: kolejka po k obrotach, liczby oddzielone spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "0 ≤ k ≤ 10¹⁸",
+        "1 ≤ liczby ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "5 7\n10 20 30 40 50",
+          "output": "30 40 50 10 20",
+          "note": "Po 5 obrotach kolejka wraca do początku, więc 7 obrotów to tyle samo co 2: 30 40 50 10 20."
+        }
+      ],
+      "hint": "long long k; — 10¹⁸ nie mieści się w int. Wykonaj tylko k % n obrotów: for (long long i = 0; i < k % n; i++) { q.push(q.front()); q.pop(); }.",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-wyrzucanie-kart",
+      "number": 2170,
+      "title": "Wyrzucanie kart",
+      "category": "Kolejka / krok 2: polecenia i obroty",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Talia ma n kart z numerami od 1 (na wierzchu) do n (na spodzie). Dopóki w talii są co najmniej dwie karty, powtarzamy: wyrzuć kartę z wierzchu, a potem kartę, która jest teraz na wierzchu, przełóż na spód talii.",
+        "Wypisz numery wyrzuconych kart w kolejności wyrzucania, a potem kartę, która została. Talia to kolejka: wierzch to front(), a spód — miejsce, gdzie trafia push()."
+      ],
+      "input_format": [
+        "Jedna liczba n."
+      ],
+      "output_format": [
+        "Dwa wiersze: wyrzucone: i numery kart oddzielone spacjami (gdy n = 1 — samo wyrzucone:) oraz zostala: k."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 4000"
+      ],
+      "examples": [
+        {
+          "input": "7",
+          "output": "wyrzucone: 1 3 5 7 4 2\nzostala: 6",
+          "note": "Talia 1 2 3 4 5 6 7: wyrzucamy 1, a 2 idzie pod spód (3 4 5 6 7 2). Potem wyrzucamy 3, a 4 idzie pod spód — i tak dalej. Zostaje 6."
+        }
+      ],
+      "hint": "Wstaw karty 1…n do queue<int>. while (q.size() > 1) { cout << q.front() << \" \"; q.pop(); q.push(q.front()); q.pop(); }. Ostatnia karta to q.front().",
+      "tests_count": 10
+    },
+    {
+      "id": "kol-goracy-ziemniak",
+      "number": 2171,
+      "title": "Gorący ziemniak",
+      "category": "Kolejka / krok 2: polecenia i obroty",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W kółku stoi n dzieci, w kolejności z wejścia. Ziemniak jest na początku u pierwszego dziecka. Gra ma n − 1 rund. W rundzie i muzyka gra tak długo, że ziemniak zostaje podany dalej kᵢ razy (każde podanie — do następnego dziecka w kółku), a gdy muzyka cichnie, dziecko, które trzyma ziemniak, odpada. Ziemniak dostaje wtedy następne dziecko w kółku.",
+        "Wypisz dzieci w kolejności odpadania i zwycięzcę. Kółko trzymaj w kolejce: dziecko z ziemniakiem to front(), a podanie dalej to przeniesienie pierwszego dziecka na koniec. Liczby kᵢ są duże — pełne okrążenie kółka niczego nie zmienia."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n różnych imion — dzieci w kolejności w kółku.",
+        "W trzecim wierszu n − 1 liczb k₁, k₂, …, kₙ₋₁."
+      ],
+      "output_format": [
+        "n − 1 wierszy odpada: imie, a potem wiersz wygrywa: imie."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 1000",
+        "0 ≤ kᵢ ≤ 10⁹",
+        "Imiona są różne i mają od 1 do 15 znaków."
+      ],
+      "examples": [
+        {
+          "input": "5\nAla Bartek Cyryl Daria Ewa\n2 3 1 4",
+          "output": "odpada: Cyryl\nodpada: Bartek\nodpada: Ewa\nodpada: Ala\nwygrywa: Daria",
+          "note": "Runda 1: dwa podania (Ala → Bartek → Cyryl), odpada Cyryl, ziemniak ma Daria. Runda 2: trzy podania od Darii: Ewa, Ala, Bartek — odpada Bartek. Runda 3: od Darii jedno podanie — odpada Ewa. Runda 4: zostali Ala i Daria; 4 podania to dwa pełne okrążenia, więc odpada Ala, która trzymała ziemniak."
+        }
+      ],
+      "hint": "Podanie dalej: q.push(q.front()); q.pop();. W rundzie wykonaj k % q.size() podań, a potem cout << \"odpada: \" << q.front() << \"\\n\"; q.pop();. Po n − 1 rundach zwycięzca to q.front().",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-ostatnia-karta",
+      "number": 2172,
+      "title": "Ostatnia karta",
+      "category": "Kolejka / krok 2: polecenia i obroty",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Talia ma n kart z numerami od 1 (na wierzchu) do n (na spodzie). Dopóki w talii są co najmniej dwie karty: wyrzuć kartę z wierzchu, a kartę, która jest teraz na wierzchu, przełóż na spód talii. Która karta zostanie?",
+        "W jednym wejściu jest t talii. Dla każdej wypisz numer karty, która zostanie. Talie są ogromne: vector z v.erase(v.begin()) przesuwa przy każdym usunięciu wszystkie pozostałe karty i dla miliona kart pracowałby wiele minut. Kolejka usuwa pierwszy element w jednym kroku. Pamiętaj, że każda talia zaczyna się od pustej kolejki."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "W każdym z t kolejnych wierszy liczba n — rozmiar talii."
+      ],
+      "output_format": [
+        "t wierszy — karta, która zostanie w każdej talii."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 5",
+        "1 ≤ n ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "3\n7\n1\n8",
+          "output": "6\n1\n8",
+          "note": "Z siedmiu kart zostaje 6 (jak w zadaniu „Wyrzucanie kart”). Talia z jedną kartą od razu jest gotowa. Z ośmiu kart zostaje ostatnia, 8."
+        }
+      ],
+      "hint": "for (int test = 0; test < t; test++) { int n; cin >> n; queue<int> q; for (int i = 1; i <= n; i++) q.push(i); while (q.size() > 1) { q.pop(); q.push(q.front()); q.pop(); } cout << q.front() << \"\\n\"; }. Kolejka zadeklarowana w środku pętli jest dla każdej talii nowa i pusta.",
+      "tests_count": 7
+    },
+    {
+      "id": "kol-dni-w-urzedzie",
+      "number": 2173,
+      "title": "Kilka dni w urzędzie",
+      "category": "Kolejka / krok 2: polecenia i obroty",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Urząd pracuje przez t dni. Każdego dnia zdarza się q zdarzeń: P imie — osoba staje na końcu kolejki, O — urzędnik obsługuje pierwszą osobę. Na koniec dnia wszyscy, którzy wciąż czekają, idą do domu, a następnego dnia kolejka zaczyna się od nowa, pusta.",
+        "Dla każdego dnia wypisz wiersz Dzien d:, potem dla każdego zdarzenia O imię obsłużonej osoby (albo nikt, jeśli kolejka była pusta), a na końcu dnia do domu: i imiona czekających w kolejności z kolejki (albo do domu: nikt)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "Dla każdego dnia: wiersz z liczbą q, a potem q wierszy ze zdarzeniami."
+      ],
+      "output_format": [
+        "Dla każdego dnia: Dzien d:, wiersze z obsłużonymi i wiersz do domu: …."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 20",
+        "1 ≤ q ≤ 200",
+        "Imiona mają od 1 do 15 liter i zaczynają się wielką literą."
+      ],
+      "examples": [
+        {
+          "input": "2\n4\nP Ala\nP Ola\nO\nP Ewa\n2\nO\nP Jan",
+          "output": "Dzien 1:\nAla\ndo domu: Ola Ewa\nDzien 2:\nnikt\ndo domu: Jan",
+          "note": "Pierwszego dnia obsłużono Alę, do domu poszły Ola i Ewa. Drugiego dnia kolejka jest pusta od rana, więc pierwsze O nikogo nie obsługuje."
+        }
+      ],
+      "hint": "Najprościej zadeklarować queue<string> q; wewnątrz pętli po dniach — wtedy każdego dnia jest nowa i pusta. Kolejka nie ma clear(); zadeklarowaną wyżej wyczyścisz przez q = queue<string>(); albo while (!q.empty()) q.pop();.",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-zamkniecie-kasy",
+      "number": 2174,
+      "title": "Zamknięcie kasy",
+      "category": "Kolejka / krok 2: polecenia i obroty",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W sklepie działają dwie kasy, każda ze swoją kolejką. Zdarzenia (w kolejności z wejścia):",
+        "• DO k imie — klient staje w kolejce do kasy k (k = 1 albo 2); jeśli kasa 2 jest już zamknięta, klient chcący do niej staje w kolejce do kasy 1,",
+        "• OBSLUZ k — kasa k obsługuje pierwszego klienta: wypisz kasa k: imie albo kasa k: pusto; jeśli kasa 2 jest zamknięta, na OBSLUZ 2 wypisz kasa 2: zamknieta,",
+        "• ZAMKNIJ — kasa 2 zamyka się na stałe, a wszyscy jej klienci przechodzą, w tej samej kolejności, na koniec kolejki do kasy 1 (zdarzenie pojawia się najwyżej raz).",
+        "Na koniec wypisz zawartość obu kolejek."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z q kolejnych wierszy jedno zdarzenie."
+      ],
+      "output_format": [
+        "Po jednym wierszu dla każdego OBSLUZ, a na końcu dwa wiersze: kasa 1: … oraz kasa 2: … (imiona w kolejności z kolejki, pusto albo — dla zamkniętej kasy 2 — zamknieta)."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 2000",
+        "Imiona mają od 1 do 15 liter i zaczynają się wielką literą."
+      ],
+      "examples": [
+        {
+          "input": "8\nDO 1 Ala\nDO 2 Bartek\nDO 2 Celina\nOBSLUZ 2\nDO 1 Dawid\nZAMKNIJ\nDO 2 Ewa\nOBSLUZ 2",
+          "output": "kasa 2: Bartek\nkasa 2: zamknieta\nkasa 1: Ala Dawid Celina Ewa\nkasa 2: zamknieta",
+          "note": "Kasa 2 obsłużyła Bartka. Przy zamknięciu Celina przechodzi za Dawida, a Ewa, która chciała do kasy 2, staje za Celiną."
+        }
+      ],
+      "hint": "Dwie kolejki queue<string> k1, k2; i zmienna bool zamknieta = false;. Przelewanie: while (!k2.empty()) { k1.push(k2.front()); k2.pop(); }. Przy DO 2 sprawdź, czy kasa nie jest zamknięta.",
+      "tests_count": 9
+    },
+    {
+      "id": "kol-weterynarz",
+      "number": 2175,
+      "title": "Poczekalnia u weterynarza",
+      "category": "Kolejka / krok 3: kolejka par i struktur",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Do weterynarza przyszło n zwierząt. Każde ma imię, gatunek i wiek. Zadeklaruj strukturę struct Zwierze { string imie; string gatunek; int wiek; }; i wstaw wszystkie zwierzęta do kolejki queue<Zwierze>.",
+        "Najpierw wypisz imię zwierzęcia, które czeka pierwsze, i tego, które czeka ostatnie (q.front().imie, q.back().imie). Potem weterynarz przyjmuje zwierzęta po kolei: dla każdego wypisz numer, imię, gatunek i wiek. Na koniec wypisz najstarsze zwierzę — jeśli kilka ma ten sam, największy wiek, to to, które było przyjęte najwcześniej."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z n kolejnych wierszy imię, gatunek i wiek zwierzęcia."
+      ],
+      "output_format": [
+        "Wiersze pierwszy: imie i ostatni: imie, potem n wierszy nr. imie (gatunek, wiek W), a na końcu najstarszy: imie (wiek W)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 300",
+        "Imię zaczyna się wielką literą i ma do 15 liter, gatunek to małe litery (do 15).",
+        "1 ≤ wiek ≤ 30"
+      ],
+      "examples": [
+        {
+          "input": "3\nBurek pies 5\nMruczek kot 12\nKropka krowa 12",
+          "output": "pierwszy: Burek\nostatni: Kropka\n1. Burek (pies, wiek 5)\n2. Mruczek (kot, wiek 12)\n3. Kropka (krowa, wiek 12)\nnajstarszy: Mruczek (wiek 12)",
+          "note": "Mruczek i Kropka mają po 12 lat; najstarszy jest Mruczek, bo został przyjęty wcześniej."
+        }
+      ],
+      "hint": "q.push({imie, gatunek, wiek}); — klamry tworzą strukturę. W pętli: Zwierze z = q.front(); q.pop(); i wypisujesz z.imie, z.gatunek, z.wiek. Najstarszego pamiętaj w zmiennej typu Zwierze i podmieniaj tylko przy z.wiek > naj.wiek.",
+      "tests_count": 7
+    },
+    {
+      "id": "kol-karuzela",
+      "number": 2176,
+      "title": "Karuzela",
+      "category": "Kolejka / krok 3: kolejka par i struktur",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Do karuzeli ustawiło się n dzieci; dziecko o imieniu imie chce się przejechać r razy. Karuzela zabiera jedno dziecko na jeden przejazd: pierwsze dziecko z kolejki jedzie, a potem — jeśli chce jechać jeszcze raz — wraca na koniec kolejki.",
+        "Trzymaj w kolejce pary {imię, ile przejazdów jeszcze} i wypisz imiona dzieci w kolejności przejazdów (w jednym wierszu), a w drugim wierszu łączną liczbę przejazdów."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z n kolejnych wierszy imię dziecka i liczba r."
+      ],
+      "output_format": [
+        "Dwa wiersze: imiona w kolejności przejazdów (oddzielone spacjami) oraz przejazdow: S."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 100",
+        "1 ≤ r ≤ 30",
+        "Łączna liczba przejazdów nie przekracza 3000.",
+        "Imiona mają od 1 do 15 liter i zaczynają się wielką literą."
+      ],
+      "examples": [
+        {
+          "input": "3\nAla 2\nOla 1\nKuba 3",
+          "output": "Ala Ola Kuba Ala Kuba Kuba\nprzejazdow: 6",
+          "note": "Ala, Ola, Kuba — potem Ola już nie wraca, więc dalej jadą Ala i Kuba, a na końcu sam Kuba."
+        }
+      ],
+      "hint": "queue<pair<string, int>> q; q.push({imie, r});. W pętli: auto [imie, ile] = q.front(); q.pop(); cout << imie << \" \"; if (ile > 1) q.push({imie, ile - 1});. auto [a, b] bez & robi kopię, więc po pop() wolno jej dalej używać.",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-bilety-na-mecz",
+      "number": 2177,
+      "title": "Bilety na mecz",
+      "category": "Kolejka / krok 3: kolejka par i struktur",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Przed kasą stoi n kibiców, ponumerowanych od 1 w kolejności w kolejce. Kibic i chce kupić tᵢ biletów, ale kasa sprzedaje jednemu kibicowi tylko jeden bilet naraz. Każda sprzedaż trwa minutę: pierwszy kibic kupuje bilet i — jeśli potrzebuje kolejnych — staje na końcu kolejki.",
+        "Dla każdego kibica, w kolejności numerów, wypisz minutę, w której kupił swój ostatni bilet (pierwsza sprzedaż kończy się w minucie 1). W kolejce trzymaj pary {numer kibica, ile biletów jeszcze potrzebuje}, a wyniki zapisuj do vectora pod numerem kibica."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb t₁, t₂, …, tₙ."
+      ],
+      "output_format": [
+        "Jeden wiersz: n liczb — minuty zakończenia zakupów kibiców 1, 2, …, n."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "1 ≤ tᵢ ≤ 100"
+      ],
+      "examples": [
+        {
+          "input": "3\n2 3 2",
+          "output": "4 7 6",
+          "note": "Minuty: 1 — kibic 1, 2 — kibic 2, 3 — kibic 3, 4 — kibic 1 (kończy), 5 — kibic 2, 6 — kibic 3 (kończy), 7 — kibic 2 (kończy)."
+        }
+      ],
+      "hint": "queue<pair<int, int>> q; q.push({i, t});. int minuta = 0; while (!q.empty()) { auto [kto, ile] = q.front(); q.pop(); minuta++; if (ile == 1) koniec[kto] = minuta; else q.push({kto, ile - 1}); }.",
+      "tests_count": 7
+    },
+    {
+      "id": "kol-procesor",
+      "number": 2178,
+      "title": "Procesor z kwantem czasu",
+      "category": "Kolejka / krok 3: kolejka par i struktur",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "System operacyjny ma n programów do wykonania; program o nazwie s potrzebuje t milisekund pracy procesora. Programy czekają w kolejce w kolejności z wejścia. Procesor bierze pierwszy program z kolejki i pracuje nad nim przez Q milisekund (tak zwany kwant czasu) — albo krócej, jeśli programowi zostało mniej. Jeśli program jeszcze się nie skończył, wraca na koniec kolejki.",
+        "Zegar startuje od 0, a przełączanie programów nie zajmuje czasu. Wypisz programy w kolejności kończenia, z chwilą zakończenia każdego z nich."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i Q.",
+        "W każdym z n kolejnych wierszy nazwa programu i liczba t."
+      ],
+      "output_format": [
+        "n wierszy: nazwa programu i chwila jego zakończenia."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 100",
+        "1 ≤ Q ≤ 10⁴",
+        "1 ≤ t ≤ 10⁴",
+        "Nazwy są różne i składają się z małych liter (do 15)."
+      ],
+      "examples": [
+        {
+          "input": "3 100\ngra 250\nedytor 80\nmuzyka 150",
+          "output": "edytor 180\nmuzyka 430\ngra 480",
+          "note": "Gra pracuje 0–100 i wraca, edytor kończy w 180, muzyka pracuje 180–280 i wraca, gra 280–380, muzyka kończy w 430, gra w 480."
+        }
+      ],
+      "hint": "queue<pair<string, int>> q; long long czas = 0; while (!q.empty()) { auto [s, t] = q.front(); q.pop(); int ile = min(Q, t); czas += ile; t -= ile; if (t == 0) cout << s << \" \" << czas << \"\\n\"; else q.push({s, t}); }.",
+      "tests_count": 9
+    },
+    {
+      "id": "kol-przystanek",
+      "number": 2179,
+      "title": "Przystanek autobusowy",
+      "category": "Kolejka / krok 3: kolejka par i struktur",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na przystanek przychodzą pasażerowie i przyjeżdżają autobusy. Zdarzenia są podane w kolejności, w jakiej zachodzą:",
+        "• P t imie — w chwili t na przystanek przychodzi pasażer i staje na końcu kolejki,",
+        "• A t c — w chwili t przyjeżdża autobus, który ma c wolnych miejsc; wsiada do niego tylu pierwszych pasażerów z kolejki, ile się zmieści.",
+        "Dla każdego autobusu wypisz, ilu pasażerów wsiadło, ich imiona i ile minut czekał ten z nich, który czekał najdłużej (to zawsze ten, który wsiadł pierwszy). Na końcu wypisz, ilu pasażerów zostało na przystanku. Trzymaj w kolejce strukturę struct Pasazer { string imie; int t; }."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba zdarzeń q.",
+        "W każdym z q kolejnych wierszy jedno zdarzenie."
+      ],
+      "output_format": [
+        "Dla każdego autobusu wiersz o t: wsiadlo k (imiona), najdluzej czekal X min — a gdy nikt nie wsiadł: o t: wsiadlo 0.",
+        "Na końcu wiersz zostalo: k."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "0 ≤ t ≤ 10⁶, chwile nie maleją",
+        "0 ≤ c ≤ 100",
+        "Imiona mają od 1 do 15 liter i zaczynają się wielką literą."
+      ],
+      "examples": [
+        {
+          "input": "6\nP 3 Ala\nP 5 Ola\nP 5 Kuba\nA 10 2\nA 12 3\nP 20 Ewa",
+          "output": "o 10: wsiadlo 2 (Ala Ola), najdluzej czekal 7 min\no 12: wsiadlo 1 (Kuba), najdluzej czekal 7 min\nzostalo: 1",
+          "note": "Pierwszy autobus zabiera Alę i Olę; Ala czekała 10 − 3 = 7 minut. Drugi zabiera Kubę (7 minut), a Ewa zostaje na przystanku."
+        }
+      ],
+      "hint": "struct Pasazer { string imie; int t; }; queue<Pasazer> q;. Przy autobusie: int k = min(c, (int)q.size()); — pierwszy wsiadający to q.front(), czekał t − q.front().t. Potem k razy: zbierz imię i zrób pop().",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-drukarka",
+      "number": 2180,
+      "title": "Drukarka z priorytetami",
+      "category": "Kolejka / krok 3: kolejka par i struktur",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Do drukarki trafiło n dokumentów, ponumerowanych od 1 w kolejności w kolejce. Dokument i ma ważność wᵢ od 1 do 9. Drukarka bierze pierwszy dokument z kolejki. Jeśli w kolejce czeka jakikolwiek dokument o większej ważności, odkłada wzięty dokument na koniec kolejki. W przeciwnym razie drukuje go — drukowanie trwa minutę.",
+        "Wypisz numery dokumentów w kolejności drukowania, a w drugim wierszu — w której minucie wydrukowano dokument numer m (pierwszy wydruk kończy się w minucie 1)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W drugim wierszu n ważności w₁, w₂, …, wₙ."
+      ],
+      "output_format": [
+        "Dwa wiersze: numery dokumentów w kolejności drukowania oraz dokument m: minuta X."
+      ],
+      "constraints": [
+        "1 ≤ m ≤ n ≤ 1000",
+        "1 ≤ wᵢ ≤ 9"
+      ],
+      "examples": [
+        {
+          "input": "4 3\n1 2 9 1",
+          "output": "3 2 4 1\ndokument 3: minuta 1",
+          "note": "Dokumenty 1 i 2 idą na koniec, bo czeka ważniejszy dokument 3 — drukuje się on pierwszy. Potem kolejka to 4 1 2: dokument 4 idzie na koniec (czeka 2 o ważności 2), dokument 1 też — drukuje się 2, a po nim 4 i 1."
+        }
+      ],
+      "hint": "queue<int> q; z numerami dokumentów, ważności w vectorze w, a int ile[10] = {}; liczy, ile dokumentów każdej ważności jeszcze czeka. Wziąwszy dokument d, sprawdź: czy ile[k] > 0 dla jakiegoś k > w[d]? Jeśli tak — q.push(d), jeśli nie — drukuj i zmniejsz ile[w[d]].",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-rezygnacje",
+      "number": 2181,
+      "title": "Rezygnacje z kolejki",
+      "category": "Kolejka / krok 3: kolejka par i struktur",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Do lekarza przychodzą pacjenci. Każdy pacjent przychodzi najwyżej raz (imiona są różne). Zdarzenia:",
+        "• PRZYCHODZI imie — pacjent staje na końcu kolejki,",
+        "• REZYGNUJE imie — pacjent, który wciąż czeka (ale może stać w środku kolejki), rezygnuje i wychodzi,",
+        "• OBSLUZ — lekarz przyjmuje pierwszego czekającego pacjenta: wypisz jego imię albo nikt.",
+        "Na koniec wypisz, ilu pacjentów wciąż czeka, i ich imiona w kolejności z kolejki. Z kolejki można usuwać tylko z przodu — zapamiętuj więc rezygnacje w zbiorze set<string> i pomijaj takich pacjentów dopiero wtedy, gdy znajdą się na początku kolejki."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z q kolejnych wierszy jedno zdarzenie."
+      ],
+      "output_format": [
+        "Po jednym wierszu dla każdego OBSLUZ, a na końcu wiersz czeka (k): imiona albo czeka (0): nikt."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 4000",
+        "REZYGNUJE dotyczy zawsze pacjenta, który przyszedł, nie został przyjęty i jeszcze nie zrezygnował.",
+        "Imiona mają do 15 znaków (litery i cyfry)."
+      ],
+      "examples": [
+        {
+          "input": "7\nPRZYCHODZI Ala\nPRZYCHODZI Bartek\nPRZYCHODZI Celina\nREZYGNUJE Ala\nOBSLUZ\nREZYGNUJE Celina\nOBSLUZ",
+          "output": "Bartek\nnikt\nczeka (0): nikt",
+          "note": "Ala zrezygnowała, więc pierwszy OBSLUZ pomija ją i przyjmuje Bartka. Celina też zrezygnowała — drugi OBSLUZ nie ma kogo przyjąć."
+        }
+      ],
+      "hint": "set<string> rez; int czeka = 0;. Przy OBSLUZ: while (!q.empty() && rez.count(q.front())) q.pop(); — zrezygnowanych zdejmujesz dopiero teraz. Licznik czeka zwiększaj przy przyjściu, zmniejszaj przy rezygnacji i obsłużeniu; na końcu znów pomiń zrezygnowanych.",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-myjnia",
+      "number": 2182,
+      "title": "Myjnia z poczekalnią",
+      "category": "Kolejka / krok 3: kolejka par i struktur",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Myjnia ma jedno stanowisko i poczekalnię na co najwyżej P samochodów. Przyjeżdża n samochodów; samochód i przyjeżdża w chwili aᵢ (chwile nie maleją), a jego mycie trwa wᵢ minut. Gdy stanowisko się zwalnia, od razu wjeżdża na nie pierwszy samochód z poczekalni.",
+        "Gdy samochód przyjeżdża w chwili t: najpierw na stanowisko wjeżdżają wszystkie samochody z poczekalni, których mycie może zacząć się najpóźniej w chwili t (także te, które zaczynają dokładnie w t). Potem, jeśli stanowisko jest wolne, nowy samochód od razu zaczyna mycie; jeśli jest zajęte, a w poczekalni jest mniej niż P samochodów — czeka; w przeciwnym razie odjeżdża bez mycia.",
+        "Dla każdego samochodu, w kolejności z wejścia, wypisz chwilę rozpoczęcia i zakończenia mycia albo odjechal."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i P.",
+        "W każdym z n kolejnych wierszy liczby aᵢ i wᵢ."
+      ],
+      "output_format": [
+        "n wierszy: start koniec albo odjechal."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "0 ≤ P ≤ 50",
+        "0 ≤ aᵢ ≤ 10⁶, chwile nie maleją",
+        "1 ≤ wᵢ ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "5 1\n0 10\n2 5\n3 4\n10 2\n15 1",
+          "output": "0 10\n10 15\nodjechal\n15 17\n17 18",
+          "note": "Auto 1 myje się 0–10. Auto 2 czeka w poczekalni, auto 3 odjeżdża (poczekalnia pełna). W chwili 10 auto 2 wjeżdża na stanowisko (10–15), a auto 4 zajmuje poczekalnię i myje się 15–17. Auto 5 przyjeżdża w 15, kiedy auto 4 właśnie wjechało — czeka i myje się 17–18."
+        }
+      ],
+      "hint": "int wolne = 0; — chwila, od której stanowisko jest wolne. queue<int> q; — numery aut w poczekalni. Przy przyjeździe w chwili t: while (!q.empty() && wolne <= t) { int c = q.front(); q.pop(); start[c] = wolne; wolne += w[c]; }. Potem: if (q.empty() && wolne <= t) start = t, wolne = t + w; else if ((int)q.size() < P) q.push(i); else odjechal. Po pętli opróżnij poczekalnię tak samo.",
+      "tests_count": 9
+    },
+    {
+      "id": "kol-suma-ostatnich",
+      "number": 2183,
+      "title": "Suma ostatnich k",
+      "category": "Kolejka / krok 4: okno i strumień",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Licznik rowerów na ścieżce co minutę podaje, ile rowerów przejechało. Wczytaj n kolejnych odczytów i po każdym wypisz, ile rowerów przejechało w ciągu ostatnich k minut (licząc bieżącą). Na początku, gdy odczytów jest mniej niż k, zsumuj wszystkie dotychczasowe.",
+        "Nie sumuj za każdym razem od nowa. Trzymaj ostatnie odczyty w kolejce i ich sumę w zmiennej: nowy odczyt wchodzi do kolejki i do sumy, a gdy w kolejce jest więcej niż k odczytów, najstarszy z niej wychodzi i odejmujesz go od sumy."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n odczytów."
+      ],
+      "output_format": [
+        "n wierszy — suma ostatnich k odczytów po każdym odczycie."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 2000",
+        "0 ≤ odczyt ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "6 3\n4 1 7 2 0 5",
+          "output": "4\n5\n12\n10\n9\n7",
+          "note": "Sumy: 4, 4 + 1 = 5, 4 + 1 + 7 = 12, potem okno się przesuwa: 1 + 7 + 2 = 10, 7 + 2 + 0 = 9, 2 + 0 + 5 = 7."
+        }
+      ],
+      "hint": "queue<int> q; long long suma = 0;. Dla każdego x: q.push(x); suma += x; if ((int)q.size() > k) { suma -= q.front(); q.pop(); } cout << suma << \"\\n\";. Suma 2000 odczytów po milion nie mieści się w int.",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-licznik-odwiedzin",
+      "number": 2184,
+      "title": "Licznik odwiedzin",
+      "category": "Kolejka / krok 4: okno i strumień",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Serwer zapisuje chwile, w których ktoś wszedł na stronę (w milisekundach, rosnąco). Po każdym wejściu w chwili t licznik pokazuje, ile było wejść w przedziale od t − T do t włącznie — razem z tym ostatnim.",
+        "Wstawiaj chwile wejść do kolejki. Zanim odczytasz licznik, usuń z przodu kolejki wszystkie wejścia starsze niż t − T. Ponieważ chwile rosną, stare wejścia zawsze stoją na początku kolejki."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i T.",
+        "W drugim wierszu n chwil wejść, rosnąco."
+      ],
+      "output_format": [
+        "n wierszy — stan licznika po każdym wejściu."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 3000",
+        "0 ≤ T ≤ 10⁹",
+        "0 ≤ chwile ≤ 10⁹, ściśle rosnące"
+      ],
+      "examples": [
+        {
+          "input": "5 3000\n1 100 3001 3002 7000",
+          "output": "1\n2\n3\n3\n1",
+          "note": "W chwili 3001 liczą się wejścia od 1 do 3001 — wszystkie trzy. W chwili 3002 wejście z chwili 1 jest już za stare (1 < 2). W chwili 7000 zostaje tylko ono samo."
+        }
+      ],
+      "hint": "queue<int> q;. Dla każdej chwili t: q.push(t); while (q.front() < t - T) q.pop(); cout << q.size() << \"\\n\";. Kolejka nigdy nie będzie pusta w tym while, bo właśnie wstawiłeś t, a t ≥ t − T.",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-alarm",
+      "number": 2185,
+      "title": "Alarm temperatury",
+      "category": "Kolejka / krok 4: okno i strumień",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Czujnik w szklarni co minutę podaje temperaturę. Alarm patrzy na ostatnie k odczytów: od minuty k (gdy jest już k odczytów) alarm jest włączony wtedy, gdy średnia z ostatnich k odczytów jest większa niż T, a wyłączony — gdy jest mniejsza albo równa T. Przed minutą k alarm jest wyłączony.",
+        "Wypisz każdą zmianę stanu alarmu: w której minucie się włączył, a w której wyłączył. Na końcu wypisz, przez ile minut alarm był włączony. Nie licz średniej na double: średnia jest większa niż T wtedy i tylko wtedy, gdy suma ostatnich k odczytów jest większa niż T · k."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n, k i T.",
+        "W drugim wierszu n temperatur — odczyty z minut 1, 2, …, n."
+      ],
+      "output_format": [
+        "Dla każdej zmiany wiersz minuta i: alarm wlaczony albo minuta i: alarm wylaczony.",
+        "Na końcu wiersz minut z alarmem: X."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 5000",
+        "−50 ≤ T ≤ 50",
+        "−50 ≤ temperatura ≤ 50"
+      ],
+      "examples": [
+        {
+          "input": "7 3 20\n18 21 22 25 15 19 30",
+          "output": "minuta 3: alarm wlaczony\nminuta 6: alarm wylaczony\nminuta 7: alarm wlaczony\nminut z alarmem: 4",
+          "note": "Średnie od minuty 3: 61/3, 68/3, 62/3, 59/3, 64/3. Sumy porównujemy z 60: alarm włącza się w minucie 3, wyłącza w 6 i znów włącza w 7. Był włączony w minutach 3, 4, 5 i 7."
+        }
+      ],
+      "hint": "Suma ostatnich k odczytów — jak w „Sumie ostatnich k”. bool wlaczony = false;. Od minuty k: bool teraz = suma > T * k; if (teraz != wlaczony) { wypisz zmianę; wlaczony = teraz; } if (teraz) minut++;.",
+      "tests_count": 9
+    },
+    {
+      "id": "kol-limit-wiadomosci",
+      "number": 2186,
+      "title": "Limit wiadomości",
+      "category": "Kolejka / krok 4: okno i strumień",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Żeby nikt nie zasypywał czatu, serwer przyjmuje wiadomość wysłaną w chwili t tylko wtedy, gdy w ostatnich T sekundach — czyli w chwilach od t − T + 1 do t — przyjął mniej niż k wiadomości. Wiadomości odrzucone nie liczą się do limitu.",
+        "Dla każdej wiadomości, w kolejności wysyłania, wypisz OK albo ODRZUCONA, a na końcu — ile wiadomości przyjęto. W kolejce trzymaj chwile przyjętych wiadomości; przed decyzją usuń z jej przodu te, które wypadły z okna."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n, k i T.",
+        "W drugim wierszu n chwil wysłania wiadomości (niemalejąco)."
+      ],
+      "output_format": [
+        "n wierszy OK albo ODRZUCONA, a potem wiersz przyjete: X."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 3000",
+        "1 ≤ k ≤ 100",
+        "1 ≤ T ≤ 10⁹",
+        "0 ≤ chwile ≤ 10⁹, niemalejące"
+      ],
+      "examples": [
+        {
+          "input": "6 2 10\n1 3 5 11 12 20",
+          "output": "OK\nOK\nODRZUCONA\nOK\nODRZUCONA\nOK\nprzyjete: 4",
+          "note": "Przyjęte są wiadomości z chwil 1 i 3. Wiadomość z chwili 5 przekroczyłaby limit. W chwili 11 okno to 2–11 — jest w nim tylko wiadomość z 3, więc 11 przechodzi. W 12 okno 3–12 ma już 3 i 11 — odrzucona. W 20 okno 11–20 ma tylko 11."
+        }
+      ],
+      "hint": "queue<long long> q; — chwile przyjętych. Dla każdej chwili t: while (!q.empty() && q.front() <= t - T) q.pop(); if ((int)q.size() < k) { q.push(t); cout << \"OK\\n\"; } else cout << \"ODRZUCONA\\n\";.",
+      "tests_count": 9
+    },
+    {
+      "id": "kol-gasienica",
+      "number": 2187,
+      "title": "Najdłuższy fragment z małą sumą",
+      "category": "Kolejka / krok 4: okno i strumień",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dany jest ciąg n liczb dodatnich i liczba S. Znajdź najdłuższy spójny fragment ciągu (kilka kolejnych liczb), którego suma nie przekracza S. Wypisz jego długość i pozycję, od której się zaczyna (pozycje liczymy od 1). Jeśli najdłuższych fragmentów jest kilka, wybierz ten, który zaczyna się najwcześniej. Jeśli każda liczba jest większa niż S, wypisz brak.",
+        "Użyj „gąsienicy”: przechodź po liczbach, dokładaj każdą na koniec kolejki i do sumy, a dopóki suma przekracza S — usuwaj liczby z przodu. Po każdym kroku kolejka to najdłuższy dobry fragment kończący się na bieżącej liczbie."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i S.",
+        "W drugim wierszu n liczb dodatnich."
+      ],
+      "output_format": [
+        "Jeden wiersz: dlugosc L, od pozycji p albo brak."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10⁴",
+        "1 ≤ liczby ≤ 10⁴",
+        "1 ≤ S ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "8 10\n4 3 5 1 2 6 1 1",
+          "output": "dlugosc 4, od pozycji 4",
+          "note": "Fragmenty 3 5 1 (suma 9) i 5 1 2 (suma 8) mają długość 3. Dłuższy jest 1 2 6 1 o sumie 10 — zaczyna się na pozycji 4. Fragment 2 6 1 1 też ma długość 4 i sumę 10, ale zaczyna się później."
+        }
+      ],
+      "hint": "queue<int> q; long long suma = 0;. Dla i-tej liczby x: q.push(x); suma += x; while (suma > S) { suma -= q.front(); q.pop(); } if ((int)q.size() > naj) { naj = q.size(); start = i - naj + 1; }. Ostra nierówność > zostawia najwcześniejszy fragment.",
+      "tests_count": 9
+    },
+    {
+      "id": "kol-rozne-w-oknie",
+      "number": 2188,
+      "title": "Ile różnych w oknie?",
+      "category": "Kolejka / krok 4: okno i strumień",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dany jest ciąg n liczb i długość okna k. Dla każdego okna — fragmentu k kolejnych liczb, od pozycji 1–k, przez 2–(k+1), aż do (n−k+1)–n — wypisz, ile różnych wartości w nim jest.",
+        "Trzymaj okno w kolejce, a w mapie map<int, int> zapisuj, ile razy każda wartość występuje w oknie. Nowa liczba zwiększa swój licznik; liczba, która wypada z przodu okna, zmniejsza swój i — jeśli licznik spadnie do zera — znika z mapy. Liczba różnych wartości to wtedy rozmiar mapy."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n liczb."
+      ],
+      "output_format": [
+        "Jeden wiersz: n − k + 1 liczb — liczby różnych wartości w kolejnych oknach."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 3000",
+        "1 ≤ liczby ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "7 3\n5 5 2 5 7 7 7",
+          "output": "2 2 3 2 1",
+          "note": "Okna: 5 5 2 (dwie różne), 5 2 5 (dwie), 2 5 7 (trzy), 5 7 7 (dwie), 7 7 7 (jedna)."
+        }
+      ],
+      "hint": "map<int, int> ile; queue<int> q;. Dla każdego x: q.push(x); ile[x]++; if ((int)q.size() > k) { int y = q.front(); q.pop(); ile[y]--; if (ile[y] == 0) ile.erase(y); } if ((int)q.size() == k) cout << ile.size() << \" \";.",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-scalanie",
+      "number": 2189,
+      "title": "Scalanie dwóch kolejek",
+      "category": "Kolejka / krok 4: okno i strumień",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dwie kolejki zawierają liczby posortowane niemalejąco. Scal je w jeden posortowany ciąg: dopóki obie kolejki nie są puste, porównaj ich pierwsze elementy i zabierz mniejszy (przy równych — ten z pierwszej kolejki). Gdy jedna kolejka się opróżni, dopisz resztę drugiej.",
+        "Wypisz scalony ciąg, a w drugim wierszu — z której kolejki pochodzi każda kolejna liczba: znak 1 albo 2 dla każdej liczby, bez spacji."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n, w drugim n liczb pierwszej kolejki.",
+        "W trzecim wierszu liczba m, w czwartym m liczb drugiej kolejki."
+      ],
+      "output_format": [
+        "Dwa wiersze: n + m liczb scalonego ciągu oraz napis z n + m znaków 1 i 2."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 2000",
+        "0 ≤ liczby ≤ 1000, w każdej kolejce niemalejąco"
+      ],
+      "examples": [
+        {
+          "input": "3\n1 4 4\n4\n2 4 5 9",
+          "output": "1 2 4 4 4 5 9\n1211222",
+          "note": "Najpierw 1 (kolejka 1), 2 (kolejka 2). Potem trzy czwórki: dwie z pierwszej kolejki idą przed czwórką z drugiej, bo przy remisie wygrywa pierwsza."
+        }
+      ],
+      "hint": "while (!a.empty() && !b.empty()) { if (a.front() <= b.front()) { wynik.push_back(a.front()); skad += '1'; a.pop(); } else { … b … } }. Potem dwie pętle dla reszty a i reszty b.",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-najaktywniejszy",
+      "number": 2190,
+      "title": "Najaktywniejszy na czacie",
+      "category": "Kolejka / krok 4: okno i strumień",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na czacie pojawia się n wiadomości; każda ma chwilę wysłania (w sekundach, niemalejąco) i nick autora. Po każdej wiadomości wysłanej w chwili t moderator chce wiedzieć, kto jest najaktywniejszy, czyli kto napisał najwięcej wiadomości w ostatnich T sekundach — w chwilach od t − T + 1 do t (razem z tą ostatnią). Przy remisie wygrywa nick wcześniejszy w alfabecie.",
+        "Trzymaj w kolejce pary {chwila, nick} z okna, a w mapie map<string, int> — ile wiadomości z okna napisał każdy autor. Po każdej wiadomości przejdź po mapie i znajdź najaktywniejszego."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i T.",
+        "W każdym z n kolejnych wierszy chwila i nick."
+      ],
+      "output_format": [
+        "n wierszy — nick najaktywniejszego autora po każdej wiadomości."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2500",
+        "1 ≤ T ≤ 10⁹",
+        "0 ≤ chwile ≤ 10⁹, niemalejące",
+        "Nicki to imiona z wielkiej litery (do 15 liter); różnych nicków jest najwyżej 20."
+      ],
+      "examples": [
+        {
+          "input": "5 10\n1 Ola\n2 Kuba\n5 Kuba\n11 Ola\n13 Ola",
+          "output": "Ola\nKuba\nKuba\nKuba\nOla",
+          "note": "Po drugiej wiadomości jest remis 1 : 1 — wygrywa Kuba, bo jest wcześniej w alfabecie. Po trzeciej Kuba ma 2, Ola 1. W chwili 11 okno to 2–11: Kuba 2, Ola 1. W chwili 13 okno 4–13: Kuba 1 (z chwili 5), Ola 2."
+        }
+      ],
+      "hint": "queue<pair<int, string>> q; map<string, int> ile;. Wiadomość: q.push({t, nick}); ile[nick]++; while (q.front().first <= t - T) { ile[q.front().second]--; q.pop(); }. Potem pętla po mapie: for (auto &[kto, ile_w] : ile) if (ile_w > naj) … — mapa idzie alfabetycznie, więc ostra nierówność daje remisom pierwszeństwo alfabetyczne.",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-deque-polecenia",
+      "number": 2191,
+      "title": "Polecenia dla deque",
+      "category": "Kolejka / krok 5: deque",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Obsłuż kolejkę dwustronną deque<int>, na początku pustą, i wykonaj q poleceń:",
+        "• PUSH_FRONT x i PUSH_BACK x — wstaw x na początek albo na koniec (nic nie wypisuj),",
+        "• POP_FRONT i POP_BACK — usuń element z początku albo z końca i wypisz go,",
+        "• FRONT i BACK — wypisz element z początku albo z końca, nie usuwając go,",
+        "• SIZE — wypisz liczbę elementów.",
+        "Jeśli POP_FRONT, POP_BACK, FRONT albo BACK dotyczą pustej deque, wypisz blad."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z q kolejnych wierszy jedno polecenie."
+      ],
+      "output_format": [
+        "Po jednym wierszu dla każdego polecenia, które coś wypisuje."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 3000",
+        "1 ≤ x ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "8\nPUSH_BACK 5\nPUSH_FRONT 3\nPUSH_BACK 9\nFRONT\nPOP_BACK\nPOP_BACK\nSIZE\nPOP_FRONT",
+          "output": "3\n9\n5\n1\n3",
+          "note": "Po trzech wstawieniach deque to 3 5 9. Dwa POP_BACK zdejmują 9 i 5, zostaje 3 — a potem POP_FRONT zdejmuje także ją."
+        }
+      ],
+      "hint": "deque<int> d;. Odczyt przed zdjęciem jak w kolejce: cout << d.back() << \"\\n\"; d.pop_back();. Pop i podgląd tylko po sprawdzeniu if (d.empty()) cout << \"blad\\n\";.",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-palindromy",
+      "number": 2192,
+      "title": "Palindromy z deque",
+      "category": "Kolejka / krok 5: deque",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Palindrom to słowo, które czytane od tyłu jest takie samo jak od przodu, na przykład kajak albo potop. Dla każdego z t słów sprawdź, czy jest palindromem.",
+        "Wstaw litery słowa do deque<char>. Dopóki w deque są co najmniej dwie litery: porównaj pierwszą z ostatnią — jeśli są różne, słowo nie jest palindromem; jeśli są takie same, zdejmij obie (pop_front i pop_back) i sprawdzaj dalej."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "W każdym z t kolejnych wierszy jedno słowo."
+      ],
+      "output_format": [
+        "t wierszy: TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100",
+        "Słowa składają się z małych liter i mają od 1 do 1000 znaków; łącznie najwyżej 30 000 znaków."
+      ],
+      "examples": [
+        {
+          "input": "4\nkajak\nkotek\nx\nabba",
+          "output": "TAK\nNIE\nTAK\nTAK",
+          "note": "W słowie kotek już pierwsza para k i k się zgadza, ale druga — o i e — nie. Jedna litera to zawsze palindrom."
+        }
+      ],
+      "hint": "deque<char> d; for (char c : s) d.push_back(c); bool ok = true; while (d.size() > 1) { if (d.front() != d.back()) { ok = false; break; } d.pop_front(); d.pop_back(); }.",
+      "tests_count": 7
+    },
+    {
+      "id": "kol-klub-vip",
+      "number": 2193,
+      "title": "Klub z VIP-ami",
+      "category": "Kolejka / krok 5: deque",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Przed klubem stoi kolejka. Zdarzenia:",
+        "• GOSC imie — zwykły gość staje na końcu kolejki,",
+        "• VIP imie — VIP staje na samym początku kolejki (przed wszystkimi, także przed wcześniejszymi VIP-ami),",
+        "• WEJSCIE — pierwsza osoba z kolejki wchodzi do klubu: wypisz wchodzi: imie albo wchodzi: nikt,",
+        "• ODCHODZI — ostatnia osoba w kolejce traci cierpliwość i odchodzi: wypisz odchodzi: imie albo odchodzi: nikt.",
+        "Na koniec wypisz czekających od pierwszego do ostatniego. Deque można przejść pętlą for jak vector."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z q kolejnych wierszy jedno zdarzenie."
+      ],
+      "output_format": [
+        "Po jednym wierszu dla każdego WEJSCIE i ODCHODZI, a na końcu czekaja: imiona albo czekaja: nikt."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 2000",
+        "Imiona mają od 1 do 15 liter i zaczynają się wielką literą."
+      ],
+      "examples": [
+        {
+          "input": "7\nGOSC Ala\nGOSC Bartek\nVIP Celina\nODCHODZI\nVIP Daria\nWEJSCIE\nGOSC Ewa",
+          "output": "odchodzi: Bartek\nwchodzi: Daria\nczekaja: Celina Ala Ewa",
+          "note": "Po trzech zdarzeniach kolejka to Celina Ala Bartek. Odchodzi ostatni, Bartek. Daria staje przed Celiną i pierwsza wchodzi do klubu. Na końcu czekają Celina, Ala i Ewa."
+        }
+      ],
+      "hint": "deque<string> d;. GOSC → d.push_back(imie), VIP → d.push_front(imie), WEJSCIE → front() i pop_front(), ODCHODZI → back() i pop_back(). Na końcu: for (string &s : d) cout << \" \" << s;.",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-liczby-na-stole",
+      "number": 2194,
+      "title": "Liczby na stole",
+      "category": "Kolejka / krok 5: deque",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Bajtek wyciąga z pudełka po kolei n kartek z liczbami i układa je w rzędzie na stole. Pierwszą kartkę po prostu kładzie. Każdą następną kartkę z liczbą x kładzie na lewym końcu rzędu, jeśli x jest mniejsze albo równe liczbie na lewej skrajnej kartce, a w przeciwnym razie — na prawym końcu.",
+        "Wypisz rząd kartek od lewej do prawej oraz — w drugim wierszu — ile kartek trafiło na lewy koniec (nie licząc pierwszej)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb w kolejności wyciągania."
+      ],
+      "output_format": [
+        "Dwa wiersze: rząd kartek (liczby oddzielone spacjami) oraz na lewo: k."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "1 ≤ liczby ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "6\n5 3 8 3 1 6",
+          "output": "1 3 3 5 8 6\nna lewo: 3",
+          "note": "Rząd po kolei: 5 → 3 5 → 3 5 8 → 3 3 5 8 (3 ≤ 3) → 1 3 3 5 8 → 1 3 3 5 8 6."
+        }
+      ],
+      "hint": "deque<int> d;. Pierwszą liczbę: d.push_back(x). Dla kolejnych: if (x <= d.front()) { d.push_front(x); naLewo++; } else d.push_back(x);. Wypisz pętlą for (int x : d).",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-gra-z-koncow",
+      "number": 2195,
+      "title": "Gra z końców",
+      "category": "Kolejka / krok 5: deque",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na stole leży rząd n kart z liczbami. Ala i Bartek grają na zmianę, zaczyna Ala. W swoim ruchu gracz bierze jedną skrajną kartę — z lewego albo z prawego końca rzędu — i zawsze wybiera tę z większą liczbą (gdy na obu końcach jest ta sama liczba, bierze lewą). Wynik gracza to suma liczb na jego kartach.",
+        "Wypisz wyniki obu graczy i zwycięzcę (albo remis)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb na kartach, od lewej do prawej."
+      ],
+      "output_format": [
+        "Trzy wiersze: Ala: X, Bartek: Y oraz wygrywa: Ala, wygrywa: Bartek albo remis."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "1 ≤ liczby ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "5\n4 1 2 10 3",
+          "output": "Ala: 15\nBartek: 5\nwygrywa: Ala",
+          "note": "Ala bierze 4 (bo 4 > 3), Bartek 3, Ala 10, Bartek 2, Ala 1. Ala: 15, Bartek: 5."
+        }
+      ],
+      "hint": "deque<int> d; long long wynik[2] = {0, 0}; int kto = 0;. W pętli while (!d.empty()): if (d.front() >= d.back()) { wynik[kto] += d.front(); d.pop_front(); } else { wynik[kto] += d.back(); d.pop_back(); } kto = 1 - kto;.",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-obroty-w-obie-strony",
+      "number": 2196,
+      "title": "Obroty w obie strony",
+      "category": "Kolejka / krok 5: deque",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W deque stoi n liczb. Wykonaj q poleceń:",
+        "• L k — obróć deque k razy w lewo: pierwszy element przechodzi na koniec,",
+        "• R k — obróć deque k razy w prawo: ostatni element przechodzi na początek,",
+        "• ? p — wypisz p-ty element od początku (pozycje liczymy od 1).",
+        "Liczby k są duże — pamiętaj, że n obrotów w jedną stronę niczego nie zmienia."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i q.",
+        "W drugim wierszu n liczb — deque od początku do końca.",
+        "W każdym z q kolejnych wierszy jedno polecenie."
+      ],
+      "output_format": [
+        "Po jednym wierszu dla każdego polecenia ? p."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "1 ≤ q ≤ 2000",
+        "0 ≤ k ≤ 10⁹",
+        "1 ≤ p ≤ n",
+        "1 ≤ liczby ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "5 5\n1 2 3 4 5\nL 2\n? 1\nR 7\n? 1\n? 5",
+          "output": "3\n1\n5",
+          "note": "Po L 2 deque to 3 4 5 1 2. R 7 to tyle samo co R 2: 1 2 3 4 5. Pierwsza jest 1, piąta 5."
+        }
+      ],
+      "hint": "Obrót w lewo: d.push_back(d.front()); d.pop_front();. W prawo: d.push_front(d.back()); d.pop_back();. Wykonaj k % n obrotów. Pytanie: cout << d[p - 1] << \"\\n\";.",
+      "tests_count": 7
+    },
+    {
+      "id": "kol-klawiatura",
+      "number": 2197,
+      "title": "Klawiatura z Home i End",
+      "category": "Kolejka / krok 5: deque",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Bajtek pisze tekst na zepsutej klawiaturze: czasem sam z siebie naciska się klawisz Home (przenosi kursor na początek tekstu) albo End (przenosi kursor na koniec). Na wejściu Home jest zapisany jako [, a End jako ]. Na początku kursor jest na końcu (pustego) tekstu, a każda litera pojawia się w miejscu kursora, który przesuwa się za nią.",
+        "Dla każdego wiersza wejścia wypisz tekst, który zobaczy Bajtek. Podpowiedź: tekst napisany po [ trafia w całości na początek, a tekst po ] — w całości na koniec. Zbieraj kolejne kawałki do napisu i przy każdym [ albo ] dokładaj gotowy kawałek do deque<string> z przodu albo z tyłu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "W każdym z t kolejnych wierszy jeden ciąg naciśnięć: małe litery, cyfry, znaki _ oraz [ i ]."
+      ],
+      "output_format": [
+        "t wierszy — teksty, które powstaną."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 20",
+        "Wiersz ma od 1 do 10⁴ znaków, łącznie najwyżej 50 000 znaków.",
+        "Każdy wiersz zawiera co najmniej jeden znak, który nie jest nawiasem."
+      ],
+      "examples": [
+        {
+          "input": "3\nla_[ala_]ma_kota\n[[a]b[c\nab[cd[ef]gh",
+          "output": "ala_la_ma_kota\ncab\nefcdabgh",
+          "note": "W pierwszym wierszu ala_ trafia przed la_: ala_la_ma_kota. W drugim: a na początek, b na koniec, c znów na początek — cab. W trzecim: ab, potem cd na początek, ef jeszcze przed nim, a gh na koniec: efcdabgh."
+        }
+      ],
+      "hint": "deque<string> d; string kawalek = \"\"; bool naPoczatek = false;. Dla każdego znaku: jeśli to [ albo ], to dołóż kawałek (naPoczatek ? d.push_front(kawalek) : d.push_back(kawalek)), wyczyść go i ustaw naPoczatek = (c == '['); w przeciwnym razie kawalek += c;. Po pętli dołóż ostatni kawałek i wypisz wszystkie kawałki po kolei.",
+      "tests_count": 7
+    },
+    {
+      "id": "kol-obracanie-do-celu",
+      "number": 2198,
+      "title": "Obracanie do celu",
+      "category": "Kolejka / krok 5: deque",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W deque stoją liczby 1, 2, …, n. Trzeba z niej wyjąć m podanych liczb, w podanej kolejności. Wolno wykonywać trzy ruchy: zdjąć pierwszy element (za darmo), obrócić deque w lewo (pierwszy element na koniec — koszt 1) albo w prawo (ostatni element na początek — koszt 1).",
+        "Dla każdej kolejnej liczby znajdź jej pozycję p w deque (licząc od 0), obróć deque krótszą drogą — p razy w lewo albo size − p razy w prawo — i zdejmij ją. Wypisz łączny koszt."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W drugim wierszu m różnych liczb od 1 do n — w kolejności wyjmowania."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejsza łączna liczba obrotów."
+      ],
+      "constraints": [
+        "1 ≤ m ≤ n ≤ 2000"
+      ],
+      "examples": [
+        {
+          "input": "10 3\n2 9 5",
+          "output": "8",
+          "note": "Liczba 2 jest na pozycji 1: jeden obrót w lewo. Potem deque to 3 4 5 6 7 8 9 10 1 — 9 jest na pozycji 6 z 9, więc taniej są 3 obroty w prawo. Na koniec 5 jest na pozycji 4 z 8: 4 obroty. Razem 8."
+        }
+      ],
+      "hint": "Pozycję znajdź pętlą: for (int i = 0; i < (int)d.size(); i++) if (d[i] == x) p = i;. Koszt: min(p, (int)d.size() - p). Obróć w wybraną stronę, aż x będzie z przodu, i zrób pop_front().",
+      "tests_count": 7
+    },
+    {
+      "id": "kol-pierwszy-ujemny",
+      "number": 2199,
+      "title": "Pierwszy ujemny w oknie",
+      "category": "Kolejka / krok 6: kolejka monotoniczna",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dany jest ciąg n liczb całkowitych i długość okna k. Dla każdego okna — k kolejnych liczb — wypisz pierwszą (najbardziej na lewo) liczbę ujemną w tym oknie albo 0, jeśli okno nie ma liczb ujemnych.",
+        "Trzymaj w kolejce pozycje (indeksy) liczb ujemnych, w kolejności z ciągu. Gdy okno kończy się na pozycji i, zaczyna się na pozycji i − k + 1 — usuń z przodu kolejki pozycje mniejsze niż ta. Wtedy pierwsza pozycja w kolejce wskazuje odpowiedź."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n liczb."
+      ],
+      "output_format": [
+        "Jeden wiersz: n − k + 1 liczb — odpowiedzi dla kolejnych okien."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 3000",
+        "−10⁵ ≤ liczby ≤ 10⁵"
+      ],
+      "examples": [
+        {
+          "input": "8 3\n12 -1 -7 8 -15 30 16 28",
+          "output": "-1 -1 -7 -15 -15 0",
+          "note": "Okna: 12 −1 −7 → −1; −1 −7 8 → −1; −7 8 −15 → −7; 8 −15 30 → −15; −15 30 16 → −15; 30 16 28 → 0."
+        }
+      ],
+      "hint": "queue<int> q; — indeksy ujemnych. Dla i od 0: if (a[i] < 0) q.push(i); if (i >= k - 1) { while (!q.empty() && q.front() < i - k + 1) q.pop(); cout << (q.empty() ? 0 : a[q.front()]) << \" \"; }.",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-max-w-oknie",
+      "number": 2200,
+      "title": "Maksimum w oknie",
+      "category": "Kolejka / krok 6: kolejka monotoniczna",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dany jest ciąg n liczb i długość okna k. Dla każdego okna — k kolejnych liczb, od pozycji 1–k do (n−k+1)–n — wypisz największą liczbę w tym oknie.",
+        "Użyj kolejki monotonicznej z lekcji: deque<int> z indeksami, w której liczby (a[indeks]) maleją od przodu do tyłu. Nowy indeks i: najpierw usuń z tyłu wszystkie indeksy z liczbami mniejszymi albo równymi a[i] — już nigdy nie będą maksimum — potem wstaw i na koniec, a z przodu usuń indeks, który wypadł z okna. Maksimum okna to a[d.front()]."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n liczb."
+      ],
+      "output_format": [
+        "Jeden wiersz: n − k + 1 liczb — maksima kolejnych okien."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 3000",
+        "0 ≤ liczby ≤ 10⁵"
+      ],
+      "examples": [
+        {
+          "input": "8 3\n1 3 1 2 0 5 4 1",
+          "output": "3 3 2 5 5 5",
+          "note": "Okna: 1 3 1 → 3; 3 1 2 → 3; 1 2 0 → 2; 2 0 5 → 5; 0 5 4 → 5; 5 4 1 → 5."
+        }
+      ],
+      "hint": "for (int i = 0; i < n; i++) { while (!d.empty() && a[d.back()] <= a[i]) d.pop_back(); d.push_back(i); if (d.front() <= i - k) d.pop_front(); if (i >= k - 1) cout << a[d.front()] << \" \"; }.",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-najzimniejszy",
+      "number": 2201,
+      "title": "Najzimniejszy dzień tygodnia",
+      "category": "Kolejka / krok 6: kolejka monotoniczna",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Meteorolog ma n dziennych temperatur. Dla każdego okresu k kolejnych dni (od dni 1–k do dni (n−k+1)–n) chce znać najniższą temperaturę i numer dnia, w którym ją zanotowano. Jeśli najniższa temperatura wystąpiła w okresie kilka razy, podaj najwcześniejszy taki dzień.",
+        "To kolejka monotoniczna dla minimum: liczby w deque rosną od przodu do tyłu. Zastanów się, kiedy usuwać indeksy z tyłu — przy równych temperaturach starszy dzień musi zostać w deque, bo to on jest odpowiedzią."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n temperatur."
+      ],
+      "output_format": [
+        "n − k + 1 wierszy: najniższa temperatura i numer dnia (dni liczymy od 1)."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 2000",
+        "−50 ≤ temperatura ≤ 50"
+      ],
+      "examples": [
+        {
+          "input": "6 3\n4 -2 5 -2 7 8",
+          "output": "-2 2\n-2 2\n-2 4\n-2 4",
+          "note": "W dniach 1–3 najzimniej było w dniu 2 (−2). W dniach 2–4 temperatura −2 była dwa razy — wygrywa wcześniejszy dzień 2. W dniach 3–5 i 4–6 najzimniej było w dniu 4."
+        }
+      ],
+      "hint": "Usuwaj z tyłu tylko indeksy z temperaturą ściśle większą: while (!d.empty() && a[d.back()] > a[i]) d.pop_back();. Równa temperatura zostaje — jest starsza, więc stoi bliżej przodu. Wypisz a[d.front()] i d.front() + 1.",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-rozpietosc",
+      "number": 2202,
+      "title": "Rozpiętość w oknie",
+      "category": "Kolejka / krok 6: kolejka monotoniczna",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dany jest ciąg n pomiarów i długość okna k. Rozpiętość okna to różnica między największym a najmniejszym pomiarem w tym oknie. Wypisz rozpiętość każdego okna k kolejnych pomiarów.",
+        "Prowadź dwie kolejki monotoniczne jednocześnie: w jednej liczby maleją od przodu (pierwszy indeks wskazuje maksimum), w drugiej rosną (pierwszy wskazuje minimum)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n pomiarów."
+      ],
+      "output_format": [
+        "Jeden wiersz: n − k + 1 rozpiętości kolejnych okien."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 3000",
+        "0 ≤ pomiary ≤ 10⁵"
+      ],
+      "examples": [
+        {
+          "input": "6 3\n5 1 4 4 9 2",
+          "output": "4 3 5 7",
+          "note": "Okna: 5 1 4 → 5 − 1 = 4; 1 4 4 → 3; 4 4 9 → 5; 4 9 2 → 7."
+        }
+      ],
+      "hint": "deque<int> mx, mn;. Dla i: while (!mx.empty() && a[mx.back()] <= a[i]) mx.pop_back(); mx.push_back(i); i to samo dla mn z >=. Z przodu obu usuń indeks i − k. Od i = k − 1 wypisuj a[mx.front()] - a[mn.front()].",
+      "tests_count": 7
+    },
+    {
+      "id": "kol-suma-maksimow",
+      "number": 2203,
+      "title": "Suma maksimów",
+      "category": "Kolejka / krok 6: kolejka monotoniczna",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ciąg n liczb powstaje z generatora z lekcji o złożoności: x₁ = s, a każda następna liczba to xᵢ = (xᵢ₋₁ · a + b) mod m. Dla każdego okna k kolejnych liczb policz jego maksimum i wypisz sumę maksimów wszystkich n − k + 1 okien.",
+        "Okien jest prawie milion, a okno może mieć setki tysięcy liczb — szukanie maksimum każdego okna osobną pętlą trwałoby godzinami. Użyj kolejki monotonicznej."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n, s, a, b i m (parametry generatora).",
+        "W drugim wierszu liczba k."
+      ],
+      "output_format": [
+        "Jedna liczba — suma maksimów wszystkich okien."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 10⁶",
+        "1 ≤ m ≤ 10⁹",
+        "0 ≤ s, a, b < m"
+      ],
+      "examples": [
+        {
+          "input": "6 2 3 1 10\n3",
+          "output": "28",
+          "note": "Ciąg: 2, 7, 2, 7, 2, 7 (bo 2 · 3 + 1 = 7, a 7 · 3 + 1 = 22, 22 mod 10 = 2). Każde okno trzech liczb ma maksimum 7, a okien są 4: suma 28."
+        }
+      ],
+      "hint": "vector<long long> x(n); x[0] = s; for (int i = 1; i < n; i++) x[i] = (x[i - 1] * a + b) % m; Iloczyn x[i − 1] · a może sięgać 10¹⁸ — dlatego long long. Potem zwykła kolejka monotoniczna dla maksimum, a suma maksimów też w long long (do 10¹⁵).",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-dni-rekordowe",
+      "number": 2204,
+      "title": "Dni rekordowe",
+      "category": "Kolejka / krok 6: kolejka monotoniczna",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz n dziennych temperatur. Dzień i jest rekordowy, jeśli było w nim cieplej (ostro) niż w każdym z k poprzednich dni — a jeśli przed nim jest mniej niż k dni, to cieplej niż we wszystkich poprzednich. Dzień 1 nie ma poprzednich dni, więc jest rekordowy.",
+        "Policz dni rekordowe i podaj numer ostatniego z nich. Przed dołożeniem dnia i do kolejki monotonicznej usuń z jej przodu dzień, który wypadł z okna k poprzednich dni — wtedy jej pierwszy indeks to najcieplejszy z poprzednich dni."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n temperatur."
+      ],
+      "output_format": [
+        "Dwa wiersze: rekordowych: C oraz ostatni: d."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 10⁴",
+        "−10⁵ ≤ temperatura ≤ 10⁵"
+      ],
+      "examples": [
+        {
+          "input": "7 2\n5 3 4 6 6 2 7",
+          "output": "rekordowych: 3\nostatni: 7",
+          "note": "Dzień 1 — rekord. Dzień 3 (4): poprzednie 5 i 3 — nie. Dzień 4 (6): poprzednie 3 i 4 — rekord. Dzień 5 (6): wśród poprzednich jest 6 — nie (trzeba ostro cieplej). Dzień 7 (7): poprzednie 6 i 2 — rekord. Rekordowe są dni 1, 4 i 7."
+        }
+      ],
+      "hint": "Dla dnia i (od 0): if (!d.empty() && d.front() < i - k) d.pop_front(); bool rekord = d.empty() || a[i] > a[d.front()]; — dopiero potem while (!d.empty() && a[d.back()] <= a[i]) d.pop_back(); d.push_back(i);.",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-spokojny-fragment",
+      "number": 2205,
+      "title": "Najdłuższy spokojny fragment",
+      "category": "Kolejka / krok 6: kolejka monotoniczna",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ciąg n pomiarów powstaje z generatora: x₁ = s, xᵢ = (xᵢ₋₁ · a + b) mod m. Fragment ciągu (kilka kolejnych pomiarów) jest spokojny, jeśli różnica między jego największym a najmniejszym pomiarem jest nie większa niż K. Znajdź najdłuższy spokojny fragment — wypisz jego długość i pozycję początku (od 1). Przy kilku najdłuższych wybierz ten, który zaczyna się najwcześniej.",
+        "Połącz gąsienicę z lekcji z dwiema kolejkami monotonicznymi: prawy koniec fragmentu przesuwa się po kolei po wszystkich pozycjach, a lewy koniec — tylko do przodu, dopóki rozpiętość jest za duża. Kolejki podają maksimum i minimum bieżącego fragmentu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n, s, a, b i m (parametry generatora).",
+        "W drugim wierszu liczba K."
+      ],
+      "output_format": [
+        "Jeden wiersz: dlugosc L, od pozycji p."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10⁶",
+        "1 ≤ m ≤ 10⁹",
+        "0 ≤ s, a, b < m",
+        "0 ≤ K ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "8 4 7 3 10\n3",
+          "output": "dlugosc 3, od pozycji 2",
+          "note": "Ciąg: 4, 1, 0, 3, 4, 1, 0, 3. Fragment 1 0 3 ma rozpiętość 3, a 1 0 3 4 już 4. Najdłuższe spokojne fragmenty mają długość 3: najwcześniej 1 0 3 od pozycji 2."
+        }
+      ],
+      "hint": "vector<long long> x(n); x[0] = s; for (int i = 1; i < n; i++) x[i] = (x[i - 1] * a + b) % m; Dla każdego prawego końca r: dołóż r do obu deque, a potem while (x[mx.front()] - x[mn.front()] > K) { l++; if (mx.front() < l) mx.pop_front(); if (mn.front() < l) mn.pop_front(); }. Fragment to l … r; zapamiętaj go, gdy r − l + 1 jest większe niż dotąd najlepsze.",
+      "tests_count": 10
+    },
+    {
+      "id": "kol-skoki-zaby",
+      "number": 2206,
+      "title": "Skoki żaby",
+      "category": "Kolejka / krok 6: kolejka monotoniczna",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W rzędzie leży n kamieni. Na kamieniu i jest vᵢ punktów — może to być liczba ujemna. Żaba stoi na kamieniu 1 i musi dotrzeć na kamień n; jednym skokiem przeskakuje naprzód o 1, 2, …, k kamieni. Zbiera punkty z każdego kamienia, na którym stanie (także z pierwszego i ostatniego). Ile najwięcej punktów może zebrać?",
+        "Punkty powstają z generatora: x₁ = s, xᵢ = (xᵢ₋₁ · a + b) mod m, a vᵢ = xᵢ − c. Niech dp[i] to najlepszy wynik żaby, która stoi na kamieniu i. Wtedy dp[1] = v₁, a dp[i] = vᵢ + największe z dp[i − k], …, dp[i − 1]. To maksimum w oknie, tyle że okno przesuwa się po tablicy dp, którą właśnie liczysz."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n, s, a, b i m (parametry generatora).",
+        "W drugim wierszu liczby k i c."
+      ],
+      "output_format": [
+        "Jedna liczba — największy możliwy wynik."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10⁶",
+        "1 ≤ k ≤ n",
+        "1 ≤ m ≤ 10⁶",
+        "0 ≤ s, a, b < m",
+        "0 ≤ c ≤ m"
+      ],
+      "examples": [
+        {
+          "input": "6 3 2 1 9\n2 5",
+          "output": "-4",
+          "note": "x: 3, 7, 6, 4, 0, 1, więc v: −2, 2, 1, −1, −5, −4. Najlepiej skakać po kamieniach 1, 2, 3, 4, 6: −2 + 2 + 1 − 1 − 4 = −4. Kamień 5 (−5) trzeba ominąć, a kamienia 4 nie — z 3 na 6 jest za daleko."
+        }
+      ],
+      "hint": "vector<long long> dp(n); dp[0] = v[0]; deque<int> d; d.push_back(0);. Dla i od 1: if (d.front() < i - k) d.pop_front(); dp[i] = v[i] + dp[d.front()]; while (!d.empty() && dp[d.back()] <= dp[i]) d.pop_back(); d.push_back(i);. Wynik to dp[n − 1].",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-przyciski",
+      "number": 2207,
+      "title": "Przyciski kalkulatora",
+      "category": "Kolejka / krok 7: BFS na liczbach i grafach",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Zepsuty kalkulator pokazuje liczbę a i ma tylko trzy działające przyciski: +1 (dodaje 1), −1 (odejmuje 1) i ×2 (podwaja liczbę). Ile najmniej razy trzeba nacisnąć przyciski, żeby kalkulator pokazał liczbę b? Wyświetlacz nie pokaże liczby ujemnej ani większej niż 200 000 — takich naciśnięć nie wolno robić.",
+        "Przeszukaj liczby wszerz (BFS), jak w lekcji: kolejka liczb, a w vectorze odl[x] najmniejsza liczba naciśnięć, po której kalkulator pokazuje x (−1 = jeszcze nie wiadomo). Liczbę oznaczaj w chwili wkładania do kolejki."
+      ],
+      "input_format": [
+        "Jeden wiersz: liczby a i b."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejsza liczba naciśnięć."
+      ],
+      "constraints": [
+        "0 ≤ a, b ≤ 100 000"
+      ],
+      "examples": [
+        {
+          "input": "5 17",
+          "output": "4",
+          "note": "5 → 4 → 8 → 16 → 17: cztery naciśnięcia (−1, ×2, ×2, +1). Po trzech naciśnięciach 17 jeszcze nie da się dostać."
+        }
+      ],
+      "hint": "vector<int> odl(200001, -1); queue<int> q; odl[a] = 0; q.push(a);. Zdejmij x i dla każdego y z {x + 1, x - 1, 2 * x}: if (y >= 0 && y <= 200000 && odl[y] == -1) { odl[y] = odl[x] + 1; q.push(y); }. Wynik to odl[b].",
+      "tests_count": 9
+    },
+    {
+      "id": "kol-winda",
+      "number": 2208,
+      "title": "Winda z dwoma przyciskami",
+      "category": "Kolejka / krok 7: BFS na liczbach i grafach",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Budynek ma f pięter, ponumerowanych od 1 do f. Jesteś na piętrze s i chcesz dojechać na piętro g. Winda ma tylko dwa przyciski: GÓRA przenosi dokładnie o u pięter w górę, a DÓŁ — dokładnie o d pięter w dół. Jeśli takiego piętra nie ma (byłoby wyżej niż f albo niżej niż 1), przycisk nic nie robi.",
+        "Ile najmniej razy trzeba nacisnąć przyciski, żeby dojechać na piętro g? Jeśli się nie da, wypisz uzyj schodow."
+      ],
+      "input_format": [
+        "Jeden wiersz: liczby f, s, g, u i d."
+      ],
+      "output_format": [
+        "Jedna liczba albo napis uzyj schodow."
+      ],
+      "constraints": [
+        "1 ≤ s, g ≤ f ≤ 10⁶",
+        "0 ≤ u, d ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "10 1 10 2 1",
+          "output": "6",
+          "note": "1 → 3 → 5 → 7 → 9 → 8 → 10: sześć naciśnięć. Z piętra 9 nie da się pojechać o 2 w górę (11 > 10), więc trzeba się cofnąć na 8."
+        },
+        {
+          "input": "100 2 1 1 0",
+          "output": "uzyj schodow",
+          "note": "Przycisk DÓŁ przenosi o 0 pięter, więc na piętro 1 nie da się zjechać."
+        }
+      ],
+      "hint": "vector<int> odl(f + 1, -1); odl[s] = 0;. Z piętra x sąsiedzi to x + u i x − d — o ile mieszczą się między 1 a f. Na końcu: if (odl[g] == -1) cout << \"uzyj schodow\"; else cout << odl[g];.",
+      "tests_count": 9
+    },
+    {
+      "id": "kol-znajomi",
+      "number": 2209,
+      "title": "Stopnie znajomości",
+      "category": "Kolejka / krok 7: BFS na liczbach i grafach",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W klasie jest n osób, ponumerowanych od 1 do n, i m par znajomych (znajomość działa w obie strony). Stopień znajomości osoby x z osobą 1 to najmniejsza liczba kroków „od znajomego do znajomego”, którymi da się przejść od osoby 1 do x: znajomi osoby 1 mają stopień 1, znajomi znajomych (którzy nie znają osoby 1) — stopień 2, a sama osoba 1 — stopień 0.",
+        "Wypisz stopień znajomości każdej osoby z osobą 1 albo −1, jeśli nie da się do niej dojść. Zapisz graf jako listy sąsiadów: vector<vector<int>> g(n + 1); i dla pary a b: g[a].push_back(b); g[b].push_back(a);."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z m kolejnych wierszy para znajomych a b."
+      ],
+      "output_format": [
+        "Jeden wiersz: n liczb — stopnie znajomości osób 1, 2, …, n."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "0 ≤ m ≤ 5000",
+        "Pary są różne, a ≠ b."
+      ],
+      "examples": [
+        {
+          "input": "6 5\n1 2\n2 3\n1 4\n4 3\n5 6",
+          "output": "0 1 2 1 -1 -1",
+          "note": "Osoby 2 i 4 znają osobę 1. Osoba 3 zna 2 i 4 — stopień 2. Do osób 5 i 6 nie da się dojść."
+        }
+      ],
+      "hint": "vector<int> odl(n + 1, -1); odl[1] = 0; q.push(1);. Zdejmij v i przejdź po jego znajomych: for (int u : g[v]) if (odl[u] == -1) { odl[u] = odl[v] + 1; q.push(u); }.",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-najdalej",
+      "number": 2210,
+      "title": "Najdalej od startu",
+      "category": "Kolejka / krok 7: BFS na liczbach i grafach",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Sieć kolejki ma n stacji, ponumerowanych od 1 do n, i m dwukierunkowych połączeń między nimi. Przejazd jednym połączeniem to jeden przystanek. Odległość stacji x od stacji s to najmniejsza liczba przystanków na trasie z s do x.",
+        "Znajdź największą odległość od stacji s spośród stacji, do których da się dojechać, i wypisz wszystkie stacje, które są tak daleko — w kolejności rosnących numerów. Stacji, do których nie da się dojechać, nie bierz pod uwagę."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n, m i s.",
+        "W każdym z m kolejnych wierszy połączenie a b."
+      ],
+      "output_format": [
+        "Dwa wiersze: odleglosc D oraz stacje: … (numery rosnąco)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "0 ≤ m ≤ 5000",
+        "1 ≤ s ≤ n",
+        "Połączenia są różne, a ≠ b."
+      ],
+      "examples": [
+        {
+          "input": "8 6 1\n1 2\n2 3\n3 4\n1 5\n5 6\n6 7",
+          "output": "odleglosc 3\nstacje: 4 7",
+          "note": "Stacje 4 i 7 są 3 przystanki od stacji 1. Do stacji 8 nie da się dojechać, więc się nie liczy."
+        }
+      ],
+      "hint": "Zwykły BFS od s. Potem int D = 0; for (int i = 1; i <= n; i++) D = max(D, odl[i]); i druga pętla wypisuje każde i, dla którego odl[i] == D. Nieosiągalne mają −1, więc nie przeszkadzają w maksimum.",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-trasa",
+      "number": 2211,
+      "title": "Trasa z przesiadkami",
+      "category": "Kolejka / krok 7: BFS na liczbach i grafach",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Sieć kolejki ma n stacji i m dwukierunkowych połączeń. Znajdź najkrótszą trasę ze stacji a do stacji b (najmniej przystanków) i wypisz ją. Gwarantujemy, że jeśli trasa istnieje, to najkrótsza jest dokładnie jedna.",
+        "W BFS zapamiętuj w tablicy skad, z której stacji pierwszy raz dotarłeś do każdej stacji: skad[u] = v w chwili, gdy wkładasz u do kolejki. Potem idź od b po skad aż do a — dostaniesz trasę od końca, więc ją odwróć."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n, m, a i b.",
+        "W każdym z m kolejnych wierszy połączenie x y."
+      ],
+      "output_format": [
+        "Dwa wiersze: przystankow: L oraz trasa: a … b — albo jeden wiersz brak polaczenia."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "0 ≤ m ≤ 5000",
+        "1 ≤ a, b ≤ n",
+        "Połączenia są różne, x ≠ y. Najkrótsza trasa, jeśli istnieje, jest jedna."
+      ],
+      "examples": [
+        {
+          "input": "6 7 1 6\n1 2\n2 3\n3 6\n1 4\n4 5\n5 3\n2 5",
+          "output": "przystankow: 3\ntrasa: 1 2 3 6",
+          "note": "Najkrótsza trasa to 1 → 2 → 3 → 6 (3 przystanki). Trasy przez stację 5 są dłuższe."
+        }
+      ],
+      "hint": "vector<int> skad(n + 1, 0);. W BFS: if (odl[u] == -1) { odl[u] = odl[v] + 1; skad[u] = v; q.push(u); }. Odtwarzanie: vector<int> t; for (int x = b; x != a; x = skad[x]) t.push_back(x); t.push_back(a); reverse(t.begin(), t.end());.",
+      "tests_count": 9
+    },
+    {
+      "id": "kol-grupy-znajomych",
+      "number": 2212,
+      "title": "Grupy znajomych",
+      "category": "Kolejka / krok 7: BFS na liczbach i grafach",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W szkole jest n uczniów, ponumerowanych od 1 do n, i m par znajomych. Grupa to uczniowie, którzy są ze sobą połączeni łańcuchem znajomości (znajomy znajomego znajomego… też należy do grupy). Uczeń bez znajomych tworzy grupę jednoosobową.",
+        "Policz grupy i wypisz ich rozmiary od największej do najmniejszej. Przejdź pętlą po uczniach: gdy trafisz na ucznia, którego żaden BFS jeszcze nie odwiedził, zaczyna on nową grupę — uruchom z niego BFS i policz, ile osób odwiedził."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z m kolejnych wierszy para znajomych a b."
+      ],
+      "output_format": [
+        "Dwa wiersze: grup: G oraz rozmiary: … (malejąco)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "0 ≤ m ≤ 8000",
+        "Pary są różne, a ≠ b."
+      ],
+      "examples": [
+        {
+          "input": "8 4\n1 2\n3 2\n4 5\n7 8",
+          "output": "grup: 4\nrozmiary: 3 2 2 1",
+          "note": "Grupy: {1, 2, 3}, {4, 5}, {7, 8} i jednoosobowa {6}."
+        }
+      ],
+      "hint": "vector<bool> byl(n + 1, false);. for (int s = 1; s <= n; s++) if (!byl[s]) { int rozmiar = 0; byl[s] = true; q.push(s); while (!q.empty()) { int v = q.front(); q.pop(); rozmiar++; for (int u : g[v]) if (!byl[u]) { byl[u] = true; q.push(u); } } rozmiary.push_back(rozmiar); }. Potem sort malejąco.",
+      "tests_count": 9
+    },
+    {
+      "id": "kol-zamek",
+      "number": 2213,
+      "title": "Zamek szyfrowy",
+      "category": "Kolejka / krok 7: BFS na liczbach i grafach",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Zamek ma cztery kółka z cyframi 0–9; na początku pokazuje kod 0000. Jeden ruch to obrót jednego kółka o jeden ząbek w górę albo w dół (po 9 jest 0, a przed 0 jest 9). Niektóre kody są pułapką: gdy zamek je pokaże, blokuje się na zawsze — nie wolno na nie wchodzić. Ile najmniej ruchów potrzeba, żeby zamek pokazał kod docelowy?",
+        "Jeśli się nie da (albo już 0000 jest pułapką), wypisz −1. Każdy kod to liczba od 0 do 9999 — użyj vector<int> odl(10000, -1). Sąsiadów kodu wylicz cyfra po cyfrze."
+      ],
+      "input_format": [
+        "W pierwszym wierszu kod docelowy (4 cyfry) i liczba pułapek d.",
+        "W drugim wierszu d kodów-pułapek (gdy d = 0, wiersz jest pusty)."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejsza liczba ruchów albo −1."
+      ],
+      "constraints": [
+        "0 ≤ d ≤ 5000",
+        "Kody mają dokładnie 4 cyfry; pułapki są różne i żadna nie jest kodem docelowym."
+      ],
+      "examples": [
+        {
+          "input": "0202 5\n0201 0101 0102 1212 2002",
+          "output": "6",
+          "note": "Najkrótsza droga: 0000 → 1000 → 1100 → 1200 → 1201 → 1202 → 0202 — sześć ruchów. Krótsze drogi przechodzą przez pułapki."
+        },
+        {
+          "input": "8888 1\n0000",
+          "output": "-1",
+          "note": "Zamek od początku pokazuje pułapkę."
+        }
+      ],
+      "hint": "Każdy kod to liczba x od 0 do 9999 — wczytaj go jako napis i zamień: x = stoi(s). Cyfra na pozycji p (p = 1, 10, 100, 1000) to c = (x / p) % 10. Obrót w górę daje x - c * p + ((c + 1) % 10) * p, a w dół x - c * p + ((c + 9) % 10) * p. Pułapki zaznacz w vector<bool> zakaz(10000).",
+      "tests_count": 10
+    },
+    {
+      "id": "kol-dzbanki",
+      "number": 2214,
+      "title": "Dzbanki z wodą",
+      "category": "Kolejka / krok 7: BFS na liczbach i grafach",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz dwa puste dzbanki o pojemności A i B litrów (bez żadnej podziałki) i kran z nieograniczoną ilością wody. Jeden ruch to: napełnienie jednego dzbanka do pełna z kranu, wylanie całej wody z jednego dzbanka albo przelewanie z jednego dzbanka do drugiego — tak długo, aż pierwszy się opróżni albo drugi napełni.",
+        "Ile najmniej ruchów trzeba, żeby w którymkolwiek dzbanku było dokładnie C litrów? Jeśli się nie da, wypisz −1. Stan to para (x, y) — ile wody jest w pierwszym i w drugim dzbanku; odległości trzymaj w vector<vector<int>> odl(A + 1, vector<int>(B + 1, -1))."
+      ],
+      "input_format": [
+        "Jeden wiersz: liczby A, B i C."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejsza liczba ruchów albo −1."
+      ],
+      "constraints": [
+        "1 ≤ A, B ≤ 1000",
+        "0 ≤ C ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "3 5 4",
+          "output": "6",
+          "note": "Napełnij 5-litrowy, przelej do 3-litrowego (w dużym zostają 2), wylej mały, przelej 2 litry do małego, napełnij duży i dolej z niego mały do pełna — w dużym zostają 4 litry. Sześć ruchów."
+        },
+        {
+          "input": "4 6 3",
+          "output": "-1",
+          "note": "Oba dzbanki mają parzystą pojemność, więc w każdym zawsze jest parzysta liczba litrów."
+        }
+      ],
+      "hint": "queue<pair<int, int>> q; odl[0][0] = 0;. Z (x, y) sąsiedzi to (A, y), (x, B), (0, y), (x, 0) oraz przelewanie: int p = min(x, B - y); → (x - p, y + p), a w drugą stronę int p2 = min(y, A - x); → (x + p2, y - p2). Gdy zdejmiesz stan z x == C albo y == C — to wynik.",
+      "tests_count": 11
+    },
+    {
+      "id": "kol-labirynt",
+      "number": 2215,
+      "title": "Najkrótsza droga w labiryncie",
+      "category": "Kolejka / krok 8: BFS na planszy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Labirynt to plansza n × m: . oznacza wolne pole, # ścianę, S start, a K skarb (S i K to też wolne pola, każde występuje dokładnie raz). Jednym krokiem przechodzisz na sąsiednie wolne pole — w górę, w dół, w lewo albo w prawo; nie wolno wejść na ścianę ani wyjść poza planszę.",
+        "Wypisz najmniejszą liczbę kroków z S do K albo −1, jeśli do skarbu nie da się dojść."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z n kolejnych wierszy m znaków — wiersz planszy."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejsza liczba kroków albo −1."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 100"
+      ],
+      "examples": [
+        {
+          "input": "4 5\nS..#.\n.#...\n...#K\n#....",
+          "output": "6",
+          "note": "Najkrótsza droga: dwa kroki w prawo, krok w dół, dwa w prawo i krok w dół do K — 6 kroków."
+        },
+        {
+          "input": "2 3\nS#K\n.#.",
+          "output": "-1",
+          "note": "Ściana dzieli planszę na dwie części."
+        }
+      ],
+      "hint": "vector<string> g(n); vector<vector<int>> odl(n, vector<int>(m, -1)); int dw[4] = {-1, 1, 0, 0}, dk[4] = {0, 0, -1, 1};. Znajdź S, ustaw odl = 0 i wstaw do kolejki. Dla sąsiada (nw, nk) sprawdź po kolei: czy jest na planszy, czy to nie ściana, czy odl == -1.",
+      "tests_count": 10
+    },
+    {
+      "id": "kol-fala",
+      "number": 2216,
+      "title": "Fala w liczbach",
+      "category": "Kolejka / krok 8: BFS na planszy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Plansza n × m składa się z wolnych pól ., ścian # i jednego pola startowego S. Z S rozchodzi się fala: w każdym kroku przechodzi na sąsiednie (w czterech kierunkach) wolne pola.",
+        "Wypisz planszę, w której każde pole osiągalne z S (także samo S) zamieniasz na ostatnią cyfrę jego odległości od S (odległość % 10). Ściany zostają #, a wolne pola, do których fala nie dociera, zostają kropkami."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z n kolejnych wierszy m znaków."
+      ],
+      "output_format": [
+        "n wierszy po m znaków — plansza z falą."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 100",
+        "S występuje dokładnie raz."
+      ],
+      "examples": [
+        {
+          "input": "4 6\n......\n.##...\n.S#.#.\n..#.#.",
+          "output": "345678\n2##789\n10#8#0\n21#9#1",
+          "note": "Fala obchodzi ściany górą: pole dwa miejsca na prawo od S ma odległość 8, choć dzieli je od S tylko jedna ściana. W prawej kolumnie odległości przekraczają 9, więc widać tam ostatnie cyfry: 10 → 0 i 11 → 1."
+        }
+      ],
+      "hint": "Po zwykłym BFS przejdź po polach: if (odl[w][k] != -1) g[w][k] = '0' + odl[w][k] % 10;. Potem wypisz g[w] wiersz po wierszu. Ściany i nieosiągnięte kropki zostają bez zmian.",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-najblizsze-wyjscie",
+      "number": 2217,
+      "title": "Najbliższe wyjście",
+      "category": "Kolejka / krok 8: BFS na planszy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Plan piętra to plansza n × m: . to wolne pole, # ściana, S miejsce, w którym stoisz, a E — wyjście (wyjść może być kilka). Chodzisz w czterech kierunkach po polach, które nie są ścianami (wyjścia też są wolnymi polami).",
+        "Wypisz, ile kroków dzieli Cię od najbliższego wyjścia i do ilu wyjść w ogóle da się dojść. Jeśli do żadnego wyjścia nie da się dojść, wypisz brak wyjscia."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z n kolejnych wierszy m znaków."
+      ],
+      "output_format": [
+        "Dwa wiersze: najblizsze wyjscie: D oraz osiagalne wyjscia: X — albo jeden wiersz brak wyjscia."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 100",
+        "S występuje dokładnie raz, E co najmniej raz."
+      ],
+      "examples": [
+        {
+          "input": "4 7\nE..#..E\n.#.#.#.\n...S...\n####..E",
+          "output": "najblizsze wyjscie: 4\nosiagalne wyjscia: 3",
+          "note": "Do wyjść w górnych rogach jest po 5 kroków, a do wyjścia w prawym dolnym rogu — tylko 4. Wszystkie trzy są osiągalne."
+        }
+      ],
+      "hint": "Jedno BFS od S. Potem przejdź po wszystkich polach E: jeśli odl != -1, to wyjście jest osiągalne — licz je i szukaj najmniejszego odl.",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-pozar-lasu",
+      "number": 2218,
+      "title": "Pożar lasu",
+      "category": "Kolejka / krok 8: BFS na planszy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Las to plansza n × m: T to drzewo, * to drzewo, które właśnie płonie, . to polana, a # skała. W każdej minucie ogień przeskakuje z każdego płonącego drzewa na sąsiednie (w czterech kierunkach) drzewa. Przez polany i skały ogień nie przechodzi.",
+        "Wypisz, w której minucie zapali się ostatnie drzewo, do którego dotrze ogień (0, jeśli żadne nowe drzewo się nie zapali), i ile drzew ocaleje. Wstaw wszystkie pola * do kolejki od razu, z odległością 0 — wtedy BFS rozchodzi się ze wszystkich ognisk jednocześnie."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z n kolejnych wierszy m znaków."
+      ],
+      "output_format": [
+        "Dwa wiersze: minut: X oraz ocalalo: Y."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 100",
+        "Pole * występuje co najmniej raz."
+      ],
+      "examples": [
+        {
+          "input": "3 6\nTT.TTT\n*T.T*T\nTTTT.T",
+          "output": "minut: 3\nocalalo: 0",
+          "note": "Prawe ognisko w minucie 1 podpala trzy sąsiednie drzewa, a w minucie 2 dociera do dolnego wiersza. W minucie 3 zapala się ostatnie drzewo — w dolnym wierszu, w kolumnie 3, gdzie spotykają się oba pożary. Nic nie ocalało."
+        }
+      ],
+      "hint": "Na początku: for po wszystkich polach — if (g[w][k] == '*') { odl[w][k] = 0; q.push({w, k}); }. W BFS wchodzisz tylko na pola 'T'. Na końcu: najwięcej odl to wynik, a drzewa T z odl == -1 ocalały.",
+      "tests_count": 9
+    },
+    {
+      "id": "kol-skoczek",
+      "number": 2219,
+      "title": "Skoczek szachowy",
+      "category": "Kolejka / krok 8: BFS na planszy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Szachownica ma n × n pól; wiersze i kolumny numerujemy od 1 do n. Skoczek skacze o dwa pola w jednym kierunku i o jedno w kierunku prostopadłym (jak litera L) — z pola w środku planszy ma osiem możliwych skoków. Nie może wyskoczyć poza szachownicę.",
+        "Odpowiedz na t pytań: ile najmniej skoków potrzebuje skoczek, żeby przejść z pola (w₁, k₁) na pole (w₂, k₂)? Jeśli się nie da, wypisz −1. Dla każdego pytania uruchom osobny BFS."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i t.",
+        "W każdym z t kolejnych wierszy cztery liczby w₁, k₁, w₂, k₂."
+      ],
+      "output_format": [
+        "t wierszy — odpowiedzi na pytania."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "1 ≤ t ≤ 5",
+        "1 ≤ w₁, k₁, w₂, k₂ ≤ n"
+      ],
+      "examples": [
+        {
+          "input": "8 3\n1 1 8 8\n1 1 1 2\n4 4 4 4",
+          "output": "6\n3\n0",
+          "note": "Z rogu do przeciwnego rogu zwykłej szachownicy trzeba 6 skoków, a na sąsiednie pole — 3. Gdy start i cel to to samo pole, odpowiedź to 0."
+        },
+        {
+          "input": "3 1\n1 1 2 2",
+          "output": "-1",
+          "note": "Na planszy 3 × 3 środkowe pole jest dla skoczka niedostępne."
+        }
+      ],
+      "hint": "int dw[8] = {-2, -2, -1, -1, 1, 1, 2, 2}, dk[8] = {-1, 1, -2, 2, -2, 2, -1, 1};. Dla każdego pytania nowa tablica odl(n + 1, vector<int>(n + 1, -1)) i nowa kolejka. Pętla po kierunkach idzie do 8, nie do 4.",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-droga-z-gwiazdek",
+      "number": 2220,
+      "title": "Droga z gwiazdek",
+      "category": "Kolejka / krok 8: BFS na planszy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Mapa to plansza n × m z wolnymi polami ., ścianami #, startem S i celem K. Chodzisz w czterech kierunkach. Gwarantujemy, że z S do K da się dojść i że najkrótsza droga jest dokładnie jedna.",
+        "Wypisz długość tej drogi, a potem mapę, na której każde pole drogi — oprócz S i K — jest zamienione na *. W BFS zapamiętuj dla każdego pola, z którego pola do niego weszłaś (skad), a potem od K cofaj się po skad, aż dojdziesz do S."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z n kolejnych wierszy m znaków."
+      ],
+      "output_format": [
+        "Wiersz dlugosc: L, a potem n wierszy mapy z zaznaczoną drogą."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 60",
+        "S i K występują dokładnie raz; droga z S do K istnieje, a najkrótsza jest jedna."
+      ],
+      "examples": [
+        {
+          "input": "5 7\n#######\n#S..#.#\n##.##.#\n#...K.#\n#######",
+          "output": "dlugosc: 5\n#######\n#S*.#.#\n##*##.#\n#.**K.#\n#######",
+          "note": "Droga: w prawo, w dół, w dół, w prawo, w prawo — 5 kroków. Cztery pola pośrodku drogi dostają gwiazdki, a ślepa uliczka obok S i korytarz po prawej zostają kropkami."
+        }
+      ],
+      "hint": "vector<vector<pair<int, int>>> skad(n, vector<pair<int, int>>(m));. Przy wkładaniu sąsiada: skad[nw][nk] = {w, k};. Potem: auto [w, k] = skad[kw][kk]; while (g[w][k] != 'S') { g[w][k] = '*'; tie(w, k) = skad[w][k]; } — albo zwykła pętla z dwiema zmiennymi pomocniczymi.",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-najblizszy-sklep",
+      "number": 2221,
+      "title": "Najbliższy sklep",
+      "category": "Kolejka / krok 8: BFS na planszy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Mapa osiedla to plansza n × m: D to dom, S sklep, . chodnik, a # płot. Chodzi się w czterech kierunkach po wszystkich polach oprócz płotów (także przez domy i sklepy). Dla każdego domu liczy się odległość do najbliższego sklepu.",
+        "Wypisz, jak daleko do najbliższego sklepu ma dom, który ma najdalej (spośród domów, z których do jakiegokolwiek sklepu da się dojść), i ile domów nie ma dojścia do żadnego sklepu. Jeśli żaden dom nie ma dojścia do sklepu, w pierwszym wierszu wypisz −1. Wskazówka: odległość domu od najbliższego sklepu to odległość od niego „fali” wypuszczonej jednocześnie ze wszystkich sklepów."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z n kolejnych wierszy m znaków."
+      ],
+      "output_format": [
+        "Dwa wiersze: najdalej: X oraz bez sklepu: Y."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 100",
+        "Na mapie jest co najmniej jeden dom i co najmniej jeden sklep."
+      ],
+      "examples": [
+        {
+          "input": "3 7\nD..S..D\n.#####.\nD..#..D",
+          "output": "najdalej: 5\nbez sklepu: 0",
+          "note": "Domy w górnym wierszu mają do sklepu po 3 kroki, lewy dolny 5 (przez lewy górny róg), prawy dolny też 5. Najdalej: 5."
+        }
+      ],
+      "hint": "Na start do kolejki wstaw wszystkie sklepy z odl = 0. Po BFS: dla każdego domu albo odl == -1 (bez sklepu), albo bierzesz go pod uwagę w maksimum.",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-wielka-mapa",
+      "number": 2222,
+      "title": "Wielka mapa wysp",
+      "category": "Kolejka / krok 8: BFS na planszy",
+      "time_limit": "2 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Mapa ma n wierszy i m kolumn. Liczby dla pól powstają z generatora: x₁ = s, x_{k+1} = (x_k · a + b) mod M. Pola wypełniamy wiersz po wierszu, od lewej do prawej: pole w wierszu i i kolumnie j (liczonych od 0) dostaje liczbę x_{i·m + j + 1}. Pole jest lądem, jeśli ta liczba modulo 100 jest mniejsza niż p, a w przeciwnym razie — wodą.",
+        "Wyspa to spójny kawałek lądu (pola łączą się bokami, w czterech kierunkach). Policz wyspy i podaj powierzchnię największej (w polach; 0, jeśli nie ma lądu). Uwaga: wyspy mają tu nawet miliony pól — zalewanie rekurencyjne z lekcji o rekurencji zeszłoby tak głęboko, że program by się wywrócił. Przeszukuj wyspy BFS-em."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n, m i p.",
+        "W drugim wierszu liczby s, a, b i M (parametry generatora)."
+      ],
+      "output_format": [
+        "Dwa wiersze: wysp: X oraz najwieksza: Y."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 2000",
+        "0 ≤ p ≤ 100",
+        "1 ≤ M ≤ 10⁹",
+        "0 ≤ s, a, b < M"
+      ],
+      "examples": [
+        {
+          "input": "3 4 50\n7 3 2 100",
+          "output": "wysp: 2\nnajwieksza: 5",
+          "note": "Liczby: 7, 23, 71, 15 (wiersz 0), 47, 43, 31, 95 (wiersz 1) i 87, 63, 91, 75 (wiersz 2). Ląd to liczby mniejsze niż 50: w wierszu 0 kolumny 0, 1 i 3, w wierszu 1 kolumny 0, 1 i 2. Pięć pól po lewej tworzy jedną wyspę, a pole w prawym górnym rogu — drugą."
+        }
+      ],
+      "hint": "vector<string> g(n, string(m, '.')); long long x = s; for (int i = 0; i < n; i++) for (int j = 0; j < m; j++) { if (x % 100 < p) g[i][j] = '#'; x = (x * a + b) % M; }. Potem pętla po polach: każde nieodwiedzone pole lądu to nowa wyspa — BFS od niego liczy jej pola. Tablica odwiedzin: vector<vector<char>> albo vector<string>.",
+      "tests_count": 9
+    },
+    {
+      "id": "kol-b-czarna-skrzynka",
+      "number": 2223,
+      "title": "Czarna skrzynka",
+      "category": "Kolejka / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Czarna skrzynka samolotu co sekundę zapisuje wysokość lotu, ale ma pamięć tylko na K pomiarów. Gdy pamięć jest pełna, a przychodzi nowy pomiar, najstarszy zapisany pomiar zostaje skasowany.",
+        "Samolot wykonał n pomiarów. Wypisz pomiary, które zostały w pamięci — od najstarszego do najnowszego — a w drugim wierszu największą i najmniejszą z zapisanych wysokości."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i K.",
+        "W drugim wierszu n wysokości w kolejności pomiarów."
+      ],
+      "output_format": [
+        "Dwa wiersze: zapisane pomiary oraz najwyzej: X, najnizej: Y."
+      ],
+      "constraints": [
+        "1 ≤ K ≤ n ≤ 10⁴",
+        "K ≤ 2000",
+        "0 ≤ wysokość ≤ 20 000"
+      ],
+      "examples": [
+        {
+          "input": "6 4\n0 300 1200 2500 2400 2600",
+          "output": "1200 2500 2400 2600\nnajwyzej: 2600, najnizej: 1200",
+          "note": "Pamięć mieści 4 pomiary, więc dwa pierwsze (0 i 300) zostały skasowane."
+        }
+      ],
+      "hint": "queue<int> q;. Dla każdego pomiaru: q.push(x); if ((int)q.size() > K) q.pop();. Na końcu opróżniaj kolejkę, wypisując pomiary i licząc max oraz min.",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-b-najlepszy-tydzien",
+      "number": 2224,
+      "title": "Najlepszy tydzień sklepu",
+      "category": "Kolejka / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Sklep zapisał utarg z każdego z n dni. Kierowniczka szuka najlepszego okresu k kolejnych dni, czyli takiego, w którym łączny utarg był największy. Jeśli takich okresów jest kilka, wybierz ten, który zaczyna się najwcześniej.",
+        "Wypisz numer pierwszego dnia najlepszego okresu (dni liczymy od 1) i łączny utarg w tym okresie."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n utargów."
+      ],
+      "output_format": [
+        "Jeden wiersz: od dnia d: suma S."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 10⁴",
+        "0 ≤ utarg ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "7 3\n5 1 8 2 8 1 5",
+          "output": "od dnia 3: suma 18",
+          "note": "Okresy 1–3 (14), 2–4 (11), 3–5 (18), 4–6 (11), 5–7 (14). Najlepszy jest okres od dnia 3."
+        }
+      ],
+      "hint": "Suma ostatnich k jak w części 4 lekcji. Od dnia k porównuj: if (suma > naj) { naj = suma; od = i - k + 1; } — ostra nierówność zostawia najwcześniejszy okres. naj zacznij od -1, bo utargi mogą być zerowe.",
+      "tests_count": 7
+    },
+    {
+      "id": "kol-b-szczesliwe-liczby",
+      "number": 2225,
+      "title": "Szczęśliwe liczby",
+      "category": "Kolejka / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Bajtek uważa za szczęśliwe liczby, w których zapisie są tylko cyfry 4 i 7: 4, 7, 44, 47, 74, 77, 444, … Wypisz n najmniejszych szczęśliwych liczb w kolejności rosnącej.",
+        "Pomysł z kolejką: wstaw do niej 4 i 7. Potem n razy zdejmij pierwszą liczbę x, wypisz ją i wstaw na koniec x · 10 + 4 oraz x · 10 + 7. Liczby wychodzą z kolejki od najkrótszych, a wśród liczb tej samej długości — od najmniejszych."
+      ],
+      "input_format": [
+        "Jedna liczba n."
+      ],
+      "output_format": [
+        "n wierszy — kolejne szczęśliwe liczby."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "8",
+          "output": "4\n7\n44\n47\n74\n77\n444\n447",
+          "note": "Po 4 i 7 przychodzą liczby dwucyfrowe 44, 47, 74, 77, a potem trzycyfrowe: 444 i 447."
+        }
+      ],
+      "hint": "queue<long long> q; q.push(4); q.push(7);. W pętli: long long x = q.front(); q.pop(); cout << x << \"\\n\"; q.push(x * 10 + 4); q.push(x * 10 + 7);. Wstawiane liczby są dłuższe od wypisywanych — dlatego long long.",
+      "tests_count": 7
+    },
+    {
+      "id": "kol-b-playlista",
+      "number": 2226,
+      "title": "Playlista",
+      "category": "Kolejka / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Odtwarzacz muzyki ma kolejkę utworów do zagrania, na początku pustą. Polecenia:",
+        "• DODAJ tytul — utwór trafia na koniec kolejki,",
+        "• NASTEPNA tytul — utwór zagra jako następny (trafia na początek kolejki),",
+        "• GRAJ — gra pierwszy utwór z kolejki: wypisz gra: tytul i usuń go z kolejki; jeśli kolejka jest pusta — cisza,",
+        "• USUN_OSTATNI — usuwa ostatni utwór z kolejki: wypisz usunieto: tytul albo nic do usuniecia,",
+        "• POWTORZ — ostatnio zagrany utwór jeszcze raz trafia na koniec kolejki; jeśli jeszcze nic nie grało — wypisz nic nie gralo.",
+        "Na koniec wypisz zawartość kolejki."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z q kolejnych wierszy jedno polecenie."
+      ],
+      "output_format": [
+        "Wiersze wypisywane przez polecenia, a na końcu w kolejce: tytuły albo w kolejce: pusto."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 2000",
+        "Tytuły to napisy z małych liter, cyfr i znaku _ (do 20 znaków)."
+      ],
+      "examples": [
+        {
+          "input": "7\nDODAJ kolysanka\nDODAJ marsz\nNASTEPNA hymn\nGRAJ\nPOWTORZ\nUSUN_OSTATNI\nGRAJ",
+          "output": "gra: hymn\nusunieto: hymn\ngra: kolysanka\nw kolejce: marsz",
+          "note": "Kolejka: hymn kolysanka marsz. Gra hymn, POWTORZ dokłada go na koniec, a USUN_OSTATNI właśnie go usuwa. Potem gra kolysanka, a w kolejce zostaje marsz."
+        }
+      ],
+      "hint": "deque<string> d; string ostatni = \"\";. GRAJ: ostatni = d.front(); d.pop_front();. POWTORZ: if (ostatni == \"\") … else d.push_back(ostatni);.",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-b-stolowka",
+      "number": 2227,
+      "title": "Stołówka",
+      "category": "Kolejka / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W kolejce na stołówce stoi n uczniów, ponumerowanych od 1 w kolejności w kolejce. Każdy chce kanapki z serem (0) albo z szynką (1). Kanapek jest też n i leżą jedna na drugiej; brać można tylko kanapkę z wierzchu.",
+        "Pierwszy uczeń w kolejce: jeśli chce kanapki z wierzchu, bierze ją i odchodzi; jeśli nie — wraca na koniec kolejki. Gdy żaden z czekających nie chce kanapki z wierzchu, wydawanie się kończy. Wypisz numery uczniów w kolejności, w jakiej dostali kanapki, i ilu uczniów zostało głodnych."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb 0 albo 1 — czego chcą uczniowie 1, 2, …, n.",
+        "W trzecim wierszu n liczb 0 albo 1 — kanapki od wierzchu."
+      ],
+      "output_format": [
+        "Dwa wiersze: jedza: numery (albo jedza: nikt) oraz glodnych: X."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "4\n1 1 0 0\n0 1 0 1",
+          "output": "jedza: 3 1 4 2\nglodnych: 0",
+          "note": "Kanapkę z serem bierze uczeń 3 (1 i 2 przechodzą na koniec), z szynką — 1, z serem — 4, a ostatnią z szynką — 2. Nikt nie jest głodny."
+        },
+        {
+          "input": "3\n1 1 1\n0 1 1",
+          "output": "jedza: nikt\nglodnych: 3",
+          "note": "Na wierzchu leży ser, a wszyscy chcą szynki — od razu koniec."
+        }
+      ],
+      "hint": "queue<int> q; z numerami uczniów i int chce[2] — ilu czekających chce każdej kanapki. Dopóki kolejka niepusta i chce[kanapka z wierzchu] > 0: zdejmij ucznia; jeśli pasuje — wypisz go, zmniejsz licznik i przejdź do następnej kanapki; jeśli nie — q.push(uczen).",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-b-tasowanie",
+      "number": 2228,
+      "title": "Tasowanie na zmianę",
+      "category": "Kolejka / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Talia ma n kart, podanych od wierzchu. Krupier zdejmuje karty po kolei z wierzchu talii i układa z nich nową kupkę: pierwszą kartę po prostu kładzie na stole, drugą kładzie na wierzch kupki, trzecią wsuwa pod spód kupki, czwartą znów na wierzch, piątą pod spód — i tak dalej, na zmianę.",
+        "Wypisz nową kupkę od wierzchu do spodu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb — karty talii od wierzchu."
+      ],
+      "output_format": [
+        "Jeden wiersz: karty nowej kupki od wierzchu."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 3000",
+        "1 ≤ karty ≤ 10⁴"
+      ],
+      "examples": [
+        {
+          "input": "6\n1 2 3 4 5 6",
+          "output": "6 4 2 1 3 5",
+          "note": "Kupka po kolei: 1 → 2 1 → 2 1 3 → 4 2 1 3 → 4 2 1 3 5 → 6 4 2 1 3 5."
+        }
+      ],
+      "hint": "deque<int> d;. Karta numer i (od 1): if (i % 2 == 1) d.push_back(x); else d.push_front(x);. Pierwsza karta trafia do pustej kupki, więc wszystko jedno, z której strony ją położysz. Wypisz d od początku.",
+      "tests_count": 6
+    },
+    {
+      "id": "kol-b-wojna",
+      "number": 2229,
+      "title": "Gra w wojnę",
+      "category": "Kolejka / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ala i Bartek grają w uproszczoną wojnę. Każde ma swoją talię kart z wartościami od 1 do 13, trzymaną wierzchem do góry. W każdej rundzie oboje odkrywają kartę z wierzchu. Kto ma wyższą, zabiera obie karty i wkłada je pod spód swojej talii — najpierw swoją kartę, potem kartę przeciwnika. Przy remisie obie karty odpadają z gry.",
+        "Gra kończy się, gdy ktoś nie ma już kart, albo po 10 000 rundach. Wypisz, ile rund rozegrano i kto wygrał: wygrywa Ala, wygrywa Bartek albo remis (gdy oboje skończyli karty w tej samej rundzie albo po 10 000 rundach oboje wciąż je mają)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n i n kart Ali od wierzchu.",
+        "W drugim wierszu liczba m i m kart Bartka od wierzchu."
+      ],
+      "output_format": [
+        "Dwa wiersze: rund: R oraz wynik."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 1000",
+        "1 ≤ karty ≤ 13"
+      ],
+      "examples": [
+        {
+          "input": "3 5 2 9\n3 3 8 9",
+          "output": "rund: 7\nwygrywa Bartek",
+          "note": "Runda 1: 5 > 3 — Ala zabiera 5 i 3. Runda 2: 2 < 8 — Bartek zabiera 8 i 2. Runda 3: remis 9 i 9, obie odpadają. Ala ma 5 3, Bartek 8 2. Runda 4: 5 < 8, runda 5: 3 > 2 — Ala ma 3 2, Bartek 8 5. Runda 6: 3 < 8, runda 7: 2 < 5 — Ala nie ma kart."
+        }
+      ],
+      "hint": "queue<int> a, b; int rundy = 0; while (!a.empty() && !b.empty() && rundy < 10000) { int x = a.front(), y = b.front(); a.pop(); b.pop(); rundy++; if (x > y) { a.push(x); a.push(y); } else if (y > x) { b.push(y); b.push(x); } }. Potem sprawdź, kto ma karty.",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-b-wyliczanka-z-kartami",
+      "number": 2230,
+      "title": "Wyliczanka z kartami",
+      "category": "Kolejka / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W kółku stoi n dzieci, ponumerowanych od 1 do n zgodnie z kolejnością w kółku. Każde trzyma kartę z liczbą. Pierwsze odliczanie zaczyna dziecko numer 1, które mówi „raz”, a kolejne dzieci w kółku mówią kolejne liczby; dziecko, które powie k, odpada. Następne odliczanie zaczyna dziecko stojące za tym, które odpadło, a odlicza się tyle, ile było na karcie dziecka, które właśnie odpadło.",
+        "Wypisz numery dzieci w kolejności odpadania. Liczby na kartach bywają ogromne — pełne okrążenie kółka niczego nie zmienia."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n liczb — karty dzieci 1, 2, …, n."
+      ],
+      "output_format": [
+        "Jeden wiersz: numery dzieci w kolejności odpadania."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "1 ≤ k, karty ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "5 2\n3 1 4 1 5",
+          "output": "2 3 4 5 1",
+          "note": "Odliczanie do 2: odpada dziecko 2 (karta 1). Teraz odlicza się do 1 od dziecka 3 — odpada ono samo (karta 4). Od dziecka 4 odlicza się do 4: 4, 5, 1, 4 — odpada 4 (karta 1). Od dziecka 5 do 1: odpada 5, na końcu 1."
+        }
+      ],
+      "hint": "Kółko to kolejka numerów dzieci. Odliczanie do k: wykonaj (k - 1) % q.size() obrotów (q.push(q.front()); q.pop();) — wtedy z przodu stoi dziecko, które odpada. Nowe k to jego karta.",
+      "tests_count": 7
+    },
+    {
+      "id": "kol-b-plotka",
+      "number": 2231,
+      "title": "Plotka i milczki",
+      "category": "Kolejka / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W klasie jest n uczniów i m par przyjaciół. W minucie 0 plotkę zna uczeń s. W każdej kolejnej minucie każdy, kto zna plotkę i nie jest milczkiem, opowiada ją wszystkim swoim przyjaciołom. Milczki też poznają plotkę od przyjaciół, ale nikomu jej nie powtarzają (uczeń s nie jest milczkiem).",
+        "Wypisz, w której minucie plotkę pozna ostatni uczeń, który ją w ogóle pozna (0, jeśli nikt poza s), i ilu uczniów nigdy jej nie usłyszy."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n, m i s.",
+        "W każdym z m kolejnych wierszy para przyjaciół a b.",
+        "W ostatnim wierszu liczba milczków k i ich numery (gdy k = 0 — sama liczba 0)."
+      ],
+      "output_format": [
+        "Dwa wiersze: ostatni w minucie: X oraz nie uslyszy: Y."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "0 ≤ m ≤ 5000",
+        "1 ≤ s ≤ n",
+        "Pary są różne, a ≠ b; milczki są różne i żaden nie jest uczniem s."
+      ],
+      "examples": [
+        {
+          "input": "6 6 1\n1 2\n2 3\n3 4\n1 5\n5 6\n6 4\n1 2",
+          "output": "ostatni w minucie: 4\nnie uslyszy: 0",
+          "note": "Uczeń 2 to milczek: poznaje plotkę w minucie 1, ale uczeń 3 nie dowie się od niego. Plotka idzie 1 → 5 → 6 → 4 → 3: ostatni, uczeń 3, pozna ją w minucie 4."
+        }
+      ],
+      "hint": "Zwykły BFS od s, tylko zdejmując ucznia v, sprawdź: if (milczek[v]) continue; — milczek ma swoją odległość, ale nie wkłada przyjaciół do kolejki.",
+      "tests_count": 9
+    },
+    {
+      "id": "kol-b-dwie-druzyny",
+      "number": 2232,
+      "title": "Dwie drużyny",
+      "category": "Kolejka / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Trener chce podzielić n zawodników na dwie drużyny. Niektóre pary zawodników się nie lubią — m takich par nie może trafić do tej samej drużyny. Czy podział jest możliwy?",
+        "Pokoloruj zawodników BFS-em: pierwszy z grupy dostaje drużynę 1, każdy jego „wróg” — drużynę 2, wrogowie wrogów — znów 1 i tak dalej. Jeśli kiedyś okaże się, że dwaj wrogowie mają ten sam kolor, podział jest niemożliwy. Zawodnicy bez wrogów mogą grać w dowolnej drużynie — przydzielaj ich (i każdego pierwszego z nowej grupy) do drużyny 1. Wypisz TAK i liczebności obu drużyn albo NIE."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z m kolejnych wierszy para wrogów a b."
+      ],
+      "output_format": [
+        "Jeden wiersz: TAK x y (liczebności drużyn 1 i 2) albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "0 ≤ m ≤ 8000",
+        "Pary są różne, a ≠ b."
+      ],
+      "examples": [
+        {
+          "input": "5 3\n1 2\n2 3\n4 5",
+          "output": "TAK 3 2",
+          "note": "Zawodnicy 1 i 3 — drużyna 1, zawodnik 2 — drużyna 2. Z drugiej grupy 4 idzie do drużyny 1, a 5 do drużyny 2. TAK 3 2."
+        },
+        {
+          "input": "3 3\n1 2\n2 3\n3 1",
+          "output": "NIE",
+          "note": "Trzej wzajemni wrogowie: dwaj z nich zawsze trafią do tej samej drużyny."
+        }
+      ],
+      "hint": "vector<int> kolor(n + 1, 0); — 0 = jeszcze bez drużyny. Pętla po zawodnikach; nieodwiedzonemu daj kolor 1 i uruchom BFS: dla sąsiada u zawodnika v: if (kolor[u] == 0) { kolor[u] = 3 - kolor[v]; q.push(u); } else if (kolor[u] == kolor[v]) nie_da_sie = true;.",
+      "tests_count": 9
+    },
+    {
+      "id": "kol-b-talia-magika",
+      "number": 2233,
+      "title": "Talia magika",
+      "category": "Kolejka / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Magik trzyma talię n kart z numerami od 1 do n i robi trik: odkrywa kartę z wierzchu i kładzie ją na stole, następną kartę z wierzchu przekłada pod spód talii, znowu odkrywa kartę z wierzchu, następną przekłada pod spód — i tak dalej, aż odkryje wszystkie. Publiczność widzi, że karty pojawiają się w kolejności 1, 2, 3, …, n.",
+        "Jak magik musiał ułożyć talię? Wypisz numery kart od wierzchu. Podpowiedź: zasymuluj trik na pozycjach w talii — kolejka zawiera pozycje 0, 1, …, n − 1. Pozycja, która w symulacji zostanie odkryta jako k-ta, musi zawierać kartę numer k."
+      ],
+      "input_format": [
+        "Jedna liczba n."
+      ],
+      "output_format": [
+        "Jeden wiersz: n numerów kart od wierzchu talii."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 3000"
+      ],
+      "examples": [
+        {
+          "input": "5",
+          "output": "1 5 2 4 3",
+          "note": "Talia 1 5 2 4 3: odkryj 1, 5 pod spód (2 4 3 5), odkryj 2, 4 pod spód (3 5 4), odkryj 3, 5 pod spód (4 5), odkryj 4, 5 pod spód, odkryj 5."
+        }
+      ],
+      "hint": "queue<int> q; for (int i = 0; i < n; i++) q.push(i); vector<int> talia(n);. Dla k od 1 do n: talia[q.front()] = k; q.pop(); if (!q.empty()) { q.push(q.front()); q.pop(); }. Potem wypisz talię.",
+      "tests_count": 7
+    },
+    {
+      "id": "kol-b-kolejka-druzynowa",
+      "number": 2234,
+      "title": "Kolejka drużynowa",
+      "category": "Kolejka / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na stołówce obowiązuje dziwny zwyczaj. Zawodnicy należą do t drużyn. Gdy przychodzi zawodnik, rozgląda się: jeśli w kolejce stoi już ktoś z jego drużyny, staje zaraz za ostatnim kolegą z drużyny; jeśli nie — staje na samym końcu kolejki. Obsługiwana jest zawsze pierwsza osoba w kolejce.",
+        "Zdarzenia: ENQUEUE x — przychodzi zawodnik x, DEQUEUE — obsługa pierwszej osoby (wypisz jej numer), STOP — koniec. Zauważ, że zawodnicy jednej drużyny zawsze stoją w kolejce obok siebie: trzymaj kolejkę numerów drużyn, a dla każdej drużyny osobną kolejkę jej zawodników."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "W każdym z t kolejnych wierszy liczba k i numery k zawodników drużyny.",
+        "Potem zdarzenia, po jednym w wierszu, zakończone słowem STOP."
+      ],
+      "output_format": [
+        "Po jednym wierszu z numerem zawodnika dla każdego DEQUEUE."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 500",
+        "Łącznie najwyżej 3000 zawodników; numery są różne, od 0 do 999 999.",
+        "Najwyżej 5000 zdarzeń. DEQUEUE nigdy nie dotyczy pustej kolejki, a ENQUEUE x — zawodnika, który już stoi w kolejce."
+      ],
+      "examples": [
+        {
+          "input": "2\n3 101 102 103\n3 201 202 203\nENQUEUE 101\nENQUEUE 201\nENQUEUE 102\nENQUEUE 202\nENQUEUE 103\nENQUEUE 203\nDEQUEUE\nDEQUEUE\nDEQUEUE\nDEQUEUE\nSTOP",
+          "output": "101\n102\n103\n201",
+          "note": "Zawodnik 102 staje za 101 (przed 201), a 103 za 102. Kolejka to 101 102 103 201 202 203."
+        }
+      ],
+      "hint": "vector<int> druzyna(1000000); — numer drużyny każdego zawodnika. queue<int> kolejkaDruzyn; vector<queue<int>> wDruzynie(t);. ENQUEUE x: int d = druzyna[x]; if (wDruzynie[d].empty()) kolejkaDruzyn.push(d); wDruzynie[d].push(x);. DEQUEUE: drużyna z przodu, jej pierwszy zawodnik — a gdy jej kolejka się opróżni, zdejmij drużynę z kolejkaDruzyn.",
+      "tests_count": 7
+    },
+    {
+      "id": "kol-b-wagoniki",
+      "number": 2235,
+      "title": "Wagoniki kolejki górskiej",
+      "category": "Kolejka / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Kolejka górska ma wagonik na L miejsc i jeździ C razy dziennie. W kolejce stoi n grup; grupa i liczy gᵢ osób i nigdy się nie rozdziela. Przed każdym przejazdem do wagonika wsiadają po kolei grupy z początku kolejki — dopóki następna grupa w całości się zmieści (i dopóki każda grupa wsiadła najwyżej raz w tym przejeździe). Po przejeździe grupy, które jechały, wracają na koniec kolejki w tej samej kolejności.",
+        "Za każdy przejazd każda osoba płaci 1 zł. Ile zarobi kolejka górska przez cały dzień?"
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby L, C i n.",
+        "W drugim wierszu n liczb g₁, g₂, …, gₙ."
+      ],
+      "output_format": [
+        "Jedna liczba — zarobek w złotych."
+      ],
+      "constraints": [
+        "1 ≤ L ≤ 10⁷",
+        "1 ≤ C ≤ 10⁴",
+        "1 ≤ n ≤ 1000",
+        "1 ≤ gᵢ ≤ L"
+      ],
+      "examples": [
+        {
+          "input": "3 3 4\n3 1 1 2",
+          "output": "7",
+          "note": "Przejazd 1: grupa 3 osób (zarobek 3). Przejazd 2: grupy 1 i 1 — następna, dwuosobowa, się nie mieści (zarobek 2). Przejazd 3: grupa 2 osób, bo trzyosobowa już się nie zmieści (2). Razem 7 zł."
+        }
+      ],
+      "hint": "queue<int> q; z wielkościami grup. Przejazd: int wolne = L, wsiadlo = 0; while (wsiadlo < n && q.front() <= wolne) { wolne -= q.front(); q.push(q.front()); q.pop(); wsiadlo++; } zarobek += L - wolne;. Zarobek w long long.",
+      "tests_count": 7
+    },
+    {
+      "id": "kol-b-liczby-235",
+      "number": 2236,
+      "title": "Liczby z dwójek, trójek i piątek",
+      "category": "Kolejka / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Rozważ liczby, które w rozkładzie na czynniki pierwsze mają tylko dwójki, trójki i piątki (także 1, która nie ma żadnego czynnika): 1, 2, 3, 4, 5, 6, 8, 9, 10, 12, 15, 16, … Wypisz n-tą z nich.",
+        "Pomysł z trzema kolejkami: każda kolejna liczba to któraś wcześniejsza pomnożona przez 2, 3 albo 5. Gdy wyznaczysz liczbę x, wstaw 2x do pierwszej kolejki, 3x do drugiej i 5x do trzeciej. Następna liczba to najmniejszy z trzech pierwszych elementów — a jeśli ta sama liczba stoi z przodu kilku kolejek (np. 6 = 2 · 3 = 3 · 2), zdejmij ją z każdej."
+      ],
+      "input_format": [
+        "Jedna liczba n."
+      ],
+      "output_format": [
+        "Jedna liczba — n-ta liczba z ciągu."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10⁴"
+      ],
+      "examples": [
+        {
+          "input": "10",
+          "output": "12",
+          "note": "Ciąg: 1, 2, 3, 4, 5, 6, 8, 9, 10, 12 — dziesiąta jest 12. Liczby 7 i 11 się nie pojawiają."
+        }
+      ],
+      "hint": "queue<long long> q2, q3, q5; long long x = 1;. n − 1 razy: q2.push(2 * x); q3.push(3 * x); q5.push(5 * x); x = min({q2.front(), q3.front(), q5.front()}); if (q2.front() == x) q2.pop(); i tak samo dla q3 i q5. Liczby rosną szybko — long long.",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-b-metro",
+      "number": 2237,
+      "title": "Metro",
+      "category": "Kolejka / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Sieć metra ma kilka linii. Każda linia to lista stacji, przez które przejeżdża po kolei; między dwiema sąsiednimi stacjami linii pociąg jedzie w obie strony, a przejazd między nimi to jeden przystanek. Linie mogą mieć wspólne stacje — tam można się przesiąść (przesiadka nic nie kosztuje).",
+        "Dla każdego pytania A B wypisz najmniejszą liczbę przystanków, którą trzeba przejechać ze stacji A do stacji B, albo brak, jeśli się nie da. Nadaj stacjom numery mapą map<string, int>, zbuduj listy sąsiadów i dla każdego pytania uruchom BFS."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby L (linie) i q (pytania).",
+        "W każdym z L kolejnych wierszy liczba k i nazwy k stacji linii, po kolei.",
+        "W każdym z q kolejnych wierszy dwie nazwy stacji A i B."
+      ],
+      "output_format": [
+        "q wierszy — liczba przystanków albo brak."
+      ],
+      "constraints": [
+        "1 ≤ L ≤ 100",
+        "2 ≤ k",
+        "Łącznie najwyżej 5000 stacji na wszystkich liniach i najwyżej 2000 różnych stacji.",
+        "1 ≤ q ≤ 30",
+        "Nazwy to małe litery (do 15); stacje z pytań występują na liniach."
+      ],
+      "examples": [
+        {
+          "input": "3 3\n4 dworzec rynek park zoo\n3 rynek szkola stadion\n2 lotnisko hotel\ndworzec stadion\nzoo szkola\nzoo hotel",
+          "output": "3\n3\nbrak",
+          "note": "Z dworca: rynek (1), przesiadka, szkoła (2), stadion (3). Z zoo: park, rynek, szkoła — 3. Linia lotnisko–hotel nie styka się z resztą."
+        }
+      ],
+      "hint": "map<string, int> nr; int ile = 0;. Funkcja int numer(string s) { if (!nr.count(s)) nr[s] = ile++; return nr[s]; }. Dla linii: kolejne stacje a i b dostają krawędź g[a].push_back(b); g[b].push_back(a);. Każde pytanie: nowa tablica odległości i BFS.",
+      "tests_count": 7
+    },
+    {
+      "id": "kol-b-wieza",
+      "number": 2238,
+      "title": "Wieża na planszy",
+      "category": "Kolejka / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Plansza n × m ma wolne pola ., ściany #, pole startowe S i docelowe K. Wieża szachowa w jednym ruchu przesuwa się w górę, w dół, w lewo albo w prawo o dowolną liczbę pól (co najmniej jedno), ale nie może przeskakiwać ścian ani wyjeżdżać poza planszę.",
+        "Ile najmniej ruchów potrzebuje wieża, żeby dojechać z S na K (może się zatrzymać na dowolnym polu po drodze)? Wypisz −1, jeśli się nie da. W BFS z pola v sprawdzasz po kolei wszystkie pola w każdym z czterech kierunków, aż trafisz na ścianę albo brzeg planszy — każde jeszcze nieodwiedzone dostaje odległość o jeden większą."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z n kolejnych wierszy m znaków."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejsza liczba ruchów albo −1."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 100",
+        "S i K występują dokładnie raz."
+      ],
+      "examples": [
+        {
+          "input": "4 5\nS.#..\n..#.K\n.....\n#....",
+          "output": "3",
+          "note": "S → w dół do wiersza 3 (dalej jest ściana), → w prawo do kolumny 5, → w górę do K. Trzy ruchy."
+        }
+      ],
+      "hint": "W BFS dla kierunku i: int nw = w + dw[i], nk = k + dk[i]; while (nw, nk na planszy i g[nw][nk] != '#') { if (odl[nw][nk] == -1) { odl[nw][nk] = odl[w][k] + 1; q.push({nw, nk}); } nw += dw[i]; nk += dk[i]; }. Nie przerywaj na polu już odwiedzonym — za nim mogą być nowe pola.",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-b-zera-i-jedynki",
+      "number": 2239,
+      "title": "Wielokrotność z zer i jedynek",
+      "category": "Kolejka / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla danej liczby n znajdź najmniejszą dodatnią liczbę, która dzieli się przez n i w zapisie dziesiętnym ma tylko cyfry 0 i 1. Na przykład dla n = 6 to 1110.",
+        "Takie liczby bywają bardzo długie — nie zmieszczą się w long long. Zauważ jednak, że liczy się tylko reszta z dzielenia przez n: dopisanie cyfry c na końcu zamienia resztę r na (r · 10 + c) mod n. Przeszukuj reszty wszerz, zaczynając od liczby 1; dla każdej reszty zapamiętaj, z jakiej reszty i jaką cyfrą do niej doszedłeś, a na końcu odtwórz liczbę od reszty 0. Gdy z reszty wychodzisz najpierw cyfrą 0, a potem 1, BFS znajduje najmniejszą liczbę."
+      ],
+      "input_format": [
+        "Jedna liczba n."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejsza wielokrotność n z samych zer i jedynek."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10⁵"
+      ],
+      "examples": [
+        {
+          "input": "6",
+          "output": "1110",
+          "note": "Kolejno sprawdzane liczby z zer i jedynek: 1, 10, 11, 100, 101, 110, 111, 1000, …, 1110. Pierwsza podzielna przez 6 to 1110."
+        },
+        {
+          "input": "7",
+          "output": "1001",
+          "note": "1001 = 7 · 143."
+        }
+      ],
+      "hint": "vector<int> skad(n, -1), cyfra(n);. Start: reszta 1 % n (cyfra 1, skąd: -2 jako „początek”). Z reszty r: dla c = 0, 1: int u = (r * 10 + c) % n; if (skad[u] == -1) { skad[u] = r; cyfra[u] = c; q.push(u); }. Gdy dojdziesz do reszty 0 — cofaj się po skad, zbierając cyfry, i odwróć napis.",
+      "tests_count": 11
+    },
+    {
+      "id": "kol-b-labirynt-z-kluczem",
+      "number": 2240,
+      "title": "Labirynt z kluczem",
+      "category": "Kolejka / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Labirynt n × m: . to wolne pole, # ściana, S start, K wyjście, k klucz, a D drzwi. Na drzwi wolno wejść tylko z kluczem. Klucz podnosisz automatycznie, gdy wejdziesz na jego pole, i od tej chwili otwiera on wszystkie drzwi. Kluczy może być kilka (albo żaden), drzwi też.",
+        "Ile najmniej kroków potrzeba, żeby dojść z S do K? Wypisz −1, jeśli się nie da. Stan to (wiersz, kolumna, czy mam klucz) — to samo pole odwiedzone z kluczem i bez klucza to dwa różne stany, więc odległości trzymaj w tablicy odl[2][n][m]."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z n kolejnych wierszy m znaków."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejsza liczba kroków albo −1."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 100",
+        "S i K występują dokładnie raz."
+      ],
+      "examples": [
+        {
+          "input": "3 7\nS..D..K\n.#####.\n...k...",
+          "output": "10",
+          "note": "Dolnym korytarzem i prawą kolumną da się dojść do K bez drzwi: 2 kroki w dół, 6 w prawo i 2 w górę — 10 kroków. Droga przez drzwi wymagałaby najpierw wyprawy po klucz i jest dłuższa."
+        }
+      ],
+      "hint": "struct Stan { int w, k, klucz; }; queue<Stan> q;. Wchodząc na pole: if (g[nw][nk] == '#') continue; if (g[nw][nk] == 'D' && !klucz) continue; int nowy = klucz || g[nw][nk] == 'k';. Odległość w odl[nowy][nw][nk].",
+      "tests_count": 10
+    },
+    {
+      "id": "kol-b-spokojne-fragmenty",
+      "number": 2241,
+      "title": "Ile spokojnych fragmentów?",
+      "category": "Kolejka / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ciąg n pomiarów powstaje z generatora: x₁ = s, xᵢ = (xᵢ₋₁ · a + b) mod m. Fragment (kilka kolejnych pomiarów, także jeden) jest spokojny, jeśli różnica między jego największym a najmniejszym pomiarem jest nie większa niż K. Ile jest spokojnych fragmentów?",
+        "Jeśli fragment od l do r jest spokojny, to każdy fragment od l′ do r z l ≤ l′ też jest. Dla każdego prawego końca r znajdź więc najmniejsze dobre l (gąsienicą z dwiema kolejkami monotonicznymi, jak w części 6) i dodaj do wyniku r − l + 1."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n, s, a, b i m (parametry generatora).",
+        "W drugim wierszu liczba K."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba spokojnych fragmentów."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10⁶",
+        "1 ≤ m ≤ 10⁹",
+        "0 ≤ s, a, b < m",
+        "0 ≤ K ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "5 4 7 3 10\n3",
+          "output": "10",
+          "note": "Ciąg 4, 1, 0, 3, 4. Spokojne są wszystkie pojedyncze pomiary (5), pary 4 1, 1 0, 0 3, 3 4 (4) i trójka 1 0 3 (1). Razem 10."
+        }
+      ],
+      "hint": "vector<long long> x(n); x[0] = s; for (int i = 1; i < n; i++) x[i] = (x[i - 1] * a + b) % m; Gąsienica jak w „Najdłuższym spokojnym fragmencie”, tylko zamiast maksimum długości: wynik += r - l + 1;. Fragmentów jest nawet 5 · 10¹¹ — long long.",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-b-supermarket",
+      "number": 2242,
+      "title": "Supermarket",
+      "category": "Kolejka / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W supermarkecie działa k kas, ponumerowanych od 1. Kasjer skanuje jeden produkt na sekundę. Klienci przychodzą do kas w chwilach tᵢ (niemalejąco), klient i ma pᵢ produktów. Przychodząc, klient staje w kolejce do kasy, przy której jest w tej chwili najmniej klientów (obsługiwanych i czekających); przy remisie wybiera kasę o najmniejszym numerze. Klient, którego obsługa kończy się dokładnie w chwili tᵢ, już wyszedł.",
+        "Obsługa klienta zaczyna się, gdy kasa skończy poprzedniego klienta (albo od razu, jeśli kasa jest wolna), i trwa pᵢ sekund. Dla każdego klienta wypisz numer kasy i chwilę wyjścia. Wskazówka: dla każdej kasy trzymaj kolejkę chwil wyjścia jej klientów — z przodu usuwaj tych, którzy wyszli najpóźniej w chwili tᵢ, a ostatni element (back) mówi, kiedy kasa skończy obecną pracę."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W każdym z n kolejnych wierszy liczby tᵢ i pᵢ."
+      ],
+      "output_format": [
+        "n wierszy: numer kasy i chwila wyjścia klienta."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "1 ≤ k ≤ 10",
+        "0 ≤ tᵢ ≤ 10⁶, niemalejąco",
+        "1 ≤ pᵢ ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "5 2\n0 5\n1 2\n2 1\n6 3\n6 1",
+          "output": "1 5\n2 3\n1 6\n1 9\n2 7",
+          "note": "Klient 1 idzie do kasy 1 (wyjdzie o 5), klient 2 do pustej kasy 2 (o 3). Klient 3 ma remis 1 : 1 — kasa 1, wyjdzie o 6. W chwili 6 przy kasie 1 nikt już nie stoi (klient 3 właśnie wyszedł), przy kasie 2 też — klient 4 wybiera kasę 1 (o 9), a klient 5 kasę 2 (o 7)."
+        }
+      ],
+      "hint": "vector<queue<long long>> kasa(k);. Dla klienta (t, p): dla każdej kasy while (!kasa[j].empty() && kasa[j].front() <= t) kasa[j].pop();. Wybierz j z najmniejszym size(). long long start = kasa[j].empty() ? t : max(t, kasa[j].back()); kasa[j].push(start + p);.",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-b-burzenie-scian",
+      "number": 2243,
+      "title": "Burzenie ścian",
+      "category": "Kolejka / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Robot burzący stoi w lewym górnym rogu planszy n × m i ma dotrzeć do prawego dolnego rogu. Pole . jest wolne, a # to ściana, którą robot może zburzyć — każde burzenie to koszt 1, a przejście na wolne pole nic nie kosztuje. Robot chodzi w czterech kierunkach. Jeśli ściana stoi już na polu startowym, też trzeba ją zburzyć.",
+        "Ile najmniej ścian musi zburzyć robot? To BFS 0-1: odległość to liczba burzeń. Zdejmując pole z przodu deque, sąsiada, do którego przejście kosztuje 0, wstawiasz na przód (push_front), a sąsiada za 1 — na koniec (push_back). Pole aktualizujesz, gdy znalazłeś do niego tańszą drogę."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z n kolejnych wierszy m znaków . i #."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejsza liczba zburzonych ścian."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 250"
+      ],
+      "examples": [
+        {
+          "input": "4 5\n..#..\n###.#\n.....\n.###.",
+          "output": "1",
+          "note": "Robot przechodzi dwa pola w prawo, burzy ścianę w kolumnie 3, schodzi do wolnego pola w drugim wierszu, potem w dół na trzeci wiersz, w prawo i w dół do celu. Jedno burzenie."
+        }
+      ],
+      "hint": "vector<vector<int>> odl(n, vector<int>(m, INT_MAX)); deque<pair<int, int>> d;. Start: odl[0][0] = (g[0][0] == '#'); d.push_back({0, 0});. Zdejmij z przodu (w, k); dla sąsiada: int c = (g[nw][nk] == '#'); if (odl[w][k] + c < odl[nw][nk]) { odl[nw][nk] = odl[w][k] + c; if (c == 0) d.push_front({nw, nk}); else d.push_back({nw, nk}); }.",
+      "tests_count": 10
+    },
+    {
+      "id": "kol-b-pozar-i-ucieczka",
+      "number": 2244,
+      "title": "Pożar i ucieczka",
+      "category": "Kolejka / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W labiryncie n × m wybuchł pożar. # to ściana, . wolne pole, J — Jaś (dokładnie jeden), a F — pola, które płoną (może ich być kilka albo żadne). Co minutę Jaś przechodzi na sąsiednie pole (w czterech kierunkach), a ogień przenosi się z każdego płonącego pola na sąsiednie pola, które nie są ścianami. Jaś nie może wejść na ścianę ani na pole, które w chwili jego wejścia już płonie albo właśnie się zapala.",
+        "Jaś ucieka, gdy z pola na brzegu labiryntu wyjdzie na zewnątrz — to też zajmuje minutę. Wypisz, po ilu minutach najszybciej może uciec, albo niemozliwe. Najpierw BFS ze wszystkich F policzy minutę zapłonu każdego pola; Jaś może wejść na pole w minucie t tylko wtedy, gdy ogień dotrze tam później niż w minucie t."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z n kolejnych wierszy m znaków."
+      ],
+      "output_format": [
+        "Jedna liczba minut albo napis niemozliwe."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 100",
+        "J występuje dokładnie raz."
+      ],
+      "examples": [
+        {
+          "input": "4 4\n####\n#JF#\n#..#\n#..#",
+          "output": "3",
+          "note": "Jaś idzie w dół (minuta 1, ogień dotrze tam w minucie 2), znowu w dół na brzeg (minuta 2) i wychodzi na zewnątrz w minucie 3."
+        },
+        {
+          "input": "3 3\n###\n#J.\n#.F",
+          "output": "niemozliwe",
+          "note": "Oba wolne pola przy Jasiu zapalają się w minucie 1 — dokładnie wtedy, gdy mógłby na nie wejść."
+        }
+      ],
+      "hint": "Pole bez ognia ma czas „nieskończony” (np. INT_MAX). BFS Jasia: z pola (w, k) w minucie t — jeśli pole jest na brzegu, odpowiedź to t + 1 (pierwszy taki moment w BFS jest najlepszy). Sąsiad: nie ściana, nieodwiedzony i ogien[nw][nk] > t + 1.",
+      "tests_count": 11
+    },
+    {
+      "id": "kol-b-przesuwanka",
+      "number": 2245,
+      "title": "Przesuwanka 3 × 3",
+      "category": "Kolejka / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Przesuwanka to ramka 3 × 3 z kafelkami 1–8 i jednym pustym polem (0). Jeden ruch to przesunięcie kafelka sąsiadującego (w pionie albo w poziomie) z pustym polem na to puste pole. Celem jest układ, w którym kafelki stoją po kolei: 123 / 456 / 780.",
+        "Ile najmniej ruchów potrzeba z podanego układu? Wypisz −1, jeśli celu nie da się osiągnąć — tak bywa dla połowy wszystkich układów. Zapisz stan jako napis 9 znaków (wiersz po wierszu), a odległości trzymaj w unordered_map<string, int>."
+      ],
+      "input_format": [
+        "Trzy wiersze po trzy cyfry — układ przesuwanki (0 to puste pole)."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejsza liczba ruchów albo −1."
+      ],
+      "constraints": [
+        "Każda z cyfr 0–8 występuje dokładnie raz."
+      ],
+      "examples": [
+        {
+          "input": "123\n405\n786",
+          "output": "2",
+          "note": "Przesuń 5 w lewo (123 450 786), potem 6 w górę (123 456 780) — dwa ruchy."
+        },
+        {
+          "input": "213\n456\n780",
+          "output": "-1",
+          "note": "Zamiana dwóch kafelków miejscami jest niemożliwa w tej grze — tego układu nie da się ułożyć."
+        }
+      ],
+      "hint": "string start = w1 + w2 + w3;. W BFS: int p = s.find('0'); int w = p / 3, k = p % 3;. Dla sąsiada (nw, nk) w ramce: string t = s; swap(t[p], t[nw * 3 + nk]); if (!odl.count(t)) { odl[t] = odl[s] + 1; q.push(t); }. Zatrzymaj się, gdy zdejmiesz \"123456780\".",
+      "tests_count": 9
+    },
+    {
+      "id": "kol-b-max-w-kwadracie",
+      "number": 2246,
+      "title": "Maksimum w każdym kwadracie",
+      "category": "Kolejka / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Mapa wysokości ma n wierszy i m kolumn, a liczby powstają z generatora: x₁ = s, x_{t+1} = (x_t · a + b) mod M; pole w wierszu i i kolumnie j (od 0) ma wysokość x_{i·m + j + 1}. Dla każdego kwadratu k × k (kwadratów jest (n − k + 1) · (m − k + 1)) znajdź najwyższy punkt.",
+        "Wypisz sumę najwyższych punktów wszystkich kwadratów. Kwadratów są miliony, a każdy może mieć setki tysięcy pól — trzeba to policzyć w O(n · m). Najpierw dla każdego wiersza policz kolejką monotoniczną maksima wszystkich okien długości k (powstaje tablica n × (m − k + 1)). Maksimum kwadratu to maksimum k kolejnych takich wartości w kolumnie — więc to samo zrób wzdłuż każdej kolumny nowej tablicy."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n, m i k.",
+        "W drugim wierszu liczby s, a, b i M (parametry generatora)."
+      ],
+      "output_format": [
+        "Jedna liczba — suma maksimów wszystkich kwadratów k × k."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 1500",
+        "1 ≤ k ≤ min(n, m)",
+        "1 ≤ M ≤ 10⁹",
+        "0 ≤ s, a, b < M"
+      ],
+      "examples": [
+        {
+          "input": "3 3 2\n1 2 1 10",
+          "output": "24",
+          "note": "Wysokości: 1 3 7 / 5 1 3 / 7 5 1. Kwadraty 2 × 2 mają maksima 5, 7, 7 i 5 — suma 24."
+        }
+      ],
+      "hint": "Wygeneruj tablicę wiersz po wierszu. Wiersze: dla każdego i zwykła kolejka monotoniczna po j, wynik w r[i][j - k + 1]. Kolumny: dla każdej kolumny j tablicy r kolejka monotoniczna po i — maksimum okna to maksimum kwadratu; dodawaj je do sumy w long long.",
+      "tests_count": 9
+    },
+    {
+      "id": "kol-b-teleporty",
+      "number": 2247,
+      "title": "Teleporty",
+      "category": "Kolejka / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Plansza n × m: . to wolne pole, # ściana, S start, K cel, a małe litery a–z to teleporty (też wolne pola). W jednym ruchu przechodzisz na sąsiednie pole (w czterech kierunkach, nie na ścianę) albo — stojąc na teleporcie z literą c — przenosisz się na dowolny inny teleport z tą samą literą.",
+        "Ile najmniej ruchów potrzeba z S do K? Wypisz −1, jeśli się nie da. Uwaga na czas: teleportów z jedną literą może być tysiące. Gdy pierwszy raz zdejmiesz z kolejki teleport z literą c, wstaw do kolejki wszystkie nieodwiedzone teleporty z tą literą i zaznacz literę jako zużytą — później już nic nie dadzą, bo wszystkie zostały odwiedzone za pierwszym razem."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z n kolejnych wierszy m znaków."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejsza liczba ruchów albo −1."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 200",
+        "S i K występują dokładnie raz."
+      ],
+      "examples": [
+        {
+          "input": "3 8\nSa.#....\n##.#.##.\n...#a..K",
+          "output": "5",
+          "note": "S → a (1 ruch), teleport do drugiego a (2), potem trzy kroki w prawo do K — razem 5. Bez teleportu ściany nie dałoby się obejść."
+        }
+      ],
+      "hint": "vector<vector<pair<int, int>>> pola(26); — pozycje każdej litery, bool uzyta[26] = {};. Zdejmując pole z literą c: if (!uzyta[c]) { uzyta[c] = true; for (auto [w, k] : pola[c]) if (odl[w][k] == -1) { odl[w][k] = odl[v] + 1; q.push({w, k}); } }. Potem zwykli sąsiedzi.",
+      "tests_count": 9
+    },
+    {
+      "id": "kol-b-najkrotszy-most",
+      "number": 2248,
+      "title": "Najkrótszy most",
+      "category": "Kolejka / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Mapa n × m: # to ląd, a . woda. Na mapie są dokładnie dwie wyspy (spójne kawałki lądu, pola łączą się bokami). Trzeba połączyć je mostem, czyli zamienić w ląd jak najmniej pól wody tak, żeby wyspy połączyły się w jedną.",
+        "Wypisz najmniejszą liczbę pól wody do zasypania. Najpierw znajdź dowolne pole lądu i BFS-em zaznacz całą jego wyspę. Potem wstaw wszystkie pola tej wyspy do kolejki z odległością 0 i rozchodź się po wodzie; gdy pierwszy raz dotrzesz do pola drugiej wyspy z odległością d, most ma d − 1 pól."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z n kolejnych wierszy m znaków # i .."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejsza liczba pól mostu."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 200",
+        "Na mapie są dokładnie dwie wyspy."
+      ],
+      "examples": [
+        {
+          "input": "4 6\n##....\n#.....\n....##\n.....#",
+          "output": "4",
+          "note": "Prawe górne pole pierwszej wyspy i lewe górne pole drugiej dzielą 2 kroki w dół i 3 w prawo, więc wystarczy zasypać 4 pola wody, na przykład trzy pola w prawo w górnym wierszu i jedno pod ostatnim z nich. Krótszego mostu nie ma."
+        }
+      ],
+      "hint": "Etap 1: BFS od pierwszego znalezionego pola # zaznacza wyspę (np. zamienia jej pola na 'A'). Etap 2: kolejka ze wszystkimi polami 'A' (odl = 0); dla sąsiada: jeśli to '#' — wypisz odl[v] (to liczba pól wody na drodze) i zakończ; jeśli to '.' i nieodwiedzone — odl + 1, do kolejki.",
+      "tests_count": 8
+    },
+    {
+      "id": "kol-b-serwerownia",
+      "number": 2249,
+      "title": "Serwerownia",
+      "category": "Kolejka / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Serwerownia ma k serwerów, ponumerowanych od 1, na początku wolnych. Przychodzi n zadań: zadanie i pojawia się w chwili tᵢ (chwile nie maleją) i jego wykonanie zajmuje dᵢ sekund. Zasady:",
+        "• Gdy serwer kończy zadanie, a w kolejce czekają zadania, od razu bierze pierwsze z nich. Jeśli kilka serwerów kończy pracę w tej samej chwili, zadania z kolejki biorą po kolei od serwera o najmniejszym numerze.",
+        "• Nowe zadanie, gdy kolejka jest pusta, trafia na wolny serwer o najmniejszym numerze; gdy żaden serwer nie jest wolny (albo w kolejce ktoś już czeka) — staje na końcu kolejki.",
+        "• W tej samej chwili najpierw serwery zabierają zadania z kolejki, a dopiero potem przydziela się nowe zadania. Serwer, który kończy pracę w chwili t, jest w chwili t wolny.",
+        "Dla każdego zadania wypisz numer serwera i chwilę zakończenia."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W każdym z n kolejnych wierszy liczby tᵢ i dᵢ."
+      ],
+      "output_format": [
+        "n wierszy: numer serwera i chwila zakończenia zadania."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "1 ≤ k ≤ 20",
+        "0 ≤ tᵢ ≤ 10⁶, niemalejąco",
+        "1 ≤ dᵢ ≤ 10⁴"
+      ],
+      "examples": [
+        {
+          "input": "5 2\n0 5\n1 5\n2 2\n3 1\n5 4",
+          "output": "1 5\n2 6\n1 7\n2 7\n1 11",
+          "note": "Zadania 1 i 2 zajmują oba serwery (do chwil 5 i 6). Zadania 3 i 4 czekają w kolejce. W chwili 5 serwer 1 bierze zadanie 3 (do 7), w chwili 6 serwer 2 bierze zadanie 4 (do 7). Zadanie 5 z chwili 5 czeka i dostaje w chwili 7 serwer 1 (do 11)."
+        }
+      ],
+      "hint": "vector<long long> wolny(k, 0); — od kiedy serwer jest wolny. queue<int> q; — numery czekających zadań. Przed zadaniem z chwili t: while (!q.empty()) { znajdź s z najmniejszym wolny[s] (przy remisie mniejszy numer); if (wolny[s] > t) break; przydziel q.front() od chwili wolny[s]; }. Potem nowe zadanie: jeśli q puste i jest serwer z wolny[s] <= t — najmniejszy taki numer, start w t; inaczej q.push(i). Na końcu opróżnij kolejkę tą samą pętlą.",
+      "tests_count": 10
+    },
+    {
+      "id": "kol-b-final-waz",
+      "number": 2250,
+      "title": "Wielki finał: gra w węża",
+      "category": "Kolejka / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Plansza ma n wierszy i m kolumn (numerowanych od 1). Wąż na początku zajmuje jedno pole (r₀, c₀) i ma długość 1. Na planszy leży A jabłek na różnych polach. Gracz wydaje polecenia: G (w górę, wiersz − 1), D (w dół, wiersz + 1), L (w lewo, kolumna − 1) i P (w prawo, kolumna + 1). Każde polecenie przesuwa głowę węża o jedno pole:",
+        "• jeśli nowe pole jest poza planszą — gra kończy się uderzeniem w ścianę;",
+        "• jeśli na nowym polu jest jabłko — wąż je zjada i rośnie: głowa wchodzi na nowe pole, a ogon zostaje na miejscu;",
+        "• w przeciwnym razie wąż pełznie: głowa wchodzi na nowe pole, a ogon schodzi z ostatniego pola. Dlatego wolno wejść głową na pole, z którego właśnie schodzi ogon;",
+        "• jeśli nowe pole zajmuje ciało węża (i nie jest to pole ogona, który właśnie schodzi) — gra kończy się ugryzieniem ogona.",
+        "Wypisz, jak skończyła się gra, ile jabłek zjadł wąż oraz gdzie są jego głowa i ogon po ostatnim udanym ruchu. Trzymaj węża w deque<pair<int, int>> (głowa z przodu, ogon z tyłu) i zajęte pola w tablicy — sprawdzanie całego ciała przy każdym ruchu byłoby za wolne."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W drugim wierszu r₀ i c₀.",
+        "W trzecim wierszu liczba A, a w każdym z A kolejnych wierszy pozycja jabłka r c.",
+        "W ostatnim wierszu napis z poleceniami (litery G, D, L, P)."
+      ],
+      "output_format": [
+        "Cztery wiersze: koniec w ruchu i: sciana, koniec w ruchu i: ogon albo wszystkie ruchy wykonane; potem zjedzone: X, glowa: r c i ogon: r c."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 100",
+        "0 ≤ A ≤ 2000; jabłka leżą na różnych polach, żadne na polu startowym.",
+        "Napis ma od 1 do 50 000 liter."
+      ],
+      "examples": [
+        {
+          "input": "3 5\n2 1\n4\n2 2\n2 3\n2 4\n2 5\nPPPPGLD",
+          "output": "koniec w ruchu 7: ogon\nzjedzone: 4\nglowa: 1 4\nogon: 2 3",
+          "note": "Wąż zjada cztery jabłka w rzędzie (ma długość 5), skręca w górę i w lewo — pełznie, więc ogon schodzi z pól (2, 1) i (2, 2). Ruch 7 w dół trafia w pole (2, 4), które zajmuje ciało węża, a ogon jest w (2, 3) — to ugryzienie."
+        },
+        {
+          "input": "2 2\n1 1\n3\n1 2\n2 2\n2 1\nPDLGPDLG",
+          "output": "wszystkie ruchy wykonane\nzjedzone: 3\nglowa: 1 1\nogon: 1 2",
+          "note": "Po zjedzeniu trzech jabłek wąż zajmuje całą planszę 2 × 2, a mimo to krąży dalej: za każdym razem wchodzi na pole, z którego właśnie schodzi ogon."
+        }
+      ],
+      "hint": "deque<pair<int, int>> waz; vector<vector<int>> zajete(n + 1, vector<int>(m + 1, 0)); vector<vector<bool>> jablko(…);. Ruch: nowe pole (nw, nk); poza planszą → koniec. if (zajete[nw][nk] && make_pair(nw, nk) != waz.back()) → ogon. Jeśli jabłko — zjedz; jeśli nie — zdejmij ogon (zajete = 0, pop_back). Na końcu push_front i zajete = 1.",
+      "tests_count": 14
     }
   ]
 }

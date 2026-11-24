@@ -2,10 +2,20 @@
    - aplikacja otwiera się też bez internetu (ostatnio zapisana wersja strony),
    - pokazuje powiadomienia push: serwer tylko „budzi” telefon, a treść pobieramy stąd (akcja pushPull).
    Adres backendu przychodzi w parametrze ?api= przy rejestracji (kalendarz.html). */
-const CACHE = 'kalendarz-v1';
+const CACHE = 'kalendarz-v2';
 const ASSETS = ['./kalendarz.html', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png', './icons/badge-96.png'];
 const API = new URL(self.location.href).searchParams.get('api') || '';
 const HOME = './kalendarz.html';
+const PANEL = './panel.html';
+
+// Pod jakim kluczem trzymamy kopię strony na wypadek braku internetu: kalendarz albo panel nauczyciela.
+// Inne adresy w tym folderze przechodzą bez zmian (wcześniej każda strona nadpisywała kopię kalendarza).
+function pageKey(url) {
+    const p = new URL(url).pathname;
+    if (/\/panel(\.html)?$/.test(p)) return PANEL;
+    if (/\/kalendarz(\.html)?$/.test(p) || /\/kalendarz-app\/?$/.test(p)) return HOME;
+    return null;
+}
 
 // Kopia odpowiedzi bez flagi „redirected” (Netlify może przekierować .html na ładny adres,
 // a przekierowanej odpowiedzi nie wolno potem podać przy nawigacji).
@@ -40,17 +50,19 @@ self.addEventListener('fetch', (event) => {
     const url = new URL(req.url);
     if (url.origin !== self.location.origin) return;           // serwer Google, czcionki itd. — bez zmian
     if (req.mode === 'navigate') {
+        const key = pageKey(req.url);
+        if (!key) return;
         // Strona: zawsze najpierw sieć (najnowsza wersja), a bez internetu — ostatnia zapisana.
         event.respondWith((async () => {
             try {
                 const res = await fetch(req);
                 if (res.ok && !res.redirected) {
                     const copy = res.clone();
-                    caches.open(CACHE).then((c) => c.put(HOME, copy));
+                    caches.open(CACHE).then((c) => c.put(key, copy));
                 }
                 return res;
             } catch (e) {
-                return (await caches.match(HOME)) || Response.error();
+                return (await caches.match(key)) || (await caches.match(HOME)) || Response.error();
             }
         })());
         return;

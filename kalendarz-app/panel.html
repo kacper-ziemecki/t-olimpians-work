@@ -1,0 +1,1792 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Panel nauczyciela — T-Olimpians</title>
+    <meta name="robots" content="noindex">
+    <meta name="description" content="Panel nauczyciela kalendarza lekcji T-Olimpians: uczniowie, płatności i rozliczenia.">
+    <link rel="icon" href="../img/favicon2.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="theme-color" content="#0a0a0f">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Kalendarz">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-base: #0a0a0f;
+            --bg-surface: #111118;
+            --bg-card: #15151e;
+            --bg-elevated: #1c1c28;
+            --accent: #3b82f6;
+            --accent-bright: #60a5fa;
+            --accent-glow: rgba(59, 130, 246, 0.25);
+            --accent-dim: rgba(59, 130, 246, 0.12);
+            --violet: #a78bfa;
+            --text-primary: #f0f0f8;
+            --text-secondary: #9090aa;
+            --text-muted: #5f5f78;
+            --border: rgba(255,255,255,0.08);
+            --border-accent: rgba(59, 130, 246, 0.3);
+            --font-display: 'Syne', sans-serif;
+            --font-body: 'DM Sans', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --debt: #f43f5e;
+            --debt-dim: rgba(244, 63, 94, 0.12);
+            --paid: #34d399;
+            --paid-dim: rgba(52, 211, 153, 0.12);
+            --credit: #a78bfa;
+            --credit-dim: rgba(167, 139, 250, 0.12);
+            --warn: #fcd34d;
+            --warn-dim: rgba(251, 191, 36, 0.1);
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { overflow-x: hidden; overflow-x: clip; }
+        body {
+            background-color: var(--bg-base); color: var(--text-primary); font-family: var(--font-body);
+            line-height: 1.5; min-height: 100vh; position: relative; overflow-x: hidden; overflow-x: clip;
+            padding-bottom: calc(96px + env(safe-area-inset-bottom));
+        }
+        body.no-bar { padding-bottom: 40px; }
+        button, input, select, textarea { font-family: inherit; }
+        [hidden] { display: none !important; }
+        a { color: var(--accent-bright); }
+
+        /* ─── TŁO ─── */
+        .orb { position: fixed; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 0; opacity: .3; animation: orbFloat 20s ease-in-out infinite; }
+        .orb-1 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(59,130,246,.35), transparent 70%); top: -10%; left: -10%; }
+        .orb-2 { width: 420px; height: 420px; background: radial-gradient(circle, rgba(167,139,250,.25), transparent 70%); bottom: 5%; right: -8%; animation-delay: -7s; animation-duration: 25s; }
+        .orb-3 { width: 320px; height: 320px; background: radial-gradient(circle, rgba(52,211,153,.14), transparent 70%); top: 40%; left: 45%; animation-delay: -14s; animation-duration: 22s; }
+        @keyframes orbFloat { 0%,100%{transform:translate(0,0) scale(1);} 33%{transform:translate(30px,-40px) scale(1.08);} 66%{transform:translate(-20px,20px) scale(.95);} }
+        body::before {
+            content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.6;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+        }
+        #particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: .35; }
+        @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:.25;} }
+        @keyframes fadeInUp { from{opacity:0;transform:translateY(16px);} to{opacity:1;transform:none;} }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ─── PASEK GÓRNY ─── */
+        .topbar {
+            position: sticky; top: 0; z-index: 50; display: flex; align-items: center; gap: 12px;
+            padding: env(safe-area-inset-top) 28px 0; height: calc(64px + env(safe-area-inset-top));
+            background: rgba(10,10,15,.82); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,.06);
+        }
+        .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text-primary); min-width: 0; }
+        .brand img { width: 34px; height: 34px; border-radius: 9px; object-fit: cover; flex-shrink: 0; }
+        .brand span { font: 700 15px var(--font-display); white-space: nowrap; }
+        .topbar-tag {
+            font: 500 10.5px var(--font-mono); color: var(--accent-bright); letter-spacing: .1em; text-transform: uppercase;
+            border: 1px solid var(--border-accent); background: var(--accent-dim); padding: 5px 12px; border-radius: 100px; white-space: nowrap;
+        }
+        .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+        .sync { display: inline-flex; align-items: center; gap: 7px; font: 11px var(--font-mono); color: var(--text-muted); white-space: nowrap; }
+        .sync-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--paid); box-shadow: 0 0 8px var(--paid); flex-shrink: 0; }
+        .sync.busy .sync-dot { background: var(--accent-bright); box-shadow: 0 0 8px var(--accent-bright); animation: blink 1s infinite; }
+        .sync.err { color: #fda4af; }
+        .sync.err .sync-dot { background: var(--debt); box-shadow: 0 0 8px var(--debt); }
+
+        /* ─── PRZYCISKI ─── */
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 7px; height: 38px; padding: 0 14px;
+            border-radius: 10px; border: 1px solid var(--border); background: rgba(28,28,40,.85); color: var(--text-primary);
+            font: 500 14px var(--font-body); cursor: pointer; transition: all .2s ease; white-space: nowrap; text-decoration: none; user-select: none;
+        }
+        .btn:hover:not(:disabled) { border-color: rgba(59,130,246,.45); background: rgba(59,130,246,.12); }
+        .btn:active:not(:disabled) { transform: scale(.97); }
+        .btn:disabled { opacity: .45; cursor: not-allowed; }
+        .btn:focus-visible { outline: 2px solid var(--accent-bright); outline-offset: 2px; }
+        .btn.primary { background: linear-gradient(135deg, #3b82f6, #6366f1); border-color: transparent; color: #fff; font-weight: 600; box-shadow: 0 6px 20px rgba(59,130,246,.3); }
+        .btn.primary:hover:not(:disabled) { background: linear-gradient(135deg, #4b8ff7, #7376f3); box-shadow: 0 10px 28px rgba(59,130,246,.45); }
+        .btn.danger { background: rgba(244,63,94,.12); border-color: rgba(244,63,94,.35); color: #fda4af; }
+        .btn.danger:hover:not(:disabled) { background: rgba(244,63,94,.2); border-color: rgba(244,63,94,.6); }
+        .btn.ok { background: rgba(52,211,153,.12); border-color: rgba(52,211,153,.4); color: #6ee7b7; }
+        .btn.ok:hover:not(:disabled) { background: rgba(52,211,153,.2); border-color: rgba(52,211,153,.65); }
+        .btn.ghost { background: transparent; }
+        .btn.sm { height: 32px; padding: 0 11px; font-size: 13px; border-radius: 8px; }
+        .btn .spin-sm { width: 14px; height: 14px; border: 2px solid rgba(255,255,255,.3); border-top-color: #fff; border-radius: 50%; animation: spin .7s linear infinite; }
+        .link-btn { background: none; border: 0; color: var(--accent-bright); font: inherit; font-size: 13px; cursor: pointer; padding: 0; }
+        .link-btn:hover { text-decoration: underline; }
+        .ibtn {
+            width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border); background: rgba(28,28,40,.85); flex-shrink: 0;
+            color: var(--text-secondary); cursor: pointer; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; transition: all .2s;
+        }
+        .ibtn:hover { color: #fff; border-color: rgba(59,130,246,.45); background: rgba(59,130,246,.12); }
+        .ibtn.ok { color: #6ee7b7; border-color: rgba(52,211,153,.35); }
+        .ibtn.danger:hover { border-color: rgba(244,63,94,.6); background: rgba(244,63,94,.15); color: #fda4af; }
+        .x-btn { width: 32px; height: 32px; border-radius: 50%; border: 0; background: transparent; flex-shrink: 0; color: var(--text-secondary); font-size: 20px; line-height: 1; cursor: pointer; transition: all .2s; }
+        .x-btn:hover { background: rgba(255,255,255,.08); color: #fff; }
+
+        /* ─── UKŁAD ─── */
+        .wrap { max-width: 780px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+        .hero { padding: 42px 0 6px; animation: fadeInUp .5s ease both; }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px; background: var(--accent-dim); border: 1px solid var(--border-accent);
+            color: var(--accent-bright); font: 500 11px var(--font-mono); padding: 6px 14px; border-radius: 100px; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 18px;
+        }
+        .hero-badge::before { content: ''; width: 6px; height: 6px; background: var(--accent-bright); border-radius: 50%; animation: blink 2s ease-in-out infinite; }
+        .hero h1 { font: 800 clamp(28px, 5vw, 42px) var(--font-display); letter-spacing: -.03em; line-height: 1.1; margin-bottom: 10px; }
+        .hero h1 span { background: linear-gradient(135deg, var(--accent-bright), var(--violet)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .hero p { color: var(--text-secondary); font-size: 15px; max-width: 62ch; }
+        .hero p b { color: var(--text-primary); font-weight: 600; }
+
+        .section { margin-top: 34px; }
+        .section-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+        .section-head h2 { font: 700 18px var(--font-display); letter-spacing: -.01em; }
+        .section-head .note { font: 10.5px var(--font-mono); color: var(--text-muted); text-transform: uppercase; letter-spacing: .06em; }
+        .section-head .grow { flex: 1; }
+        .search { width: 200px; max-width: 100%; }
+
+        /* ─── PODSUMOWANIE ─── */
+        .summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-top: 26px; }
+        .summary-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 15px 18px; }
+        .summary-card .label { font: 10.5px var(--font-mono); color: var(--text-muted); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 4px; }
+        .summary-card .value { font: 800 24px var(--font-display); color: var(--accent-bright); letter-spacing: -.02em; white-space: nowrap; }
+        .summary-card .value.debt { color: var(--debt); }
+        .summary-card .value.money { color: var(--violet); }
+
+        /* ─── BANER (stary Rejestr) ─── */
+        .banner {
+            display: flex; align-items: center; gap: 14px; margin-top: 22px; padding: 14px 16px; border-radius: var(--radius-md);
+            background: linear-gradient(135deg, rgba(167,139,250,.14), rgba(59,130,246,.1)); border: 1px solid rgba(167,139,250,.35); font-size: 14px;
+        }
+        .banner .grow { flex: 1; min-width: 0; }
+        .banner small { display: block; color: var(--text-secondary); font-size: 12.5px; }
+        .banner .btns { display: flex; gap: 8px; flex-shrink: 0; }
+
+        /* ─── LISTA UCZNIÓW ─── */
+        .empty { text-align: center; padding: 48px 20px; color: var(--text-secondary); background: var(--bg-card); border: 1px dashed var(--border); border-radius: var(--radius-lg); font-size: 14.5px; }
+        .empty .glyph { font: 800 36px var(--font-display); color: var(--text-muted); margin-bottom: 6px; }
+        .student-list { display: flex; flex-direction: column; gap: 12px; }
+        .student-card {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px 18px;
+            display: flex; align-items: center; gap: 16px; position: relative; overflow: hidden;
+            transition: border-color .25s ease, transform .3s cubic-bezier(.16,1,.3,1), box-shadow .3s ease;
+        }
+        .student-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, var(--accent-dim), transparent 60%); opacity: 0; transition: opacity .3s; pointer-events: none; }
+        .student-card:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,0,0,.38); border-color: var(--border-accent); }
+        .student-card:hover::before { opacity: 1; }
+        .student-card.owes { border-color: rgba(244,63,94,.25); }
+        .student-card.credit { border-color: rgba(167,139,250,.25); }
+        .student-card.flash { animation: cardFlash 1.4s ease; }
+        @keyframes cardFlash { 0% { box-shadow: 0 0 0 0 rgba(96,165,250,.7); } 50% { box-shadow: 0 0 0 6px rgba(96,165,250,.2); } 100% { box-shadow: none; } }
+        .name-block {
+            flex: 1; min-width: 0; position: relative; z-index: 1; cursor: pointer; text-align: left; background: none; border: 0; color: inherit;
+            border-radius: var(--radius-sm); padding: 6px 8px; margin: -6px -8px; transition: background .15s;
+        }
+        .name-block:hover { background: rgba(255,255,255,.04); }
+        .name-block:focus-visible { outline: 2px solid var(--accent-bright); }
+        .name { display: flex; align-items: center; gap: 8px; font: 700 17px var(--font-display); white-space: nowrap; overflow: hidden; margin-bottom: 6px; }
+        .name span { overflow: hidden; text-overflow: ellipsis; }
+        .status { display: inline-flex; align-items: center; gap: 6px; font: 11px var(--font-mono); letter-spacing: .02em; padding: 3px 10px; border-radius: 100px; background: var(--paid-dim); color: var(--paid); }
+        .status.owes { background: var(--debt-dim); color: var(--debt); }
+        .status.credit { background: var(--credit-dim); color: var(--credit); }
+        .status.warn { background: var(--warn-dim); color: var(--warn); }
+        .line { display: block; font: 11.5px var(--font-mono); color: var(--text-muted); margin-top: 6px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .line b { color: var(--text-secondary); font-weight: 500; }
+        .line .warn { color: var(--warn); }
+        .tally { display: flex; gap: 3px; margin-top: 8px; flex-wrap: wrap; max-width: 190px; }
+        .tally i { width: 3px; height: 14px; background: var(--debt); opacity: .7; border-radius: 1px; }
+        .tally.zero i { background: var(--paid); opacity: .4; height: 6px; align-self: flex-end; }
+        .tally.credit i { background: var(--credit); }
+        .counter { display: flex; align-items: center; gap: 10px; flex-shrink: 0; position: relative; z-index: 1; }
+        .count-value { font: 600 18px var(--font-mono); min-width: 74px; text-align: center; color: var(--text-muted); white-space: nowrap; }
+        .count-value.owes { color: var(--debt); }
+        .count-value.credit { color: var(--credit); }
+        .stamp-btn {
+            width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--border); background: var(--bg-elevated); color: var(--text-secondary);
+            font-size: 18px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: background .15s, color .15s, border-color .15s, transform .08s; -webkit-tap-highlight-color: transparent;
+        }
+        .stamp-btn.minus:hover { background: var(--paid-dim); color: var(--paid); border-color: rgba(52,211,153,.45); }
+        .stamp-btn.plus { background: var(--accent); color: #fff; border-color: transparent; }
+        .stamp-btn.plus:hover { background: var(--accent-bright); box-shadow: 0 6px 18px var(--accent-glow); }
+        .stamp-btn:active { transform: scale(.9); }
+        .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; background: var(--c, var(--accent)); }
+
+        /* lekcje bez ucznia */
+        .un-card { background: var(--bg-card); border: 1px dashed rgba(251,191,36,.35); border-radius: var(--radius-md); padding: 14px 16px; margin-bottom: 10px; }
+        .un-top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .un-top b { font-size: 15px; }
+        .un-top .grow { flex: 1; }
+        .un-dates { font: 12px var(--font-mono); color: var(--text-secondary); margin-top: 4px; }
+        .un-act { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+        .un-act select { width: auto; min-width: 180px; flex: 1; }
+
+        /* ─── ZAROBKI ─── */
+        .earn-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+        .earn-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px 18px; position: relative; overflow: hidden; }
+        .earn-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(52,211,153,.1), transparent 60%); pointer-events: none; }
+        .earn-card .label { font: 10.5px var(--font-mono); color: var(--text-muted); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 6px; position: relative; }
+        .earn-card .value { font: 800 25px var(--font-display); color: var(--paid); letter-spacing: -.02em; position: relative; white-space: nowrap; }
+        .earn-card .sub { font: 11px var(--font-mono); color: var(--text-secondary); margin-top: 5px; position: relative; }
+        .chart-toggle { display: flex; gap: 3px; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 999px; padding: 3px; }
+        .chart-toggle button { font: 10px var(--font-mono); text-transform: uppercase; letter-spacing: .06em; color: var(--text-muted); background: transparent; border: 0; padding: 6px 12px; border-radius: 999px; cursor: pointer; }
+        .chart-toggle button.active { color: #06140e; background: var(--paid); font-weight: 700; }
+        .chart-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 20px 14px 6px; margin-top: 12px; }
+        .chart-wrap { position: relative; }
+        .chart-svg { width: 100%; height: auto; display: block; overflow: visible; }
+        .chart-grid { stroke: var(--border); stroke-width: 1; vector-effect: non-scaling-stroke; }
+        .chart-line { fill: none; stroke: var(--paid); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; filter: drop-shadow(0 3px 8px rgba(52,211,153,.35)); }
+        .chart-dot { fill: var(--bg-card); stroke: var(--paid); stroke-width: 2; vector-effect: non-scaling-stroke; }
+        .chart-dot.active { fill: var(--paid); }
+        .chart-hit { fill: transparent; cursor: pointer; }
+        .chart-x { font: 9.5px var(--font-mono); fill: var(--text-muted); text-transform: uppercase; }
+        .chart-tip { position: absolute; transform: translate(-50%, calc(-100% - 14px)); background: var(--bg-elevated); border: 1px solid var(--border-accent); border-radius: var(--radius-sm); padding: 7px 11px; pointer-events: none; white-space: nowrap; box-shadow: 0 10px 24px rgba(0,0,0,.45); z-index: 5; }
+        .chart-tip .l { font: 9.5px var(--font-mono); color: var(--text-muted); text-transform: uppercase; }
+        .chart-tip .v { font: 800 14px var(--font-display); color: var(--paid); margin-top: 2px; }
+        .chart-foot { display: flex; align-items: center; justify-content: flex-end; gap: 8px; font: 10.5px var(--font-mono); color: var(--text-secondary); padding: 10px 6px 4px; }
+        .delta { font-weight: 700; padding: 2px 8px; border-radius: 999px; }
+        .delta.up { color: var(--paid); background: var(--paid-dim); }
+        .delta.down { color: var(--debt); background: var(--debt-dim); }
+        .delta.flat { color: var(--text-muted); background: rgba(255,255,255,.05); }
+
+        /* ─── USTAWIENIA ─── */
+        .set-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); }
+        .set-row { display: flex; align-items: center; gap: 14px; padding: 14px 18px; border-bottom: 1px solid var(--border); }
+        .set-row:last-child { border-bottom: 0; }
+        .set-main { flex: 1; min-width: 0; }
+        .set-main b { display: block; font-size: 14.5px; }
+        .set-main > span, .set-main > small { display: block; font-size: 13px; color: var(--text-secondary); overflow-wrap: anywhere; }
+        .av-sum { display: grid; grid-template-columns: auto 1fr; gap: 3px 12px; font-size: 13px; margin-top: 6px; }
+        .av-sum > span { color: var(--text-muted); font: 12px var(--font-mono); text-transform: uppercase; padding-top: 1px; }
+        .av-sum b { font-weight: 500; font-size: 13px; display: inline; }
+        .av-sum b.off { color: var(--text-muted); font-weight: 400; }
+        .av-sum .nolim { color: var(--text-muted); font-weight: 400; }
+
+        /* ─── PASEK DODAWANIA ─── */
+        .add-bar {
+            position: fixed; bottom: 0; left: 0; right: 0; z-index: 40; padding: 14px 20px calc(14px + env(safe-area-inset-bottom));
+            background: rgba(17,17,24,.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-top: 1px solid var(--border);
+        }
+        .add-bar form { max-width: 780px; margin: 0 auto; padding: 0 4px; display: flex; align-items: center; gap: 10px; }
+        .add-bar input { flex: 1; min-width: 0; }
+        .add-bar input.price-field { flex: 0 0 130px; }
+        .add-submit {
+            width: 44px; height: 44px; border-radius: 50%; background: var(--accent); color: #fff; border: 0; font-size: 20px; cursor: pointer; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center; transition: background .2s, transform .15s, box-shadow .2s;
+        }
+        .add-submit:hover { background: var(--accent-bright); box-shadow: 0 8px 24px var(--accent-glow); transform: translateY(-2px); }
+
+        /* ─── POLA FORMULARZY ─── */
+        .f { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; min-width: 0; }
+        .f > span { font-size: 12.5px; color: var(--text-secondary); }
+        .f-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .f-row3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        input[type="text"], input[type="email"], input[type="tel"], input[type="password"], input[type="number"],
+        input[type="date"], input[type="time"], input[type="search"], select, textarea {
+            width: 100%; background: rgba(28,28,40,.85); border: 1px solid var(--border); border-radius: 10px; padding: 11px 12px;
+            color: var(--text-primary); font: 14px var(--font-body); outline: none; transition: border-color .2s, box-shadow .2s, background .2s; color-scheme: dark; min-width: 0;
+        }
+        input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type="number"] { -moz-appearance: textfield; }
+        input:focus, textarea:focus, select:focus { border-color: rgba(59,130,246,.55); box-shadow: 0 0 0 3px rgba(59,130,246,.12); background: rgba(28,28,40,.95); }
+        input::placeholder { color: var(--text-muted); }
+        input.input-error { border-color: var(--debt); background: rgba(244,63,94,.08); box-shadow: 0 0 0 3px rgba(244,63,94,.12); }
+        .hint { font-size: 12px; color: var(--text-muted); line-height: 1.5; margin: -6px 0 14px; }
+        .hint b { color: var(--text-secondary); font-weight: 600; }
+        .form-err { color: #fda4af; font-size: 13px; margin-top: 12px; padding: 9px 12px; border-radius: 9px; background: rgba(244,63,94,.08); border: 1px solid rgba(244,63,94,.3); }
+        .note-muted { font-size: 12px; color: var(--text-muted); line-height: 1.5; margin-top: 12px; }
+        .note-muted .link-btn { font-size: 12px; }
+
+        /* ─── MODAL ─── */
+        .overlay {
+            position: fixed; inset: 0; z-index: 900; display: flex; align-items: center; justify-content: center; padding: 20px;
+            background: rgba(6,6,12,.62); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); opacity: 0; transition: opacity .2s ease;
+        }
+        .overlay.open { opacity: 1; }
+        .modal-card {
+            width: 100%; max-width: 520px; max-height: calc(100vh - 40px); overflow-y: auto; position: relative;
+            background: linear-gradient(180deg, rgba(26,26,38,.99), rgba(18,18,27,.99)); border: 1px solid rgba(255,255,255,.08); border-radius: 18px;
+            box-shadow: 0 30px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(59,130,246,.08); transform: translateY(12px) scale(.98); transition: transform .28s cubic-bezier(.34,1.56,.64,1);
+        }
+        .overlay.open .modal-card { transform: none; }
+        .modal-card.wide { max-width: 640px; }
+        .modal-head { display: flex; align-items: center; gap: 12px; padding: 18px 20px 4px; }
+        .modal-head h3 { font: 700 19px var(--font-display); flex: 1; letter-spacing: -.01em; min-width: 0; overflow-wrap: anywhere; }
+        .modal-body { padding: 10px 20px 20px; }
+        .modal-actions { display: flex; justify-content: flex-end; align-items: center; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+        .modal-actions .grow { flex: 1; }
+        .modal-lead { font-size: 14px; color: var(--text-secondary); margin-bottom: 14px; line-height: 1.55; }
+        .modal-lead b { color: var(--text-primary); }
+
+        .tabs { display: flex; gap: 4px; padding: 3px; background: rgba(28,28,40,.85); border: 1px solid var(--border); border-radius: 11px; margin-bottom: 16px; }
+        .tabs button { flex: 1; height: 34px; border: 0; border-radius: 8px; background: transparent; color: var(--text-secondary); font: 600 13px var(--font-body); cursor: pointer; }
+        .tabs button.active { background: rgba(59,130,246,.2); color: var(--accent-bright); }
+
+        .bal-box { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 14px; background: var(--paid-dim); border: 1px solid rgba(52,211,153,.3); flex-wrap: wrap; }
+        .bal-box.owes { background: var(--debt-dim); border-color: rgba(244,63,94,.32); }
+        .bal-box.credit { background: var(--credit-dim); border-color: rgba(167,139,250,.32); }
+        .bal-main { flex: 1; min-width: 150px; }
+        .bal-l { font: 500 10.5px var(--font-mono); text-transform: uppercase; letter-spacing: .09em; color: var(--text-muted); }
+        .bal-v { font: 800 26px var(--font-display); letter-spacing: -.02em; color: var(--paid); }
+        .bal-box.owes .bal-v { color: var(--debt); }
+        .bal-box.credit .bal-v { color: var(--credit); }
+        .bal-sub { font-size: 12.5px; color: var(--text-secondary); }
+        .bal-actions { display: flex; gap: 8px; }
+        .contact { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 12px; font-size: 13px; color: var(--text-secondary); }
+        .contact a { color: var(--text-primary); text-decoration: none; }
+        .contact a:hover { color: var(--accent-bright); text-decoration: underline; }
+        .contact span { white-space: nowrap; }
+        .h4 { font: 500 11px var(--font-mono); text-transform: uppercase; letter-spacing: .09em; color: var(--text-muted); margin: 20px 0 8px; display: flex; align-items: center; gap: 8px; }
+        .h4 .cnt { color: var(--text-secondary); }
+        .hrow { display: flex; align-items: center; gap: 12px; padding: 9px 10px; border: 1px solid var(--border); border-radius: 12px; background: rgba(255,255,255,.025); margin-bottom: 7px; border-left: 3px solid var(--rc, rgba(96,165,250,.8)); }
+        .hrow.due { --rc: var(--debt); }
+        .hrow.paid { --rc: var(--paid); }
+        .hrow.pre { --rc: #22c55e; }
+        .hrow.plan { --rc: var(--accent-bright); }
+        .hrow.settled { --rc: var(--text-muted); opacity: .75; }
+        .hrow.adj-plus { --rc: #fb923c; }
+        .hrow.adj-minus { --rc: var(--violet); }
+        .date-badge { width: 40px; text-align: center; flex-shrink: 0; line-height: 1.1; }
+        .date-badge .dn { font: 500 10px var(--font-mono); text-transform: uppercase; color: var(--accent-bright); letter-spacing: .06em; }
+        .date-badge .dd { font: 700 19px var(--font-display); }
+        .date-badge .dm { font: 10px var(--font-mono); color: var(--text-muted); }
+        .adj-badge { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font: 600 17px var(--font-mono); flex-shrink: 0; background: rgba(251,146,60,.14); color: #fdba74; }
+        .hrow.adj-minus .adj-badge { background: var(--credit-dim); color: var(--credit); }
+        .hmain { flex: 1; min-width: 0; }
+        .htitle { font-weight: 600; font-size: 13.5px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .hsub { font-size: 12px; color: var(--text-secondary); overflow-wrap: anywhere; }
+        .pill { font: 600 9.5px var(--font-mono); text-transform: uppercase; letter-spacing: .06em; padding: 2px 7px; border-radius: 5px; white-space: nowrap; }
+        .pill.due { color: #fda4af; background: var(--debt-dim); }
+        .pill.paid { color: #6ee7b7; background: var(--paid-dim); }
+        .pill.plan { color: #93c5fd; background: var(--accent-dim); }
+        .pill.settled { color: var(--text-secondary); background: rgba(255,255,255,.06); }
+        .more { display: block; margin: 4px auto 0; }
+
+        /* wybór opłaconych lekcji */
+        .pick-tools { display: flex; gap: 16px; flex-wrap: wrap; margin: -4px 0 10px; }
+        .pick-list { display: flex; flex-direction: column; gap: 6px; max-height: 340px; overflow-y: auto; padding-right: 2px; }
+        .pick { display: flex; align-items: center; gap: 12px; padding: 9px 12px; border: 1px solid var(--border); border-radius: 11px; cursor: pointer; transition: all .15s; font-size: 14px; }
+        .pick:hover { border-color: rgba(255,255,255,.18); }
+        .pick:has(input:checked) { border-color: rgba(52,211,153,.55); background: rgba(52,211,153,.08); }
+        .pick input { width: 18px; height: 18px; accent-color: #10b981; flex-shrink: 0; }
+        .pick .grow { flex: 1; min-width: 0; }
+        .pick small { display: block; font-size: 12px; color: var(--text-muted); }
+        .pick .amt { font: 600 13px var(--font-mono); white-space: nowrap; }
+        .pick-sep { font: 500 10.5px var(--font-mono); text-transform: uppercase; letter-spacing: .09em; color: var(--text-muted); margin: 8px 0 2px; }
+        .pick-sum { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 14px; padding: 12px 14px; border-radius: 12px; background: rgba(52,211,153,.08); border: 1px solid rgba(52,211,153,.3); }
+        .pick-sum b { font: 800 20px var(--font-display); color: var(--paid); }
+        .pick-sum span { font-size: 13px; color: var(--text-secondary); }
+
+        /* import z Rejestru */
+        .imp-row { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.3fr) 90px; gap: 8px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); }
+        .imp-row:last-child { border-bottom: 0; }
+        .imp-row .nm { font-weight: 600; font-size: 14px; overflow-wrap: anywhere; }
+        .imp-row .nm small { display: block; font-weight: 400; font-size: 12px; color: var(--text-secondary); }
+        .imp-row select, .imp-row input { padding: 8px 9px; font-size: 13px; }
+
+        /* godziny dostępności (edytor) */
+        .av-days { display: flex; flex-direction: column; gap: 8px; }
+        .av-row { display: grid; grid-template-columns: 160px 1fr; gap: 12px; align-items: start; padding: 10px 12px; border: 1px solid var(--border); border-radius: 12px; background: rgba(255,255,255,.025); }
+        .av-row.off { background: transparent; }
+        .av-row .switch { padding-top: 6px; }
+        .av-day { font-weight: 600; }
+        .av-ranges { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; min-width: 0; }
+        .av-range { display: flex; align-items: center; gap: 6px; }
+        .av-range input[type="time"] { width: 118px; padding: 7px 9px; }
+        .av-range span { color: var(--text-muted); }
+        .av-closed { color: var(--text-muted); font-size: 13px; padding-top: 8px; }
+        .av-links { display: flex; flex-wrap: wrap; gap: 4px 18px; padding: 2px 0; }
+        .av-links .link-btn { font-size: 13px; }
+        .av-links .av-copy { color: var(--text-secondary); }
+        .av-limit { display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 13px; color: #fcd34d; margin-top: 6px; padding: 6px 10px; border-radius: 10px; background: rgba(251,191,36,.08); border: 1px solid rgba(251,191,36,.28); }
+        .av-limit select { width: auto; padding: 6px 30px 6px 10px; font-size: 13px; }
+        .switch { display: flex; align-items: center; gap: 11px; cursor: pointer; font-size: 14px; user-select: none; position: relative; }
+        .switch input { position: absolute; opacity: 0; pointer-events: none; }
+        .switch .sw { width: 38px; height: 22px; border-radius: 100px; background: rgba(255,255,255,.14); position: relative; transition: background .2s; flex-shrink: 0; }
+        .switch .sw::after { content: ''; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: #fff; transition: transform .2s; }
+        .switch input:checked + .sw { background: var(--accent); }
+        .switch input:checked + .sw::after { transform: translateX(16px); }
+        .switch input:focus-visible + .sw { outline: 2px solid var(--accent-bright); outline-offset: 2px; }
+
+        /* ─── LOGOWANIE / BŁĄD ─── */
+        .login {
+            max-width: 420px; margin: 70px auto 0; padding: 30px 28px; position: relative; z-index: 1; text-align: center;
+            background: linear-gradient(180deg, rgba(24,24,36,.98), rgba(17,17,26,.98)); border: 1px solid rgba(255,255,255,.08); border-radius: var(--radius-lg);
+            box-shadow: 0 32px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(59,130,246,.1); animation: fadeInUp .5s ease both;
+        }
+        .login h1 { font: 800 26px var(--font-display); letter-spacing: -.02em; margin-bottom: 8px; }
+        .login p { color: var(--text-secondary); font-size: 14px; margin-bottom: 18px; }
+        .login form { text-align: left; }
+        .login .btn { width: 100%; height: 44px; }
+        .login .back { display: inline-block; margin-top: 16px; font-size: 13px; color: var(--text-secondary); }
+        .loading { text-align: center; color: var(--text-secondary); padding: 80px 20px; position: relative; z-index: 1; }
+        .loading .spin { width: 34px; height: 34px; margin: 0 auto 14px; border: 3px solid rgba(255,255,255,.08); border-top-color: var(--accent-bright); border-radius: 50%; animation: spin .8s linear infinite; }
+
+        /* ─── TOASTY ─── */
+        .toasts { position: fixed; left: 50%; bottom: calc(96px + env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 1100; display: flex; flex-direction: column; gap: 8px; align-items: center; pointer-events: none; width: max-content; max-width: 92vw; }
+        .toast { background: rgba(30,30,44,.97); border: 1px solid rgba(255,255,255,.12); color: var(--text-primary); padding: 11px 16px; border-radius: 12px; font-size: 14px; box-shadow: 0 12px 32px rgba(0,0,0,.5); opacity: 0; transform: translateY(10px); transition: all .25s ease; max-width: 92vw; }
+        .toast.in { opacity: 1; transform: none; }
+        .toast.ok { border-color: rgba(52,211,153,.45); }
+        .toast.err { border-color: rgba(244,63,94,.5); }
+
+        :focus-visible { outline: 2px solid var(--accent-bright); outline-offset: 2px; }
+
+        @media (max-width: 640px) {
+            .topbar { padding: env(safe-area-inset-top) 14px 0; height: calc(56px + env(safe-area-inset-top)); gap: 8px; }
+            .topbar-tag, .sync span:last-child, .brand span { display: none; }
+            .wrap { padding: 0 16px; }
+            .hero { padding-top: 26px; }
+            .hero p { font-size: 14px; }
+            .summary { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .summary-card { padding: 12px 14px; }
+            .summary-card .value { font-size: 21px; }
+            .student-card { padding: 14px; gap: 10px; }
+            .name { font-size: 15.5px; }
+            .count-value { font-size: 15px; min-width: 0; }
+            .stamp-btn { width: 36px; height: 36px; }
+            .counter { gap: 7px; }
+            .line { white-space: normal; }
+            .add-bar { padding: 12px 12px calc(12px + env(safe-area-inset-bottom)); }
+            .add-bar form { gap: 8px; padding: 0; }
+            .add-bar input.price-field { flex: 0 0 96px; }
+            .banner { flex-direction: column; align-items: stretch; }
+            .f-row2, .f-row3 { grid-template-columns: 1fr; gap: 0; }
+            .overlay { align-items: flex-end; padding: 0; }
+            .modal-card, .modal-card.wide { max-width: none; border-radius: 18px 18px 0 0; max-height: 92vh; }
+            .modal-head { padding: 16px 16px 2px; }
+            .modal-head::before { content: ''; position: absolute; left: 50%; top: 7px; transform: translateX(-50%); width: 38px; height: 4px; border-radius: 4px; background: rgba(255,255,255,.18); }
+            .modal-body { padding: 8px 16px calc(18px + env(safe-area-inset-bottom)); }
+            .modal-actions .btn { flex: 1; }
+            .bal-actions { width: 100%; }
+            .bal-actions .btn { flex: 1; }
+            .imp-row { grid-template-columns: 1fr 1fr; }
+            .imp-row .nm { grid-column: 1 / -1; }
+            .av-row { grid-template-columns: 1fr; gap: 8px; }
+            .av-row .switch { padding-top: 0; }
+            input[type="text"], input[type="email"], input[type="tel"], input[type="password"], input[type="number"],
+            input[type="date"], input[type="time"], input[type="search"], select, textarea { font-size: 16px; }
+            .search { width: 100%; }
+            .toasts { bottom: calc(84px + env(safe-area-inset-bottom)); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+        }
+    </style>
+</head>
+<body class="no-bar">
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+<canvas id="particles"></canvas>
+
+<div class="topbar">
+    <a class="brand" href="../index.html"><img src="../img/t-olimpians-logo.jpg" alt="Logo T-Olimpians"><span>T-Olimpians</span></a>
+    <span class="topbar-tag">Panel nauczyciela</span>
+    <div class="topbar-right">
+        <span class="sync busy" id="sync" hidden><span class="sync-dot"></span><span id="syncText">Łączenie…</span></span>
+        <a class="btn sm" href="kalendarz.html" id="calLink"><span aria-hidden="true">📅</span> Kalendarz</a>
+    </div>
+</div>
+
+<div class="loading" id="loading"><div class="spin"></div>Wczytuję panel…</div>
+
+<section class="login" id="login" hidden>
+    <h1>Panel nauczyciela</h1>
+    <p>Zaloguj się hasłem do kalendarza lekcji.</p>
+    <form id="loginForm">
+        <label class="f"><span>Hasło</span><input type="password" id="loginPw" autocomplete="current-password" required></label>
+        <button class="btn primary" type="submit" id="loginBtn">Zaloguj</button>
+        <div class="form-err" id="loginErr" hidden></div>
+    </form>
+    <a class="back" href="kalendarz.html">← Wróć do kalendarza</a>
+</section>
+
+<div id="app" hidden>
+    <div class="wrap">
+        <section class="hero">
+            <div class="hero-badge">Rejestr korepetycji</div>
+            <h1>Płatności <span>pod kontrolą</span></h1>
+            <p>Saldo każdego ucznia liczy się samo z kalendarza — <b>na początku każdej lekcji dochodzi jej kwota</b>. Przycisk <b>−</b> zapisuje wpłatę (zaznaczasz opłacone terminy), <b>+</b> dopisuje kwotę spoza kalendarza.</p>
+        </section>
+        <div id="banner"></div>
+        <div class="summary" id="summary"></div>
+
+        <section class="section">
+            <div class="section-head"><h2>Uczniowie</h2><span class="note" id="studentsNote"></span><span class="grow"></span>
+                <input type="search" class="search" id="search" placeholder="Szukaj ucznia…" autocomplete="off" hidden></div>
+            <div id="list"></div>
+        </section>
+
+        <section class="section" id="unassigned" hidden></section>
+
+        <section class="section">
+            <div class="section-head"><h2>Zarobki</h2><span class="note">wartość lekcji, które się odbyły</span></div>
+            <div class="earn-grid" id="earnings"></div>
+            <div id="chart"></div>
+        </section>
+
+        <section class="section">
+            <div class="section-head"><h2>Ustawienia</h2></div>
+            <div class="set-card" id="settings"></div>
+        </section>
+    </div>
+</div>
+
+<div class="add-bar" id="addBar" hidden>
+    <form id="addForm" autocomplete="off">
+        <input type="text" id="addName" placeholder="Imię nowego ucznia" maxlength="80" aria-label="Imię nowego ucznia">
+        <input type="text" id="addPrice" class="price-field" placeholder="Kwota (zł)" inputmode="decimal" maxlength="9" aria-label="Kwota za lekcję w zł">
+        <button class="add-submit" type="submit" aria-label="Dodaj ucznia" title="Dodaj ucznia">+</button>
+    </form>
+</div>
+
+<div class="overlay" id="modal" hidden>
+    <div class="modal-card" id="modalCard" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-head"><h3 id="modalTitle"></h3><button class="x-btn" type="button" data-close aria-label="Zamknij">×</button></div>
+        <div class="modal-body" id="modalBody"></div>
+    </div>
+</div>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   PANEL NAUCZYCIELA — uczniowie, płatności i rozliczenia.
+   Dane trzyma backend kalendarza (apps-script/code.gs, akcja „panel”):
+   uczniowie są we właściwościach skryptu, a lekcje i ich status płatności
+   w Kalendarzu Google. Saldo liczy ta strona: każda lekcja od początku
+   rozliczeń dolicza swoją kwotę, gdy się zaczyna; opłacona lekcja już nie
+   wisi; do tego ręczne wpisy (+ dopisane, − wpłata bez wskazania lekcji).
+   Logowanie wspólne z kalendarzem (to samo hasło, ten sam token).
+   ═══════════════════════════════════════════════════════════════ */
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzMdGzTedpOeK7qNCOSWSLKc3iSd3GzWNPTfE8WUXzO2K0-ILqThn7mnUUhzu09t0fG/exec';
+const TZ = 'Europe/Warsaw';
+const LS = { admin: 'tol_kal_admin', chart: 'tol_panel_chart', imported: 'tol_panel_rejestr_przeniesiony', bannerOff: 'tol_panel_rejestr_baner' };
+const REJESTR_KEY = 'rejestr-lekcji-uczniowie';      // dane starej aplikacji Rejestr Lekcji (ta sama domena)
+const DURATION_HINTS = [20, 30, 45, 60, 90, 120];
+
+/* ═══ POMOCNICZE ═══ */
+const $ = (sel, root = document) => root.querySelector(sel);
+const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+const pad = (n) => String(n).padStart(2, '0');
+const esc = (s) => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const cap = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s);
+const store = {
+    get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set(k, v) { try { if (v == null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) { /* tryb prywatny */ } }
+};
+function dparse(s) { const [y, m, d] = s.split('-').map(Number); return new Date(Date.UTC(y, m - 1, d)); }
+function dstr(dt) { return dt.toISOString().slice(0, 10); }
+function addDays(s, n) { const d = dparse(s); d.setUTCDate(d.getUTCDate() + n); return dstr(d); }
+function weekday(s) { return dparse(s).getUTCDay(); }
+function mondayOf(s) { return addDays(s, -((weekday(s) + 6) % 7)); }
+function toMin(t) { const [h, m] = t.split(':').map(Number); return h * 60 + m; }
+function fromMin(m) { m = Math.max(0, Math.min(1440, m)); return pad(Math.floor(m / 60)) + ':' + pad(m % 60); }
+const nowFmt = new Intl.DateTimeFormat('en-CA', { timeZone: TZ, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
+function nowWaw() {
+    const p = {};
+    nowFmt.formatToParts(new Date()).forEach((x) => { p[x.type] = x.value; });
+    return { date: `${p.year}-${p.month}-${p.day}`, min: (Number(p.hour) % 24) * 60 + Number(p.minute) };
+}
+function nowIso() { const n = nowWaw(); return n.date + 'T' + fromMin(n.min); }
+const wawFmt = new Intl.DateTimeFormat('en-CA', { timeZone: TZ, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
+function isoOfMs(ms) { const p = {}; wawFmt.formatToParts(new Date(ms)).forEach((x) => { p[x.type] = x.value; }); return `${p.year}-${p.month}-${p.day}T${pad(Number(p.hour) % 24)}:${p.minute}`; }
+
+const DAY_SHORT = ['nd', 'pn', 'wt', 'śr', 'cz', 'pt', 'sb'];
+const DAY_LONG = ['niedziela', 'poniedziałek', 'wtorek', 'środa', 'czwartek', 'piątek', 'sobota'];
+const WEEK_ORDER = [1, 2, 3, 4, 5, 6, 0];
+const MONTH_GEN = ['stycznia', 'lutego', 'marca', 'kwietnia', 'maja', 'czerwca', 'lipca', 'sierpnia', 'września', 'października', 'listopada', 'grudnia'];
+const MONTH_SHORT = ['sty', 'lut', 'mar', 'kwi', 'maj', 'cze', 'lip', 'sie', 'wrz', 'paź', 'lis', 'gru'];
+function fmtLong(s) { const d = dparse(s); return `${DAY_LONG[d.getUTCDay()]}, ${d.getUTCDate()} ${MONTH_GEN[d.getUTCMonth()]} ${d.getUTCFullYear()}`; }
+function fmtShort(s) { const d = dparse(s); return `${DAY_SHORT[d.getUTCDay()]} ${d.getUTCDate()}.${pad(d.getUTCMonth() + 1)}`; }
+function fmtDate(s) { const [y, m, d] = s.split('-'); return `${d}.${m}.${y}`; }
+function plural(n, one, few, many) {
+    n = Math.abs(n);
+    if (n === 1) return one;
+    const n10 = n % 10, n100 = n % 100;
+    return n10 >= 2 && n10 <= 4 && !(n100 >= 12 && n100 <= 14) ? few : many;
+}
+const lessonsWord = (n) => `${n} ${plural(n, 'lekcja', 'lekcje', 'lekcji')}`;
+function hoursLabel(min) { const h = Math.floor(min / 60), m = min % 60; return h && m ? `${h} h ${m} min` : h ? `${h} h` : `${m} min`; }
+
+// Kwoty liczymy w groszach (bez błędów zaokrągleń), pokazujemy w złotówkach.
+const toGr = (zl) => Math.round(Number(zl) * 100);
+function fmtZl(g) {
+    const v = g / 100;
+    return v.toLocaleString('pl-PL', { minimumFractionDigits: g % 100 ? 2 : 0, maximumFractionDigits: 2 }) + ' zł';
+}
+const priceVal = (p) => (typeof p === 'number' ? String(p).replace('.', ',') : '');
+function parseMoney(v) {
+    const raw = String(v == null ? '' : v).replace(/\s/g, '').replace(',', '.').replace(/zł$/i, '');
+    if (raw === '') return null;
+    const n = Math.round(Number(raw) * 100) / 100;
+    return isFinite(n) ? n : NaN;
+}
+
+/* ═══ STAN ═══ */
+const P = {
+    token: store.get(LS.admin),
+    data: null,            // odpowiedź akcji „panel” + pola pomocnicze
+    byId: new Map(),       // uczniowie po id
+    stats: new Map(),      // wyliczone saldo każdego ucznia
+    pending: 0,
+    lastLoad: 0,
+    chartMode: store.get(LS.chart) === 'month' ? 'month' : 'week',
+    modal: null,           // { kind: 'student', id, tab, more } — okno, które odświeżamy po zmianach
+    filter: '',
+    flash: null,
+    openAfterLoad: new URLSearchParams(location.search).get('uczen')
+};
+let loadSeq = 0;
+let mutSeq = 0;
+
+/* ═══ BACKEND ═══ */
+async function api(action, data = {}, timeoutMs = 60000) {
+    const body = { action, ...data };
+    if (P.token) body.adminToken = P.token;
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), timeoutMs);
+    let res;
+    try {
+        res = await fetch(APPS_SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(body), signal: ctrl.signal });
+    } catch (e) {
+        throw new Error(e.name === 'AbortError' ? 'Serwer nie odpowiada — spróbuj ponownie.' : 'Brak połączenia z serwerem.');
+    } finally {
+        clearTimeout(timer);
+    }
+    let json;
+    try { json = await res.json(); } catch (e) { throw new Error('Serwer zwrócił nieprawidłową odpowiedź (' + res.status + ').'); }
+    // Google czasem odbija odpowiedź z powrotem na /exec jako GET — wtedy dostajemy „ping” zamiast wyniku.
+    if (json.ok && json.service === 'kalendarz-lekcji') {
+        if (action === 'panel' && !data._retried) return api(action, { ...data, _retried: true }, timeoutMs);
+        throw new Error('Nie dostaliśmy potwierdzenia z serwera. Odśwież panel i sprawdź, czy zmiana się zapisała.');
+    }
+    if (!json.ok) {
+        const err = new Error(json.error || 'Wystąpił błąd.');
+        err.code = json.code;
+        err.data = json;
+        if (/Nieznana akcja/.test(err.message)) {
+            err.code = 'OLD_BACKEND';
+            err.message = 'Backend kalendarza nie zna jeszcze nowego panelu — wdróż nową wersję Code.gs (Wdróż → Zarządzaj wdrożeniami → ✏️ → Nowa wersja).';
+        }
+        if (P.token && (json.code === 'AUTH' || json.code === 'FORBIDDEN')) authLost();
+        throw err;
+    }
+    return json;
+}
+
+function setSync(state, msg) {
+    const el = $('#sync');
+    el.hidden = false;
+    el.className = 'sync ' + state;
+    if (state === 'ok') { $('#syncText').textContent = 'Na żywo · ' + fromMin(nowWaw().min); el.title = 'Dane z kalendarza z godz. ' + fromMin(nowWaw().min); }
+    else if (state === 'busy') { if (!P.data) $('#syncText').textContent = 'Łączenie…'; }
+    else { $('#syncText').textContent = 'Offline — ponawiam'; el.title = msg || ''; }
+}
+
+/* ═══ DANE ═══ */
+function hydrate(d) {
+    d.students.forEach((s) => { s.adj = Array.isArray(s.adj) ? s.adj : []; });
+    d.lessons.forEach((l) => {
+        l.date = l.s.slice(0, 10);
+        l.start = l.s.slice(11, 16);
+        l.end = l.e.slice(11, 16);
+        l.amountGr = typeof l.amount === 'number' ? toGr(l.amount) : null;
+    });
+    d.lessons.sort((a, b) => (a.s < b.s ? -1 : a.s > b.s ? 1 : 0));
+    P.byId = new Map(d.students.map((s) => [s.id, s]));
+}
+const fromOf = (st) => st.from || P.data.ledgerFrom;
+
+function computeStats() {
+    const now = nowIso();
+    const map = new Map();
+    P.data.students.forEach((st) => {
+        map.set(st.id, { from: fromOf(st), all: [], counted: [], due: [], upcoming: [], prepaid: [], dueGr: 0, noPrice: 0, adjGr: 0 });
+    });
+    P.data.lessons.forEach((l) => {
+        const x = map.get(l.sid);
+        if (!x) return;
+        x.all.push(l);
+        if (l.date < x.from) return;                       // przed początkiem rozliczeń — rozliczona
+        x.counted.push(l);
+        if (l.s <= now) {                                   // lekcja się zaczęła: jej kwota dochodzi do zapłaty
+            if (!l.paid) {
+                x.due.push(l);
+                if (l.amountGr === null) x.noPrice++; else x.dueGr += l.amountGr;
+            }
+        } else {
+            x.upcoming.push(l);
+            if (l.paid) x.prepaid.push(l);
+        }
+    });
+    P.data.students.forEach((st) => {
+        const x = map.get(st.id);
+        x.adjGr = st.adj.reduce((s, a) => s + toGr(a.a), 0);
+        x.balance = x.dueGr + x.adjGr;
+        x.next = x.upcoming[0] || null;
+    });
+    P.stats = map;
+}
+
+async function load(quiet) {
+    const seq = ++loadSeq;
+    const m0 = mutSeq;
+    setSync('busy');
+    try {
+        const d = await api('panel');
+        if (seq !== loadSeq) return;                         // przyszła nowsza odpowiedź
+        if (P.pending || m0 !== mutSeq) { if (!P.pending) load(true); return; }   // w międzyczasie coś zmieniliśmy — pobierz jeszcze raz
+        hydrate(d);
+        P.data = d;
+        P.lastLoad = Date.now();
+        showApp();
+        render();
+        refreshModal();
+        setSync('ok');
+        if (P.openAfterLoad) {
+            const id = P.openAfterLoad;
+            P.openAfterLoad = null;
+            history.replaceState(null, '', location.pathname);
+            if (P.byId.has(id)) openStudent(id);
+        }
+    } catch (err) {
+        if (seq !== loadSeq) return;
+        console.error(err);
+        setSync('err', err.message);
+        if (!P.token) return;
+        if (!P.data) showLoadError(err);
+        else if (!quiet) toast(err.message, 'err', 6000);
+    }
+}
+
+// Zmiana widoczna od razu, serwer potwierdza w tle; błąd przywraca poprzedni stan.
+async function mutate({ apply, request, done, failTitle }) {
+    const snap = JSON.stringify(P.data);
+    mutSeq++;
+    P.pending++;
+    setSync('busy');
+    try {
+        if (apply) { apply(); hydrate(P.data); render(); refreshModal(); }
+        const res = await request();
+        if (done) done(res);
+        return res;
+    } catch (err) {
+        P.data = JSON.parse(snap);
+        hydrate(P.data);
+        render();
+        refreshModal();
+        if (err.code !== 'AUTH' && err.code !== 'FORBIDDEN') toast((failTitle ? failTitle + ': ' : '') + err.message, 'err', 7000);
+        return null;
+    } finally {
+        P.pending--;
+        if (!P.pending) load(true);
+    }
+}
+
+/* ═══ EKRANY ═══ */
+function showApp() {
+    $('#loading').hidden = true;
+    $('#login').hidden = true;
+    $('#app').hidden = false;
+    $('#addBar').hidden = false;
+    document.body.classList.remove('no-bar');
+}
+function showLogin(msg) {
+    $('#loading').hidden = true;
+    $('#app').hidden = true;
+    $('#addBar').hidden = true;
+    $('#sync').hidden = true;
+    document.body.classList.add('no-bar');
+    $('#login').hidden = false;
+    const e = $('#loginErr');
+    e.hidden = !msg;
+    e.textContent = msg || '';
+    setTimeout(() => $('#loginPw').focus(), 50);
+}
+function showLoadError(err) {
+    $('#loading').hidden = false;
+    $('#loading').innerHTML = `<div style="font-size:34px;margin-bottom:10px">⚠️</div><b>Nie udało się wczytać panelu.</b><p style="margin:8px auto 16px;max-width:52ch">${esc(err.message)}</p>
+        <button class="btn" type="button" id="retryBtn">Spróbuj ponownie</button>`;
+    $('#retryBtn').onclick = () => { $('#loading').innerHTML = '<div class="spin"></div>Wczytuję panel…'; load(); };
+}
+function authLost() {
+    setAdminToken(null);
+    closeModal();
+    P.data = null;
+    showLogin('Sesja wygasła albo zmieniło się hasło — zaloguj się ponownie.');
+}
+function setAdminToken(t) { P.token = t || null; store.set(LS.admin, P.token); }
+
+$('#loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = $('#loginBtn');
+    setBtnBusy(btn, true, 'Sprawdzam…');
+    $('#loginErr').hidden = true;
+    try {
+        const res = await api('adminLogin', { password: $('#loginPw').value });
+        setAdminToken(res.adminToken);
+        $('#loginPw').value = '';
+        $('#login').hidden = true;
+        $('#loading').hidden = false;
+        $('#loading').innerHTML = '<div class="spin"></div>Wczytuję panel…';
+        await load();
+    } catch (err) {
+        $('#loginErr').hidden = false;
+        $('#loginErr').textContent = err.message;
+    } finally {
+        setBtnBusy(btn, false);
+    }
+});
+
+/* ═══ RENDER ═══ */
+function render() {
+    if (!P.data) return;
+    computeStats();
+    renderBanner();
+    renderSummary();
+    renderList();
+    renderUnassigned();
+    renderEarnings();
+    renderSettings();
+}
+
+function renderSummary() {
+    let owing = 0, lessons = 0, total = 0;
+    P.data.students.forEach((st) => {
+        const x = P.stats.get(st.id);
+        lessons += x.due.length;
+        if (x.balance > 0) { owing++; total += x.balance; } else if (x.noPrice) owing++;
+    });
+    $('#summary').innerHTML = `
+        <div class="summary-card"><div class="label">Uczniowie</div><div class="value">${P.data.students.length}</div></div>
+        <div class="summary-card"><div class="label">Zalega</div><div class="value debt">${owing}</div></div>
+        <div class="summary-card"><div class="label">Lekcji do zapłaty</div><div class="value debt">${lessons}</div></div>
+        <div class="summary-card"><div class="label">Łącznie do zapłaty</div><div class="value money">${fmtZl(total)}</div></div>`;
+}
+
+function statusOf(x) {
+    if (x.balance > 0) return { cls: 'owes', text: 'do zapłaty' + (x.due.length ? ' · ' + lessonsWord(x.due.length) : '') };
+    if (x.balance < 0) return { cls: 'credit', text: 'nadpłata ' + fmtZl(-x.balance) };
+    if (x.noPrice) return { cls: 'warn', text: lessonsWord(x.due.length) + ' bez kwoty' };
+    return { cls: '', text: 'rozliczony' };
+}
+function priceLine(st) {
+    if (typeof st.price !== 'number') return '<span class="warn">brak kwoty za lekcję — kliknij, żeby ustawić</span>';
+    return `<b>${fmtZl(toGr(st.price))}</b> / ${st.length ? st.length + ' min' : 'lekcja'}`;
+}
+function tallyHtml(x) {
+    let n = x.due.length;
+    let cls = '';
+    if (!n && x.prepaid.length) { n = x.prepaid.length; cls = ' credit'; }
+    if (!n) return '<span class="tally zero"><i></i></span>';
+    return `<span class="tally${cls}">${'<i></i>'.repeat(Math.min(n, 24))}</span>`;
+}
+
+function renderList() {
+    const list = $('#list');
+    const students = P.data.students;
+    $('#search').hidden = students.length < 6;
+    $('#studentsNote').textContent = students.length ? 'kliknij ucznia: historia i dane' : '';
+    if (!students.length) {
+        list.innerHTML = '<div class="empty"><div class="glyph">＋</div>Brak uczniów — dodaj pierwszego na dole strony.<br><small>Uczniowie, którzy zarezerwują lekcję w kalendarzu, pojawią się tu sami.</small></div>';
+        return;
+    }
+    const f = P.filter.trim().toLowerCase();
+    const shown = f ? students.filter((s) => (s.name + ' ' + s.email + ' ' + s.discord).toLowerCase().includes(f)) : students;
+    if (!shown.length) { list.innerHTML = '<div class="empty">Nikt nie pasuje do „' + esc(P.filter) + '”.</div>'; return; }
+    list.innerHTML = '<div class="student-list">' + shown.map((st) => {
+        const x = P.stats.get(st.id);
+        const s = statusOf(x);
+        const extra = [];
+        if (x.next) extra.push('następna: <b>' + fmtShort(x.next.date) + ', ' + x.next.start + '</b>');
+        if (x.prepaid.length) extra.push('opłacone z góry: <b>' + x.prepaid.length + '</b>');
+        if (st.discord) extra.push('Discord <b>@' + esc(st.discord) + '</b>');
+        const val = x.balance > 0 ? fmtZl(x.balance) : x.balance < 0 ? '−' + fmtZl(-x.balance) : x.noPrice ? '—' : '0 zł';
+        return `<div class="student-card ${s.cls}${P.flash === st.id ? ' flash' : ''}" data-sid="${esc(st.id)}">
+            <button class="name-block" type="button" data-open="${esc(st.id)}" aria-label="Uczeń ${esc(st.name)}: historia i dane">
+                <span class="name"><i class="dot" style="--c:${colorHex(st.color)}"></i><span>${esc(st.name || '(bez imienia)')}</span></span>
+                <span class="status ${s.cls}">${esc(s.text)}</span>
+                <span class="line">${priceLine(st)}</span>
+                ${extra.length ? `<span class="line">${extra.join(' · ')}</span>` : ''}
+                ${tallyHtml(x)}
+            </button>
+            <div class="counter">
+                <button class="stamp-btn minus" type="button" data-pay="${esc(st.id)}" title="Zapłacił — zaznacz opłacone lekcje" aria-label="Wpłata: ${esc(st.name)}">−</button>
+                <span class="count-value ${x.balance > 0 ? 'owes' : x.balance < 0 ? 'credit' : ''}" title="${x.balance >= 0 ? 'Do zapłaty' : 'Nadpłata'}">${val}</span>
+                <button class="stamp-btn plus" type="button" data-charge="${esc(st.id)}" title="Dopisz kwotę do zapłaty" aria-label="Dopisz do zapłaty: ${esc(st.name)}">+</button>
+            </div></div>`;
+    }).join('') + '</div>';
+    P.flash = null;
+}
+
+// Kolory wydarzeń Google (colorId) → kropka przy uczniu
+const GCAL_COLORS = { 1: '#7986cb', 2: '#33b679', 3: '#8e24aa', 4: '#e67c73', 5: '#f6bf26', 6: '#f4511e', 7: '#039be5', 8: '#616161', 9: '#3f51b5', 10: '#0b8043', 11: '#d50000' };
+const colorHex = (c) => GCAL_COLORS[c] || '#3b82f6';
+
+/* lekcje bez przypisanego ucznia (np. starsze, dodane bez emaila) */
+function renderUnassigned() {
+    const box = $('#unassigned');
+    const from = P.data.ledgerFrom;
+    const un = P.data.lessons.filter((l) => !l.sid && l.date >= from);
+    if (!un.length) { box.hidden = true; box.innerHTML = ''; return; }
+    const groups = new Map();
+    un.forEach((l) => {
+        const k = (l.name || '').trim().toLowerCase() || '—';
+        const g = groups.get(k) || { name: l.name || '(bez imienia)', ids: [], dates: [] };
+        g.ids.push(l.id);
+        g.dates.push(fmtShort(l.date) + ' ' + l.start);
+        groups.set(k, g);
+    });
+    const opts = P.data.students.map((s) => `<option value="${esc(s.id)}">${esc(s.name)}</option>`).join('');
+    box.hidden = false;
+    box.innerHTML = `<div class="section-head"><h2>Lekcje bez ucznia</h2><span class="note">nie liczą się do żadnego salda</span></div>` +
+        [...groups.values()].map((g, i) => `<div class="un-card" data-un="${i}">
+            <div class="un-top"><b>${esc(g.name)}</b><span class="grow"></span><span class="pill plan">${lessonsWord(g.ids.length)}</span></div>
+            <div class="un-dates">${esc(g.dates.slice(0, 8).join(' · '))}${g.dates.length > 8 ? ' …' : ''}</div>
+            <div class="un-act"><select aria-label="Przypisz do ucznia"><option value="">Przypisz do ucznia…</option>${opts}</select>
+                <button class="btn sm primary" type="button" data-link="${i}">Przypisz</button>
+                <button class="btn sm" type="button" data-newfrom="${i}">＋ Nowy uczeń „${esc(g.name)}”</button></div></div>`).join('');
+    box._groups = [...groups.values()];
+}
+$('#unassigned').addEventListener('click', (e) => {
+    const box = $('#unassigned');
+    const link = e.target.closest('[data-link]');
+    if (link) {
+        const g = box._groups[Number(link.dataset.link)];
+        const sid = link.closest('.un-card').querySelector('select').value;
+        if (!sid) { toast('Wybierz ucznia z listy.', 'err'); return; }
+        const st = P.byId.get(sid);
+        mutate({
+            apply: () => { P.data.lessons.forEach((l) => { if (g.ids.includes(l.id)) { l.sid = sid; l.amount = amountFor(l, st); } }); },
+            request: () => api('linkLessons', { id: sid, ids: g.ids }),
+            done: () => toast(`✓ ${lessonsWord(g.ids.length)} przypisane: ${st.name}`, 'ok'),
+            failTitle: 'Nie udało się przypisać lekcji'
+        });
+        return;
+    }
+    const nf = e.target.closest('[data-newfrom]');
+    if (nf) {
+        const g = box._groups[Number(nf.dataset.newfrom)];
+        openEditor(null, { name: g.name, linkIds: g.ids });
+    }
+});
+function amountFor(l, st) {
+    if (!st || typeof st.price !== 'number') return null;
+    if (!st.length || !l.dur || l.dur === st.length) return st.price;
+    return Math.round(st.price * l.dur / st.length * 100) / 100;
+}
+
+/* ─── zarobki ─── */
+function startOfMonth(s) { return s.slice(0, 8) + '01'; }
+function earningsIn(from, to) {        // [from, to) — daty 'YYYY-MM-DD'
+    const now = nowIso();
+    let gr = 0, lessons = 0, inGr = 0;
+    P.data.lessons.forEach((l) => {
+        if (l.date >= from && l.date < to && l.s <= now) { lessons++; if (l.amountGr) gr += l.amountGr; }
+        if (l.paid && l.paidAt && l.amountGr) {
+            const d = isoOfMs(Date.parse(l.paidAt)).slice(0, 10);
+            if (d >= from && d < to) inGr += l.amountGr;
+        }
+    });
+    P.data.students.forEach((st) => st.adj.forEach((a) => {
+        const d = isoOfMs(a.t).slice(0, 10);
+        if (d < from || d >= to) return;
+        if (a.a > 0) gr += toGr(a.a); else inGr += toGr(-a.a);
+    }));
+    return { gr, lessons, inGr };
+}
+function renderEarnings() {
+    const today = nowWaw().date;
+    const w = earningsIn(mondayOf(today), addDays(today, 1));
+    const m = earningsIn(startOfMonth(today), addDays(today, 1));
+    const card = (label, x) => `<div class="earn-card"><div class="label">${label}</div><div class="value">${fmtZl(x.gr)}</div>
+        <div class="sub">${lessonsWord(x.lessons)} · wpłaty ${fmtZl(x.inGr)}</div></div>`;
+    $('#earnings').innerHTML = card('Ten tydzień', w) + card('Ten miesiąc', m);
+    renderChart();
+}
+function buckets() {
+    const today = nowWaw().date;
+    const out = [];
+    if (P.chartMode === 'week') {
+        const m = mondayOf(today);
+        for (let i = 7; i >= 0; i--) {
+            const from = addDays(m, -7 * i);
+            const d = dparse(from);
+            out.push({ from, to: addDays(from, 7), label: d.getUTCDate() + ' ' + MONTH_SHORT[d.getUTCMonth()] });
+        }
+    } else {
+        const [y, mo] = today.split('-').map(Number);
+        for (let i = 5; i >= 0; i--) {
+            const a = new Date(Date.UTC(y, mo - 1 - i, 1));
+            const b = new Date(Date.UTC(y, mo - i, 1));
+            out.push({ from: dstr(a), to: dstr(b), label: MONTH_SHORT[a.getUTCMonth()] });
+        }
+    }
+    return out;
+}
+// Gładka linia przez punkty; punkty kontrolne nie schodzą poniżej osi (maxY), żeby krzywa nie „nurkowała” pod zero.
+function smoothPath(pts, maxY) {
+    if (pts.length < 2) return '';
+    const cy = (y) => Math.min(maxY, y);
+    let d = 'M' + pts[0].x + ',' + pts[0].y + ' ';
+    for (let i = 0; i < pts.length - 1; i++) {
+        const p0 = pts[i === 0 ? 0 : i - 1], p1 = pts[i], p2 = pts[i + 1], p3 = pts[i + 2 < pts.length ? i + 2 : i + 1];
+        d += 'C' + (p1.x + (p2.x - p0.x) / 6) + ',' + cy(p1.y + (p2.y - p0.y) / 6) + ' ' + (p2.x - (p3.x - p1.x) / 6) + ',' + cy(p2.y - (p3.y - p1.y) / 6) + ' ' + p2.x + ',' + p2.y + ' ';
+    }
+    return d.trim();
+}
+function renderChart() {
+    const el = $('#chart');
+    const bs = buckets();
+    const vals = bs.map((b) => earningsIn(b.from, b.to).gr);
+    const max = Math.max.apply(null, vals.concat([0]));
+    const top = max > 0 ? max * 1.12 : 1000;
+    const W = 640, H = 220, pl = 6, pr = 6, pt = 14, pb = 26;
+    const cw = W - pl - pr, ch = H - pt - pb, step = bs.length > 1 ? cw / (bs.length - 1) : 0;
+    const pts = vals.map((v, i) => ({ x: pl + step * i, y: pt + ch - (v / top) * ch, v, label: bs[i].label }));
+    const base = pt + ch;
+    const line = smoothPath(pts, base);
+    const area = line + ' L' + pts[pts.length - 1].x + ',' + base + ' L' + pts[0].x + ',' + base + ' Z';
+    let grid = '';
+    for (let i = 0; i <= 3; i++) { const y = pt + (ch / 3) * i; grid += `<line x1="${pl}" y1="${y}" x2="${pl + cw}" y2="${y}" class="chart-grid"/>`; }
+    const dots = pts.map((p, i) => `<circle cx="${p.x}" cy="${p.y}" r="4" class="chart-dot" data-i="${i}"/><circle cx="${p.x}" cy="${p.y}" r="13" class="chart-hit" data-i="${i}"/>`).join('');
+    const labels = pts.map((p) => `<text x="${p.x}" y="${H - 6}" class="chart-x" text-anchor="middle">${esc(p.label)}</text>`).join('');
+    const avg = vals.reduce((a, b) => a + b, 0) / vals.length;
+    const last = vals[vals.length - 1], prev = vals[vals.length - 2];
+    let delta = '';
+    if (prev > 0) {
+        const pct = Math.round(((last - prev) / prev) * 100);
+        delta = `<span class="delta ${pct > 0 ? 'up' : pct < 0 ? 'down' : 'flat'}">${pct > 0 ? '+' : ''}${pct}%</span>`;
+    }
+    el.innerHTML = `<div class="section-head" style="margin:22px 0 0"><h2 style="font-size:15px">Zarobki w czasie</h2><span class="grow"></span>
+            <div class="chart-toggle" role="group" aria-label="Zakres wykresu"><button type="button" data-mode="week" class="${P.chartMode === 'week' ? 'active' : ''}">Tygodnie</button><button type="button" data-mode="month" class="${P.chartMode === 'month' ? 'active' : ''}">Miesiące</button></div></div>
+        <div class="chart-card"><div class="chart-wrap">
+            <svg class="chart-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="Wykres zarobków">
+                <defs><linearGradient id="chartFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#34d399" stop-opacity="0.32"/><stop offset="100%" stop-color="#34d399" stop-opacity="0"/></linearGradient></defs>
+                <g>${grid}</g><path d="${area}" fill="url(#chartFill)"/><path d="${line}" class="chart-line"/><g>${dots}</g>${labels}
+            </svg><div class="chart-tip" id="chartTip" hidden></div></div>
+            <div class="chart-foot"><span>Śr. ${P.chartMode === 'week' ? 'tygodniowo' : 'miesięcznie'}: ${fmtZl(Math.round(avg))}</span>${delta}</div></div>`;
+    const svg = $('.chart-svg', el);
+    const tip = $('#chartTip');
+    const show = (hit) => {
+        const p = pts[Number(hit.dataset.i)];
+        tip.innerHTML = `<div class="l">${esc(p.label)}</div><div class="v">${fmtZl(p.v)}</div>`;
+        tip.hidden = false;
+        const r = svg.getBoundingClientRect();
+        tip.style.left = (p.x / W) * r.width + 'px';
+        tip.style.top = (p.y / H) * r.height + 'px';
+        $$('.chart-dot', el).forEach((d) => d.classList.toggle('active', d.dataset.i === hit.dataset.i));
+    };
+    $$('.chart-hit', el).forEach((h) => {
+        h.addEventListener('mouseenter', () => show(h));
+        h.addEventListener('click', () => show(h));
+    });
+    $('.chart-wrap', el).addEventListener('mouseleave', () => { tip.hidden = true; $$('.chart-dot', el).forEach((d) => d.classList.remove('active')); });
+    $$('.chart-toggle button', el).forEach((b) => b.addEventListener('click', () => {
+        if (b.dataset.mode === P.chartMode) return;
+        P.chartMode = b.dataset.mode;
+        store.set(LS.chart, P.chartMode);
+        renderChart();
+    }));
+}
+
+/* ─── ustawienia ─── */
+function renderSettings() {
+    const d = P.data;
+    const rej = rejestrData();
+    $('#settings').innerHTML = `
+        <div class="set-row"><div class="set-main"><b>Godziny i limity lekcji</b>${availabilitySummaryHtml()}</div>
+            <button class="btn sm" type="button" data-set="avail">🕒 Zmień</button></div>
+        <div class="set-row"><div class="set-main"><b>Rozliczenia liczone od ${fmtDate(d.ledgerFrom)}</b>
+            <small>Wcześniejsze lekcje są traktowane jako rozliczone. Uczeń może mieć własną datę (w „Dane ucznia”).</small></div>
+            <button class="btn sm" type="button" data-set="ledger">Zmień</button></div>
+        <div class="set-row"><div class="set-main"><b>Powiadomienia mailowe</b><span>${esc(d.notifyTo || '—')}</span></div></div>
+        ${rej.length ? `<div class="set-row"><div class="set-main"><b>Stary Rejestr Lekcji</b><small>W tej przeglądarce zostały dane starej aplikacji (uczniowie: ${rej.length}).${store.get(LS.imported) ? ' Przeniesione ' + fmtDate(store.get(LS.imported)) + '.' : ''}</small></div>
+            <button class="btn sm" type="button" data-set="import">Przenieś…</button></div>` : ''}
+        <div class="set-row"><div class="set-main"><b>Wyloguj</b><small>Wylogowuje panel i kalendarz na tym urządzeniu.</small></div>
+            <button class="btn sm ghost" type="button" data-set="logout">Wyloguj panel</button></div>`;
+}
+$('#settings').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-set]');
+    if (!b) return;
+    const a = b.dataset.set;
+    if (a === 'avail') openAvailabilityEditor();
+    else if (a === 'ledger') openLedgerFrom();
+    else if (a === 'import') openImport();
+    else if (a === 'logout') { setAdminToken(null); P.data = null; showLogin(); toast('Wylogowano panel nauczyciela'); }
+});
+
+/* ═══ MODAL ═══ */
+const modalEl = $('#modal');
+const modalBody = $('#modalBody');
+let modalRaf = 0;
+function openModal(title, html, { wide = false } = {}) {
+    $('#modalTitle').textContent = title;
+    modalBody.innerHTML = html;
+    $('#modalCard').classList.toggle('wide', wide);
+    const wasOpen = !modalEl.hidden && modalEl.classList.contains('open');
+    modalEl.hidden = false;
+    if (!wasOpen) {
+        cancelAnimationFrame(modalRaf);
+        modalRaf = requestAnimationFrame(() => modalEl.classList.add('open'));
+        const first = modalBody.querySelector('input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]), select, textarea');
+        if (first && window.innerWidth >= 700) setTimeout(() => first.focus(), 60);
+    }
+}
+function closeModal() {
+    P.modal = null;
+    if (modalEl.hidden) return;
+    cancelAnimationFrame(modalRaf);
+    modalEl.classList.remove('open');
+    setTimeout(() => { if (!modalEl.classList.contains('open')) { modalEl.hidden = true; modalBody.innerHTML = ''; } }, 180);
+}
+modalEl.addEventListener('click', (e) => { if (e.target === modalEl || e.target.closest('[data-close]')) closeModal(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modalEl.hidden) closeModal(); });
+function setBtnBusy(btn, busy, label) {
+    if (!btn) return;
+    if (busy) { btn.dataset.label = btn.innerHTML; btn.innerHTML = `<span class="spin-sm"></span>${esc(label || 'Chwila…')}`; btn.disabled = true; }
+    else { if (btn.dataset.label) btn.innerHTML = btn.dataset.label; btn.disabled = false; }
+}
+function showFormErr(msg, root = modalBody) {
+    let el = root.querySelector('.form-err');
+    if (!el) {
+        el = document.createElement('div');
+        el.className = 'form-err';
+        const actions = root.querySelector('.modal-actions');
+        if (actions) actions.parentNode.insertBefore(el, actions); else root.appendChild(el);
+    }
+    el.textContent = msg;
+}
+// Po zmianie danych odświeżamy otwarte okno ucznia (zakładka „Rozliczenie”; formularz zostaje, żeby nie zgubić wpisów).
+function refreshModal() {
+    const m = P.modal;
+    if (!m || m.kind !== 'student' || modalEl.hidden) return;
+    if (!P.byId.has(m.id)) { closeModal(); return; }
+    if (m.tab === 'konto') {
+        const scroller = $('#modalCard');
+        const y = scroller.scrollTop;
+        renderStudentModal();
+        scroller.scrollTop = y;
+    }
+}
+
+/* ═══ UCZEŃ: ROZLICZENIE + DANE ═══ */
+function openStudent(id, tab = 'konto') {
+    P.modal = { kind: 'student', id, tab, more: false };
+    renderStudentModal();
+}
+function renderStudentModal() {
+    const st = P.byId.get(P.modal.id);
+    if (!st) return;
+    const tab = P.modal.tab;
+    const tabs = `<div class="tabs" role="tablist"><button type="button" data-tab="konto" class="${tab === 'konto' ? 'active' : ''}">Rozliczenie</button><button type="button" data-tab="dane" class="${tab === 'dane' ? 'active' : ''}">Dane ucznia</button></div>`;
+    openModal(st.name || 'Uczeń', tabs + (tab === 'konto' ? accountHtml(st) : editorHtml(st)), { wide: true });
+    if (tab === 'dane') bindEditor(st, {});
+}
+
+function lessonStatus(l, x) {
+    const now = nowIso();
+    if (l.date < x.from) return { cls: 'settled', pill: 'settled', text: 'rozliczona wcześniej' };
+    if (l.s <= now) return l.paid ? { cls: 'paid', pill: 'paid', text: l.paid === 'card' ? 'opłacona kartą' : 'opłacona' } : { cls: 'due', pill: 'due', text: 'nieopłacona' };
+    return l.paid ? { cls: 'pre', pill: 'paid', text: 'opłacona z góry' } : { cls: 'plan', pill: 'plan', text: 'zaplanowana' };
+}
+function lessonRow(l, x) {
+    const d = dparse(l.date);
+    const s = lessonStatus(l, x);
+    const amount = l.amountGr === null ? 'brak kwoty' : fmtZl(l.amountGr);
+    const btn = s.cls === 'settled' ? ''
+        : l.paid ? `<button class="ibtn ok" type="button" data-lunpay="${esc(l.id)}" title="Cofnij „opłacona”">✓</button>`
+        : `<button class="ibtn" type="button" data-lpay="${esc(l.id)}" title="Oznacz jako opłaconą">zł</button>`;
+    return `<div class="hrow ${s.cls}">
+        <div class="date-badge"><div class="dn">${DAY_SHORT[d.getUTCDay()]}</div><div class="dd">${d.getUTCDate()}</div><div class="dm">${MONTH_SHORT[d.getUTCMonth()]}</div></div>
+        <div class="hmain"><div class="htitle">${l.start}–${l.end} · ${l.dur} min <span class="pill ${s.pill}">${s.text}</span></div>
+            <div class="hsub">${amount}${l.rec ? ' · co tydzień' : ''} · ${esc(fmtLong(l.date))}</div></div>${btn}</div>`;
+}
+function adjRow(a) {
+    const plus = a.a > 0;
+    const when = isoOfMs(a.t);
+    return `<div class="hrow ${plus ? 'adj-plus' : 'adj-minus'}"><div class="adj-badge">${plus ? '+' : '−'}</div>
+        <div class="hmain"><div class="htitle">${plus ? '+' : '−'}${fmtZl(Math.abs(toGr(a.a)))} <span class="pill ${plus ? 'due' : 'paid'}">${plus ? 'dopisane' : 'wpłata / odjęte'}</span></div>
+            <div class="hsub">${esc(a.n || (plus ? 'Dopisane do zapłaty' : 'Wpłata'))} · ${fmtDate(when.slice(0, 10))} ${when.slice(11, 16)}</div></div>
+        <button class="ibtn danger" type="button" data-adjdel="${esc(a.i)}" title="Usuń ten wpis">✕</button></div>`;
+}
+function accountHtml(st) {
+    const x = P.stats.get(st.id);
+    const now = nowIso();
+    const cls = x.balance > 0 ? 'owes' : x.balance < 0 ? 'credit' : '';
+    const subs = [];
+    if (x.due.length) subs.push(lessonsWord(x.due.length) + ' ' + plural(x.due.length, 'nieopłacona', 'nieopłacone', 'nieopłaconych'));
+    if (x.noPrice) subs.push(x.noPrice + ' bez kwoty');
+    if (x.adjGr) subs.push('wpisy ręczne: ' + (x.adjGr > 0 ? '+' : '−') + fmtZl(Math.abs(x.adjGr)));
+    if (x.prepaid.length) subs.push('opłacone z góry: ' + x.prepaid.length);
+    let h = `<div class="bal-box ${cls}"><div class="bal-main"><div class="bal-l">${x.balance < 0 ? 'Nadpłata' : 'Do zapłaty'}</div>
+            <div class="bal-v">${fmtZl(Math.abs(x.balance))}</div><div class="bal-sub">${subs.join(' · ') || 'wszystko rozliczone'}</div></div>
+        <div class="bal-actions"><button class="btn ok" type="button" data-act="pay">− Zapłacił…</button><button class="btn" type="button" data-act="charge">+ Dopisz</button></div></div>`;
+    const contact = [];
+    if (st.email) contact.push(`<span>✉ <a href="mailto:${esc(st.email)}">${esc(st.email)}</a></span>`);
+    if (st.phone) contact.push(`<span>☎ <a href="tel:${esc(st.phone.replace(/\s+/g, ''))}">${esc(st.phone)}</a></span>`);
+    if (st.phoneDad) contact.push(`<span>tata: <a href="tel:${esc(st.phoneDad.replace(/\s+/g, ''))}">${esc(st.phoneDad)}</a></span>`);
+    if (st.phoneMom) contact.push(`<span>mama: <a href="tel:${esc(st.phoneMom.replace(/\s+/g, ''))}">${esc(st.phoneMom)}</a></span>`);
+    if (st.discord) contact.push(`<span>Discord: <b>@${esc(st.discord)}</b></span>`);
+    if (typeof st.price === 'number') contact.push(`<span>${fmtZl(toGr(st.price))} / ${st.length ? st.length + ' min' : 'lekcja'}</span>`);
+    h += `<div class="contact">${contact.join('') || '<span>Brak danych kontaktowych — uzupełnij w „Dane ucznia”.</span>'}</div>`;
+    if (typeof st.price !== 'number') h += '<p class="note-muted">⚠ Uczeń nie ma kwoty za lekcję, więc jego lekcje nie liczą się do salda. <button class="link-btn" type="button" data-tab="dane">Ustaw kwotę →</button></p>';
+
+    const upcoming = x.upcoming;
+    if (upcoming.length) {
+        const shown = P.modal.moreUp ? upcoming : upcoming.slice(0, 6);
+        h += `<div class="h4">Nadchodzące lekcje <span class="cnt">${upcoming.length}</span></div>` + shown.map((l) => lessonRow(l, x)).join('');
+        if (shown.length < upcoming.length) h += `<button class="link-btn more" type="button" data-more="up">Pokaż wszystkie (${upcoming.length})</button>`;
+    }
+    // historia: lekcje, które się zaczęły (także sprzed rozliczeń), i wpisy ręczne — od najnowszych
+    const past = x.all.filter((l) => l.s <= now).map((l) => ({ t: l.s, html: lessonRow(l, x) }));
+    const adj = st.adj.map((a) => ({ t: isoOfMs(a.t), html: adjRow(a) }));
+    const hist = past.concat(adj).sort((a, b) => (a.t < b.t ? 1 : a.t > b.t ? -1 : 0));
+    h += `<div class="h4">Historia <span class="cnt">${hist.length}</span></div>`;
+    if (!hist.length) h += '<p class="note-muted" style="margin-top:0">Brak lekcji i wpisów.</p>';
+    const limit = P.modal.more ? hist.length : 30;
+    h += hist.slice(0, limit).map((x2) => x2.html).join('');
+    if (hist.length > limit) h += `<button class="link-btn more" type="button" data-more="hist">Pokaż starsze (${hist.length - limit})</button>`;
+    h += `<p class="note-muted">Płatności liczone od <b>${fmtDate(x.from)}</b>${st.from ? ' (data ustawiona dla tego ucznia)' : ''} — wcześniejsze lekcje są rozliczone. Kwota lekcji dolicza się, gdy lekcja się zaczyna.</p>`;
+    return h;
+}
+
+modalBody.addEventListener('click', (e) => {
+    const m = P.modal;
+    const tabBtn = e.target.closest('[data-tab]');
+    if (tabBtn && m && m.kind === 'student') { m.tab = tabBtn.dataset.tab; renderStudentModal(); return; }
+    if (!m || m.kind !== 'student') return;
+    const st = P.byId.get(m.id);
+    if (!st) return;
+    const act = e.target.closest('[data-act]');
+    if (act && act.dataset.act === 'pay') { P.backTo = st.id; openPay(st.id); return; }
+    if (act && act.dataset.act === 'charge') { P.backTo = st.id; openCharge(st.id); return; }
+    const more = e.target.closest('[data-more]');
+    if (more) { if (more.dataset.more === 'up') m.moreUp = true; else m.more = true; renderStudentModal(); return; }
+    const lp = e.target.closest('[data-lpay], [data-lunpay]');
+    if (lp) { setLessonsPaid(st, [lp.dataset.lpay || lp.dataset.lunpay], !!lp.dataset.lpay); return; }
+    const ad = e.target.closest('[data-adjdel]');
+    if (ad) {
+        const a = st.adj.find((x) => x.i === ad.dataset.adjdel);
+        if (!a || !confirm(`Usunąć wpis ${a.a > 0 ? '+' : '−'}${fmtZl(Math.abs(toGr(a.a)))} (${a.n || 'bez opisu'})?`)) return;
+        mutate({
+            apply: () => { st.adj = st.adj.filter((x) => x.i !== a.i); },
+            request: () => api('adjustDelete', { id: st.id, adjId: a.i }),
+            done: () => toast('Usunięto wpis', 'ok'),
+            failTitle: 'Nie udało się usunąć wpisu'
+        });
+    }
+});
+
+function setLessonsPaid(st, ids, paid) {
+    return mutate({
+        apply: () => { P.data.lessons.forEach((l) => { if (ids.includes(l.id)) { l.paid = paid ? 'manual' : ''; l.paidAt = paid ? new Date().toISOString() : ''; } }); },
+        request: () => api('payLessons', { id: st.id, ids, paid }),
+        done: (res) => {
+            if (res.missing && res.missing.length) toast(`Nie znalazłem ${lessonsWord(res.missing.length)} w kalendarzu (mogła zostać usunięta) — odświeżam.`, 'err', 6000);
+            else toast(paid ? `✓ ${st.name}: ${ids.length > 1 ? lessonsWord(ids.length) + ' opłacone' : 'lekcja opłacona'}` : `Cofnięto „opłacona”: ${st.name}`, 'ok');
+        },
+        failTitle: 'Nie udało się zapisać płatności'
+    });
+}
+
+/* ─── − Zapłacił: wybór dokładnych terminów ─── */
+function openPay(id) {
+    const st = P.byId.get(id);
+    if (!st) return;
+    const x = P.stats.get(id);
+    const past = x.due.slice();                                         // od najstarszych
+    const ahead = x.upcoming.filter((l) => !l.paid).slice(0, 30);       // od najbliższych
+    const pre = new Set(past.length ? [past[0].id] : []);               // jak „−” w Rejestrze: jedna (najstarsza) lekcja
+    const row = (l, kind) => `<label class="pick"><input type="checkbox" value="${esc(l.id)}"${pre.has(l.id) ? ' checked' : ''}>
+        <span class="grow">${cap(fmtShort(l.date))}.${dparse(l.date).getUTCFullYear()} · ${l.start}–${l.end}<small>${kind} · ${l.dur} min</small></span>
+        <span class="amt">${l.amountGr === null ? 'brak kwoty' : fmtZl(l.amountGr)}</span></label>`;
+    let list = '';
+    if (past.length) list += '<div class="pick-sep">Odbyły się — nieopłacone</div>' + past.map((l) => row(l, 'odbyła się')).join('');
+    if (ahead.length) list += '<div class="pick-sep">Zaplanowane — zapłata z góry</div>' + ahead.map((l) => row(l, 'zaplanowana')).join('');
+    const html = `<form id="payForm" novalidate>
+        <p class="modal-lead">Zaznacz lekcje, za które <b>${esc(st.name)}</b> zapłacił(a). Lekcje zmienią kolor w kalendarzu na opłacone.</p>
+        ${list ? `<div class="pick-tools"><button class="link-btn" type="button" data-pick="due">Zaznacz wszystkie zaległe (${past.length})</button><button class="link-btn" type="button" data-pick="none">Odznacz wszystko</button></div>
+            <div class="pick-list" id="pickList">${list}</div>` : '<p class="note-muted" style="margin:0 0 6px">Uczeń nie ma nieopłaconych lekcji. Możesz zapisać wpłatę bez wskazania lekcji (np. zaliczkę).</p>'}
+        <div class="f-row2" style="margin-top:16px">
+            <label class="f"><span>Inna wpłata bez wskazania lekcji (zł)</span><input type="text" id="payCredit" inputmode="decimal" maxlength="9" placeholder="np. 50"></label>
+            <label class="f"><span>Opis (opcjonalnie)</span><input type="text" id="payNote" maxlength="80" placeholder="np. zaliczka, rabat"></label>
+        </div>
+        <p class="hint">Ta kwota zmniejszy saldo, ale nie oznaczy żadnej lekcji jako opłaconej.</p>
+        <div class="pick-sum"><span id="paySumTxt"></span><b id="paySum">0 zł</b></div>
+        <div class="modal-actions"><button type="button" class="btn ghost" data-close>Anuluj</button><button type="submit" class="btn primary" id="paySubmit">Zapisz wpłatę</button></div>
+    </form>`;
+    P.modal = { kind: 'pay', id };
+    openModal('Wpłata — ' + st.name, html);
+    const form = $('#payForm');
+    const update = () => {
+        const ids = $$('#pickList input:checked').map((i) => i.value);
+        const ls = P.data.lessons.filter((l) => ids.includes(l.id));
+        const credit = parseMoney($('#payCredit').value);
+        const gr = ls.reduce((s, l) => s + (l.amountGr || 0), 0) + (credit > 0 ? toGr(credit) : 0);
+        $('#paySum').textContent = fmtZl(gr);
+        $('#paySumTxt').textContent = (ids.length ? lessonsWord(ids.length) : 'Bez lekcji') + (credit > 0 ? ' + wpłata ' + fmtZl(toGr(credit)) : '');
+        fieldErr($('#payCredit'), credit !== null && !(credit > 0 && credit <= 100000));
+    };
+    form.addEventListener('change', update);
+    form.addEventListener('input', update);
+    form.addEventListener('click', (e) => {
+        const b = e.target.closest('[data-pick]');
+        if (!b) return;
+        const dueIds = new Set(past.map((l) => l.id));
+        $$('#pickList input').forEach((i) => { i.checked = b.dataset.pick === 'due' ? dueIds.has(i.value) : false; });
+        update();
+    });
+    update();
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const ids = $$('#pickList input:checked').map((i) => i.value);
+        const credit = parseMoney($('#payCredit').value);
+        if (credit !== null && !(credit > 0 && credit <= 100000)) { showFormErr('Nieprawidłowa kwota wpłaty — wpisz np. 50 albo 99,50.'); return; }
+        if (!ids.length && !credit) { showFormErr('Zaznacz opłacone lekcje albo wpisz kwotę wpłaty.'); return; }
+        const note = $('#payNote').value.trim();
+        backToStudent(id);
+        await mutate({
+            apply: () => {
+                P.data.lessons.forEach((l) => { if (ids.includes(l.id)) { l.paid = 'manual'; l.paidAt = new Date().toISOString(); } });
+                if (credit) st.adj.push({ i: 'tmp' + Date.now(), t: Date.now(), a: -credit, n: note || 'Wpłata' });
+            },
+            request: () => api('payLessons', { id: st.id, ids, paid: true, credit: credit || 0, note }),
+            done: (res) => {
+                if (res.missing && res.missing.length) toast(`Nie znalazłem ${lessonsWord(res.missing.length)} w kalendarzu (mogła zostać usunięta) — odświeżam.`, 'err', 6000);
+                else toast(`✓ ${st.name}: zapisano wpłatę` + (ids.length ? ` (${lessonsWord(ids.length)})` : ''), 'ok');
+            },
+            failTitle: 'Nie udało się zapisać wpłaty'
+        });
+        P.flash = st.id;
+    });
+}
+// Po zapisaniu wpłaty / kwoty wracamy do okna ucznia, jeśli z niego przyszliśmy.
+function backToStudent(id) {
+    if (P.backTo === id) { P.backTo = null; openStudent(id); } else closeModal();
+}
+
+/* ─── + Dopisz kwotę ─── */
+function openCharge(id) {
+    const st = P.byId.get(id);
+    if (!st) return;
+    const today = nowWaw().date;
+    const html = `<form id="chargeForm" novalidate>
+        <p class="modal-lead">Dopisz do salda <b>${esc(st.name)}</b> kwotę spoza kalendarza — np. lekcję, której nie było w kalendarzu, albo materiały.</p>
+        <div class="f-row2">
+            <label class="f"><span>Kwota (zł)</span><input type="text" id="chAmount" inputmode="decimal" maxlength="9" value="${priceVal(st.price)}" placeholder="np. 100"></label>
+            <label class="f"><span>Data</span><input type="date" id="chDate" value="${today}" max="${today}"></label>
+        </div>
+        <label class="f"><span>Opis</span><input type="text" id="chNote" maxlength="80" value="Lekcja spoza kalendarza"></label>
+        <p class="hint">Lekcje z kalendarza doliczają się same, gdy się zaczynają — ich nie dopisuj.</p>
+        <div class="modal-actions"><button type="button" class="btn ghost" data-close>Anuluj</button><button type="submit" class="btn primary">+ Dopisz do zapłaty</button></div>
+    </form>`;
+    P.modal = { kind: 'charge', id };
+    openModal('Dopisz do zapłaty — ' + st.name, html);
+    $('#chargeForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const amount = parseMoney($('#chAmount').value);
+        if (!(amount > 0 && amount <= 100000)) { fieldErr($('#chAmount'), true); showFormErr('Wpisz kwotę większą od zera, np. 100 albo 99,50.'); return; }
+        const date = $('#chDate').value || today;
+        const note = $('#chNote').value.trim();
+        backToStudent(id);
+        mutate({
+            apply: () => { st.adj.push({ i: 'tmp' + Date.now(), t: date === today ? Date.now() : Date.parse(date + 'T12:00:00'), a: amount, n: note }); },
+            request: () => api('adjust', { id: st.id, amount, note, date }),
+            done: () => toast(`✓ ${st.name}: +${fmtZl(toGr(amount))} do zapłaty`, 'ok'),
+            failTitle: 'Nie udało się dopisać kwoty'
+        });
+        P.flash = st.id;
+    });
+}
+function fieldErr(input, show) { if (input) input.classList.toggle('input-error', !!show); }
+
+/* ─── dane ucznia (nowy / edycja) ─── */
+function editorHtml(st, prefill = {}) {
+    const v = st || { name: prefill.name || '', price: prefill.price ?? null };
+    const fromDef = fmtDate(P.data.ledgerFrom);
+    return `<form id="stForm" novalidate>
+        <label class="f"><span>Imię i nazwisko / nick *</span><input type="text" name="name" maxlength="80" required value="${esc(v.name || '')}" autocomplete="off"></label>
+        <div class="f-row2">
+            <label class="f"><span>Kwota za lekcję (zł)</span><input type="text" name="price" inputmode="decimal" maxlength="9" value="${priceVal(v.price)}" placeholder="np. 100"></label>
+            <label class="f"><span>Długość lekcji (min)</span><input type="number" name="lessonLen" min="5" max="600" step="5" list="durList" value="${v.length || ''}" placeholder="np. 60"></label>
+        </div>
+        <datalist id="durList">${DURATION_HINTS.map((d) => `<option value="${d}">`).join('')}</datalist>
+        <p class="hint">Kwota dotyczy lekcji o tej długości — krótsza albo dłuższa lekcja w kalendarzu liczy się proporcjonalnie (np. 100 zł / 60 min → lekcja 45 min = 75 zł). Bez długości: ta sama kwota za każdą lekcję.</p>
+        <div class="f-row2">
+            <label class="f"><span>Email</span><input type="email" name="email" maxlength="120" value="${esc(v.email || '')}" placeholder="opcjonalnie" autocomplete="off"></label>
+            <label class="f"><span>Nick na Discordzie</span><input type="text" name="discord" maxlength="64" value="${esc(v.discord || '')}" placeholder="opcjonalnie" autocomplete="off" spellcheck="false"></label>
+        </div>
+        <div class="f-row3">
+            <label class="f"><span>Telefon ucznia</span><input type="tel" name="phone" maxlength="30" value="${esc(v.phone || '')}"></label>
+            <label class="f"><span>Telefon do taty</span><input type="tel" name="phoneDad" maxlength="30" value="${esc(v.phoneDad || '')}"></label>
+            <label class="f"><span>Telefon do mamy</span><input type="tel" name="phoneMom" maxlength="30" value="${esc(v.phoneMom || '')}"></label>
+        </div>
+        <label class="f"><span>Licz płatności od (opcjonalnie)</span><input type="date" name="from" value="${esc(v.from || '')}"></label>
+        <p class="hint">Puste = od <b>${fromDef}</b>, jak u wszystkich. Wcześniejsza data dolicza starsze lekcje tego ucznia jako nieopłacone.</p>
+        ${st && st.email ? '<p class="hint">Zmiana emaila albo imienia przepisze je też w przyszłych lekcjach tego ucznia (maile o zmianach pójdą na nowy adres).</p>' : ''}
+        <div class="modal-actions">${st ? '<button type="button" class="btn danger" data-del>Usuń ucznia</button><span class="grow"></span>' : ''}
+            <button type="button" class="btn ghost" data-close>Anuluj</button><button type="submit" class="btn primary" id="stSave">${st ? 'Zapisz zmiany' : 'Dodaj ucznia'}</button></div>
+    </form>`;
+}
+function openEditor(st, prefill = {}) {
+    P.modal = { kind: 'editor', id: st ? st.id : null };
+    openModal(st ? st.name : 'Nowy uczeń', editorHtml(st, prefill), { wide: true });
+    bindEditor(st, prefill);
+}
+function bindEditor(st, prefill) {
+    const form = $('#stForm');
+    if (!form) return;
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const el = (n) => form.elements.namedItem(n);        // namedItem: „length” / „name” to też właściwości kolekcji
+        const f = (n) => el(n).value.trim();
+        const name = f('name');
+        const email = f('email').toLowerCase();
+        const price = parseMoney(f('price'));
+        const length = f('lessonLen') ? Math.round(Number(f('lessonLen'))) : null;
+        fieldErr(el('name'), !name);
+        fieldErr(el('email'), email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
+        fieldErr(el('price'), price !== null && !(price >= 0 && price <= 100000));
+        fieldErr(el('lessonLen'), length !== null && !(length >= 5 && length <= 600));
+        if (!name) { showFormErr('Podaj imię i nazwisko (albo nick).'); return; }
+        if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showFormErr('Nieprawidłowy adres email.'); return; }
+        if (price !== null && !(price >= 0 && price <= 100000)) { showFormErr('Nieprawidłowa kwota — wpisz np. 100 albo 99,50.'); return; }
+        if (length !== null && !(length >= 5 && length <= 600)) { showFormErr('Długość lekcji: od 5 do 600 minut.'); return; }
+        const student = { id: st ? st.id : undefined, name, email, price, length,
+            phone: f('phone'), phoneDad: f('phoneDad'), phoneMom: f('phoneMom'), discord: f('discord').replace(/^@+/, ''), from: f('from') };
+        const btn = $('#stSave');
+        setBtnBusy(btn, true, 'Zapisuję…');
+        mutSeq++;
+        P.pending++;
+        try {
+            const res = await api('studentSave', { student });
+            if (prefill.linkIds && prefill.linkIds.length) {
+                await api('linkLessons', { id: res.student.id, ids: prefill.linkIds }).catch((err) => toast('Uczeń dodany, ale lekcji nie przypisałem: ' + err.message, 'err', 6000));
+            }
+            const i = P.data.students.findIndex((s) => s.id === res.student.id);
+            if (i >= 0) P.data.students[i] = res.student; else P.data.students.push(res.student);
+            P.data.students.sort((a, b) => a.name.localeCompare(b.name, 'pl'));
+            hydrate(P.data);
+            P.flash = res.student.id;
+            render();
+            toast(st ? `✓ Zapisano: ${res.student.name}` : `✓ Dodano ucznia: ${res.student.name}`, 'ok');
+            if (st) { P.modal = { kind: 'student', id: st.id, tab: 'konto' }; renderStudentModal(); } else closeModal();
+        } catch (err) {
+            setBtnBusy(btn, false);
+            showFormErr(err.message);
+        } finally {
+            P.pending--;
+            if (!P.pending) load(true);
+        }
+    });
+    const del = form.querySelector('[data-del]');
+    if (del) del.addEventListener('click', () => openDelete(st));
+}
+
+function openDelete(st) {
+    const x = P.stats.get(st.id);
+    const html = `<p class="modal-lead">Usunąć ucznia <b>${esc(st.name)}</b>? Znikną dane kontaktowe, kwota i ręczne wpisy salda${x.balance > 0 ? ` (teraz do zapłaty: <b>${fmtZl(x.balance)}</b>)` : ''}.</p>
+        ${x.upcoming.length ? `<p class="modal-lead">Zaplanowane lekcje tego ucznia (<b>${lessonsWord(x.upcoming.length)}</b>) zostaną w kalendarzu — odwołasz je w kalendarzu (kliknij lekcję → Odwołaj → „tę i wszystkie następne”).</p>` : ''}
+        <p class="note-muted">Jeśli uczeń znów zarezerwuje lekcję, pojawi się tu jako nowy uczeń.</p>
+        <div class="modal-actions"><button type="button" class="btn ghost" id="delBack">Nie, zostaw</button><button type="button" class="btn danger" id="delOk">Usuń ucznia</button></div>`;
+    P.modal = { kind: 'delete', id: st.id };
+    openModal('Usunąć ucznia?', html);
+    $('#delBack').onclick = () => openStudent(st.id, 'dane');
+    $('#delOk').onclick = () => {
+        closeModal();
+        mutate({
+            apply: () => { P.data.students = P.data.students.filter((s) => s.id !== st.id); P.data.lessons.forEach((l) => { if (l.sid === st.id) l.sid = ''; }); },
+            request: () => api('studentDelete', { id: st.id }),
+            done: () => toast(`Usunięto ucznia: ${st.name}`, 'ok'),
+            failTitle: 'Nie udało się usunąć ucznia'
+        });
+    };
+}
+
+// karty uczniów: klik w nazwę = okno ucznia, − = wpłata, + = dopisz
+$('#list').addEventListener('click', (e) => {
+    const o = e.target.closest('[data-open]');
+    if (o) { openStudent(o.dataset.open); return; }
+    const p = e.target.closest('[data-pay]');
+    if (p) { P.backTo = null; openPay(p.dataset.pay); return; }
+    const c = e.target.closest('[data-charge]');
+    if (c) { P.backTo = null; openCharge(c.dataset.charge); }
+});
+$('#search').addEventListener('input', (e) => { P.filter = e.target.value; renderList(); });
+
+// pasek na dole: imię + kwota → okno nowego ucznia z resztą pól
+$('#addForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = $('#addName').value.trim();
+    const price = parseMoney($('#addPrice').value);
+    if (!name) { $('#addName').focus(); fieldErr($('#addName'), true); setTimeout(() => fieldErr($('#addName'), false), 1200); return; }
+    $('#addName').value = '';
+    $('#addPrice').value = '';
+    openEditor(null, { name, price: price > 0 ? price : null });
+});
+
+/* ─── początek rozliczeń ─── */
+function openLedgerFrom() {
+    const d = P.data.ledgerFrom;
+    openModal('Rozliczenia liczone od', `<form id="ledForm">
+        <p class="modal-lead">Lekcje <b>przed tą datą</b> traktujemy jako rozliczone — nie liczą się do sald i w kalendarzu wyglądają jak opłacone. Od tej daty każda lekcja dolicza się do zapłaty, gdy się zaczyna.</p>
+        <label class="f"><span>Data</span><input type="date" id="ledDate" value="${d}" required></label>
+        <p class="hint">Uczniowie z własną datą (w „Dane ucznia”) zostają przy swojej.</p>
+        <div class="modal-actions"><button type="button" class="btn ghost" data-close>Anuluj</button><button type="submit" class="btn primary">Zapisz</button></div></form>`);
+    $('#ledForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const date = $('#ledDate').value;
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) { showFormErr('Wybierz datę.'); return; }
+        closeModal();
+        mutate({
+            apply: () => { P.data.ledgerFrom = date; },
+            request: () => api('setLedgerFrom', { date }),
+            done: () => toast('✓ Rozliczenia liczone od ' + fmtDate(date), 'ok'),
+            failTitle: 'Nie udało się zapisać daty'
+        });
+    });
+}
+
+/* ═══ STARY REJESTR LEKCJI → PANEL ═══
+   Rejestr trzymał uczniów tylko w tej przeglądarce (localStorage, ta sama domena). Przenosimy uczniów i ich saldo:
+   liczba niezapłaconych lekcji × cena = jeden wpis „Zaległe z Rejestru Lekcji” (lekcje z kalendarza liczą się osobno). */
+function rejestrData() {
+    try {
+        const a = JSON.parse(store.get(REJESTR_KEY) || 'null');
+        return Array.isArray(a) ? a.filter((x) => x && typeof x.name === 'string' && x.name.trim()) : [];
+    } catch (e) { return []; }
+}
+function renderBanner() {
+    const rej = rejestrData();
+    const box = $('#banner');
+    if (!rej.length || store.get(LS.imported) || store.get(LS.bannerOff)) { box.innerHTML = ''; return; }
+    const owed = rej.reduce((s, x) => s + Math.max(0, Number(x.count) || 0), 0);
+    const n = rej.length;
+    const who = n === 1 ? 'jest 1 uczeń' : plural(n, '', `są ${n} uczniowie`, `jest ${n} uczniów`);
+    box.innerHTML = `<div class="banner"><div class="grow"><b>Dane ze starego Rejestru Lekcji</b>
+        <small>W tej przeglądarce ${who} z aplikacji Rejestr Lekcji (${lessonsWord(owed)} do zapłaty). Przenieś dane do panelu — Rejestr nie jest już potrzebny.</small></div>
+        <div class="btns"><button class="btn sm primary" type="button" data-ban="go">Przenieś…</button><button class="btn sm ghost" type="button" data-ban="x">Nie teraz</button></div></div>`;
+}
+$('#banner').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-ban]');
+    if (!b) return;
+    if (b.dataset.ban === 'x') { store.set(LS.bannerOff, '1'); renderBanner(); return; }
+    openImport();
+});
+function openImport() {
+    const rej = rejestrData();
+    if (!rej.length) { toast('Brak danych Rejestru Lekcji w tej przeglądarce.'); return; }
+    const byName = new Map(P.data.students.map((s) => [s.name.trim().toLowerCase(), s]));
+    const opts = (sel) => `<option value="">＋ nowy uczeń</option>` + P.data.students.map((s) => `<option value="${esc(s.id)}"${sel === s.id ? ' selected' : ''}>${esc(s.name)}</option>`).join('');
+    const rows = rej.map((r, i) => {
+        const match = byName.get(r.name.trim().toLowerCase());
+        const price = Number(r.price) > 0 ? Number(r.price) : (match && typeof match.price === 'number' ? match.price : null);
+        const count = Math.round(Number(r.count) || 0);
+        return `<div class="imp-row" data-i="${i}"><div class="nm">${esc(r.name)}<small>${count > 0 ? lessonsWord(count) + ' do zapłaty' : count < 0 ? 'nadpłata: ' + lessonsWord(-count) : 'rozliczony'}</small></div>
+            <select aria-label="Do którego ucznia">${opts(match ? match.id : '')}</select>
+            <input type="text" inputmode="decimal" maxlength="9" value="${priceVal(price)}" placeholder="cena" aria-label="Cena za lekcję (zł)"></div>`;
+    }).join('');
+    openModal('Przenieś dane z Rejestru Lekcji', `<form id="impForm">
+        <p class="modal-lead">Każdy uczeń z Rejestru trafi do panelu (nowy albo połączony z istniejącym), a jego <b>niezapłacone lekcje × cena</b> zapiszą się jako jeden wpis „Zaległe z Rejestru Lekcji”. Lekcje z kalendarza od ${fmtDate(P.data.ledgerFrom)} liczą się osobno — nie dubluj ich.</p>
+        <div class="imp-row" style="font:500 10.5px var(--font-mono);text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted)"><div class="nm" style="font:inherit">Rejestr</div><div>Uczeń w panelu</div><div>Cena (zł)</div></div>
+        ${rows}
+        <p class="hint" style="margin-top:12px">Bez ceny zaległość się nie przeniesie (wpisz cenę albo dopisz kwotę ręcznie przyciskiem +).</p>
+        <div class="modal-actions"><button type="button" class="btn ghost" data-close>Anuluj</button><button type="submit" class="btn primary" id="impGo">Przenieś ${rej.length} ${plural(rej.length, 'ucznia', 'uczniów', 'uczniów')}</button></div></form>`, { wide: true });
+    $('#impForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const out = [];
+        for (const el of $$('#impForm .imp-row[data-i]')) {
+            const r = rej[Number(el.dataset.i)];
+            const price = parseMoney(el.querySelector('input').value);
+            if (price !== null && !(price >= 0 && price <= 100000)) { fieldErr(el.querySelector('input'), true); showFormErr('Nieprawidłowa cena: ' + r.name); return; }
+            out.push({ id: el.querySelector('select').value, name: r.name.trim(), price, count: Math.round(Number(r.count) || 0) });
+        }
+        const btn = $('#impGo');
+        setBtnBusy(btn, true, 'Przenoszę…');
+        try {
+            const res = await api('importStudents', { rows: out });
+            store.set(LS.imported, nowWaw().date);
+            closeModal();
+            toast(`✓ Przeniesione z Rejestru — nowi uczniowie: ${res.created}, salda: ${res.moved}`, 'ok', 6000);
+            load(true);
+        } catch (err) {
+            setBtnBusy(btn, false);
+            showFormErr(err.message);
+        }
+    });
+}
+
+/* ═══ GODZINY DOSTĘPNOŚCI (przeniesione z kalendarza) ═══ */
+function currentAvailability() {
+    const c = P.data.config || {};
+    const out = {};
+    for (let d = 0; d < 7; d++) {
+        const list = c.availability ? (c.availability[d] || []) : [[c.dayStart || '10:00', c.dayEnd || '21:00']];
+        out[d] = list.map((r) => [r[0], r[1]]);
+    }
+    return out;
+}
+function currentLimits() {
+    const out = {};
+    for (let d = 0; d < 7; d++) { const v = ((P.data.config || {}).limits || {})[d]; out[d] = v ? Number(v) : null; }
+    return out;
+}
+const LIMIT_OPTIONS = [15, 20, 30, 40, 45, 60, 75, 80, 90, 105, 120, 135, 150, 165, 180, 210, 240, 270, 300, 330, 360, 420, 480, 540, 600];
+function availabilitySummaryHtml() {
+    const av = currentAvailability();
+    const lim = currentLimits();
+    return `<div class="av-sum">${WEEK_ORDER.map((d) => `<span>${DAY_SHORT[d]}</span>${av[d].length
+        ? `<b>${av[d].map((r) => r[0] + '–' + r[1]).join(', ')} · ${lim[d] ? `⏱ max ${hoursLabel(lim[d])}` : '<span class="nolim">bez limitu</span>'}</b>` : '<b class="off">brak lekcji</b>'}`).join('')}</div>`;
+}
+function openAvailabilityEditor() {
+    const av = currentAvailability();
+    const lim = currentLimits();
+    const step = (P.data.config && P.data.config.slotStep) || 5;
+    const lastUsed = () => { for (const d of WEEK_ORDER) if (av[d].length) return av[d].map((r) => [r[0], r[1]]); return [['10:00', '21:00']]; };
+    const rowHtml = (d) => {
+        const on = av[d].length > 0;
+        return `<div class="av-row${on ? '' : ' off'}" data-d="${d}">
+            <label class="switch"><input type="checkbox" data-av="toggle"${on ? ' checked' : ''}><span class="sw"></span><span class="av-day">${cap(DAY_LONG[d])}</span></label>
+            <div class="av-ranges">${on
+                ? av[d].map((r, i) => `<div class="av-range" data-i="${i}"><input type="time" step="300" value="${r[0]}" data-k="0" aria-label="Od"><span>–</span>
+                    <input type="time" step="300" value="${r[1]}" data-k="1" aria-label="Do"><button type="button" class="ibtn danger" data-av="del" title="Usuń przedział">✕</button></div>`).join('')
+                  + `<label class="av-limit">⏱ Limit lekcji na dzień: <select data-av="limit"><option value="">bez limitu</option>
+                        ${LIMIT_OPTIONS.map((m) => `<option value="${m}"${lim[d] === m ? ' selected' : ''}>${hoursLabel(m)}</option>`).join('')}
+                        ${lim[d] && !LIMIT_OPTIONS.includes(lim[d]) ? `<option value="${lim[d]}" selected>${hoursLabel(lim[d])}</option>` : ''}</select></label>`
+                  + `<div class="av-links"><button type="button" class="link-btn" data-av="add">+ dodaj przedział</button><button type="button" class="link-btn av-copy" data-av="copy">kopiuj te godziny do wszystkich dni</button></div>`
+                : '<span class="av-closed">brak lekcji tego dnia</span>'}</div></div>`;
+    };
+    P.modal = { kind: 'avail' };
+    openModal('Godziny i limity lekcji', `
+        <p class="modal-lead">Ustaw, w jakich godzinach uczniowie mogą rezerwować lekcje — osobno dla każdego dnia. Możesz dodać kilka przedziałów w jednym dniu i <b>limit lekcji na dzień</b>. Ty w kalendarzu możesz dodawać lekcje o dowolnej porze i ponad limit.</p>
+        <div class="av-days" id="avDays"></div>
+        <p class="note-muted">Istniejące lekcje zostają bez zmian. Jednorazowy wyjątek (np. wolny dzień) ustawisz, dodając wydarzenie w Google Calendar — ten czas od razu będzie zajęty.</p>
+        <div class="modal-actions"><button type="button" class="btn ghost" data-close>Anuluj</button><button type="button" class="btn primary" id="avSave">Zapisz godziny</button></div>`, { wide: true });
+    const box = $('#avDays');
+    const draw = () => { box.innerHTML = WEEK_ORDER.map(rowHtml).join(''); };
+    draw();
+    box.addEventListener('change', (e) => {
+        const row = e.target.closest('.av-row');
+        if (!row) return;
+        const d = Number(row.dataset.d);
+        if (e.target.dataset.av === 'toggle') { av[d] = e.target.checked ? lastUsed() : []; if (!e.target.checked) lim[d] = null; draw(); }
+        else if (e.target.dataset.av === 'limit') lim[d] = e.target.value ? Number(e.target.value) : null;
+        else if (e.target.dataset.k) av[d][Number(e.target.closest('.av-range').dataset.i)][Number(e.target.dataset.k)] = e.target.value;
+    });
+    box.addEventListener('click', (e) => {
+        const b = e.target.closest('button[data-av]');
+        if (!b) return;
+        const d = Number(b.closest('.av-row').dataset.d);
+        if (b.dataset.av === 'add') {
+            const last = av[d][av[d].length - 1];
+            const from = last ? Math.min(toMin(last[1]) + 60, 22 * 60) : 17 * 60;
+            av[d].push([fromMin(from), fromMin(Math.min(from + 120, 23 * 60 + 55))]);
+        } else if (b.dataset.av === 'del') {
+            av[d].splice(Number(b.closest('.av-range').dataset.i), 1);
+        } else if (b.dataset.av === 'copy') {
+            for (let x = 0; x < 7; x++) if (x !== d) { av[x] = av[d].map((r) => [r[0], r[1]]); lim[x] = lim[d]; }
+            toast(`Skopiowano godziny: ${DAY_LONG[d]} → wszystkie dni`);
+        }
+        draw();
+    });
+    $('#avSave').onclick = async () => {
+        for (const d of WEEK_ORDER) {
+            const list = av[d].map((r) => [r[0], r[1]]).sort((x, y) => toMin(x[0]) - toMin(y[0]));
+            for (let i = 0; i < list.length; i++) {
+                const [a, b] = list[i];
+                if (!a || !b) { showFormErr(`${cap(DAY_LONG[d])}: uzupełnij godziny.`); return; }
+                if (toMin(a) >= toMin(b)) { showFormErr(`${cap(DAY_LONG[d])}: ${a}–${b} — początek musi być przed końcem.`); return; }
+                if (toMin(a) % step || toMin(b) % step) { showFormErr(`${cap(DAY_LONG[d])}: godziny muszą być co ${step} minut.`); return; }
+                if (i && toMin(a) < toMin(list[i - 1][1])) { showFormErr(`${cap(DAY_LONG[d])}: przedziały nachodzą na siebie.`); return; }
+            }
+            av[d] = list;
+            if (!list.length) lim[d] = null;
+        }
+        const btn = $('#avSave');
+        setBtnBusy(btn, true, 'Zapisuję…');
+        try {
+            await api('setAvailability', { days: av, limits: lim });
+            P.data.config = { ...P.data.config, availability: av, limits: lim };
+            closeModal();
+            renderSettings();
+            toast('✓ Godziny dostępności zapisane — uczniowie widzą je od razu', 'ok', 4500);
+        } catch (err) {
+            setBtnBusy(btn, false);
+            showFormErr(err.message);
+        }
+    };
+}
+
+/* ═══ TOASTY ═══ */
+function toast(msg, kind = 'info', ms = 3600) {
+    const el = document.createElement('div');
+    el.className = 'toast ' + kind;
+    el.textContent = msg;
+    $('#toasts').appendChild(el);
+    requestAnimationFrame(() => el.classList.add('in'));
+    setTimeout(() => { el.classList.remove('in'); setTimeout(() => el.remove(), 300); }, ms);
+}
+
+/* ═══ ODŚWIEŻANIE ═══ */
+// co minutę świeże dane (płatności kartą, zmiany w kalendarzu); co 30 s przeliczenie — kwota lekcji dochodzi, gdy lekcja się zaczyna
+setInterval(() => { if (!document.hidden && P.token && P.data && !P.pending && modalEl.hidden && Date.now() - P.lastLoad > 55000) load(true); }, 15000);
+setInterval(() => { if (!document.hidden && P.data && modalEl.hidden) render(); }, 30000);
+document.addEventListener('visibilitychange', () => { if (!document.hidden && P.token && P.data && Date.now() - P.lastLoad > 20000) load(true); });
+window.addEventListener('online', () => { if (P.token) load(true); });
+// logowanie / wylogowanie w kalendarzu w innej karcie
+window.addEventListener('storage', (e) => {
+    if (e.key !== LS.admin) return;
+    P.token = e.newValue || null;
+    if (!P.token) { P.data = null; closeModal(); showLogin(); } else load();
+});
+// powiadomienia z aplikacji (service worker kalendarza): odśwież albo przejdź do lekcji w kalendarzu
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.addEventListener('message', (e) => {
+        const m = e.data || {};
+        if (m.type === 'refresh' && P.token) load(true);
+        else if (m.type === 'open' && m.url) location.href = m.url;
+    });
+}
+
+/* ─── tło: kropki ─── */
+(function () {
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let W, H, dots = [];
+    function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+    function spawn() {
+        dots = [];
+        const n = Math.floor((W * H) / 24000);
+        for (let i = 0; i < n; i++) dots.push({ x: Math.random() * W, y: Math.random() * H, r: Math.random() * 1.4 + 0.3, vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3, a: Math.random() * 0.5 + 0.2 });
+    }
+    resize(); spawn();
+    window.addEventListener('resize', () => { resize(); spawn(); });
+    function frame() {
+        ctx.clearRect(0, 0, W, H);
+        for (let i = 0; i < dots.length; i++) {
+            const d = dots[i];
+            if (!reduce) { d.x += d.vx; d.y += d.vy; if (d.x < 0) d.x = W; if (d.x > W) d.x = 0; if (d.y < 0) d.y = H; if (d.y > H) d.y = 0; }
+            ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2); ctx.fillStyle = `rgba(96,165,250,${d.a})`; ctx.fill();
+            for (let j = i + 1; j < dots.length; j++) {
+                const e = dots[j], dx = d.x - e.x, dy = d.y - e.y, dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 120) { ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(e.x, e.y); ctx.strokeStyle = `rgba(59,130,246,${0.12 * (1 - dist / 120)})`; ctx.lineWidth = 0.6; ctx.stroke(); }
+            }
+        }
+        if (!reduce) requestAnimationFrame(frame);
+    }
+    frame();
+})();
+
+/* ═══ START ═══ */
+if (P.token) load(); else showLogin();
+</script>
+<!-- licznik odwiedzin -> panel kacperos.html -->
+<script type="module" src="/track.js"></script>
+</body>
+</html>

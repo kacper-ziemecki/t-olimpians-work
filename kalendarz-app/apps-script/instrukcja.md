@@ -104,8 +104,8 @@ w jego `README.md`). Po stronie kalendarza:
 
 1. Wybierz funkcję **`discordKey`** → **▶ Uruchom**. Tworzy ona właściwość skryptu
    `DISCORD_BOT_KEY` i wypisuje w logu klucz oraz adres backendu do pliku `.env` bota.
-2. W panelu nauczyciela → „Wszyscy uczniowie, ceny i Discord” wpisz każdemu
-   uczniowi nick z Discorda.
+2. W panelu nauczyciela (`…/kalendarz-app/panel.html`) kliknij ucznia →
+   **Dane ucznia** → „Nick na Discordzie”. Działa też dla uczniów bez emaila.
 
 Dopóki nie ma `DISCORD_BOT_KEY`, kalendarz nie zapisuje zmian dla bota.
 
@@ -150,6 +150,7 @@ podmienić w `kalendarz.html`.
 Wgraj na serwer z folderu `kalendarz-app/`:
 
 - `kalendarz.html`,
+- `panel.html` (panel nauczyciela: uczniowie, płatności, godziny),
 - `sw.js` i `manifest.webmanifest` (aplikacja na telefon i powiadomienia),
 - cały folder `icons/`.
 
@@ -158,11 +159,34 @@ jest niepotrzebny).
 
 ## Jak z tego korzystać
 
-- **Panel nauczyciela:** `…/kalendarz.html?kacperos` albo link „Panel nauczyciela”
-  w stopce. Po zalogowaniu widzisz pełne dane uczniów i możesz dodawać lekcje
-  dowolnym osobom (także poza godzinami). Możesz przeciągać lekcje, zmieniać
-  ich termin (**⇄ Zamień termin**) i odwoływać je bez czyjejkolwiek zgody.
-- **Godziny dostępności:** w panelu → sekcja „Godziny i limity lekcji” → **🕒 Zmień godziny i limity**. Każdy dzień tygodnia
+- **Panel nauczyciela:** osobna strona `…/kalendarz-app/panel.html` (link
+  „Panel nauczyciela” w stopce kalendarza, przycisk **Panel** po zalogowaniu albo
+  stary adres `…/kalendarz.html?kacperos`). Logujesz się tym samym hasłem; logowanie
+  działa od razu też w kalendarzu. W kalendarzu widzisz pełne dane uczniów i możesz
+  dodawać lekcje dowolnym osobom (także poza godzinami). Możesz przeciągać lekcje,
+  zmieniać ich termin (**⇄ Zamień termin**) i odwoływać je bez czyjejkolwiek zgody.
+- **Uczniowie (panel):** każdy uczeń ma kwotę za lekcję, długość lekcji, nick na
+  Discordzie, email, telefon oraz telefony do taty i do mamy — wszystko poza imieniem
+  jest opcjonalne. Ucznia dodajesz paskiem na dole panelu, a zmieniasz lub usuwasz
+  w oknie ucznia → **Dane ucznia**. Kwota dotyczy lekcji o podanej długości: lekcja
+  krótsza albo dłuższa w kalendarzu kosztuje proporcjonalnie (100 zł / 60 min →
+  45 min = 75 zł); bez długości każda lekcja kosztuje tyle samo. Uczeń, który sam
+  zarezerwuje lekcję, pojawia się w panelu automatycznie. Przy dodawaniu lekcji
+  w kalendarzu wybierz ucznia z podpowiedzi — kontakt i długość lekcji uzupełnią się same.
+- **Rozliczenia (dawny Rejestr Lekcji):** saldo ucznia liczy się samo z kalendarza —
+  na początku każdej lekcji dochodzi jej kwota. **−** zapisuje wpłatę: zaznaczasz
+  dokładnie te terminy, za które uczeń zapłacił (także przyszłe, z góry), i ewentualnie
+  kwotę bez wskazania lekcji (zaliczka, rabat). **+** dopisuje kwotę spoza kalendarza.
+  Każdy wpis widać w historii ucznia i można go usunąć. Rozliczenia liczą się od dnia
+  wdrożenia (Ustawienia → „Rozliczenia liczone od”); uczeń może mieć własną datę.
+  Opłacona lekcja, którą ktoś odwoła, zostaje uczniowi jako nadpłata. Dane starej
+  aplikacji Rejestr Lekcji (z przeglądarki, w której jej używałeś) przeniesiesz
+  z banera w panelu — każdy uczeń dostaje wpis „Zaległe z Rejestru Lekcji”.
+- **Kolory w kalendarzu:** niebieska — będzie, nieopłacona; zielona — będzie,
+  opłacona; czerwona — odbyła się, nieopłacona; przygaszona zielono-morska — odbyła
+  się, opłacona (albo sprzed początku rozliczeń). Ty widzisz tak wszystkie lekcje,
+  uczeń — tylko swoje; inni widzą lekcje jak dotąd.
+- **Godziny dostępności:** w panelu → Ustawienia → „Godziny i limity lekcji” → **🕒 Zmień**. Każdy dzień tygodnia
   ma własne przedziały (np. pon 17:00–20:00, wt 10:00–12:00 i 16:00–20:00),
   a dzień można całkiem wyłączyć. Uczniowie mogą rezerwować tylko w tych
   godzinach i pilnuje tego także backend. Istniejące lekcje i serie zostają bez
@@ -199,14 +223,14 @@ jest niepotrzebny).
   wyłączysz to w `NOTIFY_ON_ADMIN_ACTIONS`). Na iPhonie i iPadzie potrzebny jest
   iOS 16.4 lub nowszy, a pytanie o zgodę pojawia się po pierwszym stuknięciu
   w aplikację.
-- **Ceny i płatności:** w panelu → „Wszyscy uczniowie i ceny” wpisujesz cenę
-  za lekcję każdego ucznia. Każdy, kto kliknie lekcję w kalendarzu (przeszłą
+- **Ceny i płatności:** w panelu → uczeń → **Dane ucznia** wpisujesz kwotę
+  za lekcję. Każdy, kto kliknie lekcję w kalendarzu (przeszłą
   albo przyszłą), widzi **💳 Zapłać za lekcję**: kwotę, numer konta, tytuł
   przelewu („Lekcja uczeń data godzina”) z przyciskami „Kopiuj” i kod QR do
   aplikacji banku, a gdy Stripe jest włączony — także kartę, BLIK i Google Pay.
   Płatność przez Stripe oznacza lekcję sama. Gdy dojdzie zwykły przelew, kliknij
-  lekcję → **✓ Oznacz jako opłaconą**. Opłacone lekcje
-  mają zielony znaczek ✓, a panel pokazuje „opłacone 1/2” przy każdym uczniu.
+  lekcję → **✓ Oznacz jako opłaconą** (albo w panelu: **−** przy uczniu). Opłacone
+  lekcje mają zielony znaczek ✓ i kolor opłaconej, a panel pokazuje saldo ucznia.
   Inni widzą w tytule skrócone imię („Jan K.”), uczeń i Ty — pełne.
 - **Synchronizacja:** źródłem prawdy jest Twój Kalendarz Google. Jeśli
   przesuniesz albo usuniesz lekcję bezpośrednio w Google Calendar, strona pokaże

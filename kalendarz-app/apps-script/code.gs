@@ -108,6 +108,16 @@ const ACTIONS = {
   payCard: actionPayCard_,
   payConfirm: actionPayConfirm_,
   setPaid: actionSetPaid_,
+  // panel nauczyciela (panel.html): uczniowie, rozliczenia, wpłaty
+  panel: actionPanel_,
+  studentSave: actionStudentSave_,
+  studentDelete: actionStudentDelete_,
+  adjust: actionAdjust_,
+  adjustDelete: actionAdjustDelete_,
+  payLessons: actionPayLessons_,
+  linkLessons: actionLinkLessons_,
+  setLedgerFrom: actionSetLedgerFrom_,
+  importStudents: actionImportStudents_,
   busyWeek: (b) => legacyBusyWeek_(b.start)
 };
 
@@ -171,8 +181,9 @@ function migrateOldBookings() {
     if (!info) return;
     const dur = Math.round((new Date(it.end.dateTime) - new Date(it.start.dateTime)) / 60000);
     info.seriesId = '';
-    info.color = studentColor_(info.email, info.name);
-    const priv = { tol: 'lesson', tolName: info.name };
+    const st = ensureStudent_(info, true, '').st;
+    info.color = st.color;
+    const priv = { tol: 'lesson', tolName: info.name, tolStu: st.id };
     if (info.email) priv.tolEmail = info.email;
     if (info.phone) priv.tolPhone = info.phone;
     if (info.topic) priv.tolTopic = info.topic.slice(0, 600);
@@ -182,7 +193,6 @@ function migrateOldBookings() {
       colorId: info.color,
       extendedProperties: { private: priv }
     }, CONFIG.CALENDAR_ID, it.id, { sendUpdates: 'none' }));
-    upsertStudent_(info.email, info.name, info.phone, info.color);
     done++;
   });
   if (done) bumpVersion_();
@@ -311,20 +321,22 @@ function actionBook_(body) {
     }
     const free = slots.filter((s) => busyDates.indexOf(s.date) < 0);
 
-    info.color = studentColor_(info.email, info.name);
+    // uczeń z panelu (nauczyciel wybrał go z listy), po emailu, po imieniu — albo nowy
+    const ens = ensureStudent_(info, isAdmin, isAdmin ? clean_(body.studentId, 140) : '');
+    info.sid = ens.st.id;
+    info.color = ens.st.color;
     info.seriesId = '';
     if (weekly) {
       info.seriesId = newId_('s');
       saveSeries_({
-        id: info.seriesId, email: info.email, name: info.name, phone: info.phone, topic: info.topic, color: info.color,
+        id: info.seriesId, email: info.email, name: info.name, phone: info.phone, topic: info.topic, color: info.color, stu: info.sid,
         time: body.time, duration: dur, weekday: weekdayOf_(body.date), startDate: body.date,
         open: weeks === 0, endDate: weeks === 0 ? null : dates[dates.length - 1],
         generatedUntil: dates[dates.length - 1], created: new Date().toISOString()
       });
     }
     const created = free.map((s, i) => modelOf_(insertLesson_(s, info, i === 0)));
-    const st = upsertStudent_(info.email, info.name, info.phone, info.color);
-    discordQueue_(ctx, info.email, info.name, {
+    discordQueue_(ctx, feedKey_(ens.st, info.email), info.name, {
       type: 'booked', series: weekly, open: weekly && weeks === 0, count: created.length,
       lessons: created.slice(0, 8).map(discordLite_), skipped: busyDates
     });
@@ -336,7 +348,7 @@ function actionBook_(body) {
       skipped: busyDates,
       seriesId: info.seriesId
     };
-    if (info.email && !isAdmin && (st.isNew || ctx.email === info.email)) out.token = studentToken_(info.email);
+    if (info.email && !isAdmin && (ens.isNew || ctx.email === info.email)) out.token = studentToken_(info.email);
     after = () => mailBooked_(info, created, busyDates, weekly ? weeks : 1, ctx);
     return out;
   });
@@ -380,7 +392,7 @@ function actionMove_(body) {
       });
     }
     const to = plan[0].slot;
-    discordQueue_(ctx, L.email, L.name, {
+    discordQueue_(ctx, feedKey_(studentFor_(L), L.email), L.name, {
       type: 'moved', following: following, count: plan.length, from: discordLite_(L),
       to: { s: to.date + 'T' + to.time, e: localIso_(to.end), dur: to.dur }
     });
@@ -409,9 +421,10 @@ function actionCancel_(body) {
     if (following) {
       updateSeries_(L.seriesId, (s) => { s.open = false; s.ended = true; s.endDate = addDaysStr_(dateOf_(L), -1); });
     }
-    discordQueue_(ctx, L.email, L.name, { type: 'cancelled', following: following, count: targets.length, lesson: discordLite_(L) });
+    const credited = creditCancelled_(targets.filter((t) => t.paid));
+    discordQueue_(ctx, feedKey_(studentFor_(L), L.email), L.name, { type: 'cancelled', following: following, count: targets.length, lesson: discordLite_(L) });
     bumpVersion_();
-    after = () => mailCancelled_(L, targets, ctx, following);
+    after = () => mailCancelled_(L, targets, ctx, following, credited);
     cancelledIds = targets.map((t) => t.id);
     return { ok: true, cancelled: targets.length };
   });
@@ -512,7 +525,7 @@ function actionSetPrice_(body) {
     const cur = getStudent_(email);
     if (!cur) throw userError_('Nie znaleziono ucznia.', 'NOT_FOUND');
     if (price === null) delete cur.price; else cur.price = price;
-    props_().setProperty('stu_' + email, JSON.stringify(cur));
+    saveStudentRec_(cur);
     return { ok: true, email: email, price: price };
   });
 }
@@ -527,7 +540,7 @@ function actionSetDiscord_(body) {
     const cur = getStudent_(email);
     if (!cur) throw userError_('Nie znaleziono ucznia.', 'NOT_FOUND');
     if (discord) cur.discord = discord; else delete cur.discord;
-    props_().setProperty('stu_' + email, JSON.stringify(cur));
+    saveStudentRec_(cur);
     return { ok: true, email: email, discord: discord };
   });
 }
@@ -653,9 +666,16 @@ function actionSetPaid_(body) {
   });
 }
 
-function priceFor_(m) {
-  const st = getStudent_(m.email);
-  return st && typeof st.price === 'number' ? st.price : null;
+function priceFor_(m) { return lessonAmount_(m, studentFor_(m)); }
+
+/** Kwota za lekcję: cena ucznia dotyczy lekcji o jego długości (pole length), więc lekcja krótsza
+    albo dłuższa w kalendarzu kosztuje proporcjonalnie. Bez długości — ta sama cena za każdą lekcję. */
+function lessonAmount_(m, st) {
+  if (!st || typeof st.price !== 'number') return null;
+  const len = Number(st.length) || 0;
+  const dur = Number(m && m.duration) || 0;
+  if (!len || !dur || dur === len) return st.price;
+  return Math.round(st.price * dur / len * 100) / 100;
 }
 
 /** W tytule przelewu imię takie, jakie oglądający widzi w kalendarzu (inni widzą np. „Jan K.”). */
@@ -699,7 +719,7 @@ function lessonEventStrict_(id) {
 /** how: 'card' | 'manual' | '' (nieopłacona). Zapisujemy w ukrytych polach wydarzenia — przesunięcie lekcji ich nie gubi.
     ref (id sesji Stripe) podajemy tylko przy płatności kartą; bez niego zostaje poprzedni. */
 function patchPaid_(it, how, ref) {
-  const add = { tolPaid: how };
+  const add = { tolPaid: how, tolPaidAt: how ? new Date().toISOString() : '' };   // kiedy zapisano wpłatę (statystyki panelu)
   if (ref !== undefined) add.tolPaidRef = ref;
   const priv = Object.assign({}, it.extendedProperties.private, add);
   const m = modelOf_(journalUp_(Calendar.Events.patch({ extendedProperties: { private: priv } }, CONFIG.CALENDAR_ID, it.id, { sendUpdates: 'none' })));
@@ -1017,19 +1037,13 @@ function colorFor_(emailOrName) {
   return PALETTE[h % PALETTE.length];
 }
 
-/** Kolor ucznia: zapamiętany przy pierwszej rezerwacji; nowy uczeń dostaje najrzadziej używany kolor. */
-function studentColor_(email, name) {
-  if (!email) return colorFor_(name);
-  const st = getStudent_(email);
-  if (st && st.color) return st.color;
-  const all = props_().getProperties();
+/** Kolor nowego ucznia: najrzadziej używany wśród uczniów (zaczynamy od koloru z hasza). */
+function pickColor_(seed) {
   const used = {};
   PALETTE.forEach((c) => { used[c] = 0; });
-  Object.keys(all).forEach((k) => {
-    if (k.indexOf('stu_') !== 0 || k === 'stu_' + email) return;
-    try { const c = JSON.parse(all[k]).color; if (c in used) used[c]++; } catch (e) { /* pomiń */ }
-  });
-  const start = PALETTE.indexOf(colorFor_(email));
+  const ix = stuIndex_();
+  Object.keys(ix.byId).forEach((id) => { const c = ix.byId[id].color; if (c in used) used[c]++; });
+  const start = PALETTE.indexOf(colorFor_(seed));
   let best = null;
   for (let i = 0; i < PALETTE.length; i++) {
     const c = PALETTE[(start + i) % PALETTE.length];
@@ -1038,7 +1052,7 @@ function studentColor_(email, name) {
   return best;
 }
 function knownColor_(email, name) {
-  const st = email ? getStudent_(email) : null;
+  const st = email ? getStudent_(email) : studentByName_(name, false);
   return (st && st.color) || colorFor_(email || name);
 }
 
@@ -1093,6 +1107,8 @@ function modelOf_(it) {
     m.topic = p.tolTopic || '';
     m.seriesId = p.tolSeries || '';
     m.paid = p.tolPaid || '';                                            // '' | 'card' | 'manual'
+    m.paidAt = p.tolPaidAt || '';
+    m.stu = p.tolStu || '';                                              // id ucznia z panelu (starsze lekcje: brak)
   } else {
     m.kind = 'busy';
     m.title = it.summary || '(bez tytułu)';
@@ -1187,6 +1203,7 @@ function insertLesson_(slot, info, invite) {
   if (info.phone) priv.tolPhone = info.phone;
   if (info.topic) priv.tolTopic = info.topic;
   if (info.seriesId) priv.tolSeries = info.seriesId;
+  if (info.sid) priv.tolStu = info.sid;
   const ev = {
     summary: title_(info.name, slot.dur),
     description: calendarDescription_(info),
@@ -1323,7 +1340,7 @@ function extendOpenSeries_() {
     const slots = dates.map((d) => slot_(d, s.time, s.duration));
     const busy = findConflicts_(slots, []).map((c) => c.slot.date);
     slots.filter((x) => busy.indexOf(x.date) < 0).forEach((x) => {
-      insertLesson_(x, { name: s.name, email: s.email, phone: s.phone, topic: s.topic, seriesId: s.id, color: s.color }, false);
+      insertLesson_(x, { name: s.name, email: s.email, phone: s.phone, topic: s.topic, seriesId: s.id, color: s.color, sid: s.stu || '' }, false);
       created++;
     });
     s.generatedUntil = dates[dates.length - 1];
@@ -1357,42 +1374,507 @@ function maybeMaintenance_() {
   cache.put('maint', today, 21600);
 }
 
-/* ─── uczniowie ─── */
+/* ─── uczniowie ───
+   Uczeń to właściwość skryptu stu_<id>. Starsze wpisy mają za id adres email (stu_jan@x.pl), nowe — losowe id
+   („i…”), bo uczeń nie musi mieć emaila (nauczyciel dodaje go w panelu). Email jest w polu email (w starych
+   wpisach — tylko w kluczu). Lekcja wskazuje ucznia polem tolStu; starsze lekcje dopasowujemy po emailu,
+   a lekcje bez emaila — po imieniu. Po zmianie emaila albo imienia w panelu stare wartości zostają jako
+   aliasy, więc wcześniejsze lekcje dalej należą do tego samego ucznia.
+   Pola: name, email, phone, phoneDad, phoneMom, discord, price (zł za lekcję), length (min — długość lekcji,
+   za którą jest ta cena), from (od kiedy liczyć płatności; brak = LEDGER_FROM), adj (ręczne zmiany salda
+   { i, t, a, n }: a > 0 dopisane do zapłaty, a < 0 wpłata bez wskazania lekcji albo rabat),
+   color, first, last, alias (dawne emaile), aliasName (dawne imiona). */
+
+const PANEL_AHEAD_DAYS = 120;          // panel: tyle dni do przodu widać lekcje (opłacone z góry, wybór terminów)
+let stuMemo_ = null;
+
+function normName_(s) { return String(s || '').trim().toLowerCase().replace(/\s+/g, ' '); }
+function round2_(x) { return Math.round(Number(x) * 100) / 100; }
+function isRealDate_(s) { return isDateStr_(s) && addDaysStr_(s, 0) === s; }
+
+/** Wszyscy uczniowie naraz (raz na wykonanie): po id, po emailu (z dawnymi) i po imieniu. */
+function stuIndex_() {
+  if (stuMemo_) return stuMemo_;
+  const all = props_().getProperties();
+  const byId = {};
+  Object.keys(all).forEach((k) => {
+    if (k.indexOf('stu_') !== 0) return;
+    let r = null;
+    try { r = JSON.parse(all[k]); } catch (e) { r = null; }
+    if (!r || typeof r !== 'object') return;
+    const id = k.slice(4);
+    r.id = id;
+    if (typeof r.email !== 'string') r.email = id.indexOf('@') > 0 ? id : '';
+    if (typeof r.name !== 'string') r.name = '';
+    byId[id] = r;
+  });
+  const ids = Object.keys(byId).sort();
+  const byEmail = {};
+  ids.forEach((id) => { const e = byId[id].email; if (e && !byEmail[e]) byEmail[e] = id; });
+  ids.forEach((id) => (byId[id].alias || []).forEach((e) => { if (e && !byEmail[e]) byEmail[e] = id; }));
+  const byName = {};
+  const byOldName = {};
+  const add = (map, n, id) => {
+    if (!n) return;
+    const list = map[n] || (map[n] = []);
+    if (list.indexOf(id) < 0) list.push(id);
+  };
+  ids.forEach((id) => {
+    add(byName, normName_(byId[id].name), id);
+    (byId[id].aliasName || []).forEach((n) => add(byOldName, normName_(n), id));
+  });
+  stuMemo_ = { byId: byId, byEmail: byEmail, byName: byName, byOldName: byOldName };
+  return stuMemo_;
+}
 
 function getStudent_(email) {
   if (!email) return null;
-  const raw = props_().getProperty('stu_' + email);
-  return raw ? JSON.parse(raw) : null;
+  const ix = stuIndex_();
+  const id = ix.byEmail[String(email).toLowerCase()];
+  return id ? ix.byId[id] : null;
 }
+function studentById_(id) { return (id && stuIndex_().byId[id]) || null; }
 
-function upsertStudent_(email, name, phone, color) {
-  if (!email) return { isNew: false };
-  const cur = getStudent_(email);
-  const now = new Date().toISOString();
-  const rec = {
-    name: name || (cur && cur.name) || '',
-    phone: phone || (cur && cur.phone) || '',
-    color: (cur && cur.color) || color || '',
-    first: (cur && cur.first) || now,
-    last: now
+/** Jedyny uczeń o tym imieniu (noEmail: tylko spośród uczniów bez emaila); najpierw obecne imiona, potem dawne. */
+function studentByName_(name, noEmail) {
+  const ix = stuIndex_();
+  const n = normName_(name);
+  if (!n) return null;
+  const pick = (ids) => {
+    const list = (ids || []).map((id) => ix.byId[id]).filter((r) => !noEmail || !r.email);
+    return list.length === 1 ? list[0] : null;
   };
-  if (cur && typeof cur.price === 'number') rec.price = cur.price;
-  if (cur && cur.discord) rec.discord = cur.discord;
-  props_().setProperties({
-    ['stu_' + email]: JSON.stringify(rec),
-    ['tk_' + studentToken_(email)]: email
-  });
-  return { isNew: !cur };
+  return ix.byName[n] ? pick(ix.byName[n]) : pick(ix.byOldName[n]);
 }
 
+/** Uczeń, do którego należy lekcja (albo null): wskazany w lekcji, po emailu, po imieniu. */
+function studentFor_(m) {
+  if (!m || m.kind !== 'lesson') return null;
+  const byStu = m.stu ? studentById_(m.stu) : null;
+  if (byStu) return byStu;
+  const byEmail = m.email ? getStudent_(m.email) : null;
+  return byEmail || studentByName_(m.name, !!m.email);
+}
+
+/** Zapis ucznia (pod blokadą). Za długa historia korekt: najstarsze wpisy łączymy w jeden (limit 9 kB). */
+function saveStudentRec_(r) {
+  const out = { name: r.name || '', email: r.email || '' };   // email zawsze jawnie — stary klucz bywa adresem
+  ['phone', 'phoneDad', 'phoneMom', 'discord', 'color', 'first', 'last', 'from'].forEach((k) => { if (r[k]) out[k] = r[k]; });
+  if (typeof r.price === 'number') out.price = r.price;
+  if (typeof r.length === 'number') out.length = r.length;
+  if (r.alias && r.alias.length) out.alias = r.alias.slice(-5);
+  if (r.aliasName && r.aliasName.length) out.aliasName = r.aliasName.slice(-5);
+  if (r.adj && r.adj.length) out.adj = r.adj.slice();
+  let json = JSON.stringify(out);
+  while (json.length > 8600 && out.adj && out.adj.length > 1) {
+    out.adj = foldAdj_(out.adj);
+    json = JSON.stringify(out);
+  }
+  props_().setProperty('stu_' + r.id, json);
+  stuMemo_ = null;
+}
+function foldAdj_(list) {
+  const sorted = list.slice().sort((x, y) => x.t - y.t);
+  const k = Math.min(10, sorted.length);
+  const old = sorted.slice(0, k);
+  const sum = round2_(old.reduce((s, x) => s + Number(x.a || 0), 0));
+  const merged = sum ? [{ i: newId_('a'), t: old[old.length - 1].t, a: sum, n: 'Starsze wpisy (' + old.length + ') razem' }] : [];
+  return merged.concat(sorted.slice(k));
+}
+
+/** Uczeń dla rezerwacji: wskazany w panelu (sid), po emailu, po imieniu — albo nowy. Wołaj pod blokadą.
+    Zwraca { st, isNew }; isNew = ten email pierwszy raz trafił do ucznia (wtedy uczeń dostaje token). */
+function ensureStudent_(info, isAdmin, sid) {
+  const now = new Date().toISOString();
+  const email = info.email || '';
+  let st = sid ? studentById_(sid) : null;
+  if (!st && email) st = getStudent_(email);
+  if (!st) st = studentByName_(info.name, !!email);        // np. uczeń dodany w panelu bez emaila — dostanie ten email
+  let isNew = false;
+  let r;
+  if (st) {
+    r = Object.assign({}, st);
+    if (email && !r.email && !getStudent_(email)) { r.email = email; isNew = true; }
+    if (!r.name) r.name = info.name || '';
+    if (!r.phone && info.phone) r.phone = info.phone;
+    if (!r.color) r.color = pickColor_(email || info.name);
+    r.last = now;
+  } else {
+    r = { id: newId_('i'), name: info.name || '', email: email, phone: info.phone || '', color: pickColor_(email || info.name), first: now, last: now };
+    isNew = !!email;
+  }
+  saveStudentRec_(r);
+  if (email) props_().setProperty('tk_' + studentToken_(email), email);
+  return { st: studentById_(r.id), isNew: isNew };
+}
+
+function studentView_(r) {
+  return {
+    id: r.id, email: r.email || '', name: r.name || '', phone: r.phone || '',
+    key: studentKey_('id:' + r.id), color: r.color || colorFor_(r.email || r.name),
+    price: typeof r.price === 'number' ? r.price : null,
+    length: typeof r.length === 'number' ? r.length : null,
+    discord: r.discord || ''
+  };
+}
 function listStudents_() {
+  const ix = stuIndex_();
+  return Object.keys(ix.byId).map((id) => studentView_(ix.byId[id])).sort((a, b) => a.name.localeCompare(b.name, 'pl'));
+}
+/** Klucz ucznia dla bota Discord (łączy lekcje z uczniami po polu email): email albo „id:…” dla ucznia bez emaila. */
+function feedKey_(st, email) { return st ? (st.email || 'id:' + st.id) : (email || ''); }
+
+/* ─── rozliczenia (panel nauczyciela) ───
+   Saldo ucznia liczy panel: każda lekcja od początku rozliczeń dolicza swoją kwotę w chwili, gdy się zaczyna;
+   opłacona lekcja (tolPaid) już nie wisi; do tego ręczne korekty adj. Lekcje sprzed LEDGER_FROM (albo sprzed
+   daty „from” ucznia) są rozliczone — tak było przed panelem. LEDGER_FROM ustawia się sam przy pierwszym
+   użyciu (dzień wdrożenia), a nauczyciel może go zmienić w panelu. */
+
+function ledgerFrom_() {
+  let d = props_().getProperty('LEDGER_FROM');
+  if (!isRealDate_(d)) {
+    d = todayStr_();
+    try { props_().setProperty('LEDGER_FROM', d); } catch (e) { /* zapiszemy następnym razem */ }
+  }
+  return d;
+}
+function ledgerFromFor_(st) { return st && isRealDate_(st.from) ? st.from : ledgerFrom_(); }
+function isSettled_(m, st) { return dateOf_(m) < ledgerFromFor_(st); }
+
+function adminOnly_(body) {
+  const ctx = auth_(body);
+  if (ctx.role !== 'admin') throw userError_('Zaloguj się ponownie do panelu nauczyciela.', 'AUTH');
+  return ctx;
+}
+function moneyOrNull_(v, msg) {
+  if (v === null || v === undefined || v === '') return null;
+  const n = round2_(String(v).replace(',', '.'));
+  if (!(n >= 0 && n <= 100000)) throw userError_(msg || 'Nieprawidłowa kwota.', 'AMOUNT');
+  return n;
+}
+function studentGone_() { return userError_('Nie ma już tego ucznia — odśwież panel.', 'NOT_FOUND'); }
+
+function panelStudent_(r) {
+  const v = studentView_(r);
+  v.phoneDad = r.phoneDad || '';
+  v.phoneMom = r.phoneMom || '';
+  v.from = isRealDate_(r.from) ? r.from : '';
+  v.adj = (r.adj || []).map((x) => ({ i: x.i, t: x.t, a: x.a, n: x.n || '' }));
+  v.first = r.first || '';
+  v.last = r.last || '';
+  return v;
+}
+function panelLesson_(m) {
+  const st = studentFor_(m);
+  return {
+    id: m.id, s: m.s, e: m.e, dur: m.duration, name: m.name, email: m.email || '', sid: st ? st.id : '',
+    paid: m.paid || '', paidAt: m.paidAt || '', amount: lessonAmount_(m, st), rec: !!m.seriesId
+  };
+}
+
+/** Same lekcje (bez innych wydarzeń) z zakresu dat — z pamięci podręcznej i dziennika ostatnich zmian. */
+function lessonModels_(from, to) {
+  const key = 'lm1:' + version_() + ':' + from + ':' + to;
+  const cache = CacheService.getScriptCache();
+  const got = cache.getAll([key, JOURNAL_KEY]);
+  journalMemo_ = parseJournal_(got[JOURNAL_KEY]);
+  const keep = (m) => !!m && m.kind === 'lesson' && !m.allDay;
+  if (got[key]) return applyJournal_(JSON.parse(got[key]), from, to, keep);
+  const models = applyJournal_(listEvents_({
+    timeMin: toDate_(from, '00:00').toISOString(),
+    timeMax: toDate_(to, '00:00').toISOString(),
+    privateExtendedProperty: 'tol=lesson'
+  }).map(modelOf_).filter(keep), from, to, keep);
+  const slim = models.map((m) => ({ id: m.id, kind: m.kind, s: m.s, e: m.e, duration: m.duration, name: m.name,
+    email: m.email, stu: m.stu, seriesId: m.seriesId, paid: m.paid, paidAt: m.paidAt }));
+  try { cache.put(key, JSON.stringify(slim), CONFIG.CACHE_SECONDS); } catch (e) { /* za duże do cache — trudno */ }
+  return models;
+}
+
+/** Panel nauczyciela: uczniowie z danymi i korektami + lekcje od początku rozliczeń (i z 6 miesięcy do wykresu)
+    do PANEL_AHEAD_DAYS dni naprzód. Saldo i zarobki liczy strona. */
+function actionPanel_(body) {
+  adminOnly_(body);
+  const today = todayStr_();
+  const ledger = ledgerFrom_();
+  const ix = stuIndex_();
+  const p = ymd_(today);
+  let from = new Date(Date.UTC(p[0], p[1] - 6, 1)).toISOString().slice(0, 10);
+  [ledger].concat(Object.keys(ix.byId).map((id) => ix.byId[id].from)).forEach((d) => { if (isRealDate_(d) && d < from) from = d; });
+  if (diffDays_(from, today) > 800) from = addDaysStr_(today, -800);
+  const to = addDaysStr_(today, PANEL_AHEAD_DAYS);
+  return {
+    ok: true, version: version_(), now: localIso_(new Date()), today: today, ledgerFrom: ledger, from: from, to: to,
+    config: publicConfig_(), notifyTo: notifyTo_(),
+    students: Object.keys(ix.byId).map((id) => panelStudent_(ix.byId[id])).sort((a, b) => a.name.localeCompare(b.name, 'pl')),
+    lessons: lessonModels_(from, to).map(panelLesson_)
+  };
+}
+
+/** Panel: nowy uczeń albo zmiana danych (wszystkie pola poza imieniem są opcjonalne). */
+function actionStudentSave_(body) {
+  adminOnly_(body);
+  const s = body.student && typeof body.student === 'object' ? body.student : {};
+  const name = clean_(s.name, 80);
+  if (!name) throw userError_('Podaj imię i nazwisko (albo nick) ucznia.', 'NAME');
+  const email = clean_(s.email, 120).toLowerCase();
+  if (email && !isEmail_(email)) throw userError_('Nieprawidłowy adres email.', 'EMAIL');
+  const price = moneyOrNull_(s.price, 'Nieprawidłowa kwota za lekcję.');
+  let length = null;
+  if (s.length !== null && s.length !== undefined && s.length !== '') {
+    length = Math.round(Number(s.length));
+    if (!(length >= 5 && length <= 600)) throw userError_('Długość lekcji: od 5 do 600 minut.', 'LENGTH');
+  }
+  const from = s.from ? String(s.from) : '';
+  if (from && (!isRealDate_(from) || diffDays_(todayStr_(), from) > 366)) throw userError_('Nieprawidłowa data początku rozliczeń.', 'DATE');
+  const fields = {
+    name: name, email: email,
+    phone: clean_(s.phone, 30), phoneDad: clean_(s.phoneDad, 30), phoneMom: clean_(s.phoneMom, 30),
+    discord: clean_(s.discord, 64).replace(/^@+/, '').trim()
+  };
+  const id = withLock_(() => {
+    const cur = s.id ? studentById_(String(s.id)) : null;
+    if (s.id && !cur) throw studentGone_();
+    if (email) {
+      const other = getStudent_(email);
+      if (other && other.email === email && (!cur || other.id !== cur.id)) {
+        throw userError_('Ten email ma już uczeń: ' + other.name + '.', 'EMAIL_TAKEN');
+      }
+    }
+    const now = new Date().toISOString();
+    const r = cur ? Object.assign({}, cur) : { id: newId_('i'), color: pickColor_(email || name), first: now, last: now };
+    Object.keys(fields).forEach((k) => { r[k] = fields[k]; });
+    if (price === null) delete r.price; else r.price = price;
+    if (length === null) delete r.length; else r.length = length;
+    if (from) r.from = from; else delete r.from;
+    if (cur) {
+      // dawne email i imię zostają jako aliasy: wcześniejsze lekcje dalej należą do tego ucznia
+      const alias = (cur.alias || []).concat(cur.email && cur.email !== email ? [cur.email] : []);
+      const aliasName = (cur.aliasName || []).concat(cur.name && normName_(cur.name) !== normName_(name) ? [cur.name] : []);
+      r.alias = alias.filter((x, i) => x !== email && alias.indexOf(x) === i);
+      r.aliasName = aliasName.filter((x, i) => normName_(x) !== normName_(name) && aliasName.indexOf(x) === i);
+    }
+    if (email) {                                                       // nowy email przestaje być aliasem innego ucznia
+      const ix = stuIndex_();
+      Object.keys(ix.byId).forEach((oid) => {
+        const o = ix.byId[oid];
+        if (oid !== r.id && (o.alias || []).indexOf(email) >= 0) saveStudentRec_(Object.assign({}, o, { alias: o.alias.filter((x) => x !== email) }));
+      });
+    }
+    saveStudentRec_(r);
+    if (cur && (cur.email !== email || cur.name !== name)) {
+      syncStudentLessons_({ id: r.id, email: email, name: name, oldEmail: cur.email, oldName: cur.name });
+    }
+    bumpVersion_();
+    return r.id;
+  });
+  return { ok: true, student: panelStudent_(studentById_(id)) };
+}
+
+/** Po zmianie emaila albo imienia w panelu: przyszłe lekcje i serie ucznia dostają nowe dane — maile o zmianach
+    idą na nowy adres, a uczeń zalogowany nowym emailem widzi swoje lekcje. Wołaj pod blokadą. */
+function syncStudentLessons_(x) {
+  const today = todayStr_();
+  const now = localIso_(new Date());
+  let n = 0;
+  lessonModels_(today, addDaysStr_(today, PANEL_AHEAD_DAYS)).forEach((m) => {
+    if (n >= 60 || m.s < now) return;
+    const st = studentFor_(m);
+    if (!st || st.id !== x.id) return;
+    const it = lessonEvent_(m.id);
+    if (!it) return;
+    const p = it.extendedProperties.private;
+    if (p.tolStu === x.id && p.tolName === x.name && (p.tolEmail || '') === x.email) return;
+    const patch = { extendedProperties: { private: Object.assign({}, p, { tolStu: x.id, tolName: x.name, tolEmail: x.email }) } };
+    if (p.tolName !== x.name) patch.summary = title_(x.name, m.duration);
+    try {
+      journalUp_(Calendar.Events.patch(patch, CONFIG.CALENDAR_ID, it.id, { sendUpdates: 'none' }));
+      n++;
+    } catch (e) {
+      console.error(e);                                                // jedna lekcja nie zatrzyma zapisu ucznia
+    }
+  });
   const all = props_().getProperties();
-  return Object.keys(all).filter((k) => k.indexOf('stu_') === 0).map((k) => {
-    const email = k.slice(4);
-    const r = JSON.parse(all[k]);
-    return { email: email, name: r.name, phone: r.phone, key: studentKey_(email), color: r.color || colorFor_(email),
-      price: typeof r.price === 'number' ? r.price : null, discord: r.discord || '' };
-  }).sort((a, b) => a.name.localeCompare(b.name, 'pl'));
+  Object.keys(all).filter((k) => k.indexOf('series_') === 0).forEach((k) => {
+    let s = null;
+    try { s = JSON.parse(all[k]); } catch (e) { return; }
+    const mine = s.stu ? s.stu === x.id
+      : (x.oldEmail ? s.email === x.oldEmail : !s.email && normName_(s.name) === normName_(x.oldName));
+    if (!mine) return;
+    s.stu = x.id;
+    s.name = x.name;
+    s.email = x.email;
+    saveSeries_(s);
+  });
+  return n;
+}
+
+/** Panel: usuwa ucznia (lekcje w kalendarzu zostają — odwołuje się je w kalendarzu). */
+function actionStudentDelete_(body) {
+  adminOnly_(body);
+  const id = String(body.id || '');
+  return withLock_(() => {
+    if (!studentById_(id)) throw studentGone_();
+    props_().deleteProperty('stu_' + id);
+    stuMemo_ = null;
+    bumpVersion_();
+    return { ok: true, id: id };
+  });
+}
+
+/** Panel: ręczna zmiana salda — dopisanie kwoty do zapłaty (amount > 0) albo odjęcie (amount < 0). */
+function actionAdjust_(body) {
+  adminOnly_(body);
+  const id = String(body.id || '');
+  const a = round2_(String(body.amount).replace(',', '.'));
+  if (!isFinite(a) || !a || Math.abs(a) > 100000) throw userError_('Nieprawidłowa kwota.', 'AMOUNT');
+  const note = clean_(body.note, 80);
+  let t = Date.now();
+  if (isRealDate_(body.date) && body.date !== todayStr_()) t = toDate_(body.date, '12:00').getTime();
+  return withLock_(() => {
+    const cur = studentById_(id);
+    if (!cur) throw studentGone_();
+    saveStudentRec_(Object.assign({}, cur, { adj: (cur.adj || []).concat([{ i: newId_('a'), t: t, a: a, n: note }]) }));
+    bumpVersion_();
+    return { ok: true, student: panelStudent_(studentById_(id)) };
+  });
+}
+
+function actionAdjustDelete_(body) {
+  adminOnly_(body);
+  const id = String(body.id || '');
+  const adjId = String(body.adjId || '');
+  return withLock_(() => {
+    const cur = studentById_(id);
+    if (!cur) throw studentGone_();
+    const list = cur.adj || [];
+    if (!list.some((x) => x.i === adjId)) throw userError_('Tego wpisu już nie ma — odśwież panel.', 'GONE');
+    saveStudentRec_(Object.assign({}, cur, { adj: list.filter((x) => x.i !== adjId) }));
+    bumpVersion_();
+    return { ok: true, student: panelStudent_(studentById_(id)) };
+  });
+}
+
+/** Panel: wpłata. Zaznaczone lekcje (konkretne terminy) stają się opłacone (paid: false — cofnięcie), a kwota
+    credit to wpłata bez wskazania lekcji (np. zaliczka) — zapisana uczniowi jako ujemna korekta salda. */
+function actionPayLessons_(body) {
+  adminOnly_(body);
+  const ids = (Array.isArray(body.ids) ? body.ids : []).filter((x) => typeof x === 'string' && x).slice(0, 40);
+  const paid = body.paid !== false;
+  const credit = body.credit ? round2_(String(body.credit).replace(',', '.')) : 0;
+  if (!(credit >= 0 && credit <= 100000)) throw userError_('Nieprawidłowa kwota wpłaty.', 'AMOUNT');
+  if (!ids.length && !credit) throw userError_('Zaznacz lekcje albo wpisz kwotę.', 'EMPTY');
+  const sid = String(body.id || '');
+  return withLock_(() => {
+    const st = sid ? studentById_(sid) : null;
+    if (credit && !st) throw studentGone_();
+    const done = [];
+    ids.forEach((id) => {
+      const it = lessonEvent_(id);
+      if (!it) return;
+      if (!!it.extendedProperties.private.tolPaid !== paid) patchPaid_(it, paid ? 'manual' : '');
+      done.push(id);
+    });
+    if (credit) {
+      saveStudentRec_(Object.assign({}, st, {
+        adj: (st.adj || []).concat([{ i: newId_('a'), t: Date.now(), a: -credit, n: clean_(body.note, 80) || 'Wpłata' }])
+      }));
+      bumpVersion_();
+    }
+    return {
+      ok: true, done: done, missing: ids.filter((x) => done.indexOf(x) < 0),
+      student: st ? panelStudent_(studentById_(st.id)) : null
+    };
+  });
+}
+
+/** Panel: przypisanie lekcji (np. starszych, bez emaila) do ucznia. */
+function actionLinkLessons_(body) {
+  adminOnly_(body);
+  const ids = (Array.isArray(body.ids) ? body.ids : []).filter((x) => typeof x === 'string' && x).slice(0, 60);
+  const sid = String(body.id || '');
+  if (!ids.length) throw userError_('Brak lekcji do przypisania.', 'EMPTY');
+  return withLock_(() => {
+    if (!studentById_(sid)) throw studentGone_();
+    let n = 0;
+    ids.forEach((id) => {
+      const it = lessonEvent_(id);
+      if (!it) return;
+      const priv = Object.assign({}, it.extendedProperties.private, { tolStu: sid });
+      journalUp_(Calendar.Events.patch({ extendedProperties: { private: priv } }, CONFIG.CALENDAR_ID, it.id, { sendUpdates: 'none' }));
+      n++;
+    });
+    bumpVersion_();
+    return { ok: true, linked: n };
+  });
+}
+
+/** Odwołana opłacona lekcja: jej kwota zostaje uczniowi jako nadpłata (ujemny wpis w panelu), żeby wpłata nie
+    zniknęła razem z lekcją. Wołaj pod blokadą. Zwraca łączną kwotę w zł (0, gdy nic nie zapisano). */
+function creditCancelled_(list) {
+  const by = {};
+  let total = 0;
+  list.forEach((m) => {
+    const st = studentFor_(m);
+    if (!st || isSettled_(m, st)) return;
+    const a = lessonAmount_(m, st);
+    if (!a) return;
+    const p = ymd_(dateOf_(m));
+    (by[st.id] = by[st.id] || []).push({ i: newId_('a'), t: Date.now(), a: -a, n: 'Opłacona lekcja odwołana: ' + pad_(p[2]) + '.' + pad_(p[1]) + ' ' + m.s.slice(11, 16) });
+    total += a;
+  });
+  Object.keys(by).forEach((id) => {
+    const st = studentById_(id);
+    if (st) saveStudentRec_(Object.assign({}, st, { adj: (st.adj || []).concat(by[id]) }));
+  });
+  return round2_(total);
+}
+
+/** Panel: od kiedy liczyć płatności (dla uczniów bez własnej daty). */
+function actionSetLedgerFrom_(body) {
+  adminOnly_(body);
+  const d = String(body.date || '');
+  if (!isRealDate_(d) || diffDays_(todayStr_(), d) > 366) throw userError_('Nieprawidłowa data.', 'DATE');
+  return withLock_(() => {
+    props_().setProperty('LEDGER_FROM', d);
+    bumpVersion_();
+    return { ok: true, ledgerFrom: d };
+  });
+}
+
+/** Panel: przeniesienie uczniów i sald ze starej aplikacji Rejestr Lekcji (dane z przeglądarki nauczyciela).
+    Wiersz: { id (istniejący uczeń albo '' = nowy), name, price, count (lekcje do zapłaty; < 0 = nadpłata) }. */
+function actionImportStudents_(body) {
+  adminOnly_(body);
+  const rows = (Array.isArray(body.rows) ? body.rows : []).slice(0, 80).map((x) => ({
+    id: typeof x.id === 'string' ? x.id.slice(0, 140) : '',
+    name: clean_(x.name, 80),
+    price: moneyOrNull_(x.price, 'Nieprawidłowa cena: ' + clean_(x.name, 40) + '.'),
+    count: Math.max(-999, Math.min(999, Math.round(Number(x.count) || 0)))
+  })).filter((x) => x.name);
+  if (!rows.length) throw userError_('Brak danych do przeniesienia.', 'EMPTY');
+  return withLock_(() => {
+    let created = 0;
+    let moved = 0;
+    rows.forEach((x) => {
+      const st = x.id ? studentById_(x.id) : null;
+      const now = new Date().toISOString();
+      const r = st ? Object.assign({}, st) : { id: newId_('i'), name: x.name, email: '', color: pickColor_(x.name), first: now, last: now };
+      if (!st) created++;
+      if (typeof r.price !== 'number' && x.price) r.price = x.price;
+      const p = x.price || (typeof r.price === 'number' ? r.price : 0);
+      if (x.count && p) {
+        r.adj = (r.adj || []).concat([{
+          i: newId_('a'), t: Date.now(), a: round2_(x.count * p),
+          n: (x.count > 0 ? 'Zaległe z Rejestru Lekcji: ' : 'Nadpłata z Rejestru Lekcji: ') + Math.abs(x.count) + ' × ' + String(p).replace('.', ',') + ' zł'
+        }]);
+        moved++;
+      }
+      saveStudentRec_(r);
+    });
+    bumpVersion_();
+    return { ok: true, created: created, moved: moved };
+  });
 }
 
 function meInfo_(ctx) {
@@ -1418,7 +1900,8 @@ function meInfo_(ctx) {
 
 function viewOf_(m, ctx) {
   if (m.kind === 'lesson') {
-    const who = m.email || m.name;
+    const st = studentFor_(m);
+    const who = st ? 'id:' + st.id : (m.email || m.name);
     const v = {
       id: m.id, kind: 'lesson', s: m.s, e: m.e, duration: m.duration,
       color: m.color || colorFor_(who), key: studentKey_(who), recurring: !!m.seriesId
@@ -1432,7 +1915,17 @@ function viewOf_(m, ctx) {
       v.topic = m.topic;
       v.mine = mine;
       v.canEdit = true;
-      if (ctx.role === 'admin' && m.paid) v.paidVia = m.paid;
+      if (isSettled_(m, st)) v.settled = true;                         // sprzed początku rozliczeń w panelu
+      if (ctx.role === 'admin') {
+        if (m.paid) v.paidVia = m.paid;
+        v.amount = lessonAmount_(m, st);
+        if (st) {
+          v.sid = st.id;
+          if (st.name) v.name = st.name;                                 // imię poprawione w panelu
+          if (!v.email && st.email) v.email = st.email;
+          if (!v.phone && st.phone) v.phone = st.phone;
+        }
+      }
     } else {
       v.name = publicName_(m.name);
     }
@@ -1651,14 +2144,18 @@ function mailMoved_(L, plan, ctx, following) {
   pushTeacher_(ctx, Object.assign({ title: '✏️ ' + L.name + ' — zmiana terminu' }, n));
 }
 
-function mailCancelled_(L, targets, ctx, following) {
+function mailCancelled_(L, targets, ctx, following, credited) {
   const when = plShort_(dateOf_(L)) + ' ' + L.s.slice(11, 16) + ' (' + L.duration + ' min)';
   const rows = [['Uczeń', L.name], ['Termin', when]];
   if (following) rows.push(['Zakres', 'ta i wszystkie następne (' + targets.length + ' lekcji)']);
   const paid = targets.filter((t) => t.paid);                         // targets = [L] albo L i następne z serii
+  const card = paid.some((t) => t.paid === 'card');
   const payRow = !paid.length ? [] : [['Płatność',
     (following ? 'opłacone lekcje: ' + paid.length : L.paid === 'card' ? 'była opłacona kartą / BLIK-iem (Stripe)' : 'była oznaczona jako opłacona') +
-    (paid.some((t) => t.paid === 'card') ? ' — zwróć pieniądze w panelu Stripe (Płatności → Zwróć) albo zalicz je na inną lekcję' : ' — zwróć pieniądze albo zalicz je na inną lekcję')]];
+    (credited
+      ? ' — ' + fmtPln_(Math.round(credited * 100)) + ' zostało uczniowi jako nadpłata (panel nauczyciela) i zaliczy się na kolejne lekcje. ' +
+        'Jeśli oddajesz pieniądze' + (card ? ' (panel Stripe → Płatności → Zwróć)' : '') + ', usuń ten wpis w panelu.'
+      : card ? ' — zwróć pieniądze w panelu Stripe (Płatności → Zwróć) albo zalicz je na inną lekcję' : ' — zwróć pieniądze albo zalicz je na inną lekcję')]];
   teacherMail_(ctx, '❌ Odwołana lekcja: ' + L.name + ' — ' + when + (following ? ' i następne' : ''),
     following ? 'Odwołana seria lekcji' : 'Odwołana lekcja', L.name + ' — lekcja została odwołana.', rows.concat(payRow), [weekCta_(dateOf_(L))]);
   studentMail_(L.email, '❌ Lekcja odwołana: ' + when, 'Lekcja odwołana',
@@ -2096,13 +2593,18 @@ function actionDiscordFeed_(body) {
   const hours = Math.min(168, Math.max(1, Number(body.hours) || 36));
   const now = Date.now();
   const until = now + hours * 3600000;
+  // bot łączy lekcje z uczniami po polu email — uczeń bez emaila ma tam „id:…” (feedKey_)
   const lessons = rangeModels_(todayStr_(), addDaysStr_(localIso_(new Date(until)).slice(0, 10), 1))
     .filter((m) => m.kind === 'lesson' && !m.allDay)
-    .map((m) => ({ id: m.id, s: m.s, e: m.e, dur: m.duration, start: parseLocal_(m.s).getTime(), end: parseLocal_(m.e).getTime(),
-      name: m.name, email: m.email, series: !!m.seriesId }))
+    .map((m) => {
+      const st = studentFor_(m);
+      return { id: m.id, s: m.s, e: m.e, dur: m.duration, start: parseLocal_(m.s).getTime(), end: parseLocal_(m.e).getTime(),
+        name: m.name, email: feedKey_(st, m.email), sid: st ? st.id : '', series: !!m.seriesId };
+    })
     .filter((m) => m.end > now && m.start < until);
 
-  const students = listStudents_().filter((s) => s.discord).map((s) => ({ email: s.email, name: s.name, discord: s.discord }));
+  const students = listStudents_().filter((s) => s.discord)
+    .map((s) => ({ email: feedKey_(s, ''), id: s.id, name: s.name, discord: s.discord }));
   return { ok: true, now: now, seq: q.seq, events: events, lessons: lessons, students: students };
 }
 
@@ -2200,6 +2702,7 @@ function withLock_(fn) {
       props_().reload();        // pod blokadą czytamy świeże dane (mogły się zmienić w innym wykonaniu)
       journalMemo_ = null;
       availMemo_ = null;
+      stuMemo_ = null;
     }
     return fn();
   } finally {

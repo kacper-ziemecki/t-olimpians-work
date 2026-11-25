@@ -76657,6 +76657,3101 @@
       ],
       "hint": "Program wczytaj do vector<string> op(p + 1) i vector<long long> arg(p + 1). Stos danych trzymaj w vector<long long> (OVER, ROT i wypisanie na końcu potrzebują środka), a stos wywołań w stack<int>. Pętla: while (pc >= 1 && pc <= p) { sprawdź błędy (rozmiar stosu, dzielenie przez zero, pusty stos wywołań) → wykonaj → pc = nastepna; }. ROT: long long a = s[s.size() - 3]; s.erase(s.end() - 3); s.push_back(a);.",
       "tests_count": 34
+    },
+    {
+      "id": "kop-od-najwiekszej",
+      "number": 2343,
+      "title": "Od największej do najmniejszej",
+      "category": "Kopiec / krok 1: pierwszy kopiec",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb całkowitych i wrzuć każdą do kopca priority_queue<int> poleceniem push.",
+        "Potem wyjmuj liczby z kopca, dopóki nie jest pusty: wypisz liczbę z wierzchu (top) i usuń ją (pop). Kopiec zawsze oddaje największą liczbę, jaka w nim jest, więc liczby wyjdą od największej do najmniejszej. Liczby, które się powtarzają, wychodzą tyle razy, ile razy je wrzucono."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jeden wiersz: n liczb od największej do najmniejszej, oddzielonych spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "Liczby są z przedziału od −10⁶ do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "6\n5 9 1 7 9 3",
+          "output": "9 9 7 5 3 1",
+          "note": "Największa jest 9 — i to dwa razy, więc wychodzi dwa razy z rzędu. Potem 7, 5, 3 i na końcu 1."
+        }
+      ],
+      "hint": "priority_queue<int> pq; i w pętli: cin >> x; pq.push(x);. Potem while (!pq.empty()) { cout << pq.top() << \" \"; pq.pop(); }. Najpierw top (odczyt), dopiero potem pop (usunięcie) — pop niczego nie oddaje.",
+      "tests_count": 10
+    },
+    {
+      "id": "kop-na-wierzchu",
+      "number": 2344,
+      "title": "Co leży na wierzchu",
+      "category": "Kopiec / krok 1: pierwszy kopiec",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytuj kolejno n liczb i każdą wrzucaj do kopca priority_queue<int>. Zaraz po każdym wrzuceniu wypisz, jaka liczba leży na wierzchu kopca (top).",
+        "Nie usuwaj niczego z kopca — top() tylko pokazuje wierzch. Na wierzchu zawsze leży największa z liczb wrzuconych do tej pory."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jeden wiersz: n liczb — wierzch kopca po każdym wrzuceniu, oddzielone spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "Liczby są z przedziału od −10⁶ do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "6\n3 1 4 1 5 9",
+          "output": "3 3 4 4 5 9",
+          "note": "Po trójce na wierzchu jest 3. Jedynka jest mniejsza, więc wierzch się nie zmienia. Czwórka wskakuje na wierzch, potem 5 i 9."
+        }
+      ],
+      "hint": "W pętli: cin >> x; pq.push(x); cout << pq.top() << \" \";. Kopca nie trzeba opróżniać — wystarczy zaglądać na wierzch po każdym push.",
+      "tests_count": 8
+    },
+    {
+      "id": "kop-podium",
+      "number": 2345,
+      "title": "Podium",
+      "category": "Kopiec / krok 1: pierwszy kopiec",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na zawodach startowało n zawodników, a każdy zdobył pewną liczbę punktów. Wypisz trzy najwyższe wyniki, od najwyższego — złoto, srebro i brąz.",
+        "Wrzuć wszystkie wyniki do kopca priority_queue<int>, a potem wyjmij z niego trzy razy element z wierzchu. Jeśli zawodników jest mniej niż trzech, wypisz tyle wyników, ilu było zawodników — zanim zajrzysz na wierzch, sprawdź, czy kopiec nie jest pusty. Równe wyniki wypisujemy osobno, tak jak w kopcu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb — wyniki zawodników."
+      ],
+      "output_format": [
+        "Jeden wiersz: trzy najwyższe wyniki (albo wszystkie, jeśli jest ich mniej) od najwyższego, oddzielone spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "Wyniki są liczbami całkowitymi od 0 do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "5\n12 7 30 7 18",
+          "output": "30 18 12",
+          "note": "Najwyższy wynik to 30, potem 18 i 12. Siódemki się nie załapały."
+        },
+        {
+          "input": "2\n5 5",
+          "output": "5 5",
+          "note": "Dwóch zawodników, obaj po 5 punktów — wypisujemy oba wyniki."
+        }
+      ],
+      "hint": "for (int i = 0; i < 3; i++) { if (pq.empty()) break; cout << pq.top() << \" \"; pq.pop(); }. Bez sprawdzenia empty() program z jednym zawodnikiem sięgnąłby do pustego kopca.",
+      "tests_count": 10
+    },
+    {
+      "id": "kop-polecenia",
+      "number": 2346,
+      "title": "Polecenia dla kopca",
+      "category": "Kopiec / krok 1: pierwszy kopiec",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz pusty kopiec priority_queue<int>. Wykonaj po kolei q poleceń:",
+        "DODAJ x — wrzuć liczbę x do kopca (nic nie wypisuj); WIERZCH — wypisz liczbę z wierzchu kopca; ZABIERZ — wypisz liczbę z wierzchu i usuń ją z kopca; ILE — wypisz, ile liczb jest w kopcu.",
+        "Jeśli przy poleceniu WIERZCH albo ZABIERZ kopiec jest pusty, wypisz słowo PUSTO i niczego nie zmieniaj."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy jedno polecenie."
+      ],
+      "output_format": [
+        "Dla każdego polecenia WIERZCH, ZABIERZ i ILE jeden wiersz z odpowiedzią."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 2000",
+        "W poleceniu DODAJ liczba x jest z przedziału od −10⁶ do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "9\nDODAJ 5\nDODAJ 8\nWIERZCH\nDODAJ 3\nZABIERZ\nZABIERZ\nILE\nZABIERZ\nZABIERZ",
+          "output": "8\n8\n5\n1\n3\nPUSTO",
+          "note": "Na wierzchu najpierw 8. ZABIERZ wypisuje i usuwa 8, potem 5. Zostaje sama trójka (ILE daje 1), po jej zabraniu kopiec jest pusty — ostatnie ZABIERZ wypisuje PUSTO."
+        }
+      ],
+      "hint": "string p; cin >> p; if (p == \"DODAJ\") { cin >> x; pq.push(x); } else if (p == \"WIERZCH\") { if (pq.empty()) cout << \"PUSTO\\n\"; else cout << pq.top() << \"\\n\"; } … Przy ZABIERZ: najpierw wypisz top(), potem pop().",
+      "tests_count": 8
+    },
+    {
+      "id": "kop-stan-po-kazdym",
+      "number": 2347,
+      "title": "Cały kopiec po każdym poleceniu",
+      "category": "Kopiec / krok 1: pierwszy kopiec",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz pusty kopiec priority_queue<int> i q poleceń: DODAJ x — wrzuć x do kopca; ZABIERZ — usuń liczbę z wierzchu (jeśli kopiec jest pusty, nic się nie dzieje).",
+        "Po każdym poleceniu wypisz w osobnym wierszu całą zawartość kopca od największej do najmniejszej liczby albo słowo pusty, jeśli kopiec jest pusty.",
+        "Kopiec nie ma indeksów ani pętli po elementach, więc żeby wypisać zawartość i jej nie stracić, zrób kopię (priority_queue<int> kopia = pq;) i opróżnij kopię. Oryginał zostaje nietknięty."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy jedno polecenie: DODAJ x albo ZABIERZ."
+      ],
+      "output_format": [
+        "q wierszy — zawartość kopca po każdym poleceniu (liczby oddzielone spacjami) albo słowo pusty."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 60",
+        "W poleceniu DODAJ liczba x jest z przedziału od 1 do 99."
+      ],
+      "examples": [
+        {
+          "input": "5\nDODAJ 4\nDODAJ 9\nDODAJ 4\nZABIERZ\nZABIERZ",
+          "output": "4\n9 4\n9 4 4\n4 4\n4",
+          "note": "Po trzech DODAJ kopiec zawiera 9, 4 i 4. Pierwsze ZABIERZ usuwa dziewiątkę, drugie — jedną z czwórek."
+        }
+      ],
+      "hint": "Napisz funkcję void wypisz(priority_queue<int> k) — bez &, więc dostaje kopię: while (!k.empty()) { cout << k.top() << \" \"; k.pop(); }. Jeśli od razu k.empty(), wypisz pusty. Wywołuj ją po każdym poleceniu.",
+      "tests_count": 8
+    },
+    {
+      "id": "kop-suma-k-najwiekszych",
+      "number": 2348,
+      "title": "Suma k największych",
+      "category": "Kopiec / krok 1: pierwszy kopiec",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb naturalnych i liczbę k. Policz sumę k największych spośród nich (jeśli największa liczba występuje kilka razy, każde wystąpienie liczy się osobno).",
+        "Wrzuć liczby do kopca priority_queue<int> i k razy zdejmij wierzch, dodając go do sumy. Uważaj na typ sumy: tysiące liczb rzędu miliarda nie mieszczą się w int."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n liczb naturalnych."
+      ],
+      "output_format": [
+        "Jedna liczba — suma k największych liczb."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 5000",
+        "Liczby są z przedziału od 0 do 10⁹."
+      ],
+      "examples": [
+        {
+          "input": "6 3\n4 10 2 10 7 1",
+          "output": "27",
+          "note": "Trzy największe to 10, 10 i 7 — razem 27."
+        }
+      ],
+      "hint": "long long suma = 0; for (int i = 0; i < k; i++) { suma += pq.top(); pq.pop(); }. Skoro k ≤ n, kopiec nie zrobi się pusty przed czasem.",
+      "tests_count": 9
+    },
+    {
+      "id": "kop-trzy-pojemniki",
+      "number": 2349,
+      "title": "Kolejka, stos i kopiec",
+      "category": "Kopiec / krok 1: pierwszy kopiec",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb i każdą wrzuć do trzech pojemników naraz: do kolejki queue<int>, do stosu stack<int> i do kopca priority_queue<int>.",
+        "Potem opróżnij po kolei każdy pojemnik, wypisując liczby w kolejności, w jakiej z niego wychodzą. Kolejka oddaje najpierw liczbę, która czeka najdłużej (front), stos — tę wrzuconą ostatnio (top), a kopiec — największą (top)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Trzy wiersze: kolejka: …, stos: … oraz kopiec: … — liczby w kolejności wychodzenia, oddzielone spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 500",
+        "Liczby są z przedziału od 0 do 10⁴."
+      ],
+      "examples": [
+        {
+          "input": "5\n3 8 1 8 5",
+          "output": "kolejka: 3 8 1 8 5\nstos: 5 8 1 8 3\nkopiec: 8 8 5 3 1",
+          "note": "Kolejka oddaje liczby w kolejności wejścia, stos od końca, a kopiec od największej: 8 8 5 3 1."
+        }
+      ],
+      "hint": "queue<int> q; stack<int> s; priority_queue<int> pq; — w pętli trzy razy push. Kolejkę opróżniasz przez front() i pop(), stos i kopiec przez top() i pop(). Zwróć uwagę: w kolejce wierzch nazywa się front, a w stosie i kopcu — top.",
+      "tests_count": 8
+    },
+    {
+      "id": "kop-ile-razy",
+      "number": 2350,
+      "title": "Ile razy, od największej",
+      "category": "Kopiec / krok 1: pierwszy kopiec",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb. Wypisz każdą różną wartość, która wystąpiła, razem z liczbą jej wystąpień — od największej wartości do najmniejszej.",
+        "Wrzuć liczby do kopca priority_queue<int>. Gdy będziesz je wyjmować, równe liczby wyjdą jedna po drugiej, więc wystarczy liczyć, ile razy z rzędu wyszła ta sama wartość. Nie używaj tablicy liczników ani mapy — ćwiczymy kopiec."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Dla każdej różnej wartości, od największej, jeden wiersz: wartość i liczba jej wystąpień, oddzielone spacją."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "Liczby są z przedziału od −100 do 100."
+      ],
+      "examples": [
+        {
+          "input": "7\n4 9 4 1 9 9 2",
+          "output": "9 3\n4 2\n2 1\n1 1",
+          "note": "Dziewiątka wychodzi trzy razy z rzędu, potem dwie czwórki, dwójka i jedynka."
+        }
+      ],
+      "hint": "int x = pq.top(); pq.pop(); int ile = 1; while (!pq.empty() && pq.top() == x) { pq.pop(); ile++; } cout << x << \" \" << ile << \"\\n\"; — a to wszystko w pętli while (!pq.empty()). Warunek !pq.empty() musi być przed pq.top().",
+      "tests_count": 9
+    },
+    {
+      "id": "kop-od-najmniejszej",
+      "number": 2351,
+      "title": "Od najmniejszej do największej",
+      "category": "Kopiec / krok 2: kopiec minimum",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb całkowitych i wypisz je od najmniejszej do największej.",
+        "Użyj kopca minimum: priority_queue<int, vector<int>, greater<int>>. W takim kopcu na wierzchu leży zawsze najmniejsza liczba, więc wystarczy go opróżnić tak samo jak zwykły kopiec — top, pop, dopóki nie jest pusty. (Możesz też użyć zwykłego kopca i sztuczki z minusem: wrzucaj −x, a przy wyjmowaniu wypisuj −top().)"
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jeden wiersz: n liczb od najmniejszej do największej, oddzielonych spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "Liczby są z przedziału od −10⁹ do 10⁹."
+      ],
+      "examples": [
+        {
+          "input": "6\n5 -2 9 1 -2 7",
+          "output": "-2 -2 1 5 7 9",
+          "note": "Najmniejsza jest −2 (dwa razy), potem 1, 5, 7 i 9."
+        }
+      ],
+      "hint": "priority_queue<int, vector<int>, greater<int>> pq; — reszta jak w zwykłym kopcu: push w pętli, a potem while (!pq.empty()) { cout << pq.top() << \" \"; pq.pop(); }.",
+      "tests_count": 8
+    },
+    {
+      "id": "kop-k-ta-najmniejsza",
+      "number": 2352,
+      "title": "k-ta najmniejsza",
+      "category": "Kopiec / krok 2: kopiec minimum",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb i liczbę k. Wypisz k-tą najmniejszą liczbę, czyli tę, która stałaby na k-tym miejscu, gdyby ustawić wszystkie liczby od najmniejszej do największej (równe liczby zajmują osobne miejsca).",
+        "Wrzuć liczby do kopca minimum, zdejmij z niego k − 1 razy wierzch, a potem wypisz liczbę, która jest na wierzchu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jedna liczba — k-ta najmniejsza."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 5000",
+        "Liczby są z przedziału od −10⁹ do 10⁹."
+      ],
+      "examples": [
+        {
+          "input": "6 3\n7 2 9 2 5 1",
+          "output": "2",
+          "note": "Po kolei: 1, 2, 2, 5, 7, 9. Trzecia jest druga dwójka."
+        }
+      ],
+      "hint": "for (int i = 0; i < k - 1; i++) pq.pop(); cout << pq.top();. Kopiec ma n ≥ k elementów, więc po k − 1 zdjęciach na pewno coś na nim zostaje.",
+      "tests_count": 9
+    },
+    {
+      "id": "kop-slownik",
+      "number": 2353,
+      "title": "Słownik w dwie strony",
+      "category": "Kopiec / krok 2: kopiec minimum",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n słów zapisanych małymi literami. W pierwszym wierszu wypisz je w kolejności alfabetycznej, a w drugim — w odwrotnej.",
+        "Napisy porównują się jak w słowniku, więc kopiec napisów też działa: zwykły priority_queue<string> oddaje najpierw słowo, które w słowniku stoi najdalej, a kopiec minimum priority_queue<string, vector<string>, greater<string>> — to, które stoi najbliżej początku. Użyj dwóch kopców. Powtórzone słowa wypisuj tyle razy, ile wystąpiły."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n słów oddzielonych spacjami."
+      ],
+      "output_format": [
+        "Dwa wiersze: słowa alfabetycznie i słowa w odwrotnej kolejności alfabetycznej."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 300",
+        "Słowa mają od 1 do 10 małych liter (bez polskich znaków)."
+      ],
+      "examples": [
+        {
+          "input": "5\nkot pies ala kotek ala",
+          "output": "ala ala kot kotek pies\npies kotek kot ala ala",
+          "note": "Krótsze słowo, które jest początkiem dłuższego, stoi w słowniku wcześniej: kot przed kotek."
+        }
+      ],
+      "hint": "priority_queue<string, vector<string>, greater<string>> rosn; priority_queue<string> mal; — każde słowo do obu. Potem opróżnij najpierw jeden, wypisz \"\\n\", a potem drugi.",
+      "tests_count": 8
+    },
+    {
+      "id": "kop-numerki",
+      "number": 2354,
+      "title": "Numerki w urzędzie",
+      "category": "Kopiec / krok 2: kopiec minimum",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W urzędzie każdy petent pobiera numerek, ale przychodzi do poczekalni o różnych porach, więc numerki pojawiają się w dowolnej kolejności. Urzędnik zawsze woła najmniejszy numer spośród osób, które teraz czekają.",
+        "Wykonaj q zdarzeń: PRZYCHODZI x — do poczekalni wchodzi osoba z numerkiem x; WOLA — urzędnik woła osobę z najmniejszym numerkiem: wypisz ten numer, a osoba wychodzi z poczekalni. Jeśli nikt nie czeka, wypisz nikt."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy jedno zdarzenie: PRZYCHODZI x albo WOLA."
+      ],
+      "output_format": [
+        "Dla każdego zdarzenia WOLA jeden wiersz: wywołany numer albo słowo nikt."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 3000",
+        "Numerki są różnymi liczbami naturalnymi od 1 do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "7\nPRZYCHODZI 17\nPRZYCHODZI 4\nWOLA\nPRZYCHODZI 9\nWOLA\nWOLA\nWOLA",
+          "output": "4\n9\n17\nnikt",
+          "note": "Najpierw czekają 17 i 4 — wołany jest numer 4. Potem przychodzi 9, więc kolejne wołania to 9 i 17. Na koniec poczekalnia jest pusta."
+        }
+      ],
+      "hint": "priority_queue<int, vector<int>, greater<int>> poczekalnia;. Przy WOLA: if (poczekalnia.empty()) cout << \"nikt\\n\"; else { cout << poczekalnia.top() << \"\\n\"; poczekalnia.pop(); }.",
+      "tests_count": 8
+    },
+    {
+      "id": "kop-wolne-miejsca",
+      "number": 2355,
+      "title": "Wolne miejsca w kinie",
+      "category": "Kopiec / krok 2: kopiec minimum",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W kinie jest n miejsc ponumerowanych od 1 do n i na początku wszystkie są wolne. System rezerwacji obsługuje q poleceń:",
+        "REZERWUJ — zajmij wolne miejsce o najmniejszym numerze i wypisz ten numer; jeśli wszystkie miejsca są zajęte, wypisz brak. ZWOLNIJ x — miejsce x (na pewno teraz zajęte) staje się znowu wolne; nic nie wypisuj.",
+        "Trzymaj numery wolnych miejsc w kopcu minimum. Na początku wrzuć do niego wszystkie numery od 1 do n."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i q.",
+        "W każdym z kolejnych q wierszy jedno polecenie: REZERWUJ albo ZWOLNIJ x."
+      ],
+      "output_format": [
+        "Dla każdego polecenia REZERWUJ jeden wiersz: numer miejsca albo słowo brak."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10⁵",
+        "1 ≤ q ≤ 3000",
+        "W poleceniu ZWOLNIJ x miejsce x jest w tej chwili zajęte."
+      ],
+      "examples": [
+        {
+          "input": "3 7\nREZERWUJ\nREZERWUJ\nREZERWUJ\nREZERWUJ\nZWOLNIJ 2\nREZERWUJ\nREZERWUJ",
+          "output": "1\n2\n3\nbrak\n2\nbrak",
+          "note": "Trzy rezerwacje dają miejsca 1, 2 i 3, czwarta — brak. Po zwolnieniu dwójki następna rezerwacja dostaje miejsce 2, a kolejna znowu brak."
+        }
+      ],
+      "hint": "for (int i = 1; i <= n; i++) wolne.push(i);. REZERWUJ: if (wolne.empty()) cout << \"brak\\n\"; else { cout << wolne.top() << \"\\n\"; wolne.pop(); }. ZWOLNIJ: wolne.push(x);.",
+      "tests_count": 8
+    },
+    {
+      "id": "kop-laczenie-lin",
+      "number": 2356,
+      "title": "Łączenie lin",
+      "category": "Kopiec / krok 2: kopiec minimum",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz n lin o podanych długościach. W jednym ruchu możesz połączyć dwie liny w jedną — nowa lina ma długość równą sumie długości obu, a połączenie kosztuje tyle, ile wynosi ta suma. Połącz wszystkie liny w jedną, płacąc w sumie jak najmniej, i wypisz ten najmniejszy koszt.",
+        "Najtaniej jest zawsze łączyć dwie najkrótsze liny (długie liny są wtedy doliczane najrzadziej). Trzymaj długości w kopcu minimum: zdejmij dwie najmniejsze, dodaj ich sumę do kosztu i wrzuć nową linę z powrotem do kopca. Powtarzaj, dopóki w kopcu jest więcej niż jedna lina. Gdy lina jest tylko jedna, koszt wynosi 0."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb — długości lin."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejszy łączny koszt."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10⁴",
+        "Długości są liczbami całkowitymi od 1 do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "4\n4 3 2 6",
+          "output": "29",
+          "note": "Łączymy 2 i 3 (koszt 5), potem 4 i 5 (koszt 9), na koniec 6 i 9 (koszt 15). Razem 5 + 9 + 15 = 29."
+        }
+      ],
+      "hint": "while (pq.size() > 1) { long long a = pq.top(); pq.pop(); long long b = pq.top(); pq.pop(); koszt += a + b; pq.push(a + b); }. Długości rosną, a koszt sumuje się wiele razy — kopiec i koszt w long long.",
+      "tests_count": 9
+    },
+    {
+      "id": "kop-do-progu",
+      "number": 2357,
+      "title": "Mieszanie do progu",
+      "category": "Kopiec / krok 2: kopiec minimum",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz n liczb naturalnych i próg k. W jednym ruchu bierzesz dwie najmniejsze liczby x i y (x ≤ y), usuwasz je i wrzucasz jedną nową liczbę 2·x + y. Ruchy wykonujesz tak długo, aż wszystkie liczby będą większe lub równe k.",
+        "Wypisz liczbę wykonanych ruchów. Jeśli zostanie tylko jedna liczba, a wciąż jest mniejsza od k, wypisz −1. Jeśli już na początku wszystkie liczby są co najmniej k, odpowiedzią jest 0.",
+        "Trzymaj liczby w kopcu minimum — wtedy najmniejsza jest zawsze na wierzchu, a o tym, czy trzeba dalej mieszać, decyduje wierzch: dopóki top() < k."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n liczb naturalnych."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba ruchów albo −1."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10⁴",
+        "1 ≤ k ≤ 10⁹",
+        "Liczby są z przedziału od 1 do 10⁹."
+      ],
+      "examples": [
+        {
+          "input": "5 10\n2 11 10 1 3",
+          "output": "2",
+          "note": "Najpierw 1 i 2 dają 2·1 + 2 = 4. Potem 3 i 4 dają 10. Teraz najmniejsza jest 10 — gotowe po 2 ruchach."
+        },
+        {
+          "input": "2 100\n1 2",
+          "output": "-1",
+          "note": "Jeden ruch daje 4 i zostaje sama czwórka, mniejsza od 100 — odpowiedź −1."
+        }
+      ],
+      "hint": "while (pq.size() > 1 && pq.top() < k) { long long x = pq.top(); pq.pop(); long long y = pq.top(); pq.pop(); pq.push(2 * x + y); ruchy++; }. Po pętli: if (pq.top() < k) cout << -1; else cout << ruchy;. Nowe liczby mogą przekroczyć int — użyj long long.",
+      "tests_count": 12
+    },
+    {
+      "id": "kop-kieszonkowe",
+      "number": 2358,
+      "title": "Kieszonkowe",
+      "category": "Kopiec / krok 2: kopiec minimum",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W sklepie jest n zabawek o podanych cenach. Przez d kolejnych dni Kuba dostaje kieszonkowe: i-tego dnia m_i złotych, które dokłada do swoich oszczędności.",
+        "Każdego dnia, po dostaniu kieszonkowego, Kuba kupuje po kolei najtańszą zabawkę ze sklepu — dopóki starcza mu oszczędności i w sklepie coś zostało. Kupiona zabawka znika ze sklepu, a jej cena jest odejmowana od oszczędności.",
+        "Wypisz, ile zabawek Kuba kupił każdego dnia. W drugim wierszu wypisz, ile pieniędzy mu na końcu zostało i ile zabawek zostało w sklepie."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i d.",
+        "W drugim wierszu n cen zabawek.",
+        "W trzecim wierszu d liczb — kieszonkowe w kolejnych dniach."
+      ],
+      "output_format": [
+        "W pierwszym wierszu d liczb — ile zabawek kupiono każdego dnia.",
+        "W drugim wierszu dwie liczby: pozostałe oszczędności i liczba zabawek w sklepie."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "1 ≤ d ≤ 3000",
+        "Ceny są z przedziału od 1 do 10⁶.",
+        "Kieszonkowe jest z przedziału od 0 do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "5 3\n4 10 3 3 50\n5 6 4",
+          "output": "1 2 0\n5 2",
+          "note": "Dzień 1: ma 5 zł, kupuje zabawkę za 3 (zostają 2 zł) — na następną (3 zł) już nie starcza. Dzień 2: ma 8 zł, kupuje za 3 i za 4 (zostaje 1 zł). Dzień 3: ma 5 zł — za mało na 10. Na końcu 5 zł i 2 zabawki w sklepie."
+        }
+      ],
+      "hint": "while (!sklep.empty() && sklep.top() <= oszczednosci) { oszczednosci -= sklep.top(); sklep.pop(); kupione++; }. Oszczędności mogą urosnąć do miliardów — long long.",
+      "tests_count": 10
+    },
+    {
+      "id": "kop-rodzina",
+      "number": 2359,
+      "title": "Rodzina w tablicy",
+      "category": "Kopiec / krok 3: kopiec binarny",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Kopiec trzymamy w tablicy t[1..n]: korzeń drzewa jest w polu 1, a pole i ma rodzica w polu i/2 (dzielenie całkowite) oraz dzieci w polach 2i i 2i + 1 — ale tylko te dzieci, których numery nie przekraczają n.",
+        "Dla każdego z T pytań (n, i) wypisz numer pola rodzica, lewego dziecka i prawego dziecka pola i. Jeśli któregoś z nich nie ma (korzeń nie ma rodzica, a dzieci za n nie istnieją), wypisz w tym miejscu 0."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba T.",
+        "W każdym z kolejnych T wierszy dwie liczby n i i."
+      ],
+      "output_format": [
+        "Dla każdego pytania jeden wiersz: trzy liczby — rodzic, lewe dziecko i prawe dziecko (0, gdy nie istnieje)."
+      ],
+      "constraints": [
+        "1 ≤ T ≤ 400",
+        "1 ≤ i ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "4\n10 1\n10 5\n10 4\n10 7",
+          "output": "0 2 3\n2 10 0\n2 8 9\n3 0 0",
+          "note": "Korzeń 1 nie ma rodzica, jego dzieci to 2 i 3. Pole 5 ma rodzica 2 i tylko lewe dziecko 10 (11 > n). Pole 4 ma dzieci 8 i 9. Pole 7 jest liściem: dzieci 14 i 15 nie mieszczą się w 10."
+        }
+      ],
+      "hint": "long long n, i; — liczby do 10¹⁸ nie mieszczą się w int, a 2i + 1 tym bardziej. Rodzic: i == 1 ? 0 : i / 2. Lewe dziecko: 2 * i <= n ? 2 * i : 0. Prawe: 2 * i + 1 <= n ? 2 * i + 1 : 0.",
+      "tests_count": 6
+    },
+    {
+      "id": "kop-wysokosc",
+      "number": 2360,
+      "title": "Ile pięter ma kopiec",
+      "category": "Kopiec / krok 3: kopiec binarny",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Kopiec z n elementami to drzewo, w którym kolejne piętra są wypełnione do końca: na piętrze pierwszym jest 1 element (korzeń), na drugim 2, na trzecim 4, na czwartym 8 i tak dalej — każde piętro jest dwa razy większe od poprzedniego. Tylko ostatnie piętro może być niepełne.",
+        "Dla każdego z T pytań wypisz, ile pięter ma kopiec z n elementami i ile elementów leży na jego ostatnim piętrze. Liczba pięter mówi, ile najwyżej zamian wykonuje push i pop — dlatego kopiec jest taki szybki."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba T.",
+        "W każdym z kolejnych T wierszy jedna liczba n."
+      ],
+      "output_format": [
+        "Dla każdego pytania jeden wiersz: liczba pięter i liczba elementów na ostatnim piętrze."
+      ],
+      "constraints": [
+        "1 ≤ T ≤ 1000",
+        "1 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "4\n1\n7\n10\n1000000",
+          "output": "1 1\n3 4\n4 3\n20 475713",
+          "note": "Siedem elementów to trzy pełne piętra (1 + 2 + 4). Dziesięć to trzy pełne piętra i 3 elementy na czwartym. Milion elementów mieści się na 20 piętrach."
+        }
+      ],
+      "hint": "Piętro, na którym leży element n, to liczba dzieleń przez 2 potrzebnych, żeby z n dojść do zera: while (x > 0) { x /= 2; pietra++; }. Pełne piętra nad ostatnim mieszczą 2^(pietra − 1) − 1 elementów, a reszta leży na ostatnim. Pamiętaj o long long — także w potęgach dwójki: 1LL << k.",
+      "tests_count": 6
+    },
+    {
+      "id": "kop-poziomy",
+      "number": 2361,
+      "title": "Kopiec piętro po piętrze",
+      "category": "Kopiec / krok 3: kopiec binarny",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz kopiec zapisany w tablicy t[1..n]. Wypisz go piętro po piętrze: w pierwszym wierszu korzeń t[1], w drugim t[2] i t[3], w trzecim t[4] do t[7], w czwartym t[8] do t[15] i tak dalej — piętro k zawiera pola od 2^(k−1) do 2^k − 1. Ostatnie piętro może być niepełne: kończy się na polu n."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb — tablica t[1..n]."
+      ],
+      "output_format": [
+        "Kolejne piętra kopca, każde w osobnym wierszu, liczby oddzielone spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "Liczby są z przedziału od 0 do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "10\n90 70 80 30 60 50 20 10 25 5",
+          "output": "90\n70 80\n30 60 50 20\n10 25 5",
+          "note": "Piętra mają 1, 2, 4 i 3 elementy (ostatnie jest niepełne: pola 8, 9 i 10)."
+        }
+      ],
+      "hint": "for (int od = 1; od <= n; od *= 2) { for (int i = od; i < 2 * od && i <= n; i++) cout << t[i] << \" \"; cout << \"\\n\"; }. Tablicę deklaruj o jeden większą i zapisuj od t[1].",
+      "tests_count": 9
+    },
+    {
+      "id": "kop-czy-kopiec",
+      "number": 2362,
+      "title": "Czy to jest kopiec?",
+      "category": "Kopiec / krok 3: kopiec binarny",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Tablica t[1..n] jest kopcem maksimum, jeśli każdy element jest nie mniejszy od swoich dzieci — czyli dla każdego i od 2 do n zachodzi t[i/2] ≥ t[i]. Równe wartości są w porządku.",
+        "Dla każdej z T tablic sprawdź, czy jest kopcem. Jeśli jest, wypisz TAK. Jeśli nie, wypisz NIE oraz najmniejszy numer pola i, dla którego t[i/2] < t[i]."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba T.",
+        "Każdy test to dwa wiersze: liczba n, a w następnym n liczb — tablica t[1..n]."
+      ],
+      "output_format": [
+        "Dla każdego testu jeden wiersz: TAK albo NIE i numer pola."
+      ],
+      "constraints": [
+        "1 ≤ T ≤ 100",
+        "1 ≤ n ≤ 1000",
+        "Suma wszystkich n nie przekracza 10⁴.",
+        "Liczby są z przedziału od 0 do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "3\n6\n9 7 8 7 1 8\n5\n9 7 8 7 8\n1\n4",
+          "output": "TAK\nNIE 5\nTAK",
+          "note": "Pierwsza tablica jest kopcem (równe 8 pod 8 są w porządku). W drugiej pole 5 ma wartość 8, a jego rodzic, pole 2, tylko 7. Jednoelementowa tablica zawsze jest kopcem."
+        }
+      ],
+      "hint": "for (int i = 2; i <= n; i++) if (t[i / 2] < t[i]) { zly = i; break; }. Zacznij od zly = 0 i zeruj go przed każdym testem.",
+      "tests_count": 8
+    },
+    {
+      "id": "kop-w-gore",
+      "number": 2363,
+      "title": "Przesiewanie w górę",
+      "category": "Kopiec / krok 3: kopiec binarny",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Zbuduj własny kopiec maksimum w tablicy t[1..n] (bez priority_queue). Na początku kopiec jest pusty. Wstaw do niego po kolei n liczb, każdą tak:",
+        "nowa liczba staje na końcu tablicy (w polu o numerze równym nowej liczbie elementów); potem, dopóki nie jest w korzeniu i jej rodzic (pole i/2) jest od niej mniejszy, zamień ją z rodzicem i przejdź na jego miejsce. Gdy rodzic jest większy albo równy — stop.",
+        "Wypisz, ile zamian wykonało każde wstawienie, a w drugim wierszu — całą tablicę kopca po wstawieniu wszystkich liczb."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb w kolejności wstawiania."
+      ],
+      "output_format": [
+        "W pierwszym wierszu n liczb — liczby zamian przy kolejnych wstawieniach.",
+        "W drugim wierszu tablica t[1..n] na końcu."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "Liczby są z przedziału od 0 do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "5\n3 5 8 1 9",
+          "output": "0 1 1 0 2\n9 8 5 1 3",
+          "note": "Piątka zamienia się z trójką (1 zamiana). Ósemka staje w polu 3 i zamienia się z piątką z korzenia (1). Jedynka zostaje pod trójką (0). Dziewiątka idzie z pola 5 do pola 2, a potem do korzenia (2 zamiany)."
+        }
+      ],
+      "hint": "t.push_back(x); int i = t.size() - 1; while (i > 1 && t[i / 2] < t[i]) { swap(t[i / 2], t[i]); i /= 2; zamiany++; }. Weź vector<int> t(1); — pole t[0] zostaje puste, żeby liczyć od 1.",
+      "tests_count": 9
+    },
+    {
+      "id": "kop-w-dol",
+      "number": 2364,
+      "title": "Przesiewanie w dół",
+      "category": "Kopiec / krok 3: kopiec binarny",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz poprawny kopiec maksimum w tablicy t[1..n] i liczbę k. Wykonaj k razy własne zdjęcie wierzchu (bez priority_queue):",
+        "zapamiętaj korzeń t[1] (to największy element); przenieś ostatni element tablicy na miejsce korzenia i skróć tablicę o jedno pole; potem przesiewaj go w dół: dopóki ma choć jedno dziecko, wybierz większe z dzieci (gdy dzieci są równe — lewe, czyli pole 2i), i jeśli to dziecko jest większe od niego, zamień je i przejdź na miejsce dziecka; w przeciwnym razie stop.",
+        "Wypisz zdjęte korzenie w kolejności zdejmowania, a w drugim wierszu tablicę, która została (albo słowo pusty)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n liczb — kopiec t[1..n]."
+      ],
+      "output_format": [
+        "W pierwszym wierszu k zdjętych liczb.",
+        "W drugim wierszu tablica t po k zdjęciach albo słowo pusty."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 2000",
+        "Liczby są z przedziału od 0 do 10⁶.",
+        "Tablica z wejścia jest poprawnym kopcem maksimum."
+      ],
+      "examples": [
+        {
+          "input": "6 2\n9 7 8 3 5 1",
+          "output": "9 8\n7 5 1 3",
+          "note": "Zdejmujemy 9: jedynka wskakuje do korzenia, zamienia się z większym dzieckiem 8 — zostaje 8 7 1 3 5. Zdejmujemy 8: piątka wskakuje do korzenia i zamienia się z siódemką: 7 5 1 3."
+        }
+      ],
+      "hint": "int top = t[1]; t[1] = t.back(); t.pop_back(); int i = 1, n = t.size() - 1; while (2 * i <= n) { int c = 2 * i; if (c + 1 <= n && t[c + 1] > t[c]) c++; if (t[c] > t[i]) { swap(t[c], t[i]); i = c; } else break; }.",
+      "tests_count": 9
+    },
+    {
+      "id": "kop-wlasny-kopiec",
+      "number": 2365,
+      "title": "Własny kopiec",
+      "category": "Kopiec / krok 3: kopiec binarny",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Napisz własny kopiec maksimum w tablicy t[1..n] — bez priority_queue — i wykonaj q poleceń:",
+        "DODAJ x — wstaw x (na koniec tablicy i przesiewanie w górę: zamieniaj z rodzicem, dopóki rodzic jest mniejszy); ZABIERZ — wypisz korzeń i usuń go (ostatni element na miejsce korzenia i przesiewanie w dół: zamieniaj z większym dzieckiem, przy równych dzieciach z lewym, dopóki to dziecko jest większe); WIERZCH — wypisz korzeń; TABLICA — wypisz całą tablicę t[1..n].",
+        "Jeśli przy ZABIERZ albo WIERZCH kopiec jest pusty, wypisz PUSTO. Przy TABLICA dla pustego kopca wypisz pusty."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy jedno polecenie."
+      ],
+      "output_format": [
+        "Dla każdego polecenia ZABIERZ, WIERZCH i TABLICA jeden wiersz z odpowiedzią."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 2000",
+        "W kopcu nigdy nie ma więcej niż 200 liczb.",
+        "Liczby są z przedziału od 1 do 999.",
+        "Poleceń TABLICA jest najwyżej 20."
+      ],
+      "examples": [
+        {
+          "input": "8\nDODAJ 4\nDODAJ 7\nDODAJ 2\nDODAJ 9\nTABLICA\nZABIERZ\nTABLICA\nWIERZCH",
+          "output": "9 7 2 4\n9\n7 4 2\n7",
+          "note": "Po czterech DODAJ tablica to 9 7 2 4 (dziewiątka przeszła z pola 4 przez pole 2 do korzenia). ZABIERZ wypisuje 9, czwórka wskakuje do korzenia i zamienia się z siódemką: 7 4 2."
+        }
+      ],
+      "hint": "Napisz dwie funkcje na vector<int> &t: void dodaj(vector<int> &t, int x) i int zabierz(vector<int> &t). Bez & funkcja zmieniałaby kopię i kopiec by się nie zmieniał. Pusty kopiec to t.size() == 1 (pole t[0] nieużywane).",
+      "tests_count": 8
+    },
+    {
+      "id": "kop-kopcowanie",
+      "number": 2366,
+      "title": "Sortowanie przez kopcowanie",
+      "category": "Kopiec / krok 3: kopiec binarny",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Posortuj n liczb rosnąco algorytmem sortowania przez kopcowanie, w tej samej tablicy t[1..n], bez priority_queue i bez sort:",
+        "1) Budowa kopca od dołu: dla i od n/2 w dół do 1 przesiewaj w dół element z pola i (w całej tablicy t[1..n]). 2) Sortowanie: dla m od n w dół do 2 zamień t[1] z t[m], a potem przesiewaj w dół element z pola 1, ale tylko w tablicy t[1..m−1] — pole m jest już na swoim miejscu.",
+        "Przesiewanie w dół jest takie jak w kopcu: dopóki pole ma choć jedno dziecko w obrabianej części tablicy, wybierz większe dziecko (przy równych — lewe) i zamień, jeśli jest większe od elementu; w przeciwnym razie stop.",
+        "Wypisz tablicę po budowie kopca, tablicę na końcu (posortowaną) oraz dwie liczby: ile zamian wykonało przesiewanie w dół podczas budowy, a ile podczas sortowania (zamian t[1] z t[m] nie licz)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb."
+      ],
+      "output_format": [
+        "Trzy wiersze: tablica po budowie kopca, tablica posortowana oraz dwie liczby zamian."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "Liczby są z przedziału od 0 do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "6\n3 1 4 1 5 9",
+          "output": "9 5 4 1 1 3\n1 1 3 4 5 9\n4 3",
+          "note": "Budowa: pole 3 (4) zamienia się z 9, pole 2 (1) — z 5, pole 1 (3) — z 9, a potem jeszcze z 4. Wychodzi 9 5 4 1 1 3 po 4 zamianach. Sortowanie przenosi kolejne największe na koniec."
+        }
+      ],
+      "hint": "Jedna funkcja void wDol(vector<int> &t, int i, int n, long long &zamiany) wystarczy na oba etapy — różni się tylko n. Budowa: for (int i = n / 2; i >= 1; i--) wDol(t, i, n, z1);. Sortowanie: for (int m = n; m >= 2; m--) { swap(t[1], t[m]); wDol(t, 1, m - 1, z2); }.",
+      "tests_count": 11
+    },
+    {
+      "id": "kop-kamienie",
+      "number": 2367,
+      "title": "Ostatni kamień",
+      "category": "Kopiec / krok 4: symulacje",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na stole leży n kamieni o podanych wagach. W każdej turze bierzesz dwa najcięższe kamienie, x i y (x ≥ y), i zderzasz je. Jeśli ważą tyle samo, oba się rozpadają. Jeśli nie, kamień y się rozpada, a z kamienia x zostaje kamień o wadze x − y, który wraca na stół.",
+        "Tury trwają, dopóki na stole są co najmniej dwa kamienie. Wypisz wagę kamienia, który został na końcu, albo 0, jeśli nie został żaden."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb — wagi kamieni."
+      ],
+      "output_format": [
+        "Jedna liczba — waga ostatniego kamienia albo 0."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10⁴",
+        "Wagi są liczbami całkowitymi od 1 do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "6\n2 7 4 1 8 1",
+          "output": "1",
+          "note": "8 i 7 dają 1, potem 4 i 2 dają 2, potem 2 i 1 dają 1, potem 1 i 1 znikają. Zostaje jeden kamień o wadze 1."
+        }
+      ],
+      "hint": "while (pq.size() > 1) { int x = pq.top(); pq.pop(); int y = pq.top(); pq.pop(); if (x != y) pq.push(x - y); }. Na końcu: pq.empty() ? 0 : pq.top().",
+      "tests_count": 9
+    },
+    {
+      "id": "kop-polowienie",
+      "number": 2368,
+      "title": "Połowienie kupek",
+      "category": "Kopiec / krok 4: symulacje",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz n kupek kamieni. W jednym ruchu wybierasz kupkę, na której jest najwięcej kamieni — powiedzmy x — i zabierasz z niej x/2 kamieni (dzielenie całkowite), więc na kupce zostaje x − x/2. Wykonaj dokładnie k ruchów i wypisz, ile kamieni zostało na wszystkich kupkach razem.",
+        "Ruchów może być milion, więc szukanie największej kupki pętlą po wszystkich kupkach przy każdym ruchu jest za wolne. Trzymaj kupki w kopcu: weź wierzch, zdejmij go i wrzuć z powrotem zmniejszoną kupkę."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n liczb — liczby kamieni na kupkach."
+      ],
+      "output_format": [
+        "Jedna liczba — łączna liczba kamieni po k ruchach."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "1 ≤ k ≤ 10⁶",
+        "Na każdej kupce jest od 1 do 10⁹ kamieni."
+      ],
+      "examples": [
+        {
+          "input": "3 2\n5 4 9",
+          "output": "12",
+          "note": "Z dziewiątki zabieramy 4 (zostaje 5). Teraz największe są dwie piątki — z jednej zabieramy 2 i zostaje 3. Razem 5 + 4 + 3 = 12."
+        }
+      ],
+      "hint": "for (int i = 0; i < k; i++) { int x = pq.top(); pq.pop(); pq.push(x - x / 2); }. Na koniec zsumuj kopiec, opróżniając go — suma n kupek po miliard to long long. Kupka z jednym kamieniem już się nie zmniejsza (1 − 1/2 = 1), ale ruch i tak się liczy.",
+      "tests_count": 10
+    },
+    {
+      "id": "kop-prezenty",
+      "number": 2369,
+      "title": "Prezenty pod choinką",
+      "category": "Kopiec / krok 4: symulacje",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Pod choinką leży n stosów prezentów. Co sekundę elf wybiera stos, na którym jest najwięcej prezentów — powiedzmy x — i zabiera z niego tyle, że zostaje dokładnie ⌊√x⌋ prezentów (pierwiastek zaokrąglony w dół).",
+        "Wypisz, ile prezentów leży pod choinką po k sekundach."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n liczb — liczby prezentów na stosach."
+      ],
+      "output_format": [
+        "Jedna liczba — łączna liczba prezentów po k sekundach."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "1 ≤ k ≤ 10⁵",
+        "Na każdym stosie jest od 1 do 10⁹ prezentów."
+      ],
+      "examples": [
+        {
+          "input": "5 4\n25 64 9 4 100",
+          "output": "29",
+          "note": "100 → 10, potem 64 → 8, potem 25 → 5, potem 10 → 3. Zostaje 3 + 8 + 5 + 9 + 4 = 29."
+        }
+      ],
+      "hint": "int x = pq.top(); pq.pop(); pq.push((int)sqrt(x));. Dla liczb do 10⁹ funkcja sqrt z <cmath> liczy dokładnie, a rzutowanie na int obcina w dół. Wynik końcowy w long long.",
+      "tests_count": 9
+    },
+    {
+      "id": "kop-kilka-testow",
+      "number": 2370,
+      "title": "Kilka turniejów",
+      "category": "Kopiec / krok 4: symulacje",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W jednym wejściu jest T turniejów. W każdym startowało n zawodników z podanymi wynikami. Dla każdego turnieju wypisz k najlepszych wyników, od najwyższego.",
+        "Uważaj: kopiec nie ma funkcji clear(). Najprościej zadeklarować go wewnątrz pętli po testach — wtedy każdy test dostaje nowy, pusty kopiec. Można też go wyczyścić przypisaniem pq = priority_queue<int>();."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba T.",
+        "Każdy test to dwa wiersze: liczby n i k, a w następnym n wyników."
+      ],
+      "output_format": [
+        "Dla każdego testu jeden wiersz: k najlepszych wyników od najwyższego."
+      ],
+      "constraints": [
+        "1 ≤ T ≤ 100",
+        "1 ≤ k ≤ n ≤ 1000",
+        "Suma wszystkich n nie przekracza 2500.",
+        "Wyniki są z przedziału od 0 do 10⁵."
+      ],
+      "examples": [
+        {
+          "input": "2\n4 2\n10 50 20 40\n3 3\n5 1 5",
+          "output": "50 40\n5 5 1",
+          "note": "W pierwszym turnieju najlepsze są 50 i 40. W drugim wypisujemy wszystkie trzy wyniki — bez śladu po pierwszym turnieju."
+        }
+      ],
+      "hint": "for (int t = 0; t < T; t++) { int n, k; cin >> n >> k; priority_queue<int> pq; … }. Jeśli kopiec stoi przed pętlą, w drugim teście zostałyby w nim wyniki z pierwszego (u nas: 30 i 20 z przykładu).",
+      "tests_count": 8
+    },
+    {
+      "id": "kop-punkty-k-razy",
+      "number": 2371,
+      "title": "Punkty w k ruchach",
+      "category": "Kopiec / krok 4: symulacje",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz n liczb naturalnych i k ruchów. W każdym ruchu wybierasz jedną z liczb, x, dostajesz x punktów, a liczba x zamienia się na ⌈x / 3⌉ (jedna trzecia zaokrąglona w górę). Zdobądź jak najwięcej punktów.",
+        "Najlepiej za każdym razem brać największą liczbę — zmniejszona wraca do puli i może jeszcze się przydać. Wypisz największą liczbę punktów po k ruchach."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n liczb naturalnych."
+      ],
+      "output_format": [
+        "Jedna liczba — największa możliwa liczba punktów."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "1 ≤ k ≤ 10⁵",
+        "Liczby są z przedziału od 1 do 10⁹."
+      ],
+      "examples": [
+        {
+          "input": "3 3\n10 1 3",
+          "output": "17",
+          "note": "Bierzemy 10 (zostaje ⌈10/3⌉ = 4), potem 4 (zostaje 2), potem 3. Razem 10 + 4 + 3 = 17."
+        }
+      ],
+      "hint": "long long punkty = 0; for (k razy) { long long x = pq.top(); pq.pop(); punkty += x; pq.push((x + 2) / 3); }. (x + 2) / 3 to dzielenie przez 3 w górę — znasz je z lekcji Zaokrąglanie.",
+      "tests_count": 9
+    },
+    {
+      "id": "kop-gra-w-kupki",
+      "number": 2372,
+      "title": "Gra w kupki",
+      "category": "Kopiec / krok 4: symulacje",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na stole leży n kupek żetonów. Ala i Bartek grają na zmianę, zaczyna Ala. W swoim ruchu gracz bierze kupkę, na której jest najwięcej żetonów — powiedzmy x — zabiera z niej ⌈x / 2⌉ żetonów jako swoje punkty, a pozostałe ⌊x / 2⌋ żetonów odkłada na stół jako nową kupkę (o ile coś zostało).",
+        "Gra kończy się, gdy na stole nie ma już żadnej kupki. Wypisz, ile punktów zdobyła Ala, a ile Bartek."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb — wielkości kupek."
+      ],
+      "output_format": [
+        "Dwie liczby: punkty Ali i punkty Bartka."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "Na każdej kupce jest od 1 do 10⁹ żetonów."
+      ],
+      "examples": [
+        {
+          "input": "2\n5 3",
+          "output": "5 3",
+          "note": "Ala bierze 3 z piątki (zostaje 2). Bartek bierze 2 z trójki (zostaje 1). Ala bierze 1 z dwójki (zostaje 1). Bartek bierze 1, Ala bierze ostatnią 1. Ala ma 5, Bartek 3."
+        }
+      ],
+      "hint": "long long pkt[2] = {0, 0}; int kto = 0; while (!pq.empty()) { long long x = pq.top(); pq.pop(); pkt[kto] += (x + 1) / 2; if (x / 2 > 0) pq.push(x / 2); kto = 1 - kto; }.",
+      "tests_count": 8
+    },
+    {
+      "id": "kop-lotnisko",
+      "number": 2373,
+      "title": "Bilety na lotnisku",
+      "category": "Kopiec / krok 4: symulacje",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na lotnisku jest m samolotów, w i-tym zostało a_i wolnych miejsc. Po bilety ustawiło się n pasażerów. Każdy pasażer sam wybiera samolot (byle z wolnym miejscem), a cena biletu jest równa liczbie wolnych miejsc w wybranym samolocie w chwili zakupu. Po zakupie w tym samolocie jest o jedno wolne miejsce mniej.",
+        "Lotnisko chce wiedzieć, ile najwięcej i ile najmniej może zarobić na tych n pasażerach. Najwięcej — gdy każdy wybiera samolot z największą liczbą wolnych miejsc (kopiec maksimum). Najmniej — gdy każdy wybiera samolot z najmniejszą dodatnią liczbą wolnych miejsc (kopiec minimum; samolot z zerem wolnych miejsc znika z kopca). Wolnych miejsc na pewno starczy dla wszystkich."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W drugim wierszu m liczb a_i."
+      ],
+      "output_format": [
+        "Dwie liczby: największy i najmniejszy możliwy zarobek."
+      ],
+      "constraints": [
+        "1 ≤ m ≤ 1000",
+        "1 ≤ a_i ≤ 1000",
+        "1 ≤ n ≤ 10⁴",
+        "Suma wszystkich a_i jest co najmniej n."
+      ],
+      "examples": [
+        {
+          "input": "4 3\n2 1 1",
+          "output": "5 5",
+          "note": "Najdrożej: 2 + 1 + 1 + 1 = 5 (po pierwszym bilecie wszystkie samoloty mają po 1 miejscu). Najtaniej: 1 + 1 + 2 + 1 = 5."
+        },
+        {
+          "input": "4 3\n2 2 2",
+          "output": "7 6",
+          "note": "Najdrożej 2 + 2 + 2 + 1 = 7, najtaniej 2 + 1 + 2 + 1 = 6 — najpierw wyprzedajemy do końca jeden samolot."
+        }
+      ],
+      "hint": "Dwa kopce z tymi samymi a_i. Najdrożej: x = maks.top(); maks.pop(); zarobek += x; if (x > 1) maks.push(x - 1);. Najtaniej tak samo z kopcem minimum. Samolot z zerem wolnych miejsc nie wraca do kopca — inaczej kopiec minimum podawałby zero.",
+      "tests_count": 10
+    },
+    {
+      "id": "kop-duzo-polecen",
+      "number": 2374,
+      "title": "Milion poleceń",
+      "category": "Kopiec / krok 4: symulacje",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wejście jest bardzo duże, więc zamiast liczb dostajesz pięć liczb n, s, a, b, m i sam generujesz ciąg x₁, …, xₙ: x₁ = s, a każda następna liczba to xᵢ = (xᵢ₋₁ · a + b) mod m (licz w long long).",
+        "Przejdź ciąg od początku i traktuj każdą liczbę jak polecenie dla kopca: jeśli xᵢ dzieli się przez 3, zabierz z kopca największą liczbę i dodaj ją do sumy (jeśli kopiec jest pusty — nic nie rób); w przeciwnym razie wrzuć xᵢ do kopca.",
+        "Wypisz sumę zabranych liczb i liczbę elementów, które zostały w kopcu. Przy milionie poleceń szukanie największej liczby pętlą po vectorze nie zdąży — kopiec robi to w kilkunastu krokach."
+      ],
+      "input_format": [
+        "Jeden wiersz: liczby n, s, a, b, m."
+      ],
+      "output_format": [
+        "Dwie liczby: suma zabranych liczb i liczba elementów w kopcu na końcu."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10⁶",
+        "1 ≤ m ≤ 10⁹",
+        "0 ≤ s, a, b < m"
+      ],
+      "examples": [
+        {
+          "input": "6 2 3 1 10",
+          "output": "0 6",
+          "note": "Ciąg to 2, 7, 2, 7, 2, 7 — żadna liczba nie dzieli się przez 3, więc wszystkie trafiają do kopca. Suma 0, w kopcu 6 liczb."
+        },
+        {
+          "input": "6 4 5 2 20",
+          "output": "6 2",
+          "note": "Ciąg to 4, 2, 12, 2, 12, 2. Liczba 12 dzieli się przez 3: pierwsza zabiera z kopca 4, druga zabiera 2. Suma 6, w kopcu zostają dwie dwójki."
+        }
+      ],
+      "hint": "vector<long long> x(n); x[0] = s; for (int i = 1; i < n; i++) x[i] = (x[i - 1] * a + b) % m; Potem jedna pętla: if (x[i] % 3 == 0) { if (!pq.empty()) { suma += pq.top(); pq.pop(); } } else pq.push(x[i]);. Kopiec long long albo int (m ≤ 10⁹ mieści się w int), suma w long long.",
+      "tests_count": 10
+    },
+    {
+      "id": "kop-sor",
+      "number": 2375,
+      "title": "Izba przyjęć",
+      "category": "Kopiec / krok 5: pary i struktury",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na szpitalnej izbie przyjęć lekarz przyjmuje zawsze pacjenta o największej pilności (od 1 do 10). Jeśli kilku pacjentów ma tę samą pilność, pierwszeństwo ma ten, kto przyszedł wcześniej.",
+        "Wykonaj q zdarzeń: PRZYCHODZI imię p — przychodzi pacjent o podanym imieniu i pilności p; LEKARZ — lekarz woła pacjenta: wypisz jego imię (pacjent opuszcza poczekalnię), a jeśli nikt nie czeka, wypisz nikt.",
+        "Wskazówka: numeruj pacjentów w kolejności przyjścia i trzymaj w kopcu pary {pilność, −numer}. Większa pilność wygrywa, a przy remisie większe −numer, czyli mniejszy numer — wcześniejsze przyjście. Imiona trzymaj w vectorze pod numerami."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy jedno zdarzenie: PRZYCHODZI imię p albo LEKARZ."
+      ],
+      "output_format": [
+        "Dla każdego zdarzenia LEKARZ jeden wiersz: imię pacjenta albo słowo nikt."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 3000",
+        "1 ≤ p ≤ 10",
+        "Imiona to słowa z liter angielskiego alfabetu, najwyżej 12 znaków; mogą się powtarzać."
+      ],
+      "examples": [
+        {
+          "input": "7\nPRZYCHODZI Ola 3\nPRZYCHODZI Jan 8\nPRZYCHODZI Ewa 3\nLEKARZ\nLEKARZ\nLEKARZ\nLEKARZ",
+          "output": "Jan\nOla\nEwa\nnikt",
+          "note": "Jan ma pilność 8 — idzie pierwszy. Ola i Ewa mają po 3, ale Ola przyszła wcześniej. Na koniec poczekalnia jest pusta."
+        }
+      ],
+      "hint": "priority_queue<pair<int, int>> pq; vector<string> imiona;. Przy PRZYCHODZI: imiona.push_back(imie); pq.push({p, -(int)(imiona.size() - 1)});. Przy LEKARZ: int nr = -pq.top().second; cout << imiona[nr];.",
+      "tests_count": 8
+    },
+    {
+      "id": "kop-najlepsi-uczniowie",
+      "number": 2376,
+      "title": "Najlepsi uczniowie",
+      "category": "Kopiec / krok 5: pary i struktury",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W klasie jest n uczniów, każdy ma inne imię i pewną liczbę punktów. Wypisz k najlepszych uczniów: od największej liczby punktów, a przy równej liczbie punktów — w kolejności alfabetycznej imion.",
+        "Para {punkty, imię} w zwykłym kopcu przy remisie oddałaby imię dalsze w alfabecie — odwrotnie, niż chcemy. Imienia nie da się wziąć z minusem, ale punkty tak: wrzucaj pary {−punkty, imię} do kopca minimum par. Wtedy na wierzchu jest najmniejsze −punkty (czyli najwięcej punktów), a przy remisie — imię najwcześniejsze w alfabecie."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W każdym z kolejnych n wierszy imię i liczba punktów."
+      ],
+      "output_format": [
+        "k wierszy: imię i liczba punktów, od najlepszego ucznia."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 2000",
+        "k ≤ 1000",
+        "Punkty są liczbami całkowitymi od 0 do 100.",
+        "Imiona są różne, mają najwyżej 15 znaków (litery i cyfry); porównujemy je jak napisy w C++."
+      ],
+      "examples": [
+        {
+          "input": "5 3\nOla 90\nAdam 75\nEwa 90\nIgor 100\nBasia 75",
+          "output": "Igor 100\nEwa 90\nOla 90",
+          "note": "Igor ma 100. Potem Ewa i Ola po 90 — alfabetycznie Ewa przed Olą."
+        }
+      ],
+      "hint": "priority_queue<pair<int, string>, vector<pair<int, string>>, greater<pair<int, string>>> pq; pq.push({-punkty, imie});. Przy wypisywaniu: -pq.top().first to punkty, pq.top().second to imię.",
+      "tests_count": 9
+    },
+    {
+      "id": "kop-zadania-z-priorytetem",
+      "number": 2377,
+      "title": "Lista zadań",
+      "category": "Kopiec / krok 5: pary i struktury",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Prowadzisz listę zadań do zrobienia. Każde zadanie ma nazwę (słowo z małych liter) i priorytet. Wykonaj q poleceń:",
+        "DODAJ nazwa p — dopisz zadanie o podanej nazwie i priorytecie p; ZROB — zrób najważniejsze zadanie: wypisz jego nazwę i skreśl je z listy (najważniejsze ma największy priorytet, a przy remisie — nazwę najwcześniejszą w alfabecie); jeśli lista jest pusta, wypisz nic. ILE — wypisz, ile zadań jest na liście."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy jedno polecenie."
+      ],
+      "output_format": [
+        "Dla każdego polecenia ZROB i ILE jeden wiersz z odpowiedzią."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 3000",
+        "Priorytety są liczbami całkowitymi od 1 do 10⁶.",
+        "Nazwy mają od 1 do 12 małych liter; ta sama nazwa może się powtórzyć."
+      ],
+      "examples": [
+        {
+          "input": "7\nDODAJ zakupy 2\nDODAJ lekcje 5\nDODAJ pranie 2\nZROB\nZROB\nILE\nZROB",
+          "output": "lekcje\npranie\n1\nzakupy",
+          "note": "Najpierw lekcje (priorytet 5). Zakupy i pranie mają po 2 — alfabetycznie pierwsze jest pranie. Zostają same zakupy."
+        }
+      ],
+      "hint": "Kopiec minimum par {-p, nazwa}: na wierzchu najmniejsze -p, czyli największe p, a przy remisie — najmniejsza nazwa. Przy ZROB: if (pq.empty()) cout << \"nic\\n\"; else { cout << pq.top().second << \"\\n\"; pq.pop(); }.",
+      "tests_count": 8
+    },
+    {
+      "id": "kop-najblizsze-punkty",
+      "number": 2378,
+      "title": "Najbliższe gwiazdy",
+      "category": "Kopiec / krok 5: pary i struktury",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na mapie nieba jest n gwiazd w punktach o współrzędnych całkowitych (x, y), a Ziemia jest w punkcie (0, 0). Wypisz k gwiazd najbliższych Ziemi, od najbliższej.",
+        "Odległości nie trzeba liczyć z pierwiastkiem — wystarczy porównywać jej kwadrat x² + y². Przy równej odległości bliżej na liście jest gwiazda o mniejszym x, a przy równym x — o mniejszym y. Uwaga: x² dla x = 10⁶ to 10¹² — to się nie mieści w int."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W każdym z kolejnych n wierszy dwie liczby x i y."
+      ],
+      "output_format": [
+        "k wierszy: współrzędne gwiazd od najbliższej."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 3000",
+        "k ≤ 1000",
+        "Współrzędne są z przedziału od −10⁶ do 10⁶; gwiazdy mogą się powtarzać."
+      ],
+      "examples": [
+        {
+          "input": "5 3\n3 4\n-5 0\n1 1\n0 -1\n4 3",
+          "output": "0 -1\n1 1\n-5 0",
+          "note": "Kwadraty odległości: 25, 25, 2, 1 i 25. Najbliżej jest (0, −1), potem (1, 1). Trzy gwiazdy mają po 25 — z nich najmniejsze x ma (−5, 0)."
+        }
+      ],
+      "hint": "Kopiec minimum elementów pair<long long, pair<int, int>>: pq.push({1LL * x * x + 1LL * y * y, {x, y}});. Pary porównują się pole po polu, więc remis odległości rozstrzyga x, a potem y — dokładnie tak, jak chcemy.",
+      "tests_count": 9
+    },
+    {
+      "id": "kop-czeste-slowa",
+      "number": 2379,
+      "title": "Najczęstsze słowa",
+      "category": "Kopiec / krok 5: pary i struktury",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n słów i policz, ile razy wystąpiło każde z nich. Wypisz k najczęstszych słów razem z liczbą wystąpień: od najczęstszego, a przy równej liczbie wystąpień — w kolejności alfabetycznej.",
+        "Zlicz słowa w map<string, int>, a potem przerzuć wszystkie pary z mapy do kopca minimum par {−ile, słowo} i zdejmij k razy wierzch."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n słów."
+      ],
+      "output_format": [
+        "k wierszy: słowo i liczba jego wystąpień."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "k nie przekracza liczby różnych słów.",
+        "Słowa mają od 1 do 12 małych liter."
+      ],
+      "examples": [
+        {
+          "input": "9 2\nala ma kota kot ma ale ala ma psa",
+          "output": "ma 3\nala 2",
+          "note": "Słowo ma występuje 3 razy, ala — 2 razy. Pozostałe słowa (ale, kot, kota, psa) wystąpiły raz."
+        }
+      ],
+      "hint": "map<string, int> ile; for (…) ile[s]++;. for (auto [s, c] : ile) pq.push({-c, s});. Kopiec minimum par: priority_queue<pair<int, string>, vector<pair<int, string>>, greater<pair<int, string>>>.",
+      "tests_count": 9
+    },
+    {
+      "id": "kop-indeksy-najwiekszych",
+      "number": 2380,
+      "title": "Gdzie leżą największe",
+      "category": "Kopiec / krok 5: pary i struktury",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb ponumerowanych od 1 do n. Wypisz numery pozycji k największych liczb, od największej liczby. Jeśli kilka liczb jest równych, wcześniej wypisz tę, która stoi bliżej początku (ma mniejszy numer).",
+        "Trzymaj w kopcu pary {wartość, −pozycja}: większa wartość wygrywa, a przy remisie większe −pozycja, czyli mniejsza pozycja."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jeden wiersz: k numerów pozycji."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 5000",
+        "Liczby są z przedziału od −10⁹ do 10⁹."
+      ],
+      "examples": [
+        {
+          "input": "6 4\n5 9 5 1 9 5",
+          "output": "2 5 1 3",
+          "note": "Dziewiątki stoją na pozycjach 2 i 5, potem piątki na pozycjach 1 i 3 (piątka z pozycji 6 się nie mieści)."
+        }
+      ],
+      "hint": "priority_queue<pair<int, int>> pq; for (int i = 1; i <= n; i++) { cin >> x; pq.push({x, -i}); }. Wypisuj -pq.top().second.",
+      "tests_count": 8
+    },
+    {
+      "id": "kop-aukcja",
+      "number": 2381,
+      "title": "Aukcja",
+      "category": "Kopiec / krok 5: pary i struktury",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dom aukcyjny zbiera oferty kupna. Każda oferta ma kupującego, kwotę i czas złożenia (numer polecenia). Wykonaj q poleceń:",
+        "OFERTA kto kwota — kupujący kto składa ofertę; SPRZEDAJ — sprzedaj przedmiot najlepszej ofercie: wypisz kupującego i kwotę, a ofertę usuń. Najlepsza oferta ma największą kwotę, a przy równych kwotach — wcześniejszy czas złożenia. Jeśli nie ma żadnej oferty, wypisz brak.",
+        "Napisz strukturę Oferta z polami kwota, czas i kto oraz operatorem <, który mówi, kiedy oferta jest GORSZA od innej — kopiec trzyma na wierzchu element „największy”, czyli najlepszy."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy jedno polecenie."
+      ],
+      "output_format": [
+        "Dla każdego polecenia SPRZEDAJ jeden wiersz: kupujący i kwota albo słowo brak."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 3000",
+        "Kwoty są liczbami całkowitymi od 1 do 10⁶.",
+        "Imiona kupujących to słowa z liter, najwyżej 12 znaków."
+      ],
+      "examples": [
+        {
+          "input": "6\nOFERTA Ola 300\nOFERTA Kuba 500\nOFERTA Ewa 500\nSPRZEDAJ\nSPRZEDAJ\nSPRZEDAJ",
+          "output": "Kuba 500\nEwa 500\nOla 300",
+          "note": "Kuba i Ewa dają po 500, ale Kuba był pierwszy. Potem Ewa, a na koniec Ola."
+        }
+      ],
+      "hint": "struct Oferta { int kwota, czas; string kto; bool operator<(const Oferta &o) const { if (kwota != o.kwota) return kwota < o.kwota; return czas > o.czas; } };. Późniejszy czas to gorsza oferta, dlatego czas > o.czas. Bez const na końcu operatora kopiec się nie skompiluje.",
+      "tests_count": 7
+    },
+    {
+      "id": "kop-sortowanie-par",
+      "number": 2382,
+      "title": "Pierwsze rosnąco, drugie malejąco",
+      "category": "Kopiec / krok 5: pary i struktury",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n par liczb (a, b) i wypisz je w takiej kolejności: najpierw para o najmniejszym a; jeśli kilka par ma to samo a, najpierw ta o największym b. Takie same pary wypisz tyle razy, ile wystąpiły.",
+        "Zrób to kopcem. Możesz użyć struktury z własnym operatorem < (pamiętaj, że na wierzchu kopca jest element „największy”, więc para, która ma wyjść pierwsza, musi być według operatora największa) albo dobrać znaki w zwykłej parze."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z kolejnych n wierszy dwie liczby a i b."
+      ],
+      "output_format": [
+        "n wierszy: pary w podanej kolejności."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1500",
+        "Liczby są z przedziału od −10⁴ do 10⁴."
+      ],
+      "examples": [
+        {
+          "input": "5\n3 1\n1 5\n3 7\n1 2\n-2 0",
+          "output": "-2 0\n1 5\n1 2\n3 7\n3 1",
+          "note": "Najmniejsze a = −2. Dwie pary z a = 1: najpierw (1, 5), bo większe b. Potem pary z a = 3: (3, 7) i (3, 1)."
+        }
+      ],
+      "hint": "Sposób z parą: kopiec maksimum par {-a, b} — największe -a to najmniejsze a, a przy remisie wygrywa większe b. Sposób ze strukturą: bool operator<(const Para &o) const { if (a != o.a) return a > o.a; return b < o.b; }.",
+      "tests_count": 9
+    },
+    {
+      "id": "kop-k-ty-na-biezaco",
+      "number": 2383,
+      "title": "k-ty najlepszy na bieżąco",
+      "category": "Kopiec / krok 6: k największych i mediana",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wyniki zawodników napływają jeden po drugim. Po każdym nowym wyniku wypisz k-ty najlepszy wynik spośród wszystkich dotychczasowych (równe wyniki liczą się osobno). Jeśli wyników jest jeszcze mniej niż k, wypisz minus (-).",
+        "Trzymaj tylko k najlepszych wyników w kopcu minimum: nowy wynik wrzuć, a jeśli kopiec ma więcej niż k elementów, wyrzuć najmniejszy. Wtedy na wierzchu leży najsłabszy z k najlepszych — czyli właśnie k-ty najlepszy."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n wyników w kolejności napływania."
+      ],
+      "output_format": [
+        "Jeden wiersz: n odpowiedzi (liczba albo minus) oddzielonych spacjami."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 3000",
+        "Wyniki są liczbami całkowitymi od 0 do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "6 3\n4 5 8 2 9 3",
+          "output": "- - 4 4 5 5",
+          "note": "Po trzech wynikach (4, 5, 8) trzeci najlepszy to 4. Dwójka nic nie zmienia. Po dziewiątce klub to 5, 8, 9 — bramkarzem jest 5."
+        }
+      ],
+      "hint": "priority_queue<int, vector<int>, greater<int>> klub; klub.push(x); if (klub.size() > k) klub.pop(); if (klub.size() < k) cout << \"- \"; else cout << klub.top() << \" \";.",
+      "tests_count": 10
+    },
+    {
+      "id": "kop-k-najblizszych",
+      "number": 2384,
+      "title": "k liczb najbliżej celu",
+      "category": "Kopiec / krok 6: k największych i mediana",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb i cel x. Wybierz k liczb, które leżą najbliżej x (odległość to |a − x|). Przy równej odległości bliższa jest liczba mniejsza. Wybrane liczby wypisz rosnąco.",
+        "Trzymaj k najlepszych kandydatów w kopcu maksimum par {|a − x|, a} — na wierzchu jest najgorszy z nich (największa odległość, a przy remisie większa liczba). Gdy kopiec przekroczy k elementów, wyrzuć wierzch. Na koniec przerzuć liczby do vectora i posortuj. Uwaga: |a − x| może wynosić 2·10⁹ — to się nie mieści w int."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n, k i x.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jeden wiersz: k wybranych liczb rosnąco."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 5000",
+        "k ≤ 1000",
+        "Liczby i x są z przedziału od −10⁹ do 10⁹."
+      ],
+      "examples": [
+        {
+          "input": "6 3 5\n1 9 4 6 3 7",
+          "output": "3 4 6",
+          "note": "Odległości od 5: 4, 4, 1, 1, 2, 2. Najbliżej są 4 i 6, potem 3 i 7 — przy remisie wygrywa mniejsza liczba, czyli 3."
+        }
+      ],
+      "hint": "priority_queue<pair<long long, int>> pq; pq.push({llabs((long long)a - x), a}); if (pq.size() > k) pq.pop();. Na koniec: vector<int> w; while (!pq.empty()) { w.push_back(pq.top().second); pq.pop(); } sort(w.begin(), w.end());.",
+      "tests_count": 9
+    },
+    {
+      "id": "kop-suma-k-na-biezaco",
+      "number": 2385,
+      "title": "Suma najlepszych na bieżąco",
+      "category": "Kopiec / krok 6: k największych i mediana",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wyniki generujesz sam: x₁ = s, xᵢ = (xᵢ₋₁ · a + b) mod m (w long long). Po każdym wyniku xᵢ policz Sᵢ — sumę k najlepszych spośród x₁, …, xᵢ (jeśli wyników jest mniej niż k, to sumę wszystkich).",
+        "Wypisz sumę S₁ + S₂ + … + Sₙ. Sortowanie po każdym wyniku byłoby za wolne. Trzymaj k najlepszych wyników w kopcu minimum i ich sumę w zmiennej: przy push dodawaj, przy pop odejmuj."
+      ],
+      "input_format": [
+        "Jeden wiersz: liczby n, s, a, b, m oraz k."
+      ],
+      "output_format": [
+        "Jedna liczba — suma S₁ + … + Sₙ."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10⁶",
+        "1 ≤ m ≤ 10⁶",
+        "0 ≤ s, a, b < m",
+        "1 ≤ k ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "5 3 2 1 10 2",
+          "output": "49",
+          "note": "Ciąg: 3, 7, 5, 1, 3. Sumy dwóch najlepszych: 3, 10, 12, 12, 12. Razem 49."
+        }
+      ],
+      "hint": "vector<long long> x(n); x[0] = s; for (int i = 1; i < n; i++) x[i] = (x[i - 1] * a + b) % m; Potem: klub.push(x[i]); suma += x[i]; if (klub.size() > k) { suma -= klub.top(); klub.pop(); } razem += suma;. Razem może dojść do 10¹⁵ — long long.",
+      "tests_count": 8
+    },
+    {
+      "id": "kop-scal-listy",
+      "number": 2386,
+      "title": "Scalanie k list",
+      "category": "Kopiec / krok 6: k największych i mediana",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz k list liczb, każda jest posortowana niemalejąco. Scal je w jedną posortowaną listę i wypisz ją.",
+        "Wrzuć do kopca minimum pierwszy element każdej niepustej listy razem z numerem listy i pozycją: {wartość, {lista, pozycja}}. Zdejmuj najmniejszy, wypisuj go i wrzucaj do kopca następny element z tej samej listy (jeśli jest). W kopcu jest zawsze najwyżej k elementów."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba k.",
+        "W każdym z kolejnych k wierszy: długość listy d, a po niej d liczb posortowanych niemalejąco."
+      ],
+      "output_format": [
+        "Jeden wiersz: wszystkie liczby po scaleniu, niemalejąco."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ 100",
+        "0 ≤ d",
+        "Suma długości list jest od 1 do 2500.",
+        "Liczby są z przedziału od −10⁶ do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "3\n3 1 4 9\n2 2 4\n0",
+          "output": "1 2 4 4 9",
+          "note": "Trzecia lista jest pusta. Wynik: 1 2 4 4 9."
+        }
+      ],
+      "hint": "vector<vector<int>> L(k);. pq.push({L[i][0], {i, 0}}); dla niepustych list. Potem: auto [w, p] = pq.top(); pq.pop(); cout << w << \" \"; auto [i, j] = p; if (j + 1 < L[i].size()) pq.push({L[i][j + 1], {i, j + 1}});.",
+      "tests_count": 9
+    },
+    {
+      "id": "kop-najmniejsze-sumy",
+      "number": 2387,
+      "title": "Najmniejsze sumy par",
+      "category": "Kopiec / krok 6: k największych i mediana",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz dwie tablice liczb posortowane niemalejąco: A (n liczb) i B (m liczb). Każda para pozycji (i, j) daje sumę A[i] + B[j] — razem n · m sum (równe sumy z różnych par liczą się osobno). Wypisz k najmniejszych z tych sum, rosnąco.",
+        "Wszystkich sum może być 9 milionów, ale potrzebujemy tylko k. Pomyśl o każdym i jak o posortowanej liście A[i] + B[0], A[i] + B[1], … i scal te listy kopcem: na początku wrzuć {A[i] + B[0], {i, 0}} dla i < min(n, k), a po zdjęciu {suma, {i, j}} wrzuć następną sumę z tej samej listy: {A[i] + B[j + 1], {i, j + 1}}."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n, m i k.",
+        "W drugim wierszu n liczb tablicy A, w trzecim m liczb tablicy B (obie niemalejąco)."
+      ],
+      "output_format": [
+        "Jeden wiersz: k najmniejszych sum rosnąco."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 3000",
+        "1 ≤ k ≤ min(n · m, 2000)",
+        "Liczby są z przedziału od 0 do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "3 3 4\n1 7 11\n2 4 6",
+          "output": "3 5 7 9",
+          "note": "Najmniejsze sumy to 1 + 2 = 3, 1 + 4 = 5, 1 + 6 = 7 i 7 + 2 = 9."
+        }
+      ],
+      "hint": "for (int i = 0; i < min(n, k); i++) pq.push({A[i] + B[0], {i, 0}});. Potem k razy: zdejmij wierzch, wypisz sumę, i jeśli j + 1 < m — wrzuć {A[i] + B[j + 1], {i, j + 1}}. Każdą parę (i, j) wrzucamy najwyżej raz, więc nie trzeba pamiętać, które już były.",
+      "tests_count": 10
+    },
+    {
+      "id": "kop-mediana-na-biezaco",
+      "number": 2388,
+      "title": "Mediana na bieżąco",
+      "category": "Kopiec / krok 6: k największych i mediana",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Liczby napływają jedna po drugiej. Po każdej nowej liczbie wypisz medianę wszystkich dotychczasowych liczb: gdyby je ustawić rosnąco, mediana stoi na środku. Przy parzystej liczbie liczb są dwie środkowe — wypisz mniejszą z nich.",
+        "Trzymaj dwa kopce: dol — kopiec maksimum z mniejszą połową liczb, i gora — kopiec minimum z większą połową. Pilnuj, żeby dol miał tyle samo elementów co gora albo o jeden więcej. Wtedy mediana to zawsze dol.top()."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb w kolejności napływania."
+      ],
+      "output_format": [
+        "Jeden wiersz: n median oddzielonych spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 3000",
+        "Liczby są z przedziału od −10⁶ do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "6\n5 15 1 3 8 7",
+          "output": "5 5 5 3 5 5",
+          "note": "Po kolei: {5} → 5; {5, 15} → 5; {1, 5, 15} → 5; {1, 3, 5, 15} → 3; {1, 3, 5, 8, 15} → 5; {1, 3, 5, 7, 8, 15} → 5."
+        }
+      ],
+      "hint": "if (dol.empty() || x <= dol.top()) dol.push(x); else gora.push(x);. Potem równoważenie: if (dol.size() > gora.size() + 1) { gora.push(dol.top()); dol.pop(); } else if (gora.size() > dol.size()) { dol.push(gora.top()); gora.pop(); }. Wypisz dol.top().",
+      "tests_count": 10
+    },
+    {
+      "id": "kop-dwie-polowy",
+      "number": 2389,
+      "title": "Dwie połowy",
+      "category": "Kopiec / krok 6: k największych i mediana",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Liczby napływają jedna po drugiej. Po każdej nowej liczbie podziel wszystkie dotychczasowe liczby na dwie połowy: dolną — ⌈i/2⌉ najmniejszych — i górną — ⌊i/2⌋ największych (przy nieparzystej liczbie liczb środkowa trafia do dolnej połowy). Wypisz sumę górnej połowy minus sumę dolnej.",
+        "Użyj dwóch kopców jak przy medianie i trzymaj sumę każdego z nich w osobnej zmiennej. Każde wrzucenie, zdjęcie i przerzucenie między kopcami musi poprawić odpowiednią sumę."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb naturalnych."
+      ],
+      "output_format": [
+        "Jeden wiersz: n różnic oddzielonych spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "Liczby są z przedziału od 0 do 10⁷."
+      ],
+      "examples": [
+        {
+          "input": "5\n4 1 9 2 6",
+          "output": "-4 3 4 10 8",
+          "note": "Po kolei: {4} → 0 − 4 = −4; {1 | 4} → 4 − 1 = 3; {1, 4 | 9} → 9 − 5 = 4; {1, 2 | 4, 9} → 13 − 3 = 10; {1, 2, 4 | 6, 9} → 15 − 7 = 8."
+        }
+      ],
+      "hint": "long long sDol = 0, sGora = 0;. Przy dol.push(x): sDol += x. Przy przerzuceniu z dol do gora: int y = dol.top(); dol.pop(); sDol -= y; gora.push(y); sGora += y;. Wynik: sGora - sDol. Sumy tysięcy liczb do 10⁷ nie mieszczą się w int.",
+      "tests_count": 9
+    },
+    {
+      "id": "kop-mediana-szybko",
+      "number": 2390,
+      "title": "Mediana miliona liczb",
+      "category": "Kopiec / krok 6: k największych i mediana",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Liczby generujesz sam: x₁ = s, xᵢ = (xᵢ₋₁ · a + b) mod m (w long long). Po każdej liczbie xᵢ policz medianę liczb x₁, …, xᵢ (przy parzystej liczbie liczb — mniejszą z dwóch środkowych) i wypisz sumę wszystkich n median.",
+        "Liczb jest milion. Wstawianie każdej liczby we właściwe miejsce posortowanego vectora przesuwa średnio pół miliona elementów — razem setki miliardów kroków. Dwa kopce z poprzedniego ćwiczenia robią to samo w kilkudziesięciu krokach na liczbę."
+      ],
+      "input_format": [
+        "Jeden wiersz: liczby n, s, a, b, m."
+      ],
+      "output_format": [
+        "Jedna liczba — suma median."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10⁶",
+        "1 ≤ m ≤ 10⁹",
+        "0 ≤ s, a, b < m"
+      ],
+      "examples": [
+        {
+          "input": "6 5 3 1 17",
+          "output": "59",
+          "note": "Ciąg: 5, 16, 15, 12, 3, 10. Mediany: 5, 5, 15, 12, 12, 10. Suma 59."
+        }
+      ],
+      "hint": "vector<long long> x(n); x[0] = s; for (int i = 1; i < n; i++) x[i] = (x[i - 1] * a + b) % m; Dalej jak w „Mediana na bieżąco”, tylko zamiast wypisywać dol.top() dodaj go do sumy (long long — nawet 10¹⁵).",
+      "tests_count": 7
+    },
+    {
+      "id": "kop-kasy",
+      "number": 2391,
+      "title": "Kasy w sklepie",
+      "category": "Kopiec / krok 7: zdarzenia i terminy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W sklepie jest m kas ponumerowanych od 1 do m, a w kolejce stoi n klientów. Obsługa i-tego klienta trwa tᵢ minut. W chwili 0 wszystkie kasy są wolne.",
+        "Klienci po kolei, w kolejności z kolejki, podchodzą do kasy, która najwcześniej będzie wolna (jeśli kilka kas zwalnia się w tej samej chwili — do tej o najmniejszym numerze). Obsługa zaczyna się, gdy kasa się zwolni.",
+        "Wypisz, do której kasy trafił każdy klient, a w drugim wierszu — o której minucie skończy się obsługa ostatniego klienta."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W drugim wierszu n liczb tᵢ."
+      ],
+      "output_format": [
+        "W pierwszym wierszu n numerów kas.",
+        "W drugim wierszu jedna liczba — chwila zakończenia całej obsługi."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "1 ≤ m ≤ 1000",
+        "Czasy obsługi są z przedziału od 1 do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "5 2\n5 3 4 1 2",
+          "output": "1 2 2 1 1\n8",
+          "note": "Klient 1 do kasy 1 (wolna o 5), klient 2 do kasy 2 (wolna o 3). Klient 3 czeka na kasę 2 (3 + 4 = 7). Klient 4 — kasa 1 o 5 (do 6). Klient 5 — kasa 1 o 6 (do 8). Koniec o 8."
+        }
+      ],
+      "hint": "priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<pair<long long, int>>> kasy; — na początku {0, j} dla każdej kasy. Klient: auto [czas, nr] = kasy.top(); kasy.pop(); kasy.push({czas + t, nr}); koniec = max(koniec, czas + t);.",
+      "tests_count": 9
+    },
+    {
+      "id": "kop-sale",
+      "number": 2392,
+      "title": "Ile sal potrzeba",
+      "category": "Kopiec / krok 7: zdarzenia i terminy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W firmie zaplanowano n spotkań. Spotkanie i trwa od chwili sᵢ do chwili eᵢ (spotkanie kończące się o 10 i spotkanie zaczynające się o 10 mogą być w tej samej sali). Ile najmniej sal potrzeba, żeby wszystkie spotkania się odbyły?",
+        "Posortuj spotkania po początku. Trzymaj w kopcu minimum końce spotkań, które właśnie zajmują sale. Przed każdym spotkaniem zwolnij salę, jeśli najwcześniej kończące się spotkanie skończyło się do chwili sᵢ (top() ≤ sᵢ), a potem wrzuć eᵢ. Odpowiedź to największy rozmiar kopca."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z kolejnych n wierszy dwie liczby sᵢ i eᵢ."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejsza liczba sal."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "0 ≤ sᵢ < eᵢ ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "4\n0 30\n5 10\n10 20\n15 25",
+          "output": "3",
+          "note": "O 15 trwają naraz trzy spotkania: 0–30, 10–20 i 15–25 (spotkanie 5–10 już się skończyło i zwolniło salę). Potrzeba 3 sal."
+        }
+      ],
+      "hint": "vector<pair<int, int>> sp(n); sort(sp.begin(), sp.end());. Potem: for (auto [s, e] : sp) { if (!konce.empty() && konce.top() <= s) konce.pop(); konce.push(e); naj = max(naj, (int)konce.size()); }.",
+      "tests_count": 10
+    },
+    {
+      "id": "kop-procesor",
+      "number": 2393,
+      "title": "Procesor jednowątkowy",
+      "category": "Kopiec / krok 7: zdarzenia i terminy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Procesor dostaje n zadań ponumerowanych od 1 do n. Zadanie i pojawia się w chwili aᵢ i wymaga dᵢ jednostek czasu. Procesor robi naraz jedno zadanie i nie przerywa go, dopóki go nie skończy.",
+        "Gdy procesor jest wolny, wybiera spośród zadań, które już się pojawiły i czekają, to o najkrótszym czasie dᵢ (przy remisie — o najmniejszym numerze). Jeśli żadne zadanie nie czeka, procesor czeka do chwili pojawienia się następnego. Wypisz numery zadań w kolejności wykonywania.",
+        "Posortuj zadania po chwili pojawienia się. Trzymaj zegar i wskaźnik na następne zadanie z posortowanej listy: przed wyborem wrzuć do kopca minimum par {dᵢ, i} wszystkie zadania z aᵢ ≤ zegar."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z kolejnych n wierszy dwie liczby aᵢ i dᵢ."
+      ],
+      "output_format": [
+        "Jeden wiersz: numery zadań w kolejności wykonywania."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 4000",
+        "0 ≤ aᵢ ≤ 10⁹",
+        "1 ≤ dᵢ ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "4\n1 2\n2 4\n3 2\n4 1",
+          "output": "1 3 4 2",
+          "note": "W chwili 1 jest tylko zadanie 1 (do chwili 3). W chwili 3 czekają 2 (4 jednostki) i 3 (2) — wybieramy 3 (do 5). W chwili 5 czekają 2 i 4 — najkrótsze jest 4, a na końcu 2."
+        }
+      ],
+      "hint": "while (zrobione < n) { while (j < n && zad[j].a <= zegar) { pq.push({zad[j].d, zad[j].nr}); j++; } if (pq.empty()) { zegar = zad[j].a; continue; } auto [d, nr] = pq.top(); pq.pop(); zegar += d; … }. Zegar w long long.",
+      "tests_count": 10
+    },
+    {
+      "id": "kop-terminy-i-zyski",
+      "number": 2394,
+      "title": "Zlecenia z terminami",
+      "category": "Kopiec / krok 7: zdarzenia i terminy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz n zleceń. Każde zajmuje dokładnie jeden dzień, zlecenie i trzeba wykonać najpóźniej w dniu dᵢ (dni liczymy od 1), a za jego wykonanie dostajesz pᵢ złotych. Dziennie możesz wykonać najwyżej jedno zlecenie. Ile najwięcej możesz zarobić?",
+        "Posortuj zlecenia po terminie i przeglądaj je po kolei, trzymając w kopcu minimum zyski zleceń, które na razie bierzesz. Wrzuć zysk każdego zlecenia; jeśli w kopcu jest teraz więcej zleceń niż dᵢ (tyle dni jest do terminu), wyrzuć najmniej opłacalne. Na końcu w kopcu są zlecenia, które opłaca się wykonać."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z kolejnych n wierszy dwie liczby dᵢ i pᵢ."
+      ],
+      "output_format": [
+        "Jedna liczba — największy możliwy zarobek."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "1 ≤ dᵢ ≤ 10⁵",
+        "1 ≤ pᵢ ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "5\n2 100\n1 19\n2 27\n1 25\n3 15",
+          "output": "142",
+          "note": "Najlepiej: zlecenie za 100 i za 27 w dniach 1 i 2, a w dniu 3 — za 15. Razem 142. Zlecenia za 19 i 25 musiałyby być wykonane w dniu 1, a ten dzień lepiej wykorzystać inaczej."
+        }
+      ],
+      "hint": "sort po d. for (auto [d, p] : z) { pq.push(p); if (pq.size() > d) pq.pop(); }. Na końcu zsumuj kopiec (long long). Wyrzucamy najmniejszy zysk — także wtedy, gdy to zysk właśnie dodanego zlecenia.",
+      "tests_count": 10
+    },
+    {
+      "id": "kop-kursy",
+      "number": 2395,
+      "title": "Kursy online",
+      "category": "Kopiec / krok 7: zdarzenia i terminy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na platformie jest n kursów online. Kurs i trwa tᵢ dni i trzeba go skończyć najpóźniej w dniu lᵢ. Kursy robisz po jednym, bez przerw między nimi, zaczynając w dniu 1 (kurs trwający 3 dni zaczęty jako pierwszy kończy się w dniu 3). Ile najwięcej kursów możesz ukończyć w terminie?",
+        "Posortuj kursy po terminie lᵢ. Przeglądaj je po kolei: dodaj kurs (czas += tᵢ, długość do kopca maksimum), a jeśli łączny czas przekroczył lᵢ, wyrzuć z kopca najdłuższy kurs i odejmij jego długość. Liczba kursów w kopcu na końcu to odpowiedź."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z kolejnych n wierszy dwie liczby tᵢ i lᵢ."
+      ],
+      "output_format": [
+        "Jedna liczba — największa liczba kursów."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "1 ≤ tᵢ ≤ 10⁶",
+        "1 ≤ lᵢ ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "4\n100 200\n200 1300\n1000 1250\n2000 3200",
+          "output": "3",
+          "note": "Kursy 1, 3 i 2 kończą się w dniach 100, 1100 i 1300 — wszystkie w terminie. Czwarty skończyłby się w dniu 3300, za późno. Odpowiedź 3."
+        }
+      ],
+      "hint": "sort po l. for (…) { czas += t; pq.push(t); if (czas > l) { czas -= pq.top(); pq.pop(); } }. Czas sumuje tysiące kursów po milion dni — long long.",
+      "tests_count": 10
+    },
+    {
+      "id": "kop-tankowanie",
+      "number": 2396,
+      "title": "Tankowanie",
+      "category": "Kopiec / krok 7: zdarzenia i terminy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Samochód jedzie po prostej drodze do celu odległego o D kilometrów i spala jeden litr na kilometr. Na starcie ma F litrów, a bak jest tak duży, że zmieści każdą ilość paliwa. Po drodze jest n stacji: stacja i stoi na kilometrze pᵢ i można na niej zatankować dokładnie fᵢ litrów (całe paliwo stacji).",
+        "Ile najmniej razy trzeba się zatrzymać na tankowanie, żeby dojechać do celu? Jeśli się nie da, wypisz −1. Dojechanie do stacji albo do celu z pustym bakiem jest w porządku.",
+        "Sztuczka: jedź przed siebie i wrzucaj paliwo każdej mijanej stacji do kopca maksimum — tak jakbyś „zapamiętywał” stacje. Gdy paliwa nie starcza do następnego punktu, zatankuj na najlepszej z zapamiętanych stacji (wierzch kopca). Jeśli kopiec jest pusty — nie da się dojechać."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby D, F i n.",
+        "W każdym z kolejnych n wierszy dwie liczby pᵢ i fᵢ (stacje w kolejności od startu)."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejsza liczba tankowań albo −1."
+      ],
+      "constraints": [
+        "1 ≤ D ≤ 10⁹",
+        "0 ≤ F ≤ 10⁹",
+        "0 ≤ n ≤ 5000",
+        "0 < p₁ < p₂ < … < pₙ < D",
+        "1 ≤ fᵢ ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "100 10 4\n10 60\n20 30\n30 30\n60 40",
+          "output": "2",
+          "note": "Na 10 km kończy się paliwo — tankujemy 60 litrów (dojedziemy do 70 km). Mijamy stacje 20, 30 i 60. Na 70 km znów brakuje — tankujemy największą zapamiętaną (40 litrów, stacja 60). Starcza do 110 km. Dwa tankowania."
+        },
+        {
+          "input": "100 1 1\n10 100",
+          "output": "-1",
+          "note": "Z jednym litrem nie dojedziemy nawet do pierwszej stacji — odpowiedź −1."
+        }
+      ],
+      "hint": "long long paliwo = F; int tank = 0; dla każdego punktu (stacje, a na końcu cel D): while (paliwo < p && !pq.empty()) { paliwo += pq.top(); pq.pop(); tank++; } if (paliwo < p) → −1; potem pq.push(f) dla stacji. paliwo to „do którego kilometra dojedziemy”.",
+      "tests_count": 13
+    },
+    {
+      "id": "kop-leniwe-usuwanie",
+      "number": 2397,
+      "title": "Usuwanie ze środka",
+      "category": "Kopiec / krok 7: zdarzenia i terminy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wykonaj q poleceń na zbiorze liczb (liczby mogą się powtarzać): DODAJ x — dodaj liczbę x; USUN x — usuń jedno wystąpienie liczby x (na pewno jest teraz w zbiorze); MAX — wypisz największą liczbę w zbiorze albo PUSTO.",
+        "priority_queue nie umie usunąć elementu ze środka. Zastosuj leniwe usuwanie: trzymaj dwa kopce maksimum — jest (wszystko, co dodano) i usuniete (wszystko, co kazano usunąć). Przy MAX najpierw sprzątaj wierzch: dopóki usuniete nie jest pusty i jego wierzch jest równy wierzchowi jest, zdejmij oba wierzchy. Dopiero potem jest.top() to prawdziwe maksimum."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy jedno polecenie."
+      ],
+      "output_format": [
+        "Dla każdego polecenia MAX jeden wiersz: największa liczba albo PUSTO."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 5000",
+        "Liczby są z przedziału od −10⁹ do 10⁹.",
+        "Polecenie USUN x dotyczy liczby, która jest w zbiorze."
+      ],
+      "examples": [
+        {
+          "input": "8\nDODAJ 5\nDODAJ 9\nDODAJ 7\nMAX\nUSUN 9\nMAX\nUSUN 5\nMAX",
+          "output": "9\n7\n7",
+          "note": "Po usunięciu 9 maksimum to 7. Usunięcie piątki niczego nie zmienia na wierzchu — piątka leży w jest dalej, ale zniknie, gdy wyjdzie na wierzch."
+        }
+      ],
+      "hint": "void sprzataj() { while (!usuniete.empty() && jest.top() == usuniete.top()) { jest.pop(); usuniete.pop(); } }. Przy MAX: sprzataj(); if (jest.empty()) cout << \"PUSTO\\n\"; else cout << jest.top() << \"\\n\";. Kopce przekaż do funkcji przez &.",
+      "tests_count": 8
+    },
+    {
+      "id": "kop-okno-max",
+      "number": 2398,
+      "title": "Maksimum w oknie — leniwie",
+      "category": "Kopiec / krok 7: zdarzenia i terminy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Liczby generujesz sam: x₁ = s, xᵢ = (xᵢ₋₁ · a + b) mod m (w long long). Dla każdego okna k kolejnych liczb — od xᵢ₋ₖ₊₁ do xᵢ, dla i od k do n — znajdź największą liczbę w oknie. Wypisz sumę tych n − k + 1 maksimów.",
+        "Wrzucaj do kopca pary {xᵢ, i}. Liczby, które wypadły z okna, nie przeszkadzają, dopóki leżą głęboko w kopcu — wyrzucaj je dopiero wtedy, gdy wyjdą na wierzch: dopóki top().second ≤ i − k, pop. (W lekcji Kolejka robiliśmy to samo kolejką monotoniczną — kopiec to drugi, prostszy do wymyślenia sposób.)"
+      ],
+      "input_format": [
+        "Jeden wiersz: liczby n, s, a, b, m oraz k."
+      ],
+      "output_format": [
+        "Jedna liczba — suma maksimów wszystkich okien."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 10⁶",
+        "1 ≤ m ≤ 10⁹",
+        "0 ≤ s, a, b < m"
+      ],
+      "examples": [
+        {
+          "input": "6 1 3 2 10 3",
+          "output": "26",
+          "note": "Ciąg: 1, 5, 7, 3, 1, 5. Okna po 3: (1 5 7) → 7, (5 7 3) → 7, (7 3 1) → 7, (3 1 5) → 5. Suma 26."
+        }
+      ],
+      "hint": "vector<long long> x(n); x[0] = s; for (int i = 1; i < n; i++) x[i] = (x[i - 1] * a + b) % m; priority_queue<pair<long long, int>> pq; for (int i = 0; i < n; i++) { pq.push({x[i], i}); if (i >= k - 1) { while (pq.top().second <= i - k) pq.pop(); suma += pq.top().first; } }.",
+      "tests_count": 9
+    },
+    {
+      "id": "kop-odleglosci",
+      "number": 2399,
+      "title": "Odległości od stolicy",
+      "category": "Kopiec / krok 8: algorytm Dijkstry",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W kraju jest n miast połączonych m drogami. Każda droga łączy dwa miasta, można nią jechać w obie strony i ma podaną długość. Stolicą jest miasto 1. Dla każdego miasta wypisz długość najkrótszej trasy ze stolicy albo −1, jeśli do miasta nie da się dojechać.",
+        "Zastosuj algorytm Dijkstry: dist[1] = 0, a do kopca minimum wrzuć {0, 1}. Dopóki kopiec nie jest pusty: zdejmij {d, v}; jeśli d > dist[v], to wpis jest nieaktualny — pomiń go; w przeciwnym razie dla każdej drogi v → u o długości w, jeśli dist[v] + w < dist[u], popraw dist[u] i wrzuć {dist[u], u} do kopca."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z kolejnych m wierszy trzy liczby a, b i w — droga między miastami a i b o długości w."
+      ],
+      "output_format": [
+        "Jeden wiersz: n liczb — odległości miast 1, 2, …, n od stolicy (albo −1)."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 2000",
+        "0 ≤ m ≤ 5000",
+        "1 ≤ w ≤ 10⁶",
+        "Między dwoma miastami jest najwyżej jedna droga i żadna droga nie prowadzi z miasta do niego samego."
+      ],
+      "examples": [
+        {
+          "input": "5 5\n1 2 7\n1 3 2\n3 2 3\n2 4 1\n3 4 9",
+          "output": "0 5 2 6 -1",
+          "note": "Do miasta 2 lepiej jechać przez 3: 2 + 3 = 5 zamiast 7. Do 4: przez 3 i 2, czyli 5 + 1 = 6. Do miasta 5 nie prowadzi żadna droga."
+        }
+      ],
+      "hint": "vector<vector<pair<int, int>>> g(n + 1); g[a].push_back({b, w}); g[b].push_back({a, w});. vector<long long> dist(n + 1, INF); gdzie const long long INF = 1e18;. Kopiec: priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<pair<long long, int>>>. Na końcu: dist[v] == INF ? -1 : dist[v].",
+      "tests_count": 10
+    },
+    {
+      "id": "kop-wiadomosc",
+      "number": 2400,
+      "title": "Wiadomość w sieci",
+      "category": "Kopiec / krok 8: algorytm Dijkstry",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W sieci jest n komputerów i m łączy. Łącze a → b przesyła wiadomość tylko w jedną stronę, z komputera a do b, i zajmuje to w milisekund. Komputer s wysyła wiadomość w chwili 0, a każdy komputer, który ją dostanie, od razu przesyła ją dalej wszystkimi swoimi łączami.",
+        "Po ilu milisekundach wiadomość dotrze do wszystkich komputerów? Jeśli do któregoś nie dotrze nigdy, wypisz −1. Odpowiedź to największa z odległości od s policzonych algorytmem Dijkstry — w grafie skierowanym każde łącze dopisujesz tylko do listy komputera a."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n, m i s.",
+        "W każdym z kolejnych m wierszy trzy liczby a, b i w — łącze a → b."
+      ],
+      "output_format": [
+        "Jedna liczba — czas dotarcia do wszystkich albo −1."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 2000",
+        "0 ≤ m ≤ 5000",
+        "1 ≤ s ≤ n",
+        "1 ≤ w ≤ 10⁶",
+        "Każde łącze a → b występuje najwyżej raz, a ≠ b."
+      ],
+      "examples": [
+        {
+          "input": "4 4 2\n2 1 1\n2 3 1\n3 4 1\n1 4 5",
+          "output": "2",
+          "note": "Wiadomość dociera do 1 i 3 po 1 ms, a do 4 po 2 ms (przez 3). Odpowiedź 2."
+        },
+        {
+          "input": "3 2 1\n1 2 4\n3 2 1",
+          "output": "-1",
+          "note": "Do komputera 3 nie prowadzi żadne łącze z 1 — odpowiedź −1."
+        }
+      ],
+      "hint": "Tylko g[a].push_back({b, w}); — bez krawędzi powrotnej. Po Dijkstrze: long long naj = 0; for (v) { if (dist[v] == INF) → −1; naj = max(naj, dist[v]); }.",
+      "tests_count": 9
+    },
+    {
+      "id": "kop-trasa",
+      "number": 2401,
+      "title": "Najkrótsza trasa",
+      "category": "Kopiec / krok 8: algorytm Dijkstry",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W kraju jest n miast i m dwukierunkowych dróg z długościami. Znajdź najkrótszą trasę z miasta 1 do miasta n: wypisz jej długość, a w drugim wierszu — kolejne miasta na trasie, od 1 do n. W testach najkrótsza trasa jest zawsze tylko jedna. Jeśli do miasta n nie da się dojechać, wypisz tylko −1.",
+        "W algorytmie Dijkstry przy każdej poprawie dist[u] przez miasto v zapisz prev[u] = v — skąd przyjechaliśmy. Na końcu idź od n po prev aż do 1: dostaniesz trasę od końca, więc ją odwróć."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z kolejnych m wierszy trzy liczby a, b i w."
+      ],
+      "output_format": [
+        "W pierwszym wierszu długość trasy (albo −1).",
+        "W drugim wierszu miasta na trasie (tylko gdy trasa istnieje)."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 2000",
+        "0 ≤ m ≤ 5000",
+        "1 ≤ w ≤ 10⁶",
+        "Najkrótsza trasa z 1 do n (jeśli istnieje) jest tylko jedna."
+      ],
+      "examples": [
+        {
+          "input": "5 6\n1 2 2\n2 5 5\n1 3 1\n3 4 1\n4 5 3\n2 3 4",
+          "output": "5\n1 3 4 5",
+          "note": "Trasa 1 → 3 → 4 → 5 ma długość 1 + 1 + 3 = 5, a 1 → 2 → 5 — długość 7."
+        }
+      ],
+      "hint": "vector<int> prev(n + 1, 0); — przy poprawie: dist[u] = d + w; prev[u] = v;. Trasa: vector<int> t; for (int v = n; v != 0; v = prev[v]) t.push_back(v); reverse(t.begin(), t.end());. prev[1] zostaje 0, więc pętla kończy się po dojściu do 1.",
+      "tests_count": 9
+    },
+    {
+      "id": "kop-bagna",
+      "number": 2402,
+      "title": "Przejście przez bagna",
+      "category": "Kopiec / krok 8: algorytm Dijkstry",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Bagno to plansza h × w, a w każdym polu jest cyfra od 1 do 9 — tyle sił kosztuje wejście na to pole. Zaczynasz w lewym górnym rogu i chcesz dojść do prawego dolnego, chodząc w górę, w dół, w lewo i w prawo. Koszt drogi to suma cyfr wszystkich pól, przez które przechodzisz — razem z polem startowym i końcowym.",
+        "Wypisz najmniejszy koszt. Plansza może mieć 90 000 pól, a kroki kosztują różnie — zwykły BFS z lekcji Kolejka nie znajdzie najtańszej drogi, ale Dijkstra na polach planszy tak. Odległością pola jest najmniejszy koszt dojścia do niego."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby h i w.",
+        "W każdym z kolejnych h wierszy w cyfr bez spacji."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejszy koszt przejścia."
+      ],
+      "constraints": [
+        "1 ≤ h, w ≤ 300",
+        "Każda cyfra jest od 1 do 9."
+      ],
+      "examples": [
+        {
+          "input": "5 4\n1111\n9991\n1111\n1999\n1111",
+          "output": "14",
+          "note": "Najtańsza droga to zygzak: cały pierwszy wiersz w prawo, w dół prawym brzegiem, cały trzeci wiersz w lewo, w dół lewym brzegiem i ostatni wiersz w prawo — 14 pól po 1. Każda krótsza droga musi wejść na dziewiątkę i kosztuje co najmniej 16."
+        }
+      ],
+      "hint": "vector<vector<long long>> dist(h, vector<long long>(w, INF)); dist[0][0] = plansza[0][0] - '0';. W kopcu trzymaj {koszt, {r, c}}. Sąsiedzi: dr[] = {-1, 1, 0, 0}, dc[] = {0, 0, -1, 1} — wejście na (nr, nc) kosztuje plansza[nr][nc] - '0'.",
+      "tests_count": 10
+    },
+    {
+      "id": "kop-szpitale",
+      "number": 2403,
+      "title": "Najbliższy szpital",
+      "category": "Kopiec / krok 8: algorytm Dijkstry",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W kraju jest n miast połączonych m dwukierunkowymi drogami z długościami. W k miastach są szpitale. Dla każdego miasta wypisz odległość do najbliższego szpitala (w mieście ze szpitalem — 0), albo −1, jeśli z tego miasta do żadnego szpitala nie da się dojechać.",
+        "Nie trzeba uruchamiać Dijkstry osobno z każdego szpitala. Wrzuć wszystkie szpitale do kopca od razu, każdy z odległością 0 — to tak, jakby fala ruszała ze wszystkich szpitali jednocześnie. Jeden przebieg Dijkstry da odległość do najbliższego."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n, m i k.",
+        "W drugim wierszu k różnych numerów miast ze szpitalami.",
+        "W każdym z kolejnych m wierszy trzy liczby a, b i w."
+      ],
+      "output_format": [
+        "Jeden wiersz: n odległości (albo −1)."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 2000",
+        "0 ≤ m ≤ 5000",
+        "1 ≤ k ≤ n",
+        "1 ≤ w ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "6 5 2\n1 6\n1 2 4\n2 3 1\n3 4 1\n4 5 3\n5 6 2",
+          "output": "0 4 5 5 2 0",
+          "note": "Miasta 2 i 3 są najbliżej szpitala w mieście 1 (4 i 5), a miasta 4 i 5 — szpitala w mieście 6 (5 i 2)."
+        }
+      ],
+      "hint": "for (int s : szpitale) { dist[s] = 0; pq.push({0, s}); }. Reszta to zwykły Dijkstra. To samo robiliśmy w lekcji Kolejka z BFS z wielu startów.",
+      "tests_count": 9
+    },
+    {
+      "id": "kop-przez-sklep",
+      "number": 2404,
+      "title": "Przez sklep do szkoły",
+      "category": "Kopiec / krok 8: algorytm Dijkstry",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Miasto ma n skrzyżowań i m ulic jednokierunkowych z długościami. Ola mieszka przy skrzyżowaniu 1, szkoła jest przy skrzyżowaniu n, a po drodze Ola musi zajść do sklepu przy skrzyżowaniu s. Jaka jest długość najkrótszej takiej drogi? Jeśli się nie da, wypisz −1.",
+        "Najkrótsza droga przez sklep składa się z najkrótszej drogi z domu do sklepu i najkrótszej drogi ze sklepu do szkoły. Napisz Dijkstrę jako funkcję, która dostaje graf i start, a oddaje vector odległości — i wywołaj ją dwa razy: z 1 i z s."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n, m i s.",
+        "W każdym z kolejnych m wierszy trzy liczby a, b i w — ulica a → b."
+      ],
+      "output_format": [
+        "Jedna liczba — długość drogi albo −1."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 2000",
+        "0 ≤ m ≤ 5000",
+        "1 ≤ s ≤ n",
+        "1 ≤ w ≤ 10⁶",
+        "Każda ulica a → b występuje najwyżej raz, a ≠ b."
+      ],
+      "examples": [
+        {
+          "input": "4 5 3\n1 2 1\n2 4 1\n1 3 5\n3 4 5\n2 3 1",
+          "output": "7",
+          "note": "Najkrótsza droga do szkoły (1 → 2 → 4) omija sklep. Przez sklep: 1 → 2 → 3 (2) i 3 → 4 (5) — razem 7."
+        }
+      ],
+      "hint": "vector<long long> dijkstra(const vector<vector<pair<int, int>>> &g, int s) { … return dist; }. Potem: auto d1 = dijkstra(g, 1), ds = dijkstra(g, s); if (d1[s] == INF || ds[n] == INF) → −1, inaczej d1[s] + ds[n].",
+      "tests_count": 10
+    },
+    {
+      "id": "kop-ile-najkrotszych",
+      "number": 2405,
+      "title": "Ile jest najkrótszych dróg",
+      "category": "Kopiec / krok 8: algorytm Dijkstry",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W kraju jest n miast i m dwukierunkowych dróg z długościami (każda długość to co najmniej 1). Ile jest różnych najkrótszych tras z miasta 1 do miasta n? Wypisz długość najkrótszej trasy i liczbę takich tras modulo 10⁹ + 7. Jeśli do miasta n nie da się dojechać, wypisz −1.",
+        "Obok dist trzymaj cnt[v] — liczbę najkrótszych tras do v (cnt[1] = 1). Gdy przez v znajdziesz krótszą drogę do u, ustaw cnt[u] = cnt[v]; gdy znajdziesz drogę tak samo długą, dodaj: cnt[u] = (cnt[u] + cnt[v]) mod 10⁹ + 7. Dzięki temu, że długości dróg są dodatnie, każde miasto zdejmowane z kopca ma już policzony ostateczny cnt."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z kolejnych m wierszy trzy liczby a, b i w."
+      ],
+      "output_format": [
+        "Jeden wiersz: długość najkrótszej trasy i liczba tras modulo 10⁹ + 7 — albo −1."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 2000",
+        "0 ≤ m ≤ 5000",
+        "1 ≤ w ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "4 5\n1 2 1\n1 3 1\n2 4 1\n3 4 1\n1 4 3",
+          "output": "2 2",
+          "note": "Trasy 1 → 2 → 4 i 1 → 3 → 4 mają długość 2. Bezpośrednia droga 1 → 4 jest dłuższa. Odpowiedź: 2 2."
+        }
+      ],
+      "hint": "if (d + w < dist[u]) { dist[u] = d + w; cnt[u] = cnt[v]; pq.push({dist[u], u}); } else if (d + w == dist[u]) { cnt[u] = (cnt[u] + cnt[v]) % MOD; }. Przy remisie niczego nie wrzucamy do kopca.",
+      "tests_count": 10
+    },
+    {
+      "id": "kop-bilet-ze-znizka",
+      "number": 2406,
+      "title": "Bilet ze zniżką",
+      "category": "Kopiec / krok 8: algorytm Dijkstry",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Linie lotnicze obsługują m lotów między n miastami. Lot a → b kosztuje w złotych (tylko w tę stronę). Masz jeden kupon: możesz go użyć na jeden wybrany lot i wtedy zapłacisz za niego ⌊w / 2⌋. Ile najmniej zapłacisz za podróż z miasta 1 do miasta n? Jeśli się nie da, wypisz −1.",
+        "Stanem podróży jest para: miasto i to, czy kupon jest już zużyty (0 albo 1). Licz dist[v][0] i dist[v][1]. Z (v, 0) lot do u prowadzi do (u, 0) za w albo do (u, 1) za ⌊w / 2⌋, a z (v, 1) — tylko do (u, 1) za w. To zwykły Dijkstra na grafie z 2n wierzchołkami."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z kolejnych m wierszy trzy liczby a, b i w — lot a → b."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejszy koszt albo −1."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 2000",
+        "0 ≤ m ≤ 4000",
+        "1 ≤ w ≤ 10⁹",
+        "Każdy lot a → b występuje najwyżej raz, a ≠ b."
+      ],
+      "examples": [
+        {
+          "input": "3 4\n1 2 3\n2 3 1\n1 3 7\n2 1 5",
+          "output": "2",
+          "note": "Bez kuponu: 1 → 2 → 3 za 4. Z kuponem na lot 1 → 3: ⌊7 / 2⌋ = 3. Z kuponem na lot 1 → 2: 1 + 1 = 2 — najtaniej."
+        }
+      ],
+      "hint": "vector<array<long long, 2>> dist(n + 1, {INF, INF}); — w kopcu trójki zapisane jako pair<long long, pair<int, int>>: {koszt, {miasto, kupon}}. Wynik: min(dist[n][0], dist[n][1]). Ceny do 10⁹ na tysiącach lotów — long long.",
+      "tests_count": 10
+    },
+    {
+      "id": "kop-b-podium-na-zywo",
+      "number": 2407,
+      "title": "Podium na żywo",
+      "category": "Kopiec / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na zawodach wyniki pojawiają się jeden po drugim. Po każdym nowym wyniku tablica wyników pokazuje podium: trzy najwyższe wyniki spośród dotychczasowych, od najwyższego (równe wyniki liczą się osobno). Dopóki wyników jest mniej niż trzy, tablica pokazuje wszystkie.",
+        "Od czego zacząć: trzymaj trzy najlepsze wyniki w kopcu minimum (gdy urośnie do czterech — wyrzuć najmniejszy). Do wypisania od najwyższego zrób kopię kopca, przerzuć ją do vectora i wypisz go od końca."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n wyników."
+      ],
+      "output_format": [
+        "n wierszy: podium po każdym wyniku, od najwyższego."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "Wyniki są liczbami całkowitymi od 0 do 10⁵."
+      ],
+      "examples": [
+        {
+          "input": "5\n50 70 60 70 10",
+          "output": "50\n70 50\n70 60 50\n70 70 60\n70 70 60",
+          "note": "Po trzecim wyniku podium to 70 60 50. Druga siedemdziesiątka wypycha pięćdziesiątkę. Dziesiątka niczego nie zmienia."
+        }
+      ],
+      "hint": "priority_queue<int, vector<int>, greater<int>> top3; top3.push(x); if (top3.size() > 3) top3.pop();. Wypisywanie: auto k = top3; vector<int> v; while (!k.empty()) { v.push_back(k.top()); k.pop(); } — v jest rosnąco, więc wypisz go od końca.",
+      "tests_count": 9
+    },
+    {
+      "id": "kop-b-zmiana-znakow",
+      "number": 2408,
+      "title": "Zmiana znaków",
+      "category": "Kopiec / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz n liczb całkowitych. Dokładnie k razy wybierasz jedną liczbę i zmieniasz jej znak (x staje się −x). Tę samą liczbę możesz wybrać wiele razy. Jaka jest największa możliwa suma liczb po k zmianach?",
+        "Od czego zacząć: zawsze opłaca się odwrócić najmniejszą liczbę — ujemna staje się dodatnia, a gdy zostały same nieujemne, odwracanie najmniejszej najmniej szkodzi. Trzymaj liczby w kopcu minimum i k razy: zdejmij najmniejszą, wrzuć ją z przeciwnym znakiem."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jedna liczba — największa możliwa suma."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10⁴",
+        "1 ≤ k ≤ 10⁴",
+        "Liczby są z przedziału od −10⁴ do 10⁴."
+      ],
+      "examples": [
+        {
+          "input": "4 3\n-5 2 -3 1",
+          "output": "9",
+          "note": "Odwracamy −5 (będzie 5), potem −3 (będzie 3), a trzecia zmiana trafia w najmniejszą liczbę, czyli 1. Suma: 5 + 2 + 3 − 1 = 9."
+        }
+      ],
+      "hint": "for (int i = 0; i < k; i++) { int x = pq.top(); pq.pop(); pq.push(-x); }. Na końcu zsumuj kopiec. Gdy na wierzchu jest 0, kolejne zmiany niczego nie psują.",
+      "tests_count": 10
+    },
+    {
+      "id": "kop-b-mnozenie-najmniejszej",
+      "number": 2409,
+      "title": "Mnożenie najmniejszej",
+      "category": "Kopiec / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz n liczb naturalnych w tablicy. Wykonaj k razy: znajdź najmniejszą liczbę w tablicy (jeśli kilka jest równych — tę o najmniejszej pozycji) i pomnóż ją przez m. Wypisz tablicę po wszystkich k ruchach.",
+        "Od czego zacząć: trzymaj w kopcu minimum pary {wartość, pozycja} — remis wartości sam rozstrzygnie się na korzyść mniejszej pozycji. Po pomnożeniu wrzuć parę z nową wartością i tą samą pozycją, a nową wartość zapisz też w tablicy."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n, k i m.",
+        "W drugim wierszu n liczb naturalnych."
+      ],
+      "output_format": [
+        "Jeden wiersz: tablica po k ruchach."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 2000",
+        "1 ≤ m ≤ 10",
+        "Liczby są z przedziału od 1 do 10⁹."
+      ],
+      "examples": [
+        {
+          "input": "5 4 2\n2 1 3 5 1",
+          "output": "4 4 3 5 2",
+          "note": "Mnożymy jedynkę z pozycji 2 (będzie 2), potem jedynkę z pozycji 5 (2), potem dwójkę z pozycji 1 (4), a na koniec dwójkę z pozycji 2 (4). Wynik: 4 4 3 5 2."
+        }
+      ],
+      "hint": "priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<pair<long long, int>>> pq;. Ruch: auto [w, i] = pq.top(); pq.pop(); t[i] = w * m; pq.push({t[i], i});. Liczby rosną powyżej int — long long.",
+      "tests_count": 9
+    },
+    {
+      "id": "kop-b-k-ta-rozna",
+      "number": 2410,
+      "title": "k-ta różna wartość",
+      "category": "Kopiec / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb. Wypisz k-tą największą spośród różnych wartości: najpierw największa wartość, potem następna mniejsza od niej, i tak dalej — każda wartość liczy się raz, choćby wystąpiła wiele razy. Jeśli różnych wartości jest mniej niż k, wypisz brak.",
+        "Od czego zacząć: wrzuć liczby do kopca, a potem zdejmuj je po kolei i licz tylko te, które różnią się od ostatnio zdjętej."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jedna liczba albo słowo brak."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 5000",
+        "Liczby są z przedziału od −10⁹ do 10⁹."
+      ],
+      "examples": [
+        {
+          "input": "7 3\n5 9 5 7 9 1 7",
+          "output": "5",
+          "note": "Różne wartości od największej: 9, 7, 5, 1. Trzecia to 5."
+        },
+        {
+          "input": "3 2\n4 4 4",
+          "output": "brak",
+          "note": "Jest tylko jedna różna wartość — brak."
+        }
+      ],
+      "hint": "int ile = 0; bool pierwsza = true; long long ost = 0; while (!pq.empty()) { int x = pq.top(); pq.pop(); if (pierwsza || x != ost) { ile++; if (ile == k) → wypisz x; } ost = x; pierwsza = false; }. Jeśli pętla się skończy bez wypisania — brak.",
+      "tests_count": 10
+    },
+    {
+      "id": "kop-b-wedlug-czestosci",
+      "number": 2411,
+      "title": "Według częstości",
+      "category": "Kopiec / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb i ustaw je w nowej kolejności: najpierw wszystkie wystąpienia liczby, która występuje najczęściej, potem następnej i tak dalej. Jeśli dwie liczby występują tyle samo razy, wcześniej idzie mniejsza. Każdą liczbę wypisz tyle razy, ile razy wystąpiła.",
+        "Od czego zacząć: zlicz liczby w mapie, a potem wrzuć do kopca pary {ile, −wartość} — więcej wystąpień wygrywa, a przy remisie większe −wartość, czyli mniejsza wartość."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jeden wiersz: n liczb w nowej kolejności."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 3000",
+        "Liczby są z przedziału od −10⁴ do 10⁴."
+      ],
+      "examples": [
+        {
+          "input": "8\n4 6 2 6 4 4 2 9",
+          "output": "4 4 4 2 2 6 6 9",
+          "note": "Czwórka występuje 3 razy, szóstka i dwójka po 2 (dwójka jest mniejsza, więc pierwsza), dziewiątka raz."
+        }
+      ],
+      "hint": "map<int, int> ile; for (…) ile[x]++;. for (auto [x, c] : ile) pq.push({c, -x});. Przy wypisywaniu: auto [c, mx] = pq.top(); pq.pop(); for (int j = 0; j < c; j++) cout << -mx << \" \";.",
+      "tests_count": 9
+    },
+    {
+      "id": "kop-b-tablica-odlotow",
+      "number": 2412,
+      "title": "Tablica odlotów",
+      "category": "Kopiec / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz n lotów w przypadkowej kolejności: kod lotu i godzinę odlotu w zapisie hh:mm. Wypisz tablicę odlotów: loty od najwcześniejszego, a jeśli kilka odlatuje o tej samej godzinie — alfabetycznie według kodu.",
+        "Od czego zacząć: zamień godzinę na liczbę minut od północy (60 · hh + mm) i trzymaj w kopcu minimum pary {minuty, kod}. Przy wypisywaniu zamień minuty z powrotem na hh:mm — z zerem na początku, gdy trzeba."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z kolejnych n wierszy kod lotu i godzina odlotu hh:mm."
+      ],
+      "output_format": [
+        "n wierszy: godzina hh:mm i kod lotu, od najwcześniejszego odlotu."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "Kody to dwie wielkie litery i 2–4 cyfry; są różne.",
+        "Godziny są od 00:00 do 23:59."
+      ],
+      "examples": [
+        {
+          "input": "4\nLO281 14:05\nFR12 09:30\nLH77 14:05\nWZ603 07:45",
+          "output": "07:45 WZ603\n09:30 FR12\n14:05 LH77\n14:05 LO281",
+          "note": "Najwcześniej WZ603 o 7:45. Dwa loty o 14:05 — alfabetycznie LH77 przed LO281."
+        }
+      ],
+      "hint": "char dwukropek; int hh, mm; cin >> kod >> hh >> dwukropek >> mm; pq.push({60 * hh + mm, kod});. Wypisywanie: cout << setw(2) << setfill('0') << t / 60 << \":\" << setw(2) << t % 60 << \" \" << kod;.",
+      "tests_count": 8
+    },
+    {
+      "id": "kop-b-poprawki",
+      "number": 2413,
+      "title": "Poprawki ocen",
+      "category": "Kopiec / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Uczeń ma n ocen od 1 do 6 i może napisać k poprawek. Każda poprawka podnosi o 1 jego najniższą ocenę. Szóstki nie da się podnieść — jeśli wszystkie oceny są szóstkami, pozostałe poprawki przepadają i uczeń ich nie pisze.",
+        "Wypisz sumę ocen po poprawkach i liczbę poprawek, które uczeń naprawdę napisał. Od czego zacząć: oceny w kopcu minimum; przed każdą poprawką sprawdź, czy na wierzchu nie leży już szóstka."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n ocen."
+      ],
+      "output_format": [
+        "Dwie liczby: suma ocen po poprawkach i liczba napisanych poprawek."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10⁴",
+        "0 ≤ k ≤ 10⁵",
+        "Oceny są liczbami całkowitymi od 1 do 6."
+      ],
+      "examples": [
+        {
+          "input": "4 5\n3 6 1 4",
+          "output": "19 5",
+          "note": "Jedynka idzie w górę dwa razy (do 3), potem dwie trójki dostają po poprawce (4 i 4), a piąta poprawka podnosi jedną z czwórek. Oceny: 5, 6, 4, 4 — suma 19, napisane wszystkie 5 poprawek."
+        }
+      ],
+      "hint": "for (int i = 0; i < k; i++) { if (pq.top() == 6) break; int x = pq.top(); pq.pop(); pq.push(x + 1); napisane++; }. Suma: opróżnij kopiec albo licz ją na bieżąco (każda poprawka to +1).",
+      "tests_count": 10
+    },
+    {
+      "id": "kop-b-roznica-sum",
+      "number": 2414,
+      "title": "Najlepsi kontra najsłabsi",
+      "category": "Kopiec / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb i liczbę k (2k ≤ n). Wypisz różnicę: suma k największych liczb minus suma k najmniejszych.",
+        "Od czego zacząć: wrzuć każdą liczbę do dwóch kopców — zwykłego i kopca minimum — i z każdego zdejmij k razy wierzch. Sumy mogą przekroczyć int."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jedna liczba — różnica sum."
+      ],
+      "constraints": [
+        "2 ≤ 2k ≤ n ≤ 5000",
+        "Liczby są z przedziału od −10⁹ do 10⁹."
+      ],
+      "examples": [
+        {
+          "input": "6 2\n4 -1 7 3 10 2",
+          "output": "16",
+          "note": "Dwie największe: 10 + 7 = 17. Dwie najmniejsze: −1 + 2 = 1. Różnica 16."
+        }
+      ],
+      "hint": "priority_queue<long long> maks; priority_queue<long long, vector<long long>, greater<long long>> mini;. for (k razy) { wynik += maks.top(); maks.pop(); wynik -= mini.top(); mini.pop(); }.",
+      "tests_count": 8
+    },
+    {
+      "id": "kop-b-magazyn",
+      "number": 2415,
+      "title": "Magazyn palet",
+      "category": "Kopiec / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Do magazynu przyjeżdżają palety, a magazynier wydaje je w kolejności od najcięższej; przy równej wadze najpierw wydaje tę, która przyjechała najwcześniej. Wykonaj q poleceń:",
+        "DOSTAWA nazwa waga — do magazynu przyjeżdża paleta; WYDAJ — wydaj paletę: wypisz jej nazwę i wagę albo magazyn pusty; RAPORT — wypisz liczbę palet w magazynie i ich łączną wagę.",
+        "Od czego zacząć: numeruj dostawy, trzymaj w kopcu pary {waga, −numer}, nazwy w vectorze pod numerami, a łączną wagę — w zmiennej long long poprawianej przy każdej dostawie i wydaniu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy jedno polecenie."
+      ],
+      "output_format": [
+        "Dla każdego polecenia WYDAJ i RAPORT jeden wiersz z odpowiedzią."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 3000",
+        "Wagi są liczbami całkowitymi od 1 do 10⁶.",
+        "Nazwy to słowa z małych liter, najwyżej 12 znaków."
+      ],
+      "examples": [
+        {
+          "input": "6\nDOSTAWA cegly 500\nDOSTAWA piasek 800\nDOSTAWA cement 500\nWYDAJ\nWYDAJ\nRAPORT",
+          "output": "piasek 800\ncegly 500\n1 500",
+          "note": "Najpierw piasek (800). Cegły i cement ważą po 500 — cegły przyjechały wcześniej. Zostaje 1 paleta o wadze 500."
+        }
+      ],
+      "hint": "priority_queue<pair<int, int>> pq; vector<string> nazwy; long long waga = 0;. Przy DOSTAWA: nazwy.push_back(n); pq.push({w, -(int)(nazwy.size() - 1)}); waga += w;. RAPORT: cout << pq.size() << \" \" << waga;.",
+      "tests_count": 8
+    },
+    {
+      "id": "kop-b-pizzeria",
+      "number": 2416,
+      "title": "Pizzeria z jednym piecem",
+      "category": "Kopiec / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W pizzerii czeka n zamówień ponumerowanych od 1 do n, a pieczenie pizzy z zamówienia i trwa tᵢ minut. Piec mieści jedną pizzę naraz i zaczyna pracę w minucie 0. Klient i czeka do chwili, w której jego pizza wyjdzie z pieca.",
+        "Żeby suma czasów oczekiwania wszystkich klientów była jak najmniejsza, piec piecze zawsze najkrótszą z czekających pizz (przy remisie — zamówienie o mniejszym numerze). Wypisz numery zamówień w kolejności pieczenia oraz sumę czasów oczekiwania.",
+        "Od czego zacząć: kopiec minimum par {tᵢ, i}, zegar i suma — po każdej pizzy zegar += t, suma += zegar."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb tᵢ."
+      ],
+      "output_format": [
+        "W pierwszym wierszu numery zamówień w kolejności pieczenia.",
+        "W drugim wierszu suma czasów oczekiwania."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 4000",
+        "Czasy pieczenia są z przedziału od 1 do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "4\n10 3 7 3",
+          "output": "2 4 3 1\n45",
+          "note": "Najpierw dwie pizze po 3 minuty (zamówienia 2 i 4), potem 7, a na końcu 10. Klienci czekają 3, 6, 13 i 23 minuty — razem 45."
+        }
+      ],
+      "hint": "priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq; pq.push({t, i});. long long zegar = 0, suma = 0;. Każda pizza: zegar += t; suma += zegar;.",
+      "tests_count": 8
+    },
+    {
+      "id": "kop-b-liczby-235",
+      "number": 2417,
+      "title": "Liczby z dwójek, trójek i piątek",
+      "category": "Kopiec / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Liczba jest gładka, jeśli w jej rozkładzie na czynniki pierwsze są tylko dwójki, trójki i piątki. Pierwsze gładkie liczby to 1, 2, 3, 4, 5, 6, 8, 9, 10, 12, 15, 16 (liczba 1 też się liczy — nie ma żadnych czynników).",
+        "Odpowiedz na T pytań: jaka jest n-ta gładka liczba?",
+        "Od czego zacząć: wrzuć 1 do kopca minimum. Zdejmuj najmniejszą liczbę x — to kolejna gładka liczba — i wrzucaj 2x, 3x i 5x. Ta sama liczba może trafić do kopca kilka razy (6 = 2 · 3 = 3 · 2), więc zdejmując, pomijaj liczby równe poprzedniej. Wygeneruj raz tyle liczb, ile potrzeba do największego pytania."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba T.",
+        "W każdym z kolejnych T wierszy jedna liczba n."
+      ],
+      "output_format": [
+        "Dla każdego pytania jeden wiersz: n-ta gładka liczba."
+      ],
+      "constraints": [
+        "1 ≤ T ≤ 1000",
+        "1 ≤ n ≤ 3000"
+      ],
+      "examples": [
+        {
+          "input": "4\n1\n7\n12\n100",
+          "output": "1\n8\n16\n1536",
+          "note": "Siódma gładka liczba to 8 (7 nie jest gładka), dwunasta to 16, a setna — 1536."
+        }
+      ],
+      "hint": "priority_queue<long long, vector<long long>, greater<long long>> pq; pq.push(1); vector<long long> g;. while (g.size() < 3000) { long long x = pq.top(); pq.pop(); if (!g.empty() && g.back() == x) continue; g.push_back(x); pq.push(2 * x); pq.push(3 * x); pq.push(5 * x); }. Liczby szybko przekraczają int.",
+      "tests_count": 6
+    },
+    {
+      "id": "kop-b-cegly-i-drabiny",
+      "number": 2418,
+      "title": "Cegły i drabiny",
+      "category": "Kopiec / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Idziesz po dachach n budynków stojących w rzędzie, od budynku 1. Z budynku i na i + 1 przechodzisz bez problemu, jeśli następny jest niższy albo tak samo wysoki. Jeśli jest wyższy o d, musisz albo użyć jednej drabiny, albo zużyć d cegieł. Masz b cegieł i l drabin. Jaki jest numer najdalszego budynku, do którego dojdziesz?",
+        "Od czego zacząć: drabiny opłaca się zostawić na największe podejścia, ale nie wiesz z góry, które to będą. Każde podejście wrzucaj do kopca minimum (tak jakbyś użył drabiny). Gdy w kopcu jest więcej podejść niż drabin, najmniejsze z nich pokryj cegłami — zdejmij je i odejmij od b. Gdy cegieł zabraknie, dalej nie pójdziesz."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n, b i l.",
+        "W drugim wierszu n wysokości budynków."
+      ],
+      "output_format": [
+        "Jedna liczba — numer najdalszego budynku (budynki numerujemy od 1)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10⁴",
+        "0 ≤ b ≤ 10⁹",
+        "0 ≤ l ≤ n",
+        "Wysokości są z przedziału od 1 do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "7 5 1\n4 2 7 6 9 14 12",
+          "output": "5",
+          "note": "Podejścia: 2 → 7 (o 5), 6 → 9 (o 3) i 9 → 14 (o 5). Drabina i 5 cegieł starczają na dwa pierwsze (drabina na podejście o 5, 3 cegły na podejście o 3), ale na trzecie zostają tylko 2 cegły. Najdalej dochodzimy do budynku 5 (wysokość 9)."
+        }
+      ],
+      "hint": "for (int i = 0; i + 1 < n; i++) { int d = h[i + 1] - h[i]; if (d > 0) { pq.push(d); if (pq.size() > l) { b -= pq.top(); pq.pop(); } } if (b < 0) { cout << i + 1; return 0; } } cout << n;. b w long long.",
+      "tests_count": 12
+    },
+    {
+      "id": "kop-b-bez-sasiadow",
+      "number": 2419,
+      "title": "Bez dwóch takich samych obok siebie",
+      "category": "Kopiec / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz napis z małych liter. Przestaw jego litery tak, żeby żadne dwie sąsiednie nie były takie same, według dokładnie tej reguły: budujesz wynik od lewej i na każdą kolejną pozycję stawiasz literę, której zostało najwięcej, ale inną niż litera postawiona tuż przed nią; jeśli kilka liter ma tę samą liczbę — alfabetycznie najwcześniejszą.",
+        "Jeśli w którymś momencie nie da się postawić żadnej litery (zostały tylko takie same jak poprzednia), wypisz NIE.",
+        "Od czego zacząć: trzymaj w kopcu pary {ile zostało, −litera}. Zdejmij wierzch; jeśli to ta sama litera co poprzednia, zdejmij jeszcze jeden element i użyj jego, a pierwszy odłóż z powrotem. Użytą literę wrzuć z liczbą o jeden mniejszą (jeśli coś jej zostało)."
+      ],
+      "input_format": [
+        "Jeden wiersz: napis s."
+      ],
+      "output_format": [
+        "Przestawiony napis albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ długość s ≤ 10⁴",
+        "s składa się z małych liter angielskiego alfabetu."
+      ],
+      "examples": [
+        {
+          "input": "aaabbc",
+          "output": "ababac",
+          "note": "Najwięcej jest a, potem na zmianę b i a… Wychodzi ababac."
+        },
+        {
+          "input": "aaab",
+          "output": "NIE",
+          "note": "Trzy litery a i tylko jedna inna — nie da się ich rozdzielić."
+        }
+      ],
+      "hint": "priority_queue<pair<int, int>> pq; for (litera c) if (ile[c] > 0) pq.push({ile[c], -c});. Krok: auto a = pq.top(); pq.pop(); if (-a.second == ostatnia) { if (pq.empty()) → NIE; auto b = pq.top(); pq.pop(); pq.push(a); a = b; } wynik += (char)(-a.second); if (--a.first > 0) pq.push(a);.",
+      "tests_count": 15
+    },
+    {
+      "id": "kop-b-serwery",
+      "number": 2420,
+      "title": "Serwerownia",
+      "category": "Kopiec / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Serwerownia ma n serwerów ponumerowanych od 1 do n, serwer i ma wagę wᵢ. Napływa m zadań: zadanie j (numerujemy od 0) pojawia się w sekundzie j i jego wykonanie trwa tⱼ sekund. Zadania są przydzielane w kolejności pojawiania się.",
+        "Gdy zadanie jest przydzielane, dostaje wolny serwer o najmniejszej wadze (przy remisie — o najmniejszym numerze). Jeśli żaden serwer nie jest wolny, zadanie czeka do chwili, w której zwolni się pierwszy serwer (jeśli kilka zwalnia się w tej samej chwili, wybór jak wyżej). Serwer zajęty od chwili c zadaniem o czasie t zwalnia się w chwili c + t. Wypisz numer serwera dla każdego zadania.",
+        "Od czego zacząć: kopiec minimum wolnych serwerów {wᵢ, i} i kopiec minimum zajętych {kiedy wolny, {wᵢ, i}}. Zegar = max(zegar, j); przenieś z zajętych do wolnych wszystkie serwery zwolnione do chwili zegar; jeśli wolnych brak — przesuń zegar na najwcześniejsze zwolnienie i przenieś znowu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W drugim wierszu n wag wᵢ.",
+        "W trzecim wierszu m czasów tⱼ."
+      ],
+      "output_format": [
+        "Jeden wiersz: m numerów serwerów."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "1 ≤ m ≤ 5000",
+        "Wagi i czasy są z przedziału od 1 do 10⁵."
+      ],
+      "examples": [
+        {
+          "input": "3 6\n3 3 2\n1 2 3 2 1 2",
+          "output": "3 3 1 3 2 3",
+          "note": "Zadanie 0 dostaje najlżejszy serwer 3 (do sekundy 1). W sekundzie 1 serwer 3 jest znowu wolny, więc zadanie 1 też go dostaje (do sekundy 3). W sekundzie 2 serwer 3 pracuje — zadanie 2 dostaje serwer 1 (waga 3, mniejszy numer niż serwer 2). Wynik: 3 3 1 3 2 3."
+        }
+      ],
+      "hint": "while (!zajete.empty() && zajete.top().first <= zegar) { wolne.push(zajete.top().second); zajete.pop(); }. Jeśli wolne.empty(): zegar = zajete.top().first; i przenieś jeszcze raz. Potem auto [w, i] = wolne.top(); wolne.pop(); zajete.push({zegar + t, {w, i}});.",
+      "tests_count": 10
+    },
+    {
+      "id": "kop-b-wydarzenia",
+      "number": 2421,
+      "title": "Festiwal wydarzeń",
+      "category": "Kopiec / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na festiwalu jest n wydarzeń. Wydarzenie i trwa od dnia sᵢ do dnia eᵢ włącznie i wystarczy na nim być przez jeden dowolny dzień z tego przedziału. Każdego dnia możesz pójść tylko na jedno wydarzenie. Na ile najwięcej różnych wydarzeń możesz pójść?",
+        "Od czego zacząć: przeglądaj dni po kolei. Każdego dnia dorzuć do kopca minimum końce wydarzeń, które właśnie się zaczynają, wyrzuć te, które już się skończyły (eᵢ < dzień), i idź na to, które kończy się najwcześniej. Gdy kopiec jest pusty, przeskocz od razu do dnia startu następnego wydarzenia — dni może być miliard."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z kolejnych n wierszy dwie liczby sᵢ i eᵢ."
+      ],
+      "output_format": [
+        "Jedna liczba — największa liczba wydarzeń."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "1 ≤ sᵢ ≤ eᵢ ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "4\n1 2\n2 3\n3 4\n1 2",
+          "output": "4",
+          "note": "Dzień 1: wydarzenie 1 (albo 4). Dzień 2: drugie z pary 1–2. Dzień 3: wydarzenie 2–3. Dzień 4: wydarzenie 3–4. Wszystkie cztery."
+        }
+      ],
+      "hint": "Posortuj po s. long long dzien; int i = 0; while (i < n || !pq.empty()) { if (pq.empty()) dzien = max(dzien, (long long)ev[i].first); while (i < n && ev[i].first <= dzien) pq.push(ev[i++].second); while (!pq.empty() && pq.top() < dzien) pq.pop(); if (!pq.empty()) { pq.pop(); wynik++; } dzien++; }.",
+      "tests_count": 11
+    },
+    {
+      "id": "kop-b-kapital",
+      "number": 2422,
+      "title": "Kapitał na projekty",
+      "category": "Kopiec / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Firma ma kapitał w i może zrealizować najwyżej k projektów, jeden po drugim. Projekt i wymaga kapitału co najmniej cᵢ (kapitał nie jest zużywany) i po realizacji zwiększa kapitał o pᵢ. Każdy projekt można zrealizować najwyżej raz. Jaki największy kapitał może mieć firma na końcu?",
+        "Od czego zacząć: posortuj projekty po cᵢ. Przed każdym wyborem dorzuć do kopca maksimum zyski wszystkich projektów, na które już stać firmę (cᵢ ≤ kapitał), i zrealizuj ten z wierzchu. Jeśli kopiec jest pusty, na nic więcej firmy nie stać."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n, k i w.",
+        "W każdym z kolejnych n wierszy dwie liczby cᵢ i pᵢ."
+      ],
+      "output_format": [
+        "Jedna liczba — największy kapitał na końcu."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "1 ≤ k ≤ n",
+        "0 ≤ w ≤ 10⁹",
+        "0 ≤ cᵢ ≤ 10⁹",
+        "0 ≤ pᵢ ≤ 10⁶"
+      ],
+      "examples": [
+        {
+          "input": "3 2 0\n0 1\n1 2\n1 3",
+          "output": "4",
+          "note": "Na początku stać nas tylko na projekt 1 (zysk 1). Mając 1, możemy wybrać projekt 3 (zysk 3) — razem 4."
+        }
+      ],
+      "hint": "int j = 0; for (int r = 0; r < k; r++) { while (j < n && pr[j].first <= w) { pq.push(pr[j].second); j++; } if (pq.empty()) break; w += pq.top(); pq.pop(); }. Kapitał w long long.",
+      "tests_count": 10
+    },
+    {
+      "id": "kop-b-procesor-z-przerwa",
+      "number": 2423,
+      "title": "Procesor z przerwą",
+      "category": "Kopiec / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Procesor ma wykonać zadania opisane wielkimi literami — każda litera to jedno zadanie danego rodzaju. Każde zadanie zajmuje jedną jednostkę czasu. Między dwoma zadaniami tego samego rodzaju muszą minąć co najmniej c jednostek czasu, w których procesor robi coś innego albo odpoczywa. Ile najmniej jednostek czasu zajmie wykonanie wszystkich zadań?",
+        "Od czego zacząć: zasymuluj procesor. Liczby pozostałych zadań każdego rodzaju trzymaj w kopcu maksimum, a rodzaje, które właśnie „stygną”, w kolejce par {pozostało, kiedy znów można}. W każdej jednostce czasu weź z kopca rodzaj z największą liczbą pozostałych zadań (jeśli jakiś jest gotowy). Gdy kopiec jest pusty, a kolejka nie — przeskocz zegarem do chwili, w której ostygnie pierwszy rodzaj."
+      ],
+      "input_format": [
+        "W pierwszym wierszu napis z wielkich liter — lista zadań.",
+        "W drugim wierszu liczba c."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejszy łączny czas."
+      ],
+      "constraints": [
+        "1 ≤ liczba zadań ≤ 10⁴",
+        "0 ≤ c ≤ 100"
+      ],
+      "examples": [
+        {
+          "input": "AAABBB\n2",
+          "output": "8",
+          "note": "A B przerwa A B przerwa A B — 8 jednostek."
+        },
+        {
+          "input": "AAABBB\n0",
+          "output": "6",
+          "note": "Bez przerw wystarczy 6 jednostek."
+        }
+      ],
+      "hint": "priority_queue<int> pq; queue<pair<int, long long>> stygnie;. Pętla: while (!pq.empty() || !stygnie.empty()) { if (pq.empty()) czas = stygnie.front().second; if (!stygnie.empty() && stygnie.front().second <= czas) { pq.push(stygnie.front().first); stygnie.pop(); } … }. Kolejka zachowuje kolejność, bo każdy rodzaj stygnie tak samo długo.",
+      "tests_count": 13
+    },
+    {
+      "id": "kop-b-tabliczka-mnozenia",
+      "number": 2424,
+      "title": "k-ta w tabliczce mnożenia",
+      "category": "Kopiec / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W tabliczce mnożenia n × m w polu (i, j) stoi liczba i · j (1 ≤ i ≤ n, 1 ≤ j ≤ m). Ustaw wszystkie n · m liczb niemalejąco (powtórzenia liczą się osobno) i wypisz k-tą z nich.",
+        "Od czego zacząć: wiersz i to posortowana lista i, 2i, 3i, … — scal te listy kopcem jak w ćwiczeniu „Najmniejsze sumy par”. Na początku wrzuć {i · 1, {i, 1}} dla i ≤ min(n, k), a po każdym zdjęciu {i · j, {i, j}} wrzuć {i · (j + 1), {i, j + 1}}, jeśli j < m. k-te zdjęcie to odpowiedź."
+      ],
+      "input_format": [
+        "Jeden wiersz: liczby n, m i k."
+      ],
+      "output_format": [
+        "Jedna liczba — k-ta najmniejsza liczba w tabliczce."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 10⁵",
+        "1 ≤ k ≤ min(n · m, 2 · 10⁵)"
+      ],
+      "examples": [
+        {
+          "input": "3 3 5",
+          "output": "3",
+          "note": "Liczby po kolei: 1, 2, 2, 3, 3, 4, 6, 6, 9. Piąta to 3."
+        }
+      ],
+      "hint": "priority_queue<pair<long long, pair<int, int>>, vector<…>, greater<…>> pq;. Iloczyn i · j może mieć 10¹⁰ — zawsze 1LL * i * j. Po k − 1 zdjęciach odpowiedź jest na wierzchu.",
+      "tests_count": 10
+    },
+    {
+      "id": "kop-b-sale-wykladowe",
+      "number": 2425,
+      "title": "Sale wykładowe",
+      "category": "Kopiec / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na uczelni jest n sal ponumerowanych od 1 do n i m wykładów. Wykład i ma zaczynać się w chwili sᵢ i trwać do eᵢ (czas trwania eᵢ − sᵢ); chwile startu są różne. Wykłady przydzielamy w kolejności planowanych startów:",
+        "jeśli w chwili startu jest wolna sala, wykład dostaje wolną salę o najmniejszym numerze; jeśli nie — wykład czeka do chwili, w której zwolni się pierwsza sala (przy remisie — sala o najmniejszym numerze), i trwa tyle samo co w planie. Sala zajęta do chwili t jest wolna dla wykładu, który zaczyna się w chwili t.",
+        "Wypisz numer sali, w której odbyło się najwięcej wykładów (przy remisie — najmniejszy), a w drugim wierszu liczbę wykładów w każdej sali."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z kolejnych m wierszy dwie liczby sᵢ i eᵢ."
+      ],
+      "output_format": [
+        "W pierwszym wierszu numer sali.",
+        "W drugim wierszu n liczb — liczby wykładów w salach 1, …, n."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 100",
+        "1 ≤ m ≤ 5000",
+        "0 ≤ sᵢ < eᵢ ≤ 10⁹",
+        "Wszystkie sᵢ są różne."
+      ],
+      "examples": [
+        {
+          "input": "2 4\n0 10\n1 5\n2 7\n3 4",
+          "output": "1\n2 2",
+          "note": "Wykład 0–10 w sali 1, 1–5 w sali 2. Wykład 2–7 czeka do chwili 5 (zwalnia się sala 2) i trwa do 10. Wykład 3–4 czeka do chwili 10 — wtedy wolne są obie sale, bierze salę 1. Sale: 2 i 2 wykłady, odpowiedź 1."
+        }
+      ],
+      "hint": "Kopiec wolnych numerów sal (minimum) i kopiec zajętych {koniec, sala} (minimum). Przed wykładem przenieś do wolnych sale z końcem ≤ sᵢ. Jeśli wolnych brak: auto [t, sala] = zajete.top(); zajete.pop(); wykład kończy się w t + (eᵢ − sᵢ). Czas w long long — opóźnienia się sumują.",
+      "tests_count": 10
+    },
+    {
+      "id": "kop-b-laczenie-po-k",
+      "number": 2426,
+      "title": "Łączenie po kilka lin",
+      "category": "Kopiec / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz n lin o podanych długościach. W jednym ruchu łączysz co najmniej 2 i najwyżej k lin w jedną — nowa lina ma długość równą sumie, a ruch kosztuje tyle, ile ta suma. Połącz wszystkie liny w jedną jak najtaniej i wypisz najmniejszy łączny koszt (dla jednej liny — 0).",
+        "Od czego zacząć: jak przy zwykłym łączeniu lin, zawsze łącz najkrótsze — ale tylko jedno łączenie może być „niepełne”, i opłaca się, żeby było pierwsze. Najprościej dorzucić do kopca liny o długości 0, aż (liczba lin − 1) będzie podzielna przez (k − 1), a potem zawsze łączyć dokładnie k najkrótszych."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n długości lin."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejszy łączny koszt."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10⁴",
+        "2 ≤ k ≤ 10",
+        "Długości są z przedziału od 1 do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "4 3\n1 2 3 4",
+          "output": "13",
+          "note": "Najlepiej najpierw połączyć tylko dwie najkrótsze (1 + 2 = 3), a potem trzy liny 3, 3 i 4 (koszt 10). Razem 13. Dorzucenie jednej liny zerowej daje to samo: 0 + 1 + 2, potem 3 + 3 + 4."
+        }
+      ],
+      "hint": "while ((pq.size() - 1) % (k - 1) != 0) pq.push(0);. Potem while (pq.size() > 1) { long long s = 0; for (int j = 0; j < k; j++) { s += pq.top(); pq.pop(); } koszt += s; pq.push(s); }.",
+      "tests_count": 10
+    },
+    {
+      "id": "kop-b-mediana-w-oknie",
+      "number": 2427,
+      "title": "Mediana w przesuwanym oknie",
+      "category": "Kopiec / baza zadań",
+      "time_limit": "2 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Liczby generujesz sam: x₁ = s, xᵢ = (xᵢ₋₁ · a + b) mod m (w long long). Dla każdego okna k kolejnych liczb policz jego medianę — liczbę, która w posortowanym oknie stoi na miejscu ⌈k/2⌉ (przy parzystym k to mniejsza z dwóch środkowych). Wypisz sumę median wszystkich n − k + 1 okien.",
+        "Od czego zacząć: dwa kopce jak w „Mediana na bieżąco” — dol (maksimum) i gora (minimum) — ale liczba, która wypada z okna, może leżeć głęboko w środku kopca. Usuwaj ją leniwie: zapisz w mapie usunięć tego kopca, w którym jest (jeśli x ≤ dol.top() — w dolnym, inaczej w górnym), i zmniejsz licznik prawdziwych elementów tego kopca. Wyrzucaj ją dopiero wtedy, gdy wyjdzie na wierzch. Rozmiary porównuj licznikami, nie size()."
+      ],
+      "input_format": [
+        "Jeden wiersz: liczby n, s, a, b, m oraz k."
+      ],
+      "output_format": [
+        "Jedna liczba — suma median."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 2 · 10⁵",
+        "1 ≤ m ≤ 10⁹",
+        "0 ≤ s, a, b < m"
+      ],
+      "examples": [
+        {
+          "input": "6 5 3 1 17 3",
+          "output": "52",
+          "note": "Ciąg: 5, 16, 15, 12, 3, 10. Okna po 3 i ich mediany: (5 16 15) → 15, (16 15 12) → 15, (15 12 3) → 12, (12 3 10) → 10. Suma 52."
+        }
+      ],
+      "hint": "Struktura z polami: dwa kopce, dwie mapy usunięć (map<long long, int>) i dwa liczniki. Funkcja sprzataj() zdejmuje z wierzchów elementy oznaczone w mapach, wyrownaj() przerzuca jeden element, gdy liczniki różnią się za bardzo — i za każdym razem woła sprzataj() przed odczytem wierzchu. Kolejność w pętli: dodaj xᵢ, usuń xᵢ₋ₖ, odczytaj medianę.",
+      "tests_count": 11
+    },
+    {
+      "id": "kop-b-najmniejszy-zakres",
+      "number": 2428,
+      "title": "Najmniejszy zakres",
+      "category": "Kopiec / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz k list liczb, każda jest posortowana niemalejąco i niepusta. Znajdź najkrótszy przedział [x, y], w którym leży co najmniej jedna liczba z każdej listy. Najkrótszy znaczy: o najmniejszym y − x, a przy remisie — o najmniejszym x.",
+        "Od czego zacząć: weź po jednej liczbie z każdej listy — na początku pierwsze. Przedział od najmniejszej do największej z nich zawiera coś z każdej listy. Najmniejszą trzymaj na wierzchu kopca minimum {wartość, {lista, pozycja}}, a największą — w zmiennej. Jedyny sensowny ruch to zastąpienie najmniejszej następną liczbą z jej listy (i poprawienie maksimum). Gdy któraś lista się skończy — koniec."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba k.",
+        "W każdym z kolejnych k wierszy: długość listy d (d ≥ 1), a po niej d liczb niemalejąco."
+      ],
+      "output_format": [
+        "Dwie liczby x i y."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ 1000",
+        "Suma długości list nie przekracza 10⁴.",
+        "Liczby są z przedziału od −10⁶ do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "3\n5 4 10 15 24 26\n4 0 9 12 20\n4 5 18 22 30",
+          "output": "20 24",
+          "note": "Przedział [20, 24] zawiera 24 z pierwszej listy, 20 z drugiej i 22 z trzeciej. Krótszego nie ma."
+        }
+      ],
+      "hint": "long long naj = max z pierwszych elementów; bestX = pq.top().first, bestY = naj;. Pętla: auto [v, p] = pq.top(); if (naj - v < bestY - bestX) { bestX = v; bestY = naj; } pq.pop(); if (j + 1 == L[i].size()) break; pq.push({L[i][j + 1], {i, j + 1}}); naj = max(naj, L[i][j + 1]);. Minimum nigdy nie maleje, więc przy remisie wygrywa wcześniejszy, czyli mniejszy x.",
+      "tests_count": 11
+    },
+    {
+      "id": "kop-b-sciezka-wysilku",
+      "number": 2429,
+      "title": "Ścieżka najmniejszego wysiłku",
+      "category": "Kopiec / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Turysta idzie po mapie h × w, na której każde pole ma wysokość. Zaczyna w lewym górnym rogu, kończy w prawym dolnym i chodzi w górę, w dół, w lewo i w prawo. Wysiłek drogi to największa różnica wysokości między dwoma sąsiednimi polami na tej drodze (wartość bezwzględna). Jaki jest najmniejszy możliwy wysiłek?",
+        "Od czego zacząć: to Dijkstra, tylko „długość” drogi liczy się inaczej — nie sumą, ale maksimum. Wejście z pola v na pole u daje drodze wysiłek max(wysiłek do v, |h[u] − h[v]|). Kopiec minimum {wysiłek, pole} działa tak samo jak przy sumie, bo wysiłek nigdy nie maleje, gdy droga się wydłuża."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby h i w.",
+        "W każdym z kolejnych h wierszy w wysokości."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejszy wysiłek."
+      ],
+      "constraints": [
+        "1 ≤ h, w ≤ 100",
+        "Wysokości są z przedziału od 1 do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "3 3\n1 2 2\n3 8 2\n5 3 5",
+          "output": "2",
+          "note": "Droga 1 → 3 → 5 → 3 → 5 (w dół lewym brzegiem i po dolnym wierszu) ma skoki 2, 2, 2 i 2. Każda inna droga ma większy skok."
+        }
+      ],
+      "hint": "dist[r][c] = najmniejszy wysiłek dojścia; dist[0][0] = 0. Po zdjęciu {d, (r, c)}: dla sąsiada nd = max(d, (long long)abs(h[nr][nc] - h[r][c])); if (nd < dist[nr][nc]) { dist[nr][nc] = nd; pq.push(…); }.",
+      "tests_count": 10
+    },
+    {
+      "id": "kop-b-deszcz-na-wyspie",
+      "number": 2430,
+      "title": "Deszcz na wyspie",
+      "category": "Kopiec / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wyspa to plansza h × w, a w każdym polu stoi słupek o podanej wysokości. Po ulewie woda zbiera się w zagłębieniach — tam, skąd nie może spłynąć poza planszę. Ile jednostek wody zostanie na wyspie? (Woda z pola może spłynąć do sąsiada w górę, w dół, w lewo i w prawo; pola na brzegu planszy niczego nie zatrzymują.)",
+        "Od czego zacząć: woda w środku wyspy stoi najwyżej na poziomie najniższego miejsca „ściany”, która ją otacza. Wrzuć wszystkie pola brzegu do kopca minimum {poziom, pole} i oznacz je jako odwiedzone. Zdejmuj najniższe pole; każdy jego nieodwiedzony sąsiad dostaje wodę do poziomu max(poziom, swoja wysokość): woda += max(0, poziom − wysokość sąsiada), a sąsiad trafia do kopca z poziomem max(poziom, jego wysokość)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby h i w.",
+        "W każdym z kolejnych h wierszy w wysokości."
+      ],
+      "output_format": [
+        "Jedna liczba — ilość wody."
+      ],
+      "constraints": [
+        "1 ≤ h, w ≤ 100",
+        "Wysokości są z przedziału od 0 do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "3 6\n1 4 3 1 3 2\n3 2 1 3 2 4\n2 3 3 2 3 1",
+          "output": "4",
+          "note": "Woda zbiera się w trzech polach środkowego wiersza: 2 jednostki na polu o wysokości 1 (między trójkami), 1 jednostka na polu o wysokości 2 obok czwórki i 1 jednostka na drugim polu o wysokości 2. Razem 4."
+        }
+      ],
+      "hint": "vector<vector<bool>> odw(h, vector<bool>(w));. Brzeg: wiersz 0, wiersz h − 1, kolumna 0 i kolumna w − 1. Potem: auto [poz, pole] = pq.top(); pq.pop(); dla nieodwiedzonych sąsiadów: woda += max(0LL, poz - t[nr][nc]); pq.push({max(poz, t[nr][nc]), {nr, nc}});. Wody może być 10¹⁰ — long long.",
+      "tests_count": 10
+    },
+    {
+      "id": "kop-b-loty-z-przesiadkami",
+      "number": 2431,
+      "title": "Loty z przesiadkami",
+      "category": "Kopiec / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Jest n miast i m lotów; lot a → b kosztuje w złotych (tylko w tę stronę). Chcesz dolecieć z miasta s do miasta t, robiąc co najwyżej k przesiadek, czyli wykonując najwyżej k + 1 lotów. Ile najmniej zapłacisz? Jeśli się nie da, wypisz −1.",
+        "Od czego zacząć: zwykły Dijkstra nie pilnuje liczby lotów — najtańsza trasa może mieć ich za dużo. Rozszerz stan: (miasto, ile lotów już wykonano). dist[v][e] to najmniejszy koszt dotarcia do v po dokładnie e lotach. Z (v, e) lot do u prowadzi do (u, e + 1) — o ile e + 1 ≤ k + 1. Pierwsze zdjęcie z kopca stanu z miastem t daje odpowiedź."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z kolejnych m wierszy trzy liczby a, b i w.",
+        "W ostatnim wierszu liczby s, t i k."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejszy koszt albo −1."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 500",
+        "0 ≤ m ≤ 5000",
+        "1 ≤ w ≤ 10⁴",
+        "1 ≤ s, t ≤ n, s ≠ t",
+        "0 ≤ k ≤ 100",
+        "Każdy lot a → b występuje najwyżej raz, a ≠ b."
+      ],
+      "examples": [
+        {
+          "input": "4 5\n1 2 100\n2 3 100\n3 4 100\n1 3 500\n1 4 900\n1 4 1",
+          "output": "600",
+          "note": "Najtaniej jest lecieć 1 → 2 → 3 → 4 za 300, ale to dwie przesiadki. Z jedną przesiadką: 1 → 3 → 4 za 600."
+        }
+      ],
+      "hint": "vector<vector<long long>> dist(n + 1, vector<long long>(k + 2, INF));. W kopcu {koszt, {miasto, loty}}. Po zdjęciu: if (v == t) → wypisz koszt. Relaksuj tylko, gdy loty + 1 <= k + 1.",
+      "tests_count": 10
+    },
+    {
+      "id": "kop-b-siec-swiatlowodowa",
+      "number": 2432,
+      "title": "Sieć światłowodowa",
+      "category": "Kopiec / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Trzeba połączyć światłowodem n miast. Można położyć m różnych kabli: kabel między miastami a i b kosztuje w. Sygnał biegnie kablami w obie strony i może przechodzić przez inne miasta. Ile najmniej kosztuje sieć, w której z każdego miasta da się dotrzeć do każdego innego? Jeśli się nie da, wypisz −1.",
+        "Od czego zacząć: buduj sieć od miasta 1. Trzymaj w kopcu minimum kable {koszt, miasto}, które prowadzą z miast już podłączonych. Zdejmuj najtańszy; jeśli prowadzi do miasta już podłączonego — pomiń go (jak nieaktualny wpis w Dijkstrze); w przeciwnym razie podłącz to miasto, dolicz koszt i wrzuć wszystkie kable z tego miasta. To algorytm Prima — wygląda prawie jak Dijkstra, tylko w kopcu jest koszt kabla, a nie odległość od startu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z kolejnych m wierszy trzy liczby a, b i w."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejszy koszt sieci albo −1."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 2000",
+        "0 ≤ m ≤ 5000",
+        "1 ≤ w ≤ 10⁶",
+        "a ≠ b"
+      ],
+      "examples": [
+        {
+          "input": "4 5\n1 2 4\n1 3 1\n3 2 2\n2 4 5\n3 4 8",
+          "output": "8",
+          "note": "Najtańsza sieć: kable 1–3 (1), 3–2 (2) i 2–4 (5) — razem 8."
+        }
+      ],
+      "hint": "vector<bool> pod(n + 1, false); pq.push({0, 1});. while (!pq.empty()) { auto [c, v] = pq.top(); pq.pop(); if (pod[v]) continue; pod[v] = true; suma += c; ile++; for (auto [u, w] : g[v]) if (!pod[u]) pq.push({w, u}); }. Na końcu: ile < n → −1.",
+      "tests_count": 10
+    },
+    {
+      "id": "kop-b-druzyna-marzen",
+      "number": 2433,
+      "title": "Drużyna marzeń",
+      "category": "Kopiec / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Trener wybiera drużynę z n zawodników, najwyżej k osób. Zawodnik i ma szybkość sᵢ i wytrwałość eᵢ. Siła drużyny to suma szybkości jej członków pomnożona przez najmniejszą wytrwałość w drużynie. Jaka jest największa możliwa siła drużyny?",
+        "Od czego zacząć: posortuj zawodników od największej wytrwałości. Gdy dochodzisz do zawodnika i, załóż, że to on ma najmniejszą wytrwałość w drużynie — pozostali są wybierani spośród wcześniejszych (wytrwalszych). Wtedy opłaca się wziąć najszybszych: trzymaj w kopcu minimum szybkości wybranych i ich sumę, a gdy wybranych jest więcej niż k, wyrzuć najwolniejszego. Kandydat na wynik: suma · eᵢ."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W każdym z kolejnych n wierszy dwie liczby sᵢ i eᵢ."
+      ],
+      "output_format": [
+        "Jedna liczba — największa siła drużyny."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 5000",
+        "1 ≤ sᵢ, eᵢ ≤ 10⁵"
+      ],
+      "examples": [
+        {
+          "input": "6 2\n2 5\n10 4\n3 2\n1 9\n5 7\n8 3",
+          "output": "60",
+          "note": "Najlepiej wziąć zawodników o szybkościach 10 i 5: (10 + 5) · min(4, 7) = 60."
+        }
+      ],
+      "hint": "sort malejąco po e. for (auto [e, s] : z) { pq.push(s); suma += s; if (pq.size() > k) { suma -= pq.top(); pq.pop(); } wynik = max(wynik, suma * e); }. suma · e to nawet 5 · 10¹³ — long long.",
+      "tests_count": 10
+    },
+    {
+      "id": "kop-b-final-planista",
+      "number": 2434,
+      "title": "Wielki finał: planista procesora",
+      "category": "Kopiec / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "System operacyjny ma jeden procesor i n procesów ponumerowanych od 1 do n. Proces i pojawia się w chwili aᵢ, potrzebuje dᵢ jednostek czasu procesora i ma priorytet pᵢ (większa liczba — ważniejszy proces). Od chwili pojawienia się do zakończenia proces jest gotowy do pracy.",
+        "W każdej chwili procesor wykonuje najważniejszy gotowy proces: o największym priorytecie, przy remisie — ten, który pojawił się wcześniej, a przy kolejnym remisie — o mniejszym numerze. Gdy pojawi się proces ważniejszy od wykonywanego, procesor natychmiast przełącza się na niego (to wywłaszczenie), a przerwany proces czeka z pozostałym czasem pracy. Proces mniej albo tak samo ważny niczego nie przerywa. Gdy żaden proces nie jest gotowy, procesor odpoczywa.",
+        "Wypisz: w pierwszym wierszu chwile zakończenia procesów 1, 2, …, n; w drugim — liczbę wywłaszczeń; w trzecim — łączny czas czekania wszystkich procesów (dla procesu i to koniec − aᵢ − dᵢ); w czwartym — łączny czas odpoczynku procesora od chwili 0 do zakończenia ostatniego procesu.",
+        "Od czego zacząć: posortuj procesy po chwili pojawienia się i symuluj skokami — od zdarzenia do zdarzenia. Gotowe procesy trzymaj w kopcu struktur z operatorem < (mniejszy znaczy: mniej ważny), a pozostały czas pracy w tablicy. Procesor wykonuje wierzch kopca aż do najbliższego z dwóch zdarzeń: końca tego procesu albo pojawienia się następnego procesu. Wywłaszczenie liczysz wtedy, gdy wierzch kopca zmienił się, choć poprzednio wykonywany proces jeszcze się nie skończył."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z kolejnych n wierszy trzy liczby aᵢ, dᵢ i pᵢ."
+      ],
+      "output_format": [
+        "Cztery wiersze opisane w treści."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "0 ≤ aᵢ ≤ 10⁹",
+        "1 ≤ dᵢ ≤ 10⁶",
+        "1 ≤ pᵢ ≤ 100"
+      ],
+      "examples": [
+        {
+          "input": "4\n0 5 1\n1 2 3\n2 2 3\n10 1 2",
+          "output": "9 3 5 11\n1\n5\n1",
+          "note": "P1 pracuje od 0. W chwili 1 przychodzi ważniejszy P2 — wywłaszczenie, P2 pracuje 1–3 (P3 z tym samym priorytetem przychodzi później, więc nie przerywa). Potem P3 (3–5) i dokończenie P1 (5–9). Procesor odpoczywa 9–10, a P4 pracuje 10–11. Czekanie: 4 + 0 + 1 + 0 = 5."
+        }
+      ],
+      "hint": "struct Proces { int p; long long a; int id; bool operator<(const Proces &o) const { if (p != o.p) return p < o.p; if (a != o.a) return a > o.a; return id > o.id; } };. Pętla: wrzuć procesy z a ≤ czas; jeśli kopiec pusty — odpoczynek do następnego a; inaczej cur = top(), nast = następne a (albo nieskończoność); jeśli czas + zostalo[cur] ≤ nast — proces kończy się, pop; w przeciwnym razie zostalo[cur] -= nast − czas i czas = nast.",
+      "tests_count": 14
     }
   ]
 }

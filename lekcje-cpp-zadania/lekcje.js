@@ -1959,6 +1959,87 @@ const LEKCJE = [
             },
         ],
     },
+    {
+        temat: 'Kopiec',
+        prefix: 'kop-',
+        plik: 'c++_logika/kopiec.html',
+        pliki: ['kopiec-cwiczenia-1.js', 'kopiec-cwiczenia-2.js', 'kopiec-cwiczenia-3.js', 'kopiec-baza.js'],
+        note: 'Lekcja o kopcu od podstaw: priority_queue, czyli kolejka, z której zawsze wychodzi element najważniejszy (push, top, pop, size, empty, ' +
+            'wyjmowanie od największego i pułapki pustego kopca), kopiec minimum z greater i sztuczka z minusem, co jest w środku (kopiec binarny w tablicy, ' +
+            'przesiewanie w górę i w dół, własny kopiec i sortowanie przez kopcowanie), symulacje „weź największy, zmień, odłóż”, kopiec par i struktur, ' +
+            'k największych, scalanie list i mediana na dwóch kopcach, zdarzenia w czasie, terminy i leniwe usuwanie oraz algorytm Dijkstry.',
+        bazaOpisy: {
+            latwe: 'Kopiec w prostych przebraniach: podium na żywo, zamiana znaków, mnożenie najmniejszej, k-ta różna wartość, sortowanie według częstości, ' +
+                'rozkład lotów, liczby najbliższe x, różnica sum, magazyn i pizzeria.',
+            srednie: 'Dwa kopce, pary i symulacje w nowych zadaniach: liczby z dwójek, trójek i piątek, cegły i drabiny, napis bez sąsiadów, serwery, wydarzenia, ' +
+                'kapitał na projekty, procesor z przerwą, najmniejsze sumy par, sale wykładowe i bankomaty.',
+            trudne: 'Kopiec w poważnych algorytmach: mediana w oknie, najmniejszy zakres, ścieżka najmniejszego wysiłku, deszcz na wyspie, loty z przesiadkami, ' +
+                'sieć światłowodowa i drużyna marzeń — a na koniec wielki finał: planista procesora.',
+        },
+        kroki: [
+            {
+                nr: 1, kotwica: 'pierwszy-kopiec', spis: 'Pierwszy kopiec — zawsze największy na wierzchu',
+                nazwa: 'Krok 1 · Pierwszy kopiec — zawsze największy na wierzchu',
+                kategoria: 'Kopiec / krok 1: pierwszy kopiec',
+                note: 'priority_queue i jej polecenia: push, top, pop, size i empty, wyjmowanie od największego, powtórzenia, brak indeksów, kopia kopca i porównanie z kolejką i stosem: ' +
+                    'od największej, rekord po każdej liczbie, trzy największe, polecenia, stan po każdym poleceniu, suma k największych, trzy pojemniki i ile razy.',
+            },
+            {
+                nr: 2, kotwica: 'kopiec-minimum', spis: 'Kopiec minimum — najmniejszy na wierzchu',
+                nazwa: 'Krok 2 · Kopiec minimum — gdy najważniejszy jest najmniejszy',
+                kategoria: 'Kopiec / krok 2: kopiec minimum',
+                note: 'Kopiec minimum z greater, sztuczka z minusem i jej pułapki, kopiec napisów i long long, łączenie dwóch najmniejszych: ' +
+                    'od najmniejszej, k-ta najmniejsza, słownik, numerki w urzędzie, wolne miejsca, łączenie lin, do progu i zakupy za budżet.',
+            },
+            {
+                nr: 3, kotwica: 'w-srodku', spis: 'Co jest w środku — kopiec binarny',
+                nazwa: 'Krok 3 · Co jest w środku — kopiec binarny w tablicy',
+                kategoria: 'Kopiec / krok 3: kopiec binarny',
+                note: 'Drzewo w tablicy (rodzic i/2, dzieci 2i i 2i + 1), warunek kopca, przesiewanie w górę i w dół, wysokość drzewa i dlaczego to jest szybkie, własny kopiec i sortowanie przez kopcowanie: ' +
+                    'rodzina w tablicy, czy to kopiec, poziomy drzewa, przesiewanie w górę, przesiewanie w dół, własny kopiec, kopcowanie i wysokość.',
+            },
+            {
+                nr: 4, kotwica: 'symulacje', spis: 'Weź największy, zmień, odłóż — symulacje',
+                nazwa: 'Krok 4 · Weź największy, zmień, odłóż — symulacje',
+                kategoria: 'Kopiec / krok 4: symulacje',
+                note: 'Schemat top → pop → zmiana → push, kilka testów i czyszczenie kopca, kopiec maksimum i minimum na tych samych danych, pomiar z rozwiązaniem na vectorze: ' +
+                    'kamienie, połowienie kupek, prezenty, kilka testów, punkty k razy, gra w kupki, lotnisko i dużo poleceń.',
+            },
+            {
+                nr: 5, kotwica: 'pary-i-struktury', spis: 'Kopiec par i struktur',
+                nazwa: 'Krok 5 · Kopiec par i struktur — kto ważniejszy przy remisie',
+                kategoria: 'Kopiec / krok 5: pary i struktury',
+                note: 'Kopiec par (najpierw first, potem second), remisy i minus w jednym polu, kopiec minimum par, struktura z operatorem < i odwrócony porządek: ' +
+                    'SOR, najlepsi uczniowie, zadania z priorytetem, najbliższe punkty, częste słowa, indeksy największych, aukcja i sortowanie par.',
+            },
+            {
+                nr: 6, kotwica: 'k-najwiekszych', spis: 'k największych, scalanie i mediana',
+                nazwa: 'Krok 6 · k największych, scalanie list i mediana na dwóch kopcach',
+                kategoria: 'Kopiec / krok 6: k największych i mediana',
+                note: 'Kopiec ograniczony do k elementów (bramkarz klubu), k-ty największy na bieżąco, scalanie posortowanych list, mediana na dwóch kopcach.',
+            },
+            {
+                nr: 7, kotwica: 'zdarzenia', spis: 'Zdarzenia, terminy i leniwe usuwanie',
+                nazwa: 'Krok 7 · Zdarzenia w czasie, terminy i leniwe usuwanie',
+                kategoria: 'Kopiec / krok 7: zdarzenia i terminy',
+                note: 'Kopiec czasów (kto pierwszy będzie wolny), symulacja zdarzeń, zachłanne wybieranie z terminami, leniwe usuwanie elementów z kopca.',
+            },
+            {
+                nr: 8, kotwica: 'dijkstra', spis: 'Najkrótsze drogi — algorytm Dijkstry',
+                nazwa: 'Krok 8 · Najkrótsze drogi z wagami — algorytm Dijkstry',
+                kategoria: 'Kopiec / krok 8: algorytm Dijkstry',
+                note: 'Graf z wagami na listach sąsiadów, dlaczego BFS nie wystarcza, Dijkstra z kopcem minimum par {odległość, wierzchołek}, pomijanie nieaktualnych wpisów, ' +
+                    'odtwarzanie trasy, plansze z kosztami, wiele startów i graf stanów.',
+            },
+            {
+                nr: 9, kotwica: 'baza', spis: 'Baza zadań', baza: true,
+                nazwa: 'Baza zadań — podsumowanie tematu',
+                kategoria: 'Kopiec / baza zadań',
+                note: '28 zadań na cały temat — od prostych zadań z jednym kopcem, przez dwa kopce, pary i symulacje w nowych przebraniach, po medianę w oknie, ' +
+                    'ścieżki najmniejszego wysiłku i sieć światłowodową — a na koniec wielki finał: planista procesora.',
+            },
+        ],
+    },
 ];
 
 module.exports = { SITE, KATEGORIA, LEKCJE };

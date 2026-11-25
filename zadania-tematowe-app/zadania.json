@@ -73589,6 +73589,3074 @@
       ],
       "hint": "deque<pair<int, int>> waz; vector<vector<int>> zajete(n + 1, vector<int>(m + 1, 0)); vector<vector<bool>> jablko(…);. Ruch: nowe pole (nw, nk); poza planszą → koniec. if (zajete[nw][nk] && make_pair(nw, nk) != waz.back()) → ogon. Jeśli jabłko — zjedz; jeśli nie — zdejmij ogon (zajete = 0, pop_back). Na końcu push_front i zajete = 1.",
       "tests_count": 14
+    },
+    {
+      "id": "sto-stos-talerzy",
+      "number": 2251,
+      "title": "Stos talerzy",
+      "category": "Stos / krok 1: pierwszy stos",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Po obiedzie myjesz n talerzy i odkładasz je jeden na drugi — każdy kolejny ląduje na samej górze. Wczytaj kolory talerzy w kolejności odkładania i połóż każdy na stosie stack<string> poleceniem push.",
+        "Wypisz, jaki talerz leży na wierzchu (top) i ile talerzy jest na stosie (size). Potem przychodzą goście i zabierają k talerzy — zawsze ten z samej góry. Zdejmij k razy talerz z wierzchu poleceniem pop, ale tylko wtedy, gdy stos nie jest pusty. Na koniec wypisz kolor talerza, który leży teraz na wierzchu, albo słowo pusto."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n kolorów w kolejności odkładania — pierwszy talerz leży na samym dole, ostatni na samej górze."
+      ],
+      "output_format": [
+        "Trzy wiersze: na wierzchu: …, talerzy: … oraz po gosciach: … (kolor albo słowo pusto)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 100",
+        "0 ≤ k ≤ 200",
+        "Kolory to słowa z 1–12 małych liter (bez polskich znaków)."
+      ],
+      "examples": [
+        {
+          "input": "5 2\nbialy zielony bialy niebieski czerwony",
+          "output": "na wierzchu: czerwony\ntalerzy: 5\npo gosciach: bialy",
+          "note": "Ostatni odłożony był czerwony, więc leży na wierzchu. Goście zabierają czerwony i niebieski — na wierzchu zostaje biały."
+        }
+      ],
+      "hint": "stack<string> s; i w pętli: cin >> kolor; s.push(kolor);. Potem s.top() i s.size(). Goście: for (int i = 0; i < k; i++) if (!s.empty()) s.pop();. Na końcu: if (s.empty()) cout << \"pusto\"; else cout << s.top();.",
+      "tests_count": 9
+    },
+    {
+      "id": "sto-liczby-od-konca",
+      "number": 2252,
+      "title": "Liczby od końca",
+      "category": "Stos / krok 1: pierwszy stos",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb całkowitych i połóż każdą na stosie stack<int>.",
+        "Potem zdejmuj liczby ze stosu, dopóki nie jest pusty: wypisz liczbę z wierzchu (top) i usuń ją (pop). Liczby wyjdą w odwrotnej kolejności niż na wejściu — ostatnia wczytana zostanie wypisana jako pierwsza."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jeden wiersz: n liczb w odwrotnej kolejności, oddzielonych spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2000",
+        "Liczby są z przedziału od −10⁶ do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "5\n3 8 1 9 4",
+          "output": "4 9 1 8 3",
+          "note": "Na wierzchu leży 4 (wczytana ostatnia), pod nią 9, i tak dalej aż do 3 na samym dole."
+        }
+      ],
+      "hint": "stack<int> s; for (…) { cin >> x; s.push(x); }. Potem while (!s.empty()) { cout << s.top() << \" \"; s.pop(); }. Najpierw top (odczyt), dopiero potem pop (usunięcie) — pop niczego nie oddaje.",
+      "tests_count": 9
+    },
+    {
+      "id": "sto-slowa-wspak",
+      "number": 2253,
+      "title": "Każde słowo wspak",
+      "category": "Stos / krok 1: pierwszy stos",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n słów. Każde słowo zapisz wspak, czyli od ostatniej litery do pierwszej, ale słowa zostaw w tej samej kolejności co na wejściu.",
+        "Odwróć każde słowo stosem: połóż wszystkie jego litery na stosie stack<char>, a potem zdejmuj je i wypisuj, dopóki stos nie jest pusty. Nie używaj gotowej funkcji reverse — ćwiczymy stos."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n słów oddzielonych spacjami."
+      ],
+      "output_format": [
+        "Jeden wiersz: n słów zapisanych wspak, oddzielonych spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 200",
+        "Słowa mają od 1 do 20 liter (małych albo wielkich, bez polskich znaków)."
+      ],
+      "examples": [
+        {
+          "input": "3\nAla ma kota",
+          "output": "alA am atok",
+          "note": "Ala → alA, ma → am, kota → atok. Wielkość liter się nie zmienia."
+        }
+      ],
+      "hint": "for (int i = 0; i < n; i++) { string w; cin >> w; stack<char> s; for (char c : w) s.push(c); while (!s.empty()) { cout << s.top(); s.pop(); } cout << \" \"; }. Stos deklarowany w pętli jest za każdym razem nowy i pusty.",
+      "tests_count": 7
+    },
+    {
+      "id": "sto-zdanie-od-konca",
+      "number": 2254,
+      "title": "Zdanie od końca",
+      "category": "Stos / krok 1: pierwszy stos",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytuj słowa, aż trafisz na słowo KONIEC (ono już do zdania nie należy). Każde słowo połóż na stosie stack<string>.",
+        "Wypisz, ile słów wczytano, a w drugim wierszu — wszystkie słowa w odwrotnej kolejności, od ostatniego do pierwszego. Same słowa się nie zmieniają. Zwróć uwagę: liczbę słów odczytaj przez size(), zanim zaczniesz opróżniać stos."
+      ],
+      "input_format": [
+        "Słowa oddzielone spacjami albo znakami nowej linii (mogą zajmować kilka wierszy). Ostatnie słowo to KONIEC."
+      ],
+      "output_format": [
+        "Dwa wiersze: slow: k oraz słowa od ostatniego do pierwszego, oddzielone spacjami."
+      ],
+      "constraints": [
+        "Słów przed KONIEC jest od 1 do 1000.",
+        "Każde słowo ma od 1 do 15 liter (bez polskich znaków) i nie jest słowem KONIEC."
+      ],
+      "examples": [
+        {
+          "input": "Ola idzie do szkoly\nKONIEC",
+          "output": "slow: 4\nszkoly do idzie Ola",
+          "note": "Cztery słowa. Na wierzchu stosu leży szkoly, więc ono wychodzi pierwsze."
+        },
+        {
+          "input": "raz dwa\ntrzy\n\ncztery KONIEC",
+          "output": "slow: 4\ncztery trzy dwa raz",
+          "note": "Słowa mogą być rozrzucone po kilku wierszach — cin >> pomija spacje i entery."
+        }
+      ],
+      "hint": "stack<string> s; string w; while (cin >> w && w != \"KONIEC\") s.push(w);. Potem cout << \"slow: \" << s.size(); — zanim opróżnisz stos! — i while (!s.empty()) { cout << s.top() << \" \"; s.pop(); }.",
+      "tests_count": 8
+    },
+    {
+      "id": "sto-od-gory-i-od-dolu",
+      "number": 2255,
+      "title": "Od góry i od dołu",
+      "category": "Stos / krok 1: pierwszy stos",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb i połóż je po kolei na stosie stack<int> — pierwsza liczba leży na samym dole.",
+        "Wypisz zawartość stosu dwa razy: najpierw od góry do dołu, a potem od dołu do góry. Na koniec wypisz, ile liczb wciąż jest na stosie w main — ma ich być n, bo stosu w main nie wolno zepsuć.",
+        "Napisz dwie funkcje z parametrem stack<int> s (bez &, czyli dostają kopię). Pierwsza zdejmuje liczby z kopii i wypisuje je — wyjdą od góry. Druga najpierw przelewa kopię do drugiego, pomocniczego stosu (zdejmuje z jednego i kładzie na drugi), a potem opróżnia pomocniczy — przelanie odwraca kolejność, więc liczby wyjdą od dołu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych — w kolejności kładzenia na stos."
+      ],
+      "output_format": [
+        "Trzy wiersze: od gory: … , od dolu: … oraz na stosie: n."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "Liczby są z przedziału od 1 do 10⁴."
+      ],
+      "examples": [
+        {
+          "input": "4\n5 1 7 2",
+          "output": "od gory: 2 7 1 5\nod dolu: 5 1 7 2\nna stosie: 4",
+          "note": "Na wierzchu leży 2, na samym dole 5. Po przelaniu do pomocniczego stosu na jego wierzchu ląduje 5 — dlatego druga funkcja wypisuje od dołu. Stos w main wciąż ma 4 liczby."
+        }
+      ],
+      "hint": "void odGory(stack<int> s) { … while (!s.empty()) { cout << \" \" << s.top(); s.pop(); } }. void odDolu(stack<int> s) { stack<int> pom; while (!s.empty()) { pom.push(s.top()); s.pop(); } … i teraz opróżnij pom }. W main: odGory(s); odDolu(s); cout << \"na stosie: \" << s.size();.",
+      "tests_count": 7
+    },
+    {
+      "id": "sto-systemy-liczbowe",
+      "number": 2256,
+      "title": "Systemy liczbowe stosem",
+      "category": "Stos / krok 1: pierwszy stos",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdego zapytania zamień liczbę x z systemu dziesiątkowego na system o podstawie b.",
+        "Klasyczny sposób: dopóki x > 0, reszta x % b to kolejna cyfra wyniku, a potem x /= b. Kłopot w tym, że cyfry wychodzą od końca — najpierw ostatnia. Kładź więc reszty na stos, a potem zdejmuj i wypisuj: stos odwróci je we właściwą kolejność. W systemach większych niż dziesiątkowy cyfry 10, 11, 12, 13, 14, 15 zapisuje się literami A, B, C, D, E, F. Liczba 0 w każdym systemie to 0."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba zapytań t.",
+        "W każdym z t kolejnych wierszy dwie liczby: x i b."
+      ],
+      "output_format": [
+        "t wierszy — liczba x zapisana w systemie o podstawie b (wielkie litery A–F)."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100",
+        "0 ≤ x ≤ 10¹⁸",
+        "2 ≤ b ≤ 16"
+      ],
+      "examples": [
+        {
+          "input": "4\n13 2\n255 16\n0 7\n100 8",
+          "output": "1101\nFF\n0\n144",
+          "note": "13 = 1101 dwójkowo: reszty z dzielenia przez 2 to kolejno 1, 0, 1, 1 — stos odwraca je w 1101. 255 szesnastkowo to FF."
+        }
+      ],
+      "hint": "string cyfry = \"0123456789ABCDEF\"; long long x; int b;. if (x == 0) wypisz 0. Inaczej: stack<int> s; while (x > 0) { s.push(x % b); x /= b; } i while (!s.empty()) { cout << cyfry[s.top()]; s.pop(); }. x do 10¹⁸ — tylko long long.",
+      "tests_count": 7
+    },
+    {
+      "id": "sto-wieza-po-kazdej-zmianie",
+      "number": 2257,
+      "title": "Wieża po każdej zmianie",
+      "category": "Stos / krok 1: pierwszy stos",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Budujesz wieżę z ponumerowanych klocków. Na początku wieży nie ma. Wykonaj q poleceń: + x kładzie klocek z numerem x na samą górę, a - zdejmuje klocek z samej góry. Polecenie - pojawia się tylko wtedy, gdy wieża nie jest pusta.",
+        "Po każdym poleceniu wypisz całą wieżę od najniższego klocka do najwyższego (numery oddzielone spacjami) albo słowo pusto. Wieżę trzymaj na stosie stack<int>. Stosu nie da się przejść pętlą for — napisz funkcję void wypisz(stack<int> s), która dostaje kopię, przelewa ją do pomocniczego stosu (wtedy na wierzchu będzie najniższy klocek) i dopiero ten pomocniczy opróżnia, wypisując numery."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z q kolejnych wierszy jedno polecenie: + x albo -."
+      ],
+      "output_format": [
+        "q wierszy — wieża po każdym poleceniu, od dołu do góry (albo pusto)."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 60",
+        "1 ≤ x ≤ 999",
+        "Polecenie - nigdy nie dotyczy pustej wieży."
+      ],
+      "examples": [
+        {
+          "input": "5\n+ 4\n+ 7\n+ 1\n-\n+ 9",
+          "output": "4\n4 7\n4 7 1\n4 7\n4 7 9",
+          "note": "Po trzech poleceniach + wieża to 4 7 1 (4 na dole). Polecenie - zdejmuje 1 — ostatni położony klocek — a 9 ląduje na górze."
+        }
+      ],
+      "hint": "void wypisz(stack<int> s) { if (s.empty()) { cout << \"pusto\\n\"; return; } stack<int> pom; while (!s.empty()) { pom.push(s.top()); s.pop(); } while (!pom.empty()) { cout << pom.top() << \" \"; pom.pop(); } cout << \"\\n\"; } — w main po każdym poleceniu wypisz(s);. Polecenie czytaj jako char: cin >> c; if (c == '+') { cin >> x; s.push(x); } else s.pop();.",
+      "tests_count": 8
+    },
+    {
+      "id": "sto-palindromy",
+      "number": 2258,
+      "title": "Palindromy stosem",
+      "category": "Stos / krok 1: pierwszy stos",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Palindrom to słowo, które czytane od końca jest takie samo jak od początku, na przykład kajak albo oko. Dla każdego z t słów sprawdź, czy jest palindromem.",
+        "Zrób to stosem: połóż na stosie stack<char> wszystkie litery słowa. Ze stosu litery wychodzą od ostatniej do pierwszej — przejdź więc słowo od początku i każdą literę porównaj z literą zdjętą ze stosu. Jeśli wszystkie pary są równe, słowo jest palindromem."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "W każdym z t kolejnych wierszy jedno słowo z małych liter."
+      ],
+      "output_format": [
+        "t wierszy: TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100",
+        "Każde słowo ma od 1 do 1000 małych liter."
+      ],
+      "examples": [
+        {
+          "input": "4\nkajak\nkotek\noko\nab",
+          "output": "TAK\nNIE\nTAK\nNIE",
+          "note": "kajak czytany od końca to kajak — TAK. kotek od końca to ketok — NIE. Jedna litera i para takich samych liter też są palindromami."
+        }
+      ],
+      "hint": "stack<char> s; for (char c : w) s.push(c); bool ok = true; for (char c : w) { if (c != s.top()) ok = false; s.pop(); }. Stos trzeba założyć od nowa dla każdego słowa — najprościej deklarując go wewnątrz pętli po słowach.",
+      "tests_count": 6
+    },
+    {
+      "id": "sto-polecenia",
+      "number": 2259,
+      "title": "Polecenia dla stosu",
+      "category": "Stos / krok 2: polecenia i cofanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Stos liczb jest na początku pusty. Wykonaj q poleceń:",
+        "PUSH x — połóż liczbę x na wierzch stosu; POP — zdejmij liczbę z wierzchu i wypisz ją; TOP — wypisz liczbę z wierzchu, nie zdejmując jej; SIZE — wypisz, ile liczb jest na stosie.",
+        "Jeśli POP albo TOP trafi na pusty stos, wypisz słowo pusty — wywołanie top() albo pop() na pustym stosie wywraca program, więc zawsze najpierw sprawdź empty()."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z q kolejnych wierszy jedno polecenie: PUSH x, POP, TOP albo SIZE."
+      ],
+      "output_format": [
+        "Po jednym wierszu dla każdego polecenia POP, TOP i SIZE (PUSH niczego nie wypisuje)."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "Liczby x są z przedziału od −10⁹ do 10⁹."
+      ],
+      "examples": [
+        {
+          "input": "7\nPUSH 5\nPUSH 8\nTOP\nPOP\nSIZE\nPOP\nPOP",
+          "output": "8\n8\n1\n5\npusty",
+          "note": "TOP pokazuje 8 i jej nie zdejmuje. Pierwsze POP zdejmuje 8, potem zostaje jedna liczba. Drugie POP zdejmuje 5, a trzecie trafia na pusty stos."
+        }
+      ],
+      "hint": "string p; cin >> p; if (p == \"PUSH\") { cin >> x; s.push(x); } else if (p == \"POP\") { if (s.empty()) cout << \"pusty\\n\"; else { cout << s.top() << \"\\n\"; s.pop(); } } … — POP to najpierw top (żeby wypisać), dopiero potem pop.",
+      "tests_count": 9
+    },
+    {
+      "id": "sto-backspace",
+      "number": 2260,
+      "title": "Klawisz Backspace",
+      "category": "Stos / krok 2: polecenia i cofanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ktoś pisze na klawiaturze, a Ty dostajesz zapis wszystkich wciśniętych klawiszy. Mała litera dopisuje się na koniec tekstu, a znak # oznacza klawisz Backspace — kasuje ostatnią literę tekstu. Backspace przy pustym tekście nic nie robi.",
+        "Wypisz tekst, który zostanie na ekranie. Tekst zachowuje się dokładnie jak stos: dopisujemy na koniec i kasujemy z końca. Możesz użyć stack<char> (wtedy na końcu trzeba odwrócić kolejność) albo zwykłego string, który ma polecenia push_back, back i pop_back — działa jak stos, a do tego da się go od razu wypisać."
+      ],
+      "input_format": [
+        "Jeden wiersz: ciąg małych liter i znaków #."
+      ],
+      "output_format": [
+        "Jeden wiersz: tekst na ekranie albo (pusto), jeśli nic nie zostało."
+      ],
+      "constraints": [
+        "Ciąg ma od 1 do 20 000 znaków."
+      ],
+      "examples": [
+        {
+          "input": "kott#ek",
+          "output": "kotek",
+          "note": "Po kott Backspace kasuje drugie t, a potem dopisuje się ek."
+        },
+        {
+          "input": "ab###c#",
+          "output": "(pusto)",
+          "note": "Trzeci # trafia na pusty tekst i nic nie robi. Na końcu c też zostaje skasowane."
+        }
+      ],
+      "hint": "string tekst; for (char c : s) { if (c == '#') { if (!tekst.empty()) tekst.pop_back(); } else tekst.push_back(c); }. Na koniec if (tekst.empty()) cout << \"(pusto)\"; else cout << tekst;. Bez sprawdzenia empty() pop_back na pustym napisie psuje program.",
+      "tests_count": 12
+    },
+    {
+      "id": "sto-robot-z-cofaniem",
+      "number": 2261,
+      "title": "Robot z przyciskiem Cofnij",
+      "category": "Stos / krok 2: polecenia i cofanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Robot stoi w punkcie (0, 0) na kratce i dostaje ciąg poleceń. G przesuwa go o jedno pole w górę (y rośnie o 1), D w dół (y maleje o 1), L w lewo (x maleje o 1), a P w prawo (x rośnie o 1).",
+        "Polecenie C oznacza „cofnij”: robot wykonuje ruch odwrotny do ostatniego zapamiętanego ruchu i zapomina o nim. Kolejne C cofa ruch wcześniejszy i tak dalej. Jeśli nie ma już żadnego zapamiętanego ruchu, C nic nie robi. Każdy zwykły ruch robot zapamiętuje — trzymaj ruchy na stosie stack<char>.",
+        "Wypisz, gdzie robot stoi na końcu i ile ruchów ma jeszcze w pamięci."
+      ],
+      "input_format": [
+        "Jeden wiersz: ciąg liter G, D, L, P i C."
+      ],
+      "output_format": [
+        "Dwa wiersze: pozycja: x y oraz w pamieci: k."
+      ],
+      "constraints": [
+        "Ciąg ma od 1 do 100 000 liter."
+      ],
+      "examples": [
+        {
+          "input": "GGPCC",
+          "output": "pozycja: 0 1\nw pamieci: 1",
+          "note": "Po GGP robot stoi w (1, 2). Pierwsze C cofa P (ruch w lewo), drugie C cofa drugie G (ruch w dół). Zostaje (0, 1) i jeden ruch w pamięci."
+        },
+        {
+          "input": "CCLDC",
+          "output": "pozycja: -1 0\nw pamieci: 1",
+          "note": "Dwa pierwsze C nic nie robią — pamięć jest pusta. Ostatnie C cofa D."
+        }
+      ],
+      "hint": "stack<char> ruchy; int x = 0, y = 0;. Zwykły ruch: ruchy.push(c) i zmiana x albo y. C: if (!ruchy.empty()) { char r = ruchy.top(); ruchy.pop(); i ruch odwrotny: dla G — y--, dla D — y++, dla L — x++, dla P — x--; }.",
+      "tests_count": 11
+    },
+    {
+      "id": "sto-kalkulator-z-cofaniem",
+      "number": 2262,
+      "title": "Kalkulator z przyciskiem Cofnij",
+      "category": "Stos / krok 2: polecenia i cofanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Kalkulator pokazuje liczbę, na początku 0. Dostaje q poleceń: + x dodaje x, - x odejmuje x, * x mnoży przez x, a COFNIJ przywraca wartość sprzed ostatniego niecofniętego działania (jak Ctrl+Z). Kilka COFNIJ z rzędu cofa kilka działań. COFNIJ, gdy nie ma już czego cofać, nic nie robi.",
+        "Po każdym poleceniu wypisz liczbę na ekranie kalkulatora. Sztuczka: przed wykonaniem działania połóż aktualną wartość na stosie stack<long long>. COFNIJ zdejmuje wtedy z wierzchu dokładnie tę wartość, do której trzeba wrócić."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z q kolejnych wierszy polecenie: + x, - x, * x albo COFNIJ."
+      ],
+      "output_format": [
+        "q wierszy — liczba na ekranie po każdym poleceniu."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "Przy + i - jest 0 ≤ x ≤ 10⁶, przy * jest 0 ≤ x ≤ 10.",
+        "Wartość na ekranie zawsze mieści się w przedziale od −10¹⁸ do 10¹⁸."
+      ],
+      "examples": [
+        {
+          "input": "6\n+ 5\n* 3\n- 4\nCOFNIJ\nCOFNIJ\n+ 1",
+          "output": "5\n15\n11\n15\n5\n6",
+          "note": "Po trzech działaniach: 5, 15, 11. Pierwsze COFNIJ wraca do 15, drugie do 5. Potem + 1 daje 6."
+        }
+      ],
+      "hint": "long long w = 0; stack<long long> historia;. Działanie: historia.push(w); i dopiero potem w += x (albo -=, *=). COFNIJ: if (!historia.empty()) { w = historia.top(); historia.pop(); }. Po każdym poleceniu cout << w << \"\\n\";.",
+      "tests_count": 8
+    },
+    {
+      "id": "sto-wieze-kilka-testow",
+      "number": 2263,
+      "title": "Kilka wież naraz",
+      "category": "Stos / krok 2: polecenia i cofanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W jednym wejściu jest t niezależnych testów. W każdym teście ktoś buduje wieżę z klocków, a dostajesz n liczb: liczba dodatnia x oznacza, że na górę wieży kładziemy klocek o wysokości x, a liczba 0 — że zdejmujemy klocek z samej góry (jeśli wieża jest pusta, 0 nic nie robi).",
+        "Dla każdego testu wypisz wysokość wieży na końcu (sumę wysokości jej klocków) i wysokość klocka na samej górze. Każdy test zaczyna się od pustej wieży — stos z poprzedniego testu nie może przejść na następny. Wysokość licz na bieżąco: przy kładzeniu dodaj x, a przy zdejmowaniu odejmij top(), zanim zrobisz pop()."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "Każdy test to wiersz z liczbą n i wiersz z n liczbami."
+      ],
+      "output_format": [
+        "t wierszy w formacie wysokosc: H, na gorze: X — gdzie X to wysokość górnego klocka albo słowo nic."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100",
+        "1 ≤ n ≤ 1000, a suma wszystkich n nie przekracza 20 000.",
+        "Każda liczba jest z przedziału od 0 do 1000."
+      ],
+      "examples": [
+        {
+          "input": "2\n5\n3 7 0 2 4\n3\n5 0 0",
+          "output": "wysokosc: 9, na gorze: 4\nwysokosc: 0, na gorze: nic",
+          "note": "Pierwsza wieża: 3, 7, zdjęte 7, potem 2 i 4 — razem 9, na górze 4. Druga zaczyna się od zera: 5, zdjęte 5, a drugie 0 trafia na pustą wieżę."
+        }
+      ],
+      "hint": "while (t--) { int n; cin >> n; stack<int> s; long long wys = 0; … } — stos zadeklarowany wewnątrz pętli po testach jest dla każdego testu nowy. Przy zdejmowaniu: if (!s.empty()) { wys -= s.top(); s.pop(); }.",
+      "tests_count": 7
+    },
+    {
+      "id": "sto-wstecz-i-dalej",
+      "number": 2264,
+      "title": "Wstecz i Dalej",
+      "category": "Stos / krok 2: polecenia i cofanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Przeglądarka zaczyna na stronie start. Dostaje q poleceń: IDZ adres otwiera nową stronę, WSTECZ wraca do poprzedniej, a DALEJ ponownie otwiera stronę, z której przed chwilą się cofnęliśmy.",
+        "Użyj dwóch stosów stack<string>. IDZ adres: bieżąca strona trafia na stos wstecz, nowa staje się bieżącą, a stos dalej trzeba wyczyścić (po otwarciu nowej strony nie da się już iść „dalej” po starych). WSTECZ: bieżąca strona trafia na stos dalej, a bieżącą staje się strona zdjęta ze stosu wstecz. DALEJ działa odwrotnie.",
+        "Po każdym poleceniu wypisz bieżącą stronę. Jeśli WSTECZ albo DALEJ jest niemożliwe (odpowiedni stos jest pusty), wypisz nie mozna — wtedy nic się nie zmienia."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z q kolejnych wierszy jedno polecenie: IDZ adres, WSTECZ albo DALEJ."
+      ],
+      "output_format": [
+        "q wierszy — bieżąca strona po każdym poleceniu albo nie mozna."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "Adresy składają się z małych liter i kropek, mają od 3 do 20 znaków."
+      ],
+      "examples": [
+        {
+          "input": "7\nIDZ kot.pl\nIDZ pies.pl\nWSTECZ\nWSTECZ\nWSTECZ\nDALEJ\nIDZ mysz.pl",
+          "output": "kot.pl\npies.pl\nkot.pl\nstart\nnie mozna\nkot.pl\nmysz.pl",
+          "note": "Dwa razy wstecz prowadzi do start, trzeci raz się nie da. DALEJ wraca na kot.pl. IDZ mysz.pl czyści stos dalej — pies.pl jest już niedostępny."
+        }
+      ],
+      "hint": "stack<string> wstecz, dalej; string teraz = \"start\";. IDZ: wstecz.push(teraz); teraz = adres; dalej = stack<string>();. WSTECZ: if (wstecz.empty()) { cout << \"nie mozna\\n\"; continue; } dalej.push(teraz); teraz = wstecz.top(); wstecz.pop();. DALEJ — lustrzanie.",
+      "tests_count": 9
+    },
+    {
+      "id": "sto-stos-z-minimum",
+      "number": 2265,
+      "title": "Stos z minimum",
+      "category": "Stos / krok 2: polecenia i cofanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Stos liczb jest na początku pusty. Wykonaj q poleceń: PUSH x kładzie liczbę x na wierzch, POP zdejmuje liczbę z wierzchu, a MIN wypisuje najmniejszą liczbę, jaka jest teraz na stosie. Gdy POP albo MIN trafi na pusty stos, wypisz pusty (POP na niepustym stosie niczego nie wypisuje).",
+        "Do stosu nie da się zajrzeć, więc nie przejrzysz go w poszukiwaniu minimum. Jedna zmienna z minimum też nie wystarczy: po zdjęciu najmniejszej liczby trzeba by wiedzieć, jakie minimum było wcześniej. Sztuczka: kładź na stos pary stack<pair<int, int>> — liczbę i najmniejszą liczbę od dna stosu aż do niej włącznie. Przy PUSH x to minimum wynosi min(x, minimum zapisane na dotychczasowym wierzchu). Wtedy odpowiedź na MIN zawsze stoi na wierzchu, także po każdym POP."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z q kolejnych wierszy jedno polecenie: PUSH x, POP albo MIN."
+      ],
+      "output_format": [
+        "Po jednym wierszu dla każdego MIN i dla każdego POP na pustym stosie."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 2500",
+        "Liczby x są z przedziału od −10⁶ do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "8\nPUSH 5\nPUSH 2\nPUSH 7\nMIN\nPOP\nPOP\nMIN\nPOP",
+          "output": "2\n5",
+          "note": "Na stosie są pary (5, 5), (2, 2), (7, 2). MIN to 2. Po zdjęciu 7 i 2 na wierzchu jest (5, 5), więc MIN to 5. Ostatnie POP zdejmuje 5 i niczego nie wypisuje."
+        }
+      ],
+      "hint": "stack<pair<int, int>> s;. PUSH: int m = s.empty() ? x : min(x, s.top().second); s.push({x, m});. MIN: if (s.empty()) cout << \"pusty\\n\"; else cout << s.top().second << \"\\n\";. POP: if (s.empty()) cout << \"pusty\\n\"; else s.pop();.",
+      "tests_count": 8
+    },
+    {
+      "id": "sto-magazyn-skrzynek",
+      "number": 2266,
+      "title": "Skrzynka ze środka stosu",
+      "category": "Stos / krok 2: polecenia i cofanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W magazynie skrzynki stoją jedna na drugiej. Wykonaj q poleceń. POLOZ nazwa stawia skrzynkę z tą nazwą na samej górze. WYJMIJ nazwa wyjmuje skrzynkę o tej nazwie: magazynier zdejmuje po kolei skrzynki leżące nad nią i odkłada je na bok w drugi stos, wyjmuje szukaną skrzynkę, a potem odkłada tamte z powrotem — w tej samej kolejności co przedtem. Jeśli skrzynek o tej nazwie jest kilka, wyjmuje najwyższą.",
+        "Dla każdego WYJMIJ wypisz, ile skrzynek trzeba było odłożyć na bok. Jeśli skrzynki o tej nazwie w ogóle nie ma, wypisz brak — magazynier przełożył wtedy wszystkie skrzynki na bok i musi je odłożyć z powrotem, więc stos wygląda tak samo jak przedtem. Na koniec wypisz nazwy skrzynek od góry do dołu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z q kolejnych wierszy polecenie: POLOZ nazwa albo WYJMIJ nazwa."
+      ],
+      "output_format": [
+        "Po jednym wierszu dla każdego WYJMIJ (liczba albo brak), a na końcu wiersz zostalo: … z nazwami od góry (albo zostalo: nic)."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 300",
+        "Nazwy mają od 1 do 15 małych liter."
+      ],
+      "examples": [
+        {
+          "input": "6\nPOLOZ mleko\nPOLOZ ser\nPOLOZ chleb\nWYJMIJ ser\nWYJMIJ maslo\nWYJMIJ chleb",
+          "output": "1\nbrak\n0\nzostalo: mleko",
+          "note": "Nad serem leży tylko chleb — odkładamy 1 skrzynkę. Masła nie ma. Chleb leży na samej górze — nie trzeba niczego odkładać. Zostaje mleko."
+        }
+      ],
+      "hint": "stack<string> pom; while (!s.empty() && s.top() != nazwa) { pom.push(s.top()); s.pop(); }. Jeśli s.empty() — brak, inaczej cout << pom.size() i s.pop(). Na koniec ZAWSZE oddaj skrzynki: while (!pom.empty()) { s.push(pom.top()); pom.pop(); } — przełożenie dwa razy przywraca kolejność.",
+      "tests_count": 8
+    },
+    {
+      "id": "sto-nawiasy-okragle",
+      "number": 2267,
+      "title": "Nawiasy okrągłe",
+      "category": "Stos / krok 3: nawiasy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdego z t napisów złożonych z nawiasów ( i ) sprawdź, czy nawiasy są poprawnie sparowane: każdy nawias otwierający ma swój zamykający, który stoi po nim, a pary się nie przeplatają.",
+        "Przechodź napis od lewej. Nawias otwierający połóż na stos. Nawias zamykający zamyka ostatni jeszcze niezamknięty nawias otwierający — czyli ten z wierzchu stosu — więc go zdejmij. Coś poszło nie tak, jeśli zamykający trafi na pusty stos albo jeśli po przejściu całego napisu na stosie coś zostało."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "W każdym z t kolejnych wierszy jeden napis z nawiasów ( i )."
+      ],
+      "output_format": [
+        "t wierszy: TAK, jeśli nawiasy są poprawne, albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100",
+        "Każdy napis ma od 1 do 10 000 znaków, a wszystkie razem — najwyżej 50 000."
+      ],
+      "examples": [
+        {
+          "input": "5\n(()())\n())(\n(((\n()\n)(",
+          "output": "TAK\nNIE\nNIE\nTAK\nNIE",
+          "note": "W ())( trzeci nawias zamyka, gdy stos jest już pusty. W ((( nic się nie zamyka i na końcu na stosie zostają trzy nawiasy. )( zaczyna się od zamykającego bez pary."
+        }
+      ],
+      "hint": "stack<char> st; bool ok = true; for (char c : s) { if (c == '(') st.push(c); else if (st.empty()) ok = false; else st.pop(); } if (!st.empty()) ok = false;. Dla jednego rodzaju nawiasów wystarczyłby licznik otwartych — stos przyda się w następnym zadaniu.",
+      "tests_count": 7
+    },
+    {
+      "id": "sto-trzy-rodzaje-nawiasow",
+      "number": 2268,
+      "title": "Trzy rodzaje nawiasów",
+      "category": "Stos / krok 3: nawiasy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Napisy składają się z nawiasów trzech rodzajów: ( ), [ ] i { }. Dla każdego z t napisów sprawdź, czy nawiasy są poprawne: każdy otwierający ma zamykający tego samego rodzaju, a pary się nie przeplatają — na przykład ([)] jest błędne, chociaż każdego rodzaju jest tyle samo otwierających co zamykających.",
+        "Liczniki już nie wystarczą — trzeba pamiętać, jaki nawias otworzono. Otwierający kładź na stos stack<char>. Przy zamykającym sprawdź, czy stos nie jest pusty i czy na wierzchu leży otwierający tego samego rodzaju — dopiero wtedy go zdejmij. Na końcu stos musi być pusty."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "W każdym z t kolejnych wierszy jeden napis z nawiasów ()[]{}."
+      ],
+      "output_format": [
+        "t wierszy: TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100",
+        "Każdy napis ma od 1 do 10 000 znaków, a wszystkie razem — najwyżej 50 000."
+      ],
+      "examples": [
+        {
+          "input": "5\n([]{()})\n([)]\n{[]}[\n}\n[[]](){}",
+          "output": "TAK\nNIE\nNIE\nNIE\nTAK",
+          "note": "W ([)] nawias ) trafia na wierzch [ — rodzaje się nie zgadzają. W {[]}[ ostatni [ zostaje na stosie."
+        }
+      ],
+      "hint": "char para(char c) { if (c == ')') return '('; if (c == ']') return '['; return '{'; }. Zamykający: if (st.empty() || st.top() != para(c)) ok = false; else st.pop();. Na końcu if (!st.empty()) ok = false;.",
+      "tests_count": 7
+    },
+    {
+      "id": "sto-glebokosc-nawiasow",
+      "number": 2269,
+      "title": "Głębokość nawiasów",
+      "category": "Stos / krok 3: nawiasy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Każdy z t napisów to poprawny ciąg nawiasów trzech rodzajów: ( ), [ ] i { }. Dla każdego wypisz, ile ma par nawiasów i jaka jest jego głębokość.",
+        "Głębokość to największa liczba nawiasów otwartych jednocześnie, czyli tych, które już się zaczęły, a jeszcze się nie skończyły. Na przykład ([]) ma głębokość 2, a ()[]{} — głębokość 1. Gdy kładziesz otwierające nawiasy na stos, głębokość to największy rozmiar, jaki stos osiągnie po drodze."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "W każdym z t kolejnych wierszy jeden poprawny napis z nawiasów ()[]{}."
+      ],
+      "output_format": [
+        "t wierszy w formacie pary: P, glebokosc: G."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100",
+        "Każdy napis ma od 2 do 10 000 znaków, a wszystkie razem — najwyżej 50 000.",
+        "Wszystkie napisy są poprawne."
+      ],
+      "examples": [
+        {
+          "input": "3\n([]{()})\n()[]{}\n{{{}}}",
+          "output": "pary: 4, glebokosc: 3\npary: 3, glebokosc: 1\npary: 3, glebokosc: 3",
+          "note": "W ([]{()}) najgłębiej jest wewnątrz { ( ) } — naraz otwarte są (, { i (, czyli trzy nawiasy."
+        }
+      ],
+      "hint": "Przy każdym push: glebokosc = max(glebokosc, (int)st.size());. Liczba par to s.size() / 2 — w poprawnym napisie każdy nawias ma parę. (Przy jednym rodzaju wystarczyłby licznik, ale stos od razu sprawdziłby też poprawność.)",
+      "tests_count": 6
+    },
+    {
+      "id": "sto-para-nawiasu",
+      "number": 2270,
+      "title": "Gdzie jest para?",
+      "category": "Stos / krok 3: nawiasy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dany jest poprawny ciąg nawiasów trzech rodzajów: ( ), [ ] i { }. Pozycje numerujemy od 1. Dla każdego nawiasu wypisz pozycję jego pary — nawiasu, który go zamyka albo otwiera.",
+        "Tym razem na stos kładź nie znak nawiasu, tylko jego pozycję (stack<int>). Gdy trafisz na nawias zamykający, na wierzchu leży pozycja nawiasu, który on zamyka: zdejmij ją i zapisz parę w obie strony w vectorze wyników. Na końcu wypisz cały vector."
+      ],
+      "input_format": [
+        "Jeden wiersz: poprawny ciąg nawiasów ()[]{}."
+      ],
+      "output_format": [
+        "Jeden wiersz: dla każdej pozycji od 1 do n — pozycja pary, oddzielone spacjami."
+      ],
+      "constraints": [
+        "Ciąg ma od 2 do 4000 znaków i jest poprawny."
+      ],
+      "examples": [
+        {
+          "input": "([]{})",
+          "output": "6 3 2 5 4 1",
+          "note": "Nawias z pozycji 1 zamyka ostatni, z pozycji 6. Para [ ] to pozycje 2 i 3, a para { } — 4 i 5."
+        }
+      ],
+      "hint": "vector<int> para(n); stack<int> st; for (int i = 0; i < n; i++) { if (s[i] jest otwierający) st.push(i); else { int j = st.top(); st.pop(); para[i] = j; para[j] = i; } }. Wypisuj para[i] + 1 — pozycje w treści liczymy od 1.",
+      "tests_count": 10
+    },
+    {
+      "id": "sto-pierwszy-blad",
+      "number": 2271,
+      "title": "Gdzie jest pierwszy błąd?",
+      "category": "Stos / krok 3: nawiasy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Edytor kodu podkreśla na czerwono pierwszy źle postawiony nawias. Dostajesz t wierszy kodu (bez spacji): są w nich litery, cyfry, znaki + - * / = ; , . oraz nawiasy ( ), [ ] i { }. Wszystkie znaki poza nawiasami pomijasz.",
+        "Pozycje liczymy od 1. Jeśli nawiasy są poprawne, wypisz OK. W przeciwnym razie wypisz pozycję pierwszego zamykającego nawiasu, który nie ma pary (trafia na pusty stos albo na otwierający innego rodzaju). Jeśli takiego nie ma, a po przejściu wiersza zostały niezamknięte nawiasy, wypisz pozycję pierwszego z nich — tego, który leży na samym dnie stosu. Do stosu nie da się zajrzeć, więc żeby dostać się do dna, trzeba zdjąć wszystkie nawiasy nad nim."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "W każdym z t kolejnych wierszy jeden wiersz kodu bez spacji."
+      ],
+      "output_format": [
+        "t wierszy: OK albo pozycja błędu."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100",
+        "Każdy wiersz ma od 1 do 5000 znaków, a wszystkie razem — najwyżej 50 000."
+      ],
+      "examples": [
+        {
+          "input": "4\nf(a[i])=b;\nf(a[i)];\nx=(1+2*(3;\n}{",
+          "output": "OK\n6\n3\n1",
+          "note": "W f(a[i)]; nawias ) na pozycji 6 trafia na [ — błąd. W x=(1+2*(3; nic nie jest źle zamknięte, ale dwa nawiasy zostały otwarte — pierwszy z nich stoi na pozycji 3."
+        }
+      ],
+      "hint": "stack<int> st; z pozycjami otwartych nawiasów. Przy zamykającym: if (st.empty() || s[st.top()] != para(c)) { blad = i + 1; break; } else st.pop();. Po pętli, jeśli nie było błędu, a st nie jest pusty: while (st.size() > 1) st.pop(); blad = st.top() + 1;.",
+      "tests_count": 6
+    },
+    {
+      "id": "sto-znikajace-pary",
+      "number": 2272,
+      "title": "Znikające pary liter",
+      "category": "Stos / krok 3: nawiasy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W słowie dwie sąsiednie jednakowe litery znikają, a litery z ich obu stron stają obok siebie — i mogą zniknąć w następnym kroku. Znikanie trwa, dopóki gdzieś obok siebie stoją dwie jednakowe litery. Na przykład abbaca: znika bb i powstaje aaca, potem znika aa i zostaje ca.",
+        "Wypisz, co zostanie ze słowa. Zamiast wielokrotnie przeszukiwać słowo, użyj stosu liter (wygodnie: zwykłego string z push_back, back i pop_back). Przechodź słowo od lewej: jeśli litera jest taka sama jak ta na wierzchu stosu, obie znikają — zdejmij wierzch; w przeciwnym razie połóż literę na stos. Na końcu na stosie zostaje wynik (kolejność znikania nie ma znaczenia — zawsze zostaje to samo)."
+      ],
+      "input_format": [
+        "Jeden wiersz: słowo z małych liter."
+      ],
+      "output_format": [
+        "Jeden wiersz: to, co zostało ze słowa, albo pusto."
+      ],
+      "constraints": [
+        "Słowo ma od 1 do 20 000 liter."
+      ],
+      "examples": [
+        {
+          "input": "abbaca",
+          "output": "ca",
+          "note": "bb znika, potem stykają się dwa a i też znikają. Zostaje ca."
+        },
+        {
+          "input": "xyzzyx",
+          "output": "pusto",
+          "note": "Reakcja łańcuchowa: zz, potem yy, potem xx — nic nie zostaje."
+        }
+      ],
+      "hint": "string st; for (char c : s) { if (!st.empty() && st.back() == c) st.pop_back(); else st.push_back(c); }. Na końcu: if (st.empty()) cout << \"pusto\"; else cout << st;. Wielokrotne szukanie par w słowie byłoby dla 20 000 liter bardzo wolne.",
+      "tests_count": 12
+    },
+    {
+      "id": "sto-ile-dopisac",
+      "number": 2273,
+      "title": "Ile nawiasów dopisać?",
+      "category": "Stos / krok 3: nawiasy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdego z t napisów z nawiasów ( i ) policz, ile najmniej nawiasów trzeba dopisać (w dowolnych miejscach), żeby napis stał się poprawny. Podaj osobno, ile trzeba dopisać nawiasów otwierających, a ile zamykających.",
+        "Przejdź napis jak przy sprawdzaniu: otwierający na stos, zamykający zdejmuje. Każdy zamykający, który trafia na pusty stos, nie ma pary — przed nim trzeba dopisać otwierający. Każdy otwierający, który na końcu został na stosie, potrzebuje dopisanego zamykającego."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "W każdym z t kolejnych wierszy jeden napis z nawiasów ( i )."
+      ],
+      "output_format": [
+        "t wierszy: dwie liczby — ile dopisać nawiasów otwierających i ile zamykających."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100",
+        "Każdy napis ma od 1 do 10 000 znaków, a wszystkie razem — najwyżej 50 000."
+      ],
+      "examples": [
+        {
+          "input": "4\n())(\n(((\n()\n)))((",
+          "output": "1 1\n0 3\n0 0\n3 2",
+          "note": "W ())( trzeci nawias trafia na pusty stos, a ostatni zostaje niezamknięty — wystarczy dopisać ( na początku i ) na końcu: (())(). W ))) (( trzy zamykające są bez pary i dwa otwierające zostają na stosie."
+        }
+      ],
+      "hint": "int otw = 0; // ile trzeba dopisać '('. for (char c : s) { if (c == '(') st.push(c); else if (st.empty()) otw++; else st.pop(); } cout << otw << \" \" << st.size();. Dopisanych nawiasów nie da się zaoszczędzić — każdy z policzonych nawiasów naprawdę nie ma pary.",
+      "tests_count": 6
+    },
+    {
+      "id": "sto-najdluzszy-poprawny",
+      "number": 2274,
+      "title": "Najdłuższy poprawny fragment",
+      "category": "Stos / krok 3: nawiasy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dany jest napis z nawiasów ( i ). Znajdź najdłuższy fragment (spójny kawałek napisu), który sam jest poprawnym ciągiem nawiasów, i policz, ile jest takich fragmentów tej długości. Jeśli żaden fragment nie jest poprawny, wypisz 0 0.",
+        "Sztuczka ze strażnikiem: na stosie trzymaj pozycje, a na sam spód połóż na początku liczbę -1. Otwierający kładzie swoją pozycję. Zamykający zdejmuje wierzch; jeśli stos zrobił się pusty, ten zamykający nie ma pary — połóż jego pozycję jako nowego strażnika. W przeciwnym razie poprawny fragment kończący się na pozycji i zaczyna się tuż za pozycją z wierzchu, więc ma długość i − top(). Najdłuższy taki fragment kończący się w danym miejscu jest tylko jeden, więc wystarczy policzyć, ile razy wypadła najlepsza długość."
+      ],
+      "input_format": [
+        "Jeden wiersz: napis z nawiasów ( i )."
+      ],
+      "output_format": [
+        "Jeden wiersz: długość najdłuższego poprawnego fragmentu i liczba takich fragmentów (albo 0 0)."
+      ],
+      "constraints": [
+        "Napis ma od 1 do 100 000 znaków."
+      ],
+      "examples": [
+        {
+          "input": ")((())))(()())",
+          "output": "6 2",
+          "note": "Najdłuższe poprawne fragmenty to ((())) na pozycjach 2–7 i (()()) na pozycjach 9–14 — oba mają długość 6."
+        },
+        {
+          "input": "))((",
+          "output": "0 0",
+          "note": "Żaden fragment nie jest poprawny."
+        }
+      ],
+      "hint": "stack<int> st; st.push(-1); for (int i = 0; i < n; i++) { if (s[i] == '(') st.push(i); else { st.pop(); if (st.empty()) st.push(i); else { int d = i - st.top(); if (d > naj) { naj = d; ile = 1; } else if (d == naj) ile++; } } }. Na starcie naj = 0 i ile = 0 — wtedy brak fragmentów da 0 0.",
+      "tests_count": 19
+    },
+    {
+      "id": "sto-onp-plus-minus",
+      "number": 2275,
+      "title": "ONP z plusem i minusem",
+      "category": "Stos / krok 4: ONP i kalkulator",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W odwrotnej notacji polskiej (ONP) znak działania zapisuje się za liczbami, na których działa: 3 4 + to 3 + 4, a 10 2 3 + - to 10 − (2 + 3). Nawiasy nie są potrzebne, a wyrażenie liczy się jednym przejściem od lewej ze stosem.",
+        "Wczytaj wyrażenie w ONP z dodawaniem i odejmowaniem i policz jego wartość. Liczba trafia na stos. Znak + albo - zdejmuje ze stosu dwie liczby, wykonuje działanie i kładzie wynik z powrotem. Uważaj na kolejność: pierwsza zdjęta liczba (b) jest tą drugą w działaniu, więc liczysz a − b, a nie b − a. Na końcu na stosie zostaje jedna liczba — wynik."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n — ile jest elementów (liczb i znaków).",
+        "W drugim wierszu n elementów oddzielonych spacjami."
+      ],
+      "output_format": [
+        "Jedna liczba — wartość wyrażenia."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1999",
+        "Liczby są całkowite, od 0 do 10⁶. Wyrażenie jest poprawne."
+      ],
+      "examples": [
+        {
+          "input": "5\n10 2 3 + -",
+          "output": "5",
+          "note": "Na stosie: 10, 2, 3. Plus zdejmuje 3 i 2 i kładzie 5. Minus zdejmuje 5 (b) i 10 (a) — wynik 10 − 5 = 5."
+        },
+        {
+          "input": "7\n8 5 - 1 - 100 +",
+          "output": "102",
+          "note": "Najpierw 8 − 5 = 3, potem 3 − 1 = 2, potem 2 + 100 = 102."
+        }
+      ],
+      "hint": "stack<long long> s; string t; for (…) { cin >> t; if (t == \"+\" || t == \"-\") { long long b = s.top(); s.pop(); long long a = s.top(); s.pop(); s.push(t == \"+\" ? a + b : a - b); } else s.push(stoll(t)); }. stoll zamienia napis na liczbę long long.",
+      "tests_count": 10
+    },
+    {
+      "id": "sto-onp",
+      "number": 2276,
+      "title": "Kalkulator ONP",
+      "category": "Stos / krok 4: ONP i kalkulator",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Policz wartość wyrażenia zapisanego w odwrotnej notacji polskiej z działaniami +, -, * i /. Na przykład 3 4 + 2 * to (3 + 4) · 2 = 14, a 3 4 2 * + to 3 + 4 · 2 = 11 — kolejność działań wynika z kolejności zapisu, bez nawiasów i bez priorytetów.",
+        "Liczba trafia na stos, a znak działania zdejmuje dwie liczby (najpierw b, potem a), liczy a op b i kładzie wynik na stos. Dzielenie jest całkowite, dokładnie jak w C++: 7 / 2 = 3, a -7 / 2 = -3. Wszystkie wyniki po drodze mieszczą się w long long."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n — ile jest elementów.",
+        "W drugim wierszu n elementów: liczby i znaki + - * /."
+      ],
+      "output_format": [
+        "Jedna liczba — wartość wyrażenia."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1999",
+        "Liczby są całkowite, od 0 do 10⁴.",
+        "Wyrażenie jest poprawne, nigdzie nie dzieli się przez zero, a każdy wynik po drodze ma wartość bezwzględną najwyżej 10¹⁸."
+      ],
+      "examples": [
+        {
+          "input": "5\n3 4 + 2 *",
+          "output": "14",
+          "note": "Najpierw 3 + 4 = 7, potem 7 · 2 = 14."
+        },
+        {
+          "input": "9\n100 7 / 3 5 - * 1 -",
+          "output": "-29",
+          "note": "100 / 7 = 14 (część ułamkowa odpada), 3 − 5 = −2, 14 · (−2) = −28, −28 − 1 = −29."
+        }
+      ],
+      "hint": "long long b = s.top(); s.pop(); long long a = s.top(); s.pop(); if (t == \"+\") s.push(a + b); else if (t == \"-\") s.push(a - b); else if (t == \"*\") s.push(a * b); else s.push(a / b);. Liczbę rozpoznasz po tym, że nie jest żadnym z czterech znaków — wtedy s.push(stoll(t)).",
+      "tests_count": 11
+    },
+    {
+      "id": "sto-onp-poprawnosc",
+      "number": 2277,
+      "title": "Czy to w ogóle jest ONP?",
+      "category": "Stos / krok 4: ONP i kalkulator",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz t wyrażeń, które mają być zapisane w odwrotnej notacji polskiej z działaniami +, -, * i /. Niektóre są jednak zepsute. Dla każdego wypisz jego wartość albo słowo BLAD.",
+        "Wyrażenie jest błędne, jeśli: znak działania trafia na stos, na którym są mniej niż dwie liczby; po przejściu wszystkich elementów na stosie nie została dokładnie jedna liczba; albo trzeba podzielić przez zero. Dzielenie jest całkowite jak w C++. Uwaga: gdy błąd wyjdzie w połowie, przerwij liczenie tego wyrażenia, ale i tak wczytaj wszystkie jego elementy — inaczej następne wyrażenie zacznie się w złym miejscu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "Każde wyrażenie zajmuje jeden wiersz: najpierw liczba k jego elementów, potem k elementów."
+      ],
+      "output_format": [
+        "t wierszy: wartość wyrażenia albo BLAD."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100",
+        "1 ≤ k ≤ 300",
+        "Liczby są całkowite, od 0 do 100.",
+        "W każdym wyrażeniu (także zepsutym) wszystkie wyniki policzone przed błędem mają wartość bezwzględną najwyżej 10¹⁸."
+      ],
+      "examples": [
+        {
+          "input": "4\n3 2 3 *\n2 5 +\n5 1 2 3 4 +\n3 8 0 /",
+          "output": "6\nBLAD\nBLAD\nBLAD",
+          "note": "2 · 3 = 6. W 5 + znak trafia na stos z jedną liczbą. W 1 2 3 4 + na końcu zostają trzy liczby. 8 / 0 — dzielenie przez zero."
+        }
+      ],
+      "hint": "Wczytaj najpierw wszystkie k elementów do vector<string>. Potem: bool ok = true; for (…) { if (znak) { if (s.size() < 2) { ok = false; break; } … if (t == \"/\" && b == 0) { ok = false; break; } } else s.push(stoll(t)); } if (ok && s.size() != 1) ok = false;. Stos twórz od nowa dla każdego wyrażenia.",
+      "tests_count": 6
+    },
+    {
+      "id": "sto-onp-na-nawiasy",
+      "number": 2278,
+      "title": "Z ONP na nawiasy",
+      "category": "Stos / krok 4: ONP i kalkulator",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wyrażenie w odwrotnej notacji polskiej zawiera zmienne (pojedyncze małe litery) i działania +, -, * i /. Zapisz je w zwykłej postaci, ale z pełnymi nawiasami: każde działanie razem ze swoimi argumentami zamknij w jedną parę nawiasów. Na przykład a b + c * zapisuje się jako ((a+b)*c).",
+        "Użyj stosu napisów stack<string>. Zmienna trafia na stos jako napis z jedną literą. Znak działania zdejmuje dwa napisy — najpierw b, potem a — i kładzie na stos nowy napis \"(\" + a + znak + b + \")\". Na końcu na stosie leży jeden napis: całe wyrażenie. Spacji nie wypisuj."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n — ile jest elementów.",
+        "W drugim wierszu n elementów: małe litery i znaki + - * /."
+      ],
+      "output_format": [
+        "Jeden wiersz: wyrażenie z pełnymi nawiasami, bez spacji."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1999",
+        "Wyrażenie jest poprawne."
+      ],
+      "examples": [
+        {
+          "input": "5\na b + c *",
+          "output": "((a+b)*c)",
+          "note": "Plus skleja a i b w (a+b), a gwiazdka skleja (a+b) i c w ((a+b)*c)."
+        },
+        {
+          "input": "7\nx y z * - w /",
+          "output": "((x-(y*z))/w)",
+          "note": "Najpierw (y*z), potem (x-(y*z)), na końcu ((x-(y*z))/w)."
+        }
+      ],
+      "hint": "stack<string> s; if (t jest znakiem) { string b = s.top(); s.pop(); string a = s.top(); s.pop(); s.push(\"(\" + a + t + b + \")\"); } else s.push(t);. Jedna litera bez działań to po prostu ta litera — bez nawiasów.",
+      "tests_count": 10
+    },
+    {
+      "id": "sto-notacja-polska",
+      "number": 2279,
+      "title": "Notacja polska od końca",
+      "category": "Stos / krok 4: ONP i kalkulator",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Notację polską wymyślił w 1924 roku polski logik Jan Łukasiewicz. Znak działania stoi w niej przed swoimi argumentami: + 3 4 to 3 + 4, a * + 3 4 2 to (3 + 4) · 2. Odwrotna notacja polska, którą znasz, to jej lustrzane odbicie.",
+        "Policz wartość wyrażenia w notacji polskiej z działaniami +, -, * i /. Wczytaj wszystkie elementy do vector<string> i przechodź je od końca. Liczba trafia na stos. Znak działania zdejmuje dwie liczby — tym razem pierwsza zdjęta (a) jest lewym argumentem, a druga (b) prawym — i kładzie wynik a op b. Dzielenie jest całkowite jak w C++."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n — ile jest elementów.",
+        "W drugim wierszu n elementów: liczby i znaki + - * /."
+      ],
+      "output_format": [
+        "Jedna liczba — wartość wyrażenia."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1999",
+        "Liczby są całkowite, od 0 do 10⁴.",
+        "Wyrażenie jest poprawne, nigdzie nie dzieli się przez zero, a każdy wynik po drodze ma wartość bezwzględną najwyżej 10¹⁸."
+      ],
+      "examples": [
+        {
+          "input": "5\n* + 3 4 2",
+          "output": "14",
+          "note": "Od końca: na stos idą 2, 4 i 3. Plus zdejmuje 3 (lewy) i 4 (prawy) — 7. Gwiazdka zdejmuje 7 i 2 — 14."
+        },
+        {
+          "input": "5\n- 20 / 9 2",
+          "output": "16",
+          "note": "Od końca: 2, 9, potem 9 / 2 = 4, potem 20 i 20 − 4 = 16."
+        }
+      ],
+      "hint": "vector<string> el(n); for (…) cin >> el[i]; for (int i = n - 1; i >= 0; i--) { if (znak) { long long a = s.top(); s.pop(); long long b = s.top(); s.pop(); s.push(a op b); } else s.push(stoll(el[i])); }. Porównaj z ONP: tam pierwsza zdjęta liczba była prawym argumentem.",
+      "tests_count": 10
+    },
+    {
+      "id": "sto-na-onp-bez-nawiasow",
+      "number": 2280,
+      "title": "Na ONP: priorytety działań",
+      "category": "Stos / krok 4: ONP i kalkulator",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Zamień zwykłe wyrażenie (bez nawiasów i bez spacji) z działaniami +, -, * i / na odwrotną notację polską. Mnożenie i dzielenie mają wyższy priorytet niż dodawanie i odejmowanie, a działania o równym priorytecie wykonuje się od lewej: 8-3-2 to (8 − 3) − 2.",
+        "Algorytm: przechodź wyrażenie od lewej. Liczbę (może mieć kilka cyfr) od razu wypisz. Znak działania najpierw zdejmuje ze stosu znaków i wypisuje wszystkie znaki o priorytecie większym albo równym jego własnemu — one muszą wykonać się wcześniej — a dopiero potem sam trafia na stos. Na końcu wypisz wszystko, co zostało na stosie."
+      ],
+      "input_format": [
+        "Jeden wiersz: wyrażenie z cyfr i znaków + - * /, bez spacji i bez nawiasów."
+      ],
+      "output_format": [
+        "Jeden wiersz: to samo wyrażenie w ONP, elementy oddzielone spacjami."
+      ],
+      "constraints": [
+        "Wyrażenie ma od 1 do 10 000 znaków.",
+        "Liczby są całkowite, od 0 do 10⁴, bez zer na początku. Wyrażenie jest poprawne: zaczyna się i kończy liczbą, a znaki działań nie stoją obok siebie."
+      ],
+      "examples": [
+        {
+          "input": "3+4*2",
+          "output": "3 4 2 * +",
+          "note": "Gwiazdka ma wyższy priorytet niż plus, więc nie wypycha go ze stosu. Na końcu stos oddaje najpierw *, potem +."
+        },
+        {
+          "input": "8-3-2*5/10",
+          "output": "8 3 - 2 5 * 10 / -",
+          "note": "Drugi minus wypycha pierwszy (równy priorytet — od lewej). Dzielenie wypycha mnożenie."
+        }
+      ],
+      "hint": "int prio(char c) { return (c == '*' || c == '/') ? 2 : 1; }. Liczbę zbieraj cyfra po cyfrze: while (i < n && isdigit(s[i])) { liczba += s[i]; i++; }. Znak c: while (!st.empty() && prio(st.top()) >= prio(c)) { cout << st.top() << \" \"; st.pop(); } st.push(c);.",
+      "tests_count": 13
+    },
+    {
+      "id": "sto-na-onp",
+      "number": 2281,
+      "title": "Na ONP: nawiasy",
+      "category": "Stos / krok 4: ONP i kalkulator",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Zamień zwykłe wyrażenie z nawiasami i działaniami +, -, * i / na odwrotną notację polską. W ONP nawiasów nie ma — kolejność działań wynika z kolejności zapisu.",
+        "Rozszerz algorytm z poprzedniego zadania. Nawias ( połóż na stos — dla znaków działań jest ścianą: zdejmując znaki o wyższym albo równym priorytecie, zatrzymuj się na nim. Nawias ) zdejmuje i wypisuje wszystkie znaki aż do najbliższego (, a potem zdejmuje sam ( (nawiasów nie wypisujesz). Ten sposób wymyślił Edsger Dijkstra i nazwał go algorytmem stacji rozrządowej — znaki czekają na stosie jak wagony na bocznicy."
+      ],
+      "input_format": [
+        "Jeden wiersz: wyrażenie z cyfr, znaków + - * / i nawiasów, bez spacji."
+      ],
+      "output_format": [
+        "Jeden wiersz: to samo wyrażenie w ONP, elementy oddzielone spacjami."
+      ],
+      "constraints": [
+        "Wyrażenie ma od 1 do 10 000 znaków.",
+        "Liczby są całkowite, od 0 do 10⁴, bez zer na początku. Wyrażenie jest poprawne (nie ma minusa przed liczbą ani pustych nawiasów)."
+      ],
+      "examples": [
+        {
+          "input": "(3+4)*2",
+          "output": "3 4 + 2 *",
+          "note": "Plus czeka na stosie nad nawiasem. Zamykający nawias go wypycha. Dopiero potem przychodzi gwiazdka."
+        },
+        {
+          "input": "10-(2+3)*(8/(1+1))",
+          "output": "10 2 3 + 8 1 1 + / * -",
+          "note": "Nawiasy w nawiasach działają tak samo — każdy ) sięga tylko do swojego (."
+        }
+      ],
+      "hint": "Przy znaku działania: while (!st.empty() && st.top() != '(' && prio(st.top()) >= prio(c)) { wypisz st.top(); st.pop(); } st.push(c);. Przy ')': while (st.top() != '(') { wypisz; st.pop(); } st.pop();. Przy '(': st.push('(');.",
+      "tests_count": 13
+    },
+    {
+      "id": "sto-kalkulator",
+      "number": 2282,
+      "title": "Kalkulator z nawiasami",
+      "category": "Stos / krok 4: ONP i kalkulator",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Policz wartość t wyrażeń w zwykłym zapisie z nawiasami i działaniami +, -, * i /. Mnożenie i dzielenie mają wyższy priorytet, działania o równym priorytecie wykonuje się od lewej, a dzielenie jest całkowite jak w C++.",
+        "Połącz dwa poznane algorytmy: zamianę na ONP i liczenie ONP. Trzymaj dwa stosy — stack<long long> na liczby i stack<char> na znaki. Robisz wszystko tak jak przy zamianie na ONP, tylko zamiast wypisywać zdjęty znak, od razu go wykonaj: zdejmij dwie liczby (najpierw b, potem a) i połóż wynik a op b na stos liczb. Na końcu na stosie liczb zostaje wynik."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "W każdym z t kolejnych wierszy jedno wyrażenie bez spacji."
+      ],
+      "output_format": [
+        "t wierszy — wartości wyrażeń."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100",
+        "Każde wyrażenie ma od 1 do 2000 znaków, a wszystkie razem — najwyżej 50 000.",
+        "Liczby są całkowite, od 0 do 10⁴, bez zer na początku. Wyrażenia są poprawne, nigdzie nie dzieli się przez zero, a każdy wynik po drodze ma wartość bezwzględną najwyżej 10¹⁸."
+      ],
+      "examples": [
+        {
+          "input": "4\n(3+4)*2\n3+4*2\n100/(7-2*2)/2\n2*(3-10)",
+          "output": "14\n11\n16\n-14",
+          "note": "100 / (7 − 4) = 33 (całkowicie), a 33 / 2 = 16. W ostatnim wynik jest ujemny: 2 · (−7) = −14."
+        }
+      ],
+      "hint": "void zwin(stack<long long> &liczby, stack<char> &znaki) { long long b = liczby.top(); liczby.pop(); long long a = liczby.top(); liczby.pop(); char op = znaki.top(); znaki.pop(); liczby.push(…); }. Wszędzie tam, gdzie przy zamianie na ONP wypisywałeś znak ze stosu, wywołaj zwin(liczby, znaki);.",
+      "tests_count": 7
+    },
+    {
+      "id": "sto-nastepny-wiekszy",
+      "number": 2283,
+      "title": "Następny większy",
+      "category": "Stos / krok 5: stos monotoniczny",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej liczby w ciągu znajdź pierwszą liczbę stojącą na prawo od niej, która jest od niej większa. Jeśli takiej nie ma, odpowiedzią jest -1.",
+        "Przechodź ciąg od końca i trzymaj na stosie kandydatów na odpowiedź. Gdy dochodzisz do liczby x, najpierw zdejmij ze stosu wszystkie liczby mniejsze albo równe x — nie są większe od x, a dla liczb stojących dalej na lewo x będzie zawsze lepsza (bliżej i nie mniejsza). Teraz na wierzchu leży odpowiedź dla x (albo stos jest pusty — wtedy -1). Na koniec połóż x na stos jako nowego kandydata."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jeden wiersz: n odpowiedzi oddzielonych spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 3000",
+        "Liczby są z przedziału od 1 do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "7\n4 2 7 3 3 9 1",
+          "output": "7 7 9 9 9 -1 -1",
+          "note": "Dla 4 pierwsza większa na prawo to 7. Dla obu trójek to 9 (równa trójka nie jest większa). Dla 9 i 1 nie ma niczego większego."
+        }
+      ],
+      "hint": "for (int i = n - 1; i >= 0; i--) { while (!s.empty() && s.top() <= a[i]) s.pop(); w[i] = s.empty() ? -1 : s.top(); s.push(a[i]); }. Odpowiedzi zapisuj w vector<int> w(n) — wypisujesz je od lewej, a liczysz od prawej.",
+      "tests_count": 11
+    },
+    {
+      "id": "sto-cieplejszy-dzien",
+      "number": 2284,
+      "title": "Ile dni do cieplejszego dnia?",
+      "category": "Stos / krok 5: stos monotoniczny",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz prognozę temperatur na n kolejnych dni. Dla każdego dnia policz, ile dni trzeba czekać na dzień ostro cieplejszy. Jeśli cieplejszy dzień już nie nadejdzie, wypisz 0.",
+        "To ten sam schemat co w następnym większym elemencie, ale odpowiedzią jest odległość, a nie wartość. Dlatego na stos kładź numery dni (indeksy). Temperaturę dnia z wierzchu odczytasz jako t[s.top()], a odległość to s.top() − i."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n temperatur (liczby całkowite)."
+      ],
+      "output_format": [
+        "Jeden wiersz: n liczb — ile dni czekać na cieplejszy dzień (albo 0)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 3000",
+        "Temperatury są z przedziału od −30 do 40."
+      ],
+      "examples": [
+        {
+          "input": "8\n13 14 15 11 9 12 16 13",
+          "output": "1 1 4 2 1 1 0 0",
+          "note": "Po dniu z 15° cieplej jest dopiero za 4 dni (16°). Po ostatnim dniu nic już nie ma."
+        }
+      ],
+      "hint": "stack<int> s; // numery dni. for (int i = n - 1; i >= 0; i--) { while (!s.empty() && t[s.top()] <= t[i]) s.pop(); w[i] = s.empty() ? 0 : s.top() - i; s.push(i); }.",
+      "tests_count": 9
+    },
+    {
+      "id": "sto-poprzedni-mniejszy",
+      "number": 2285,
+      "title": "Poprzedni mniejszy",
+      "category": "Stos / krok 5: stos monotoniczny",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej liczby w ciągu znajdź najbliższą liczbę stojącą na lewo od niej, która jest od niej ostro mniejsza. Jeśli takiej nie ma, odpowiedzią jest -1.",
+        "Schemat jest ten sam co w następnym większym, tylko w lustrze: przechodź ciąg od lewej do prawej, a ze stosu zdejmuj liczby większe albo równe bieżącej — nie są mniejsze, a dla liczb dalej na prawo bieżąca będzie lepsza. Zmieniają się tylko dwie rzeczy: kierunek pętli i znak w warunku while."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jeden wiersz: n odpowiedzi oddzielonych spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 3000",
+        "Liczby są z przedziału od 1 do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "7\n5 2 8 6 6 9 1",
+          "output": "-1 -1 2 2 2 6 -1",
+          "note": "Dla 8 najbliższa mniejsza na lewo to 2. Dla drugiej szóstki też 2 — pierwsza szóstka nie jest od niej mniejsza. Dla 1 nie ma niczego mniejszego."
+        }
+      ],
+      "hint": "for (int i = 0; i < n; i++) { while (!s.empty() && s.top() >= a[i]) s.pop(); w[i] = s.empty() ? -1 : s.top(); s.push(a[i]); }. Stos ma teraz wartości rosnące od dna do wierzchu.",
+      "tests_count": 11
+    },
+    {
+      "id": "sto-rozpietosc-kursu",
+      "number": 2286,
+      "title": "Rozpiętość kursu akcji",
+      "category": "Stos / krok 5: stos monotoniczny",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz kursy akcji z n kolejnych dni. Rozpiętość kursu w danym dniu to liczba kolejnych dni, kończąc na tym dniu i idąc wstecz, w których kurs był mniejszy albo równy kursowi z tego dnia. Sam dzień też się liczy, więc rozpiętość wynosi co najmniej 1.",
+        "Wskazówka: rozpiętość kończy się tuż za najbliższym wcześniejszym dniem z kursem ostro wyższym. Jeśli ten dzień ma numer j, rozpiętość dnia i to i − j. Jeśli takiego dnia nie ma, rozpiętość sięga aż do pierwszego dnia i wynosi i + 1 (dni liczymy od 0). Szukaj więc poprzedniego ostro większego stosem z numerami dni."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n kursów (liczby całkowite)."
+      ],
+      "output_format": [
+        "Jeden wiersz: n rozpiętości oddzielonych spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 3000",
+        "Kursy są z przedziału od 1 do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "7\n100 80 60 70 60 75 85",
+          "output": "1 1 1 2 1 4 6",
+          "note": "W dniu z kursem 75 wstecz idą 60, 70 i 60 — wszystkie nie wyższe — a 80 już jest wyższe: rozpiętość 4. Kurs 85 jest najwyższy od 100: rozpiętość 6."
+        }
+      ],
+      "hint": "for (int i = 0; i < n; i++) { while (!s.empty() && c[s.top()] <= c[i]) s.pop(); w[i] = s.empty() ? i + 1 : i - s.top(); s.push(i); }. Zdejmujemy dni z kursem mniejszym albo równym — rozpiętość je obejmuje.",
+      "tests_count": 9
+    },
+    {
+      "id": "sto-najblizszy-wyzszy",
+      "number": 2287,
+      "title": "Najbliższy wyższy budynek",
+      "category": "Stos / krok 5: stos monotoniczny",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wzdłuż ulicy stoi n budynków o podanych wysokościach. Dla każdego budynku znajdź odległość do najbliższego budynku, który jest od niego ostro wyższy — może stać po lewej albo po prawej stronie. Odległość między budynkami o numerach i i j to |i − j|. Jeśli wyższego budynku nie ma, wypisz -1.",
+        "Zrób dwa przejścia stosem z numerami budynków: od lewej (najbliższy wyższy z lewej) i od prawej (najbliższy wyższy z prawej). Dla każdego budynku wybierz bliższy z nich."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n wysokości."
+      ],
+      "output_format": [
+        "Jeden wiersz: n odległości (albo -1) oddzielonych spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 3000",
+        "Wysokości są z przedziału od 1 do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "6\n3 7 2 4 7 1",
+          "output": "1 -1 1 1 -1 1",
+          "note": "Dla 4 wyższy z lewej (7) stoi o 2 dalej, a z prawej (7) — o 1: odpowiedź 1. Obie siódemki nie mają wyższego sąsiada."
+        }
+      ],
+      "hint": "vector<int> lewy(n, -1), prawy(n, -1); — dwa razy ten sam schemat z warunkiem h[s.top()] <= h[i]. Potem dla każdego i: odległości i − lewy[i] i prawy[i] − i (tylko te, które istnieją), mniejsza z nich albo -1. Stos przed drugim przejściem trzeba opróżnić.",
+      "tests_count": 9
+    },
+    {
+      "id": "sto-nastepny-wiekszy-w-kolku",
+      "number": 2288,
+      "title": "Następny większy w kółku",
+      "category": "Stos / krok 5: stos monotoniczny",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Liczby stoją w kółku: za ostatnią znowu jest pierwsza. Dla każdej liczby znajdź pierwszą liczbę większą od niej, idąc od niej w prawo (i dalej przez koniec na początek). Jeśli takiej nie ma — co zdarza się tylko największym liczbom — wypisz -1.",
+        "Sztuczka: wyobraź sobie ciąg napisany dwa razy pod rząd i przejdź go od końca stosem, jak w zwykłym następnym większym — indeks i biegnie od 2n − 1 do 0, a liczbę bierzesz z a[i % n]. Odpowiedzi zapisuj tylko dla i < n. Pierwsze okrążenie (od końca) tylko napełnia stos kandydatami, które dla liczb z początku są „za końcem ciągu”."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jeden wiersz: n odpowiedzi oddzielonych spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 3000",
+        "Liczby są z przedziału od 1 do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "6\n5 3 9 2 4 1",
+          "output": "9 9 -1 4 5 5",
+          "note": "Dla 4 następna większa to dopiero 5 — po przejściu przez koniec kółka (1, a potem 5 z początku). Dla 1 też 5. Dla 9 nie ma niczego większego."
+        }
+      ],
+      "hint": "for (int i = 2 * n - 1; i >= 0; i--) { int x = a[i % n]; while (!s.empty() && s.top() <= x) s.pop(); if (i < n) w[i] = s.empty() ? -1 : s.top(); s.push(x); }.",
+      "tests_count": 11
+    },
+    {
+      "id": "sto-kogo-widac",
+      "number": 2289,
+      "title": "Kogo widać w szeregu?",
+      "category": "Stos / krok 5: stos monotoniczny",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W szeregu stoi n osób o różnych wzrostach i wszystkie patrzą w prawo. Osoba i widzi osobę j stojącą na prawo od niej, jeśli wszyscy, którzy stoją między nimi, są niżsi od obu tych osób. W szczególności każdy widzi swojego prawego sąsiada.",
+        "Dla każdej osoby policz, ile osób widzi. Przejdź szereg od końca stosem: osoba i widzi każdego, kogo zdejmie ze stosu (niższych od siebie — nikt między nimi ich nie zasłaniał), a jeśli po zdejmowaniu stos nie jest pusty — jeszcze osobę z wierzchu, pierwszą wyższą od siebie. Dalej już nikogo nie zobaczy, bo zasłania ją ta wyższa osoba."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n różnych wzrostów."
+      ],
+      "output_format": [
+        "Jeden wiersz: n liczb — ile osób widzi każda osoba."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 3000",
+        "Wzrosty są różne, od 1 do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "6\n10 6 8 5 11 9",
+          "output": "3 1 2 1 1 0",
+          "note": "Osoba 10 widzi 6, 8 (6 jest niższe od obu) i 11 — ale 5 zasłania jej 8, a 9 — osoba 11. Osoba 8 widzi 5 i 11."
+        }
+      ],
+      "hint": "for (int i = n - 1; i >= 0; i--) { int ile = 0; while (!s.empty() && s.top() < h[i]) { s.pop(); ile++; } if (!s.empty()) ile++; w[i] = ile; s.push(h[i]); }.",
+      "tests_count": 10
+    },
+    {
+      "id": "sto-skoki-do-wiekszego",
+      "number": 2290,
+      "title": "Skoki na wyższy kamień",
+      "category": "Stos / krok 5: stos monotoniczny",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W rzece leży n kamieni o wysokościach x₀, x₁, …, xₙ₋₁. Żaba na kamieniu i zawsze skacze na najbliższy kamień na prawo, który jest od niego ostro wyższy. Gdy takiego nie ma, zatrzymuje się. Dla każdego kamienia startowego policz, ile skoków wykona żaba, i wypisz sumę tych liczb oraz największą z nich.",
+        "Kamieni jest do miliona, więc wysokości nie są podane wprost — generujesz je wzorem z lekcji o złożoności: x₀ = s, xᵢ = (xᵢ₋₁ · a + b) mod m. Naiwne szukanie wyższego kamienia pętlą w pętli przy malejących wysokościach wykonałoby 5 · 10¹¹ kroków. Najpierw policz stosem, gdzie skacze żaba z każdego kamienia (cel[i] albo -1), a potem idź od końca: jeśli cel[i] = -1, to skoki[i] = 0, a w przeciwnym razie skoki[i] = skoki[cel[i]] + 1."
+      ],
+      "input_format": [
+        "Jeden wiersz: pięć liczb n s a b m."
+      ],
+      "output_format": [
+        "Dwa wiersze: suma: S oraz najwiecej: M."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10⁶",
+        "1 ≤ m ≤ 10⁹, 0 ≤ s, a, b < m"
+      ],
+      "examples": [
+        {
+          "input": "6 3 7 2 10",
+          "output": "suma: 0\nnajwiecej: 0",
+          "note": "Wysokości: 3, 3, 3, 3, 3, 3 — bo (3 · 7 + 2) mod 10 = 3. Żaden kamień nie jest wyższy, więc nikt nie skacze."
+        },
+        {
+          "input": "7 2 3 1 10",
+          "output": "suma: 3\nnajwiecej: 1",
+          "note": "Wysokości: 2, 7, 2, 7, 2, 7, 2. Z każdej dwójki (oprócz ostatniej) żaba skacze raz na siódemkę. Suma 3, najwięcej 1."
+        }
+      ],
+      "hint": "vector<long long> x(n); x[0] = s; for (int i = 1; i < n; i++) x[i] = (x[i - 1] * a + b) % m; Potem stos indeksów od końca: while (!s.empty() && x[s.top()] <= x[i]) s.pop(); cel[i] = s.empty() ? -1 : s.top(); s.push(i);. Skoki w tej samej pętli: skoki[i] = cel[i] == -1 ? 0 : skoki[cel[i]] + 1; — cel[i] > i, więc skoki[cel[i]] jest już policzone. Suma do 5 · 10¹¹ — long long.",
+      "tests_count": 12
+    },
+    {
+      "id": "sto-szerokosc-slupka",
+      "number": 2291,
+      "title": "Jak szeroko sięga słupek?",
+      "category": "Stos / krok 6: prostokąty i histogramy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Histogram to n słupków o szerokości 1, stojących obok siebie. Dla każdego słupka i policz, jak szeroki może być prostokąt o wysokości dokładnie takiej jak ten słupek, który zawiera słupek i i mieści się w histogramie. Taki prostokąt rozciąga się w lewo i w prawo, dopóki słupki nie są niższe od słupka i.",
+        "Niech L to numer najbliższego słupka na lewo, który jest ostro niższy (albo -1, gdy takiego nie ma), a R — najbliższego ostro niższego na prawo (albo n). Szerokość prostokąta to R − L − 1. Policz L i R dwoma przejściami stosem z numerami słupków."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n wysokości słupków."
+      ],
+      "output_format": [
+        "Jeden wiersz: n szerokości oddzielonych spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 3000",
+        "Wysokości są z przedziału od 1 do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "6\n2 1 5 6 2 3",
+          "output": "1 6 2 1 4 1",
+          "note": "Słupek 5 (numer 2) sięga od numeru 2 do 3 — z lewej stoi niższe 1, a z prawej niższe 2: szerokość 2. Słupek 1 sięga przez cały histogram: szerokość 6."
+        }
+      ],
+      "hint": "vector<int> L(n), R(n);. Od lewej: while (!s.empty() && h[s.top()] >= h[i]) s.pop(); L[i] = s.empty() ? -1 : s.top(); s.push(i);. Od prawej to samo z R[i] = s.empty() ? n : s.top();. Wynik: R[i] - L[i] - 1.",
+      "tests_count": 9
+    },
+    {
+      "id": "sto-najwiekszy-prostokat",
+      "number": 2292,
+      "title": "Największy prostokąt w histogramie",
+      "category": "Stos / krok 6: prostokąty i histogramy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Histogram to n słupków o szerokości 1 i podanych wysokościach. Znajdź pole największego prostokąta, który mieści się w histogramie (prostokąt ma boki poziome i pionowe i nie wystaje ponad słupki).",
+        "Najwyższy taki prostokąt ma zawsze wysokość jakiegoś słupka i rozciąga się do pierwszych niższych słupków z obu stron. Można to policzyć jednym przejściem: trzymaj na stosie numery słupków o rosnących wysokościach. Gdy przychodzi słupek niższy albo równy temu z wierzchu, zdejmij wierzch — jego prawą granicą jest bieżący słupek, a lewą — nowy wierzch stosu. Pole to wysokość zdjętego słupka razy szerokość między granicami. Na końcu dołóż sztuczny słupek o wysokości 0, który zdejmie ze stosu wszystko."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n wysokości słupków."
+      ],
+      "output_format": [
+        "Jedna liczba — pole największego prostokąta."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 8000",
+        "Wysokości są z przedziału od 0 do 10⁹."
+      ],
+      "examples": [
+        {
+          "input": "6\n2 1 5 6 2 3",
+          "output": "10",
+          "note": "Słupki 5 i 6 mieszczą prostokąt 5 · 2 = 10. Niski słupek 1 daje tylko 1 · 6 = 6."
+        },
+        {
+          "input": "4\n4 4 4 4",
+          "output": "16",
+          "note": "Cały histogram: 4 · 4 = 16."
+        }
+      ],
+      "hint": "vector<long long> h(n + 1, 0); — h[n] = 0 to strażnik. for (int i = 0; i <= n; i++) { while (!s.empty() && h[s.top()] >= h[i]) { long long wys = h[s.top()]; s.pop(); int lewy = s.empty() ? -1 : s.top(); naj = max(naj, wys * (i - lewy - 1)); } s.push(i); }. Pole do 8 · 10¹² — long long.",
+      "tests_count": 13
+    },
+    {
+      "id": "sto-deszczowka",
+      "number": 2293,
+      "title": "Deszczówka między słupkami",
+      "category": "Stos / krok 6: prostokąty i histogramy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na płaskim terenie stoi n słupków o szerokości 1 i podanych wysokościach, ciasno jeden przy drugim. Pada deszcz. Woda zatrzymuje się nad słupkiem, jeśli zarówno po jego lewej, jak i po prawej stronie stoi coś wyższego — wtedy sięga do wysokości niższej z tych dwóch ścian. Woda spływa poza pierwszy i ostatni słupek. Policz, ile kratek wody się zbierze.",
+        "Rozwiązanie stosem: trzymaj na stosie numery słupków o malejących wysokościach — to lewe ścianki dołków. Gdy przychodzi słupek wyższy od wierzchu, zdejmij wierzch: to dno dołka. Jeśli pod nim na stosie leży jeszcze coś, to jest lewa ścianka, a bieżący słupek — prawa. Między nimi zbiera się warstwa wody o wysokości min(lewa, prawa) − dno i szerokości prawa − lewa − 1. Powtarzaj, dopóki wierzch jest niższy od bieżącego słupka."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n wysokości słupków."
+      ],
+      "output_format": [
+        "Jedna liczba — ile kratek wody się zbierze."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "Wysokości są z przedziału od 0 do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "12\n0 1 0 2 1 0 1 3 2 1 2 1",
+          "output": "6",
+          "note": "Woda zbiera się w czterech miejscach: 1 kratka nad trzecim słupkiem, 4 kratki w dołku między słupkami 2 i 3 i 1 kratka między dwiema dwójkami po prawej — razem 6."
+        }
+      ],
+      "hint": "while (!s.empty() && h[s.top()] < h[i]) { int dno = s.top(); s.pop(); if (s.empty()) break; int lewy = s.top(); woda += (min(h[lewy], h[i]) - h[dno]) * (long long)(i - lewy - 1); } s.push(i);. Wody może być nawet 10¹⁰ kratek — long long.",
+      "tests_count": 12
+    },
+    {
+      "id": "sto-plakatowanie",
+      "number": 2294,
+      "title": "Plakaty na ścianie budynków",
+      "category": "Stos / krok 6: prostokąty i histogramy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wzdłuż ulicy stoi n budynków, ciasno jeden przy drugim. Każdy budynek to prostokąt o szerokości w i wysokości h, a ich fronty tworzą jedną ścianę. Chcemy zakleić całą ścianę plakatami. Plakat to prostokąt dowolnej wielkości, który nie może wystawać poza ścianę, a plakaty nie mogą na siebie zachodzić. Ile najmniej plakatów potrzeba?",
+        "Wskazówka: przechodź budynki od lewej, trzymając na stosie wysokości o rosnących wartościach. Nowy budynek o wysokości h najpierw zdejmuje ze stosu wszystkie wyższe budynki (ich plakaty kończą się przed nim). Jeśli teraz na wierzchu leży budynek o wysokości dokładnie h, nowy budynek może dokończyć jego plakat — nic nie dokładamy. W przeciwnym razie potrzebny jest nowy plakat, a h trafia na stos. Zauważ, że szerokości w ogóle nie są potrzebne."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z n kolejnych wierszy dwie liczby: szerokość i wysokość budynku (od lewej)."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejsza liczba plakatów."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "Szerokości są z przedziału od 1 do 10⁶, a wysokości — od 1 do 10⁹."
+      ],
+      "examples": [
+        {
+          "input": "5\n1 2\n1 3\n2 2\n2 5\n1 4",
+          "output": "4",
+          "note": "Plakat o wysokości 2 przez całą ulicę, mały plakat na czubek budynku o wysokości 3, plakat od 2 do 4 przez dwa ostatnie budynki i jeszcze jeden na czubek budynku o wysokości 5 — razem 4."
+        }
+      ],
+      "hint": "stack<long long> s; int plakaty = 0; for (…) { cin >> w >> h; while (!s.empty() && s.top() > h) s.pop(); if (s.empty() || s.top() < h) { s.push(h); plakaty++; } }. Równa wysokość na wierzchu oznacza, że plakat z lewej da się przedłużyć — pod spodem są tylko wyższe budynki.",
+      "tests_count": 11
+    },
+    {
+      "id": "sto-najwiekszy-plac",
+      "number": 2295,
+      "title": "Największy wolny plac",
+      "category": "Stos / krok 6: prostokąty i histogramy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Działka to plansza n × m: kropka oznacza wolne pole, a # — drzewo. Znajdź największy prostokąt złożony wyłącznie z wolnych pól (boki wzdłuż linii planszy) i wypisz jego pole. Jeśli wolnych pól nie ma, wypisz 0.",
+        "Sztuczka: dla każdego wiersza wyobraź sobie histogram stojący na tym wierszu — słupek w kolumnie j ma wysokość równą liczbie wolnych pól, które ciągną się od tego wiersza w górę bez przerwy. Wysokości łatwo aktualizować wiersz po wierszu: przy wolnym polu słupek rośnie o 1, a przy drzewie spada do 0. Największy wolny prostokąt, którego dolny bok leży w tym wierszu, to największy prostokąt w tym histogramie — a ten liczysz stosem jak w poprzednim zadaniu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z n kolejnych wierszy m znaków: . albo #."
+      ],
+      "output_format": [
+        "Jedna liczba — pole największego wolnego prostokąta."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 200"
+      ],
+      "examples": [
+        {
+          "input": "4 5\n.#...\n.....\n##...\n.#.#.",
+          "output": "9",
+          "note": "Trzy prawe kolumny w trzech pierwszych wierszach są wolne: 3 · 3 = 9. Cały drugi wiersz jest wolny, ale to tylko 5 pól."
+        }
+      ],
+      "hint": "vector<int> wys(m + 1, 0); — wys[m] zostaje 0 jako strażnik. W każdym wierszu: for (j) wys[j] = (g[i][j] == '.') ? wys[j] + 1 : 0;, a potem największy prostokąt w histogramie wys stosem (ten sam kod co w „Największym prostokącie w histogramie”).",
+      "tests_count": 13
+    },
+    {
+      "id": "sto-ile-razy-maksimum",
+      "number": 2296,
+      "title": "W ilu fragmentach jestem maksimum?",
+      "category": "Stos / krok 6: prostokąty i histogramy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Fragment ciągu to kilka kolejnych liczb (co najmniej jedna). Każdy fragment ma swoje maksimum, a jeśli największa liczba występuje w nim kilka razy, za maksimum uznajemy jej pierwsze (najbardziej lewe) wystąpienie. Dla każdej pozycji i policz, w ilu fragmentach liczba a[i] jest maksimum.",
+        "Niech L to najbliższa pozycja na lewo od i z liczbą większą albo równą a[i] (albo -1), a R — najbliższa pozycja na prawo z liczbą ostro większą (albo n). Fragment, w którym a[i] jest maksimum, może zaczynać się na dowolnej pozycji od L + 1 do i i kończyć na dowolnej od i do R − 1, więc takich fragmentów jest (i − L) · (R − i). Zwróć uwagę na remisy: z lewej równa liczba przerywa (bo to ona byłaby pierwszym maksimum), a z prawej — nie. Sprawdzian: suma wszystkich odpowiedzi to liczba wszystkich fragmentów, n · (n + 1) / 2."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jeden wiersz: n liczb — w ilu fragmentach a[i] jest maksimum."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 3000",
+        "Liczby są z przedziału od 1 do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "4\n3 1 3 2",
+          "output": "4 1 4 1",
+          "note": "Pierwsza trójka jest maksimum w 4 fragmentach: [3], [3 1], [3 1 3], [3 1 3 2] — w dwóch ostatnich druga trójka przegrywa, bo stoi dalej. Druga trójka: [1 3], [3], [1 3 2], [3 2]. Razem z jedynką i dwójką: 4 + 1 + 4 + 1 = 10 = 4 · 5 / 2."
+        }
+      ],
+      "hint": "L: while (!s.empty() && a[s.top()] < a[i]) s.pop(); — zostaje pierwszy większy-lub-równy. R (od prawej): while (!s.empty() && a[s.top()] <= a[i]) s.pop(); — zostaje pierwszy ostro większy. Wynik (long long)(i - L[i]) * (R[i] - i).",
+      "tests_count": 11
+    },
+    {
+      "id": "sto-suma-minimow",
+      "number": 2297,
+      "title": "Suma minimów wszystkich fragmentów",
+      "category": "Stos / krok 6: prostokąty i histogramy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla ciągu n liczb policz sumę minimów wszystkich jego fragmentów (kawałków z kolejnych liczb). Fragmentów jest n · (n + 1) / 2 — przy milionie liczb to pół biliona, więc przeglądanie ich odpada.",
+        "Odwróć pytanie: w ilu fragmentach liczba x[i] jest minimum? Jak w poprzednim zadaniu: niech L to najbliższa pozycja na lewo z liczbą ostro mniejszą, a R — najbliższa na prawo z liczbą mniejszą albo równą. Wtedy x[i] jest minimum (jego najbardziej lewym wystąpieniem) w (i − L) · (R − i) fragmentach i do sumy dokłada x[i] · (i − L) · (R − i). Liczby generujesz wzorem z lekcji o złożoności: x₀ = s, xᵢ = (xᵢ₋₁ · a + b) mod m."
+      ],
+      "input_format": [
+        "Jeden wiersz: pięć liczb n s a b m."
+      ],
+      "output_format": [
+        "Jedna liczba — suma minimów wszystkich fragmentów."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10⁶",
+        "1 ≤ m ≤ 10⁶, 0 ≤ s, a, b < m",
+        "Wynik mieści się w long long."
+      ],
+      "examples": [
+        {
+          "input": "4 3 1 1 5",
+          "output": "11",
+          "note": "Liczby: 3, 4, 0, 1. Minima fragmentów zaczynających się od 3: 3, 3, 0, 0; od 4: 4, 0, 0; od 0: 0, 0; od 1: 1. Suma 11."
+        }
+      ],
+      "hint": "vector<long long> x(n); x[0] = s; for (int i = 1; i < n; i++) x[i] = (x[i - 1] * a + b) % m; L: zdejmuj, dopóki x[s.top()] >= x[i]; R (od prawej): zdejmuj, dopóki x[s.top()] > x[i]. Wkład: x[i] * (i - L[i]) * (R[i] - i) — wszystko w long long (to nawet 2,5 · 10¹⁷).",
+      "tests_count": 11
+    },
+    {
+      "id": "sto-suma-rozpietosci",
+      "number": 2298,
+      "title": "Suma rozpiętości fragmentów",
+      "category": "Stos / krok 6: prostokąty i histogramy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Rozpiętość fragmentu ciągu to różnica między jego największą a najmniejszą liczbą. Policz sumę rozpiętości wszystkich fragmentów ciągu n liczb.",
+        "Suma rozpiętości to suma maksimów wszystkich fragmentów minus suma ich minimów. Sumę minimów już umiesz policzyć (poprzednie zadanie), a sumę maksimów liczysz tak samo, odwracając znaki w warunkach — tak jak w zadaniu „W ilu fragmentach jestem maksimum?”. Liczby generujesz wzorem x₀ = s, xᵢ = (xᵢ₋₁ · a + b) mod m."
+      ],
+      "input_format": [
+        "Jeden wiersz: pięć liczb n s a b m."
+      ],
+      "output_format": [
+        "Jedna liczba — suma rozpiętości wszystkich fragmentów."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10⁶",
+        "1 ≤ m ≤ 10⁶, 0 ≤ s, a, b < m",
+        "Wynik mieści się w long long."
+      ],
+      "examples": [
+        {
+          "input": "4 3 1 1 5",
+          "output": "18",
+          "note": "Liczby: 3, 4, 0, 1. Na przykład fragment 3 4 0 ma rozpiętość 4 − 0 = 4, a pojedyncze liczby — 0. Suma maksimów wynosi 29, a suma minimów 11, więc wynik to 18."
+        }
+      ],
+      "hint": "vector<long long> x(n); x[0] = s; for (int i = 1; i < n; i++) x[i] = (x[i - 1] * a + b) % m; Napisz funkcję, która liczy sumę maksimów (warunki < i <=), i drugą — sumę minimów (warunki >= i >). Wynik: sumaMaks - sumaMin. Każda suma do 5 · 10¹⁷ — long long.",
+      "tests_count": 10
+    },
+    {
+      "id": "sto-kolejnosc-dfs",
+      "number": 2299,
+      "title": "Kolejność przeszukiwania w głąb",
+      "category": "Stos / krok 7: DFS z własnym stosem",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W grafie jest n wierzchołków (od 1 do n) i m krawędzi bez kierunku. Przeszukaj go w głąb, zaczynając od wierzchołka 1, i wypisz wierzchołki w kolejności odwiedzania. Zasada jest taka jak w rekurencyjnym DFS: z bieżącego wierzchołka idziesz do najmniejszego jeszcze nieodwiedzonego sąsiada, a gdy takiego nie ma, wracasz tam, skąd przyszedłeś. Wierzchołków nieosiągalnych z 1 nie wypisujesz.",
+        "Napisz to bez rekurencji, z własnym stosem stack<int>. Zdejmij wierzchołek z wierzchu; jeśli był już odwiedzony, pomiń go. W przeciwnym razie oznacz go, wypisz i połóż na stos wszystkich jego nieodwiedzonych sąsiadów — od największego do najmniejszego, żeby najmniejszy leżał na wierzchu i został odwiedzony pierwszy. Ten sam wierzchołek może trafić na stos kilka razy — dlatego oznaczamy przy zdejmowaniu, a nie przy wkładaniu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z m kolejnych wierszy dwie liczby a i b — krawędź między a i b."
+      ],
+      "output_format": [
+        "Jeden wiersz: numery wierzchołków w kolejności odwiedzania."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "0 ≤ m ≤ 8000",
+        "Krawędzie się nie powtarzają i nie łączą wierzchołka z nim samym."
+      ],
+      "examples": [
+        {
+          "input": "6 6\n1 2\n1 3\n2 4\n3 4\n4 5\n3 6",
+          "output": "1 2 4 3 6 5",
+          "note": "Z 1 idziemy do 2 (mniejszy sąsiad), z 2 do 4, z 4 do 3 (najmniejszy nieodwiedzony), z 3 do 6. Wracamy do 4 i idziemy do 5."
+        }
+      ],
+      "hint": "for (v) sort(g[v].begin(), g[v].end(), greater<int>()); — sąsiedzi malejąco. stack<int> s; s.push(1); while (!s.empty()) { int v = s.top(); s.pop(); if (byl[v]) continue; byl[v] = true; cout << v << \" \"; for (int u : g[v]) if (!byl[u]) s.push(u); }.",
+      "tests_count": 11
+    },
+    {
+      "id": "sto-ile-wysp",
+      "number": 2300,
+      "title": "Ile jest wysp?",
+      "category": "Stos / krok 7: DFS z własnym stosem",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Mapa to plansza n × m: # to ląd, a kropka to woda. Wyspa to grupa pól lądu połączonych bokami (w górę, w dół, w lewo i w prawo — nie po skosie). Policz wyspy i podaj wielkość największej z nich (liczbę pól). Jeśli lądu nie ma, wypisz 0 0.",
+        "Przejdź wszystkie pola. Gdy trafisz na ląd, którego jeszcze nie odwiedziłeś, znalazłeś nową wyspę: oznacz pole, połóż je na stos stack<pair<int, int>> i zalewaj — dopóki stos nie jest pusty, zdejmij pole, policz je i połóż na stos wszystkich nieodwiedzonych sąsiadów-ląd (od razu ich oznaczając). Tak działa zalewanie z lekcji o rekurencji, tylko stos jest Twój, a nie kompilatora — duża wyspa niczego nie wywróci."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z n kolejnych wierszy m znaków: # albo kropka."
+      ],
+      "output_format": [
+        "Jeden wiersz: liczba wysp i wielkość największej."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 250"
+      ],
+      "examples": [
+        {
+          "input": "4 6\n##..#.\n#...##\n..#...\n.##..#",
+          "output": "4 3",
+          "note": "Wyspy: trzy pola w lewym górnym rogu, trzy po prawej u góry, trzy na dole po lewej i jedno pole w prawym dolnym rogu."
+        }
+      ],
+      "hint": "int dw[4] = {-1, 1, 0, 0}, dk[4] = {0, 0, -1, 1};. Dla nowej wyspy: stack<pair<int, int>> s; s.push({i, j}); byl[i][j] = true; while (!s.empty()) { auto [w, k] = s.top(); s.pop(); ile++; for (int d = 0; d < 4; d++) { … granice, ląd, nieodwiedzony → oznacz i push } }.",
+      "tests_count": 11
+    },
+    {
+      "id": "sto-plamy-farby",
+      "number": 2301,
+      "title": "Plamy farby",
+      "category": "Stos / krok 7: DFS z własnym stosem",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Obraz to plansza n × m, a każde pole jest pomalowane jednym z kolorów oznaczonych małymi literami. Plama to grupa pól tego samego koloru połączonych bokami. Policz wszystkie plamy, a potem dla każdego koloru, który występuje na obrazie (w kolejności alfabetycznej), wypisz, ile ma plam i jak duża jest jego największa plama.",
+        "To samo zalewanie stosem co przy wyspach, tylko sąsiad należy do plamy, gdy ma ten sam kolor co pole, od którego zaczęliśmy."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z n kolejnych wierszy m małych liter."
+      ],
+      "output_format": [
+        "W pierwszym wierszu: plam: K.",
+        "Potem dla każdego występującego koloru wiersz: litera, liczba jego plam i wielkość największej z nich."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 250",
+        "Kolory to litery od a do z."
+      ],
+      "examples": [
+        {
+          "input": "3 4\naabb\nabba\nccba",
+          "output": "plam: 4\na 2 3\nb 1 5\nc 1 2",
+          "note": "Kolor a ma dwie plamy: trzy pola w lewym górnym rogu i dwa pola po prawej. Kolor b ma jedną plamę z pięciu pól, a c — jedną z dwóch."
+        }
+      ],
+      "hint": "int ile[26] = {0}, naj[26] = {0};. Nowa plama zaczyna się od nieodwiedzonego pola o kolorze c = g[i][j]: zalewaj, wkładając na stos sąsiadów z g[a][b] == c. Po zalaniu: ile[c - 'a']++; naj[c - 'a'] = max(naj[c - 'a'], rozmiar);.",
+      "tests_count": 10
+    },
+    {
+      "id": "sto-czy-jest-droga",
+      "number": 2302,
+      "title": "Czy da się dojść?",
+      "category": "Stos / krok 7: DFS z własnym stosem",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz t labiryntów. Każdy to plansza n × m: # to ściana, kropka to wolne pole, S to start, a K — koniec. Z pola można przejść na sąsiednie wolne pole (w górę, w dół, w lewo albo w prawo). Dla każdego labiryntu sprawdź, czy da się dojść z S do K.",
+        "Nie pytamy o najkrótszą drogę, więc zamiast kolejki z BFS wystarczy stos: zalewaj labirynt od S i sprawdź, czy zalanie dotarło do K. Pamiętaj, żeby tablicę odwiedzonych pól i stos przygotować od nowa dla każdego labiryntu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "Każdy labirynt to wiersz z liczbami n i m oraz n wierszy po m znaków (#, kropka, S, K)."
+      ],
+      "output_format": [
+        "t wierszy: TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 10",
+        "1 ≤ n, m ≤ 100",
+        "W każdym labiryncie jest dokładnie jedno S i jedno K."
+      ],
+      "examples": [
+        {
+          "input": "2\n3 4\nS.#.\n##..\nK..#\n2 3\nS#K\n...",
+          "output": "NIE\nTAK",
+          "note": "W pierwszym labiryncie S jest zamknięty w rogu — NIE. W drugim można obejść ścianę dolnym wierszem — TAK."
+        }
+      ],
+      "hint": "Znajdź S, połóż je na stos i oznacz. while (!s.empty()) { zdejmij; for (4 kierunki) if (w planszy && g[a][b] != '#' && !byl[a][b]) { byl[a][b] = true; s.push({a, b}); } }. Na końcu odpowiedzią jest byl[wK][kK].",
+      "tests_count": 6
+    },
+    {
+      "id": "sto-glebokosc-w-drzewie",
+      "number": 2303,
+      "title": "Głębokość w drzewie rodzinnym",
+      "category": "Stos / krok 7: DFS z własnym stosem",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Drzewo rodzinne ma n osób o numerach od 1 do n. Osoba 1 to przodek wszystkich (korzeń), a dla każdej z pozostałych osób znasz numer jej rodzica. Numery są pomieszane — rodzic może mieć większy numer niż dziecko. Głębokość korzenia to 0, a głębokość każdej innej osoby jest o 1 większa niż głębokość jej rodzica.",
+        "Wypisz głębokość każdej osoby, a w drugim wierszu — największą głębokość w drzewie. Zbuduj listę dzieci każdej osoby (vector<vector<int>>), a potem przejdź drzewo od korzenia stosem par (osoba, głębokość): zdejmij parę, zapisz głębokość i połóż na stos wszystkie dzieci z głębokością o 1 większą. W drzewie nie ma cykli, więc nie trzeba oznaczać odwiedzonych."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n − 1 liczb: rodzice osób 2, 3, …, n (dla n = 1 ten wiersz jest pusty)."
+      ],
+      "output_format": [
+        "Dwa wiersze: n głębokości (osoby od 1 do n) oraz największa głębokość."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "Dane opisują drzewo z korzeniem 1."
+      ],
+      "examples": [
+        {
+          "input": "6\n4 1 1 3 5",
+          "output": "0 2 1 1 2 3\n3",
+          "note": "Rodzicem osoby 2 jest 4, osoby 3 — 1, osoby 4 — 1, osoby 5 — 3, a osoby 6 — 5. Najgłębiej jest osoba 6: 1 → 3 → 5 → 6."
+        }
+      ],
+      "hint": "vector<vector<int>> dzieci(n + 1); for (int v = 2; v <= n; v++) { cin >> p; dzieci[p].push_back(v); }. stack<pair<int, int>> s; s.push({1, 0}); while (!s.empty()) { auto [v, d] = s.top(); s.pop(); gl[v] = d; for (int u : dzieci[v]) s.push({u, d + 1}); }.",
+      "tests_count": 9
+    },
+    {
+      "id": "sto-nic-ariadny",
+      "number": 2304,
+      "title": "Nić Ariadny",
+      "category": "Stos / krok 7: DFS z własnym stosem",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Tezeusz szuka drogi w labiryncie i rozwija za sobą nić Ariadny. Labirynt to plansza n × m (# to ściana, kropka to korytarz, S to start, K to cel), w której między każdymi dwoma polami korytarza jest dokładnie jedna droga bez cofania się. Wypisz tę drogę z S do K jako ciąg liter: G (w górę), D (w dół), L (w lewo) i P (w prawo).",
+        "Niech stos stack<pair<int, int>> będzie nicią: leżą na nim po kolei wszystkie pola od S do pola, na którym stoisz (na wierzchu). W każdym kroku spójrz na wierzch: jeśli to K — koniec. Jeśli ma sąsiada-korytarz, na którym jeszcze nie byłeś, oznacz go i połóż na stos (idziesz dalej). Jeśli nie ma — to ślepy zaułek: zdejmij wierzch (cofasz się po nici). Gdy dojdziesz do K, na stosie leży cała droga — od K na wierzchu do S na dnie. Przełóż ją do vectora, odwróć i zamień kolejne pary pól na litery."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z n kolejnych wierszy m znaków: #, kropka, S albo K."
+      ],
+      "output_format": [
+        "Jeden wiersz: długość drogi, spacja i ciąg liter G, D, L, P (dla S obok K — jedna litera)."
+      ],
+      "constraints": [
+        "3 ≤ n, m ≤ 201",
+        "Między S i K jest dokładnie jedna droga, a S i K to różne pola."
+      ],
+      "examples": [
+        {
+          "input": "5 5\n#####\n#S..#\n###.#\n#K..#\n#####",
+          "output": "6 PPDDLL",
+          "note": "Z S w prawo dwa razy, w dół dwa razy, w lewo dwa razy: PPDDLL — 6 kroków."
+        }
+      ],
+      "hint": "Pętla: while (true) { auto [w, k] = s.top(); if (g[w][k] == 'K') break; bool dalej = false; for (int d = 0; d < 4; d++) { … if (wolne i nieodwiedzone) { byl[a][b] = true; s.push({a, b}); dalej = true; break; } } if (!dalej) s.pop(); }. Potem vector<pair<int, int>> droga; zdejmuj ze stosu do vectora i reverse(droga.begin(), droga.end());.",
+      "tests_count": 10
+    },
+    {
+      "id": "sto-podwladni",
+      "number": 2305,
+      "title": "Ilu masz podwładnych?",
+      "category": "Stos / krok 7: DFS z własnym stosem",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Firma ma n pracowników o numerach od 1 do n. Pracownik 1 to prezes, a każdy inny ma dokładnie jednego bezpośredniego szefa. Podwładnymi pracownika są jego bezpośredni podwładni, ich podwładni i tak dalej. Dla każdego pracownika policz, ilu ma podwładnych.",
+        "Rekurencyjnie: liczba podwładnych to suma (1 + liczba podwładnych) po wszystkich bezpośrednich podwładnych. Bez rekurencji: przejdź drzewo stosem od prezesa i zapisuj w vectorze kolejność, w jakiej zdejmujesz pracowników. Każdy pracownik zostaje zdjęty wcześniej niż wszyscy jego podwładni — więc w odwróconej kolejności każdy podwładny pojawia się przed swoim szefem. Przejdź tę listę od końca i dla każdego pracownika v dodaj ile[v] + 1 do ile[szef[v]]."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n − 1 liczb: szefowie pracowników 2, 3, …, n (dla n = 1 ten wiersz jest pusty)."
+      ],
+      "output_format": [
+        "Jeden wiersz: n liczb — ilu podwładnych ma każdy pracownik (od 1 do n)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "Dane opisują drzewo z korzeniem 1 (szef może mieć większy numer niż podwładny)."
+      ],
+      "examples": [
+        {
+          "input": "6\n4 1 1 3 5",
+          "output": "5 0 2 1 1 0",
+          "note": "Pracownik 3 ma podwładnego 5, a ten — 6, więc 3 ma dwóch podwładnych. Prezes ma wszystkich pozostałych pięciu."
+        }
+      ],
+      "hint": "vector<int> kolejnosc; stack<int> s; s.push(1); while (!s.empty()) { int v = s.top(); s.pop(); kolejnosc.push_back(v); for (int u : dzieci[v]) s.push(u); }. Potem for (int i = n - 1; i >= 1; i--) { int v = kolejnosc[i]; ile[szef[v]] += ile[v] + 1; }.",
+      "tests_count": 9
+    },
+    {
+      "id": "sto-zamkniete-jeziora",
+      "number": 2306,
+      "title": "Zamknięte jeziora",
+      "category": "Stos / krok 7: DFS z własnym stosem",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Mapa to plansza n × m: kropka to woda, a # to ląd. Woda połączona bokami z brzegiem mapy to morze. Pozostała woda tworzy jeziora — jezioro to grupa pól wody połączonych bokami, do której morze nie dociera. Policz jeziora i ich łączną powierzchnię.",
+        "Etap 1: połóż na stos wszystkie pola wody leżące na brzegu mapy (od razu je oznaczając) i zalewaj — to całe morze. Etap 2: każde nieoznaczone pole wody zaczyna nowe jezioro; zalej je, licząc pola."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z n kolejnych wierszy m znaków: kropka albo #."
+      ],
+      "output_format": [
+        "Jeden wiersz: liczba jezior i ich łączna powierzchnia."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 250"
+      ],
+      "examples": [
+        {
+          "input": "5 6\n######\n#..#.#\n####.#\n#.##..\n######",
+          "output": "2 3",
+          "note": "Dwa pola wody w drugim wierszu to jezioro, pojedyncze pole w czwartym wierszu też. Woda po prawej dotyka brzegu mapy — to morze."
+        }
+      ],
+      "hint": "for (i, j) if (brzeg i woda) { byl[i][j] = true; s.push({i, j}); } — i jedno zalewanie dla całego morza. Potem drugie przejście jak przy liczeniu wysp: nowe nieoznaczone pole wody to nowe jezioro.",
+      "tests_count": 10
+    },
+    {
+      "id": "sto-asteroidy",
+      "number": 2307,
+      "title": "Zderzenia asteroid",
+      "category": "Stos / krok 8: sztuczki olimpijskie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W rzędzie leci n asteroid. Liczba dodatnia oznacza asteroidę lecącą w prawo, ujemna — w lewo, a wartość bezwzględna to jej wielkość. Wszystkie lecą z tą samą prędkością. Gdy dwie się zderzają, mniejsza wybucha, a przy równych wielkościach wybuchają obie. Asteroidy lecące w tym samym kierunku nigdy się nie spotkają. Wypisz asteroidy, które przetrwają, w kolejności od lewej.",
+        "Przechodź asteroidy od lewej i trzymaj na stosie te, które na razie przetrwały. Asteroida lecąca w prawo po prostu trafia na stos. Asteroida lecąca w lewo zderza się z asteroidami z wierzchu stosu, dopóki te lecą w prawo: mniejsza z wierzchu wybucha (pop) i lecimy dalej, równa — wybuchają obie, większa — wybucha nadlatująca. Jeśli przetrwa, trafia na stos. Na końcu trzeba wypisać stos od dna, więc wygodnie trzymać go w vectorze (push_back, back, pop_back)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych różnych od zera."
+      ],
+      "output_format": [
+        "Jeden wiersz: asteroidy, które przetrwały, od lewej (albo pusto)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 3000",
+        "Liczby są z przedziału od −10⁶ do 10⁶ i nie są zerami."
+      ],
+      "examples": [
+        {
+          "input": "6\n5 10 -5 3 -12 8",
+          "output": "-12 8",
+          "note": "-5 zderza się z 10 i wybucha. -12 niszczy 3, potem 10, potem 5 i leci dalej w lewo. 8 leci w prawo za nią — nigdy jej nie dogoni."
+        },
+        {
+          "input": "2\n7 -7",
+          "output": "pusto",
+          "note": "Równe wielkości — wybuchają obie."
+        }
+      ],
+      "hint": "vector<int> s; for (każde x) { bool zyje = true; while (zyje && x < 0 && !s.empty() && s.back() > 0) { if (s.back() < -x) s.pop_back(); else if (s.back() == -x) { s.pop_back(); zyje = false; } else zyje = false; } if (zyje) s.push_back(x); }.",
+      "tests_count": 12
+    },
+    {
+      "id": "sto-cd-i-pwd",
+      "number": 2308,
+      "title": "Polecenia cd i pwd",
+      "category": "Stos / krok 8: sztuczki olimpijskie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Symulujesz terminal. Na początku jesteś w katalogu głównym /. Dostajesz q poleceń. pwd wypisuje bieżący katalog. cd ścieżka zmienia katalog: ścieżka składa się z nazw oddzielonych znakiem /, a nazwa .. oznacza katalog wyżej (w katalogu głównym .. nic nie zmienia). Ścieżka zaczynająca się od / jest bezwzględna — liczy się od katalogu głównego. Inna ścieżka jest względna — liczy się od bieżącego katalogu.",
+        "Bieżący katalog to stos nazw: od katalogu głównego na dnie do bieżącego na wierzchu. Nazwa kładzie się na stos, a .. zdejmuje z niego wierzch. pwd musi wypisać stos od dna, więc trzymaj go w vector<string> (push_back, pop_back). Katalog główny wypisuj jako /, a inny — jako / przed każdą nazwą, np. /dom/kasia."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z q kolejnych wierszy polecenie pwd albo cd ścieżka."
+      ],
+      "output_format": [
+        "Po jednym wierszu dla każdego pwd."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 500",
+        "Ścieżka w poleceniu cd ma od 1 do 100 znaków, a bieżący katalog nigdy nie jest dłuższy niż 50 znaków. Nazwy to od 1 do 10 małych liter albo .., oddzielone pojedynczymi /. Ścieżka nie kończy się znakiem / (poza samą ścieżką /)."
+      ],
+      "examples": [
+        {
+          "input": "7\npwd\ncd dom/kasia/zdjecia\npwd\ncd ../../ola\npwd\ncd /etc\npwd",
+          "output": "/\n/dom/kasia/zdjecia\n/dom/ola\n/etc",
+          "note": "Ścieżka ../../ola: dwa razy w górę (do /dom) i do ola. /etc zaczyna od katalogu głównego."
+        }
+      ],
+      "hint": "vector<string> st; Dla cd: if (droga[0] == '/') st.clear(); droga += '/'; string nazwa; for (char c : droga) { if (c == '/') { if (nazwa == \"..\") { if (!st.empty()) st.pop_back(); } else if (!nazwa.empty()) st.push_back(nazwa); nazwa = \"\"; } else nazwa += c; }.",
+      "tests_count": 8
+    },
+    {
+      "id": "sto-rozpakuj",
+      "number": 2309,
+      "title": "Rozpakuj napis",
+      "category": "Stos / krok 8: sztuczki olimpijskie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Napis jest zapisany w skrócie: k[tekst] oznacza tekst powtórzony k razy, a w środku nawiasów mogą stać kolejne skróty. Na przykład 3[ab] to ababab, a 2[a2[c]]d to accaccd. Rozpakuj napis.",
+        "Przechodź skrót od lewej, trzymając bieżący (jeszcze nie zamknięty) tekst w zmiennej. Cyfry składają się na liczbę k. Przy [ odłóż na stos parę: dotychczasowy tekst i liczbę k — i zacznij zbierać nowy, pusty tekst. Przy ] zdejmij parę ze stosu: nowy bieżący tekst to tamten odłożony tekst z doklejonym k razy tekstem zebranym w nawiasie. Litera po prostu dokleja się do bieżącego tekstu."
+      ],
+      "input_format": [
+        "Jeden wiersz: skrót złożony z małych liter, cyfr i nawiasów [ ]."
+      ],
+      "output_format": [
+        "Jeden wiersz: rozpakowany napis."
+      ],
+      "constraints": [
+        "Skrót ma od 1 do 2000 znaków i jest poprawny: przed każdym [ stoi liczba od 1 do 99 (bez zer na początku), a nawiasy są sparowane i nie są puste.",
+        "Rozpakowany napis ma od 1 do 20 000 liter."
+      ],
+      "examples": [
+        {
+          "input": "2[a2[c]]d",
+          "output": "accaccd",
+          "note": "W środku 2[c] to cc, więc a2[c] to acc. Dwa razy acc i na końcu d: accaccd."
+        },
+        {
+          "input": "x10[y]z",
+          "output": "xyyyyyyyyyyz",
+          "note": "Liczba może mieć dwie cyfry: x, dziesięć razy y i z."
+        }
+      ],
+      "hint": "stack<pair<string, int>> st; string teraz; int k = 0; for (char c : s) { if (isdigit(c)) k = k * 10 + (c - '0'); else if (c == '[') { st.push({teraz, k}); teraz = \"\"; k = 0; } else if (c == ']') { auto [przed, ile] = st.top(); st.pop(); string w = przed; for (int i = 0; i < ile; i++) w += teraz; teraz = w; } else teraz += c; }.",
+      "tests_count": 13
+    },
+    {
+      "id": "sto-usun-k-cyfr",
+      "number": 2310,
+      "title": "Usuń k cyfr",
+      "category": "Stos / krok 8: sztuczki olimpijskie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Z liczby trzeba usunąć dokładnie k cyfr (pozostałe zostają w tej samej kolejności), żeby powstała jak najmniejsza liczba. Wypisz ją bez zer na początku (jeśli zostały same zera, wypisz 0).",
+        "Zachłanna zasada: jeśli jakaś cyfra jest większa od cyfry stojącej tuż za nią, opłaca się ją usunąć — zmniejsza to liczbę na najwcześniejszej możliwej pozycji. Przechodź cyfry od lewej i trzymaj stos cyfr (wygodnie: string). Dopóki możesz jeszcze usuwać, a cyfra na wierzchu jest większa od bieżącej — zdejmij ją. Potem połóż bieżącą cyfrę. Jeśli na końcu zostały jeszcze usunięcia, zdejmij tyle cyfr z wierzchu (cyfry na stosie rosną, więc największe są na górze)."
+      ],
+      "input_format": [
+        "Jeden wiersz: liczba (bez zer na początku) i liczba k."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejsza możliwa po usunięciu k cyfr."
+      ],
+      "constraints": [
+        "Liczba ma od 1 do 20 000 cyfr.",
+        "0 ≤ k < liczba cyfr"
+      ],
+      "examples": [
+        {
+          "input": "1432219 3",
+          "output": "1219",
+          "note": "Usuwamy 4, 3 i drugą 2: zostaje 1219."
+        },
+        {
+          "input": "10200 1",
+          "output": "200",
+          "note": "Po usunięciu jedynki zostaje 0200 — zera z przodu nie wypisujemy: 200."
+        }
+      ],
+      "hint": "string st; for (char c : s) { while (k > 0 && !st.empty() && st.back() > c) { st.pop_back(); k--; } st.push_back(c); } while (k > 0) { st.pop_back(); k--; }. Zera z przodu: int i = 0; while (i + 1 < (int)st.size() && st[i] == '0') i++; cout << st.substr(i);.",
+      "tests_count": 15
+    },
+    {
+      "id": "sto-tory-przetokowe",
+      "number": 2311,
+      "title": "Tory przetokowe",
+      "category": "Stos / krok 8: sztuczki olimpijskie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na stację wjeżdża pociąg z wagonami ponumerowanymi 1, 2, …, n (w tej kolejności). Przed wyjazdem wagony można przestawić tylko w jeden sposób: każdy wagon wjeżdża na ślepy tor (bocznicę), a z bocznicy zawsze może wyjechać wagon, który wjechał tam ostatnio. Wagony wyjeżdżające z bocznicy tworzą nowy pociąg. Dla t zamówionych kolejności sprawdź, czy da się je w ten sposób uzyskać.",
+        "Bocznica to stos. Symuluj: dla każdego kolejnego wagonu x z zamówienia wpychaj na stos kolejne wagony z wejścia, dopóki na wierzchu nie stoi x (albo wagony się skończą). Jeśli na wierzchu jest x — wyjeżdża (pop). Jeśli nie, a wszystkie wagony już wjechały, to x jest zakopany pod innymi wagonami i zamówienia nie da się spełnić."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "Każde zamówienie to wiersz z liczbą n i wiersz z n różnymi liczbami od 1 do n — kolejność wagonów w nowym pociągu."
+      ],
+      "output_format": [
+        "t wierszy: TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 50",
+        "1 ≤ n ≤ 1000, a suma wszystkich n nie przekracza 15 000."
+      ],
+      "examples": [
+        {
+          "input": "3\n5\n3 2 1 4 5\n5\n3 1 2 4 5\n3\n1 2 3",
+          "output": "TAK\nNIE\nTAK",
+          "note": "W drugim zamówieniu po wyjeździe trójki na wierzchu stoi 2, a 1 jest pod nią — nie da się wypuścić jedynki przed dwójką."
+        }
+      ],
+      "hint": "int nastepny = 1; bool ok = true; for (int x : cel) { while (nastepny <= n && (boczny.empty() || boczny.top() != x)) { boczny.push(nastepny); nastepny++; } if (!boczny.empty() && boczny.top() == x) boczny.pop(); else { ok = false; break; } }.",
+      "tests_count": 7
+    },
+    {
+      "id": "sto-kolejka-z-dwoch-stosow",
+      "number": 2312,
+      "title": "Kolejka z dwóch stosów",
+      "category": "Stos / krok 8: sztuczki olimpijskie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz do dyspozycji tylko stosy, a potrzebujesz kolejki. Obsłuż q poleceń: DODAJ x stawia x na końcu kolejki, USUN wypisuje i usuwa pierwszy element kolejki, a PIERWSZY wypisuje pierwszy element bez usuwania. Gdy kolejka jest pusta, USUN i PIERWSZY wypisują pusta.",
+        "Użyj dwóch stosów: we i wy. DODAJ kładzie x na we. Gdy trzeba sięgnąć do początku kolejki, a stos wy jest pusty, przelej do niego wszystko ze stosu we (zdejmuj z jednego, kładź na drugi). Przelanie odwraca kolejność, więc najstarszy element ląduje na wierzchu wy. Ważne: przelewaj tylko wtedy, gdy wy jest pusty — inaczej pomieszasz kolejność. Każdy element zostanie przelany co najwyżej raz, więc wszystko działa szybko."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z q kolejnych wierszy polecenie: DODAJ x, USUN albo PIERWSZY."
+      ],
+      "output_format": [
+        "Po jednym wierszu dla każdego USUN i PIERWSZY."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 3000",
+        "Liczby x są z przedziału od −10⁶ do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "7\nDODAJ 1\nDODAJ 2\nPIERWSZY\nDODAJ 3\nUSUN\nUSUN\nUSUN",
+          "output": "1\n1\n2\n3",
+          "note": "Przy PIERWSZY stos we (1, 2) przelewa się do wy — na wierzchu wy jest 1. Trójka czeka na stosie we, aż wy się opróżni."
+        }
+      ],
+      "hint": "void przelej(stack<int> &we, stack<int> &wy) { if (wy.empty()) while (!we.empty()) { wy.push(we.top()); we.pop(); } }. USUN i PIERWSZY: przelej(we, wy); if (wy.empty()) cout << \"pusta\\n\"; else { cout << wy.top() << \"\\n\"; if (USUN) wy.pop(); }.",
+      "tests_count": 8
+    },
+    {
+      "id": "sto-kolejka-z-minimum",
+      "number": 2313,
+      "title": "Kolejka z minimum",
+      "category": "Stos / krok 8: sztuczki olimpijskie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Obsłuż q poleceń na kolejce liczb: DODAJ x stawia x na końcu, USUN usuwa pierwszy element (i niczego nie wypisuje), a MIN wypisuje najmniejszą liczbę w kolejce. Gdy kolejka jest pusta, USUN i MIN wypisują pusta.",
+        "Zbuduj kolejkę z dwóch stosów (jak w poprzednim zadaniu), ale na każdym stosie trzymaj pary: liczbę i minimum od dna stosu do niej (jak w zadaniu „Stos z minimum”). Najmniejsza liczba w kolejce to mniejsze z minimów zapisanych na wierzchach obu stosów (o ile stos nie jest pusty). Przy przelewaniu liczby trafiają na drugi stos na nowo — minima trzeba wtedy policzyć od początku. To jeden ze sposobów na minimum w przesuwanym oknie, który z lekcji o kolejce znasz w wersji z deque."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z q kolejnych wierszy polecenie: DODAJ x, USUN albo MIN."
+      ],
+      "output_format": [
+        "Po jednym wierszu dla każdego MIN i dla każdego USUN na pustej kolejce."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 3000",
+        "Liczby x są z przedziału od −10⁶ do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "8\nDODAJ 4\nDODAJ 2\nDODAJ 7\nMIN\nUSUN\nUSUN\nMIN\nUSUN",
+          "output": "2\n7",
+          "note": "Najpierw minimum to 2. Po usunięciu 4 i 2 w kolejce zostaje tylko 7."
+        }
+      ],
+      "hint": "void wloz(stack<pair<int, int>> &s, int x) { int m = s.empty() ? x : min(x, s.top().second); s.push({x, m}); }. Przelewanie: while (!we.empty()) { wloz(wy, we.top().first); we.pop(); }. MIN: minimum z we.top().second i wy.top().second (tylko z niepustych).",
+      "tests_count": 8
+    },
+    {
+      "id": "sto-stos-z-dodawaniem",
+      "number": 2314,
+      "title": "Stos z dodawaniem do dna",
+      "category": "Stos / krok 8: sztuczki olimpijskie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Obsłuż q poleceń na stosie liczb: PUSH x kładzie x na wierzch, POP zdejmuje liczbę z wierzchu i ją wypisuje (na pustym stosie wypisuje pusty), a INC k v dodaje v do każdej z k najniższych liczb na stosie (jeśli liczb jest mniej niż k — do wszystkich).",
+        "Dodawanie po kolei do k liczb byłoby wolne, a w stack<int> do dolnych liczb w ogóle się nie dostaniesz. Sztuczka: trzymaj stos w dwóch vectorach — wartosc[i] i dodatek[i] (i liczone od dna). INC k v dodaje v tylko do dodatek[min(k, rozmiar) − 1]: ten dodatek należy się temu elementowi i wszystkim pod nim. Przy POP element i ma wartość wartosc[i] + dodatek[i], a swój dodatek przekazuje w dół: dodatek[i − 1] += dodatek[i]. Każde polecenie to wtedy jeden krok."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z q kolejnych wierszy polecenie: PUSH x, POP albo INC k v."
+      ],
+      "output_format": [
+        "Po jednym wierszu dla każdego POP."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 2000",
+        "−10⁶ ≤ x, v ≤ 10⁶",
+        "1 ≤ k ≤ 10⁴"
+      ],
+      "examples": [
+        {
+          "input": "8\nPUSH 1\nPUSH 2\nPUSH 3\nINC 2 10\nPOP\nPOP\nINC 5 100\nPOP",
+          "output": "3\n12\n111",
+          "note": "INC 2 10 zmienia dwie najniższe liczby: 1 → 11 i 2 → 12, a 3 zostaje. Potem w stosie jest tylko 11, a INC 5 100 dodaje 100 do niej."
+        }
+      ],
+      "hint": "vector<long long> wartosc, dodatek;. PUSH: wartosc.push_back(x); dodatek.push_back(0);. INC: int i = min(k, (int)wartosc.size()) - 1; if (i >= 0) dodatek[i] += v;. POP: int i = wartosc.size() - 1; cout << wartosc[i] + dodatek[i]; if (i > 0) dodatek[i - 1] += dodatek[i]; i dwa pop_back.",
+      "tests_count": 8
+    },
+    {
+      "id": "sto-b-ostatni-cieplejszy",
+      "number": 2315,
+      "title": "Od ostatniego cieplejszego dnia",
+      "category": "Stos / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dostajesz temperatury z n kolejnych dni (dni numerujemy od 1). Dla każdego dnia wypisz, ile dni minęło od ostatniego wcześniejszego dnia, który był ostro cieplejszy. Jeśli żaden wcześniejszy dzień nie był cieplejszy, ten dzień jest rekordowy — wypisz dla niego 0.",
+        "W drugim wierszu wypisz, ile było dni rekordowych. Szukaj poprzedniego większego elementu stosem z numerami dni."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n temperatur."
+      ],
+      "output_format": [
+        "Dwa wiersze: n liczb (odległości albo 0) oraz rekordow: R."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 3000",
+        "Temperatury są z przedziału od −30 do 40."
+      ],
+      "examples": [
+        {
+          "input": "7\n10 14 12 12 15 9 13",
+          "output": "0 0 1 2 0 1 2\nrekordow: 3",
+          "note": "Dla 12 ostatni cieplejszy dzień to 14 sprzed 1 i 2 dni. Dla 13 ostatni cieplejszy to 15 sprzed dwóch dni. Rekordowe są dni z 10, 14 i 15."
+        }
+      ],
+      "hint": "for (int i = 0; i < n; i++) { while (!s.empty() && t[s.top()] <= t[i]) s.pop(); if (s.empty()) { w[i] = 0; rekordy++; } else w[i] = i - s.top(); s.push(i); }.",
+      "tests_count": 9
+    },
+    {
+      "id": "sto-b-skarpetki",
+      "number": 2316,
+      "title": "Skarpetki z suszarki",
+      "category": "Stos / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wyjmujesz z suszarki n skarpetek, jedną po drugiej. Każdą kładziesz na kupkę, ale jeśli skarpetka na wierzchu kupki ma ten sam kolor co wyjęta, to masz parę — zabierasz obie skarpetki i odkładasz parę do szuflady.",
+        "Policz, ile par trafiło do szuflady i ile skarpetek zostało na kupce, oraz wypisz kolor skarpetki na wierzchu kupki (albo słowo nic)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n kolorów skarpetek w kolejności wyjmowania."
+      ],
+      "output_format": [
+        "Trzy wiersze: par: P, na kupce: K oraz na wierzchu: kolor (albo nic)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "Kolory to słowa z 1–12 małych liter."
+      ],
+      "examples": [
+        {
+          "input": "7\nbialy czarny czarny bialy szary bialy bialy",
+          "output": "par: 3\nna kupce: 1\nna wierzchu: szary",
+          "note": "Druga czarna tworzy parę z pierwszą, potem biała z białą, a na końcu dwie białe. Zostaje szara."
+        }
+      ],
+      "hint": "if (!s.empty() && s.top() == kolor) { s.pop(); par++; } else s.push(kolor);. Na kupce zostaje s.size() skarpetek.",
+      "tests_count": 8
+    },
+    {
+      "id": "sto-b-ksiazki-na-biurku",
+      "number": 2317,
+      "title": "Książki na biurku",
+      "category": "Stos / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na biurku leżą dwa stosy książek: A i B. Na początku wszystkie książki o numerach od 1 do n leżą w stosie A — książka 1 na samym dole, n na samej górze — a stos B jest pusty. Wykonaj q poleceń. AB k przekłada po jednej k książek z wierzchu A na wierzch B (jeśli w A jest mniej książek, przekłada wszystkie). BA k działa w drugą stronę. ? wypisuje numery książek leżących na wierzchu A i B (dla pustego stosu wypisz -).",
+        "Na koniec wypisz oba stosy od góry do dołu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i q.",
+        "W każdym z q kolejnych wierszy polecenie: AB k, BA k albo ?."
+      ],
+      "output_format": [
+        "Po jednym wierszu dla każdego ? (dwie wartości), a na końcu dwa wiersze: A: … oraz B: … (numery od góry albo -)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 500",
+        "1 ≤ q ≤ 500",
+        "1 ≤ k ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "5 4\nAB 2\n?\nBA 1\n?",
+          "output": "3 4\n4 5\nA: 4 3 2 1\nB: 5",
+          "note": "Z A schodzą 5 i 4 — na wierzchu B leży 4. Potem 4 wraca na A."
+        }
+      ],
+      "hint": "void przeloz(stack<int> &z, stack<int> &na, int k) { while (k > 0 && !z.empty()) { na.push(z.top()); z.pop(); k--; } }. Stosy przekazuj przez &, inaczej funkcja przełoży tylko kopie.",
+      "tests_count": 8
+    },
+    {
+      "id": "sto-b-wieze-hanoi",
+      "number": 2318,
+      "title": "Sędzia wież Hanoi",
+      "category": "Stos / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W łamigłówce wieże Hanoi są trzy pręty. Na początku na pręcie 1 leży n krążków o rozmiarach od n (na dole) do 1 (na górze), a pręty 2 i 3 są puste. Ruch a b przenosi górny krążek z pręta a na pręt b. Ruch jest niedozwolony, jeśli pręt a jest pusty albo jeśli na pręcie b leży na górze krążek mniejszy od przenoszonego.",
+        "Sprawdź po kolei m ruchów gracza. Jeśli któryś ruch jest niedozwolony, wypisz BLAD w ruchu k, gdzie k to numer pierwszego takiego ruchu (od 1), i nie sprawdzaj dalej. Jeśli wszystkie ruchy są dozwolone, wypisz OK. W obu przypadkach wypisz potem zawartość trzech prętów od dołu do góry — po ostatnim dozwolonym ruchu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z m kolejnych wierszy ruch: dwie różne liczby a i b od 1 do 3."
+      ],
+      "output_format": [
+        "Wiersz OK albo BLAD w ruchu k, a potem trzy wiersze: 1: …, 2: …, 3: … (rozmiary krążków od dołu albo -)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 20",
+        "1 ≤ m ≤ 2000"
+      ],
+      "examples": [
+        {
+          "input": "2 4\n1 2\n1 3\n2 3\n3 1",
+          "output": "OK\n1: 1\n2: -\n3: 2",
+          "note": "Trzy pierwsze ruchy przenoszą wieżę na pręt 3. Czwarty bierze krążek 1 z pręta 3 i kładzie na pusty pręt 1 — też dozwolone."
+        },
+        {
+          "input": "3 2\n1 2\n1 2",
+          "output": "BLAD w ruchu 2\n1: 3 2\n2: 1\n3: -",
+          "note": "Drugi ruch kładzie krążek 2 na krążek 1 — błąd."
+        }
+      ],
+      "hint": "stack<int> pret[4];, for (int i = n; i >= 1; i--) pret[1].push(i);. Ruch: if (pret[a].empty() || (!pret[b].empty() && pret[b].top() < pret[a].top())) — błąd. Wypisanie od dołu: kopię stosu przelej do pomocniczego (albo trzymaj pręty w vectorach).",
+      "tests_count": 12
+    },
+    {
+      "id": "sto-b-kulki",
+      "number": 2319,
+      "title": "Znikające kulki",
+      "category": "Stos / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Do pionowej rury wpadają kulki — każda kolejna ląduje na samej górze. Kulki mają kolory oznaczone małymi literami. Gdy na górze rury leży k kulek tego samego koloru jedna na drugiej, wszystkie znikają, a na górze zostaje to, co było pod nimi.",
+        "Wypisz, ile kulek zniknęło, a potem kulki, które zostały w rurze, od dołu do góry (albo pusto). Trzymaj na stosie pary: kolor i liczbę kulek tego koloru leżących kolejno na górze. Nowa kulka zwiększa licznik na wierzchu (jeśli kolor się zgadza) albo kładzie nową parę. Gdy licznik dojdzie do k — zdejmij parę."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba k.",
+        "W drugim wierszu kolory kulek w kolejności wpadania (napis z małych liter)."
+      ],
+      "output_format": [
+        "Dwa wiersze: zniknelo: Z oraz kulki od dołu jako napis (albo pusto)."
+      ],
+      "constraints": [
+        "2 ≤ k ≤ 10",
+        "Kulek jest od 1 do 20 000."
+      ],
+      "examples": [
+        {
+          "input": "3\naabbbac",
+          "output": "zniknelo: 6\nc",
+          "note": "Trzy b znikają. Wtedy na górze leżą dwa a, a trzecie a dopełnia trójkę — też znikają. Zostaje samo c."
+        }
+      ],
+      "hint": "stack<pair<char, int>> s; for (char c : kulki) { if (!s.empty() && s.top().first == c) s.top().second++; else s.push({c, 1}); if (s.top().second == k) { zniknelo += k; s.pop(); } }. Na koniec przełóż stos do vectora, żeby wypisać od dołu.",
+      "tests_count": 10
+    },
+    {
+      "id": "sto-b-licytacja",
+      "number": 2320,
+      "title": "Licytacja z wycofaniem",
+      "category": "Stos / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na aukcji padają oferty. OFERTA imie kwota zostaje przyjęta tylko wtedy, gdy kwota jest ostro wyższa od najwyższej przyjętej oferty, która jeszcze obowiązuje — w przeciwnym razie wypisz odrzucona. WYCOFAJ unieważnia ostatnią obowiązującą ofertę (jeśli nie ma żadnej, nic się nie dzieje). KTO wypisuje, kto prowadzi i z jaką kwotą, albo słowo brak.",
+        "Zauważ, że przyjęte oferty rosną, więc najwyższa obowiązująca jest zawsze ostatnią przyjętą. Trzymaj je na stosie par stack<pair<string, int>>: zwycięzca leży na wierzchu, a po wycofaniu na wierzch wraca poprzednia oferta."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z q kolejnych wierszy polecenie: OFERTA imie kwota, WYCOFAJ albo KTO."
+      ],
+      "output_format": [
+        "Po jednym wierszu dla każdego KTO (imie kwota albo brak) i dla każdej odrzuconej oferty (odrzucona)."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "Kwoty są z przedziału od 1 do 10⁹, imiona mają od 1 do 15 liter."
+      ],
+      "examples": [
+        {
+          "input": "7\nOFERTA Ala 100\nOFERTA Ola 90\nOFERTA Kuba 150\nKTO\nWYCOFAJ\nKTO\nWYCOFAJ",
+          "output": "odrzucona\nKuba 150\nAla 100",
+          "note": "Ola proponuje mniej niż Ala — odrzucona. Po wycofaniu oferty Kuby znowu prowadzi Ala."
+        }
+      ],
+      "hint": "OFERTA: if (!s.empty() && kwota <= s.top().second) cout << \"odrzucona\\n\"; else s.push({imie, kwota});. KTO: if (s.empty()) cout << \"brak\\n\"; else cout << s.top().first << \" \" << s.top().second << \"\\n\";.",
+      "tests_count": 8
+    },
+    {
+      "id": "sto-b-porownaj-z-cofaniem",
+      "number": 2321,
+      "title": "Czy wyszło to samo?",
+      "category": "Stos / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dwie osoby pisały na klawiaturze, a Ty masz zapisy ich klawiszy: mała litera dopisuje się na koniec tekstu, a # to Backspace, który kasuje ostatnią literę (na pustym tekście nic nie robi). Dla każdej z t par zapisów sprawdź, czy na obu ekranach został ten sam tekst.",
+        "Napisz funkcję string ekran(string zapis), która zwraca tekst na ekranie — używając napisu jako stosu (push_back i pop_back) — i porównaj wyniki dla obu zapisów."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "W każdym z t kolejnych wierszy dwa zapisy oddzielone spacją."
+      ],
+      "output_format": [
+        "t wierszy: TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100",
+        "Każdy zapis ma od 1 do 1000 znaków: małe litery i #."
+      ],
+      "examples": [
+        {
+          "input": "3\nab#c ad#c\nab## c#d#\na#c b",
+          "output": "TAK\nTAK\nNIE",
+          "note": "Pierwsza para daje ac i ac. W drugiej oba ekrany są puste. W trzeciej zostaje c i b."
+        }
+      ],
+      "hint": "string ekran(string zapis) { string t; for (char c : zapis) { if (c == '#') { if (!t.empty()) t.pop_back(); } else t.push_back(c); } return t; }. Potem cout << (ekran(a) == ekran(b) ? \"TAK\" : \"NIE\");.",
+      "tests_count": 5
+    },
+    {
+      "id": "sto-b-znaczniki",
+      "number": 2322,
+      "title": "Znaczniki jak w HTML",
+      "category": "Stos / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Strony internetowe zapisuje się w HTML, gdzie tekst otaczają znaczniki: <b> otwiera pogrubienie, a </b> je zamyka. Znaczniki muszą być poprawnie zagnieżdżone, jak nawiasy: <b><i>tekst</i></b> jest dobrze, a <b><i>tekst</b></i> — źle.",
+        "Dla każdego z t dokumentów sprawdź, czy znaczniki są poprawne. Dokument to ciąg słów oddzielonych spacjami: słowo <nazwa> to znacznik otwierający, </nazwa> — zamykający, a każde inne słowo to zwykły tekst, który pomijasz. Na stos kładź nazwy otwartych znaczników; zamykający musi pasować do nazwy na wierzchu, a na końcu stos musi być pusty."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "Każdy dokument zajmuje dwa wiersze: liczba słów k i k słów oddzielonych spacjami."
+      ],
+      "output_format": [
+        "t wierszy: TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 50",
+        "1 ≤ k ≤ 1000, a wszystkich słów jest najwyżej 20 000.",
+        "Nazwy znaczników to od 1 do 10 małych liter."
+      ],
+      "examples": [
+        {
+          "input": "3\n5\n<b> <i> tekst </i> </b>\n5\n<b> <i> tekst </b> </i>\n3\n<p> akapit </p>",
+          "output": "TAK\nNIE\nTAK",
+          "note": "W drugim dokumencie </b> trafia na wierzch <i> — nazwy się nie zgadzają."
+        }
+      ],
+      "hint": "Słowo zaczynające się od \"</\" to znacznik zamykający: nazwa = w.substr(2, w.size() - 3). Zaczynające się od '<' — otwierający: nazwa = w.substr(1, w.size() - 2). Dalej jak przy nawiasach trzech rodzajów.",
+      "tests_count": 5
+    },
+    {
+      "id": "sto-b-matrioszki",
+      "number": 2323,
+      "title": "Matrioszki",
+      "category": "Stos / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Zabawkę z matrioszek opisuje ciąg liczb: x oznacza otwarcie lalki o rozmiarze x, a −x — jej zamknięcie. Opis jest poprawny, gdy lalki są poprawnie zagnieżdżone (zamykana jest zawsze ostatnio otwarta, jeszcze niezamknięta lalka, i to tego samego rozmiaru) oraz gdy każda lalka jest większa niż suma rozmiarów lalek leżących bezpośrednio w niej.",
+        "Dla każdego z t opisów wypisz TAK albo NIE. Trzymaj na stosie pary: rozmiar otwartej lalki i sumę rozmiarów lalek, które już w niej zamknęliśmy. Przy zamykaniu lalki sprawdź rozmiar i sumę, zdejmij parę i dodaj rozmiar tej lalki do sumy lalki pod nią."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "Każdy opis zajmuje dwa wiersze: liczba n i n liczb różnych od zera."
+      ],
+      "output_format": [
+        "t wierszy: TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 50",
+        "1 ≤ n ≤ 2000, a wszystkich liczb jest najwyżej 20 000.",
+        "Rozmiary są z przedziału od 1 do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "3\n6\n10 3 -3 4 -4 -10\n6\n5 3 -3 4 -4 -5\n4\n7 2 -7 -2",
+          "output": "TAK\nNIE\nNIE",
+          "note": "W pierwszej zabawce w lalce 10 leżą 3 i 4: 7 < 10. W drugiej 3 + 4 = 7 nie jest mniejsze od 5. W trzeciej lalki się przeplatają."
+        }
+      ],
+      "hint": "stack<pair<int, long long>> s; // (rozmiar, suma w środku). Zamknięcie −x: if (s.empty() || s.top().first != x || s.top().second >= x) — źle; inaczej s.pop(); if (!s.empty()) s.top().second += x;. Na końcu stos musi być pusty.",
+      "tests_count": 5
+    },
+    {
+      "id": "sto-b-onp-na-ekranie",
+      "number": 2324,
+      "title": "Stos ONP na ekranie",
+      "category": "Stos / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Policz wartość wyrażenia w odwrotnej notacji polskiej z działaniami +, - i *, ale tak, żeby było widać, co się dzieje: po przetworzeniu każdego elementu wypisz cały stos — od dna do wierzchu, liczby oddzielone spacjami.",
+        "stack nie pozwala zajrzeć do środka, więc trzymaj stos w vector<long long>: push_back kładzie na wierzch, back() to wierzch, a pop_back() zdejmuje. Do wypisania wystarczy zwykła pętla po vectorze."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n — ile jest elementów.",
+        "W drugim wierszu n elementów: liczby i znaki + - *."
+      ],
+      "output_format": [
+        "n wierszy — zawartość stosu po każdym elemencie, od dna do wierzchu."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 59",
+        "Liczby są całkowite, od 0 do 999. Wyrażenie jest poprawne, a każdy wynik po drodze ma wartość bezwzględną najwyżej 10⁹."
+      ],
+      "examples": [
+        {
+          "input": "7\n2 3 4 * + 5 -",
+          "output": "2\n2 3\n2 3 4\n2 12\n14\n14 5\n9",
+          "note": "Po 2, 3, 4 stos to 2 3 4. Gwiazdka zamienia 3 4 na 12, plus — 2 12 na 14, a minus — 14 5 na 9."
+        }
+      ],
+      "hint": "vector<long long> s; dla znaku: long long b = s.back(); s.pop_back(); long long a = s.back(); s.pop_back(); s.push_back(…);. Po każdym elemencie: for (long long x : s) cout << x << \" \"; cout << \"\\n\";.",
+      "tests_count": 7
+    },
+    {
+      "id": "sto-b-wynik-nawiasow",
+      "number": 2325,
+      "title": "Wynik ciągu nawiasów",
+      "category": "Stos / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Poprawny ciąg nawiasów okrągłych ma swój wynik: para () jest warta 1, dwa ciągi sklejone obok siebie (AB) są warte tyle, ile suma ich wyników, a ciąg w nawiasie (A) jest wart dwa razy tyle co A. Na przykład (()) jest warte 2, ()() — 2, a (()(())) — 2 · (1 + 2) = 6.",
+        "Policz wyniki t ciągów. Na stosie trzymaj sumy: na dnie suma całego ciągu (na początku 0), a każdy otwarty nawias kładzie nowy poziom z sumą 0. Nawias zamykający zdejmuje sumę w swojego poziomu i dodaje do poziomu niżej 1, jeśli w = 0 (to była pusta para), albo 2 · w."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "W każdym z t kolejnych wierszy jeden poprawny ciąg nawiasów ( i )."
+      ],
+      "output_format": [
+        "t wierszy — wyniki ciągów."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 10",
+        "Każdy ciąg ma od 2 do 10 000 znaków, wszystkie razem — najwyżej 50 000.",
+        "Zagnieżdżenie nawiasów nie przekracza 40, więc wyniki mieszczą się w long long."
+      ],
+      "examples": [
+        {
+          "input": "4\n()\n(())\n()()\n(()(()))",
+          "output": "1\n2\n2\n6",
+          "note": "W ostatnim: w środku jest () za 1 i (()) za 2, razem 3, a zewnętrzny nawias podwaja: 6."
+        }
+      ],
+      "hint": "stack<long long> s; s.push(0); for (char c : t) { if (c == '(') s.push(0); else { long long w = s.top(); s.pop(); s.top() += (w == 0 ? 1 : 2 * w); } }. Wynik: s.top() — na dnie została suma całego ciągu.",
+      "tests_count": 6
+    },
+    {
+      "id": "sto-b-odwroc-w-nawiasach",
+      "number": 2326,
+      "title": "Odwracanie w nawiasach",
+      "category": "Stos / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Napis składa się z małych liter i poprawnie sparowanych nawiasów okrągłych. Każda para nawiasów odwraca kolejność wszystkiego, co jest między nimi — zaczynając od najgłębszych nawiasów. Na przykład a(bc(de)f)g: najpierw (de) daje ed, potem (bcedf) daje fdecb, więc wynik to afdecbg. Wypisz wynik bez nawiasów.",
+        "Trzymaj bieżący tekst w zmiennej i stos stack<string> tekstów sprzed otwartych nawiasów. Nawias ( odkłada bieżący tekst na stos i zaczyna nowy. Nawias ) odwraca bieżący tekst i dokleja go na koniec tekstu zdjętego ze stosu."
+      ],
+      "input_format": [
+        "Jeden wiersz: napis z małych liter i nawiasów ( )."
+      ],
+      "output_format": [
+        "Jeden wiersz: wynik bez nawiasów."
+      ],
+      "constraints": [
+        "Napis ma od 1 do 2000 znaków, nawiasy są poprawnie sparowane i jest w nim co najmniej jedna litera."
+      ],
+      "examples": [
+        {
+          "input": "a(bc(de)f)g",
+          "output": "afdecbg",
+          "note": "Najpierw de → ed, potem bcedf → fdecb."
+        },
+        {
+          "input": "(ab)(cd)",
+          "output": "badc",
+          "note": "Każdy nawias odwraca osobno: ba i dc."
+        }
+      ],
+      "hint": "stack<string> st; string teraz; for (char c : s) { if (c == '(') { st.push(teraz); teraz = \"\"; } else if (c == ')') { reverse(teraz.begin(), teraz.end()); teraz = st.top() + teraz; st.pop(); } else teraz += c; }.",
+      "tests_count": 10
+    },
+    {
+      "id": "sto-b-najmniej-odwrocen",
+      "number": 2327,
+      "title": "Najmniej odwróceń",
+      "category": "Stos / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Napis składa się z nawiasów klamrowych { i }. Jednym ruchem możesz odwrócić jeden nawias: { na } albo } na {. Dla każdego z t napisów policz, ile najmniej odwróceń trzeba, żeby nawiasy były poprawnie sparowane. Jeśli to niemożliwe, wypisz -1.",
+        "Najpierw usuń stosem wszystkie pary, które już są poprawne (jak przy sprawdzaniu nawiasów). Zostanie ciąg postaci }}}…{{{: a zamykających, a po nich b otwierających. Przy nieparzystej długości napisu nie da się nic zrobić. W przeciwnym razie z każdej grupy odwracasz co drugi nawias: }} naprawia jedno odwrócenie ({}), a pojedynczy } z pojedynczym { — dwa (}{ → {}). Wynik to ⌈a/2⌉ + ⌈b/2⌉."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "W każdym z t kolejnych wierszy jeden napis z nawiasów { i }."
+      ],
+      "output_format": [
+        "t wierszy — najmniejsza liczba odwróceń albo -1."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100",
+        "Każdy napis ma od 1 do 10 000 znaków, wszystkie razem — najwyżej 50 000."
+      ],
+      "examples": [
+        {
+          "input": "4\n}{\n{{{{\n{}}}{{\n{{{",
+          "output": "2\n2\n2\n-1",
+          "note": "}{ wymaga odwrócenia obu. {{{{ — odwracamy dwa ostatnie. W {}}}{{ zostaje }}{{ po usunięciu pary: 1 + 1 = 2. Trzy nawiasy nie dadzą się sparować."
+        }
+      ],
+      "hint": "int zam = 0; stack<char> st; for (char c : s) { if (c == '{') st.push(c); else if (!st.empty()) st.pop(); else zam++; } int otw = st.size();. Jeśli s.size() jest nieparzysty: -1, inaczej (zam + 1) / 2 + (otw + 1) / 2.",
+      "tests_count": 6
+    },
+    {
+      "id": "sto-b-drzewo-z-nawiasow",
+      "number": 2328,
+      "title": "Drzewo zapisane nawiasami",
+      "category": "Stos / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Drzewo zapisano nawiasami: każdy wierzchołek to para ( ), a między jego nawiasami stoją po kolei jego dzieci. Na przykład (()(()())) to korzeń z dwójką dzieci, z których drugie ma dwoje własnych dzieci. Wierzchołki numerujemy od 1 w kolejności ich nawiasów otwierających.",
+        "Dla każdego wierzchołka wypisz jego głębokość (korzeń ma 0) i liczbę jego potomków (dzieci, wnuków i tak dalej). Trzymaj na stosie numery otwartych wierzchołków: przy ( nowy wierzchołek ma głębokość równą liczbie wierzchołków na stosie. Przy ) zdejmij wierzchołek ze stosu — znasz już wszystkich jego potomków, więc dodaj ich liczbę plus 1 do licznika jego rodzica, który teraz leży na wierzchu."
+      ],
+      "input_format": [
+        "Jeden wiersz: zapis drzewa nawiasami."
+      ],
+      "output_format": [
+        "Dwa wiersze: głębokości wierzchołków od 1 do n oraz liczby ich potomków."
+      ],
+      "constraints": [
+        "Drzewo ma od 1 do 2500 wierzchołków, a zapis jest poprawny (cały napis to nawiasy korzenia)."
+      ],
+      "examples": [
+        {
+          "input": "(()(()()))",
+          "output": "0 1 1 2 2\n4 0 2 0 0",
+          "note": "Korzeń (1) ma dzieci 2 i 3, a 3 ma dzieci 4 i 5. Głębokości: 0 1 1 2 2. Potomkowie: korzeń 4, wierzchołek 3 — 2."
+        }
+      ],
+      "hint": "int nr = 0; stack<int> st; for (char c : s) { if (c == '(') { nr++; gl[nr] = st.size(); st.push(nr); } else { int v = st.top(); st.pop(); if (!st.empty()) pot[st.top()] += pot[v] + 1; } }.",
+      "tests_count": 10
+    },
+    {
+      "id": "sto-b-najdluzszy-poprawny-3",
+      "number": 2329,
+      "title": "Najdłuższy fragment z trzema rodzajami nawiasów",
+      "category": "Stos / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dany jest napis z nawiasów ( ), [ ] i { }. Znajdź długość najdłuższego fragmentu, który sam jest poprawnym ciągiem nawiasów, i policz, ile jest takich fragmentów. Jeśli żaden fragment nie jest poprawny, wypisz 0 0.",
+        "Trzymaj na stosie pozycje znaków, które jeszcze nie mają pary, a na samym dnie — strażnika -1. Nawias otwierający kładzie swoją pozycję. Zamykający: jeśli na wierzchu leży pozycja pasującego nawiasu otwierającego, zdejmij ją — poprawny fragment kończący się w i zaczyna się tuż za nowym wierzchem i ma długość i − top(). W przeciwnym razie (pusty stos, strażnik, inny nawias zamykający albo otwierający innego rodzaju) zamykający nie ma pary i staje się barierą — połóż jego pozycję na stos."
+      ],
+      "input_format": [
+        "Jeden wiersz: napis z nawiasów ()[]{}."
+      ],
+      "output_format": [
+        "Jeden wiersz: długość najdłuższego poprawnego fragmentu i liczba takich fragmentów (albo 0 0)."
+      ],
+      "constraints": [
+        "Napis ma od 1 do 100 000 znaków."
+      ],
+      "examples": [
+        {
+          "input": "([)]{}[()]",
+          "output": "6 1",
+          "note": "Na początku ([)] nic nie pasuje. Fragment {}[()] na pozycjach 5–10 ma długość 6."
+        },
+        {
+          "input": "()(]()",
+          "output": "2 2",
+          "note": "Dwa fragmenty długości 2: () na początku i () na końcu. Środkowe (] niczego nie łączy."
+        }
+      ],
+      "hint": "stack<int> st; st.push(-1); for (int i = 0; i < n; i++) { char c = s[i]; if (otwierający) st.push(i); else { int t = st.top(); if (t >= 0 && s[t] == para(c)) { st.pop(); int d = i - st.top(); … } else st.push(i); } }. Pod zdjętym otwierającym zawsze coś leży — przynajmniej strażnik -1.",
+      "tests_count": 14
+    },
+    {
+      "id": "sto-b-sortowanie-stosem",
+      "number": 2330,
+      "title": "Sortowanie jednym stosem",
+      "category": "Stos / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Liczby od 1 do n (pomieszane) przyjeżdżają po kolei. Masz jeden stos i dwa ruchy: W — następna liczba z wejścia wjeżdża na stos, Z — liczba z wierzchu stosu zjeżdża na wyjście. Chcesz, żeby na wyjściu liczby pojawiły się w kolejności 1, 2, …, n. Dla każdego z t ciągów wypisz TAK i napis z ruchów, jeśli to możliwe, albo NIE.",
+        "Wskazówka: zdejmuj liczbę z wierzchu zawsze wtedy, gdy jest to dokładnie następna liczba potrzebna na wyjściu (tak długo, jak się da), a w przeciwnym razie wpuszczaj kolejną liczbę na stos. Innego wyjścia nie ma: zdjęcie innej liczby psuje kolejność, a przykrycie potrzebnej liczby większą zablokowałoby ją na zawsze. Jeśli po wpuszczeniu wszystkiego stos nie jest pusty — odpowiedź to NIE."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "Każdy ciąg to wiersz z liczbą n i wiersz z n różnymi liczbami od 1 do n."
+      ],
+      "output_format": [
+        "Dla każdego ciągu: wiersz TAK i wiersz z 2n literami W i Z — albo jeden wiersz NIE."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 30",
+        "1 ≤ n ≤ 1000, a suma wszystkich n nie przekracza 10 000."
+      ],
+      "examples": [
+        {
+          "input": "2\n4\n3 1 2 4\n3\n2 3 1",
+          "output": "TAK\nWWZWZZWZ\nNIE",
+          "note": "W pierwszym: 3 wjeżdża, 1 wjeżdża i od razu zjeżdża, potem 2 i 3 zjeżdżają, a na końcu 4. W drugim 2 trafia pod 3, zanim przyjedzie 1 — po 1 musi zjechać 2, ale leży pod trójką."
+        }
+      ],
+      "hint": "int potrzebna = 1; string ruchy; for (int x : a) { s.push(x); ruchy += 'W'; while (!s.empty() && s.top() == potrzebna) { s.pop(); ruchy += 'Z'; potrzebna++; } }. Jeśli na końcu s.empty() — TAK i ruchy, inaczej NIE.",
+      "tests_count": 7
+    },
+    {
+      "id": "sto-b-histogram-z-szerokosciami",
+      "number": 2331,
+      "title": "Histogram z szerokościami",
+      "category": "Stos / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Histogram składa się z n słupków stojących obok siebie, ale tym razem każdy słupek ma swoją szerokość w i wysokość h. Znajdź pole największego prostokąta, który mieści się w histogramie.",
+        "Algorytm jest ten sam co w „Największym prostokącie w histogramie”, zmienia się tylko liczenie szerokości. Policz sumy prefiksowe szerokości: x[i] to łączna szerokość słupków przed słupkiem i. Prostokąt, który rozciąga się od słupka L + 1 do słupka R − 1, ma szerokość x[R] − x[L + 1]."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z n kolejnych wierszy szerokość i wysokość słupka (od lewej)."
+      ],
+      "output_format": [
+        "Jedna liczba — pole największego prostokąta."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "1 ≤ w ≤ 10⁴",
+        "0 ≤ h ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "4\n2 3\n1 5\n3 2\n1 4",
+          "output": "14",
+          "note": "Prostokąt o wysokości 2 przez całą szerokość 7 ma pole 14. Słupek 5 sam daje tylko 5, a wysokość 3 przez dwa pierwsze słupki — 9."
+        }
+      ],
+      "hint": "vector<long long> x(n + 1, 0); for (i) x[i + 1] = x[i] + w[i];. Przy zdejmowaniu słupka j ze stosu (przy bieżącym i): int lewy = s.empty() ? -1 : s.top(); pole = h[j] * (x[i] - x[lewy + 1]);. Strażnik na końcu: słupek o wysokości 0.",
+      "tests_count": 8
+    },
+    {
+      "id": "sto-b-kalkulator-ze-zmiennymi",
+      "number": 2332,
+      "title": "Kalkulator ze zmiennymi",
+      "category": "Stos / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wykonaj program złożony z q przypisań. Każde ma postać nazwa=wyrażenie (bez spacji). Wyrażenie zawiera liczby, nazwy zmiennych, którym wcześniej coś przypisano, działania +, -, * i / oraz nawiasy. Mnożenie i dzielenie mają pierwszeństwo, działania o równym priorytecie wykonuje się od lewej, a dzielenie jest całkowite jak w C++. Zmienną można przypisać ponownie — wtedy obowiązuje nowa wartość.",
+        "Po każdym przypisaniu wypisz nazwa = wartość. Wartości zmiennych trzymaj w map<string, long long>, a wyrażenie licz dwoma stosami jak w „Kalkulatorze z nawiasami” — nazwę (ciąg małych liter) czytasz tak jak liczbę, a na stos liczb kładziesz jej wartość z mapy."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z q kolejnych wierszy jedno przypisanie."
+      ],
+      "output_format": [
+        "q wierszy w formacie nazwa = wartość."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 100",
+        "Każde przypisanie ma najwyżej 200 znaków. Nazwy to od 1 do 5 małych liter, liczby są od 0 do 10⁴.",
+        "Nigdzie nie dzieli się przez zero, a każdy wynik po drodze ma wartość bezwzględną najwyżej 10¹⁸."
+      ],
+      "examples": [
+        {
+          "input": "4\na=7\nb=a*3-1\nc=(a+b)/2\na=c-a*a",
+          "output": "a = 7\nb = 20\nc = 13\na = -36",
+          "note": "a = 7, b = 20, c = 27 / 2 = 13, a potem a dostaje nową wartość: 13 − 49 = −36."
+        }
+      ],
+      "hint": "Przy zbieraniu tokenów: if (isdigit(c)) — liczba; else if (islower(c)) { string nazwa; while (i < n && islower(s[i])) nazwa += s[i++]; liczby.push(wart[nazwa]); }. Linię dziel na nazwę i wyrażenie: size_t p = linia.find('='); nazwa = linia.substr(0, p); wyr = linia.substr(p + 1);.",
+      "tests_count": 7
+    },
+    {
+      "id": "sto-b-grupy-znajomych",
+      "number": 2333,
+      "title": "Grupy znajomych",
+      "category": "Stos / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W klasie jest n osób (numery od 1 do n) i m par znajomych. Grupa to zbiór osób, w którym każde dwie osoby łączy łańcuch znajomości, i do którego nikt spoza nie jest podłączony. Policz grupy i wypisz ich wielkości od największej do najmniejszej.",
+        "Przejdź osoby od 1 do n. Gdy trafisz na osobę, której jeszcze nie odwiedziłeś, zaczyna się nowa grupa: przeszukaj ją w głąb własnym stosem, licząc odwiedzone osoby. Osoba bez znajomych też jest grupą — jednoosobową."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z m kolejnych wierszy dwie liczby — para znajomych."
+      ],
+      "output_format": [
+        "Dwa wiersze: grup: K oraz wielkości grup od największej, oddzielone spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "0 ≤ m ≤ 8000",
+        "Pary się nie powtarzają i nikt nie zna sam siebie."
+      ],
+      "examples": [
+        {
+          "input": "7 4\n1 2\n2 3\n4 5\n6 4",
+          "output": "grup: 3\n3 3 1",
+          "note": "Grupy: {1, 2, 3}, {4, 5, 6} i {7}."
+        }
+      ],
+      "hint": "for (int s = 1; s <= n; s++) if (!byl[s]) { int ile = 0; stack<int> st; st.push(s); byl[s] = true; while (!st.empty()) { int v = st.top(); st.pop(); ile++; for (int u : g[v]) if (!byl[u]) { byl[u] = true; st.push(u); } } grupy.push_back(ile); }. Na koniec sort malejąco.",
+      "tests_count": 9
+    },
+    {
+      "id": "sto-b-sciezka-w-drzewie",
+      "number": 2334,
+      "title": "Ścieżka w drzewie",
+      "category": "Stos / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Sieć dróg między n wioskami (numery od 1 do n) tworzy drzewo: n − 1 dróg i z każdej wioski da się dojechać do każdej innej dokładnie jedną trasą bez zawracania. Wypisz tę trasę z wioski a do wioski b — numery wszystkich wiosek po kolei, łącznie z a i b.",
+        "Przeszukaj drzewo w głąb od a własnym stosem i dla każdej wioski zapamiętaj w tablicy skad, z której wioski do niej weszliśmy. Potem idź od b po tablicy skad aż do a — dostaniesz trasę od końca. Odwróć ją (stos albo reverse) i wypisz."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n, a i b.",
+        "W każdym z n − 1 kolejnych wierszy dwie liczby — wioski połączone drogą."
+      ],
+      "output_format": [
+        "Jeden wiersz: numery wiosek na trasie z a do b."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "1 ≤ a, b ≤ n (a może być równe b)."
+      ],
+      "examples": [
+        {
+          "input": "6 4 6\n1 2\n1 3\n2 4\n3 5\n3 6",
+          "output": "4 2 1 3 6",
+          "note": "Z 4 trzeba przejść przez 2, 1 i 3, żeby dojść do 6."
+        }
+      ],
+      "hint": "vector<int> skad(n + 1, 0); skad[a] = a; stack<int> st; st.push(a); while (!st.empty()) { int v = st.top(); st.pop(); for (int u : g[v]) if (skad[u] == 0) { skad[u] = v; st.push(u); } }. Potem: vector<int> droga; for (int v = b; v != a; v = skad[v]) droga.push_back(v); droga.push_back(a); reverse(…);.",
+      "tests_count": 8
+    },
+    {
+      "id": "sto-b-widoczne-pary",
+      "number": 2335,
+      "title": "Ile par się widzi?",
+      "category": "Stos / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W szeregu stoi n osób. Dwie osoby A i B widzą się nawzajem, jeśli nikt, kto stoi między nimi, nie jest wyższy od A ani od B — czyli wszyscy pomiędzy mają wzrost najwyżej taki jak niższa z nich dwóch. Sąsiedzi zawsze się widzą. Policz wszystkie pary osób, które się widzą.",
+        "Przechodź szereg od lewej, trzymając na stosie osoby, które mogą jeszcze zobaczyć kogoś z prawej. Na stosie wzrosty nie rosną od dna do wierzchu, a osoby o tym samym wzroście stojące obok siebie na stosie łączysz w jedną parę (wzrost, liczba osób). Nowa osoba o wzroście h widzi wszystkich niższych z wierzchu (zdejmujesz ich — dalej i tak nikogo już nie zobaczą), wszystkie osoby o wzroście h z wierzchu i jeszcze pierwszą wyższą osobę pod nimi, jeśli taka jest. Wzrosty generujesz wzorem x₀ = s, xᵢ = (xᵢ₋₁ · a + b) mod m."
+      ],
+      "input_format": [
+        "Jeden wiersz: pięć liczb n s a b m."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba par osób, które się widzą."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10⁶",
+        "1 ≤ m ≤ 10⁹, 0 ≤ s, a, b < m"
+      ],
+      "examples": [
+        {
+          "input": "6 2 3 1 10",
+          "output": "8",
+          "note": "Wzrosty: 2, 7, 2, 7, 2, 7. Sąsiedzi to 5 par, a każde dwie siódemki widzą się ponad dwójkami — to 3 kolejne pary. Razem 8."
+        },
+        {
+          "input": "4 5 0 5 10",
+          "output": "6",
+          "note": "Wszyscy mają wzrost 5 — każdy widzi każdego: 6 par."
+        }
+      ],
+      "hint": "vector<long long> x(n); x[0] = s; for (int i = 1; i < n; i++) x[i] = (x[i - 1] * a + b) % m; stack<pair<long long, int>> st; dla każdego h: while (!st.empty() && st.top().first < h) { wynik += st.top().second; st.pop(); } if (!st.empty() && st.top().first == h) { int c = st.top().second; st.pop(); wynik += c; if (!st.empty()) wynik++; st.push({h, c + 1}); } else { if (!st.empty()) wynik++; st.push({h, 1}); }.",
+      "tests_count": 13
+    },
+    {
+      "id": "sto-b-maksimum-z-minimow",
+      "number": 2336,
+      "title": "Najmocniejsze najsłabsze ogniwo",
+      "category": "Stos / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Łańcuch ma n ogniw o wytrzymałościach x₀, …, xₙ₋₁. Kawałek łańcucha z k kolejnych ogniw jest tak mocny, jak jego najsłabsze ogniwo. Dla każdej długości k od 1 do n wyznacz f(k) — wytrzymałość najmocniejszego kawałka długości k. Wypisz f(1), f(2), …, f(min(n, 20)), a w drugim wierszu sumę wszystkich f(k).",
+        "Liczba xᵢ jest minimum kawałka, który rozciąga się do najbliższych ostro mniejszych liczb z obu stron — ma on długość d = R − L − 1. Zapisz najlepszy[d] = max(najlepszy[d], xᵢ). Krótszy kawałek wycięty z tamtego też ma minimum co najmniej xᵢ, więc na koniec przejdź długości od n − 1 w dół: najlepszy[k] = max(najlepszy[k], najlepszy[k + 1]). Liczby generujesz wzorem x₀ = s, xᵢ = (xᵢ₋₁ · a + b) mod m."
+      ],
+      "input_format": [
+        "Jeden wiersz: pięć liczb n s a b m."
+      ],
+      "output_format": [
+        "Dwa wiersze: f(1) … f(min(n, 20)) oraz suma: S."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10⁶",
+        "1 ≤ m ≤ 10⁹, 0 ≤ s, a, b < m"
+      ],
+      "examples": [
+        {
+          "input": "6 2 3 1 10",
+          "output": "7 2 2 2 2 2\nsuma: 17",
+          "note": "Liczby: 2, 7, 2, 7, 2, 7. Kawałek długości 1 może mieć siódemkę, ale każdy dłuższy zawiera dwójkę."
+        },
+        {
+          "input": "5 1 2 1 100",
+          "output": "31 15 7 3 1\nsuma: 57",
+          "note": "Liczby: 1, 3, 7, 15, 31 — rosnące, więc najmocniejszy kawałek długości k to k ostatnich ogniw."
+        }
+      ],
+      "hint": "vector<long long> x(n); x[0] = s; for (int i = 1; i < n; i++) x[i] = (x[i - 1] * a + b) % m; L i R: stos jak w „Jak szeroko sięga słupek?” (zdejmuj, dopóki x[s.top()] >= x[i]). vector<long long> naj(n + 2, 0); for (i) naj[R[i] - L[i] - 1] = max(…, x[i]); for (int k = n - 1; k >= 1; k--) naj[k] = max(naj[k], naj[k + 1]);. Suma do 10¹⁵ — long long.",
+      "tests_count": 10
+    },
+    {
+      "id": "sto-b-licznik-atomow",
+      "number": 2337,
+      "title": "Licznik atomów",
+      "category": "Stos / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wzór chemiczny składa się z symboli pierwiastków, liczb i nawiasów. Symbol to wielka litera, po której mogą stać małe litery (np. H, Mg, Cl). Liczba za symbolem mówi, ile jest atomów (brak liczby oznacza 1). Fragment w nawiasie z liczbą za nawiasem powtarza się tyle razy: Mg(OH)2 to Mg, 2 × O i 2 × H, a K4(ON(SO3)2)2 to 4 × K, 2 × O, 2 × N, 4 × S i 12 × O więcej.",
+        "Dla każdego wzoru wypisz, ile jest atomów każdego pierwiastka — w kolejności alfabetycznej symboli (tak, jak sortuje je map), w formacie Symbol:liczba. Trzymaj stos map map<string, long long>: na dnie mapa całego wzoru. Nawias ( kładzie nową, pustą mapę. Nawias ) zdejmuje mapę z wierzchu, mnoży wszystkie jej liczby przez liczbę za nawiasem i dodaje je do mapy, która teraz jest na wierzchu. Symbol z liczbą po prostu dodaje się do mapy z wierzchu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "W każdym z t kolejnych wierszy jeden wzór (bez spacji)."
+      ],
+      "output_format": [
+        "t wierszy: pary Symbol:liczba w kolejności alfabetycznej, oddzielone spacjami."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 20",
+        "Każdy wzór ma od 1 do 1000 znaków i jest poprawny: liczby są od 1 do 999 bez zer na początku, nawiasy są sparowane i nie są puste, zagnieżdżenie nie przekracza 4.",
+        "Liczby atomów mieszczą się w long long."
+      ],
+      "examples": [
+        {
+          "input": "3\nH2O\nMg(OH)2\nK4(ON(SO3)2)2",
+          "output": "H:2 O:1\nH:2 Mg:1 O:2\nK:4 N:2 O:14 S:4",
+          "note": "W ostatnim: (SO3)2 to S2O6, z ON robi się O7NS2, a całość razy 2 daje O14N2S4 — plus 4 atomy K."
+        }
+      ],
+      "hint": "long long czytajLiczbe(const string &s, int &i) — czyta cyfry od pozycji i (przesuwając i), a gdy cyfr nie ma, zwraca 1. Zamknięcie: map<string, long long> w = st.top(); st.pop(); long long k = czytajLiczbe(s, i); for (auto [el, ile] : w) st.top()[el] += ile * k;.",
+      "tests_count": 6
+    },
+    {
+      "id": "sto-b-prostokaty-z-kropek",
+      "number": 2338,
+      "title": "Ile jest wolnych prostokątów?",
+      "category": "Stos / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Plansza n × m składa się z kropek (wolne pola) i znaków #. Policz, ile jest prostokątów (o bokach wzdłuż linii planszy) złożonych wyłącznie z kropek. Prostokąty liczymy wszystkie, także takie, które leżą w środku innych — na przykład dwie kropki obok siebie to 3 prostokąty: dwa jednopolowe i jeden dwupolowy.",
+        "Policz osobno prostokąty, których prawy dolny róg jest na polu (i, j). Jak w „Największym wolnym placu”, dla wiersza i weź wysokości h[j] — liczbę kropek ciągnących się w górę od tego pola. Niech L to najbliższa kolumna na lewo z h[L] < h[j]. Prostokąty z lewym bokiem w kolumnach od L + 1 do j mogą mieć dowolną wysokość od 1 do h[j] — to h[j] · (j − L) prostokątów. Te z lewym bokiem w kolumnie L lub dalej na lewo są dokładnie takie jak prostokąty z prawym dolnym rogiem w (i, L) — jest ich cnt[L]. Zatem cnt[j] = cnt[L] + h[j] · (j − L), a L znajdziesz stosem."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z n kolejnych wierszy m znaków: kropka albo #."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba wolnych prostokątów."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 200"
+      ],
+      "examples": [
+        {
+          "input": "2 3\n..#\n...",
+          "output": "12",
+          "note": "W pierwszym wierszu dwie kropki dają 3 prostokąty, w drugim trzy kropki — 6, a prostokąty przez oba wiersze (w dwóch pierwszych kolumnach) — jeszcze 3. Razem 12."
+        }
+      ],
+      "hint": "vector<long long> cnt(m); for (int j = 0; j < m; j++) { while (!s.empty() && h[s.top()] >= h[j]) s.pop(); int L = s.empty() ? -1 : s.top(); cnt[j] = (L >= 0 ? cnt[L] : 0) + (long long)h[j] * (j - L); wynik += cnt[j]; s.push(j); }. Stos zakładasz od nowa w każdym wierszu.",
+      "tests_count": 11
+    },
+    {
+      "id": "sto-b-drzewo-kartezjanskie",
+      "number": 2339,
+      "title": "Drzewo z najmniejszym w korzeniu",
+      "category": "Stos / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Z ciągu n różnych liczb budujemy drzewo: korzeniem jest najmniejsza liczba ciągu, jej lewym poddrzewem — drzewo zbudowane tak samo z liczb stojących przed nią, a prawym — z liczb stojących za nią. Dla każdej pozycji ciągu (od 1 do n) wypisz pozycję jej rodzica w tym drzewie, a dla korzenia — 0.",
+        "Rekurencja z szukaniem minimum byłaby wolna dla ciągów rosnących. Szybciej: dokładaj liczby po kolei i trzymaj na stosie prawą krawędź drzewa (od korzenia na dnie do ostatnio dołożonej liczby na wierzchu). Nowa liczba x zdejmuje ze stosu wszystkie większe od siebie — ostatnia zdjęta liczba zostaje jej lewym dzieckiem, a x staje się prawym dzieckiem liczby, która została na wierzchu stosu (jeśli jakaś została). Potem x trafia na stos."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n różnych liczb."
+      ],
+      "output_format": [
+        "Jeden wiersz: n liczb — pozycja rodzica każdej pozycji (0 dla korzenia)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "Liczby są różne, od 1 do 10⁹."
+      ],
+      "examples": [
+        {
+          "input": "6\n5 2 8 1 7 9",
+          "output": "2 4 2 0 4 5",
+          "note": "Korzeń to 1 (pozycja 4). Na lewo od niego najmniejsza jest 2 (pozycja 2) — jej dzieci to 5 i 8. Na prawo najmniejsza jest 7 — jej prawe dziecko to 9."
+        }
+      ],
+      "hint": "vector<int> ojciec(n, -1); for (int i = 0; i < n; i++) { int ostatni = -1; while (!s.empty() && a[s.top()] > a[i]) { ostatni = s.top(); s.pop(); } if (!s.empty()) ojciec[i] = s.top(); if (ostatni != -1) ojciec[ostatni] = i; s.push(i); }. Wypisuj ojciec[i] + 1 — dla korzenia wyjdzie 0.",
+      "tests_count": 10
+    },
+    {
+      "id": "sto-b-kalkulator-pelny",
+      "number": 2340,
+      "title": "Pełny kalkulator",
+      "category": "Stos / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Policz wartości t wyrażeń z liczbami, nawiasami i działaniami +, -, *, / oraz ^ (potęgowanie). Potęgowanie ma najwyższy priorytet i jest łączne w prawo: 2^3^2 to 2^(3^2) = 512. Mnożenie i dzielenie mają średni priorytet, dodawanie i odejmowanie — najniższy; działania o średnim i niskim priorytecie wykonuje się od lewej. Dzielenie jest całkowite jak w C++.",
+        "Minus może też stać na samym początku wyrażenia albo zaraz po nawiasie otwierającym, np. -3+5 albo 2*(-4). Taki minus działa tak, jakby przed nim stało 0: -2^2 to 0 − 2^2 = −4, a (-2)^2 to 4. Rozszerz kalkulator na dwóch stosach: ^ ma priorytet 3, a przy porównaniu priorytetów zdejmuj ze stosu znaków działanie o równym priorytecie tylko wtedy, gdy nowe działanie nie jest ^. Gdy minus stoi na początku albo po (, najpierw połóż na stos liczb 0."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba t.",
+        "W każdym z t kolejnych wierszy jedno wyrażenie bez spacji."
+      ],
+      "output_format": [
+        "t wierszy — wartości wyrażeń."
+      ],
+      "constraints": [
+        "1 ≤ t ≤ 100",
+        "Każde wyrażenie ma od 1 do 1000 znaków, wszystkie razem — najwyżej 50 000. Liczby są od 0 do 10⁴, bez zer na początku.",
+        "Wyrażenia są poprawne: nie dzielą przez zero, wykładniki są od 0 do 62, a każdy wynik po drodze ma wartość bezwzględną najwyżej 10¹⁸."
+      ],
+      "examples": [
+        {
+          "input": "5\n2^3^2\n-2^2\n(-2)^2\n2*(-3+10)/4\n10-2^3*2",
+          "output": "512\n-4\n4\n3\n-6",
+          "note": "2^3^2 = 2^9. Minus na początku to 0 − 2^2. W ostatnim najpierw 2^3 = 8, potem 8 · 2 = 16, a 10 − 16 = −6."
+        }
+      ],
+      "hint": "int prio(char c) { if (c == '^') return 3; if (c == '*' || c == '/') return 2; return 1; }. Zdejmowanie: while (!z.empty() && z.top() != '(' && (prio(z.top()) > prio(c) || (prio(z.top()) == prio(c) && c != '^'))) zwin(…);. Zmienna bool poczatek = true na starcie i po '(', false po liczbie, ')' i działaniu — jeśli c == '-' && poczatek, to liczby.push(0).",
+      "tests_count": 7
+    },
+    {
+      "id": "sto-b-cykl-skierowany",
+      "number": 2341,
+      "title": "Czy zadania da się wykonać?",
+      "category": "Stos / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Jest n zadań i m zależności: zależność a b oznacza, że zadanie a trzeba wykonać przed zadaniem b. Sprawdź, czy da się wykonać wszystkie zadania — czyli czy zależności nie tworzą cyklu (na przykład a przed b, b przed c i c przed a). Wypisz NIE, jeśli istnieje cykl (wtedy się nie da), albo TAK.",
+        "Przeszukaj graf w głąb własnym stosem, który — jak stos wywołań w rekurencji — trzyma bieżącą ścieżkę: pary (zadanie, ile jego następników już obejrzałeś). Każde zadanie ma kolor: białe (nieodwiedzone), szare (leży na stosie, czyli na bieżącej ścieżce) albo czarne (wszyscy następnicy obejrzani i zdjęte ze stosu). Spójrz na wierzch stosu: jeśli zadanie ma jeszcze nieobejrzanego następnika u, to gdy u jest szare — znalazłeś cykl, gdy białe — pomaluj je na szaro i połóż na stos. Jeśli następników już nie ma, pomaluj zadanie na czarno i zdejmij je. Zacznij taki DFS z każdego białego zadania."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z m kolejnych wierszy dwie liczby a i b — zależność „a przed b”."
+      ],
+      "output_format": [
+        "Jedno słowo: TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "0 ≤ m ≤ 8000",
+        "a ≠ b, a każda zależność występuje najwyżej raz."
+      ],
+      "examples": [
+        {
+          "input": "4 4\n1 2\n2 3\n1 3\n3 4",
+          "output": "TAK",
+          "note": "Kolejność 1, 2, 3, 4 spełnia wszystkie zależności."
+        },
+        {
+          "input": "3 3\n1 2\n2 3\n3 1",
+          "output": "NIE",
+          "note": "Cykl 1 → 2 → 3 → 1 — nie da się zacząć od żadnego zadania."
+        }
+      ],
+      "hint": "vector<int> kolor(n + 1, 0); stack<pair<int, int>> st; st.push({s, 0}); kolor[s] = 1; while (!st.empty() && !cykl) { int v = st.top().first; int &i = st.top().second; if (i < (int)g[v].size()) { int u = g[v][i]; i++; if (kolor[u] == 1) cykl = true; else if (kolor[u] == 0) { kolor[u] = 1; st.push({u, 0}); } } else { kolor[v] = 2; st.pop(); } }.",
+      "tests_count": 13
+    },
+    {
+      "id": "sto-b-maszyna-stosowa",
+      "number": 2342,
+      "title": "Wielki finał: maszyna stosowa",
+      "category": "Stos / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Maszyna ma stos liczb (stos danych) i osobny stos wywołań. Program to p linii ponumerowanych od 1, w każdej jedno polecenie. Maszyna zaczyna od linii 1 i wykonuje polecenia po kolei — chyba że polecenie skoku każe przejść gdzie indziej. Kończy pracę po poleceniu HALT, po wyjściu za ostatnią linię albo przy błędzie.",
+        "Polecenia na stosie danych: PUSH x kładzie x; POP zdejmuje wierzch; DUP kładzie kopię wierzchu; SWAP zamienia dwie górne liczby; OVER kładzie kopię drugiej liczby od góry; ROT przenosi trzecią liczbę od góry na wierzch (a b c → b c a, c było na wierzchu); ADD, SUB, MUL, DIV, MOD zdejmują b (wierzch), potem a, i kładą a + b, a − b, a · b, a / b albo a % b (dzielenie jak w C++); PRINT wypisuje wierzch w osobnym wierszu i go zdejmuje.",
+        "Skoki i funkcje: JMP k przechodzi do linii k; JZ k zdejmuje wierzch i przechodzi do linii k, jeśli był zerem (w przeciwnym razie do następnej linii); CALL k kładzie na stos wywołań numer następnej linii i przechodzi do linii k; RET zdejmuje ze stosu wywołań numer linii i tam przechodzi; HALT kończy program.",
+        "Błąd wykonania pojawia się, gdy polecenie potrzebuje więcej liczb, niż jest na stosie danych (POP, DUP, PRINT, JZ — jednej; SWAP, OVER i działania — dwóch; ROT — trzech), gdy DIV albo MOD dzieli przez zero i gdy RET trafia na pusty stos wywołań. Wtedy polecenie niczego nie zmienia, maszyna wypisuje BLAD w linii k (k to numer tej linii) i kończy pracę. Na sam koniec — zawsze — wypisz wiersz stos: i zawartość stosu danych od dna do wierzchu albo stos: pusty."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba p.",
+        "W każdym z p kolejnych wierszy jedno polecenie (PUSH, JMP, JZ i CALL mają liczbę po spacji)."
+      ],
+      "output_format": [
+        "Liczby wypisane przez PRINT (każda w osobnym wierszu), potem ewentualnie wiersz BLAD w linii k, a na końcu wiersz stos: … ."
+      ],
+      "constraints": [
+        "1 ≤ p ≤ 1000",
+        "Przy PUSH jest |x| ≤ 10⁹, a przy JMP, JZ i CALL — 1 ≤ k ≤ p.",
+        "Każdy program kończy pracę po wykonaniu najwyżej 100 000 poleceń, wszystkie liczby na stosie mają wartość bezwzględną najwyżej 10¹⁸, PRINT wykona się najwyżej 1000 razy, a na końcu na stosie danych jest najwyżej 100 liczb."
+      ],
+      "examples": [
+        {
+          "input": "9\nPUSH 3\nDUP\nJZ 9\nDUP\nPRINT\nPUSH 1\nSUB\nJMP 2\nHALT",
+          "output": "3\n2\n1\nstos: 0",
+          "note": "Odliczanie: wypisuje 3, 2, 1. Gdy licznik dojdzie do zera, JZ zdejmuje jego kopię i skacze do HALT — na stosie zostaje 0."
+        },
+        {
+          "input": "15\nPUSH 5\nCALL 5\nPRINT\nHALT\nDUP\nJZ 13\nDUP\nPUSH 1\nSUB\nCALL 5\nMUL\nRET\nPOP\nPUSH 1\nRET",
+          "output": "120\nstos: pusty",
+          "note": "Rekurencyjna silnia: linie 5–15 to funkcja, która zamienia n na wierzchu w n!. CALL 5 w linii 10 woła ją dla n − 1, a stos wywołań pamięta, dokąd wrócić. Wynik 120."
+        },
+        {
+          "input": "4\nPUSH 7\nPUSH 0\nDIV\nPRINT",
+          "output": "BLAD w linii 3\nstos: 7 0",
+          "note": "Dzielenie przez zero w linii 3: polecenie niczego nie zmienia, więc na stosie zostają 7 i 0."
+        }
+      ],
+      "hint": "Program wczytaj do vector<string> op(p + 1) i vector<long long> arg(p + 1). Stos danych trzymaj w vector<long long> (OVER, ROT i wypisanie na końcu potrzebują środka), a stos wywołań w stack<int>. Pętla: while (pc >= 1 && pc <= p) { sprawdź błędy (rozmiar stosu, dzielenie przez zero, pusty stos wywołań) → wykonaj → pc = nastepna; }. ROT: long long a = s[s.size() - 3]; s.erase(s.end() - 3); s.push_back(a);.",
+      "tests_count": 34
     }
   ]
 }

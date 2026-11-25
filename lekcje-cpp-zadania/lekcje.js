@@ -1876,6 +1876,89 @@ const LEKCJE = [
             },
         ],
     },
+    {
+        temat: 'Stos',
+        prefix: 'sto-',
+        plik: 'c++_logika/stos.html',
+        pliki: ['stos-cwiczenia-1.js', 'stos-cwiczenia-2.js', 'stos-cwiczenia-3.js', 'stos-baza.js'],
+        note: 'Lekcja o stosie od podstaw: stack i zasada „ostatni wszedł, pierwszy wychodzi” (push, top, pop, size, empty, odwracanie kolejności, ' +
+            'pusty stos i jego pułapki), polecenia, cofanie i historia przeglądarki na dwóch stosach, nawiasy i pary, odwrotna notacja polska ' +
+            'i kalkulator z nawiasami, najbliższy większy element (stos monotoniczny), największy prostokąt w histogramie i deszczówka, ' +
+            'przeszukiwanie w głąb (DFS) z własnym stosem zamiast rekurencji oraz olimpijskie sztuczki ze stosem.',
+        bazaOpisy: {
+            latwe: 'Stos w prostych przebraniach: ostatni cieplejszy dzień, skarpetki z suszarki, książki na biurku, wieże Hanoi, kolorowe klocki, licytacja z wycofaniem, ' +
+                'porównanie napisów z cofaniem, znaczniki jak w HTML, matrioszki i stos ONP na ekranie.',
+            srednie: 'Nawiasy, wyrażenia i stos monotoniczny w nowych zadaniach: wynik nawiasów, odwracanie w nawiasach, najmniej odwróceń, drzewo zapisane nawiasami, ' +
+                'najdłuższy poprawny fragment, sortowanie stosem, histogram z szerokościami, kalkulator ze zmiennymi, grupy znajomych i ścieżka w drzewie.',
+            trudne: 'Stos w poważnych algorytmach: pary, które się widzą, maksimum z minimów, licznik atomów we wzorze chemicznym, prostokąty z kropek, drzewo kartezjańskie, ' +
+                'pełny kalkulator z potęgami i cykl w grafie skierowanym — a na koniec wielki finał: maszyna stosowa.',
+        },
+        kroki: [
+            {
+                nr: 1, kotwica: 'pierwszy-stos', spis: 'Pierwszy stos — ostatni wszedł, pierwszy wychodzi',
+                nazwa: 'Krok 1 · Pierwszy stos — ostatni wszedł, pierwszy wychodzi',
+                kategoria: 'Stos / krok 1: pierwszy stos',
+                note: 'stack i zasada LIFO: push, top, pop, size i empty, opróżnianie stosu pętlą, odwrócona kolejność, brak indeksów, kopia stosu i przelewanie do drugiego stosu: ' +
+                    'stos talerzy, odwracanie liczb i słów, zdanie od końca, od góry i od dołu, zamiana na system dwójkowy, wieża po każdej zmianie i palindromy.',
+            },
+            {
+                nr: 2, kotwica: 'polecenia', spis: 'Polecenia, cofanie i historia',
+                nazwa: 'Krok 2 · Polecenia, cofanie i historia',
+                kategoria: 'Stos / krok 2: polecenia i cofanie',
+                note: 'Polecenia dla stosu i pusty stos, string jako stos znaków, cofanie ruchów i działań, kilka testów w jednym wejściu, dwa stosy w przeglądarce, ' +
+                    'stos par z minimum i przekładanie na drugi stos: polecenia, backspace, robot, kalkulator z cofaniem, wieże, przeglądarka, minimum i magazyn skrzynek.',
+            },
+            {
+                nr: 3, kotwica: 'nawiasy', spis: 'Nawiasy i pary',
+                nazwa: 'Krok 3 · Nawiasy i pary — co otwarte, musi być zamknięte',
+                kategoria: 'Stos / krok 3: nawiasy',
+                note: 'Licznik dla jednego rodzaju nawiasów i stos dla trzech, dwa sposoby na błąd, stos indeksów, głębokość i pary, pierwszy błąd, usuwanie par liter ' +
+                    'i najdłuższy poprawny fragment ze strażnikiem: nawiasy okrągłe, trzy rodzaje, głębokość, para nawiasu, pierwszy błąd, pary liter, ile dopisać i najdłuższy fragment.',
+            },
+            {
+                nr: 4, kotwica: 'onp', spis: 'Wyrażenia: ONP i kalkulator',
+                nazwa: 'Krok 4 · Wyrażenia — odwrotna notacja polska i kalkulator',
+                kategoria: 'Stos / krok 4: ONP i kalkulator',
+                note: 'Odwrotna notacja polska (ONP) liczona stosem, kolejność przy odejmowaniu i dzieleniu, wykrywanie błędów, stos napisów, notacja polska od końca, ' +
+                    'zamiana zwykłego zapisu na ONP z priorytetami i nawiasami oraz kalkulator: ONP z plusem i minusem, cztery działania, poprawność, nawiasy, prefiks, zamiana i kalkulator.',
+            },
+            {
+                nr: 5, kotwica: 'najblizszy-wiekszy', spis: 'Najbliższy większy — stos monotoniczny',
+                nazwa: 'Krok 5 · Najbliższy większy — stos monotoniczny',
+                kategoria: 'Stos / krok 5: stos monotoniczny',
+                note: 'Najbliższy większy i mniejszy element z prawej i z lewej, stos indeksów, < kontra <= przy równych liczbach, dlaczego to jest O(n) i pomiar z rozwiązaniem naiwnym: ' +
+                    'następny większy, cieplejszy dzień, poprzedni mniejszy, rozpiętość kursu, najbliższy wyższy budynek, liczby w kółku, kogo widać w kolejce i skoki.',
+            },
+            {
+                nr: 6, kotwica: 'prostokaty', spis: 'Słupki, prostokąty i deszcz',
+                nazwa: 'Krok 6 · Słupki, prostokąty i deszcz — stos monotoniczny w akcji',
+                kategoria: 'Stos / krok 6: prostokąty i histogramy',
+                note: 'Zasięg słupka w lewo i w prawo, największy prostokąt w histogramie, woda między słupkami, plakaty na budynkach, największy wolny prostokąt na planszy ' +
+                    'i liczenie wkładu każdego elementu: szerokość słupka, największy prostokąt, deszczówka, plakatowanie, plac, ile razy maksimum, suma minimów i suma rozpiętości.',
+            },
+            {
+                nr: 7, kotwica: 'dfs', spis: 'Stos zamiast rekurencji — DFS',
+                nazwa: 'Krok 7 · Stos zamiast rekurencji — przeszukiwanie w głąb (DFS)',
+                kategoria: 'Stos / krok 7: DFS z własnym stosem',
+                note: 'Stos wywołań funkcji, zbyt głęboka rekurencja, DFS z własnym stosem na grafie i planszy, ta sama kolejność co w rekurencji, stos jako ścieżka i drzewa bez rekurencji: ' +
+                    'kolejność DFS, wyspy, plamy, czy jest droga, głębokość w drzewie, nić Ariadny, podwładni i zamknięte jeziora.',
+            },
+            {
+                nr: 8, kotwica: 'olimpiada', spis: 'Stos w zadaniach olimpijskich',
+                nazwa: 'Krok 8 · Stos w zadaniach olimpijskich',
+                kategoria: 'Stos / krok 8: sztuczki olimpijskie',
+                note: 'Zderzenia, katalogi, zagnieżdżone powtórzenia, zachłanne usuwanie cyfr, tory przetokowe, kolejka z dwóch stosów i minimum w kolejce, znikające kulki: ' +
+                    'asteroidy, cd i pwd, rozpakowywanie napisu, usuń k cyfr, tory przetokowe, kolejka z dwóch stosów, kolejka z minimum i kulki.',
+            },
+            {
+                nr: 9, kotwica: 'baza', spis: 'Baza zadań', baza: true,
+                nazwa: 'Baza zadań — podsumowanie tematu',
+                kategoria: 'Stos / baza zadań',
+                note: '28 zadań na cały temat — od prostych zadań z jednym stosem, przez nawiasy, wyrażenia i stos monotoniczny w nowych przebraniach, po drzewo kartezjańskie, ' +
+                    'pełny kalkulator i cykle w grafach — a na koniec wielki finał: maszyna stosowa.',
+            },
+        ],
+    },
 ];
 
 module.exports = { SITE, KATEGORIA, LEKCJE };

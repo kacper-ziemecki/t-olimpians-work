@@ -230,7 +230,7 @@
   .tag.zadanie{background:var(--accent-dim);color:var(--accent-bright);}
   .tag.temat{background:var(--amber-dim);color:var(--amber);}
   .tag.kurs{background:var(--violet-dim);color:var(--violet);}
-  .tag.film,.tag.artykul{background:var(--pink-dim);color:var(--pink);}
+  .tag.film,.tag.artykul,.tag.czesc{background:var(--pink-dim);color:var(--pink);}
   .courses{margin-top:18px;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;}
   .course{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:10px 12px;}
   .course-top{display:flex;justify-content:space-between;gap:10px;font-size:14px;margin-bottom:7px;}
@@ -401,7 +401,7 @@ import {
   studentCollection, legacyCollection, itemsCollectionOf, profileRef, panelIdFromKey, panelCollection,
   panelMetaRef, newAdminKey, savedPanelId, savePanelId, forgetPanelId, handOffPreview, PREVIEW_URL
 } from "/progress-app/uczniowie.js";
-import { KIND_CAT, KIND_LABEL, completionEvents, courseProgress } from "/progress-app/postep.js";
+import { KIND_CAT, KIND_LABEL, CPP_URL, completionEvents, courseProgress } from "/progress-app/postep.js";
 
 /* ═══════════════════════════════════════════════════════════════════════════
    Panel admina listy postępów.
@@ -536,12 +536,19 @@ fetch("/network-data.json")
   .then(d => { komp = Array.isArray(d) ? d : false; })
   .catch(e => { komp = false; console.error("Nie udało się wczytać kompendium:", e); })
   .finally(() => { if(panelId) scheduleRender(); });
+/* …i lekcje kursu C++ od podstaw (/c++_logika/kursy.json): części i zadania lekcji dodanych uczniom jako kursy */
+let cpp = null;                      // null = wczytywanie, false = błąd, obiekt = katalog lekcji
+fetch(CPP_URL)
+  .then(r => { if(!r.ok) throw new Error(r.status); return r.json(); })
+  .then(d => { cpp = d && Array.isArray(d.kursy) ? d : false; })
+  .catch(e => { cpp = false; console.error("Nie udało się wczytać lekcji C++:", e); })
+  .finally(() => { if(panelId) scheduleRender(); });
 
 /* Statystyki jednego ucznia. „Ukończenia” (events) liczymy tak jak wykres na jego liście (postep.js):
-   zwykłe zadanie/temat w chwili odhaczenia, a z kursów — każde odhaczone zadanie, film i artykuł osobno. */
+   zwykłe zadanie/temat w chwili odhaczenia, a z kursów — każde odhaczone zadanie, film, artykuł i część lekcji osobno. */
 function studentStats(items){
   const st = { total: items.length, done: 0, z: [0, 0], t: [0, 0], k: [0, 0], steps: [0, 0],
-               last: 0, week: 0, days: new Array(14).fill(0), events: completionEvents(items, komp), open: [], courses: [] };
+               last: 0, week: 0, days: new Array(14).fill(0), events: completionEvents(items, komp, cpp), open: [], courses: [] };
   const now = Date.now();
   for(const i of items){
     const bucket = i.type === "zadanie" ? st.z : i.type === "kurs" ? st.k : st.t;
@@ -550,7 +557,7 @@ function studentStats(items){
     st.last = Math.max(st.last, num(i.createdAt), num(i.doneAt));
     const kp = (i.kp && typeof i.kp === "object") ? i.kp : {};
     for(const v of Object.values(kp)) st.last = Math.max(st.last, num(v));
-    const c = courseProgress(i, komp);
+    const c = courseProgress(i, komp, cpp);
     if(!c) continue;
     st.courses.push(c);
     if(c.steps){ st.steps[0] += c.steps[0]; st.steps[1] += c.steps[1]; }
@@ -768,12 +775,13 @@ function courseHTML(c){
   const n = ([d, a]) => `<b>${d}/${a}</b>`;
   const bits = [];
   if(c.steps) bits.push("kroki " + n(c.steps));
+  if(c.c && c.c[1]) bits.push("części " + n(c.c));
   if(c.z[1]) bits.push("zadania " + n(c.z));
   if(c.f[1]) bits.push("filmy " + n(c.f));
   if(c.a[1]) bits.push("artykuły " + n(c.a));
   if(c.last) bits.push("ostatnio " + esc(fmtAgo(c.last)));
-  const next = c.complete ? (c.via === "kurs" ? "🎉 kurs ukończony" : "🎉 wszystko odhaczone")
-    : c.next ? (c.via === "kurs" ? "Następny krok: " : "Następne zagadnienie: ") + esc(c.next)
+  const next = c.complete ? (c.via === "mini kurs" ? "🎉 wszystko odhaczone" : "🎉 kurs ukończony")
+    : c.next ? ({ kurs: "Następny krok: ", "lekcja C++": "Następna część: " }[c.via] || "Następne zagadnienie: ") + esc(c.next)
     : c.all ? "" : "kurs bez kroków";
   return `
           <div class="course">

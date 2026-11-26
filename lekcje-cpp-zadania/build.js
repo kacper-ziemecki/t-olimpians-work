@@ -9,6 +9,7 @@
  *                                                    (zadania.html buduje z niego listę działów, tematów i kroków),
  *                                                  • w pliku lekcji: karty ćwiczeń, bazę zadań, spis treści i liczniki
  *                                                    (między znacznikami <!-- cwiczenia:N -->, <!-- baza -->, <!-- spis -->, <!-- liczby -->)
+ *                                                  • katalog kursów c++_logika/kursy.json dla listy postępów i planera (kursy.js)
  *   node lekcje-cpp-zadania/build.js --sprawdz    dodatkowo kompiluje wzorcówki C++ (pole cpp) i uruchamia je na wszystkich
  *                                                  testach (Compiler Explorer, a gdy odmawia — Wandbox); porównuje z wynikami
  *                                                  wzorcówek JS i nic nie zapisuje
@@ -577,6 +578,8 @@ if (require.main === module) (async () => {
     writeLessons(built);
     console.log(`\nZapisano ${fresh.length} zadań (numery ${fresh[0].number}–${fresh[fresh.length - 1].number}), ` +
         `lekcje.json i ${LEKCJE.length} ${LEKCJE.length === 1 ? 'lekcję' : 'lekcje'}.`);
+    // katalog kursów dla listy postępów i planera (części lekcji + zadania) — patrz kursy.js
+    require('./kursy').zapiszKursy();
 })().catch((e) => {
     console.error(e);
     process.exit(1);

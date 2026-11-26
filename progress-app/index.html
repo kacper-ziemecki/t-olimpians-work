@@ -338,7 +338,7 @@
   }
   .tag.zadanie{background:var(--accent-dim);color:var(--accent-bright);}
   .tag.temat{background:var(--amber-dim);color:var(--amber);}
-  .tag.film,.tag.artykul{background:var(--pink-dim);color:var(--pink);}
+  .tag.film,.tag.artykul,.tag.czesc{background:var(--pink-dim);color:var(--pink);}
   .tag.source{background:var(--panel);color:var(--muted);border:1px solid var(--border);}
   .item-link{
     display:block;
@@ -585,7 +585,7 @@
   .pk-note{font-size:13.5px;color:var(--muted);margin-top:6px;}
   .pk-body{display:none;padding:0 12px 12px;}
   .pk-step.open .pk-body{display:block;}
-  .pk-step.open .mk-sec-chev{transform:rotate(180deg);}
+  .pk-step.open > .pk-card > .pk-head .mk-sec-chev{transform:rotate(180deg);}   /* tylko strzałka kroku — nie części lekcji w środku */
   .pk-head .mk-sec-chev{margin-top:6px;}
   @media (max-width:640px){
     .pk-step{gap:8px;}
@@ -594,6 +594,43 @@
     .pk-head,.pk-row{padding:9px 10px;}
     .pk-body{padding:0 10px 10px;}
   }
+
+  /* ═══ KURS C++ OD PODSTAW: lekcja jako kurs — części do przeczytania i zadania do odhaczenia ═══ */
+  .cp-add{border:1px solid rgba(167,139,250,.3);background:linear-gradient(180deg,rgba(167,139,250,.07),transparent),var(--panel);border-radius:var(--radius-sm);padding:13px 14px;}
+  .cp-add-head{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;}
+  .cp-add-ic{font-size:19px;line-height:1.2;}
+  .cp-add-head b{display:block;font-family:var(--display);font-size:15px;color:var(--text);}
+  .cp-add-head span{display:block;color:var(--muted);font-size:13.5px;}
+  .cp-add-row{display:flex;gap:10px;align-items:stretch;}
+  .cp-add-row select{flex:1;min-width:0;font:inherit;font-size:14.5px;color:var(--text);background:var(--panel-3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;}
+  .cp-add-row select:focus{outline:none;border-color:var(--violet);box-shadow:0 0 0 3px var(--violet-dim);}
+  .cp-add-row select option,.cp-add-row select optgroup{background:var(--panel-2);color:var(--text);}
+  .cp-add-row .btn-primary{flex:none;padding:10px 16px;}
+  .cp-add-meta{font-size:13px;color:var(--muted);margin-top:8px;min-height:1.2em;}
+  .cp-add-meta b{color:var(--text);font-weight:600;}
+  @media (max-width:520px){ .cp-add-row{flex-direction:column;} }
+  .komp-preview.cpp{background:var(--violet-dim);border-color:rgba(167,139,250,.4);}
+  .komp-preview.cpp .kp-kind{color:var(--violet);}
+  .type-toggle .kurs-btn.sel{color:var(--violet);border-color:var(--violet);background:var(--violet-dim);}
+
+  .pk-step.l{--c:var(--violet);--cd:var(--violet-dim);}
+  .pk-body .cp-parts{margin-top:4px;}
+  .cp-sec .mk-sec-head .mk-check{flex:none;}
+  .cp-sec .mk-sec-num{font-size:10.5px;}
+  .cp-sec.read .mk-sec-name{color:var(--muted);}
+  .cp-read{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:2px 0 4px;}
+  .cp-read .mk-link{margin:0;}
+  .cp-readbtn{background:transparent;border:1px solid var(--border-accent);color:var(--accent-bright);background:var(--accent-dim);font-size:12.5px;padding:5px 12px;border-radius:100px;}
+  .cp-readbtn:hover{background:var(--accent);color:#fff;}
+  .cp-readbtn.on{color:#34d399;border-color:rgba(52,211,153,.45);background:rgba(52,211,153,.12);}
+  .cp-readbtn.on:hover{color:var(--danger);border-color:rgba(242,102,90,.5);background:var(--danger-dim);}
+  .cp-ac{display:none;margin-left:6px;font-family:var(--mono);font-size:10.5px;color:#34d399;white-space:nowrap;}
+  tr.ac:not(.done) .cp-ac{display:inline;}
+  .cp-sync{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px 12px;margin:0 0 10px;padding:9px 12px;font-size:13.5px;
+    color:var(--text);background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.3);border-radius:var(--radius-sm);}
+  .cp-sync button{flex:none;background:rgba(52,211,153,.15);border:1px solid rgba(52,211,153,.45);color:#34d399;font-size:13px;padding:6px 13px;border-radius:100px;}
+  .cp-sync button:hover{background:#10b981;border-color:#10b981;color:#fff;}
+  .cp-foot{display:flex;flex-wrap:wrap;gap:6px 16px;}
 
   /* ═══ LOGOWANIE HASZEM UCZNIA ═══ */
   [hidden]{display:none !important;}
@@ -816,12 +853,21 @@
 
   <section class="card">
     <h2>Dodaj element</h2>
+    <!-- kurs C++ od podstaw: lekcja (albo cały etap) z katalogu /c++_logika/kursy.json — pokazuje się, gdy katalog się wczyta -->
+    <div class="cp-add" id="cpAdd" hidden>
+      <div class="cp-add-head"><span class="cp-add-ic">📘</span><div><b>Kurs C++ od podstaw</b><span>Lekcja trafi na listę jako kurs: każdą część odhaczysz jako przeczytaną, a każde zadanie jako zrobione.</span></div></div>
+      <div class="cp-add-row">
+        <select id="cpPick" aria-label="Lekcja albo etap kursu C++ od podstaw"></select>
+        <button type="button" class="btn-primary" id="cpAddBtn" disabled>+ Dodaj kurs</button>
+      </div>
+      <div class="cp-add-meta" id="cpPickMeta" aria-live="polite"></div>
+    </div>
     <form class="add" id="addForm">
       <div class="add-row">
         <input type="text" id="titleInput" placeholder="Nazwa zadania lub tematu" maxlength="120" autocomplete="off">
       </div>
       <div class="add-row">
-        <input type="url" id="urlInput" placeholder="https://codeforces.com/… albo link do tematu / zagadnienia z kompendium" autocomplete="off">
+        <input type="url" id="urlInput" placeholder="https://codeforces.com/… albo link do lekcji C++ lub tematu z kompendium" autocomplete="off">
       </div>
       <div class="komp-preview" id="kompPreview" aria-live="polite"></div>
       <div class="add-row">
@@ -919,7 +965,8 @@ import {
 } from "/progress-app/uczniowie.js";
 import {
   KIND_CAT, KIND_LABEL, kParseLink, itemKompRef, kResolve, kVideoKey, kTaskKey, kLinkKey, kSecStats, kStats,
-  pkKey, pkSteps, pkStepDone, pkStats, completionEvents as allCompletionEvents, courseProgress
+  pkKey, pkSteps, pkStepDone, pkStats, pkLesson, completionEvents as allCompletionEvents, courseProgress as courseProgressOf,
+  CPP_URL, cpKey, cpReadable, cpTasks, cpTaskHref, cpParseLink, itemCppRef, cpResolve, cpTitle, cpKeys, cpPartStats, cpStats
 } from "/progress-app/postep.js";
 
 /* Jedna strona dla wszystkich uczniów (zamiast kopii gryglo.html, pankubix_79997.html…):
@@ -996,6 +1043,7 @@ function render(items){
     const fc = btn.querySelector(".fc");
     if(fc) fc.textContent = items.length ? String(applyFilter(items, btn.dataset.filter).length) : "";
   });
+  cpFillPicker();                    // „już na liście” przy lekcjach w wyborze kursu
 
   const visible = applyFilter(items);
   list.innerHTML = "";
@@ -1024,7 +1072,11 @@ function render(items){
     row.dataset.id = item.id;
     const kref = itemKompRef(item);
     const isKurs = item.type === "kurs";
-    if(kref || isKurs) row.classList.add("has-komp");
+    // lekcja C++: pole cpp albo link do lekcji; dawny adres t-olimpians.com/<x> jest lekcją tylko, gdy jest w katalogu
+    const cref = itemCppRef(item);
+    const cres = cref ? cRes(cref) : null;
+    const isLesson = !!cref && !(cref.stary && (cres.loading || cres.missing || cres.error));
+    if(kref || isKurs || isLesson) row.classList.add("has-komp");
 
     const orderInput = document.createElement("input");
     orderInput.type = "number";
@@ -1053,7 +1105,8 @@ function render(items){
     top.appendChild(title);
     top.appendChild(tag);
 
-    const src = isKurs ? "z planera" : kref ? "kompendium" : sourceLabel(item.url);
+    const fromCpp = isLesson || (isKurs && item.plan && item.plan.source === "cpp");
+    const src = fromCpp ? "C++ od podstaw" : isKurs ? "z planera" : kref ? "kompendium" : sourceLabel(item.url);
     if(src){
       const srcTag = document.createElement("span");
       srcTag.className = "tag source";
@@ -1062,7 +1115,9 @@ function render(items){
     }
     body.appendChild(top);
 
-    if(isKurs){
+    if(isLesson){
+      cpDecorate(item, cref, body, row);
+    }else if(isKurs){
       pkDecorate(item, body, row);
     }else if(kref){
       kompDecorate(item, kref, body, row);
@@ -1102,9 +1157,11 @@ function render(items){
     row.appendChild(delBtn);
     if(row._mk) row.appendChild(row._mk);
     if(row._pk) row.appendChild(row._pk);
+    if(row._cp) row.appendChild(row._cp);
     list.appendChild(row);
     if(row._mk) kompRefresh(item);
     if(row._pk) pkRefresh(item);
+    if(row._cp) cpRefresh(item);
   }
   // świeżo wczytany kurs — przewiń do niego
   if(pkJustAdded){
@@ -1145,7 +1202,23 @@ fetch("/network-data.json")
     if(itemsLoaded){ renderStats(currentItems); renderHeatmap(currentItems); }
   });
 const kRes = ref => kResolve(ref, kompData);
-const completionEvents = items => allCompletionEvents(items, kompData);
+const completionEvents = items => allCompletionEvents(items, kompData, cppData);
+const courseProgress = item => courseProgressOf(item, kompData, cppData);
+
+/* katalog kursu „C++ od podstaw” (lekcje, ich części i zadania) — pisze go lekcje-cpp-zadania/kursy.js */
+let cppData = null;                  // null = wczytywanie, false = błąd, obiekt = katalog
+fetch(CPP_URL)
+  .then(r => { if(!r.ok) throw new Error(r.status); return r.json(); })
+  .then(d => { cppData = d && Array.isArray(d.kursy) ? d : false; })
+  .catch(e => { cppData = false; console.error("Nie udało się wczytać lekcji C++:", e); })
+  .finally(() => {
+    lastListSig = listSig(currentItems);
+    render(currentItems);
+    kompUpdatePreview();
+    cpFillPicker();
+    if(itemsLoaded){ renderStats(currentItems); renderHeatmap(currentItems); }
+  });
+const cRes = ref => cpResolve(ref, cppData);
 
 function esc(str){
   return String(str ?? "").replace(/[&<>"']/g, ch => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[ch]));
@@ -1475,13 +1548,16 @@ function pkParsePlan(o){
     raw = raw.map((i, k) => ({ i, k })).sort((a, b) => day(a.i) - day(b.i) || a.k - b.k).map(x => x.i);
   }
   const seen = new Set(), steps = [];
+  const slug = v => typeof v === "string" && /^[\w-]{1,60}$/.test(v) ? v : "";
   for(const i of raw){
-    if(!i || (i.type !== "temat" && i.type !== "zadanie")) continue;
+    if(!i || (i.type !== "temat" && i.type !== "zadanie" && i.type !== "lekcja")) continue;
+    if(i.type === "lekcja" && !slug(i.lekcja)) continue;
     let id = typeof i.id === "string" && /^[\w-]{1,40}$/.test(i.id) ? i.id : "";
     while(!id || seen.has(id)) id = Math.random().toString(36).slice(2, 11);
     seen.add(id);
     const s = { id, type: i.type, title: pkStr(i.title, 200).trim() || "(bez nazwy)", url: pkSafe(pkStr(i.url, 600)), note: pkStr(i.note, 600) };
     if(i.type === "zadanie") s.level = KOMP_LEVELS[i.level] ? i.level : "";
+    else if(i.type === "lekcja"){ s.lekcja = slug(i.lekcja); s.czesc = slug(i.czesc); }   // części i zadania z katalogu lekcji C++
     else s.materials = (Array.isArray(i.materials) ? i.materials : []).slice(0, 80)
       .filter(m => m && typeof m === "object")
       .map(m => ({ kind: m.kind === "film" ? "film" : "artykul", title: pkStr(m.title, 200), url: pkSafe(pkStr(m.url, 600)), meta: pkStr(m.meta, 120) }))
@@ -1506,8 +1582,29 @@ function pkDecorate(item, body, row){
   row._pk = pkBuild(item);
 }
 
-function pkStepHTML(s, i, open){
+function pkStepHTML(s, i, open, item){
   const rail = `<div class="pk-rail"><span class="pk-num">${i + 1}</span><span class="pk-line"></span></div>`;
+  if(s.type === "lekcja"){
+    // lekcja C++: części do przeczytania i zadania — ten sam panel co lekcja dodana osobno (cpPartsHTML)
+    const res = pkLesson(s, cppData);
+    const k = res && res.kurs;
+    const inner = res ? cpPartsHTML(res, item.id + "|" + s.id, item.kp || {})
+      : `<div class="mk-empty">${cppData === null ? "Wczytywanie lekcji C++…" : cppData === false
+          ? "⚠ Nie udało się wczytać lekcji C++ — odśwież stronę." : "⚠ Nie ma już tej lekcji w kursie C++ od podstaw."}</div>`;
+    return `<div class="pk-step l${open ? " open" : ""}" data-s="${i}">${rail}
+      <div class="pk-card">
+        <div class="pk-head" data-pk="sec">
+          <div class="pk-main"><div class="pk-kind">Lekcja C++${k ? " · " + esc(k.nr) : ""}<span class="pk-now">teraz</span></div><div class="pk-title">${esc(s.title)}</div><div class="pk-meta"></div></div>
+          <span class="mk-sec-chev">▼</span>
+        </div>
+        <div class="pk-body">
+          ${s.note ? `<div class="mk-sec-note">💡 ${esc(s.note)}</div>` : ""}
+          ${inner}
+          ${k ? `<div class="mk-foot"><a href="${esc(cpLessonHref(k, res.part && res.part.id))}" target="_blank" rel="noopener">Otwórz lekcję ↗</a></div>` : ""}
+        </div>
+      </div>
+    </div>`;
+  }
   if(s.type === "zadanie"){
     const plat = s.url ? kPlatform({ url: s.url }) : "";
     const lvl = KOMP_LEVELS[s.level];
@@ -1558,15 +1655,18 @@ function pkBuild(item){
   pk.className = "pk" + (pkOpen.has(id) ? " open" : "");
   if(!pkSecOpen.has(id)){
     // domyślnie rozwinięty jest następny krok do zrobienia
-    const n = pkStats(steps, item.kp || {}).next;
+    const n = pkStats(steps, item.kp || {}, cppData).next;
     pkSecOpen.set(id, new Set(n > -1 ? [n] : []));
   }
   const openSet = pkSecOpen.get(id);
+  const fromCpp = item.plan && item.plan.source === "cpp";
   pk.innerHTML = `
     <div class="mk-player"></div>
-    <div class="pk-steps">${steps.map((s, i) => pkStepHTML(s, i, openSet.has(i))).join("")}</div>
+    <div class="pk-steps">${steps.map((s, i) => pkStepHTML(s, i, openSet.has(i), item)).join("")}</div>
     ${steps.length ? "" : `<div class="mk-empty">Ten kurs nie ma kroków.</div>`}
-    <div class="mk-foot">Kurs z <a href="../planer-app/planer.html" target="_blank" rel="noopener">Planera olimpijczyka ↗</a> · rób kroki po kolei — następny jest podświetlony</div>`;
+    <div class="mk-foot">${fromCpp
+      ? `Kurs <a href="/materialy.html" target="_blank" rel="noopener">C++ od podstaw ↗</a> · lekcje po kolei — następna jest podświetlona`
+      : `Kurs z <a href="../planer-app/planer.html" target="_blank" rel="noopener">Planera olimpijczyka ↗</a> · rób kroki po kolei — następny jest podświetlony`}</div>`;
   pk._steps = steps;
   pkRenderPlayer(id, pk);
   return pk;
@@ -1595,13 +1695,24 @@ function pkRefresh(item){
   const pk = row && row._pk;
   if(!pk) return;
   const steps = pk._steps, kp = item.kp || {}, p = pkPlayer.get(item.id);
-  const st = pkStats(steps, kp);
+  const st = pkStats(steps, kp, cppData);
   pk.querySelectorAll(".pk-step").forEach(el => {
-    const i = +el.dataset.s, s = steps[i], done = pkStepDone(s, kp);
+    const i = +el.dataset.s, s = steps[i], done = pkStepDone(s, kp, cppData);
     el.classList.toggle("done", done);
     el.classList.toggle("next", i === st.next);
     el.querySelector(".pk-num").textContent = done ? "✓" : String(i + 1);
     setCheck(el.querySelector('[data-pk="step"]'), done, s.type === "zadanie" ? "Zrobione" : "Przerobiony", s.type === "zadanie" ? "Oznacz jako zrobione" : "Oznacz jako przerobiony");
+    if(s.type === "lekcja"){
+      const res = pkLesson(s, cppData);
+      if(!res) return;
+      const ls = cpStats(res, kp), bits = [];
+      if(ls.cAll) bits.push(`części ${ls.cDone}/${ls.cAll}`);
+      if(ls.zAll) bits.push(`zadania ${ls.zDone}/${ls.zAll}`);
+      el.querySelector(".pk-meta").textContent = done ? "przerobiona — " + bits.join(" · ") : bits.join(" · ");
+      const box = el.querySelector(".cp-box");
+      if(box) cpRefreshParts(box, res, kp);
+      return;
+    }
     if(s.type !== "temat") return;
     const mats = s.materials || [];
     const f = mats.filter(m => m.kind === "film").length, a = mats.length - f;
@@ -1630,28 +1741,40 @@ function pkRefresh(item){
   if(fill) fill.style.width = (st.uAll ? Math.round(st.uDone / st.uAll * 100) : 0) + "%";
   const txt = row.querySelector(".komp-sum-text");
   if(txt){
-    const bits = [`kroki <b>${st.sDone}/${st.sAll}</b>`];
+    const bits = [`${st.lAll === st.sAll ? "lekcje" : "kroki"} <b>${st.sDone}/${st.sAll}</b>`];
+    if(st.cAll) bits.push(`części <b>${st.cDone}/${st.cAll}</b>`);
     if(st.zAll) bits.push(`zadania <b>${st.zDone}/${st.zAll}</b>`);
     if(st.fAll) bits.push(`filmy <b>${st.fDone}/${st.fAll}</b>`);
     if(st.aAll) bits.push(`artykuły <b>${st.aDone}/${st.aAll}</b>`);
     txt.innerHTML = bits.join(" · ");
   }
   const nl = row.querySelector(".pk-nextline");
+  const lessons = st.lAll === st.sAll;
   if(nl) nl.innerHTML = st.next > -1
-    ? `Następny krok: <b>${st.next + 1}. ${esc(steps[st.next].title)}</b>`
-    : (st.sAll ? "🎉 Kurs ukończony — wszystkie kroki odhaczone!" : "");
+    ? `${lessons ? "Następna lekcja" : "Następny krok"}: <b>${st.next + 1}. ${esc(steps[st.next].title)}</b>`
+    : (st.sAll ? `🎉 Kurs ukończony — wszystkie ${lessons ? "lekcje przerobione" : "kroki odhaczone"}!` : "");
 }
 
-async function pkSetProgress(id, key, on){
+/* zapis odhaczeń: kilka kluczy kp naraz (jedno updateDoc); value null = odznaczenie */
+function kpWrite(id, keys, value){
+  const args = [];
+  for(const k of keys) args.push(new FieldPath("kp", k), value === null ? deleteField() : value);
+  return updateDoc(doc(itemsCol, id), ...args);
+}
+
+/* keys: klucz albo tablica kluczy (np. wszystkie zadania zaliczone w sprawdzarce) */
+async function pkSetProgress(id, keys, on){
   const item = currentItems.find(i => i.id === id);
   if(!item) return;
+  keys = [].concat(keys);
+  if(!keys.length) return;
   const steps = pkSteps(item);
   const prev = item.kp || {};
-  const next = { ...prev };
-  if(on) next[key] = Date.now(); else delete next[key];
+  const next = { ...prev }, now = Date.now();
+  for(const key of keys){ if(on) next[key] = now; else delete next[key]; }
   item.kp = next;
   // ukończony krok → rozwiń następny, żeby od razu było widać, co dalej
-  const nBefore = pkStats(steps, prev).next, nAfter = pkStats(steps, next).next;
+  const nBefore = pkStats(steps, prev, cppData).next, nAfter = pkStats(steps, next, cppData).next;
   if(nAfter > nBefore && pkSecOpen.has(id)){
     pkSecOpen.get(id).add(nAfter);
     const row = list.querySelector(`.item[data-id="${CSS.escape(id)}"]`);
@@ -1661,7 +1784,7 @@ async function pkSetProgress(id, key, on){
   pkRefresh(item);
   renderProgressViews();
   try{
-    await updateDoc(doc(itemsCol, id), new FieldPath("kp", key), on ? next[key] : deleteField());
+    await kpWrite(id, keys, on ? now : null);
   }catch(e){
     console.error(e);
     item.kp = prev;
@@ -1670,10 +1793,10 @@ async function pkSetProgress(id, key, on){
     return;
   }
   // przejście przez 100% sam oznacza kurs jako wykonany (albo cofa to oznaczenie)
-  const was = steps.length > 0 && steps.every(s => pkStepDone(s, prev));
-  const now = steps.length > 0 && steps.every(s => pkStepDone(s, next));
-  if(now && !was && !item.done) toggleDone(id, true);
-  else if(!now && was && item.done) toggleDone(id, false);
+  const was = steps.length > 0 && steps.every(s => pkStepDone(s, prev, cppData));
+  const nowDone = steps.length > 0 && steps.every(s => pkStepDone(s, next, cppData));
+  if(nowDone && !was && !item.done) toggleDone(id, true);
+  else if(!nowDone && was && item.done) toggleDone(id, false);
 }
 
 list.addEventListener("click", (e) => {
@@ -1781,23 +1904,400 @@ pkBtn.addEventListener("drop", (e) => {
   pkLoadFile(e.dataTransfer.files[0]);
 });
 
+/* ═══ KURS C++ OD PODSTAW ═══
+   Lekcja z /c++_logika/ jako kurs: każda część ze spisu treści lekcji do odhaczenia jako przeczytana i każde zadanie
+   (ćwiczenia po częściach + baza zadań) do odhaczenia jako zrobione. Na liście to element typu „kurs” z polem
+   cpp = { kurs, czesc } (czesc: tylko ta część lekcji), a w kursie z planera albo kursie „cały etap” — krok typu
+   „lekcja”. Oba miejsca rysuje cpPartsHTML, odhaczenia leżą w kp (klucze c|… i cz|… — postep.js) i liczą się do
+   statystyki jak wszystko inne. Sprawdzarka (zadania-tematowe-app) trzyma zaliczone zadania w localStorage
+   „tolimpians:solved” — to ta sama domena, więc zadania zaliczone na tym urządzeniu mają „✓ sprawdzarka”,
+   a przycisk nad częściami odhacza je wszystkie naraz. */
+const SITE_URL = "https://t-olimpians.com";
+const cpOpen = new Set();            // id lekcji z rozwiniętym panelem
+const cpSecOpen = new Map();         // klucz panelu (id elementu albo id|id kroku) -> Set rozwiniętych części
+const SOLVED_KEY = "tolimpians:solved";
+let cpSolved = new Set();
+function cpLoadSolved(){
+  try{
+    const a = JSON.parse(localStorage.getItem(SOLVED_KEY) || "[]");
+    cpSolved = new Set(Array.isArray(a) ? a.filter(x => typeof x === "string") : []);
+  }catch(e){ cpSolved = new Set(); }
+}
+cpLoadSolved();
+const cpLessonHref = (kurs, czesc) => kurs.url + (czesc ? "#" + czesc : "");
+const cpComplete = (res, kp) => { const st = cpStats(res, kp); return st.all > 0 && st.done === st.all; };
+
+/* karta elementu: ścieżka w kursie, przycisk, pasek postępu, następna część i sam panel */
+function cpDecorate(item, ref, body, row){
+  const res = cRes(ref);
+  const path = document.createElement("div");
+  path.className = "komp-path";
+  body.appendChild(path);
+  if(!res.kurs){
+    path.innerHTML = res.loading ? "Wczytywanie lekcji C++…"
+      : "⚠ " + esc(res.error || "Nie ma takiej lekcji.") + (item.url ? ` <a href="${esc(item.url)}" target="_blank" rel="noopener">Otwórz link ↗</a>` : "");
+    return;
+  }
+  const k = res.kurs;
+  path.innerHTML = `<a href="${esc(cpLessonHref(k, res.part && res.part.id))}" target="_blank" rel="noopener" title="Otwórz lekcję">C++ od podstaw › Etap ${esc(k.etap)}${res.etap ? " · " + esc(res.etap.nazwa) : ""} › Lekcja ${esc(k.nr)}${res.part ? " › " + esc(res.part.nazwa) : ""} ↗</a>`;
+  const sum = document.createElement("div");
+  sum.className = "komp-sum";
+  sum.innerHTML = `
+    <button type="button" class="mk-open-btn" data-cp="toggle">${cpOpen.has(item.id) ? "▾ Zwiń kurs" : "▸ Otwórz kurs"}</button>
+    <div class="komp-bar"><div class="komp-bar-fill"></div></div>
+    <span class="komp-sum-text"></span>`;
+  body.appendChild(sum);
+  const next = document.createElement("div");
+  next.className = "pk-nextline";
+  body.appendChild(next);
+  const box = document.createElement("div");
+  box.className = "mk cp" + (cpOpen.has(item.id) ? " open" : "");
+  box.innerHTML = cpPartsHTML(res, item.id, item.kp || {})
+    + `<div class="mk-foot cp-foot"><a href="${esc(cpLessonHref(k, res.part && res.part.id))}" target="_blank" rel="noopener">Otwórz lekcję ↗</a>`
+    + (k.filmy && !res.part ? `<a href="${esc(k.url)}#filmy" target="_blank" rel="noopener">▶ ${k.filmy} ${plural(k.filmy, "film", "filmy", "filmów")} z OKI w lekcji ↗</a>` : "")
+    + `</div>`;
+  box._res = res;
+  row._cp = box;
+}
+
+/* Części lekcji (akordeon): w nagłówku kwadracik „przeczytane”, w środku opis, link do części i zadania.
+   key: klucz zapamiętanych rozwiniętych części — id elementu (lekcja na liście) albo id|id kroku (krok kursu). */
+function cpPartsHTML(res, key, kp){
+  if(!cpSecOpen.has(key)){
+    // domyślnie rozwinięta jest pierwsza nieskończona część
+    const n = cpStats(res, kp).next;
+    cpSecOpen.set(key, new Set(n > -1 ? [res.parts[n].id] : []));
+  }
+  const open = cpSecOpen.get(key);
+  const single = res.parts.length === 1;
+  const k = res.kurs;
+  return `<div class="cp-box" data-kurs="${esc(k.id)}" data-czesc="${esc(res.part ? res.part.id : "")}" data-key="${esc(key)}">
+    <div class="cp-sync" hidden></div>
+    <div class="cp-parts">${res.parts.map(c => {
+      const readable = cpReadable(c), zs = cpTasks(c);
+      return `<div class="mk-sec cp-sec${single || open.has(c.id) ? " open" : ""}" data-c="${esc(c.id)}">
+        <div class="mk-sec-head" data-cp="sec">
+          ${readable ? `<button type="button" class="mk-check" data-cp="read">✓</button>` : ""}
+          <span class="mk-sec-num">${esc(c.nr || "•")}</span>
+          <span class="mk-sec-text"><span class="mk-sec-name">${esc(c.nazwa)}</span><span class="mk-sec-meta"></span></span>
+          <span class="mk-sec-chev">▼</span>
+        </div>
+        <div class="mk-sec-body">
+          ${c.opis ? `<div class="mk-sec-note">${esc(c.opis)}</div>` : ""}
+          <div class="cp-read"><a class="mk-link" href="${esc(cpLessonHref(k, c.id))}" target="_blank" rel="noopener">📖 ${c.baza ? "Baza zadań w lekcji" : "Przeczytaj w lekcji"} ↗</a>${readable ? `<button type="button" class="cp-readbtn" data-cp="read"></button>` : ""}</div>
+          ${zs.length ? `<div class="mk-label">${c.baza ? "Zadania z bazy — od najłatwiejszego" : "Ćwiczenia"} — kwadracik ✓ = zrobione</div>
+          <table class="mk-tasks"><tbody>${zs.map(z => `<tr data-z="${esc(z.id)}">
+            <td class="mk-c"><button type="button" class="mk-check" data-cp="task">✓</button></td>
+            <td class="mk-tname"><a href="${esc(cpTaskHref(z, res.cat))}" target="_blank" rel="noopener">${esc(z.nazwa)}</a><span class="cp-ac" title="Zaliczone w sprawdzarce na tym urządzeniu">✓ sprawdzarka</span></td>
+            <td class="mk-c">${KOMP_LEVELS[z.poziom] ? `<span class="mk-level ${esc(z.poziom)}">${KOMP_LEVELS[z.poziom]}</span>` : ""}</td>
+          </tr>`).join("")}</tbody></table>` : readable ? "" : `<div class="mk-empty">Brak zadań w tej części.</div>`}
+        </div>
+      </div>`;
+    }).join("")}</div>
+  </div>`;
+}
+
+/* odświeża kwadraciki, liczniki części i pasek „sprawdzarka” w jednym panelu (bez przebudowy DOM) */
+function cpRefreshParts(box, res, kp){
+  let acNew = 0;
+  // w podglądzie admina to nie jest urządzenie ucznia — zaliczenia ze sprawdzarki tutaj nic o nim nie mówią
+  const solved = session && session.preview ? new Set() : cpSolved;
+  box.querySelectorAll(".cp-sec").forEach(secEl => {
+    const c = res.parts.find(p => p.id === secEl.dataset.c);
+    if(!c) return;
+    const s = cpPartStats(res.kurs, c, kp);
+    secEl.classList.toggle("done", s.all > 0 && s.done === s.all);
+    secEl.classList.toggle("read", !!s.read);
+    const bits = [];
+    if(s.read !== null) bits.push(s.read ? "przeczytane ✓" : "do przeczytania");
+    if(s.zAll) bits.push(`${c.baza ? "zadania" : "ćwiczenia"} ${s.zDone}/${s.zAll}`);
+    secEl.querySelector(".mk-sec-meta").textContent = bits.join(" · ") || "—";
+    secEl.querySelectorAll('[data-cp="read"]').forEach(b => {
+      if(!b.classList.contains("cp-readbtn")){ setCheck(b, !!s.read, "Przeczytane", "Oznacz jako przeczytane"); return; }
+      b.classList.toggle("on", !!s.read);
+      b.textContent = s.read ? "✓ Przeczytane" : "Oznacz jako przeczytane";
+      b.title = s.read ? "Część oznaczona jako przeczytana — kliknij, aby odznaczyć" : "Liczy się do statystyki";
+      b.setAttribute("aria-pressed", s.read ? "true" : "false");
+    });
+    secEl.querySelectorAll("tr[data-z]").forEach(tr => {
+      const on = !!kp[cpKey.task(tr.dataset.z)], ac = solved.has(tr.dataset.z);
+      tr.classList.toggle("done", on);
+      tr.classList.toggle("ac", ac);
+      if(ac && !on) acNew++;
+      setCheck(tr.querySelector(".mk-check"), on, "Zrobione", "Oznacz jako zrobione");
+    });
+  });
+  // zaliczone w sprawdzarce, a nieodhaczone — jednym kliknięciem
+  const sync = box.querySelector(".cp-sync");
+  const n = acNew;
+  if(!sync) return;
+  sync.hidden = !n;
+  if(n) sync.innerHTML = `<span>✓ Sprawdzarka na tym urządzeniu zaliczyła ${n} ${plural(n, "zadanie", "zadania", "zadań")} z tej lekcji, ${n === 1 ? "które nie jest" : "które nie są"} jeszcze odhaczone.</span><button type="button" data-cp="sync">Odhacz ${n === 1 ? "je" : "wszystkie"}</button>`;
+}
+
+/* lekcja na liście: panel + pasek postępu, liczniki i następna część */
+function cpRefresh(item){
+  const row = list.querySelector(`.item[data-id="${CSS.escape(item.id)}"]`);
+  const box = row && row._cp;
+  if(!box || !box._res) return;
+  const res = box._res, kp = item.kp || {};
+  cpRefreshParts(box, res, kp);
+  const st = cpStats(res, kp);
+  const fill = row.querySelector(".komp-bar-fill");
+  if(fill) fill.style.width = (st.all ? Math.round(st.done / st.all * 100) : 0) + "%";
+  const txt = row.querySelector(".komp-sum-text");
+  if(txt){
+    const bits = [];
+    if(st.cAll) bits.push(`części <b>${st.cDone}/${st.cAll}</b>`);
+    if(st.zAll) bits.push(`zadania <b>${st.zDone}/${st.zAll}</b>`);
+    txt.innerHTML = bits.join(" · ") || "nic do odhaczenia";
+  }
+  const nl = row.querySelector(".pk-nextline");
+  if(nl) nl.innerHTML = st.next > -1
+    ? (res.parts.length > 1 ? `Następna część: <b>${esc(res.parts[st.next].nr)} · ${esc(res.parts[st.next].nazwa)}</b>` : "")
+    : (st.all ? "🎉 Lekcja przerobiona — wszystkie części przeczytane i zadania zrobione!" : "");
+}
+function cpRefreshAll(){
+  currentItems.forEach(i => { cpRefresh(i); pkRefresh(i); });
+}
+
+/* odhaczenie w lekcji na liście (keys: jeden albo kilka kluczy naraz) */
+async function cpSetProgress(id, keys, on){
+  const item = currentItems.find(i => i.id === id);
+  const row = list.querySelector(`.item[data-id="${CSS.escape(id)}"]`);
+  const box = row && row._cp;
+  if(!item || !box || !box._res || !keys.length) return;
+  const res = box._res;
+  const prev = item.kp || {};
+  const next = { ...prev }, now = Date.now();
+  for(const key of keys){ if(on) next[key] = now; else delete next[key]; }
+  item.kp = next;
+  // skończona część → rozwiń następną
+  const a = cpStats(res, prev).next, b = cpStats(res, next).next;
+  if(b > a && cpSecOpen.has(id)){
+    cpSecOpen.get(id).add(res.parts[b].id);
+    const el = box.querySelector(`.cp-sec[data-c="${CSS.escape(res.parts[b].id)}"]`);
+    if(el) el.classList.add("open");
+  }
+  cpRefresh(item);
+  renderProgressViews();
+  try{
+    await kpWrite(id, keys, on ? now : null);
+  }catch(e){
+    console.error(e);
+    item.kp = prev;
+    cpRefresh(item);
+    renderProgressViews();
+    return;
+  }
+  // przejście przez 100% samo oznacza lekcję jako wykonaną (albo cofa to oznaczenie) — jak w kursie z planera
+  const was = cpComplete(res, prev), nowDone = cpComplete(res, next);
+  if(nowDone && !was && !item.done) toggleDone(id, true);
+  else if(!nowDone && was && item.done) toggleDone(id, false);
+}
+
+list.addEventListener("click", (e) => {
+  const el = e.target.closest("[data-cp]");
+  if(!el || !list.contains(el)) return;
+  const row = el.closest(".item");
+  const item = row && currentItems.find(i => i.id === row.dataset.id);
+  if(!item) return;
+  const id = item.id, act = el.dataset.cp;
+  if(act === "toggle"){
+    const box = row._cp;
+    if(!box) return;
+    const open = !cpOpen.has(id);
+    if(open) cpOpen.add(id); else cpOpen.delete(id);
+    box.classList.toggle("open", open);
+    el.textContent = open ? "▾ Zwiń kurs" : "▸ Otwórz kurs";
+    return;
+  }
+  const boxEl = el.closest(".cp-box");
+  const res = boxEl && cRes({ kurs: boxEl.dataset.kurs, czesc: boxEl.dataset.czesc || "" });
+  if(!res || !res.kurs) return;
+  const kp = item.kp || {};
+  // ten sam panel jest w lekcji na liście i w kroku kursu z planera — zapis idzie właściwą drogą
+  const save = (keys, on) => row._pk ? pkSetProgress(id, keys, on) : cpSetProgress(id, keys, on);
+  const secEl = el.closest(".cp-sec");
+  const part = secEl && res.parts.find(c => c.id === secEl.dataset.c);
+  if(act === "sec" && secEl){
+    const key = boxEl.dataset.key;
+    if(!cpSecOpen.has(key)) cpSecOpen.set(key, new Set());
+    const set = cpSecOpen.get(key);
+    const open = !secEl.classList.contains("open");
+    if(open) set.add(secEl.dataset.c); else set.delete(secEl.dataset.c);
+    secEl.classList.toggle("open", open);
+  }else if(act === "read" && part){
+    const key = cpKey.read(res.kurs.id, part.id);
+    save([key], !kp[key]);
+  }else if(act === "task"){
+    const tr = el.closest("tr[data-z]");
+    if(!tr) return;
+    const key = cpKey.task(tr.dataset.z);
+    save([key], !kp[key]);
+  }else if(act === "sync"){
+    const keys = [];
+    for(const c of res.parts) for(const z of cpTasks(c)){
+      const key = cpKey.task(z.id);
+      if(cpSolved.has(z.id) && !kp[key]) keys.push(key);
+    }
+    if(keys.length) save(keys, true);
+  }
+});
+// zadanie zaliczone w sprawdzarce w innej karcie → od razu „✓ sprawdzarka” przy nim
+addEventListener("storage", (e) => { if(e.key === SOLVED_KEY){ cpLoadSolved(); cpRefreshAll(); } });
+document.addEventListener("visibilitychange", () => {
+  if(document.visibilityState !== "visible") return;
+  const before = [...cpSolved].join("|");
+  cpLoadSolved();
+  if([...cpSolved].join("|") !== before) cpRefreshAll();
+});
+
+/* ─ wybór lekcji albo całego etapu z katalogu („Kurs C++ od podstaw” nad formularzem) ─
+   Lekcja → element „kurs” z polem cpp, cały etap / cały kurs → jeden kurs z krokami-lekcjami (jak z planera). */
+const cpAdd = document.getElementById("cpAdd");
+const cpPick = document.getElementById("cpPick");
+const cpAddBtn = document.getElementById("cpAddBtn");
+const cpPickMeta = document.getElementById("cpPickMeta");
+let cpPickSig = null;
+function cpCount(kursy){
+  let c = 0, z = 0;
+  for(const k of kursy) for(const p of k.czesci || []){ if(cpReadable(p)) c++; z += cpTasks(p).length; }
+  return { c, z };
+}
+function cpFillPicker(){
+  if(!cppData){ cpAdd.hidden = true; return; }
+  cpAdd.hidden = false;
+  // lekcje, które już są na liście w całości — dopisek przy nich, żeby nie dodać drugi raz przez pomyłkę
+  const on = new Set();
+  if(itemsLoaded) for(const i of currentItems){
+    const r = itemCppRef(i);
+    const x = r && !r.czesc ? cRes(r) : null;
+    if(x && x.kurs) on.add(x.kurs.id);
+  }
+  const sig = [...on].sort().join(",");
+  if(sig === cpPickSig) return;
+  cpPickSig = sig;
+  const val = cpPick.value;
+  const groups = (cppData.etapy || []).map(e => {
+    const ks = cppData.kursy.filter(k => k.etap === e.nr);
+    if(!ks.length) return "";
+    return `<optgroup label="Etap ${esc(e.nr)} · ${esc(e.nazwa)}">
+      <option value="etap:${esc(e.nr)}">▸ Cały etap ${esc(e.nr)} — ${ks.length} ${plural(ks.length, "lekcja", "lekcje", "lekcji")} w jednym kursie</option>
+      ${ks.map(k => `<option value="${esc(k.id)}">${esc(k.nr)} · ${esc(k.tytul)}${on.has(k.id) ? " — już na liście" : ""}</option>`).join("")}
+    </optgroup>`;
+  }).join("");
+  cpPick.innerHTML = `<option value="">Wybierz lekcję albo cały etap…</option>${groups}
+    <option value="etap:*">▸ Cały kurs — wszystkie ${cppData.kursy.length} lekcji w jednym kursie</option>`;
+  cpPick.value = [...cpPick.options].some(o => o.value === val) ? val : "";
+  cpPickUpdate();
+}
+function cpPickSel(){
+  const v = cpPick.value;
+  if(!v || !cppData) return null;
+  if(v.startsWith("etap:")){
+    const nr = v.slice(5);
+    const kursy = cppData.kursy.filter(k => nr === "*" || String(k.etap) === nr);
+    const e = (cppData.etapy || []).find(x => String(x.nr) === nr);
+    if(!kursy.length) return null;
+    return { kursy, title: nr === "*" ? "C++ od podstaw — cały kurs" : `C++ od podstaw · Etap ${nr}${e ? " — " + e.nazwa : ""}` };
+  }
+  const kurs = cppData.kursy.find(k => k.id === v);
+  return kurs ? { kurs, title: kurs.tytul } : null;
+}
+function cpPickUpdate(){
+  const sel = cpPickSel();
+  cpAddBtn.disabled = !sel || !itemsCol;
+  if(!sel){ cpPickMeta.textContent = ""; return; }
+  const n = cpCount(sel.kurs ? [sel.kurs] : sel.kursy);
+  const bits = `<b>${n.c}</b> ${plural(n.c, "część", "części", "części")} do przeczytania · <b>${n.z}</b> ${plural(n.z, "zadanie", "zadania", "zadań")} do zrobienia`;
+  cpPickMeta.innerHTML = sel.kurs
+    ? bits + (sel.kurs.opis ? ` — ${esc(sel.kurs.opis)}` : "")
+    : `<b>${sel.kursy.length}</b> ${plural(sel.kursy.length, "lekcja", "lekcje", "lekcji")} po kolei · ${bits}`;
+}
+cpPick.addEventListener("change", cpPickUpdate);
+cpAddBtn.addEventListener("click", async () => {
+  const sel = cpPickSel();
+  if(!sel || !itemsCol) return;
+  const orderRaw = orderInputField.value.trim();
+  const order = orderRaw === "" ? null : Number(orderRaw);
+  const base = { kp: {}, done: false, createdAt: Date.now(), doneAt: null, order: (order === null || Number.isNaN(order)) ? null : order };
+  const data = sel.kurs
+    ? { title: sel.kurs.tytul, url: SITE_URL + sel.kurs.url, type: "kurs", cpp: { kurs: sel.kurs.id, czesc: "" }, ...base }
+    : { title: sel.title, url: "", type: "kurs", ...base,
+        plan: { source: "cpp", steps: sel.kursy.map(k => ({ id: k.id, type: "lekcja", lekcja: k.id, czesc: "", title: k.tytul, url: SITE_URL + k.url, note: "" })) } };
+  cpAddBtn.disabled = true;
+  addStatus.classList.remove("err");
+  addStatus.textContent = "Dodawanie kursu…";
+  try{
+    const ref = await addDoc(itemsCol, data);
+    (sel.kurs ? cpOpen : pkOpen).add(ref.id);
+    pkJustAdded = ref.id;
+    cpPick.value = "";
+    orderInputField.value = "";
+    const n = cpCount(sel.kurs ? [sel.kurs] : sel.kursy);
+    addStatus.textContent = (sel.kurs ? `Dodano lekcję „${sel.kurs.tytul}”` : `Dodano kurs „${sel.title}” (${sel.kursy.length} ${plural(sel.kursy.length, "lekcja", "lekcje", "lekcji")})`)
+      + ` — ${n.c} ${plural(n.c, "część", "części", "części")} i ${n.z} ${plural(n.z, "zadanie", "zadania", "zadań")} do odhaczenia.`;
+  }catch(e){
+    console.error(e);
+    addStatus.textContent = "Nie udało się zapisać kursu.";
+    addStatus.classList.add("err");
+  }finally{
+    cpPickUpdate();
+  }
+});
+
 /* ─ formularz: rozpoznawanie wklejonego linku ─ */
 const kompPreview = document.getElementById("kompPreview");
 let pendingKomp = null;
 let lastAutoTitle = "";
 let lastKompKey = "";
 
+/* link do lekcji C++ z pola adresu → rozwiązana lekcja (albo { loading } / { error }) lub null, gdy to nie lekcja */
+function cpFormLesson(text){
+  const ref = kParseLink(text) ? null : cpParseLink(text);
+  if(!ref) return null;
+  const res = cRes(ref);
+  if(res.missing || (ref.stary && !res.kurs)) return null;      // dawny adres t-olimpians.com/<x>, który nie jest lekcją
+  return res;
+}
 function kompUpdatePreview(){
   // link wklejony w pole nazwy przenosimy do pola adresu
-  if(kParseLink(titleInput.value) && !kParseLink(urlInput.value)){
+  const isLink = t => !!kParseLink(t) || !!((r => r && !r.stary)(cpParseLink(t)));
+  if(isLink(titleInput.value) && !isLink(urlInput.value)){
     urlInput.value = titleInput.value.trim();
     titleInput.value = "";
   }
   const ref = kParseLink(urlInput.value);
+  const lesson = ref ? null : cpFormLesson(urlInput.value);
   pendingKomp = ref;
   const refKey = ref ? ref.cat + "/" + ref.topic + "/" + (ref.sec || "") : "";
   const isNewRef = refKey !== lastKompKey;
   lastKompKey = refKey;
+  pkBtn.classList.toggle("sel", !!(lesson && lesson.kurs));      // lekcja doda się jako kurs, nie jako zadanie / temat
+  if(lesson){
+    kompPreview.className = "komp-preview visible cpp" + (lesson.error ? " err" : "");
+    if(!lesson.kurs){
+      kompPreview.innerHTML = `<span class="kp-icon">${lesson.loading ? "📘" : "⚠"}</span><div><div class="kp-kind">Link do lekcji C++</div><div class="kp-meta">${lesson.loading ? "Wczytywanie…" : esc(lesson.error)}</div></div>`;
+      return;
+    }
+    const st = cpStats(lesson, {}), k = lesson.kurs;
+    const bits = [];
+    if(!lesson.part) bits.push(lesson.parts.length + " " + plural(lesson.parts.length, "część", "części", "części"));
+    if(st.cAll) bits.push(st.cAll + " do przeczytania");
+    bits.push(st.zAll + " " + plural(st.zAll, "zadanie", "zadania", "zadań"));
+    kompPreview.innerHTML = `<span class="kp-icon">📘</span><div>
+        <div class="kp-kind">Rozpoznano ${lesson.part ? "część lekcji" : "lekcję"} C++ od podstaw · Etap ${esc(k.etap)} · Lekcja ${esc(k.nr)}</div>
+        <div class="kp-title">${esc(cpTitle(lesson))}</div>
+        <div class="kp-meta">${bits.join(" · ")} — na liście pojawi się jako kurs: każdą część i każde zadanie odhaczysz osobno</div>
+      </div>`;
+    const auto = cpTitle(lesson);
+    if(!titleInput.value.trim() || titleInput.value === lastAutoTitle){
+      titleInput.value = auto;
+      lastAutoTitle = auto;
+    }
+    return;
+  }
   if(!ref){
     kompPreview.className = "komp-preview";
     kompPreview.innerHTML = "";
@@ -1864,7 +2364,7 @@ function openItems(path){
     currentItems = snapshot.docs.filter(d => d.id !== PROFILE_ID).map(d => ({ id: d.id, ...d.data() }));
     const sig = listSig(currentItems);
     if(sig === lastListSig){
-      currentItems.forEach(i => { kompRefresh(i); pkRefresh(i); });
+      currentItems.forEach(i => { kompRefresh(i); pkRefresh(i); cpRefresh(i); });
     }else{
       lastListSig = sig;
       render(currentItems);
@@ -2069,7 +2569,7 @@ function renderStatsCourses(items){
   const panel = document.getElementById("stCoursesPanel");
   const box = document.getElementById("stCourses");
   const note = document.getElementById("stCoursesNote");
-  const courses = (itemsLoaded ? items : []).map(i => courseProgress(i, kompData)).filter(Boolean);
+  const courses = (itemsLoaded ? items : []).map(i => courseProgress(i)).filter(Boolean);
   panel.hidden = !courses.length;
   if(!courses.length){ box.innerHTML = ""; note.textContent = ""; return; }
   const rank = c => c.complete ? 2 : c.done > 0 ? 0 : 1;
@@ -2080,12 +2580,14 @@ function renderStatsCourses(items){
   const n = ([d, a]) => `<b>${d}/${a}</b>`;
   box.innerHTML = courses.slice(0, ST_COURSES_MAX).map(c => {
     const bits = [];
+    if(c.c && c.c[1]) bits.push("części " + n(c.c));
     if(c.z[1]) bits.push("zadania " + n(c.z));
     if(c.f[1]) bits.push("filmy " + n(c.f));
     if(c.a[1]) bits.push("artykuły " + n(c.a));
     bits.push(c.complete ? "🎉 ukończony" : c.last ? "ostatnio " + stAgo(c.last) : "jeszcze nie zaczęty");
-    return `<button type="button" class="st-course${c.complete ? " complete" : ""}" data-id="${esc(c.id)}" title="Otwórz ${c.via === "kurs" ? "kurs" : "mini kurs"} na liście">
-      <span class="st-course-top"><b>${esc(c.title)}</b><span class="tag ${c.via === "kurs" ? "kurs" : "temat"}">${esc(c.via)}</span><span class="st-course-pct">${c.pct}%</span></span>
+    const mini = c.via === "mini kurs";
+    return `<button type="button" class="st-course${c.complete ? " complete" : ""}" data-id="${esc(c.id)}" title="Otwórz ${mini ? "mini kurs" : "kurs"} na liście">
+      <span class="st-course-top"><b>${esc(c.title)}</b><span class="tag ${mini ? "temat" : "kurs"}">${esc(c.via)}</span><span class="st-course-pct">${c.pct}%</span></span>
       <span class="st-course-bar"><i style="width:${c.pct}%"></i></span>
       <span class="st-course-meta">${bits.join(" · ")}</span>
     </button>`;
@@ -2095,15 +2597,15 @@ function renderStatsCourses(items){
 function goToCourse(id){
   const item = currentItems.find(i => i.id === id);
   if(!item) return;
-  const isKurs = item.type === "kurs";
-  (isKurs ? pkOpen : mkOpen).add(id);
+  const kind = itemCppRef(item) ? "cp" : item.type === "kurs" ? "pk" : "mk";
+  ({ cp: cpOpen, pk: pkOpen, mk: mkOpen })[kind].add(id);
   if(!applyFilter([item]).length) setFilter("all");
   const row = list.querySelector(`.item[data-id="${CSS.escape(id)}"]`);
   if(!row) return;
-  const panel = isKurs ? row._pk : row._mk;
+  const panel = row["_" + kind];
   if(panel && !panel.classList.contains("open")){
     panel.classList.add("open");
-    const btn = row.querySelector(isKurs ? '[data-pk="toggle"]' : '[data-mk="toggle"]');
+    const btn = row.querySelector(`[data-${kind}="toggle"]`);
     if(btn) btn.textContent = "▾ Zwiń kurs";
   }
   row.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -2426,8 +2928,15 @@ addForm.addEventListener("submit", async (e) => {
   try{
     const data = { title, url, type, done: false, createdAt: Date.now(), doneAt: null, order: (order === null || Number.isNaN(order)) ? null : order };
     const komp = kParseLink(url);
+    const lesson = komp ? null : cpFormLesson(url);
     if(komp){ data.komp = komp; data.kp = {}; }
-    await addDoc(itemsCol, data);
+    else if(lesson && lesson.kurs){
+      // lekcja C++ → kurs z częściami i zadaniami (adres zawsze do lekcji na t-olimpians.com)
+      const czesc = lesson.part ? lesson.part.id : "";
+      Object.assign(data, { type: "kurs", url: SITE_URL + cpLessonHref(lesson.kurs, czesc), cpp: { kurs: lesson.kurs.id, czesc }, kp: {} });
+    }
+    const ref = await addDoc(itemsCol, data);
+    if(data.cpp){ cpOpen.add(ref.id); pkJustAdded = ref.id; }
     titleInput.value = "";
     urlInput.value = "";
     orderInputField.value = "";
@@ -2523,8 +3032,8 @@ function signOut(text, isErr){
     else forgetStudentHash();
   }
   session = null;
-  [mkOpen, mkHints, pkOpen].forEach(s => s.clear());
-  [mkSecOpen, mkPlayer, pkSecOpen, pkPlayer].forEach(m => m.clear());
+  [mkOpen, mkHints, pkOpen, cpOpen].forEach(s => s.clear());
+  [mkSecOpen, mkPlayer, pkSecOpen, pkPlayer, cpSecOpen].forEach(m => m.clear());
   pkJustAdded = null;
   hmSelected = null;
   hmTip.hidden = true;

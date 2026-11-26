@@ -2040,6 +2040,89 @@ const LEKCJE = [
             },
         ],
     },
+    {
+        temat: 'Liczby dwójkowe',
+        prefix: 'ld-',
+        plik: 'c++_logika/liczby-dwojkowe.html',
+        pliki: ['liczby-dwojkowe-cwiczenia-1.js', 'liczby-dwojkowe-cwiczenia-2.js', 'liczby-dwojkowe-cwiczenia-3.js', 'liczby-dwojkowe-baza.js'],
+        note: 'Lekcja o liczbach dwójkowych od podstaw: dlaczego komputer liczy na dwóch cyfrach, wagi pozycji i potęgi dwójki, zamiana z dziesiętnego ' +
+            'na dwójkowy i z powrotem (dzielenie przez 2, w = w · 2 + bit), systemy ósemkowy i szesnastkowy, dodawanie i mnożenie pisemne po dwójkowemu, ' +
+            'bity i bajty w pamięci (unsigned, zawijanie, kod U2, skąd się bierze zakres int i przepełnienie), działania na bitach & | ^ ~ << >>, ' +
+            'pojedyncze bity (odczyt, zapalanie, gaszenie, przełączanie, x & −x, popcount) oraz maski i podzbiory.',
+        bazaOpisy: {
+            latwe: 'Bity w prostych przebraniach: zegar dwójkowy, najdłuższa seria jedynek, zera w zapisie, najbliższa potęga dwójki, kalkulator z dwoma przyciskami, ' +
+                'wielkie i małe litery, mieszanie kolorów, sortowanie liczb dwójkowych, przełączniki na przedziale i data w jednej liczbie.',
+            srednie: 'XOR, kody i maski w nowych zadaniach: XOR od 1 do n, kod Graya z powrotem na liczbę, dwie liczby bez pary, AND przedziału, adres IP i maska sieci, ' +
+                'napisy bez sąsiednich jedynek, następna liczba z tyloma samymi jedynkami, lampki i przełączniki, największy XOR pary i gra Nim.',
+            trudne: 'Bity w poważnych algorytmach: jedynki od 1 do n, liczby z k jedynkami, największy XOR dla 200 000 liczb, suma XOR-ów wszystkich par, ' +
+                'spotkanie w połowie, hetmany na maskach i zbieranie kluczy — a na koniec wielki finał: mały procesor 8-bitowy.',
+        },
+        kroki: [
+            {
+                nr: 1, kotwica: 'dwie-cyfry', spis: 'Dwie cyfry wystarczą — wagi i potęgi dwójki',
+                nazwa: 'Krok 1 · Dwie cyfry wystarczą — wagi pozycji i potęgi dwójki',
+                kategoria: 'Liczby dwójkowe / krok 1: dwie cyfry',
+                note: 'System dziesiętny i dwójkowy, bit, wagi pozycji 1, 2, 4, 8…, żarówki, liczenie po dwójkowemu, potęgi dwójki i ile liczb mieści się na k bitach: ' +
+                    'potęgi dwójki, wagi żarówek, odczyt żarówek, szachownica, ile żarówek, rozkład na potęgi, licznik dwójkowy i porównywanie.',
+            },
+            {
+                nr: 2, kotwica: 'zamiana', spis: 'Z dziesiętnego na dwójkowy i z powrotem',
+                nazwa: 'Krok 2 · Zamiana w obie strony — dzielenie przez 2 i w = w · 2 + bit',
+                kategoria: 'Liczby dwójkowe / krok 2: zamiana',
+                note: 'Dzielenie przez 2 i reszty od dołu, budowanie liczby od lewej (w = w · 2 + bit), zero, długość zapisu, liczenie jedynek, stała szerokość i bitset: ' +
+                    'na dwójkowy, na dziesiętny, długość zapisu, ile jedynek, na k bitach, palindrom, odwrócone bity i najwięcej jedynek.',
+            },
+            {
+                nr: 3, kotwica: 'systemy', spis: 'Inne systemy — ósemkowy i szesnastkowy',
+                nazwa: 'Krok 3 · Inne systemy — ósemkowy, szesnastkowy i dowolna podstawa',
+                kategoria: 'Liczby dwójkowe / krok 3: systemy liczbowe',
+                note: 'Dowolna podstawa k, cyfry A–F, grupowanie bitów po 3 i po 4, hex i oct w cout, literały 0b, 0x i pułapka zera na początku: ' +
+                    'na system k, z systemu k, szesnastkowo, kolor HTML, grupowanie bitów, suma cyfr, z systemu do systemu i palindromy w systemach.',
+            },
+            {
+                nr: 4, kotwica: 'dzialania', spis: 'Dodawanie i mnożenie po dwójkowemu',
+                nazwa: 'Krok 4 · Działania pisemne — dodawanie, odejmowanie i mnożenie po dwójkowemu',
+                kategoria: 'Liczby dwójkowe / krok 4: działania pisemne',
+                note: 'Dodawanie w kolumnach z przeniesieniem, długie liczby jako napisy, razy 2 i przez 2, plus jeden, porównywanie, mnożenie egipskie i pisemne: ' +
+                    'dodawanie, plus jeden, polecenia, porównywanie, mnożenie egipskie, kroki do zera, odejmowanie i mnożenie pisemne.',
+            },
+            {
+                nr: 5, kotwica: 'limity', spis: 'Bity w pamięci — skąd się biorą limity',
+                nazwa: 'Krok 5 · Bity w pamięci — bajty, unsigned, kod U2 i przepełnienie',
+                kategoria: 'Liczby dwójkowe / krok 5: limity typów',
+                note: 'Bajt i sizeof, typy bez znaku i zawijanie, liczby ujemne w kodzie U2, skąd 2 147 483 647, przepełnienie, size() − 1 i znaki jako liczby: ' +
+                    'zakresy, który typ, licznik kilometrów, kod U2 w obie strony, symulator przepełnienia, napis w bitach i tajna wiadomość.',
+            },
+            {
+                nr: 6, kotwica: 'operatory', spis: 'Działania na bitach: & | ^ ~ << >>',
+                nazwa: 'Krok 6 · Działania na bitach — & | ^ ~ << >>',
+                kategoria: 'Liczby dwójkowe / krok 6: operatory bitowe',
+                note: 'AND, OR, XOR i NOT na każdej parze bitów, przesunięcia jako mnożenie i dzielenie przez potęgi dwójki, nawiasy, ^ to nie potęga, sztuczki z XOR: ' +
+                    'AND OR XOR, przesunięcia, potęga dwójki, samotna liczba, szyfr XOR, odległość Hamminga, daszek i przesunięcia liczb ujemnych.',
+            },
+            {
+                nr: 7, kotwica: 'pojedyncze-bity', spis: 'Pojedyncze bity — odczyt, zapalanie, gaszenie',
+                nazwa: 'Krok 7 · Pojedyncze bity — odczyt, zapalanie, gaszenie i przełączanie',
+                kategoria: 'Liczby dwójkowe / krok 7: pojedyncze bity',
+                note: 'Bit numer k, 1 << k i 1LL << k, zapalanie, gaszenie i przełączanie, x & −x i x & (x − 1), popcount i inne wbudowane funkcje, maski jako zestawy flag: ' +
+                    'który bit, polecenia, wspólne dni, najniższy i najwyższy bit, sortowanie po jedynkach, zamiana bitów i wspólne zainteresowania.',
+            },
+            {
+                nr: 8, kotwica: 'podzbiory', spis: 'Maski i podzbiory',
+                nazwa: 'Krok 8 · Maski i podzbiory — każda liczba to wybór',
+                kategoria: 'Liczby dwójkowe / krok 8: maski i podzbiory',
+                note: 'Maska jako podzbiór, wszystkie podzbiory pętlą do 1 << n, sumy podzbiorów, działania na zbiorach, kod Graya i ile to kosztuje: ' +
+                    'wszystkie podzbiory, podzbiory o sumie, zbiory jako maski, kod Graya, k-elementowe, plecak, podział na dwie grupy i drużyna.',
+            },
+            {
+                nr: 9, kotwica: 'baza', spis: 'Baza zadań', baza: true,
+                nazwa: 'Baza zadań — podsumowanie tematu',
+                kategoria: 'Liczby dwójkowe / baza zadań',
+                note: '28 zadań na cały temat — od zegara dwójkowego i kolorów, przez kody Graya, adresy IP i grę Nim, po spotkanie w połowie, ' +
+                    'hetmany na maskach i zbieranie kluczy — a na koniec wielki finał: mały procesor 8-bitowy.',
+            },
+        ],
+    },
 ];
 
 module.exports = { SITE, KATEGORIA, LEKCJE };

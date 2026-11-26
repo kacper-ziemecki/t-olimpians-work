@@ -79752,6 +79752,3037 @@
       ],
       "hint": "struct Proces { int p; long long a; int id; bool operator<(const Proces &o) const { if (p != o.p) return p < o.p; if (a != o.a) return a > o.a; return id > o.id; } };. Pętla: wrzuć procesy z a ≤ czas; jeśli kopiec pusty — odpoczynek do następnego a; inaczej cur = top(), nast = następne a (albo nieskończoność); jeśli czas + zostalo[cur] ≤ nast — proces kończy się, pop; w przeciwnym razie zostalo[cur] -= nast − czas i czas = nast.",
       "tests_count": 14
+    },
+    {
+      "id": "ld-potegi-dwojki",
+      "number": 2435,
+      "title": "Potęgi dwójki",
+      "category": "Liczby dwójkowe / krok 1: dwie cyfry",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wagi kolejnych pozycji w zapisie dwójkowym to potęgi dwójki: 1, 2, 4, 8, 16, … Każda jest dwa razy większa od poprzedniej.",
+        "Wczytaj n i wypisz wszystkie potęgi dwójki od 2⁰ = 1 do 2ⁿ, każdą w osobnym wierszu. Zacznij od 1 i za każdym razem mnóż przez 2. Uwaga: 2³¹ = 2 147 483 648 nie mieści się już w int — użyj long long."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita n."
+      ],
+      "output_format": [
+        "n + 1 wierszy: w wierszu numer k (licząc od zera) liczba 2ᵏ."
+      ],
+      "constraints": [
+        "0 ≤ n ≤ 62"
+      ],
+      "examples": [
+        {
+          "input": "5",
+          "output": "1\n2\n4\n8\n16\n32",
+          "note": "Potęgi od 2⁰ do 2⁵: 1, 2, 4, 8, 16 i 32. Każda kolejna to poprzednia razy 2."
+        }
+      ],
+      "hint": "long long p = 1; potem pętla for (int k = 0; k <= n; k++) { cout << p << \"\\n\"; p = p * 2; }. Z int program „przekręci się” przy 2³¹ i zacznie wypisywać liczby ujemne albo zera.",
+      "tests_count": 11
+    },
+    {
+      "id": "ld-wagi-zarowek",
+      "number": 2436,
+      "title": "Wagi zapalonych żarówek",
+      "category": "Liczby dwójkowe / krok 1: dwie cyfry",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W rzędzie stoją żarówki ponumerowane od prawej strony: 0, 1, 2, 3, … Żarówka numer k ma wagę 2ᵏ — żarówka 0 waży 1, żarówka 1 waży 2, żarówka 2 waży 4, żarówka 3 waży 8 i tak dalej.",
+        "Liczba pokazywana przez rząd żarówek to suma wag zapalonych żarówek (zgaszone ważą zero). Wczytaj numery zapalonych żarówek i wypisz tę liczbę."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n — ile żarówek jest zapalonych.",
+        "W drugim wierszu n różnych numerów zapalonych żarówek, w dowolnej kolejności."
+      ],
+      "output_format": [
+        "Jedna liczba — suma wag zapalonych żarówek."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 63",
+        "Numery żarówek są różne i należą do przedziału od 0 do 62."
+      ],
+      "examples": [
+        {
+          "input": "3\n0 2 3",
+          "output": "13",
+          "note": "Zapalone są żarówki 0, 2 i 3, czyli wagi 1, 4 i 8. Razem 13 — tak wygląda 13 zapisane dwójkowo: 1101."
+        },
+        {
+          "input": "2\n5 1",
+          "output": "34",
+          "note": "Wagi 32 i 2 — razem 34. Kolejność numerów nie ma znaczenia."
+        }
+      ],
+      "hint": "Dla każdego numeru k policz 2ᵏ: long long w = 1; i k razy w = w * 2;. Dodaj w do sumy (też long long). Dla żarówki 62 waga to 4 611 686 018 427 387 904 — w int się nie zmieści.",
+      "tests_count": 15
+    },
+    {
+      "id": "ld-odczytaj-zarowki",
+      "number": 2437,
+      "title": "Odczytaj liczbę z żarówek",
+      "category": "Liczby dwójkowe / krok 1: dwie cyfry",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Rząd żarówek zapisano napisem z zer i jedynek: 1 to żarówka zapalona, 0 — zgaszona. Ostatni znak napisu to żarówka o wadze 1, przedostatni — o wadze 2, jeszcze wcześniejszy — o wadze 4 i tak dalej: każda pozycja w lewo waży dwa razy więcej.",
+        "Dla każdego napisu wypisz liczbę, którą pokazują żarówki. Napisy mogą zaczynać się od zer — zgaszone żarówki z lewej strony nic nie zmieniają."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy jeden napis z zer i jedynek."
+      ],
+      "output_format": [
+        "q wierszy — liczba pokazywana przez każdy rząd żarówek."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 300",
+        "Każdy napis ma od 1 do 62 znaków."
+      ],
+      "examples": [
+        {
+          "input": "4\n1101\n00101\n1\n10000000",
+          "output": "13\n5\n1\n128",
+          "note": "1101: od prawej wagi 1, 2, 4, 8 — zapalone 1, 4 i 8, razem 13. 00101: 1 + 4 = 5 (zera z przodu nic nie zmieniają). 10000000: tylko waga 128."
+        }
+      ],
+      "hint": "long long waga = 1, suma = 0; for (int i = s.size() - 1; i >= 0; i--) { if (s[i] == '1') suma += waga; waga = waga * 2; }. Pętla idzie od ostatniego znaku, bo to on ma wagę 1.",
+      "tests_count": 6
+    },
+    {
+      "id": "ld-szachownica",
+      "number": 2438,
+      "title": "Ryż na szachownicy",
+      "category": "Liczby dwójkowe / krok 1: dwie cyfry",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Według legendy wynalazca szachów poprosił króla o nagrodę w ryżu: na pierwszym polu szachownicy jedno ziarenko, na drugim dwa, na trzecim cztery — na każdym kolejnym polu dwa razy więcej niż na poprzednim.",
+        "Wczytaj k i wypisz dwie liczby: ile ziarenek leży na polu numer k oraz ile ziarenek leży razem na polach od 1 do k. Zauważ, że razem zawsze wychodzi o jedno ziarenko mniej niż na następnym polu — jak 1 + 2 + 4 = 7, a na czwartym polu leży 8."
+      ],
+      "input_format": [
+        "Jedna liczba całkowita k."
+      ],
+      "output_format": [
+        "Dwie liczby oddzielone spacją: liczba ziarenek na polu k i liczba ziarenek na polach od 1 do k."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ 63"
+      ],
+      "examples": [
+        {
+          "input": "4",
+          "output": "8 15",
+          "note": "Na polach leży kolejno 1, 2, 4 i 8 ziarenek. Na czwartym polu 8, a razem 1 + 2 + 4 + 8 = 15."
+        },
+        {
+          "input": "1",
+          "output": "1 1",
+          "note": "Na pierwszym polu jedno ziarenko i razem też jedno."
+        }
+      ],
+      "hint": "Najprościej w pętli: long long pole = 1, razem = 1; i dla kolejnych pól pole = pole * 2; razem += pole;. Nie licz razem jako 2ᵏ − 1 przez obliczenie 2ᵏ: dla k = 63 liczba 2⁶³ nie mieści się w long long (największy long long to 2⁶³ − 1).",
+      "tests_count": 12
+    },
+    {
+      "id": "ld-ile-zarowek",
+      "number": 2439,
+      "title": "Ile żarówek na kody",
+      "category": "Liczby dwójkowe / krok 1: dwie cyfry",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Każda żarówka jest zapalona albo zgaszona, więc jedna żarówka daje 2 różne kody, dwie żarówki — 4 kody, trzy — 8. Każda dodatkowa żarówka podwaja liczbę kodów: na k żarówkach jest ich 2ᵏ.",
+        "Szyfrant chce dać każdemu z n tajnych agentów inny kod. Dla każdego n wypisz najmniejszą liczbę żarówek k, przy której kodów wystarczy dla wszystkich, czyli 2ᵏ ≥ n."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy jedna liczba n."
+      ],
+      "output_format": [
+        "q wierszy — najmniejsze k dla każdego n."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "2 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "4\n8\n9\n2\n1000",
+          "output": "3\n4\n1\n10",
+          "note": "Dla 8 agentów wystarczą 3 żarówki (2³ = 8). Dziewiąty agent wymaga czwartej żarówki (2⁴ = 16). Dwóm agentom wystarczy jedna żarówka, a tysiącowi — 10 żarówek (2¹⁰ = 1024)."
+        }
+      ],
+      "hint": "long long p = 1; int k = 0; while (p < n) { p = p * 2; k++; }. Liczbę n wczytaj do long long. Dla n = 10¹⁸ wyjdzie k = 60, a p dojdzie do 2⁶⁰ — mieści się w long long.",
+      "tests_count": 6
+    },
+    {
+      "id": "ld-rozklad-na-potegi",
+      "number": 2440,
+      "title": "Rozkład na potęgi dwójki",
+      "category": "Liczby dwójkowe / krok 1: dwie cyfry",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Każdą dodatnią liczbę da się zapisać jako sumę różnych potęg dwójki — i to dokładnie jeden raz. To właśnie jest zapis dwójkowy: potęgi, które biorą udział w sumie, to zapalone żarówki.",
+        "Takiej sumy szuka się jak reszty w sklepie: weź największą potęgę dwójki, która nie przekracza x, odejmij ją od x i powtarzaj z tym, co zostało, aż zostanie zero. Dla każdej liczby wypisz jej rozkład w postaci x = a + b + … (potęgi od największej)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy jedna liczba x."
+      ],
+      "output_format": [
+        "q wierszy w postaci x = a + b + c — potęgi dwójki od największej, oddzielone napisem „ + ”. Jeśli x samo jest potęgą dwójki, wiersz ma postać x = x."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 20",
+        "1 ≤ x ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "4\n13\n8\n1\n100",
+          "output": "13 = 8 + 4 + 1\n8 = 8\n1 = 1\n100 = 64 + 32 + 4",
+          "note": "13: największa potęga ≤ 13 to 8, zostaje 5. Dla 5 największa to 4, zostaje 1. Potem 1. Ósemka jest potęgą dwójki, więc 8 = 8. 100 = 64 + 32 + 4."
+        }
+      ],
+      "hint": "W pętli while (x > 0): znajdź p = 1 i podwajaj, dopóki p * 2 <= x. Wypisz p (przed każdą potęgą oprócz pierwszej wypisz \" + \"), potem x -= p. Wszystko w long long.",
+      "tests_count": 7
+    },
+    {
+      "id": "ld-licznik-dwojkowy",
+      "number": 2441,
+      "title": "Licznik dwójkowy",
+      "category": "Liczby dwójkowe / krok 1: dwie cyfry",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Licznik ma k okienek, a w każdym może być tylko 0 albo 1. Na początku pokazuje same zera. Każde kliknięcie dodaje jeden — tak jak liczenie po dwójkowemu: idziesz od prawej strony i każdą jedynkę zamieniasz na zero, aż trafisz na zero — to zero zamieniasz na jedynkę i koniec. To dokładnie to samo, co przy liczeniu dziesiętnym 199 → 200, tylko że „przekręca się” już cyfra 1, a nie 9.",
+        "Wypisz kolejne stany licznika od 0 do n, każdy w osobnym wierszu."
+      ],
+      "input_format": [
+        "Dwie liczby n i k."
+      ],
+      "output_format": [
+        "n + 1 wierszy: stany licznika po 0, 1, 2, …, n kliknięciach, każdy jako k cyfr 0 i 1."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ 12",
+        "0 ≤ n < 2ᵏ",
+        "n ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "5 3",
+          "output": "000\n001\n010\n011\n100\n101",
+          "note": "000, potem 001. Przy drugim kliknięciu ostatnia jedynka zmienia się w zero, a zero przed nią — w jedynkę: 010. Dalej 011, potem dwie jedynki „przekręcają się” na zera i wychodzi 100, a na końcu 101."
+        }
+      ],
+      "hint": "string s(k, '0'); — napis z k zer. Wypisz go, a potem n razy: int i = k - 1; while (s[i] == '1') { s[i] = '0'; i--; } s[i] = '1'; i znowu wypisz. Pętla while się zatrzyma, bo n < 2ᵏ — licznik nigdy nie dojdzie do samych jedynek, kiedy trzeba jeszcze dodawać.",
+      "tests_count": 12
+    },
+    {
+      "id": "ld-porownaj-zarowki",
+      "number": 2442,
+      "title": "Który rząd pokazuje więcej",
+      "category": "Liczby dwójkowe / krok 1: dwie cyfry",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dwa rzędy po m żarówek pokazują dwie liczby dwójkowe (napisy z zer i jedynek tej samej długości, mogą zaczynać się od zer). Która liczba jest większa?",
+        "Napisy mogą mieć nawet 1000 znaków, więc nie zamienisz ich na long long. Ale nie trzeba: żarówka o wadze 2ᵏ waży więcej niż wszystkie żarówki na prawo od niej razem, bo 1 + 2 + 4 + … + 2ᵏ⁻¹ = 2ᵏ − 1. Dlatego o wyniku decyduje pierwsza od lewej pozycja, na której rzędy się różnią: większa jest ta liczba, która ma tam jedynkę."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q — ile par rzędów trzeba porównać.",
+        "Potem q par wierszy: dwa napisy z zer i jedynek tej samej długości."
+      ],
+      "output_format": [
+        "q wierszy: pierwsza, jeśli większa jest liczba z pierwszego napisu, druga — jeśli z drugiego, albo rowne, jeśli liczby są równe."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 20",
+        "Napisy w parze mają tę samą długość m, 1 ≤ m ≤ 1000."
+      ],
+      "examples": [
+        {
+          "input": "3\n0110\n0101\n1000\n0111\n101\n101",
+          "output": "pierwsza\npierwsza\nrowne",
+          "note": "0110 i 0101: pierwsza różnica na trzeciej pozycji — w pierwszym napisie jest tam 1, więc większa jest pierwsza liczba (6 > 5). 1000 to 8, a 0111 to tylko 7: jedna żarówka o wadze 8 przeważa trzy pozostałe razem. Trzecia para to dwa razy 101 — liczby są równe."
+        }
+      ],
+      "hint": "Przejdź pętlą od i = 0 i znajdź pierwsze miejsce, gdzie a[i] != b[i]. Kto ma tam '1', ten wygrywa; jeśli takiego miejsca nie ma — rowne. Ponieważ napisy mają tę samą długość, ten sam wynik daje zwykłe porównanie napisów: if (a > b).",
+      "tests_count": 7
+    },
+    {
+      "id": "ld-na-dwojkowy",
+      "number": 2443,
+      "title": "Z dziesiętnego na dwójkowy",
+      "category": "Liczby dwójkowe / krok 2: zamiana",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej liczby n wypisz jej zapis dwójkowy bez zer na początku.",
+        "Sposób z lekcji: dziel liczbę przez 2 i zapisuj reszty z dzielenia. Pierwsza reszta to ostatnia cyfra zapisu (waga 1), następna — przedostatnia i tak dalej, więc każdą nową cyfrę doklejaj z przodu napisu. Liczba 0 ma zapis 0 — ale pętla while (n > 0) dla zera nie wykona się ani razu, więc zero obsłuż osobno."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy jedna liczba n."
+      ],
+      "output_format": [
+        "q wierszy — zapis dwójkowy każdej liczby."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 300",
+        "0 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "4\n13\n0\n1\n64",
+          "output": "1101\n0\n1\n1000000",
+          "note": "13 : 2 = 6 reszta 1, 6 : 2 = 3 reszta 0, 3 : 2 = 1 reszta 1, 1 : 2 = 0 reszta 1. Reszty od dołu: 1101. Zero to po prostu 0, jedynka — 1, a 64 = 2⁶ to jedynka i sześć zer."
+        }
+      ],
+      "hint": "string s = \"\"; while (n > 0) { s = char('0' + n % 2) + s; n /= 2; } a przed pętlą if (n == 0) s = \"0\";. char(…) jest potrzebne: bez niego '0' + n % 2 to liczba, a liczby nie da się dodać do napisu.",
+      "tests_count": 6
+    },
+    {
+      "id": "ld-na-dziesietny",
+      "number": 2444,
+      "title": "Z dwójkowego na dziesiętny",
+      "category": "Liczby dwójkowe / krok 2: zamiana",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdego napisu z zer i jedynek wypisz liczbę, którą zapisuje (napis może zaczynać się od zer).",
+        "Użyj sposobu „od lewej”: zacznij od w = 0 i dla każdej kolejnej cyfry od lewej zrób w = w · 2 + cyfra. Każde mnożenie przez 2 przesuwa dotychczasowe cyfry o jedną pozycję w lewo — tak jak przy budowaniu liczby dziesiętnej z cyfr robiłeś w = w · 10 + cyfra."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy jeden napis z zer i jedynek."
+      ],
+      "output_format": [
+        "q wierszy — wartość każdego napisu."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 300",
+        "Każdy napis ma od 1 do 60 znaków."
+      ],
+      "examples": [
+        {
+          "input": "3\n1101\n0011\n100000",
+          "output": "13\n3\n32",
+          "note": "1101: w = 0 → 0·2 + 1 = 1 → 1·2 + 1 = 3 → 3·2 + 0 = 6 → 6·2 + 1 = 13. 0011 to 3, a 100000 to 32."
+        }
+      ],
+      "hint": "long long w = 0; for (char c : s) w = w * 2 + (c - '0');. c - '0' zamienia znak '0' albo '1' na liczbę 0 albo 1 (kody znaków stoją obok siebie).",
+      "tests_count": 5
+    },
+    {
+      "id": "ld-dlugosc-zapisu",
+      "number": 2445,
+      "title": "Ile cyfr ma zapis dwójkowy",
+      "category": "Liczby dwójkowe / krok 2: zamiana",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej liczby n wypisz, ile cyfr ma jej zapis dwójkowy (bez zer na początku).",
+        "Każde dzielenie przez 2 z odrzuceniem reszty „zjada” jedną cyfrę z końca zapisu — tak jak dzielenie przez 10 zjada ostatnią cyfrę dziesiętną. Wystarczy więc policzyć, ile razy trzeba podzielić przez 2, żeby dojść do zera. Uwaga na zero: jego zapis to 0, czyli jedna cyfra, choć dzielić nie trzeba ani razu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy jedna liczba n."
+      ],
+      "output_format": [
+        "q wierszy — liczba cyfr zapisu dwójkowego każdej liczby."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "0 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "5\n13\n1\n0\n8\n7",
+          "output": "4\n1\n1\n4\n3",
+          "note": "13 = 1101 ma 4 cyfry. 1 ma jedną. 0 też ma jedną cyfrę. 8 = 1000 ma 4 cyfry, a 7 = 111 — tylko 3: siódemka to ostatnia liczba z trzema cyframi."
+        }
+      ],
+      "hint": "int ile = 0; while (n > 0) { n /= 2; ile++; } i na końcu if (ile == 0) ile = 1;. Liczbę wczytuj do long long.",
+      "tests_count": 5
+    },
+    {
+      "id": "ld-ile-jedynek",
+      "number": 2446,
+      "title": "Ile jedynek",
+      "category": "Liczby dwójkowe / krok 2: zamiana",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej liczby n wypisz, ile jedynek jest w jej zapisie dwójkowym — czyli ile żarówek trzeba zapalić, żeby ją pokazać.",
+        "Nie musisz budować napisu: przy dzieleniu przez 2 każda reszta (0 albo 1) to kolejna cyfra zapisu, od końca. Wystarczy je zsumować."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy jedna liczba n."
+      ],
+      "output_format": [
+        "q wierszy — liczba jedynek w zapisie dwójkowym każdej liczby."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "0 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "4\n13\n0\n255\n1024",
+          "output": "3\n0\n8\n1",
+          "note": "13 = 1101 — trzy jedynki. Zero nie ma żadnej. 255 = 11111111 — osiem. 1024 = 2¹⁰ — jedna jedynka i dziesięć zer."
+        }
+      ],
+      "hint": "int ile = 0; while (n > 0) { ile += n % 2; n /= 2; }. Dla zera pętla się nie wykona i wyjdzie 0 — tym razem to dobra odpowiedź.",
+      "tests_count": 5
+    },
+    {
+      "id": "ld-na-k-bitach",
+      "number": 2447,
+      "title": "Zapis na k bitach",
+      "category": "Liczby dwójkowe / krok 2: zamiana",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Komputer trzyma liczby w komórkach o stałej liczbie bitów — 8, 16, 32 albo 64. Wolne miejsca z lewej strony wypełnia zerami.",
+        "Dla każdej pary n, k wypisz zapis dwójkowy liczby n na dokładnie k bitach: z tyloma zerami z przodu, żeby cyfr było k. Zamiast pętli while (n > 0) zrób pętlę, która wykona się dokładnie k razy."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy dwie liczby n i k."
+      ],
+      "output_format": [
+        "q wierszy — zapis n na dokładnie k bitach."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 300",
+        "1 ≤ k ≤ 60",
+        "0 ≤ n < 2ᵏ (liczba mieści się na k bitach)",
+        "n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "4\n13 8\n13 4\n0 5\n1 1",
+          "output": "00001101\n1101\n00000\n1",
+          "note": "13 to 1101, a na 8 bitach dochodzą cztery zera z przodu: 00001101. Na 4 bitach zer nie trzeba. Zero na pięciu bitach to 00000."
+        }
+      ],
+      "hint": "string s = \"\"; for (int i = 0; i < k; i++) { s = char('0' + n % 2) + s; n /= 2; }. Dla małych k możesz też użyć bitset<k>, ale k musi być wtedy stałą wpisaną w kod — tutaj k zmienia się w każdym wierszu.",
+      "tests_count": 5
+    },
+    {
+      "id": "ld-dwojkowy-palindrom",
+      "number": 2448,
+      "title": "Dwójkowy palindrom",
+      "category": "Liczby dwójkowe / krok 2: zamiana",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Palindrom to napis, który czytany od tyłu wygląda tak samo, np. kajak. Liczba 9 to dwójkowo 1001 — palindrom. Liczba 10 to 1010 — od tyłu 0101, więc nie.",
+        "Dla każdej liczby n sprawdź, czy jej zapis dwójkowy (bez zer na początku) jest palindromem."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy jedna liczba n."
+      ],
+      "output_format": [
+        "q wierszy: TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "1 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "5\n9\n10\n1\n6\n7",
+          "output": "TAK\nNIE\nTAK\nNIE\nTAK",
+          "note": "9 = 1001 — TAK. 10 = 1010 — NIE. 1 to jedna cyfra — TAK. 6 = 110 — od tyłu 011, NIE. 7 = 111 — TAK."
+        }
+      ],
+      "hint": "Zbuduj zapis dwójkowy w napisie s (jak w zadaniu „Z dziesiętnego na dwójkowy”), zrób kopię string t = s; reverse(t.begin(), t.end()); i porównaj: s == t. Ciekawostka: przy doklejaniu reszt z tyłu (s += …) od razu dostajesz zapis od tyłu.",
+      "tests_count": 5
+    },
+    {
+      "id": "ld-odwrocone-bity",
+      "number": 2449,
+      "title": "Liczba z odwróconych bitów",
+      "category": "Liczby dwójkowe / krok 2: zamiana",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Weź zapis dwójkowy liczby n (bez zer na początku), odwróć kolejność cyfr i odczytaj, jaką liczbę teraz zapisuje. Na przykład 13 = 1101 po odwróceniu daje 1011 = 11, a 6 = 110 daje 011 = 3 (zero z przodu nic nie znaczy).",
+        "Da się to zrobić bez napisu, tak jak w lekcji Modulo odwracałeś cyfry dziesiętne: odcinaj ostatni bit (n % 2, n /= 2) i od razu doklejaj go na koniec nowej liczby (w = w · 2 + bit)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy jedna liczba n."
+      ],
+      "output_format": [
+        "q wierszy — liczba z odwróconych bitów."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "1 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "4\n13\n6\n8\n9",
+          "output": "11\n3\n1\n9",
+          "note": "13 = 1101 → 1011 = 11. 6 = 110 → 011 = 3. 8 = 1000 → 0001 = 1. 9 = 1001 to palindrom, więc zostaje 9."
+        }
+      ],
+      "hint": "long long w = 0; while (n > 0) { w = w * 2 + n % 2; n /= 2; }. Bit, który z n wychodzi ostatni (najstarszy), do w wchodzi ostatni — czyli na najmłodszą pozycję.",
+      "tests_count": 5
+    },
+    {
+      "id": "ld-najwiecej-jedynek",
+      "number": 2450,
+      "title": "Najwięcej zapalonych żarówek",
+      "category": "Liczby dwójkowe / krok 2: zamiana",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Każda z n liczb jest pokazywana na rzędzie żarówek. Znajdź liczbę, która zapala najwięcej żarówek, czyli ma najwięcej jedynek w zapisie dwójkowym. Jeśli kilka liczb ma tyle samo jedynek, wybierz najmniejszą z nich.",
+        "Wypisz tę liczbę i jej zapis dwójkowy."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb całkowitych."
+      ],
+      "output_format": [
+        "Jeden wiersz: wybrana liczba i jej zapis dwójkowy (bez zer na początku), oddzielone spacją."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "Liczby są z przedziału od 0 do 10⁹."
+      ],
+      "examples": [
+        {
+          "input": "5\n8 7 12 11 6",
+          "output": "7 111",
+          "note": "8 = 1000 (1 jedynka), 7 = 111 (3), 12 = 1100 (2), 11 = 1011 (3), 6 = 110 (2). Po trzy jedynki mają 7 i 11 — wygrywa mniejsza, 7."
+        }
+      ],
+      "hint": "Napisz funkcję int ileJedynek(int x) z pętlą while (x > 0) { ile += x % 2; x /= 2; }. Potem zwykły rekord z lekcji Max / Min: lepsza jest liczba z większą liczbą jedynek, a przy remisie — mniejsza.",
+      "tests_count": 9
+    },
+    {
+      "id": "ld-na-system",
+      "number": 2451,
+      "title": "Na system o podstawie k",
+      "category": "Liczby dwójkowe / krok 3: systemy liczbowe",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W systemie o podstawie k są cyfry od 0 do k − 1, a wagi pozycji to potęgi k: 1, k, k², k³, … System dziesiętny to k = 10, dwójkowy — k = 2.",
+        "Dla każdej pary n, k wypisz zapis liczby n w systemie o podstawie k (bez zer na początku). Przepis jest ten sam co dla dwójkowego: dziel przez k i zbieraj reszty od dołu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy dwie liczby n i k."
+      ],
+      "output_format": [
+        "q wierszy — zapis n w systemie o podstawie k."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 300",
+        "0 ≤ n ≤ 10¹⁸",
+        "2 ≤ k ≤ 10"
+      ],
+      "examples": [
+        {
+          "input": "4\n13 2\n13 3\n100 8\n0 7",
+          "output": "1101\n111\n144\n0",
+          "note": "13 w trójkowym: 13 : 3 = 4 r. 1, 4 : 3 = 1 r. 1, 1 : 3 = 0 r. 1 — zapis 111 (9 + 3 + 1). 100 w ósemkowym to 144 (64 + 4·8 + 4). Zero w każdym systemie to 0."
+        }
+      ],
+      "hint": "To samo co z dwójką: if (n == 0) s = \"0\"; while (n > 0) { s = char('0' + n % k) + s; n /= k; }. Podstawa nie przekracza 10, więc wszystkie cyfry to zwykłe cyfry 0–9.",
+      "tests_count": 5
+    },
+    {
+      "id": "ld-z-systemu",
+      "number": 2452,
+      "title": "Z systemu o podstawie k",
+      "category": "Liczby dwójkowe / krok 3: systemy liczbowe",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej pary k, s wypisz, jaką liczbę zapisuje napis s w systemie o podstawie k.",
+        "Przepis „od lewej” działa w każdym systemie: zacznij od w = 0 i dla każdej cyfry od lewej zrób w = w · k + cyfra."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy liczba k i napis s — zapis liczby w systemie o podstawie k (same cyfry od 0 do k − 1, bez zer na początku, chyba że liczba to 0)."
+      ],
+      "output_format": [
+        "q wierszy — wartość każdego zapisu w systemie dziesiętnym."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 300",
+        "2 ≤ k ≤ 10",
+        "Zapisana liczba nie przekracza 10¹⁸."
+      ],
+      "examples": [
+        {
+          "input": "4\n3 111\n8 144\n2 1101\n10 2024",
+          "output": "13\n100\n13\n2024",
+          "note": "111 trójkowo: w = 1, potem 1·3 + 1 = 4, potem 4·3 + 1 = 13. 144 ósemkowo to 1·64 + 4·8 + 4 = 100. W systemie dziesiętnym wychodzi ta sama liczba."
+        }
+      ],
+      "hint": "long long w = 0; for (char c : s) w = w * k + (c - '0');. To dokładnie ten sam kod co dla dwójki — zamiast 2 stoi k.",
+      "tests_count": 5
+    },
+    {
+      "id": "ld-szesnastkowo",
+      "number": 2453,
+      "title": "Zapis szesnastkowy",
+      "category": "Liczby dwójkowe / krok 3: systemy liczbowe",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "System szesnastkowy ma szesnaście cyfr: 0–9, a potem litery A (10), B (11), C (12), D (13), E (14) i F (15). Programiści lubią go, bo jedna cyfra szesnastkowa to dokładnie cztery bity.",
+        "Dla każdej liczby n wypisz jej zapis szesnastkowy wielkimi literami, bez zer na początku."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy jedna liczba n."
+      ],
+      "output_format": [
+        "q wierszy — zapis szesnastkowy każdej liczby (wielkie litery)."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "0 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "5\n255\n16\n2024\n0\n3054",
+          "output": "FF\n10\n7E8\n0\nBEE",
+          "note": "255 = 15·16 + 15, czyli FF. 16 to 10 (jedna szesnastka, zero jedności). 2024 = 7·256 + 14·16 + 8, czyli 7E8. 3054 to BEE."
+        }
+      ],
+      "hint": "Napis z cyframi: string cyfry = \"0123456789ABCDEF\"; i w pętli s = cyfry[n % 16] + s; n /= 16;. Albo krócej: cout << hex << uppercase << n << \"\\n\"; — pamiętaj, że hex zostaje włączony dla wszystkich kolejnych liczb.",
+      "tests_count": 5
+    },
+    {
+      "id": "ld-kolor-html",
+      "number": 2454,
+      "title": "Kolor ze strony internetowej",
+      "category": "Liczby dwójkowe / krok 3: systemy liczbowe",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na stronach internetowych kolory zapisuje się w postaci #RRGGBB: po krzyżyku trzy pary cyfr szesnastkowych — ile jest czerwonego (RR), zielonego (GG) i niebieskiego (BB). Każda para to liczba od 00 do FF, czyli od 0 do 255. Na przykład #FF8000 to pomarańczowy: czerwony 255, zielony 128, niebieski 0.",
+        "Dla każdego koloru wypisz trzy liczby dziesiętne. Litery mogą być wielkie albo małe — #ff8000 to ten sam kolor."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy jeden kolor w postaci #RRGGBB."
+      ],
+      "output_format": [
+        "q wierszy: trzy liczby (czerwony, zielony, niebieski) oddzielone spacjami."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "Każdy kolor to krzyżyk i sześć cyfr szesnastkowych (0–9, A–F albo a–f)."
+      ],
+      "examples": [
+        {
+          "input": "3\n#FF8000\n#1e90ff\n#000000",
+          "output": "255 128 0\n30 144 255\n0 0 0",
+          "note": "#FF8000: FF = 15·16 + 15 = 255, 80 = 8·16 = 128, 00 = 0. #1e90ff: 1e = 30, 90 = 144, ff = 255. Czarny to same zera."
+        }
+      ],
+      "hint": "Napisz funkcję int cyfra(char c): dla '0'–'9' zwróć c - '0', dla 'A'–'F' zwróć c - 'A' + 10, dla 'a'–'f' — c - 'a' + 10. Para s[1], s[2] to cyfra(s[1]) * 16 + cyfra(s[2]), i tak samo dla pozycji 3–4 i 5–6.",
+      "tests_count": 4
+    },
+    {
+      "id": "ld-grupowanie-bitow",
+      "number": 2455,
+      "title": "Grupowanie bitów po cztery",
+      "category": "Liczby dwójkowe / krok 3: systemy liczbowe",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Jedna cyfra szesnastkowa to dokładnie cztery bity: 0000 = 0, 0001 = 1, …, 1010 = A, …, 1111 = F. Dlatego zamiana z dwójkowego na szesnastkowy jest prosta: dzielisz bity na grupy po cztery, zaczynając od prawej strony, i każdą grupę zamieniasz na jedną cyfrę. Jeśli w ostatniej grupie z lewej brakuje bitów, dopisujesz zera z przodu.",
+        "Napis z zer i jedynek może mieć nawet 10 000 znaków — takiej liczby nie zmieścisz w żadnym typie, ale grupowanie działa dla dowolnej długości. Wypisz zapis szesnastkowy wielkimi literami, bez zer na początku (zero to 0)."
+      ],
+      "input_format": [
+        "Jeden napis z zer i jedynek (może zaczynać się od zer)."
+      ],
+      "output_format": [
+        "Zapis szesnastkowy tej liczby (wielkie litery, bez zer na początku)."
+      ],
+      "constraints": [
+        "Napis ma od 1 do 10 000 znaków."
+      ],
+      "examples": [
+        {
+          "input": "11111110",
+          "output": "FE",
+          "note": "Grupy od prawej: 1110 i 1111. 1111 = F, 1110 = E — wynik FE (254)."
+        },
+        {
+          "input": "0001011",
+          "output": "B",
+          "note": "Od prawej: 1011 = B, a z lewej zostaje 000 — po dopisaniu zera 0000 = 0. Zera z przodu odrzucamy, wynik B."
+        }
+      ],
+      "hint": "Najpierw dopisz zera z przodu, aż długość będzie podzielna przez 4: while (s.size() % 4 != 0) s = \"0\" + s;. Potem dla i = 0, 4, 8, … policz grupę: v = 8·(s[i]-'0') + 4·(s[i+1]-'0') + 2·(s[i+2]-'0') + (s[i+3]-'0') i dopisz cyfry[v]. Na końcu usuń zera z przodu wyniku (ale zostaw jedną cyfrę).",
+      "tests_count": 15
+    },
+    {
+      "id": "ld-suma-cyfr-systemu",
+      "number": 2456,
+      "title": "Suma cyfr w systemie k",
+      "category": "Liczby dwójkowe / krok 3: systemy liczbowe",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej pary n, k wypisz sumę cyfr zapisu liczby n w systemie o podstawie k. Cyfry zapisane literami liczą się według swojej wartości: A = 10, B = 11, …, F = 15.",
+        "Na przykład 255 szesnastkowo to FF, więc suma cyfr to 15 + 15 = 30, a dwójkowo 255 = 11111111 i suma cyfr to 8 — czyli liczba jedynek."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy dwie liczby n i k."
+      ],
+      "output_format": [
+        "q wierszy — suma cyfr n w systemie o podstawie k."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "0 ≤ n ≤ 10¹⁸",
+        "2 ≤ k ≤ 16"
+      ],
+      "examples": [
+        {
+          "input": "4\n255 16\n255 2\n2024 10\n100 3",
+          "output": "30\n8\n8\n4",
+          "note": "255 = FF (16): 15 + 15 = 30. 255 = 11111111 (2): 8. 2024 (10): 2 + 0 + 2 + 4 = 8. 100 = 10201 (3): 1 + 0 + 2 + 0 + 1 = 4."
+        }
+      ],
+      "hint": "int suma = 0; while (n > 0) { suma += n % k; n /= k; }. Reszta n % k to wartość cyfry, więc litery A–F w ogóle nie są potrzebne.",
+      "tests_count": 4
+    },
+    {
+      "id": "ld-z-systemu-do-systemu",
+      "number": 2457,
+      "title": "Z systemu do systemu",
+      "category": "Liczby dwójkowe / krok 3: systemy liczbowe",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej trójki a, b, s zamień zapis s liczby w systemie o podstawie a na zapis tej samej liczby w systemie o podstawie b.",
+        "Najprościej zrobić to w dwóch krokach: najpierw zamień s na zwykłą liczbę (w = w · a + cyfra), a potem tę liczbę na system b (dzielenie przez b i reszty od dołu). Cyfry od 10 do 15 zapisuj wielkimi literami A–F — i w wejściu, i w wyjściu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy liczby a i b oraz napis s — zapis w systemie a (cyfry 0–9 i A–F, bez zer na początku, chyba że liczba to 0)."
+      ],
+      "output_format": [
+        "q wierszy — zapis tej samej liczby w systemie b."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 300",
+        "2 ≤ a, b ≤ 16",
+        "Zapisana liczba nie przekracza 10¹⁸."
+      ],
+      "examples": [
+        {
+          "input": "3\n2 16 11111111\n16 2 7E8\n10 3 13",
+          "output": "FF\n11111101000\n111",
+          "note": "11111111 dwójkowo to 255, czyli FF szesnastkowo. 7E8 szesnastkowo to 2024, czyli 11111101000 dwójkowo. 13 trójkowo to 111."
+        }
+      ],
+      "hint": "Dwie funkcje: long long wartosc(string s, int a) z w = w * a + cyfra(c) oraz string zapis(long long n, int b) z cyfry[n % b] i n /= b. Cyfrę znaku policz jak w zadaniu z kolorami: c - '0' dla cyfr, c - 'A' + 10 dla liter.",
+      "tests_count": 5
+    },
+    {
+      "id": "ld-palindrom-w-systemach",
+      "number": 2458,
+      "title": "Palindrom w systemach",
+      "category": "Liczby dwójkowe / krok 3: systemy liczbowe",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ta sama liczba w różnych systemach wygląda różnie. 9 to dwójkowo 1001 (palindrom), trójkowo 100 (nie), a ósemkowo 11 (palindrom).",
+        "Dla każdej liczby n wypisz w kolejności rosnącej wszystkie podstawy k od 2 do 16, w których zapis n jest palindromem. Zapis z jednej cyfry (gdy n < k) też jest palindromem. Jeśli nie ma żadnej takiej podstawy, wypisz brak."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy jedna liczba n."
+      ],
+      "output_format": [
+        "q wierszy: podstawy oddzielone spacjami albo słowo brak."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 300",
+        "1 ≤ n ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "3\n9\n10\n1000",
+          "output": "2 8 10 11 12 13 14 15 16\n3 4 9 11 12 13 14 15 16\n9",
+          "note": "9: dwójkowo 1001 i ósemkowo 11 to palindromy, a od podstawy 10 w górę dziewiątka jest jedną cyfrą — jedna cyfra to zawsze palindrom. 10: trójkowo 101, czwórkowo 22, dziewiątkowo 11, a od podstawy 11 to jedna cyfra A. 1000 jest palindromem tylko w systemie dziewiątkowym: 1331 = 729 + 3·81 + 3·9 + 1."
+        }
+      ],
+      "hint": "Wystarczy wektor cyfr — nie trzeba zamieniać ich na litery: vector<int> c; while (x > 0) { c.push_back(x % k); x /= k; }. Palindrom to c[i] == c[c.size() - 1 - i] dla każdego i. Pamiętaj, żeby dla każdej podstawy zaczynać od kopii n.",
+      "tests_count": 5
+    },
+    {
+      "id": "ld-dodawanie-pisemne",
+      "number": 2459,
+      "title": "Dodawanie pisemne",
+      "category": "Liczby dwójkowe / krok 4: działania pisemne",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dodawanie pisemne po dwójkowemu wygląda tak samo jak w szkole, tylko cyfry są dwie: 0 + 0 = 0, 0 + 1 = 1, 1 + 1 = 10 (piszesz 0 i przenosisz 1 do następnej kolumny), a 1 + 1 + 1 z przeniesienia = 11 (piszesz 1 i przenosisz 1).",
+        "Liczby mają nawet 1000 cyfr, więc nie zmieszczą się w long long — dodawaj je jako napisy: od prawej strony, kolumna po kolumnie, pamiętając przeniesienie. Wypisz sumę bez zer na początku."
+      ],
+      "input_format": [
+        "Dwa wiersze, w każdym liczba dwójkowa bez zer na początku (albo 0)."
+      ],
+      "output_format": [
+        "Suma tych liczb zapisana dwójkowo, bez zer na początku."
+      ],
+      "constraints": [
+        "Każda liczba ma od 1 do 1000 cyfr."
+      ],
+      "examples": [
+        {
+          "input": "1011\n111",
+          "output": "10010",
+          "note": "Od prawej: 1 + 1 = 10 — piszemy 0, przenosimy 1. 1 + 1 + 1 = 11 — piszemy 1, przenosimy 1. 0 + 1 + 1 = 10 — piszemy 0, przenosimy 1. 1 + 1 = 10 — piszemy 0 i na końcu dopisujemy przeniesioną jedynkę: 10010 (11 + 7 = 18)."
+        }
+      ],
+      "hint": "int i = a.size() - 1, j = b.size() - 1, p = 0; string w = \"\"; while (i >= 0 || j >= 0 || p > 0) { int s = p; if (i >= 0) s += a[i--] - '0'; if (j >= 0) s += b[j--] - '0'; w += char('0' + s % 2); p = s / 2; } — cyfry wyniku wychodzą od końca, więc na koniec reverse(w.begin(), w.end());.",
+      "tests_count": 12
+    },
+    {
+      "id": "ld-plus-jeden",
+      "number": 2460,
+      "title": "Plus jeden i ile cyfr się zmieniło",
+      "category": "Liczby dwójkowe / krok 4: działania pisemne",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dodawanie jedynki po dwójkowemu to łańcuch przeniesień: idziesz od prawej, każdą jedynkę zamieniasz na zero, a pierwsze napotkane zero — na jedynkę. Jeśli zera w ogóle nie było (same jedynki), z przodu pojawia się nowa jedynka: 111 + 1 = 1000.",
+        "Wczytaj liczbę dwójkową, wypisz ją po dodaniu jedynki oraz liczbę cyfr, które się zmieniły (nowa jedynka z przodu też się liczy jako zmiana)."
+      ],
+      "input_format": [
+        "Jeden wiersz: liczba dwójkowa bez zer na początku (albo 0)."
+      ],
+      "output_format": [
+        "W pierwszym wierszu liczba po dodaniu jedynki.",
+        "W drugim wierszu liczba zmienionych cyfr."
+      ],
+      "constraints": [
+        "Liczba ma od 1 do 1000 cyfr."
+      ],
+      "examples": [
+        {
+          "input": "1011",
+          "output": "1100\n3",
+          "note": "Dwie jedynki z prawej zamieniają się w zera, a zero przed nimi — w jedynkę: 1100. Zmieniły się trzy cyfry."
+        },
+        {
+          "input": "111",
+          "output": "1000\n4",
+          "note": "Same jedynki: wszystkie trzy zamieniają się w zera i z przodu dochodzi nowa jedynka — 1000, cztery zmiany."
+        }
+      ],
+      "hint": "int i = s.size() - 1, zmiany = 0; while (i >= 0 && s[i] == '1') { s[i] = '0'; i--; zmiany++; }. Potem: if (i >= 0) s[i] = '1'; else s = \"1\" + s; i jeszcze zmiany++;.",
+      "tests_count": 12
+    },
+    {
+      "id": "ld-razy-dwa-przez-dwa",
+      "number": 2461,
+      "title": "Polecenia na liczbie dwójkowej",
+      "category": "Liczby dwójkowe / krok 4: działania pisemne",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na liczbie dwójkowej zapisanej napisem wykonaj po kolei q poleceń: *2 (pomnóż przez 2), /2 (podziel przez 2, odrzucając resztę) i +1 (dodaj jeden). Wypisz wynik po wszystkich poleceniach.",
+        "Mnożenie przez 2 po dwójkowemu to dopisanie zera na końcu — tak jak mnożenie przez 10 po dziesiętnemu. Dzielenie przez 2 to skreślenie ostatniej cyfry. Uważaj na dwa przypadki: zero razy dwa to nadal 0 (a nie 00), a po skreśleniu jedynej cyfry zostaje 0."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba dwójkowa bez zer na początku (albo 0).",
+        "W drugim wierszu liczba poleceń q.",
+        "W każdym z kolejnych q wierszy jedno polecenie: *2, /2 albo +1."
+      ],
+      "output_format": [
+        "Liczba po wykonaniu wszystkich poleceń, zapisana dwójkowo bez zer na początku."
+      ],
+      "constraints": [
+        "Początkowa liczba ma od 1 do 100 cyfr.",
+        "1 ≤ q ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "101\n4\n*2\n+1\n/2\n/2",
+          "output": "10",
+          "note": "101 (5) → *2 → 1010 (10) → +1 → 1011 (11) → /2 → 101 (5) → /2 → 10 (2)."
+        },
+        {
+          "input": "0\n3\n*2\n+1\n/2",
+          "output": "0",
+          "note": "0 razy 2 to wciąż 0. Plus jeden — 1. Podzielone przez 2 daje 0: skreślamy jedyną cyfrę i zostaje zero."
+        }
+      ],
+      "hint": "*2: if (s != \"0\") s += '0';. /2: if (s.size() == 1) s = \"0\"; else s.pop_back();. +1: jak w zadaniu „Plus jeden”. Polecenia wczytuj jako napisy: string p; cin >> p; if (p == \"*2\") …",
+      "tests_count": 14
+    },
+    {
+      "id": "ld-porownaj-dwojkowe",
+      "number": 2462,
+      "title": "Porównywanie długich liczb dwójkowych",
+      "category": "Liczby dwójkowe / krok 4: działania pisemne",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej pary liczb dwójkowych zapisanych napisami (mogą zaczynać się od zer i mieć różne długości) sprawdź, która jest większa.",
+        "Sposób: najpierw usuń zera z przodu (zostaw przynajmniej jedną cyfrę). Teraz dłuższa liczba jest większa — jej najstarsza jedynka waży więcej niż cała krótsza liczba. Jeśli długości są równe, decyduje pierwsza od lewej różnica, jak w zadaniu z rzędami żarówek."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "Potem q par wierszy: dwa napisy z zer i jedynek."
+      ],
+      "output_format": [
+        "q wierszy: znak < (pierwsza mniejsza), > (pierwsza większa) albo = (równe)."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 20",
+        "Każdy napis ma od 1 do 1000 znaków."
+      ],
+      "examples": [
+        {
+          "input": "3\n0011\n101\n1000\n111\n00\n0",
+          "output": "<\n>\n=",
+          "note": "0011 to 11 (3), a 101 to 5 — pierwsza mniejsza. 1000 (8) jest dłuższa od 111 (7), więc większa. 00 i 0 to obie zero."
+        }
+      ],
+      "hint": "Funkcja string bezZer(string s) { int p = 0; while (p + 1 < s.size() && s[p] == '0') p++; return s.substr(p); }. Potem: if (a.size() != b.size()) — mniejsza jest krótsza; w przeciwnym razie porównaj napisy a < b.",
+      "tests_count": 9
+    },
+    {
+      "id": "ld-mnozenie-egipskie",
+      "number": 2463,
+      "title": "Mnożenie egipskie",
+      "category": "Liczby dwójkowe / krok 4: działania pisemne",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Starożytni Egipcjanie mnożyli, umiejąc tylko podwajać i połowić. Zapisz w wierszu a i b. Potem w kolejnych wierszach a dziel przez 2 (odrzucając resztę), a b mnóż przez 2 — aż a dojdzie do 1. Wynik mnożenia to suma tych b, przy których a jest nieparzyste.",
+        "Dlaczego to działa? Nieparzyste a w kolejnych wierszach to dokładnie jedynki w zapisie dwójkowym a, a b w tych wierszach to b · 1, b · 2, b · 4, … Na przykład 13 = 8 + 4 + 1, więc 13 · 7 = 7 · 8 + 7 · 4 + 7 · 1. Wypisz całą tabelkę i wynik."
+      ],
+      "input_format": [
+        "Dwie liczby a i b."
+      ],
+      "output_format": [
+        "Kolejne wiersze tabelki: a i b oddzielone spacją, a jeśli a jest nieparzyste — jeszcze spacja i znak +. Ostatni wiersz tabelki ma a = 1.",
+        "Na końcu wiersz wynik: X, gdzie X = a · b."
+      ],
+      "constraints": [
+        "1 ≤ a, b ≤ 10⁹"
+      ],
+      "examples": [
+        {
+          "input": "13 7",
+          "output": "13 7 +\n6 14\n3 28 +\n1 56 +\nwynik: 91",
+          "note": "Wiersze: 13 7 + (13 nieparzyste), 6 14, 3 28 +, 1 56 +. Suma oznaczonych b: 7 + 28 + 56 = 91 = 13 · 7."
+        }
+      ],
+      "hint": "long long a, b, wynik = 0; while (a >= 1) { cout << a << \" \" << b; if (a % 2 == 1) { cout << \" +\"; wynik += b; } cout << \"\\n\"; a /= 2; b *= 2; } i na końcu cout << \"wynik: \" << wynik;. b rośnie do miliardów razy 2²⁹ — long long jest konieczny.",
+      "tests_count": 11
+    },
+    {
+      "id": "ld-kroki-do-zera",
+      "number": 2464,
+      "title": "Kroki do zera",
+      "category": "Liczby dwójkowe / krok 4: działania pisemne",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Zaczynasz od liczby n. W każdym kroku: jeśli n jest parzyste, dzielisz je przez 2; jeśli nieparzyste — odejmujesz 1. Ile kroków trzeba, żeby dojść do zera?",
+        "Liczba jest podana dwójkowo i ma nawet 100 000 cyfr. Po dwójkowemu oba ruchy są proste: parzystość widać po ostatniej cyfrze (0 — parzysta), dzielenie przez 2 to skreślenie ostatniego zera, a odjęcie 1 od liczby nieparzystej zamienia ostatnią jedynkę na zero."
+      ],
+      "input_format": [
+        "Jeden wiersz: liczba n zapisana dwójkowo, bez zer na początku."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba kroków do zera."
+      ],
+      "constraints": [
+        "Zapis ma od 1 do 100 000 cyfr, n ≥ 1."
+      ],
+      "examples": [
+        {
+          "input": "1101",
+          "output": "6",
+          "note": "13 → 12 (−1) → 6 (:2) → 3 (:2) → 2 (−1) → 1 (:2) → 0 (−1). Razem 6 kroków."
+        },
+        {
+          "input": "1",
+          "output": "1",
+          "note": "Jedynka jest nieparzysta: jeden krok −1 i już jest zero."
+        }
+      ],
+      "hint": "Pętla, dopóki napis nie jest \"0\": jeśli s.back() == '0', to s.pop_back(); (dzielenie przez 2), a jeśli '1' — zamień ją na '0' (odjęcie 1), a jeśli to była jedyna cyfra, napis staje się \"0\". Licz kroki w long long. Ciekawostka: wynik to (liczba cyfr − 1) + liczba jedynek — sprawdzisz dlaczego?",
+      "tests_count": 11
+    },
+    {
+      "id": "ld-odejmowanie-pisemne",
+      "number": 2465,
+      "title": "Odejmowanie pisemne",
+      "category": "Liczby dwójkowe / krok 4: działania pisemne",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj dwie liczby dwójkowe a ≥ b (bez zer na początku, do 1000 cyfr) i wypisz ich różnicę a − b.",
+        "Odejmowanie pisemne po dwójkowemu: od prawej, kolumna po kolumnie. 1 − 0 = 1, 1 − 1 = 0, 0 − 0 = 0, a gdy trzeba od 0 odjąć 1, pożyczasz jedynkę z następnej kolumny: 10 − 1 = 1, a w następnej kolumnie odejmujesz o 1 więcej. Wynik może zaczynać się od zer — usuń je (zero to 0)."
+      ],
+      "input_format": [
+        "Dwa wiersze: liczby a i b zapisane dwójkowo, a ≥ b."
+      ],
+      "output_format": [
+        "Różnica a − b zapisana dwójkowo, bez zer na początku."
+      ],
+      "constraints": [
+        "Każda liczba ma od 1 do 1000 cyfr.",
+        "a ≥ b"
+      ],
+      "examples": [
+        {
+          "input": "10010\n111",
+          "output": "1011",
+          "note": "18 − 7 = 11. Od prawej: 0 − 1 — pożyczamy, wychodzi 1. W drugiej kolumnie 1 − 1 − 1 (pożyczka) — znów pożyczamy: 1. Dalej 0 − 1 − 1 — pożyczka: 0. Dalej 1 − 0 − 1 = 0, na końcu 1. Wynik 01011, czyli 1011."
+        }
+      ],
+      "hint": "int i = a.size() - 1, j = b.size() - 1, poz = 0; while (i >= 0) { int d = (a[i] - '0') - poz - (j >= 0 ? b[j] - '0' : 0); if (d < 0) { d += 2; poz = 1; } else poz = 0; w += char('0' + d); i--; j--; }. Potem reverse i usunięcie zer z przodu.",
+      "tests_count": 14
+    },
+    {
+      "id": "ld-mnozenie-pisemne",
+      "number": 2466,
+      "title": "Mnożenie pisemne",
+      "category": "Liczby dwójkowe / krok 4: działania pisemne",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj dwie liczby dwójkowe a i b (do 300 cyfr) i wypisz ich iloczyn.",
+        "Mnożenie pisemne po dwójkowemu jest prostsze niż po dziesiętnemu: mnożenie a przez cyfrę b daje albo 0, albo samo a. Dla każdej jedynki w b, stojącej na pozycji j od prawej (licząc od 0), dodaj do wyniku a z dopisanymi j zerami na końcu (czyli a · 2ʲ). Dodawanie robisz tak jak w zadaniu „Dodawanie pisemne”."
+      ],
+      "input_format": [
+        "Dwa wiersze: liczby a i b zapisane dwójkowo, bez zer na początku (albo 0)."
+      ],
+      "output_format": [
+        "Iloczyn a · b zapisany dwójkowo, bez zer na początku."
+      ],
+      "constraints": [
+        "Każda liczba ma od 1 do 300 cyfr."
+      ],
+      "examples": [
+        {
+          "input": "101\n11",
+          "output": "1111",
+          "note": "Jedynki w b = 11 stoją na pozycjach 0 i 1, więc wynik to 101 + 1010 = 1111 (5 · 3 = 15)."
+        },
+        {
+          "input": "1101\n0",
+          "output": "0",
+          "note": "Coś razy zero to zero."
+        }
+      ],
+      "hint": "Napisz funkcję string dodaj(string a, string b) z zadania o dodawaniu. Potem string wynik = \"0\"; for (int j = 0; j < b.size(); j++) if (b[b.size() - 1 - j] == '1') wynik = dodaj(wynik, a + string(j, '0'));. Uważaj, żeby nie dopisywać zer do samego zera — wystarczy na początku sprawdzić, czy a albo b to \"0\".",
+      "tests_count": 13
+    },
+    {
+      "id": "ld-zakres-na-k-bitach",
+      "number": 2467,
+      "title": "Zakres liczb na k bitach",
+      "category": "Liczby dwójkowe / krok 5: limity typów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na k bitach zmieści się 2ᵏ różnych wartości. Typ bez znaku (unsigned) używa ich na liczby od 0 do 2ᵏ − 1. Typ ze znakiem (kod U2) dzieli je na pół: od −2ᵏ⁻¹ do 2ᵏ⁻¹ − 1 — ujemnych jest o jedną więcej, bo zero zajmuje miejsce po stronie nieujemnej.",
+        "Dla każdego k wypisz trzy liczby: największą liczbę bez znaku na k bitach, najmniejszą liczbę ze znakiem i największą liczbę ze znakiem. Dla k = 32 dostaniesz zakresy unsigned int i int, a dla k = 64 — unsigned long long i long long."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy jedna liczba k."
+      ],
+      "output_format": [
+        "q wierszy: trzy liczby oddzielone spacjami — 2ᵏ − 1, −2ᵏ⁻¹ i 2ᵏ⁻¹ − 1."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 64",
+        "1 ≤ k ≤ 64"
+      ],
+      "examples": [
+        {
+          "input": "4\n1\n8\n32\n64",
+          "output": "1 -1 0\n255 -128 127\n4294967295 -2147483648 2147483647\n18446744073709551615 -9223372036854775808 9223372036854775807",
+          "note": "Na 1 bicie: bez znaku 0 albo 1, ze znakiem −1 albo 0. Na 8 bitach: do 255 albo od −128 do 127. Na 32 bitach — zakres unsigned int i int. Na 64 bitach — największy unsigned long long i zakres long long."
+        }
+      ],
+      "hint": "unsigned long long m = 1ULL << (k - 1); to 2ᵏ⁻¹ (k − 1 ≤ 63, więc się da). Wtedy 2ᵏ − 1 = m - 1 + m (dla k = 64 przesunięcie o 64 jest zabronione, a ta suma dalej działa), największa ze znakiem to m - 1, a najmniejsza to -(long long)(m - 1) - 1.",
+      "tests_count": 5
+    },
+    {
+      "id": "ld-ktory-typ",
+      "number": 2468,
+      "title": "W jakim typie się zmieści",
+      "category": "Liczby dwójkowe / krok 5: limity typów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Typy całkowite ze znakiem różnią się liczbą bitów: char ma 8 bitów (od −128 do 127), short — 16 bitów (od −32 768 do 32 767), int — 32 bity (od −2 147 483 648 do 2 147 483 647), a long long — 64 bity.",
+        "Dla każdej liczby wypisz nazwę najmniejszego z tych typów, w którym się zmieści: char, short, int albo long long."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy jedna liczba całkowita x."
+      ],
+      "output_format": [
+        "q wierszy: char, short, int albo long long."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "−9 · 10¹⁸ ≤ x ≤ 9 · 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "5\n100\n-128\n128\n40000\n3000000000",
+          "output": "char\nchar\nshort\nint\nlong long",
+          "note": "100 i −128 mieszczą się w char. 128 już nie (char kończy się na 127), ale w short tak. 40 000 przekracza 32 767 — potrzebny int. 3 miliardy nie mieszczą się w int."
+        }
+      ],
+      "hint": "Wczytaj x do long long i porównuj z granicami: if (x >= -128 && x <= 127) … else if (x >= -32768 && x <= 32767) … else if (x >= INT_MIN && x <= INT_MAX) … else long long. INT_MIN i INT_MAX są w <climits> (bits/stdc++.h je ma).",
+      "tests_count": 4
+    },
+    {
+      "id": "ld-licznik-kilometrow",
+      "number": 2469,
+      "title": "Licznik kilometrów",
+      "category": "Liczby dwójkowe / krok 5: limity typów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Stary licznik kilometrów ma k bitów, więc pokazuje liczby od 0 do 2ᵏ − 1. Gdy pokazuje 2ᵏ − 1 (same jedynki) i przybędzie kilometr, przekręca się na 0 — tak samo zachowuje się każdy typ bez znaku w C++, na przykład unsigned char po 255 przechodzi w 0.",
+        "Licznik pokazuje na początku x. Samochód przejeżdża kolejno q tras. Po każdej trasie wypisz, co pokazuje licznik. Pokazywana liczba to po prostu prawdziwa suma kilometrów modulo 2ᵏ."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby k, x i q.",
+        "W drugim wierszu q liczb — długości kolejnych tras w kilometrach."
+      ],
+      "output_format": [
+        "q wierszy — stan licznika po każdej trasie."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ 30",
+        "0 ≤ x < 2ᵏ",
+        "1 ≤ q ≤ 1000",
+        "Każda trasa ma od 0 do 10⁹ kilometrów."
+      ],
+      "examples": [
+        {
+          "input": "4 13 3\n2 5 100",
+          "output": "15\n4\n8",
+          "note": "Licznik 4-bitowy pokazuje od 0 do 15. 13 + 2 = 15. 15 + 5 = 20, ale 20 mod 16 = 4 — licznik się przekręcił. 4 + 100 = 104, a 104 mod 16 = 8."
+        }
+      ],
+      "hint": "long long m = 1LL << k; i po każdej trasie x = (x + a) % m;. Wszystko w long long: x + a może przekroczyć 2 miliardy.",
+      "tests_count": 9
+    },
+    {
+      "id": "ld-kod-u2",
+      "number": 2470,
+      "title": "Zapisz liczbę w kodzie U2",
+      "category": "Liczby dwójkowe / krok 5: limity typów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W kodzie U2 (tak C++ trzyma int i long long) najstarszy bit ma wagę ujemną: na k bitach waży −2ᵏ⁻¹ zamiast +2ᵏ⁻¹. Dzięki temu liczby nieujemne zapisuje się zwyczajnie, a liczbę ujemną x — jako zwykły zapis liczby x + 2ᵏ. Na przykład na 8 bitach −1 to zapis 255, czyli 11111111, a −128 to zapis 128, czyli 10000000.",
+        "Dla każdej pary x, k wypisz kod U2 liczby x na dokładnie k bitach."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy dwie liczby x i k."
+      ],
+      "output_format": [
+        "q wierszy — kod U2 liczby x: dokładnie k cyfr 0 i 1."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 300",
+        "2 ≤ k ≤ 32",
+        "−2ᵏ⁻¹ ≤ x ≤ 2ᵏ⁻¹ − 1"
+      ],
+      "examples": [
+        {
+          "input": "4\n5 8\n-1 8\n-128 8\n-3 4",
+          "output": "00000101\n11111111\n10000000\n1101",
+          "note": "5 na 8 bitach to zwykłe 00000101. −1 → 255 → 11111111. −128 → 128 → 10000000. −3 na 4 bitach → 13 → 1101."
+        }
+      ],
+      "hint": "long long v = x; if (v < 0) v += 1LL << k; a potem zapisz v na dokładnie k bitach: pętla k razy z s = char('0' + v % 2) + s; v /= 2;.",
+      "tests_count": 4
+    },
+    {
+      "id": "ld-z-kodu-u2",
+      "number": 2471,
+      "title": "Odczytaj kod U2",
+      "category": "Liczby dwójkowe / krok 5: limity typów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdego napisu z zer i jedynek długości k wypisz liczbę, którą zapisuje w kodzie U2 na k bitach.",
+        "Najprościej: odczytaj napis jak zwykłą liczbę dwójkową. Jeśli pierwszy (najstarszy) bit to 0, to już wynik. Jeśli 1 — liczba jest ujemna i od odczytanej wartości trzeba odjąć 2ᵏ, bo ten bit naprawdę waży −2ᵏ⁻¹, a nie +2ᵏ⁻¹."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy jeden napis z zer i jedynek."
+      ],
+      "output_format": [
+        "q wierszy — wartość każdego kodu U2."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 300",
+        "Każdy napis ma od 2 do 62 znaków."
+      ],
+      "examples": [
+        {
+          "input": "4\n0101\n1111\n1000\n11111110",
+          "output": "5\n-1\n-8\n-2",
+          "note": "0101 zaczyna się od zera, więc to zwykłe 5. 1111 to 15 − 16 = −1. 1000 to 8 − 16 = −8 — najmniejsza liczba na 4 bitach. 11111110 to 254 − 256 = −2."
+        }
+      ],
+      "hint": "long long v = 0; for (char c : s) v = v * 2 + (c - '0'); if (s[0] == '1') v -= 1LL << s.size();. Napis ma najwyżej 62 znaki, więc 2⁶² mieści się w long long.",
+      "tests_count": 4
+    },
+    {
+      "id": "ld-symulator-przepelnienia",
+      "number": 2472,
+      "title": "Symulator przepełnienia",
+      "category": "Liczby dwójkowe / krok 5: limity typów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Gdy wynik działania na int nie mieści się w 32 bitach, procesor zostawia tylko 32 najmłodsze bity, a C++ czyta je w kodzie U2. Dlatego 2 147 483 647 + 1 daje −2 147 483 648, a 100 000 · 100 000 daje 1 410 065 408. (Formalnie przepełnienie int to w C++ błąd, ale na naszych komputerach wygląda dokładnie tak.)",
+        "Dla każdego działania a op b na liczbach typu int wypisz dwie liczby: wynik, jaki da int, i prawdziwy wynik."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy działanie: liczba a, znak +, - albo * i liczba b, oddzielone spacjami."
+      ],
+      "output_format": [
+        "q wierszy: wynik w int i prawdziwy wynik, oddzielone spacją."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "a i b mieszczą się w int: −2 147 483 648 ≤ a, b ≤ 2 147 483 647."
+      ],
+      "examples": [
+        {
+          "input": "3\n2147483647 + 1\n100000 * 100000\n5 - 7",
+          "output": "-2147483648 2147483648\n1410065408 10000000000\n-2 -2",
+          "note": "INT_MAX + 1 przekręca się na najmniejszego int-a. 10¹⁰ = 2 · 2³² + 1 410 065 408 — zostaje reszta 1 410 065 408 (mniejsza od 2³¹, więc dodatnia). 5 − 7 = −2 mieści się bez problemu."
+        }
+      ],
+      "hint": "Policz prawdziwy wynik y w long long (zrzutuj a na long long przed mnożeniem!). Zawinięcie: long long m = 1LL << 32; long long x = ((y % m) + m) % m; if (x >= (1LL << 31)) x -= m;.",
+      "tests_count": 4
+    },
+    {
+      "id": "ld-napis-w-bitach",
+      "number": 2473,
+      "title": "Napis w bitach",
+      "category": "Liczby dwójkowe / krok 5: limity typów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla komputera litera to też liczba — jej kod ASCII. Wielka litera A ma kod 65, czyli dwójkowo 01000001, spacja ma kod 32, a cyfra 0 — kod 48. Każdy znak zajmuje jeden bajt, czyli 8 bitów.",
+        "Wczytaj cały wiersz tekstu (razem ze spacjami) i wypisz kod każdego znaku zapisany dwójkowo na dokładnie 8 bitach."
+      ],
+      "input_format": [
+        "Jeden wiersz tekstu: litery, cyfry, spacje i znaki przestankowe (zwykłe znaki ASCII, bez polskich liter)."
+      ],
+      "output_format": [
+        "Jeden wiersz: kody kolejnych znaków, każdy na 8 bitach, oddzielone spacjami."
+      ],
+      "constraints": [
+        "Wiersz ma od 1 do 200 znaków i nie zaczyna się ani nie kończy spacją."
+      ],
+      "examples": [
+        {
+          "input": "Ala ma kota",
+          "output": "01000001 01101100 01100001 00100000 01101101 01100001 00100000 01101011 01101111 01110100 01100001",
+          "note": "A = 65 = 01000001, l = 108 = 01101100, a = 97 = 01100001, spacja = 32 = 00100000 i tak dalej. Zauważ, że wielka i mała litera różnią się jednym bitem — tym o wadze 32."
+        },
+        {
+          "input": "C++",
+          "output": "01000011 00101011 00101011",
+          "note": "C = 67, a plus ma kod 43 = 00101011."
+        }
+      ],
+      "hint": "string s; getline(cin, s); a potem dla każdego znaku: int v = c; i zapis na 8 bitach pętlą (jak w zadaniu „Zapis na k bitach”). Krócej: cout << bitset<8>(c);.",
+      "tests_count": 10
+    },
+    {
+      "id": "ld-tajna-wiadomosc",
+      "number": 2474,
+      "title": "Tajna wiadomość",
+      "category": "Liczby dwójkowe / krok 5: limity typów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Szpieg przesłał wiadomość jako jeden długi ciąg zer i jedynek. Każdy znak wiadomości zapisał jako swój kod ASCII na 8 bitach, a kody zakodowanych znaków skleił bez odstępów.",
+        "Odczytaj wiadomość: podziel ciąg na kawałki po 8 bitów, każdy kawałek zamień na liczbę, a liczbę — na znak."
+      ],
+      "input_format": [
+        "Jeden wiersz: ciąg zer i jedynek o długości podzielnej przez 8."
+      ],
+      "output_format": [
+        "Odczytana wiadomość (zwykłe znaki ASCII: litery, cyfry, spacje i znaki przestankowe)."
+      ],
+      "constraints": [
+        "Ciąg ma od 8 do 4000 znaków.",
+        "Wiadomość nie zaczyna się ani nie kończy spacją."
+      ],
+      "examples": [
+        {
+          "input": "010010000110100100100001",
+          "output": "Hi!",
+          "note": "Kawałki: 01001000 = 72 = H, 01101001 = 105 = i, 00100001 = 33 = !. Wiadomość to Hi!."
+        }
+      ],
+      "hint": "for (int i = 0; i < s.size(); i += 8) { int v = 0; for (int j = i; j < i + 8; j++) v = v * 2 + (s[j] - '0'); cout << char(v); }. char(v) wypisuje znak o kodzie v, a nie liczbę.",
+      "tests_count": 7
+    },
+    {
+      "id": "ld-and-or-xor",
+      "number": 2475,
+      "title": "AND, OR i XOR",
+      "category": "Liczby dwójkowe / krok 6: operatory bitowe",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Operatory bitowe działają na każdej parze bitów osobno: a & b ma jedynkę tam, gdzie obie liczby mają jedynkę; a | b — tam, gdzie choć jedna ma jedynkę; a ^ b — tam, gdzie dokładnie jedna ma jedynkę (czyli tam, gdzie bity są różne).",
+        "Dla każdej pary liczb wypisz trzy wyniki: a & b, a | b i a ^ b."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy dwie liczby a i b."
+      ],
+      "output_format": [
+        "q wierszy: trzy liczby a & b, a | b i a ^ b oddzielone spacjami."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 400",
+        "0 ≤ a, b ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "2\n12 10\n5 3",
+          "output": "8 14 6\n1 7 6",
+          "note": "12 = 1100, 10 = 1010. Wspólna jedynka tylko na pozycji o wadze 8: 12 & 10 = 8. Jedynki w którejkolwiek: 1110 = 14. Różne bity: 0110 = 6. Dla 5 = 101 i 3 = 011: 1, 7 i 6."
+        }
+      ],
+      "hint": "long long a, b; cin >> a >> b; cout << (a & b) << \" \" << (a | b) << \" \" << (a ^ b) << \"\\n\";. Nawiasy są konieczne — bez nich cout << a & b się nie skompiluje.",
+      "tests_count": 4
+    },
+    {
+      "id": "ld-przesuniecia",
+      "number": 2476,
+      "title": "Przesunięcia w lewo i w prawo",
+      "category": "Liczby dwójkowe / krok 6: operatory bitowe",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Przesunięcie bitów w lewo o k miejsc (x << k) dopisuje k zer z prawej strony zapisu dwójkowego, czyli mnoży liczbę przez 2ᵏ. Przesunięcie w prawo (x >> k) skreśla k ostatnich cyfr, czyli dzieli przez 2ᵏ i odrzuca resztę.",
+        "Dla każdej pary x, k wypisz x << k oraz x >> k. Uwaga: x << k może wyjść poza zakres int, więc x musi być typu long long, zanim go przesuniesz."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy dwie liczby x i k."
+      ],
+      "output_format": [
+        "q wierszy: x << k i x >> k oddzielone spacją."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "0 ≤ x ≤ 10⁹",
+        "0 ≤ k ≤ 30"
+      ],
+      "examples": [
+        {
+          "input": "3\n5 2\n13 1\n1000000000 30",
+          "output": "20 1\n26 6\n1073741824000000000 0",
+          "note": "5 = 101: w lewo o 2 to 10100 = 20, w prawo o 2 to 1. 13 = 1101: 11010 = 26 i 110 = 6. Miliard razy 2³⁰ to ponad 10¹⁸ — w int by się nie zmieścił."
+        }
+      ],
+      "hint": "long long x; int k; cin >> x >> k; cout << (x << k) << \" \" << (x >> k) << \"\\n\";. Gdyby x było int-em, x << 30 przekręciłoby się — przesuwa się w typie lewej strony.",
+      "tests_count": 4
+    },
+    {
+      "id": "ld-potega-dwojki",
+      "number": 2477,
+      "title": "Czy to potęga dwójki",
+      "category": "Liczby dwójkowe / krok 6: operatory bitowe",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Potęga dwójki ma w zapisie dwójkowym dokładnie jedną jedynkę: 8 = 1000, 64 = 1000000. Odejmij od niej 1: jedynka zmienia się w zero, a wszystkie zera za nią — w jedynki (8 − 1 = 7 = 0111). Te dwie liczby nie mają ani jednej wspólnej jedynki, więc x & (x − 1) = 0. Dla każdej innej dodatniej liczby najstarsza jedynka zostaje i wynik nie jest zerem.",
+        "Dla każdej liczby x sprawdź, czy jest potęgą dwójki."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy jedna liczba x."
+      ],
+      "output_format": [
+        "q wierszy: TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "1 ≤ x ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "5\n8\n12\n1\n1024\n1023",
+          "output": "TAK\nNIE\nTAK\nTAK\nNIE",
+          "note": "8 & 7 = 1000 & 0111 = 0 — TAK. 12 & 11 = 1100 & 1011 = 1000 ≠ 0 — NIE. 1 = 2⁰ — TAK. 1024 = 2¹⁰ — TAK. 1023 to same jedynki — NIE."
+        }
+      ],
+      "hint": "if ((x & (x - 1)) == 0) cout << \"TAK\\n\"; — nawiasy wokół x & (x - 1) są konieczne. Bez nich x & (x - 1) == 0 znaczy x & ((x - 1) == 0), bo == ma wyższy priorytet niż &.",
+      "tests_count": 5
+    },
+    {
+      "id": "ld-samotna-liczba",
+      "number": 2478,
+      "title": "Samotna liczba",
+      "category": "Liczby dwójkowe / krok 6: operatory bitowe",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W ciągu n liczb każda wartość występuje dokładnie dwa razy — z wyjątkiem jednej, która występuje raz. Znajdź ją.",
+        "Można sortować albo liczyć mapą, ale jest sztuczka z XOR: a ^ a = 0, a ^ 0 = a, a kolejność działań nie ma znaczenia. Jeśli zXOR-ujesz wszystkie liczby, każda para się zniesie i zostanie samotna liczba. Wystarczy jedna zmienna, bez żadnej tablicy."
+      ],
+      "input_format": [
+        "W pierwszym wierszu nieparzysta liczba n.",
+        "W drugim wierszu n liczb."
+      ],
+      "output_format": [
+        "Jedna liczba — ta, która występuje tylko raz."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 9999, n nieparzyste",
+        "Liczby są z przedziału od 1 do 10⁹."
+      ],
+      "examples": [
+        {
+          "input": "7\n4 9 2 9 4 7 2",
+          "output": "7",
+          "note": "4 ^ 9 ^ 2 ^ 9 ^ 4 ^ 7 ^ 2: obie czwórki, dziewiątki i dwójki się znoszą, zostaje 7."
+        }
+      ],
+      "hint": "int w = 0; for (int i = 0; i < n; i++) { int x; cin >> x; w ^= x; } cout << w;. Zapis w ^= x znaczy w = w ^ x, tak jak w += x.",
+      "tests_count": 9
+    },
+    {
+      "id": "ld-szyfr-xor",
+      "number": 2479,
+      "title": "Szyfr XOR",
+      "category": "Liczby dwójkowe / krok 6: operatory bitowe",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Szyfr XOR jest prosty: każdy znak wiadomości zamienia się na liczbę (kod ASCII) i XOR-uje z tajnym kluczem K. Wychodzą liczby, które wyglądają przypadkowo.",
+        "Odszyfrowanie robi się tak samo: wystarczy jeszcze raz zXOR-ować z tym samym kluczem, bo (c ^ K) ^ K = c ^ (K ^ K) = c ^ 0 = c. Odczytaj wiadomość."
+      ],
+      "input_format": [
+        "W pierwszym wierszu klucz K i liczba n.",
+        "W drugim wierszu n liczb — zaszyfrowane kody kolejnych znaków."
+      ],
+      "output_format": [
+        "Odszyfrowana wiadomość w jednym wierszu."
+      ],
+      "constraints": [
+        "0 ≤ K ≤ 255",
+        "1 ≤ n ≤ 1000",
+        "Po odszyfrowaniu wychodzą zwykłe znaki ASCII (litery, cyfry, spacje, znaki przestankowe); wiadomość nie zaczyna się ani nie kończy spacją."
+      ],
+      "examples": [
+        {
+          "input": "42 3\n98 67 11",
+          "output": "Hi!",
+          "note": "98 ^ 42 = 72 (H), 67 ^ 42 = 105 (i), 11 ^ 42 = 33 (!). Wiadomość to Hi!."
+        }
+      ],
+      "hint": "int K, n; cin >> K >> n; for (…) { int x; cin >> x; cout << char(x ^ K); }. char(…) zamienia liczbę na znak — bez tego zobaczysz liczby zamiast liter.",
+      "tests_count": 7
+    },
+    {
+      "id": "ld-odleglosc-hamminga",
+      "number": 2480,
+      "title": "Odległość Hamminga",
+      "category": "Liczby dwójkowe / krok 6: operatory bitowe",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Odległość Hamminga dwóch liczb to liczba pozycji, na których ich zapisy dwójkowe mają różne bity. Używa się jej przy przesyłaniu danych: mówi, ile bitów zepsuło się po drodze.",
+        "Operator ^ daje jedynkę dokładnie tam, gdzie bity są różne — więc odległość Hamminga to liczba jedynek w a ^ b."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy dwie liczby a i b."
+      ],
+      "output_format": [
+        "q wierszy — odległość Hamminga każdej pary."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "0 ≤ a, b ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "3\n12 10\n7 0\n5 5",
+          "output": "2\n3\n0",
+          "note": "12 ^ 10 = 0110 — dwie jedynki, więc 12 i 10 różnią się na dwóch pozycjach. 7 = 111 różni się od zera na trzech pozycjach. Te same liczby — odległość 0."
+        }
+      ],
+      "hint": "long long x = a ^ b; int ile = 0; while (x > 0) { ile += x & 1; x >>= 1; }. Albo gotowa funkcja __builtin_popcountll(a ^ b) — z ll na końcu, bo liczby są typu long long.",
+      "tests_count": 4
+    },
+    {
+      "id": "ld-daszek-to-nie-potega",
+      "number": 2481,
+      "title": "Daszek to nie potęga",
+      "category": "Liczby dwójkowe / krok 6: operatory bitowe",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na kalkulatorze i w matematyce 2^3 oznacza 2 do potęgi 3, czyli 8. W C++ znak ^ to XOR, więc 2 ^ 3 daje 10 ^ 11 = 01, czyli 1. To jeden z najczęstszych błędów początkujących — kompilator czasem nawet ostrzega: „did you mean 1 << 3?”.",
+        "Dla każdej pary a, b wypisz a ^ b (XOR) oraz a do potęgi b. Potęgę licz pętlą na long long — funkcja pow liczy na liczbach z przecinkiem i dla dużych wyników gubi ostatnie cyfry."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy dwie liczby a i b."
+      ],
+      "output_format": [
+        "q wierszy: a ^ b i a do potęgi b, oddzielone spacją."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "1 ≤ a ≤ 1000",
+        "0 ≤ b ≤ 62",
+        "a do potęgi b nie przekracza 9 · 10¹⁸ (mieści się w long long)."
+      ],
+      "examples": [
+        {
+          "input": "3\n2 3\n10 2\n3 39",
+          "output": "1 8\n8 100\n36 4052555153018976267",
+          "note": "2 ^ 3 = 1, ale 2³ = 8. 10 ^ 2 = 1010 ^ 0010 = 1000 = 8, a 10² = 100. 3³⁹ = 4 052 555 153 018 976 267 — przez pow wyszłoby 4 052 555 153 018 976 256."
+        }
+      ],
+      "hint": "long long p = 1; for (int i = 0; i < b; i++) p *= a; i cout << (a ^ b) << \" \" << p << \"\\n\";. Nawiasy przy a ^ b są potrzebne — bez nich cout << a ^ b się nie skompiluje.",
+      "tests_count": 4
+    },
+    {
+      "id": "ld-dzielenie-a-przesuniecie",
+      "number": 2482,
+      "title": "Dzielenie a przesunięcie",
+      "category": "Liczby dwójkowe / krok 6: operatory bitowe",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla liczb nieujemnych x >> k to to samo co x / 2ᵏ. Dla ujemnych — nie! Dzielenie / w C++ ucina część ułamkową w stronę zera: −7 / 2 = −3. Przesunięcie >> zaokrągla zawsze w dół: −7 >> 1 = −4, bo −3,5 zaokrąglone w dół to −4.",
+        "Dla każdej pary x, k wypisz x / 2ᵏ (zwykłe dzielenie całkowite w C++) oraz x >> k."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy dwie liczby x i k."
+      ],
+      "output_format": [
+        "q wierszy: x / 2ᵏ i x >> k, oddzielone spacją."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "−10⁹ ≤ x ≤ 10⁹",
+        "0 ≤ k ≤ 30"
+      ],
+      "examples": [
+        {
+          "input": "4\n-7 1\n7 1\n-1 5\n-8 2",
+          "output": "-3 -4\n3 3\n0 -1\n-2 -2",
+          "note": "−7 / 2 = −3, ale −7 >> 1 = −4. Dla 7 oba dają 3. −1 / 32 = 0, a −1 >> 5 = −1 (same jedynki w kodzie U2 zostają jedynkami). −8 dzieli się przez 4 bez reszty, więc oba dają −2."
+        }
+      ],
+      "hint": "int x, k; cin >> x >> k; cout << x / (1 << k) << \" \" << (x >> k) << \"\\n\";. Dla k = 30 liczba 1 << 30 mieści się w int, więc tu wystarczy zwykłe 1.",
+      "tests_count": 4
+    },
+    {
+      "id": "ld-ktory-bit",
+      "number": 2483,
+      "title": "Który bit jest zapalony",
+      "category": "Liczby dwójkowe / krok 7: pojedyncze bity",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Bity liczby numerujemy od prawej strony, od zera: bit 0 ma wagę 1, bit 1 — wagę 2, bit k — wagę 2ᵏ.",
+        "Wczytaj liczbę x i odpowiedz na q pytań: jaki jest bit numer k (0 albo 1)? Przesunięcie x >> k przesuwa bit numer k na sam koniec, a & 1 zostawia tylko ostatni bit."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby x i q.",
+        "W drugim wierszu q liczb k — numery bitów."
+      ],
+      "output_format": [
+        "q wierszy: 0 albo 1 — bit numer k liczby x."
+      ],
+      "constraints": [
+        "0 ≤ x ≤ 10¹⁸",
+        "1 ≤ q ≤ 1000",
+        "0 ≤ k ≤ 62"
+      ],
+      "examples": [
+        {
+          "input": "13 5\n0 1 2 3 4",
+          "output": "1\n0\n1\n1\n0",
+          "note": "13 = 1101. Bit 0 (waga 1) — 1, bit 1 (waga 2) — 0, bit 2 (waga 4) — 1, bit 3 (waga 8) — 1, bit 4 — już 0."
+        }
+      ],
+      "hint": "long long x; cin >> x; i dla każdego k: cout << ((x >> k) & 1) << \"\\n\";. Nawiasy są potrzebne. Gdyby x było int-em, przesunięcie o 32 i więcej nie miałoby sensu.",
+      "tests_count": 6
+    },
+    {
+      "id": "ld-zapal-zgas-przelacz",
+      "number": 2484,
+      "title": "Zapal, zgaś, przełącz",
+      "category": "Liczby dwójkowe / krok 7: pojedyncze bity",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Rząd 30 żarówek zapisano jedną liczbą x: bit numer k to żarówka numer k. Wykonaj po kolei q poleceń i po każdym wypisz nową wartość x.",
+        "zapal k — ustaw bit k na 1 (x | (1 << k)); zgas k — ustaw bit k na 0 (x & ~(1 << k)); przelacz k — zamień bit k na przeciwny (x ^ (1 << k)). Zapalenie zapalonej żarówki i zgaszenie zgaszonej niczego nie zmienia."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby x i q.",
+        "W każdym z kolejnych q wierszy polecenie: zapal k, zgas k albo przelacz k."
+      ],
+      "output_format": [
+        "q wierszy — wartość x po każdym poleceniu."
+      ],
+      "constraints": [
+        "0 ≤ x < 2³⁰",
+        "1 ≤ q ≤ 1000",
+        "0 ≤ k ≤ 29"
+      ],
+      "examples": [
+        {
+          "input": "13 4\nzapal 1\nzgas 3\nprzelacz 0\nzapal 2",
+          "output": "15\n7\n6\n6",
+          "note": "13 = 1101. Zapalenie bitu 1: 1111 = 15. Zgaszenie bitu 3: 0111 = 7. Przełączenie bitu 0: 0110 = 6. Bit 2 już świeci, więc zostaje 6."
+        }
+      ],
+      "hint": "string p; int k; cin >> p >> k; if (p == \"zapal\") x |= 1 << k; else if (p == \"zgas\") x &= ~(1 << k); else x ^= 1 << k;. Tylda ~ odwraca wszystkie bity maski — zostaje jedno zero dokładnie na pozycji k.",
+      "tests_count": 7
+    },
+    {
+      "id": "ld-wspolne-dni",
+      "number": 2485,
+      "title": "Wspólny wolny dzień",
+      "category": "Liczby dwójkowe / krok 7: pojedyncze bity",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Przyjaciele chcą umówić się na wycieczkę. Każdy podał dni tygodnia, w które ma wolne: pn, wt, sr, cz, pt, sb, nd.",
+        "Zapisz wolne dni każdej osoby jako maskę 7 bitów: poniedziałek to bit 0, wtorek — bit 1, …, niedziela — bit 6. Dzień pasuje wszystkim, jeśli jego bit jest zapalony w masce każdej osoby — czyli w AND wszystkich masek. Wypisz takie dni w kolejności od poniedziałku albo brak, jeśli nie ma żadnego."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba osób n.",
+        "W każdym z kolejnych n wierszy liczba m, a po niej m różnych skrótów dni: pn, wt, sr, cz, pt, sb, nd (w dowolnej kolejności)."
+      ],
+      "output_format": [
+        "Jeden wiersz: skróty wspólnych dni od poniedziałku, oddzielone spacjami, albo brak."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "0 ≤ m ≤ 7"
+      ],
+      "examples": [
+        {
+          "input": "3\n3 pn sr pt\n4 sr pt sb nd\n2 pt sr",
+          "output": "sr pt",
+          "note": "Maski: pn, sr, pt = 0010101; sr, pt, sb, nd = 1110100; pt, sr = 0010100. AND wszystkich: 0010100, czyli środa i piątek."
+        },
+        {
+          "input": "2\n1 sb\n1 nd",
+          "output": "brak",
+          "note": "Jedna osoba może tylko w sobotę, druga tylko w niedzielę — nie ma wspólnego dnia."
+        }
+      ],
+      "hint": "int wspolne = 127; (siedem jedynek), a dla każdej osoby buduj maskę: string d; cin >> d; for (int k = 0; k < 7; k++) if (d == dni[k]) maska |= 1 << k;. Potem wspolne &= maska;. Na końcu wypisz dni k, dla których (wspolne >> k) & 1.",
+      "tests_count": 8
+    },
+    {
+      "id": "ld-najnizszy-bit",
+      "number": 2486,
+      "title": "Najniższa zapalona żarówka",
+      "category": "Liczby dwójkowe / krok 7: pojedyncze bity",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej liczby x wypisz wagę jej najniższej zapalonej żarówki (najmłodszej jedynki w zapisie dwójkowym) oraz numer tej żarówki.",
+        "Sztuczka: x & −x daje liczbę, w której została tylko najmłodsza jedynka x. Dlaczego? W kodzie U2 −x to ~x + 1 — wszystkie bity odwrócone, a potem plus jeden, który „przechodzi” przez odwrócone zera z końca i zatrzymuje się dokładnie na pozycji najmłodszej jedynki. Numer tej jedynki to liczba zer na końcu zapisu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy jedna liczba x."
+      ],
+      "output_format": [
+        "q wierszy: waga najniższej jedynki i jej numer, oddzielone spacją."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "1 ≤ x ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "4\n12\n13\n8\n40",
+          "output": "4 2\n1 0\n8 3\n8 3",
+          "note": "12 = 1100: najniższa jedynka ma wagę 4 i numer 2. 13 = 1101: waga 1, numer 0. 8 = 1000: waga 8, numer 3. 40 = 101000: waga 8, numer 3."
+        }
+      ],
+      "hint": "long long v = x & -x;. Numer: int nr = 0; while ((v >> nr) != 1) nr++; albo gotowe __builtin_ctzll(x) (count trailing zeros — liczba zer na końcu; ll, bo long long).",
+      "tests_count": 4
+    },
+    {
+      "id": "ld-najwyzszy-bit",
+      "number": 2487,
+      "title": "Najwyższa zapalona żarówka",
+      "category": "Liczby dwójkowe / krok 7: pojedyncze bity",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej liczby x wypisz numer jej najwyższej zapalonej żarówki (najstarszej jedynki zapisu dwójkowego) oraz wagę tej żarówki — czyli największą potęgę dwójki, która nie przekracza x.",
+        "Numer najstarszej jedynki to liczba cyfr zapisu dwójkowego minus jeden. Możesz go policzyć pętlą (przesuwaj x w prawo, aż zostanie 1) albo gotowymi funkcjami: __lg(x) albo 63 − __builtin_clzll(x)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy jedna liczba x."
+      ],
+      "output_format": [
+        "q wierszy: numer najstarszej jedynki i jej waga, oddzielone spacją."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "1 ≤ x ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "4\n13\n1\n1000\n1024",
+          "output": "3 8\n0 1\n9 512\n10 1024",
+          "note": "13 = 1101 — najstarsza jedynka ma numer 3 i wagę 8. 1 — numer 0, waga 1. 1000 = 1111101000 — numer 9, waga 512. 1024 = 2¹⁰ to sama najstarsza jedynka."
+        }
+      ],
+      "hint": "int p = 0; while ((x >> (p + 1)) > 0) p++; i cout << p << \" \" << (1LL << p);. Krócej: int p = __lg(x);. Pamiętaj o 1LL — 1 << 40 na zwykłej jedynce się przepełni.",
+      "tests_count": 4
+    },
+    {
+      "id": "ld-sortuj-po-jedynkach",
+      "number": 2488,
+      "title": "Sortowanie po liczbie jedynek",
+      "category": "Liczby dwójkowe / krok 7: pojedyncze bity",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Posortuj n liczb według liczby jedynek w ich zapisie dwójkowym — od najmniejszej liczby jedynek do największej. Jeśli dwie liczby mają tyle samo jedynek, wcześniej ma stać mniejsza liczba.",
+        "Liczbę jedynek możesz policzyć własną funkcją albo gotową __builtin_popcount(x) (dla int; dla long long jest __builtin_popcountll). Do sortowania użyj sort z komparatorem, tak jak w lekcji Sortowanie."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb."
+      ],
+      "output_format": [
+        "Jeden wiersz: liczby po posortowaniu, oddzielone spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 2500",
+        "Liczby są z przedziału od 0 do 10⁹."
+      ],
+      "examples": [
+        {
+          "input": "6\n7 8 3 5 0 16",
+          "output": "0 8 16 3 5 7",
+          "note": "Jedynek: 0 → 0, 8 i 16 → po 1, 3 i 5 → po 2, 7 → 3. Przy remisach mniejsza liczba idzie pierwsza: 0 8 16 3 5 7."
+        }
+      ],
+      "hint": "sort(v.begin(), v.end(), [](int a, int b) { int pa = __builtin_popcount(a), pb = __builtin_popcount(b); if (pa != pb) return pa < pb; return a < b; });.",
+      "tests_count": 7
+    },
+    {
+      "id": "ld-zamien-bity",
+      "number": 2489,
+      "title": "Zamiana dwóch bitów",
+      "category": "Liczby dwójkowe / krok 7: pojedyncze bity",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej trójki x, i, j wypisz liczbę, która powstanie z x po zamianie miejscami bitów numer i oraz j.",
+        "Zauważ: jeśli te bity są równe (oba 0 albo oba 1), zamiana niczego nie zmienia. Jeśli są różne, zamiana to po prostu przełączenie obu — jedynka gaśnie, a zero się zapala."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy liczby x, i oraz j."
+      ],
+      "output_format": [
+        "q wierszy — liczba po zamianie bitów."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "0 ≤ x ≤ 10¹⁸",
+        "0 ≤ i, j ≤ 59"
+      ],
+      "examples": [
+        {
+          "input": "3\n12 0 3\n5 0 2\n1 0 59",
+          "output": "5\n5\n576460752303423488",
+          "note": "12 = 1100: bit 0 to 0, bit 3 to 1 — różne, więc po zamianie 0101 = 5. 5 = 101: bity 0 i 2 to dwie jedynki — bez zmian. 1 po zamianie bitu 0 z bitem 59 to 2⁵⁹."
+        }
+      ],
+      "hint": "long long a = (x >> i) & 1, b = (x >> j) & 1; if (a != b) x ^= (1LL << i) | (1LL << j);. 1LL, bo i oraz j sięgają 59.",
+      "tests_count": 4
+    },
+    {
+      "id": "ld-wspolne-zainteresowania",
+      "number": 2490,
+      "title": "Wspólne zainteresowania",
+      "category": "Liczby dwójkowe / krok 7: pojedyncze bity",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W klasie jest n uczniów. Każdy podał swoje zainteresowania jako numery od 0 do 59. Ile jest par uczniów, którzy mają przynajmniej jedno wspólne zainteresowanie?",
+        "Zapisz zainteresowania każdego ucznia jako maskę w long long: zainteresowanie numer z to bit z, czyli 1LL << z. Dwóch uczniów ma coś wspólnego, gdy ich maski mają wspólną jedynkę: (a & b) != 0. Sprawdzenie pary to jedno działanie, więc wszystkie pary sprawdzisz dwiema pętlami."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z kolejnych n wierszy liczba m, a po niej m różnych numerów zainteresowań."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba par uczniów ze wspólnym zainteresowaniem."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 2000",
+        "0 ≤ m ≤ 10",
+        "Numery zainteresowań są z przedziału od 0 do 59."
+      ],
+      "examples": [
+        {
+          "input": "4\n2 1 5\n1 7\n3 5 6 7\n0",
+          "output": "2",
+          "note": "Uczeń 1 i 3 dzielą zainteresowanie 5, a uczeń 2 i 3 — zainteresowanie 7. Uczeń 4 nie podał żadnego. Pary 1–2, 1–4, 2–4 i 3–4 nie mają nic wspólnego. Razem 2 pary."
+        }
+      ],
+      "hint": "vector<long long> maska(n); dla każdego numeru z: maska[i] |= 1LL << z;. Potem for (int i = 0; i < n; i++) for (int j = i + 1; j < n; j++) if ((maska[i] & maska[j]) != 0) ile++;. 1LL jest konieczne — numery sięgają 59.",
+      "tests_count": 8
+    },
+    {
+      "id": "ld-wszystkie-podzbiory",
+      "number": 2491,
+      "title": "Wszystkie podzbiory",
+      "category": "Liczby dwójkowe / krok 8: maski i podzbiory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz n przedmiotów, ponumerowanych od 0. Każdy wybór kilku z nich (podzbiór) można zapisać jako liczbę: bit i jest zapalony, gdy przedmiot i jest wybrany. Liczby od 0 do 2ⁿ − 1 to dokładnie wszystkie możliwe wybory — każdy jeden raz.",
+        "Dla każdej maski m od 0 do 2ⁿ − 1 wypisz w osobnym wierszu nazwy wybranych przedmiotów (w kolejności numerów). Dla maski 0 (nic nie wybrano) wypisz pusty."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n nazw przedmiotów (słowa z małych liter)."
+      ],
+      "output_format": [
+        "2ⁿ wierszy — wybrane przedmioty dla kolejnych masek od 0 do 2ⁿ − 1, oddzielone spacjami, albo pusty."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 8"
+      ],
+      "examples": [
+        {
+          "input": "3\njablko gruszka sliwka",
+          "output": "pusty\njablko\ngruszka\njablko gruszka\nsliwka\njablko sliwka\ngruszka sliwka\njablko gruszka sliwka",
+          "note": "Maska 0 = 000 — nic. 1 = 001 — tylko przedmiot 0 (jabłko). 2 = 010 — gruszka. 3 = 011 — jabłko i gruszka. 4 = 100 — śliwka, i tak dalej aż do 7 = 111 — wszystkie trzy."
+        }
+      ],
+      "hint": "for (int m = 0; m < (1 << n); m++) { bool cos = false; for (int i = 0; i < n; i++) if ((m >> i) & 1) { if (cos) cout << \" \"; cout << nazwa[i]; cos = true; } if (!cos) cout << \"pusty\"; cout << \"\\n\"; }.",
+      "tests_count": 9
+    },
+    {
+      "id": "ld-podzbiory-o-sumie",
+      "number": 2492,
+      "title": "Podzbiory o danej sumie",
+      "category": "Liczby dwójkowe / krok 8: maski i podzbiory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz n monet o podanych wartościach. Na ile sposobów można wybrać kilka z nich (co najmniej jedną), żeby razem dały dokładnie S? Monety są rozróżnialne — dwie monety o tej samej wartości to dwa różne wybory.",
+        "Przejrzyj wszystkie maski od 1 do 2ⁿ − 1 i dla każdej zsumuj wybrane monety. Dla n = 20 to około miliona masek, a każda wymaga 20 sprawdzeń — razem 20 milionów kroków, czyli ułamek sekundy."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i S.",
+        "W drugim wierszu n wartości monet."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba wyborów o sumie S."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 20",
+        "1 ≤ S ≤ 2 · 10⁷",
+        "Wartości monet są z przedziału od 1 do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "4 5\n1 2 3 4",
+          "output": "2",
+          "note": "Sumę 5 dają wybory {1, 4} i {2, 3}. To 2 sposoby."
+        },
+        {
+          "input": "3 2\n1 1 2",
+          "output": "2",
+          "note": "Dwie jedynki razem i sama dwójka — 2 sposoby."
+        }
+      ],
+      "hint": "for (int m = 1; m < (1 << n); m++) { long long s = 0; for (int i = 0; i < n; i++) if ((m >> i) & 1) s += a[i]; if (s == S) ile++; }.",
+      "tests_count": 9
+    },
+    {
+      "id": "ld-zbiory-jako-maski",
+      "number": 2493,
+      "title": "Zbiory jako maski",
+      "category": "Liczby dwójkowe / krok 8: maski i podzbiory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Zbiór liczb od 0 do 59 można trzymać w jednej zmiennej long long: liczba z należy do zbioru, gdy bit z jest zapalony. Działania na takich zbiorach to pojedyncze operatory: suma zbiorów A ∪ B to A | B, część wspólna A ∩ B to A & B, a różnica A \\ B (elementy A, których nie ma w B) to A & ~B.",
+        "Wczytaj zbiory A i B i wypisz A ∪ B, A ∩ B oraz A \\ B — każdy w osobnym wierszu, elementy rosnąco, albo pusty, gdy zbiór nie ma elementów."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba elementów zbioru A, a po niej te elementy (różne, w dowolnej kolejności).",
+        "W drugim wierszu tak samo zbiór B."
+      ],
+      "output_format": [
+        "Trzy wiersze: A ∪ B, A ∩ B i A \\ B — elementy rosnąco, oddzielone spacjami, albo pusty."
+      ],
+      "constraints": [
+        "Każdy zbiór ma od 0 do 60 elementów.",
+        "Elementy są z przedziału od 0 do 59."
+      ],
+      "examples": [
+        {
+          "input": "3 5 1 9\n3 9 2 1",
+          "output": "1 2 5 9\n1 9\n5",
+          "note": "A = {1, 5, 9}, B = {1, 2, 9}. Suma: {1, 2, 5, 9}. Część wspólna: {1, 9}. Różnica A \\ B: tylko 5."
+        }
+      ],
+      "hint": "long long A = 0; dla każdego elementu x: A |= 1LL << x;. Wypisywanie zbioru Z: for (int x = 0; x < 60; x++) if ((Z >> x) & 1) …. Najlepiej napisz funkcję void wypisz(long long Z).",
+      "tests_count": 9
+    },
+    {
+      "id": "ld-kod-graya",
+      "number": 2494,
+      "title": "Kod Graya",
+      "category": "Liczby dwójkowe / krok 8: maski i podzbiory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Gdy zwykły licznik przechodzi z 0111 na 1000, zmieniają się naraz cztery bity — a w urządzeniach mechanicznych nigdy nie zmieniają się idealnie jednocześnie, więc przez chwilę widać bzdury. Kod Graya ustawia liczby od 0 do 2ⁿ − 1 tak, żeby każde dwie kolejne różniły się dokładnie jednym bitem.",
+        "Kod Graya numer i to po prostu i ^ (i >> 1). Wypisz kody dla i od 0 do 2ⁿ − 1, każdy na dokładnie n bitach."
+      ],
+      "input_format": [
+        "Jedna liczba n."
+      ],
+      "output_format": [
+        "2ⁿ wierszy — kolejne kody Graya, każdy jako n cyfr 0 i 1."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10"
+      ],
+      "examples": [
+        {
+          "input": "3",
+          "output": "000\n001\n011\n010\n110\n111\n101\n100",
+          "note": "0 → 000, 1 → 001, 2 → 2 ^ 1 = 011, 3 → 3 ^ 1 = 010, 4 → 4 ^ 2 = 110, 5 → 111, 6 → 101, 7 → 100. Każde dwa kolejne wiersze różnią się jednym bitem — nawet ostatni i pierwszy."
+        }
+      ],
+      "hint": "for (int i = 0; i < (1 << n); i++) { int g = i ^ (i >> 1); for (int k = n - 1; k >= 0; k--) cout << ((g >> k) & 1); cout << \"\\n\"; }.",
+      "tests_count": 8
+    },
+    {
+      "id": "ld-k-elementowe",
+      "number": 2495,
+      "title": "Podzbiory k-elementowe",
+      "category": "Liczby dwójkowe / krok 8: maski i podzbiory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wypisz wszystkie sposoby wybrania dokładnie k liczb spośród 1, 2, …, n. Każdy wybór zapisz rosnąco w osobnym wierszu.",
+        "Kolejność wyborów jest ustalona przez maski: liczba j odpowiada bitowi j − 1, a wybory wypisujesz w kolejności rosnących masek, pomijając maski, które nie mają dokładnie k jedynek."
+      ],
+      "input_format": [
+        "Dwie liczby n i k."
+      ],
+      "output_format": [
+        "Wszystkie k-elementowe wybory w kolejności rosnących masek, każdy w osobnym wierszu (liczby rosnąco, oddzielone spacjami)."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 12"
+      ],
+      "examples": [
+        {
+          "input": "4 2",
+          "output": "1 2\n1 3\n2 3\n1 4\n2 4\n3 4",
+          "note": "Maski z dwiema jedynkami po kolei: 0011 → 1 2, 0101 → 1 3, 0110 → 2 3, 1001 → 1 4, 1010 → 2 4, 1100 → 3 4."
+        }
+      ],
+      "hint": "for (int m = 0; m < (1 << n); m++) if (__builtin_popcount(m) == k) { for (int i = 0; i < n; i++) if ((m >> i) & 1) cout << i + 1 << \" \"; cout << \"\\n\"; }. Spacja na końcu wiersza nie przeszkadza sprawdzarce.",
+      "tests_count": 10
+    },
+    {
+      "id": "ld-plecak-maskami",
+      "number": 2496,
+      "title": "Plecak przez maski",
+      "category": "Liczby dwójkowe / krok 8: maski i podzbiory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz plecak, który uniesie najwyżej W kilogramów, i n przedmiotów — każdy ma wagę i wartość. Wybierz przedmioty o największej łącznej wartości, których łączna waga nie przekracza W.",
+        "Przedmiotów jest co najwyżej 20, więc można po prostu sprawdzić każdy wybór — każdą maskę od 0 do 2ⁿ − 1. Dla każdej policz łączną wagę i wartość, pomiń te za ciężkie, a z pozostałych zapamiętaj największą wartość."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i W.",
+        "W każdym z kolejnych n wierszy dwie liczby: waga i wartość przedmiotu."
+      ],
+      "output_format": [
+        "Jedna liczba — największa łączna wartość (0, jeśli żaden przedmiot się nie mieści)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 20",
+        "1 ≤ W ≤ 10⁹",
+        "Wagi i wartości są z przedziału od 1 do 10⁹."
+      ],
+      "examples": [
+        {
+          "input": "4 10\n5 10\n4 40\n6 30\n3 50",
+          "output": "90",
+          "note": "Najlepiej wziąć przedmioty o wagach 4 i 3 (razem 7 kg) — wartość 40 + 50 = 90. Dorzucenie czegokolwiek przekroczy 10 kg."
+        }
+      ],
+      "hint": "for (int m = 0; m < (1 << n); m++) { long long waga = 0, wart = 0; for (int i = 0; i < n; i++) if ((m >> i) & 1) { waga += w[i]; wart += v[i]; } if (waga <= W) best = max(best, wart); }. Sumy sięgają 2 · 10¹⁰ — long long.",
+      "tests_count": 8
+    },
+    {
+      "id": "ld-podzial-na-dwie",
+      "number": 2497,
+      "title": "Podział na dwie drużyny",
+      "category": "Liczby dwójkowe / krok 8: maski i podzbiory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "n zawodników o podanej sile trzeba podzielić na dwie drużyny (jedna może być pusta). Drużyny powinny być jak najbardziej wyrównane: różnica sum siły ma być najmniejsza.",
+        "Każdy podział to maska: zapalony bit i oznacza, że zawodnik i gra w pierwszej drużynie. Jeśli s to suma siły pierwszej drużyny, a suma — wszystkich zawodników, to druga drużyna ma suma − s, a różnica wynosi |suma − 2s|. Wypisz najmniejszą możliwą różnicę."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb — siły zawodników."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejsza różnica sum siły drużyn."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 20",
+        "Siły są z przedziału od 1 do 10⁶."
+      ],
+      "examples": [
+        {
+          "input": "5\n3 1 4 2 2",
+          "output": "0",
+          "note": "Razem 12. Drużyny {3, 1, 2} i {4, 2} mają po 6 — różnica 0."
+        },
+        {
+          "input": "3\n10 1 2",
+          "output": "7",
+          "note": "Najlepiej {10} kontra {1, 2}: 10 − 3 = 7."
+        }
+      ],
+      "hint": "long long suma = …; long long best = suma; for (int m = 0; m < (1 << n); m++) { long long s = 0; for (int i = 0; i < n; i++) if ((m >> i) & 1) s += a[i]; best = min(best, llabs(suma - 2 * s)); }.",
+      "tests_count": 9
+    },
+    {
+      "id": "ld-druzyna-umiejetnosci",
+      "number": 2498,
+      "title": "Drużyna ze wszystkimi umiejętnościami",
+      "category": "Liczby dwójkowe / krok 8: maski i podzbiory",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Do projektu potrzeba m umiejętności, ponumerowanych od 0 do m − 1. Każdy z n kandydatów zna niektóre z nich. Wybierz jak najmniej kandydatów tak, żeby każdą potrzebną umiejętność znał przynajmniej jeden z wybranych.",
+        "Umiejętności kandydata zapisz jako maskę. Umiejętności całej drużyny to OR masek jej członków, a drużyna jest dobra, gdy ten OR to (1 << m) − 1 — same jedynki na m bitach. Przejrzyj wszystkie wybory kandydatów (maski od 0 do 2ⁿ − 1) i znajdź dobry z najmniejszą liczbą osób. Jeśli żaden wybór nie jest dobry, wypisz −1."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby m i n.",
+        "W każdym z kolejnych n wierszy liczba c, a po niej c różnych numerów umiejętności kandydata."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejsza liczba kandydatów albo −1."
+      ],
+      "constraints": [
+        "1 ≤ m ≤ 20",
+        "1 ≤ n ≤ 16",
+        "0 ≤ c ≤ m"
+      ],
+      "examples": [
+        {
+          "input": "4 3\n2 0 1\n2 2 3\n3 1 2 3",
+          "output": "2",
+          "note": "Pierwszy zna 0 i 1, drugi 2 i 3 — razem wszystkie cztery, więc wystarczą 2 osoby. Nikt sam nie zna wszystkiego."
+        },
+        {
+          "input": "3 2\n1 0\n1 1",
+          "output": "-1",
+          "note": "Umiejętności 2 nie zna nikt — wynik −1."
+        }
+      ],
+      "hint": "int pelna = (1 << m) - 1; for (int s = 0; s < (1 << n); s++) { int razem = 0; for (int i = 0; i < n; i++) if ((s >> i) & 1) razem |= maska[i]; if (razem == pelna) best = min(best, __builtin_popcount(s)); }.",
+      "tests_count": 10
+    },
+    {
+      "id": "ld-b-zegar-dwojkowy",
+      "number": 2499,
+      "title": "Zegar dwójkowy",
+      "category": "Liczby dwójkowe / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Zegar dwójkowy pokazuje czas trzema rzędami żarówek. Godzina (od 0 do 23) mieści się na 5 bitach, bo 2⁵ = 32 > 23, a minuty i sekundy (od 0 do 59) — na 6 bitach, bo 2⁶ = 64 > 59.",
+        "Dla każdej godziny w postaci HH:MM:SS wypisz trzy zapisy dwójkowe: godzinę na dokładnie 5 bitach oraz minuty i sekundy na dokładnie 6 bitach."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy czas w postaci HH:MM:SS (zawsze po dwie cyfry)."
+      ],
+      "output_format": [
+        "q wierszy: trzy zapisy dwójkowe (5, 6 i 6 bitów) oddzielone spacjami."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 300",
+        "0 ≤ HH ≤ 23, 0 ≤ MM ≤ 59, 0 ≤ SS ≤ 59"
+      ],
+      "examples": [
+        {
+          "input": "2\n13:45:07\n00:00:59",
+          "output": "01101 101101 000111\n00000 000000 111011",
+          "note": "13 = 01101, 45 = 101101, 7 = 000111. Północ to same zera, a 59 sekund to 111011."
+        }
+      ],
+      "hint": "int g, m, s; char c; cin >> g >> c >> m >> c >> s; — dwukropki wczytują się do zmiennej c i można o nich zapomnieć. Potem funkcja string bity(int x, int k) z pętlą wykonywaną k razy.",
+      "tests_count": 4
+    },
+    {
+      "id": "ld-b-najdluzsza-seria",
+      "number": 2500,
+      "title": "Najdłuższa seria jedynek",
+      "category": "Liczby dwójkowe / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej liczby n wypisz długość najdłuższej serii jedynek stojących obok siebie w jej zapisie dwójkowym.",
+        "Bity możesz odczytywać od końca (n % 2, n /= 2). Trzymaj długość bieżącej serii: przy jedynce zwiększ ją o 1 i sprawdź rekord, przy zerze — wyzeruj."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy jedna liczba n."
+      ],
+      "output_format": [
+        "q wierszy — długość najdłuższej serii jedynek."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "1 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "3\n110\n7\n1024",
+          "output": "3\n3\n1",
+          "note": "110 = 1101110 — najdłuższa seria to trzy jedynki. 7 = 111 — trzy. 1024 = 10000000000 — pojedyncza jedynka."
+        }
+      ],
+      "hint": "int seria = 0, rekord = 0; while (n > 0) { if (n % 2 == 1) { seria++; rekord = max(rekord, seria); } else seria = 0; n /= 2; }.",
+      "tests_count": 5
+    },
+    {
+      "id": "ld-b-zera-w-zapisie",
+      "number": 2501,
+      "title": "Zgaszone żarówki",
+      "category": "Liczby dwójkowe / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej liczby n wypisz, ile zer jest w jej zapisie dwójkowym bez zer na początku — czyli ile żarówek jest zgaszonych między najstarszą zapaloną a końcem rzędu.",
+        "Uwaga na zero: jego zapis to 0, więc ma jedno zero."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy jedna liczba n."
+      ],
+      "output_format": [
+        "q wierszy — liczba zer w zapisie dwójkowym."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "0 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "4\n10\n7\n0\n64",
+          "output": "2\n0\n1\n6",
+          "note": "10 = 1010 ma dwa zera. 7 = 111 nie ma żadnego. 0 to jedno zero. 64 = 1000000 — sześć zer."
+        }
+      ],
+      "hint": "if (n == 0) wynik = 1; else { while (n > 0) { if (n % 2 == 0) ile++; n /= 2; } }. Albo: liczba cyfr minus liczba jedynek.",
+      "tests_count": 4
+    },
+    {
+      "id": "ld-b-najblizsza-potega",
+      "number": 2502,
+      "title": "Najbliższa potęga dwójki w górę",
+      "category": "Liczby dwójkowe / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Programy często rezerwują pamięć w kawałkach, których rozmiar jest potęgą dwójki. Dla każdej liczby n wypisz najmniejszą potęgę dwójki, która jest większa albo równa n."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy jedna liczba n."
+      ],
+      "output_format": [
+        "q wierszy — najmniejsza potęga dwójki ≥ n."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "1 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "4\n5\n8\n1\n1000",
+          "output": "8\n8\n1\n1024",
+          "note": "Dla 5 to 8. Ósemka sama jest potęgą dwójki. Dla 1 to 2⁰ = 1. Dla 1000 to 1024."
+        }
+      ],
+      "hint": "long long p = 1; while (p < n) p *= 2;. Jeśli n jest potęgą dwójki — (n & (n - 1)) == 0 — wynik to samo n.",
+      "tests_count": 5
+    },
+    {
+      "id": "ld-b-kalkulator-dwoch-przyciskow",
+      "number": 2503,
+      "title": "Kalkulator z dwoma przyciskami",
+      "category": "Liczby dwójkowe / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Zepsuty kalkulator ma tylko dwa przyciski: +1 i ×2. Na ekranie jest 0. Jaka jest najmniejsza liczba naciśnięć, po której na ekranie będzie n?",
+        "Pomyśl po dwójkowemu: ×2 dopisuje zero na końcu zapisu, a +1 zamienia końcowe zero w jedynkę. Najlepiej budować n od najstarszej cyfry: pierwszą jedynkę daje +1, a każda następna cyfra to ×2, po którym — jeśli cyfra jest jedynką — jeszcze +1. Możesz też iść od tyłu: z n parzystego cofasz się przez :2, z nieparzystego — przez −1, aż dojdziesz do zera."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy jedna liczba n."
+      ],
+      "output_format": [
+        "q wierszy — najmniejsza liczba naciśnięć."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "0 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "4\n5\n8\n0\n1",
+          "output": "4\n4\n0\n1",
+          "note": "5 = 101: +1 (1), ×2 (2), ×2 (4), +1 (5) — 4 naciśnięcia. 8 = 1000: +1, potem trzy razy ×2 — też 4. Dla 0 nic nie trzeba naciskać, a 1 to jedno +1."
+        }
+      ],
+      "hint": "Od tyłu: while (n > 0) { if (n % 2 == 1) n -= 1; else n /= 2; ile++; }. Każde −1 to jedna jedynka, a każde :2 — jedna cyfra poza pierwszą.",
+      "tests_count": 4
+    },
+    {
+      "id": "ld-b-wielkie-i-male",
+      "number": 2504,
+      "title": "Wielkie i małe litery",
+      "category": "Liczby dwójkowe / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Kod litery A to 65 = 01000001, a litery a — 97 = 01100001. Różnią się dokładnie jednym bitem, tym o wadze 32. Tak jest z każdą literą alfabetu łacińskiego, więc przełączenie tego bitu (c ^ 32) zamienia wielką literę na małą i małą na wielką.",
+        "Wczytaj wiersz tekstu i zamień wielkość każdej litery. Pozostałe znaki (cyfry, spacje, znaki przestankowe) zostaw bez zmian — dla nich XOR z 32 dałby bzdury."
+      ],
+      "input_format": [
+        "Jeden wiersz tekstu ze zwykłych znaków ASCII."
+      ],
+      "output_format": [
+        "Ten sam wiersz z zamienioną wielkością liter."
+      ],
+      "constraints": [
+        "Wiersz ma od 1 do 1000 znaków i nie zaczyna się ani nie kończy spacją."
+      ],
+      "examples": [
+        {
+          "input": "Ala ma Kota, 123!",
+          "output": "aLA MA kOTA, 123!",
+          "note": "Ala zmienia się w aLA, ma — w MA, a Kota — w kOTA. Cyfry, przecinek, spacje i wykrzyknik zostają bez zmian."
+        }
+      ],
+      "hint": "string s; getline(cin, s); for (char &c : s) if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')) c ^= 32;. Znak & przy char &c sprawia, że zmieniasz litery w samym napisie.",
+      "tests_count": 8
+    },
+    {
+      "id": "ld-b-mieszanie-kolorow",
+      "number": 2505,
+      "title": "Mieszanie kolorów",
+      "category": "Liczby dwójkowe / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Kolor #RRGGBB to jedna liczba 24-bitowa: czerwony zajmuje bity 16–23, zielony 8–15, a niebieski 0–7. Kanał wyciąga się przesunięciem i maską: czerwony to (c >> 16) & 255, zielony (c >> 8) & 255, niebieski c & 255. Z kanałów skleja się kolor z powrotem: (r << 16) | (g << 8) | b.",
+        "Dla każdej pary kolorów wypisz ich mieszankę: każdy kanał to średnia z obu kolorów zaokrąglona w dół. Wynik wypisz w postaci #RRGGBB wielkimi literami (zawsze po dwie cyfry na kanał)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy dwa kolory #RRGGBB oddzielone spacją (litery wielkie albo małe)."
+      ],
+      "output_format": [
+        "q wierszy — kolor mieszanki w postaci #RRGGBB (wielkie litery)."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "2\n#FF0000 #0000FF\n#ffffff #000001",
+          "output": "#7F007F\n#7F7F80",
+          "note": "Czerwony i niebieski dają (255 + 0) / 2 = 127 = 7F w czerwonym i niebieskim kanale: fioletowy #7F007F. Biały z prawie czarnym: 127, 127 i (255 + 1) / 2 = 128 = 80."
+        }
+      ],
+      "hint": "Kolor zamień na liczbę: int c = stoi(s.substr(1), nullptr, 16);. Kanały: (c >> 16) & 255 itd. Wypisywanie: cout << \"#\" << uppercase << hex << setw(6) << setfill('0') << wynik << dec << \"\\n\"; — setw(6) i setfill('0') dopiszą zera z przodu.",
+      "tests_count": 3
+    },
+    {
+      "id": "ld-b-sortowanie-dwojkowych",
+      "number": 2506,
+      "title": "Sortowanie liczb dwójkowych",
+      "category": "Liczby dwójkowe / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Posortuj n liczb zapisanych dwójkowo rosnąco według wartości. Liczby mogą mieć do 80 cyfr i zera na początku, więc nie zamienisz ich na long long. Wypisz je dokładnie w takiej postaci, w jakiej je wczytano (razem z zerami z przodu).",
+        "Zwykłe sortowanie napisów nie wystarczy: napis 011 jest mniejszy od 1 (bo zaczyna się od zera), choć liczba 3 jest większa od 1. Porównuj tak jak w lekcji: najpierw zetnij zera z przodu, potem dłuższa liczba jest większa, a przy równej długości decyduje porównanie napisów. Jeśli dwie liczby są równe, wcześniej postaw krótszy napis."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z kolejnych n wierszy jedna liczba dwójkowa (napis z zer i jedynek)."
+      ],
+      "output_format": [
+        "n wierszy — liczby po posortowaniu, w oryginalnej postaci."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 300",
+        "Każdy napis ma od 1 do 80 znaków."
+      ],
+      "examples": [
+        {
+          "input": "5\n101\n011\n1\n00\n0001",
+          "output": "00\n1\n0001\n011\n101",
+          "note": "Wartości: 5, 3, 1, 0 i 1. Najpierw zero (00), potem dwie jedynki — krótszy napis 1 przed 0001 — potem 011 (3) i 101 (5)."
+        }
+      ],
+      "hint": "Funkcja string bezZer(const string &s). Komparator: string x = bezZer(a), y = bezZer(b); if (x.size() != y.size()) return x.size() < y.size(); if (x != y) return x < y; return a.size() < b.size();. Użyj go w sort.",
+      "tests_count": 6
+    },
+    {
+      "id": "ld-b-przelaczniki-na-przedziale",
+      "number": 2507,
+      "title": "Przełączniki na przedziale",
+      "category": "Liczby dwójkowe / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W rzędzie stoi n przełączników ponumerowanych od 0 do n − 1. Na początku wszystkie są wyłączone. Wykonaj q poleceń: przelacz a b — przełącz wszystkie przełączniki od a do b włącznie; ile — wypisz, ile przełączników jest włączonych; stan — wypisz stan wszystkich przełączników jako napis n znaków (od przełącznika 0 do n − 1, 1 = włączony).",
+        "Cały rząd zmieści się w jednej zmiennej long long. Maska z jedynkami na pozycjach od a do b to ((1LL << (b + 1)) − 1) ^ ((1LL << a) − 1): jedynki na pozycjach 0..b bez jedynek na pozycjach 0..a − 1."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i q.",
+        "W każdym z kolejnych q wierszy polecenie: przelacz a b, ile albo stan."
+      ],
+      "output_format": [
+        "Dla każdego polecenia ile i stan — jeden wiersz z odpowiedzią."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 60",
+        "1 ≤ q ≤ 400",
+        "0 ≤ a ≤ b < n",
+        "Jest co najmniej jedno polecenie ile albo stan."
+      ],
+      "examples": [
+        {
+          "input": "6 5\nprzelacz 1 3\nstan\nprzelacz 2 5\nile\nstan",
+          "output": "011100\n3\n010011",
+          "note": "Po pierwszym przełączeniu włączone są 1, 2 i 3: 011100. Drugie przełącza 2–5: 2 i 3 gasną, 4 i 5 się włączają — włączone 1, 4 i 5, czyli 3 przełączniki: 010011."
+        }
+      ],
+      "hint": "long long x = 0; przelacz: x ^= ((1LL << (b + 1)) - 1) ^ ((1LL << a) - 1);. ile: __builtin_popcountll(x). stan: for (int i = 0; i < n; i++) cout << ((x >> i) & 1);.",
+      "tests_count": 7
+    },
+    {
+      "id": "ld-b-data-w-liczbie",
+      "number": 2508,
+      "title": "Data w jednej liczbie",
+      "category": "Liczby dwójkowe / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W systemie plików FAT (pendrive’y, karty pamięci) data zapisania pliku zajmuje tylko 16 bitów: najstarsze 7 bitów to rok minus 1980 (od 0 do 127), następne 4 bity — miesiąc (od 1 do 12), a najmłodsze 5 bitów — dzień (od 1 do 31). Cała data to liczba x = ((rok − 1980) << 9) | (miesiac << 5) | dzien.",
+        "Wykonaj q poleceń: pakuj d m r — wypisz liczbę x dla dnia d, miesiąca m i roku r; rozpakuj x — wypisz dzień, miesiąc i rok zapisane w x. Rozpakowanie to przesunięcie w prawo i wycięcie bitów maską: dzień = x & 31, miesiąc = (x >> 5) & 15, rok = (x >> 9) + 1980."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy polecenie: pakuj d m r albo rozpakuj x."
+      ],
+      "output_format": [
+        "q wierszy: dla pakuj — liczba x, dla rozpakuj — trzy liczby d m r oddzielone spacjami."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "Daty są poprawne, z lat od 1980 do 2107.",
+        "W poleceniu rozpakuj liczba x zawsze zapisuje poprawną datę."
+      ],
+      "examples": [
+        {
+          "input": "2\npakuj 26 11 2026\nrozpakuj 23153",
+          "output": "23930\n17 3 2025",
+          "note": "2026 − 1980 = 46: 46 << 9 = 23552, 11 << 5 = 352, a dzień 26 — razem 23552 + 352 + 26 = 23930. 23153: dzień 23153 & 31 = 17, miesiąc (23153 >> 5) & 15 = 3, rok (23153 >> 9) + 1980 = 45 + 1980 = 2025."
+        }
+      ],
+      "hint": "Polecenie wczytaj jako napis. pakuj: cout << ((r - 1980) << 9 | m << 5 | d);. rozpakuj: cout << (x & 31) << \" \" << ((x >> 5) & 15) << \" \" << (x >> 9) + 1980;.",
+      "tests_count": 4
+    },
+    {
+      "id": "ld-b-xor-od-1-do-n",
+      "number": 2509,
+      "title": "XOR od 1 do n",
+      "category": "Liczby dwójkowe / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej liczby n wypisz XOR wszystkich liczb od 1 do n, czyli 1 ^ 2 ^ 3 ^ … ^ n.",
+        "Liczby sięgają 10¹⁸, więc pętla po wszystkich nie zdąży. Napisz najpierw krótki program, który wypisze wyniki dla n od 1 do 20 — zobaczysz regułę, która powtarza się co cztery liczby i zależy tylko od reszty n % 4."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy jedna liczba n."
+      ],
+      "output_format": [
+        "q wierszy — wartość 1 ^ 2 ^ … ^ n."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "1 ≤ n ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "5\n1\n2\n3\n4\n5",
+          "output": "1\n3\n0\n4\n1",
+          "note": "1 = 1. 1 ^ 2 = 3. 1 ^ 2 ^ 3 = 0. Do tego ^ 4 daje 4, a ^ 5 — znowu 1. Zauważ, że przy n podzielnym przez 4 wynikiem jest samo n."
+        }
+      ],
+      "hint": "Reguła: n % 4 == 0 → n, n % 4 == 1 → 1, n % 4 == 2 → n + 1, n % 4 == 3 → 0. Dlaczego? Każda czwórka kolejnych liczb 4k, 4k + 1, 4k + 2, 4k + 3 daje razem XOR równy 0.",
+      "tests_count": 4
+    },
+    {
+      "id": "ld-b-z-kodu-graya",
+      "number": 2510,
+      "title": "Z kodu Graya z powrotem",
+      "category": "Liczby dwójkowe / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Kod Graya liczby i to g = i ^ (i >> 1). Mając sam kod g, można odzyskać i. Najstarszy bit i jest taki sam jak najstarszy bit g. Każdy następny bit i (idąc w prawo) to XOR poprzedniego bitu i z bitem g na tej samej pozycji.",
+        "Dla każdego kodu Graya podanego jako napis z zer i jedynek wypisz liczbę i, której jest kodem (dziesiętnie)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy kod Graya — napis z zer i jedynek (może zaczynać się od zer)."
+      ],
+      "output_format": [
+        "q wierszy — liczba i dla każdego kodu."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 300",
+        "Każdy napis ma od 1 do 60 znaków."
+      ],
+      "examples": [
+        {
+          "input": "3\n110\n0101\n111",
+          "output": "4\n6\n5",
+          "note": "110: pierwszy bit 1, potem 1 ^ 1 = 0, potem 0 ^ 0 = 0 — i = 100 = 4 (i rzeczywiście 4 ^ 2 = 6 = 110). 0101 → 0110 = 6. 111 → 101 = 5."
+        }
+      ],
+      "hint": "int b = 0; long long i = 0; for (char c : g) { b ^= (c - '0'); i = i * 2 + b; }. Zmienna b to bieżący bit liczby i — XOR wszystkich bitów g od początku do tego miejsca.",
+      "tests_count": 4
+    },
+    {
+      "id": "ld-b-dwie-bez-pary",
+      "number": 2511,
+      "title": "Dwie liczby bez pary",
+      "category": "Liczby dwójkowe / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W ciągu n liczb każda wartość występuje dokładnie dwa razy, z wyjątkiem dwóch różnych wartości a i b, które występują po razie. Znajdź je.",
+        "XOR wszystkich liczb to a ^ b — pary się znoszą. Ponieważ a ≠ b, ta liczba ma gdzieś jedynkę; weź najniższą: d = x & −x. Na tej pozycji a i b mają różne bity. Podziel wszystkie liczby na dwie grupy według tego bitu — w każdej grupie pary dalej się znoszą, a zostaje dokładnie jedna z samotnych liczb."
+      ],
+      "input_format": [
+        "W pierwszym wierszu parzysta liczba n.",
+        "W drugim wierszu n liczb."
+      ],
+      "output_format": [
+        "Dwie samotne liczby w kolejności rosnącej, oddzielone spacją."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 10 000, n parzyste",
+        "Liczby są z przedziału od 1 do 10⁹."
+      ],
+      "examples": [
+        {
+          "input": "6\n4 7 9 4 9 2",
+          "output": "2 7",
+          "note": "XOR wszystkiego: 7 ^ 2 = 111 ^ 010 = 101. Najniższa jedynka ma wagę 1. Liczby z tym bitem: 7, 9, 9 — XOR daje 7. Bez niego: 4, 4, 2 — XOR daje 2. Wynik 2 7."
+        }
+      ],
+      "hint": "int x = 0; for (int v : a) x ^= v; int d = x & -x; int p = 0, q = 0; for (int v : a) if (v & d) p ^= v; else q ^= v;. Na końcu wypisz min(p, q) i max(p, q).",
+      "tests_count": 9
+    },
+    {
+      "id": "ld-b-and-przedzialu",
+      "number": 2512,
+      "title": "AND całego przedziału",
+      "category": "Liczby dwójkowe / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej pary a ≤ b wypisz AND wszystkich liczb całkowitych od a do b włącznie: a & (a + 1) & … & b. Liczby sięgają 10¹⁸, więc pętla po przedziale nie zdąży.",
+        "Zauważ: jeśli na jakiejś pozycji bit zmienia się gdzieś w przedziale, to w wyniku jest tam zero — a każdy bit poniżej pierwszej różnicy między a i b na pewno się zmienia. Zostaje więc wspólny początek zapisów a i b, a reszta to zera. Przesuwaj a i b w prawo, aż staną się równe, licząc przesunięcia, a potem przesuń wynik z powrotem w lewo."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy dwie liczby a i b."
+      ],
+      "output_format": [
+        "q wierszy — AND wszystkich liczb od a do b."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "0 ≤ a ≤ b ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "3\n12 15\n5 7\n8 8",
+          "output": "12\n4\n8",
+          "note": "12 = 1100, 13 = 1101, 14 = 1110, 15 = 1111: wspólny początek 11, reszta to zera — 1100 = 12. 5 = 101, 6 = 110 i 7 = 111 mają wspólny tylko najstarszy bit: 100 = 4. Jedna liczba to po prostu ona sama."
+        }
+      ],
+      "hint": "int k = 0; while (a != b) { a >>= 1; b >>= 1; k++; } cout << (a << k);. Wszystko w long long.",
+      "tests_count": 3
+    },
+    {
+      "id": "ld-b-adres-ip",
+      "number": 2513,
+      "title": "Adres IP i maska sieci",
+      "category": "Liczby dwójkowe / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Adres IP, na przykład 192.168.1.130, to 32 bity zapisane jako cztery bajty: 192, 168, 1 i 130. Zapis 192.168.1.130/26 dodatkowo mówi, że pierwsze 26 bitów to numer sieci, a pozostałe 6 — numer komputera w tej sieci. Maska sieci ma p jedynek z przodu i zera dalej.",
+        "Dla każdego adresu wypisz adres sieci (IP & maska — bity komputera wyzerowane) oraz adres rozgłoszeniowy (IP | ~maska — bity komputera ustawione na jedynki), oba w postaci czterech liczb z kropkami."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy adres w postaci a.b.c.d/p."
+      ],
+      "output_format": [
+        "q wierszy: adres sieci i adres rozgłoszeniowy oddzielone spacją."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 300",
+        "0 ≤ a, b, c, d ≤ 255",
+        "0 ≤ p ≤ 32"
+      ],
+      "examples": [
+        {
+          "input": "3\n192.168.1.130/26\n10.20.30.40/8\n1.2.3.4/32",
+          "output": "192.168.1.128 192.168.1.191\n10.0.0.0 10.255.255.255\n1.2.3.4 1.2.3.4",
+          "note": "130 = 10000010, a w /26 bity komputera to ostatnie 6: sieć zaczyna się od 10000000 = 128, a kończy na 10111111 = 191. W /8 sieć to 10.0.0.0, a rozgłoszeniowy 10.255.255.255. /32 to jeden komputer — oba adresy są takie same."
+        }
+      ],
+      "hint": "Złóż adres w unsigned int: ip = (a << 24) | (b << 16) | (c << 8) | d;. Maska: unsigned int m = (p == 0) ? 0 : 0xFFFFFFFFu << (32 - p); — przesunięcie o 32 jest zabronione, dlatego p = 0 osobno. Bajty wypisuj jako (x >> 24) & 255, (x >> 16) & 255 itd.",
+      "tests_count": 4
+    },
+    {
+      "id": "ld-b-bez-sasiednich-jedynek",
+      "number": 2514,
+      "title": "Bez dwóch jedynek obok siebie",
+      "category": "Liczby dwójkowe / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wypisz w kolejności rosnącej wszystkie napisy z n zer i jedynek, w których żadne dwie jedynki nie stoją obok siebie, a na końcu — ile ich jest.",
+        "Każdy napis to maska m od 0 do 2ⁿ − 1. Dwie sąsiednie jedynki istnieją dokładnie wtedy, gdy m i m przesunięte o jeden w prawo mają wspólną jedynkę — czyli (m & (m >> 1)) != 0."
+      ],
+      "input_format": [
+        "Jedna liczba n."
+      ],
+      "output_format": [
+        "Kolejne napisy (każdy dokładnie n znaków) w kolejności rosnących masek, każdy w osobnym wierszu.",
+        "W ostatnim wierszu liczba tych napisów."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 12"
+      ],
+      "examples": [
+        {
+          "input": "3",
+          "output": "000\n001\n010\n100\n101\n5",
+          "note": "Spośród 8 napisów odpadają 011, 110 i 111. Zostaje 5: 000, 001, 010, 100 i 101."
+        }
+      ],
+      "hint": "for (int m = 0; m < (1 << n); m++) if ((m & (m >> 1)) == 0) { for (int k = n - 1; k >= 0; k--) cout << ((m >> k) & 1); cout << \"\\n\"; ile++; }. Ciekawostka: liczby 2, 3, 5, 8, 13, … to ciąg Fibonacciego.",
+      "tests_count": 9
+    },
+    {
+      "id": "ld-b-nastepna-z-tyloma-jedynkami",
+      "number": 2515,
+      "title": "Następna liczba z tyloma samymi jedynkami",
+      "category": "Liczby dwójkowe / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej liczby x wypisz najmniejszą liczbę większą od x, która ma w zapisie dwójkowym tyle samo jedynek co x. Liczby sięgają 10¹⁸ — szukanie kolejnych liczb po jednej może trwać bardzo długo (z 2⁵⁹ trzeba by dojść aż do 2⁶⁰).",
+        "Sposób na napisie: dopisz zero z przodu zapisu x. Idąc od prawej, znajdź pierwsze miejsce, gdzie przed jedynką stoi zero (para 01). Zamień tę parę na 10, a wszystkie jedynki, które stały na prawo od niej, przesuń na sam koniec napisu (zera przed nimi). Odczytaj wynik."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy jedna liczba x."
+      ],
+      "output_format": [
+        "q wierszy — najmniejsza większa liczba z tą samą liczbą jedynek."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "1 ≤ x ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "4\n6\n7\n12\n1",
+          "output": "9\n11\n17\n2",
+          "note": "6 → 0110: pierwsza od prawej para 01 stoi na samym początku. Po zamianie na 10 mamy 1010, a jedynkę stojącą za parą zsuwamy na koniec: 1001 = 9. 7 → 0111 → 1011 = 11. 12 → 01100 → 10001 = 17. 1 → 01 → 10 = 2."
+        }
+      ],
+      "hint": "Na bitach: long long c = x & -x; long long r = x + c; wynik = r | (((x ^ r) >> 2) / c);. Na napisie: s = \"0\" + zapis(x); szukasz od prawej i takiego, że s[i] == '0' && s[i+1] == '1', zamieniasz, a potem w s.substr(i + 2) ustawiasz wszystkie jedynki na końcu (np. sort).",
+      "tests_count": 4
+    },
+    {
+      "id": "ld-b-lampki-i-przelaczniki",
+      "number": 2516,
+      "title": "Lampki i przełączniki",
+      "category": "Liczby dwójkowe / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na tablicy jest m lampek (od 0 do m − 1), część z nich świeci. Pod tablicą jest n przełączników — każdy zmienia stan określonych lampek (świecące gasną, zgaszone się zapalają). Jakie najmniej naciśnięć zapali wszystkie lampki naraz?",
+        "Stan lampek to maska, a naciśnięcie przełącznika — XOR z jego maską. Kolejność naciśnięć nie ma znaczenia, a dwukrotne naciśnięcie tego samego przełącznika niczego nie zmienia. Wystarczy więc sprawdzić każdy podzbiór przełączników — każdą maskę od 0 do 2ⁿ − 1. Jeśli nie da się zapalić wszystkich lampek, wypisz −1."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby m i n.",
+        "W drugim wierszu napis z m znaków 0 i 1 — stan lampek od lampki 0 (1 = świeci).",
+        "W każdym z kolejnych n wierszy liczba c, a po niej c różnych numerów lampek, które zmienia przełącznik."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejsza liczba naciśnięć albo −1."
+      ],
+      "constraints": [
+        "1 ≤ m ≤ 60",
+        "1 ≤ n ≤ 20",
+        "0 ≤ c ≤ m"
+      ],
+      "examples": [
+        {
+          "input": "4 3\n1010\n2 1 3\n2 0 1\n1 2",
+          "output": "1",
+          "note": "Świecą lampki 0 i 2. Pierwszy przełącznik zapala 1 i 3 — po jednym naciśnięciu świecą wszystkie. Wynik 1."
+        },
+        {
+          "input": "2 1\n00\n1 0",
+          "output": "-1",
+          "note": "Jedyny przełącznik zmienia tylko lampkę 0 — lampki 1 nie da się zapalić. Wynik −1."
+        }
+      ],
+      "hint": "Maski w long long: stan |= 1LL << i dla świecących, maska[j] |= 1LL << lampka. Cel: long long pelna = (1LL << m) - 1; for (int s = 0; s < (1 << n); s++) { long long x = stan; for (j…) if ((s >> j) & 1) x ^= maska[j]; if (x == pelna) best = min(best, __builtin_popcount(s)); }.",
+      "tests_count": 10
+    },
+    {
+      "id": "ld-b-max-xor-pary",
+      "number": 2517,
+      "title": "Największy XOR pary",
+      "category": "Liczby dwójkowe / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla ciągu n liczb znajdź największą wartość a_i ^ a_j dla dwóch różnych pozycji i ≠ j.",
+        "Par jest n · (n − 1) / 2 — dla n = 3000 to około 4,5 miliona, a każda wymaga jednego XOR-a. Komputer sprawdzi je wszystkie w ułamku sekundy. (W bazie trudnych zadań czeka to samo zadanie dla 200 000 liczb — tam trzeba już sprytu.)"
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb."
+      ],
+      "output_format": [
+        "Jedna liczba — największy XOR pary."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 3000",
+        "Liczby są z przedziału od 0 do 10⁹."
+      ],
+      "examples": [
+        {
+          "input": "4\n3 10 5 25",
+          "output": "28",
+          "note": "5 ^ 25 = 00101 ^ 11001 = 11100 = 28. Żadna inna para nie daje więcej (na przykład 10 ^ 25 = 19, 3 ^ 25 = 26)."
+        }
+      ],
+      "hint": "int best = 0; for (int i = 0; i < n; i++) for (int j = i + 1; j < n; j++) best = max(best, a[i] ^ a[j]);. Wynik mieści się w int, bo liczby są mniejsze od 2³⁰.",
+      "tests_count": 9
+    },
+    {
+      "id": "ld-b-gra-nim",
+      "number": 2518,
+      "title": "Gra Nim",
+      "category": "Liczby dwójkowe / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W grze Nim leży n kupek zapałek. Gracze na zmianę zabierają dowolną dodatnią liczbę zapałek z jednej wybranej kupki. Wygrywa ten, kto zabierze ostatnią zapałkę. Obaj grają najlepiej, jak się da.",
+        "Ta gra ma znane rozwiązanie: niech X to XOR rozmiarów wszystkich kupek. Jeśli X = 0, przegrywa gracz, który ma ruch (każdy jego ruch zostawi X ≠ 0, a przeciwnik zawsze może przywrócić zero). Jeśli X ≠ 0, gracz zaczynający wygrywa — dobrym ruchem jest zmniejszenie jakiejś kupki a do rozmiaru a ^ X, o ile a ^ X < a. Wypisz, kto wygra, a jeśli pierwszy — na ile sposobów może wykonać zwycięski pierwszy ruch."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n rozmiarów kupek."
+      ],
+      "output_format": [
+        "drugi, jeśli wygrywa drugi gracz, albo pierwszy K, gdzie K to liczba zwycięskich pierwszych ruchów."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "Kupki mają od 1 do 10⁹ zapałek."
+      ],
+      "examples": [
+        {
+          "input": "3\n3 4 5",
+          "output": "pierwszy 1",
+          "note": "X = 3 ^ 4 ^ 5 = 2 ≠ 0 — wygrywa pierwszy. Kupka 3: 3 ^ 2 = 1 < 3, więc można zabrać 2 zapałki. Kupka 4: 4 ^ 2 = 6 > 4 — nie da się. Kupka 5: 5 ^ 2 = 7 > 5 — też nie. Jeden zwycięski ruch."
+        },
+        {
+          "input": "2\n7 7",
+          "output": "drugi",
+          "note": "X = 0 — cokolwiek zrobi pierwszy, drugi powtórzy to samo na drugiej kupce. Wygrywa drugi."
+        }
+      ],
+      "hint": "int X = 0; for (int a : kupki) X ^= a; if (X == 0) cout << \"drugi\"; else { int K = 0; for (int a : kupki) if ((a ^ X) < a) K++; cout << \"pierwszy \" << K; }. Nawiasy wokół a ^ X są konieczne — < ma wyższy priorytet niż ^.",
+      "tests_count": 10
+    },
+    {
+      "id": "ld-b-jedynki-od-1-do-n",
+      "number": 2519,
+      "title": "Wszystkie jedynki od 1 do n",
+      "category": "Liczby dwójkowe / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wypisz, ile jedynek mają razem zapisy dwójkowe wszystkich liczb od 1 do n. Liczby sięgają 10¹⁷, więc liczenie po kolei nie zdąży.",
+        "Policz jedynki osobno dla każdej pozycji. Wypisz w kolumnie liczby 0, 1, 2, 3, … i spójrz na bit numer k: najpierw 2ᵏ zer, potem 2ᵏ jedynek, potem znowu 2ᵏ zer — wzór powtarza się co 2ᵏ⁺¹ liczb. Wśród liczb od 0 do n (czyli n + 1 liczb) jest więc (n + 1) / 2ᵏ⁺¹ pełnych powtórzeń, każde z 2ᵏ jedynkami, a z niepełnej reszty r = (n + 1) % 2ᵏ⁺¹ jedynek jest max(0, r − 2ᵏ)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy jedna liczba n."
+      ],
+      "output_format": [
+        "q wierszy — łączna liczba jedynek w zapisach liczb od 1 do n."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "1 ≤ n ≤ 10¹⁷"
+      ],
+      "examples": [
+        {
+          "input": "3\n5\n1\n8",
+          "output": "7\n1\n13",
+          "note": "1, 10, 11, 100, 101 — jedynek jest 1 + 1 + 2 + 1 + 2 = 7. Dla n = 1 jest jedna. Do 8 dochodzą jeszcze 110 (2), 111 (3) i 1000 (1): razem 13."
+        }
+      ],
+      "hint": "for (int k = 0; k < 60; k++) { long long okres = 1LL << (k + 1); suma += (n + 1) / okres * (1LL << k); long long r = (n + 1) % okres - (1LL << k); if (r > 0) suma += r; }. Sprawdź wzór na małych n z rozwiązaniem „po kolei”.",
+      "tests_count": 4
+    },
+    {
+      "id": "ld-b-liczby-z-k-jedynkami",
+      "number": 2520,
+      "title": "Liczby z dokładnie k jedynkami",
+      "category": "Liczby dwójkowe / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej pary N, k wypisz, ile liczb od 1 do N ma w zapisie dwójkowym dokładnie k jedynek. N sięga 10¹⁸.",
+        "Przyda się trójkąt Pascala z lekcji Silnia: liczba sposobów wyboru j pozycji spośród i to C(i, j). Przechodź po bitach N od najstarszego i licz, ile jedynek już „zużyłeś” (u). Gdy bit numer i liczby N to 1, możesz postawić tam 0 — wtedy każda liczba z dowolnymi i młodszymi bitami jest mniejsza od N, a jedynek potrzebujesz jeszcze k − u: to C(i, k − u) liczb. Potem stawiasz 1, tak jak w N, i u rośnie o jeden. Na końcu doliczasz samo N, jeśli ma dokładnie k jedynek."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy dwie liczby N i k."
+      ],
+      "output_format": [
+        "q wierszy — liczba liczb od 1 do N z dokładnie k jedynkami."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "1 ≤ N ≤ 10¹⁸",
+        "1 ≤ k ≤ 60"
+      ],
+      "examples": [
+        {
+          "input": "3\n10 2\n7 3\n1000000000000000000 30",
+          "output": "5\n1\n103477184498507572",
+          "note": "Do 10 dwie jedynki mają 3, 5, 6, 9 i 10 — pięć liczb. Do 7 trzy jedynki ma tylko 7 = 111. Ostatni wynik jest ogromny — tylko wzór da tu radę."
+        }
+      ],
+      "hint": "long long C[64][64] — trójkąt Pascala (C[i][0] = 1, C[i][j] = C[i-1][j-1] + C[i-1][j]). Potem for (int i = 60; i >= 0; i--) if ((N >> i) & 1) { int p = k - u; if (p >= 0 && p <= i) wynik += C[i][p]; u++; } i na końcu if (__builtin_popcountll(N) == k) wynik++;.",
+      "tests_count": 5
+    },
+    {
+      "id": "ld-b-max-xor-duze",
+      "number": 2521,
+      "title": "Największy XOR dla 200 000 liczb",
+      "category": "Liczby dwójkowe / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ciąg n liczb jest generowany przepisem z lekcji Złożoność czasowa: x₁ = s, xᵢ = (xᵢ₋₁ · a + b) mod m. Znajdź największą wartość xᵢ ^ xⱼ dla dwóch różnych pozycji.",
+        "Par jest około 2 · 10¹⁰ — za dużo. Ale wynik możesz budować od najstarszego bitu: wyższy bit waży więcej niż wszystkie niższe razem, więc najpierw sprawdź, czy da się dostać jedynkę na bicie 29, potem — przy tym, co już ustalone — na bicie 28 i tak dalej. Pytanie „czy istnieją dwie liczby, których XOR zaczyna się od bitów kand?” sprowadza się do pytania, czy dla jakiegoś x istnieje y z (y >> k) = (x >> k) ^ (kand >> k) — a to wyszukiwanie binarne w posortowanych liczbach."
+      ],
+      "input_format": [
+        "Jeden wiersz: liczby n, s, a, b i m."
+      ],
+      "output_format": [
+        "Jedna liczba — największy XOR pary."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 200 000",
+        "1 ≤ m ≤ 10⁹",
+        "0 ≤ s, a, b < m"
+      ],
+      "examples": [
+        {
+          "input": "5 3 7 2 100",
+          "output": "60",
+          "note": "Ciąg: 3, 23, 63, 43, 3 (bo 43 · 7 + 2 = 303, a 303 mod 100 = 3). Największy XOR daje para 3 i 63: 000011 ^ 111111 = 111100 = 60."
+        }
+      ],
+      "hint": "Wygeneruj x (long long, jak w lekcji: vector<long long> x(n); x[0] = s; for (int i = 1; i < n; i++) x[i] = (x[i - 1] * a + b) % m;) i posortuj. long long best = 0; for (int k = 29; k >= 0; k--) { long long kand = best | (1LL << k); vector<long long> p(n); for (i…) p[i] = x[i] >> k; bool jest = false; for (i…) if (binary_search(p.begin(), p.end(), p[i] ^ (kand >> k))) { jest = true; break; } if (jest) best = kand; }.",
+      "tests_count": 9
+    },
+    {
+      "id": "ld-b-suma-xor-par",
+      "number": 2522,
+      "title": "Suma XOR-ów wszystkich par",
+      "category": "Liczby dwójkowe / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ciąg n liczb jest generowany przepisem: x₁ = s, xᵢ = (xᵢ₋₁ · a + b) mod m (liczby są mniejsze od 2²⁰). Wypisz sumę xᵢ ^ xⱼ po wszystkich parach i < j.",
+        "Dla miliona liczb par jest pół biliona — nie ma mowy o sprawdzaniu ich po kolei. Pomyśl osobno o każdym bicie k: XOR pary ma na nim jedynkę dokładnie wtedy, gdy jedna liczba z pary ma ten bit zapalony, a druga nie. Jeśli c liczb ma bit k zapalony, takich par jest c · (n − c), a każda dokłada do sumy 2ᵏ."
+      ],
+      "input_format": [
+        "Jeden wiersz: liczby n, s, a, b i m."
+      ],
+      "output_format": [
+        "Jedna liczba — suma XOR-ów wszystkich par."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 1 000 000",
+        "1 ≤ m ≤ 2²⁰ = 1 048 576",
+        "0 ≤ s, a, b < m"
+      ],
+      "examples": [
+        {
+          "input": "3 1 2 1 10",
+          "output": "12",
+          "note": "Ciąg: 1, 3, 7. Pary: 1 ^ 3 = 2, 1 ^ 7 = 6, 3 ^ 7 = 4 — razem 12."
+        }
+      ],
+      "hint": "Wygeneruj x (long long). Dla każdego k od 0 do 19 policz c — ile liczb ma (x[i] >> k) & 1 — i dodaj (long long)c * (n - c) * (1LL << k). Wynik sięga 2,7 · 10¹⁷ — long long jest konieczny.",
+      "tests_count": 8
+    },
+    {
+      "id": "ld-b-polowki",
+      "number": 2523,
+      "title": "Spotkanie w połowie",
+      "category": "Liczby dwójkowe / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla n liczb wypisz, na ile sposobów można wybrać niepusty podzbiór o sumie dokładnie S. Liczb jest do 36, więc 2³⁶ ≈ 68 miliardów masek to za dużo.",
+        "Sztuczka „spotkanie w połowie”: podziel liczby na pierwszą połowę (do 18 liczb) i drugą. Policz sumy wszystkich podzbiorów pierwszej połowy — to najwyżej 2¹⁸ = 262 144 liczby — i posortuj je. Każdy podzbiór całości to podzbiór pierwszej połowy plus podzbiór drugiej. Dla każdej sumy t podzbioru drugiej połowy policz więc, ile sum pierwszej połowy jest równych S − t (lower_bound i upper_bound z lekcji Sortowanie)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i S.",
+        "W drugim wierszu n liczb."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba niepustych podzbiorów o sumie S."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 36",
+        "1 ≤ S ≤ 4 · 10¹³",
+        "Liczby są z przedziału od 1 do 10¹²."
+      ],
+      "examples": [
+        {
+          "input": "5 10\n1 2 3 4 5",
+          "output": "3",
+          "note": "Sumę 10 dają {1, 2, 3, 4}, {1, 4, 5}, {2, 3, 5} — trzy podzbiory."
+        }
+      ],
+      "hint": "int h = n / 2; vector<long long> L; for (int m = 0; m < (1 << h); m++) { suma bitów z pierwszej połowy } sort(L.begin(), L.end());. Potem dla każdej maski drugiej połowy z sumą t: wynik += upper_bound(…, S - t) - lower_bound(…, S - t);. Pusty podzbiór ma sumę 0, a S ≥ 1, więc sam się nie policzy.",
+      "tests_count": 9
+    },
+    {
+      "id": "ld-b-hetmany",
+      "number": 2524,
+      "title": "Hetmany na maskach",
+      "category": "Liczby dwójkowe / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na szachownicy n × n trzeba ustawić n hetmanów tak, żeby żadne dwa się nie atakowały — nie mogą stać w tym samym wierszu, kolumnie ani na tej samej przekątnej. Na ile sposobów da się to zrobić?",
+        "Stawiaj hetmany wiersz po wierszu rekurencją, jak w lekcji Rekurencja. Pola atakowane przez hetmany z poprzednich wierszy trzymaj w trzech maskach: zajęte kolumny, przekątne „w lewo” i przekątne „w prawo”. Przy przejściu do następnego wiersza maska przekątnych przesuwa się o jeden bit w lewo albo w prawo. Wolne pola w wierszu to ~(kol | p1 | p2) obcięte do n bitów, a kolejne wolne pole wyciągasz przez wolne & −wolne."
+      ],
+      "input_format": [
+        "Jedna liczba n."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba ustawień."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 14"
+      ],
+      "examples": [
+        {
+          "input": "4",
+          "output": "2",
+          "note": "Są dokładnie dwa ustawienia: hetmany w kolumnach 2, 4, 1, 3 (licząc od góry) oraz ich lustrzane odbicie 3, 1, 4, 2."
+        },
+        {
+          "input": "8",
+          "output": "92",
+          "note": "Słynne zadanie o ośmiu hetmanach — 92 ustawienia."
+        }
+      ],
+      "hint": "void szukaj(int w, int kol, int p1, int p2) { if (w == n) { ile++; return; } int wolne = ((1 << n) - 1) & ~(kol | p1 | p2); while (wolne) { int b = wolne & -wolne; wolne ^= b; szukaj(w + 1, kol | b, (p1 | b) << 1, (p2 | b) >> 1); } }. Wywołaj szukaj(0, 0, 0, 0).",
+      "tests_count": 14
+    },
+    {
+      "id": "ld-b-zbieranie-kluczy",
+      "number": 2525,
+      "title": "Klucze i drzwi",
+      "category": "Liczby dwójkowe / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na planszy h × w są wolne pola (.), ściany (#), start S, wyjście W, klucze a–f i drzwi A–F. W jednym ruchu przechodzisz na sąsiednie pole (góra, dół, lewo, prawo), które nie jest ścianą. Na drzwi X możesz wejść tylko wtedy, gdy masz już klucz x. Wejście na pole z kluczem zabiera klucz na zawsze. Jaka jest najmniejsza liczba ruchów od S do W?",
+        "Zwykły BFS z lekcji Kolejka tu nie wystarczy: to samo pole z innymi kluczami w kieszeni to zupełnie inna sytuacja. Stanem jest więc trójka (wiersz, kolumna, klucze), gdzie zebrane klucze to maska 6 bitów (klucz a — bit 0, …, f — bit 5). Stanów jest najwyżej 50 · 50 · 64 = 160 000. Jeśli wyjścia nie da się osiągnąć, wypisz −1."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby h i w.",
+        "W każdym z kolejnych h wierszy napis z w znaków: ., #, S, W, a–f, A–F."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejsza liczba ruchów albo −1."
+      ],
+      "constraints": [
+        "2 ≤ h, w ≤ 50",
+        "Na planszy jest dokładnie jedno S i jedno W, a każdy klucz występuje najwyżej raz (drzwi mogą się powtarzać)."
+      ],
+      "examples": [
+        {
+          "input": "3 5\nSa.A.\n###.#\nW.B.b",
+          "output": "10",
+          "note": "Bierzemy klucz a (1 ruch), przechodzimy przez drzwi A i schodzimy na dół (5. ruch), zabieramy klucz b (6), wracamy przez drzwi B do wyjścia — razem 10 ruchów."
+        },
+        {
+          "input": "2 3\nS#W\n.A.",
+          "output": "-1",
+          "note": "Do wyjścia prowadzą tylko drzwi A, a klucza a na planszy nie ma: −1."
+        }
+      ],
+      "hint": "int dist[50][50][64]; wypełnij -1. Kolejka trójek {w, k, m}. Z (w, k, m) idź na sąsiada (nw, nk): ściana — nie; drzwi X — tylko gdy (m >> (X - 'A')) & 1; nowa maska nm = m, a jeśli na polu jest klucz x, to nm |= 1 << (x - 'a'). Jeśli dist[nw][nk][nm] == -1 — wstaw. Wynik: pierwszy zdjęty stan na polu W.",
+      "tests_count": 12
+    },
+    {
+      "id": "ld-b-final-procesor",
+      "number": 2526,
+      "title": "Wielki finał: mały procesor 8-bitowy",
+      "category": "Liczby dwójkowe / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Mały procesor ma cztery rejestry A, B, C, D — każdy to 8 bitów, czyli liczba od 0 do 255 — oraz dwie flagi: Z (wynik był zerem) i P (przeniesienie). Na początku wszystko jest zerem. Program to n linii ponumerowanych od 1, w każdej jedno polecenie. Procesor zaczyna od linii 1 i wykonuje polecenia po kolei, chyba że skok każe przejść gdzie indziej. Kończy pracę po HALT albo po wyjściu za ostatnią linię.",
+        "Polecenia z wynikiem (r to rejestr, v — rejestr albo liczba od 0 do 255): MOV r v — r = v (flagi bez zmian). ADD r v — r = (r + v) mod 256, P = 1, gdy r + v > 255. SUB r v — r = (r − v) mod 256, P = 1, gdy r < v. AND r v, OR r v, XOR r v — działanie bitowe, P = 0. NOT r — odwraca wszystkie 8 bitów, P = 0. SHL r k i SHR r k (1 ≤ k ≤ 7) — przesunięcie o k bitów w lewo albo w prawo w obrębie 8 bitów; P = 1, gdy wypadła choć jedna jedynka. INC r i DEC r — dodanie albo odjęcie jedynki z zawinięciem; P jak przy ADD r 1 i SUB r 1. Każde polecenie z wynikiem oprócz MOV ustawia Z = 1, gdy nowa wartość r to 0, a w przeciwnym razie Z = 0.",
+        "Skoki (t to numer linii): JMP t — zawsze; JZ t — gdy Z = 1; JNZ t — gdy Z = 0; JP t — gdy P = 1. PRINT r wypisuje wiersz r = d = bbbbbbbb = 0xHH = s, gdzie d to wartość rejestru, b — jego 8 bitów, HH — dwie cyfry szesnastkowe (wielkie litery), a s — wartość w kodzie U2 (d − 256, gdy d ≥ 128). HALT kończy program. Na sam koniec — zawsze — wypisz wiersz koniec: A=… B=… C=… D=… Z=… P=… ze stanem rejestrów (dziesiętnie) i flag."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z n kolejnych wierszy jedno polecenie: nazwa i argumenty oddzielone spacjami."
+      ],
+      "output_format": [
+        "Wiersze wypisane przez PRINT, a na końcu wiersz koniec: … ."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "Argumenty są poprawne: rejestry to A, B, C, D, liczby v od 0 do 255, k od 1 do 7, a numery linii w skokach od 1 do n.",
+        "Każdy program kończy pracę po wykonaniu najwyżej 100 000 poleceń, a PRINT wykona się najwyżej 500 razy."
+      ],
+      "examples": [
+        {
+          "input": "8\nMOV A 200\nMOV B 100\nADD A B\nPRINT A\nJP 7\nHALT\nPRINT B\nHALT",
+          "output": "A = 44 = 00101100 = 0x2C = 44\nB = 100 = 01100100 = 0x64 = 100\nkoniec: A=44 B=100 C=0 D=0 Z=0 P=1",
+          "note": "200 + 100 = 300, a 300 mod 256 = 44 i P = 1 — dlatego JP skacze do linii 7 i wypisuje jeszcze B. 44 = 00101100 = 0x2C."
+        },
+        {
+          "input": "8\nMOV A 5\nMOV B 0\nADD B A\nDEC A\nJNZ 3\nPRINT B\nNOT B\nPRINT B",
+          "output": "B = 15 = 00001111 = 0x0F = 15\nB = 240 = 11110000 = 0xF0 = -16\nkoniec: A=0 B=240 C=0 D=0 Z=0 P=0",
+          "note": "Pętla w liniach 3–5 dodaje 5 + 4 + 3 + 2 + 1 = 15. Po odjęciu jedynki od 1 wychodzi 0, Z = 1 i JNZ już nie skacze. NOT zamienia 00001111 na 11110000 = 240, czyli −16 w kodzie U2."
+        }
+      ],
+      "hint": "Trzymaj int R[4], Z, P i wczytaj program do vector<string> op oraz argumentów (liczba argumentów zależy od nazwy polecenia). Pomocnicza funkcja int wart(string v) zwraca R[v[0] - 'A'], gdy v to nazwa rejestru, albo stoi(v). Po każdym poleceniu z wynikiem r &= 255 i Z = (r == 0). Pętla wykonania: int i = 1; while (i >= 1 && i <= n) { … i = nastepna; }.",
+      "tests_count": 17
     }
   ]
 }

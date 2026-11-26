@@ -2123,6 +2123,89 @@ const LEKCJE = [
             },
         ],
     },
+    {
+        temat: 'Bitset',
+        prefix: 'bs-',
+        plik: 'c++_logika/bitset.html',
+        pliki: ['bitset-cwiczenia-1.js', 'bitset-cwiczenia-2.js', 'bitset-cwiczenia-3.js', 'bitset-baza.js'],
+        note: 'Lekcja o bitsecie od podstaw: rząd tysięcy przełączników w jednej zmiennej (bitset<N>, numeracja od prawej, stały rozmiar, duże bitsety poza main), ' +
+            'wbudowane polecenia set, reset, flip, count, any, none, all i test, bitset z liczby i z napisu (to_string, to_ulong), działania na dwóch bitsetach ' +
+            '& | ^ ~ jako działania na zbiorach, przesunięcia << i >> całego ciągu, sito Eratostenesa, sumy podzbiorów przez przesunięcie ' +
+            'oraz bitset jako przyspieszacz w zadaniach olimpijskich (tablice bitsetów, grafy, _Find_first i _Find_next).',
+        bazaOpisy: {
+            latwe: 'Bitset w prostych przebraniach: skarpetki bez pary, wspólne litery, sudoku, bingo, kalendarz urlopów, album z naklejkami, wieże na szachownicy, ' +
+                'liczby bez kwadratów, pierwsze palindromy i kod kreskowy.',
+            srednie: 'Zbiory, sita i przesunięcia w nowych zadaniach: ankieta, alergie w stołówce, słowa z tymi samymi literami, linijka, najwięcej wspólnych znajomych, ' +
+                'wybór kursów, odcinki i plakaty bez pętli po polach, hipoteza Goldbacha i sito na przedziale.',
+            trudne: 'Bitset w poważnych algorytmach: dokładnie k monet, monety w ograniczonej liczbie, krzyżówka ze słownikiem, wyszukiwanie wzorca z dżokerami, ' +
+                'automat komórkowy, skoczek na wielkiej szachownicy i drogi jednokierunkowe — a na koniec wielki finał: wyszukiwarka dokumentów.',
+        },
+        kroki: [
+            {
+                nr: 1, kotwica: 'pierwszy-bitset', spis: 'Pierwszy bitset — rząd przełączników',
+                nazwa: 'Krok 1 · Pierwszy bitset — rząd przełączników',
+                kategoria: 'Bitset / krok 1: pierwszy bitset',
+                note: 'Po co bitset, bitset<N> b, numery bitów od prawej, b[i] = 1 i odczyt b[i], wypisywanie całego ciągu, rozmiar jako stała i duże bitsety poza main: ' +
+                    'zapalanie pozycji, dwa kierunki, różne liczby rosnąco, brakujące numery, czy już było, pierwsza powtórka, kolekcjoner i skreślanie wielokrotności.',
+            },
+            {
+                nr: 2, kotwica: 'metody', spis: 'Wbudowane polecenia: set, reset, flip, count',
+                nazwa: 'Krok 2 · Wbudowane polecenia — set, reset, flip, count, any, none, all',
+                kategoria: 'Bitset / krok 2: polecenia',
+                note: 'set, reset i flip dla jednego bitu i dla wszystkich, count, any, none, all, test i numer poza zakresem, pułapka all() przy n mniejszym od N: ' +
+                    'lampki, sto lampek, parking, wszyscy obecni, przełączniki co k, wszystkie cyfry, pangram i szatnia.',
+            },
+            {
+                nr: 3, kotwica: 'liczby-i-napisy', spis: 'Bitset z liczby i z napisu',
+                nazwa: 'Krok 3 · Bitset z liczby i z napisu — to_string i to_ulong',
+                kategoria: 'Bitset / krok 3: liczby i napisy',
+                note: 'bitset z liczby (obcinanie, liczby ujemne), z napisu (ostatni znak to bit 0, za długi napis, złe znaki), cin >> b, to_string, to_ulong i to_ullong: ' +
+                    'na 32 bitach, bez zer z przodu, z dwójkowego, jedynki i zera, negacja na k bitach, kod U2, lustro bitów i dodawanie dwójkowe.',
+            },
+            {
+                nr: 4, kotwica: 'dwa-bitsety', spis: 'Dwa bitsety naraz: & | ^ ~',
+                nazwa: 'Krok 4 · Działania na dwóch bitsetach — & | ^ ~ i zbiory',
+                kategoria: 'Bitset / krok 4: dwa bitsety',
+                note: 'AND, OR, XOR i NOT na całych bitsetach, część wspólna, suma, różnica, podzbiór i zbiory rozłączne, &= |= ^= na wielu zbiorach, maska dla ~: ' +
+                    'wspólne elementy, suma i różnica, odległość Hamminga, czy podzbiór, obecność, nieparzyście wiele razy, najpodobniejsza para i pary uzupełniające.',
+            },
+            {
+                nr: 5, kotwica: 'przesuniecia', spis: 'Przesunięcia całego bitsetu',
+                nazwa: 'Krok 5 · Przesunięcia << i >> — cały ciąg naraz',
+                kategoria: 'Bitset / krok 5: przesunięcia',
+                note: 'b << k i b >> k, bity, które wypadają, przesunięcie o więcej niż N, sąsiedzi i odstępy, rozlewanie się, maska n jedynek i obrót: ' +
+                    'przesuwanie, sąsiedzi, odstęp k, plotka, obrót, reguła 90, skoki żaby i sumy par.',
+            },
+            {
+                nr: 6, kotwica: 'sito', spis: 'Sito Eratostenesa',
+                nazwa: 'Krok 6 · Sito Eratostenesa — wszystkie liczby pierwsze naraz',
+                kategoria: 'Bitset / krok 6: sito Eratostenesa',
+                note: 'Skreślanie wielokrotności, pętla do pierwiastka i start od i · i, pamięć i czas bitsetu i tablicy bool, sito raz i wiele pytań, sumy prefiksowe: ' +
+                    'czy pierwsza, pierwsze do n, ile pierwszych do 10⁸, pierwsze w przedziale, bliźniacze, Goldbach, najbliższa pierwsza i k-ta pierwsza.',
+            },
+            {
+                nr: 7, kotwica: 'sumy', spis: 'Sumy podzbiorów przez przesunięcie',
+                nazwa: 'Krok 7 · Jakie sumy da się ułożyć — przesunięcie zamiast pętli',
+                kategoria: 'Bitset / krok 7: sumy podzbiorów',
+                note: 'Zbiór osiągalnych sum, S |= S << x, dlaczego każdy element liczy się raz, porównanie z tablicą bool, podział na pół, kostki i ważenie na dwóch szalkach: ' +
+                    'wszystkie sumy, czy zapłacę, ile sum, podział na pół, najbliżej celu, kostki, waga szalkowa i niezbędne monety.',
+            },
+            {
+                nr: 8, kotwica: 'przyspieszacz', spis: 'Bitset jako przyspieszacz',
+                nazwa: 'Krok 8 · Bitset jako przyspieszacz — 64 bity w jednym kroku',
+                kategoria: 'Bitset / krok 8: przyspieszanie',
+                note: 'Słowa po 64 bity, tablice bitsetów, wspólni znajomi i trójkąty w grafie, osiągalność, prostokąty w kratce, _Find_first i _Find_next, vector<bool>: ' +
+                    'wspólni znajomi, trójkąty, zasięg, prostokąty, kolejny wolny, podobni ankietowani, zbiory rozłączne i dwa kroki.',
+            },
+            {
+                nr: 9, kotwica: 'baza', spis: 'Baza zadań', baza: true,
+                nazwa: 'Baza zadań — podsumowanie tematu',
+                kategoria: 'Bitset / baza zadań',
+                note: '28 zadań na cały temat — od skarpetek, sudoku i bingo, przez ankiety, linijki i sito na przedziale, po krzyżówkę, automat komórkowy ' +
+                    'i skoczka na wielkiej szachownicy — a na koniec wielki finał: wyszukiwarka dokumentów.',
+            },
+        ],
+    },
 ];
 
 module.exports = { SITE, KATEGORIA, LEKCJE };

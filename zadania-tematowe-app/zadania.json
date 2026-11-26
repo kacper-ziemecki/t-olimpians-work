@@ -82783,6 +82783,3161 @@
       ],
       "hint": "Trzymaj int R[4], Z, P i wczytaj program do vector<string> op oraz argumentów (liczba argumentów zależy od nazwy polecenia). Pomocnicza funkcja int wart(string v) zwraca R[v[0] - 'A'], gdy v to nazwa rejestru, albo stoi(v). Po każdym poleceniu z wynikiem r &= 255 i Z = (r == 0). Pętla wykonania: int i = 1; while (i >= 1 && i <= n) { … i = nastepna; }.",
       "tests_count": 17
+    },
+    {
+      "id": "bs-zapal-pozycje",
+      "number": 2527,
+      "title": "Zapal żarówki",
+      "category": "Bitset / krok 1: pierwszy bitset",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Rząd 16 żarówek ma numery od 0 do 15. Na początku wszystkie są zgaszone. Wczytaj n numerów i zapal żarówki o tych numerach. Ten sam numer może się powtórzyć — zapalona żarówka po prostu świeci dalej.",
+        "Wypisz cały rząd tak, jak robi to cout << b dla bitset<16> b: od żarówki numer 15 po lewej do żarówki numer 0 po prawej, 1 — świeci, 0 — zgaszona."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n numerów żarówek."
+      ],
+      "output_format": [
+        "Jeden wiersz: 16 cyfr 0 i 1."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 100",
+        "0 ≤ każdy numer ≤ 15"
+      ],
+      "examples": [
+        {
+          "input": "3\n0 3 4",
+          "output": "0000000000011001",
+          "note": "Świecą żarówki 0, 3 i 4. Bit 0 stoi na samym końcu napisu, bit 3 — czwarty od końca, bit 4 — piąty od końca: 0000000000011001."
+        },
+        {
+          "input": "4\n15 15 15 1",
+          "output": "1000000000000010",
+          "note": "Żarówkę 15 zapalono trzy razy, ale świeci tak samo jak po pierwszym razie. Bit 15 jest pierwszy z lewej."
+        }
+      ],
+      "hint": "bitset<16> b; potem w pętli cin >> k; b[k] = 1;, a na końcu cout << b;. Nie odwracaj niczego ręcznie — cout sam wypisze bity od numeru 15 do numeru 0.",
+      "tests_count": 8
+    },
+    {
+      "id": "bs-dwa-kierunki",
+      "number": 2528,
+      "title": "Dwa kierunki",
+      "category": "Bitset / krok 1: pierwszy bitset",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj numery zapalonych bitów bitsetu bitset<20> (numery od 0 do 19) i wypisz go dwa razy.",
+        "W pierwszym wierszu wypisz bity pętlą od b[0] do b[19] — tak, jak zwykle czyta się tablicę. W drugim wierszu wypisz cout << b — od bitu 19 do bitu 0. Zobaczysz, że drugi wiersz to pierwszy wiersz czytany od końca."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n numerów bitów."
+      ],
+      "output_format": [
+        "Dwa wiersze po 20 cyfr: najpierw b[0], b[1], …, b[19], potem cout << b."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 20",
+        "0 ≤ każdy numer ≤ 19"
+      ],
+      "examples": [
+        {
+          "input": "4\n0 1 5 19",
+          "output": "11000100000000000001\n10000000000000100011",
+          "note": "Pętla zaczyna od b[0] = 1 i b[1] = 1, potem b[5] = 1 na szóstym miejscu i b[19] = 1 na końcu. cout << b pisze od bitu 19, więc ta sama jedynka jest na początku."
+        }
+      ],
+      "hint": "for (int i = 0; i < 20; i++) cout << b[i]; cout << \"\\n\" << b << \"\\n\";. Zamiast 20 możesz napisać b.size().",
+      "tests_count": 7
+    },
+    {
+      "id": "bs-rozne-rosnaco",
+      "number": 2529,
+      "title": "Różne liczby rosnąco",
+      "category": "Bitset / krok 1: pierwszy bitset",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj n liczb z zakresu od 0 do 999. Wypisz rosnąco wszystkie różne liczby, które wystąpiły — każdą jeden raz.",
+        "Nie trzeba sortować: zapal bit numer x dla każdej wczytanej liczby x (powtórka zapala bit, który już świeci, więc niczego nie zmienia), a potem przejdź po numerach od 0 do 999 i wypisz te, których bit świeci."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb."
+      ],
+      "output_format": [
+        "Jeden wiersz: różne liczby rosnąco, oddzielone spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "0 ≤ każda liczba ≤ 999"
+      ],
+      "examples": [
+        {
+          "input": "8\n5 3 999 3 0 5 5 17",
+          "output": "0 3 5 17 999",
+          "note": "Liczba 5 wystąpiła trzy razy, a 3 — dwa razy, ale każda zapala ten sam bit. Świecą bity 0, 3, 5, 17 i 999."
+        }
+      ],
+      "hint": "bitset<1000> b; for (…) { cin >> x; b[x] = 1; }, potem for (int x = 0; x < 1000; x++) if (b[x]) cout << x << \" \";.",
+      "tests_count": 7
+    },
+    {
+      "id": "bs-brakujace",
+      "number": 2530,
+      "title": "Brakujące bilety",
+      "category": "Bitset / krok 1: pierwszy bitset",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na koncert sprzedano n biletów z numerami od 1 do n. Przy wejściu zeskanowano m biletów — ten sam bilet mógł zostać zeskanowany kilka razy.",
+        "Wypisz, ile numerów od 1 do n nie zostało zeskanowanych ani razu, a w drugim wierszu te numery rosnąco. Rozmiar bitsetu musi być stałą, więc zadeklaruj go z zapasem: bitset<15001> — wtedy mieści się także numer 15 000."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W drugim wierszu m numerów zeskanowanych biletów."
+      ],
+      "output_format": [
+        "W pierwszym wierszu liczba brakujących numerów.",
+        "W drugim wierszu brakujące numery rosnąco, oddzielone spacjami (gdy nic nie brakuje — pusty wiersz)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 15 000",
+        "1 ≤ m ≤ 15 000",
+        "zeskanowane numery są od 1 do n",
+        "brakujących numerów jest najwyżej 3000"
+      ],
+      "examples": [
+        {
+          "input": "10 8\n3 1 10 4 3 7 2 4",
+          "output": "4\n5 6 8 9",
+          "note": "Zeskanowano numery 1, 2, 3, 4, 7 i 10 (trójkę i czwórkę dwa razy). Brakuje czterech: 5, 6, 8 i 9."
+        },
+        {
+          "input": "3 3\n3 1 2",
+          "output": "0",
+          "note": "Wszyscy weszli — brakujących jest 0, a drugi wiersz jest pusty."
+        }
+      ],
+      "hint": "bitset<15001> b; zaznacz każdy zeskanowany numer, a potem for (int x = 1; x <= n; x++) if (!b[x]) …. Najpierw policz brakujące jedną pętlą, a drugą pętlą je wypisz.",
+      "tests_count": 9
+    },
+    {
+      "id": "bs-czy-bylo",
+      "number": 2531,
+      "title": "Czy już było?",
+      "category": "Bitset / krok 1: pierwszy bitset",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytuj kolejne liczby z zakresu od 0 do 1 000 000. Dla każdej wypisz TAK, jeśli ta sama liczba pojawiła się już wcześniej, albo NIE, jeśli widzisz ją pierwszy raz.",
+        "Kolejność ma znaczenie: najpierw sprawdź bit b[x], a dopiero potem go zapal — inaczej każda liczba „była” już w chwili sprawdzania. Bitset o milionie bitów zadeklaruj przed main, tak jak duże tablice."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb."
+      ],
+      "output_format": [
+        "n wierszy: TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 5000",
+        "0 ≤ każda liczba ≤ 1 000 000"
+      ],
+      "examples": [
+        {
+          "input": "6\n7 1000000 7 0 1000000 7",
+          "output": "NIE\nNIE\nTAK\nNIE\nTAK\nTAK",
+          "note": "Pierwsza siódemka jest nowa, druga i trzecia to powtórki. Milion pojawia się drugi raz na piątej pozycji."
+        }
+      ],
+      "hint": "bitset<1000001> byla; przed main. W pętli: cin >> x; if (byla[x]) cout << \"TAK\\n\"; else cout << \"NIE\\n\"; byla[x] = 1;.",
+      "tests_count": 7
+    },
+    {
+      "id": "bs-pierwsza-powtorka",
+      "number": 2532,
+      "title": "Pierwsza powtórka",
+      "category": "Bitset / krok 1: pierwszy bitset",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dany jest ciąg n liczb z zakresu od 0 do 10 000 000. Znajdź pierwszą pozycję, na której stoi liczba już wcześniej widziana. Wypisz tę liczbę i numer pozycji (licząc od 1).",
+        "Jeśli żadna liczba się nie powtarza, wypisz brak. Bitset o 10 000 001 bitach zajmuje około 1,25 MB — zwykła tablica bool o tylu pozycjach zajęłaby 10 MB."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb."
+      ],
+      "output_format": [
+        "Jeden wiersz: liczba i numer pozycji oddzielone spacją albo słowo brak."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "0 ≤ każda liczba ≤ 10 000 000"
+      ],
+      "examples": [
+        {
+          "input": "7\n50 8 9000000 8 50 3 3",
+          "output": "8 4",
+          "note": "Na pozycji 4 stoi 8, która była już na pozycji 2 — to pierwsza powtórka. Pięćdziesiątka powtarza się dopiero na pozycji 5."
+        },
+        {
+          "input": "3\n1 2 3",
+          "output": "brak",
+          "note": "Wszystkie liczby są różne."
+        }
+      ],
+      "hint": "Gdy trafisz na zapalony bit, wypisz wynik i zakończ program (return 0;). Jeśli pętla dojdzie do końca, nie było powtórki — wypisz brak.",
+      "tests_count": 8
+    },
+    {
+      "id": "bs-kolekcjoner",
+      "number": 2533,
+      "title": "Kolekcjoner",
+      "category": "Bitset / krok 1: pierwszy bitset",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Album ma miejsca na n różnych naklejek z numerami od 1 do n. Kasia dostała m naklejek — niektóre numery powtarzają się wiele razy.",
+        "Wypisz, ile różnych naklejek ma Kasia i ilu jeszcze brakuje do pełnego albumu. Licz tylko naklejki, których bit był jeszcze zgaszony: if (!b[x]) { b[x] = 1; ile++; }."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W drugim wierszu m numerów naklejek."
+      ],
+      "output_format": [
+        "Jeden wiersz: liczba różnych naklejek Kasi i liczba brakujących."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1 000 000",
+        "1 ≤ m ≤ 10 000",
+        "1 ≤ każdy numer ≤ n"
+      ],
+      "examples": [
+        {
+          "input": "10 7\n3 7 3 3 10 1 7",
+          "output": "4 6",
+          "note": "Różne naklejki to 1, 3, 7 i 10 — cztery. Do dziesięciu brakuje sześciu."
+        }
+      ],
+      "hint": "bitset<1000001> b; przed main i licznik ile. Na końcu wypisz ile i n - ile.",
+      "tests_count": 7
+    },
+    {
+      "id": "bs-wielokrotnosci",
+      "number": 2534,
+      "title": "Skreślanie wielokrotności",
+      "category": "Bitset / krok 1: pierwszy bitset",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wypisano liczby od 1 do n. Dla każdej z k podanych liczb d skreślamy wszystkie wielokrotności d z zakresu od 1 do n: d, 2d, 3d, … — także samą liczbę d. Liczba skreślona kilka razy to po prostu liczba skreślona.",
+        "Ile liczb od 1 do n zostało nieskreślonych? Pętla for (int j = d; j <= n; j += d) zapala bity wszystkich wielokrotności d."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu k liczb d."
+      ],
+      "output_format": [
+        "Jedna liczba — ile liczb od 1 do n nie zostało skreślonych."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 1 000 000",
+        "1 ≤ k ≤ 10",
+        "2 ≤ każde d ≤ n"
+      ],
+      "examples": [
+        {
+          "input": "20 2\n4 6",
+          "output": "13",
+          "note": "Wielokrotności 4: 4, 8, 12, 16, 20. Wielokrotności 6: 6, 12, 18. Skreślono 7 różnych liczb (12 dwa razy), więc zostaje 20 − 7 = 13."
+        },
+        {
+          "input": "30 3\n2 3 5",
+          "output": "8",
+          "note": "Nieskreślone zostają 1, 7, 11, 13, 17, 19, 23 i 29 — liczby, które nie dzielą się ani przez 2, ani przez 3, ani przez 5."
+        }
+      ],
+      "hint": "bitset<1000001> skreslona; przed main. Dla każdego d: for (int j = d; j <= n; j += d) skreslona[j] = 1;. Na końcu policz pętlą od 1 do n liczby z bitem 0.",
+      "tests_count": 8
+    },
+    {
+      "id": "bs-zapal-zgas",
+      "number": 2535,
+      "title": "Zapal, zgaś, przełącz",
+      "category": "Bitset / krok 2: polecenia",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W sali jest 1000 lampek z numerami od 0 do 999, na początku wszystkie zgaszone. Wykonaj q poleceń: zapal k (b.set(k)), zgas k (b.reset(k)) albo przelacz k (b.flip(k)). Zapalenie świecącej lampki i zgaszenie zgaszonej niczego nie zmienia.",
+        "Na końcu wypisz, ile lampek świeci (b.count()), a w drugim wierszu numery świecących lampek rosnąco."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy polecenie: zapal k, zgas k albo przelacz k."
+      ],
+      "output_format": [
+        "W pierwszym wierszu liczba świecących lampek.",
+        "W drugim wierszu ich numery rosnąco, oddzielone spacjami (gdy nic nie świeci — pusty wiersz)."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 5000",
+        "0 ≤ k ≤ 999"
+      ],
+      "examples": [
+        {
+          "input": "5\nzapal 3\nzapal 500\nprzelacz 3\nprzelacz 7\nzgas 999",
+          "output": "2\n7 500",
+          "note": "Lampka 3 zapala się i zaraz gaśnie (przełączenie). Lampka 7 zapala się przez przełączenie, a zgaszenie zgaszonej 999 niczego nie zmienia. Świecą 7 i 500."
+        }
+      ],
+      "hint": "string p; int k; cin >> p >> k; if (p == \"zapal\") b.set(k); else if (p == \"zgas\") b.reset(k); else b.flip(k);. Na końcu cout << b.count() i pętla po numerach od 0 do 999.",
+      "tests_count": 8
+    },
+    {
+      "id": "bs-sto-lampek",
+      "number": 2536,
+      "title": "Sto lampek",
+      "category": "Bitset / krok 2: polecenia",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Choinka ma dokładnie 100 lampek o numerach od 0 do 99, na początku zgaszonych. Polecenia: zapal k, zgas k, przelacz k — dla jednej lampki; wszystkie — zapal wszystkie (b.set()); zadna — zgaś wszystkie (b.reset()); odwroc — przełącz wszystkie (b.flip()); ile — wypisz, ile lampek świeci.",
+        "Lampek jest dokładnie tyle, ile bitów ma bitset<100>, więc polecenia bez numeru możesz stosować wprost — nie ma żadnych dodatkowych bitów."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy jedno polecenie."
+      ],
+      "output_format": [
+        "Dla każdego polecenia ile — jeden wiersz z liczbą świecących lampek."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 3000",
+        "0 ≤ k ≤ 99",
+        "jest co najmniej jedno polecenie ile"
+      ],
+      "examples": [
+        {
+          "input": "7\nzapal 5\nzapal 6\nile\nodwroc\nile\nprzelacz 5\nile",
+          "output": "2\n98\n99",
+          "note": "Najpierw świecą 2 lampki. Po odwróceniu świeci pozostałe 98. Przełączenie lampki 5 (zgaszonej po odwróceniu) zapala ją: 99."
+        }
+      ],
+      "hint": "Po wczytaniu słowa sprawdź, czy polecenie potrzebuje numeru — liczbę wczytuj tylko dla zapal, zgas i przelacz. Dla wszystkie, zadna i odwroc wywołaj b.set(), b.reset() i b.flip() bez argumentu.",
+      "tests_count": 8
+    },
+    {
+      "id": "bs-parking",
+      "number": 2537,
+      "title": "Parking",
+      "category": "Bitset / krok 2: polecenia",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Parking ma dokładnie 1000 miejsc o numerach od 0 do 999, na początku pustych. Zdarzenia: + k — samochód chce stanąć na miejscu k (jeśli miejsce jest zajęte, wypisz zajete k i nic nie zmieniaj); - k — samochód odjeżdża z miejsca k (jeśli miejsce było wolne, nic się nie dzieje); ? — wypisz stan parkingu.",
+        "Na pytanie ? odpowiedz pusty, gdy nie stoi tam żaden samochód (b.none()), pelny, gdy zajęte są wszystkie miejsca (b.all()), a w pozostałych przypadkach — liczbę wolnych miejsc: b.size() - b.count()."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy zdarzenie: + k, - k albo ?."
+      ],
+      "output_format": [
+        "Po jednym wierszu dla każdej kolizji i każdego pytania ?, w kolejności zdarzeń."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 5000",
+        "0 ≤ k ≤ 999"
+      ],
+      "examples": [
+        {
+          "input": "6\n?\n+ 5\n+ 5\n?\n- 5\n?",
+          "output": "pusty\nzajete 5\n999\npusty",
+          "note": "Na początku parking jest pusty. Drugi samochód na miejscu 5 to kolizja. Potem wolnych jest 999 miejsc, a po odjeździe — znowu pusto."
+        }
+      ],
+      "hint": "char z; cin >> z; if (z == '?') { … } else { int k; cin >> k; … }. Zajętość miejsca sprawdzisz przez b[k] albo b.test(k). Kolejność warunków przy ?: najpierw none(), potem all(), na końcu liczba wolnych.",
+      "tests_count": 7
+    },
+    {
+      "id": "bs-wszyscy-obecni",
+      "number": 2538,
+      "title": "Wszyscy obecni",
+      "category": "Bitset / krok 2: polecenia",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Do szkoły chodzi n uczniów o numerach od 1 do n. Rano bramka rejestruje m wejść: kolejne numery uczniów (ten sam uczeń mógł przejść kilka razy, bo wychodził na boisko).",
+        "Po którym wejściu (licząc od 1) w szkole są już wszyscy uczniowie? Wypisz ten numer albo -1, jeśli do końca kogoś brakuje. Uwaga: bitset ma stały rozmiar, większy niż n, więc all() zawsze da fałsz — porównuj b.count() z n."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W drugim wierszu m numerów uczniów."
+      ],
+      "output_format": [
+        "Jedna liczba: numer wejścia albo -1."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "1 ≤ m ≤ 15 000",
+        "1 ≤ każdy numer ≤ n"
+      ],
+      "examples": [
+        {
+          "input": "3 6\n2 2 1 2 3 1",
+          "output": "5",
+          "note": "Uczeń 3 przechodzi dopiero jako piąty — wtedy są już wszyscy."
+        },
+        {
+          "input": "4 3\n1 2 3",
+          "output": "-1",
+          "note": "Uczeń 4 nie przyszedł."
+        }
+      ],
+      "hint": "bitset<10001> b; i po każdym wejściu if ((int)b.count() == n) { cout << i << \"\\n\"; return 0; }. count() zwraca liczbę bez znaku, więc bez (int) kompilator ostrzega o porównaniu różnych typów.",
+      "tests_count": 8
+    },
+    {
+      "id": "bs-przelaczniki-co-k",
+      "number": 2539,
+      "title": "Przełączniki co k",
+      "category": "Bitset / krok 2: polecenia",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na korytarzu stoi n lampek z numerami od 1 do n, na początku zgaszonych. Przechodzi m osób. Osoba z liczbą k przełącza lampki k, 2k, 3k, … aż do n — zgaszone zapala, a świecące gasi.",
+        "Ile lampek świeci, gdy przejdą wszyscy? Ciekawostka: gdy osób jest n i mają liczby 1, 2, …, n, na końcu świecą dokładnie lampki o numerach 1, 4, 9, 16, … — kwadraty liczb. Sprawdź to na pierwszym przykładzie."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W drugim wierszu m różnych liczb k."
+      ],
+      "output_format": [
+        "Jedna liczba — ile lampek świeci na końcu."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1 000 000",
+        "1 ≤ m ≤ 1000",
+        "liczby k są różne",
+        "1 ≤ k ≤ n"
+      ],
+      "examples": [
+        {
+          "input": "10 10\n1 2 3 4 5 6 7 8 9 10",
+          "output": "3",
+          "note": "Świecą lampki 1, 4 i 9: tylko kwadraty mają nieparzystą liczbę dzielników, więc tylko one są przełączane nieparzyście wiele razy."
+        },
+        {
+          "input": "20 2\n2 4",
+          "output": "5",
+          "note": "Lampki podzielne przez 4 przełączono dwa razy — zgasły. Świeci pięć lampek: 2, 6, 10, 14 i 18."
+        }
+      ],
+      "hint": "bitset<1000001> b; przed main. Dla każdego k: for (int j = k; j <= n; j += k) b.flip(j);. Na koniec cout << b.count();.",
+      "tests_count": 8
+    },
+    {
+      "id": "bs-wszystkie-cyfry",
+      "number": 2540,
+      "title": "Wszystkie cyfry",
+      "category": "Bitset / krok 2: polecenia",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej z q liczb policz, ile różnych cyfr występuje w jej zapisie, i sprawdź, czy występują wszystkie cyfry od 0 do 9.",
+        "Liczby są bardzo długie, więc wczytuj je jako napisy. bitset<10> ma dokładnie 10 bitów — po jednym na cyfrę — więc tutaj all() działa dokładnie tak, jak trzeba."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy jedna liczba."
+      ],
+      "output_format": [
+        "q wierszy: liczba różnych cyfr, a po spacji TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "każda liczba ma od 1 do 100 cyfr i nie zaczyna się od zera (chyba że to samo 0)"
+      ],
+      "examples": [
+        {
+          "input": "3\n1234567890\n112233\n9876543210123",
+          "output": "10 TAK\n3 NIE\n10 TAK",
+          "note": "Pierwsza i trzecia liczba mają wszystkie dziesięć cyfr. W drugiej są tylko trzy różne: 1, 2 i 3."
+        }
+      ],
+      "hint": "string s; cin >> s; bitset<10> c; for (char z : s) c[z - '0'] = 1;. Potem cout << c.count() << \" \" << (c.all() ? \"TAK\" : \"NIE\") << \"\\n\";.",
+      "tests_count": 6
+    },
+    {
+      "id": "bs-pangram",
+      "number": 2541,
+      "title": "Pangram",
+      "category": "Bitset / krok 2: polecenia",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Pangram to zdanie, w którym każda z 26 liter alfabetu łacińskiego (od a do z) występuje co najmniej raz. Wielkość liter nie ma znaczenia, a spacje, cyfry i znaki interpunkcyjne pomijamy.",
+        "Dla każdego z q zdań wypisz pangram, jeśli nim jest, a w przeciwnym razie brakuje: i brakujące litery w kolejności alfabetycznej, bez spacji między nimi."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy jedno zdanie: litery łacińskie (bez polskich znaków), spacje, cyfry i znaki interpunkcyjne."
+      ],
+      "output_format": [
+        "q wierszy: pangram albo brakuje: i brakujące litery."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 200",
+        "każde zdanie ma od 1 do 300 znaków"
+      ],
+      "examples": [
+        {
+          "input": "2\nThe quick brown fox jumps over the lazy dog.\nAla ma kota, a kot ma Ale!",
+          "output": "pangram\nbrakuje: bcdfghijnpqrsuvwxyz",
+          "note": "Pierwsze zdanie to słynny angielski pangram. W drugim są tylko litery a, e, k, l, m, o i t — brakuje dziewiętnastu."
+        }
+      ],
+      "hint": "Po cin >> q wywołaj cin.ignore(), a potem dla każdego zdania getline(cin, s). Dla każdego znaku: if (isalpha(c)) b[tolower(c) - 'a'] = 1;. Brakujące litery to te k, dla których !b[k] — wypisz char('a' + k).",
+      "tests_count": 6
+    },
+    {
+      "id": "bs-szatnia",
+      "number": 2542,
+      "title": "Szatnia",
+      "category": "Bitset / krok 2: polecenia",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Szatnia ma n wieszaków o numerach od 1 do n, na początku wolnych. Zdarzenia: przyjscie — nowa osoba dostaje wolny wieszak o najmniejszym numerze (wypisz ten numer albo brak, gdy wszystkie są zajęte); wyjscie k — osoba z wieszaka k odbiera kurtkę i wieszak się zwalnia.",
+        "Wolnego wieszaka szukaj pętlą od 1 w górę. Pełną szatnię rozpoznasz od razu: count() == n."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i q.",
+        "W każdym z kolejnych q wierszy zdarzenie: przyjscie albo wyjscie k."
+      ],
+      "output_format": [
+        "Dla każdego zdarzenia przyjscie jeden wiersz: numer wieszaka albo brak."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "1 ≤ q ≤ 5000",
+        "wyjscie k dotyczy zawsze zajętego wieszaka",
+        "jest co najmniej jedno zdarzenie przyjscie"
+      ],
+      "examples": [
+        {
+          "input": "3 7\nprzyjscie\nprzyjscie\nwyjscie 1\nprzyjscie\nprzyjscie\nprzyjscie\nprzyjscie",
+          "output": "1\n2\n1\n3\nbrak\nbrak",
+          "note": "Pierwsze dwie osoby dostają wieszaki 1 i 2. Po zwolnieniu jedynki trzecia osoba dostaje znowu 1, czwarta — 3, a dla dwóch ostatnich miejsca brak."
+        }
+      ],
+      "hint": "bitset<1001> zajety; przy przyjsciu: if ((int)zajety.count() == n) cout << \"brak\\n\"; inaczej for (int k = 1; k <= n; k++) if (!zajety[k]) { zajety[k] = 1; cout << k << \"\\n\"; break; }.",
+      "tests_count": 7
+    },
+    {
+      "id": "bs-na-32-bity",
+      "number": 2543,
+      "title": "Na 32 bitach",
+      "category": "Bitset / krok 3: liczby i napisy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej z q liczb x wypisz jej zapis dwójkowy na dokładnie 32 bitach — z zerami z przodu.",
+        "Nie trzeba dzielić przez 2: bitset<32>(x) zrobi to za Ciebie, a cout wypisze wszystkie 32 bity, od bitu 31 do bitu 0."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy liczba x."
+      ],
+      "output_format": [
+        "q wierszy po 32 cyfry 0 i 1."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 500",
+        "0 ≤ x ≤ 4 294 967 295"
+      ],
+      "examples": [
+        {
+          "input": "3\n13\n0\n4294967295",
+          "output": "00000000000000000000000000001101\n00000000000000000000000000000000\n11111111111111111111111111111111",
+          "note": "13 = 1101, z przodu 28 zer. Zero to same zera, a 4 294 967 295 = 2³² − 1 to 32 jedynki."
+        }
+      ],
+      "hint": "long long x; cin >> x; cout << bitset<32>(x) << \"\\n\";. Liczba 4 294 967 295 nie mieści się w int — dlatego long long.",
+      "tests_count": 5
+    },
+    {
+      "id": "bs-bez-zer-z-przodu",
+      "number": 2544,
+      "title": "Bez zer z przodu",
+      "category": "Bitset / krok 3: liczby i napisy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej z q liczb x wypisz jej zapis dwójkowy bez zer z przodu. Zero wypisz jako 0.",
+        "Zrób to bitsetem: napis s = bitset<64>(x).to_string() ma zawsze 64 znaki. Pozycję pierwszej jedynki da s.find('1'), a s.substr(p) — napis od pozycji p do końca. Gdy w napisie nie ma jedynki (x = 0), find zwraca specjalną wartość string::npos."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy liczba x."
+      ],
+      "output_format": [
+        "q wierszy: zapis dwójkowy bez zer z przodu."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 400",
+        "0 ≤ x ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "4\n13\n1\n0\n1024",
+          "output": "1101\n1\n0\n10000000000",
+          "note": "13 = 1101, 1 = 1, zero to 0, a 1024 = 2¹⁰ to jedynka i dziesięć zer."
+        }
+      ],
+      "hint": "string s = bitset<64>(x).to_string(); size_t p = s.find('1'); if (p == string::npos) cout << \"0\\n\"; else cout << s.substr(p) << \"\\n\";.",
+      "tests_count": 5
+    },
+    {
+      "id": "bs-z-dwojkowego",
+      "number": 2545,
+      "title": "Z dwójkowego na dziesiętny",
+      "category": "Bitset / krok 3: liczby i napisy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdego z q napisów złożonych z zer i jedynek wypisz liczbę, którą ten napis oznacza w systemie dwójkowym.",
+        "Napis może mieć zera z przodu. Zbuduj z niego bitset<64> b(s) — krótszy napis zostanie uzupełniony zerami z lewej strony — i wypisz b.to_ullong()."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy napis z zer i jedynek."
+      ],
+      "output_format": [
+        "q wierszy: wartości napisów w systemie dziesiętnym."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "każdy napis ma od 1 do 60 znaków 0 i 1"
+      ],
+      "examples": [
+        {
+          "input": "3\n1101\n0001\n111111111111111111111111111111",
+          "output": "13\n1\n1073741823",
+          "note": "1101 = 8 + 4 + 1 = 13. Zera z przodu nic nie zmieniają: 0001 = 1. Trzydzieści jedynek to 2³⁰ − 1 = 1 073 741 823."
+        }
+      ],
+      "hint": "string s; cin >> s; bitset<64> b(s); cout << b.to_ullong() << \"\\n\";.",
+      "tests_count": 5
+    },
+    {
+      "id": "bs-jedynki-i-zera",
+      "number": 2546,
+      "title": "Jedynki i zera",
+      "category": "Bitset / krok 3: liczby i napisy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej z q liczb x wypisz, ile jedynek i ile zer ma jej zapis dwójkowy bez zer z przodu. Zero zapisujemy jako 0 — ma jedno zero i żadnej jedynki.",
+        "Jedynki policzy bitset<64>(x).count(). Długość zapisu to 64 minus pozycja pierwszej jedynki w napisie to_string() — bo wszystko przed nią to zera z przodu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy liczba x."
+      ],
+      "output_format": [
+        "q wierszy: liczba jedynek i liczba zer oddzielone spacją."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "0 ≤ x ≤ 10¹⁸"
+      ],
+      "examples": [
+        {
+          "input": "3\n13\n0\n1024",
+          "output": "3 1\n0 1\n1 10",
+          "note": "13 = 1101: trzy jedynki i jedno zero. Zero: żadnej jedynki i jedno zero. 1024 = 10000000000: jedna jedynka i dziesięć zer."
+        }
+      ],
+      "hint": "bitset<64> b(x); string s = b.to_string(); size_t p = s.find('1'); int dl = (p == string::npos) ? 1 : 64 - p;. Zer jest dl - b.count().",
+      "tests_count": 5
+    },
+    {
+      "id": "bs-negacja-na-k",
+      "number": 2547,
+      "title": "Negacja na k bitach",
+      "category": "Bitset / krok 3: liczby i napisy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Liczbę x zapisano na dokładnie k bitach (z zerami z przodu). Odwróć wszystkie te k bitów — zera na jedynki, jedynki na zera — i wypisz wynik jako napis k cyfr oraz jako liczbę.",
+        "Rozmiar bitsetu musi być stały, a k zmienia się od zapytania do zapytania. Sposób: bitset<32> b(x); b.flip(); — teraz ostatnie k znaków napisu b.to_string() to szukana negacja, a wcześniejsze znaki (same jedynki) trzeba pominąć."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy liczby x i k."
+      ],
+      "output_format": [
+        "q wierszy: k cyfr negacji i po spacji jej wartość."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 500",
+        "1 ≤ k ≤ 32",
+        "0 ≤ x < 2ᵏ"
+      ],
+      "examples": [
+        {
+          "input": "3\n13 4\n13 8\n0 1",
+          "output": "0010 2\n11110010 242\n1 1",
+          "note": "13 na 4 bitach to 1101, po odwróceniu 0010 = 2. Na 8 bitach: 00001101 → 11110010 = 242. Zero na jednym bicie: 0 → 1."
+        }
+      ],
+      "hint": "bitset<32> b(x); b.flip(); string t = b.to_string().substr(32 - k); cout << t << \" \" << bitset<32>(t).to_ulong() << \"\\n\";.",
+      "tests_count": 4
+    },
+    {
+      "id": "bs-kod-u2",
+      "number": 2548,
+      "title": "Kod U2 bitsetem",
+      "category": "Bitset / krok 3: liczby i napisy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Liczby ze znakiem od −128 do 127 komputer zapisuje na 8 bitach w kodzie U2 — pamiętasz go z lekcji Liczby dwójkowe. Odpowiedz na q zapytań dwóch rodzajów.",
+        "do x — wypisz 8-bitowy kod U2 liczby x; bitset<8>(x) robi to sam, także dla liczb ujemnych. z s — dla napisu z 8 zer i jedynek wypisz liczbę ze znakiem, którą ten kod oznacza: v = bitset<8>(s).to_ulong() jest od 0 do 255, a gdy v ≥ 128, prawdziwa wartość to v − 256."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy zapytanie: do x albo z s."
+      ],
+      "output_format": [
+        "q wierszy: 8 cyfr kodu albo liczba ze znakiem."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "−128 ≤ x ≤ 127",
+        "s ma dokładnie 8 znaków 0 i 1"
+      ],
+      "examples": [
+        {
+          "input": "4\ndo 13\ndo -6\nz 11111010\nz 01111111",
+          "output": "00001101\n11111010\n-6\n127",
+          "note": "13 to 00001101. −6 w kodzie U2 to 256 − 6 = 250 = 11111010 — i trzecie zapytanie zamienia ten kod z powrotem na −6. 01111111 to największa dodatnia liczba: 127."
+        }
+      ],
+      "hint": "string co; cin >> co; if (co == \"do\") { int x; cin >> x; cout << bitset<8>(x) << \"\\n\"; } else { string s; cin >> s; int v = bitset<8>(s).to_ulong(); if (v >= 128) v -= 256; cout << v << \"\\n\"; }.",
+      "tests_count": 4
+    },
+    {
+      "id": "bs-lustro-bitow",
+      "number": 2549,
+      "title": "Lustro bitów",
+      "category": "Bitset / krok 3: liczby i napisy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej z q liczb x od 0 do 65 535 zapisz ją na 16 bitach i odwróć kolejność bitów: bit numer i trafia na miejsce 15 − i. Wypisz otrzymaną liczbę.",
+        "Przykład: 1 = 0000000000000001 po odbiciu to 1000000000000000 = 32768."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy liczba x."
+      ],
+      "output_format": [
+        "q wierszy: liczby po odbiciu bitów."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "0 ≤ x ≤ 65 535"
+      ],
+      "examples": [
+        {
+          "input": "4\n1\n32768\n6\n65535",
+          "output": "32768\n1\n24576\n65535",
+          "note": "1 i 32768 zamieniają się miejscami. 6 = 0000000000000110 po odbiciu to 0110000000000000 = 16384 + 8192 = 24576. Same jedynki zostają same jedynkami."
+        }
+      ],
+      "hint": "bitset<16> b(x), r; for (int i = 0; i < 16; i++) r[15 - i] = b[i]; cout << r.to_ulong() << \"\\n\";. Inny sposób: odwróć napis b.to_string() funkcją reverse i zbuduj z niego nowy bitset.",
+      "tests_count": 4
+    },
+    {
+      "id": "bs-dodaj-dwojkowo",
+      "number": 2550,
+      "title": "Dodawanie dwójkowe",
+      "category": "Bitset / krok 3: liczby i napisy",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej pary liczb a i b zapisanych dwójkowo wypisz ich sumę — też dwójkowo, bez zer z przodu.",
+        "Liczby mają najwyżej 60 cyfr, więc są mniejsze niż 2⁶⁰, a ich suma — mniejsza niż 2⁶¹ i zmieści się w unsigned long long. Zamień napisy na liczby bitsetem, dodaj zwykłym +, a wynik zamień z powrotem na napis."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy dwa napisy a i b."
+      ],
+      "output_format": [
+        "q wierszy: suma zapisana dwójkowo bez zer z przodu (zero jako 0)."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 300",
+        "a i b mają od 1 do 60 cyfr 0 i 1 (mogą mieć zera z przodu)"
+      ],
+      "examples": [
+        {
+          "input": "3\n1011 111\n0 0\n1 1",
+          "output": "10010\n0\n10",
+          "note": "1011 = 11 i 111 = 7, a 11 + 7 = 18 = 10010. Zero plus zero to 0. 1 + 1 = 2 = 10."
+        }
+      ],
+      "hint": "unsigned long long s = bitset<64>(a).to_ullong() + bitset<64>(b).to_ullong();, potem string w = bitset<64>(s).to_string(); i wycięcie od pierwszej jedynki — jak w zadaniu „Bez zer z przodu”.",
+      "tests_count": 4
+    },
+    {
+      "id": "bs-wspolne-elementy",
+      "number": 2551,
+      "title": "Wspólne elementy",
+      "category": "Bitset / krok 4: dwa bitsety",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dwie listy liczb z zakresu od 0 do 999 (liczby mogą się powtarzać). Wypisz, ile różnych liczb występuje na obu listach, a w drugim wierszu te liczby rosnąco.",
+        "Zaznacz pierwszą listę w bitsecie a, drugą — w bitsecie b. Bitset c = a & b ma zapalone dokładnie te bity, które świecą w obu — to część wspólna."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n, a w drugim n liczb pierwszej listy.",
+        "W trzecim wierszu liczba m, a w czwartym m liczb drugiej listy."
+      ],
+      "output_format": [
+        "W pierwszym wierszu liczba wspólnych liczb.",
+        "W drugim wierszu wspólne liczby rosnąco (gdy ich nie ma — pusty wiersz)."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 1000",
+        "0 ≤ każda liczba ≤ 999"
+      ],
+      "examples": [
+        {
+          "input": "5\n3 7 3 500 12\n4\n12 999 3 4",
+          "output": "2\n3 12",
+          "note": "Na obu listach są 3 i 12. Trójka występuje na pierwszej liście dwa razy, ale liczymy różne liczby."
+        },
+        {
+          "input": "2\n1 2\n2\n3 4",
+          "output": "0",
+          "note": "Listy nie mają nic wspólnego."
+        }
+      ],
+      "hint": "bitset<1000> a, b; zaznacz obie listy, potem bitset<1000> c = a & b; cout << c.count() << \"\\n\"; i pętla for (int x = 0; x < 1000; x++) if (c[x]) cout << x << \" \";.",
+      "tests_count": 7
+    },
+    {
+      "id": "bs-suma-i-roznica",
+      "number": 2552,
+      "title": "Suma, różnice i XOR",
+      "category": "Bitset / krok 4: dwa bitsety",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dwie listy liczb z zakresu od 0 do 999 to dwa zbiory A i B (powtórzenia się nie liczą). Wypisz cztery liczby:",
+        "ile liczb jest choć w jednym zbiorze (suma: a | b), ile jest w A, ale nie w B (różnica: a & ~b), ile jest w B, ale nie w A (b & ~a), ile jest w dokładnie jednym ze zbiorów (różnica symetryczna: a ^ b)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n, a w drugim n liczb zbioru A.",
+        "W trzecim wierszu liczba m, a w czwartym m liczb zbioru B."
+      ],
+      "output_format": [
+        "Jeden wiersz: cztery liczby oddzielone spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 1000",
+        "0 ≤ każda liczba ≤ 999"
+      ],
+      "examples": [
+        {
+          "input": "4\n1 2 3 4\n3\n3 4 5",
+          "output": "5 2 1 3",
+          "note": "Suma: 1, 2, 3, 4, 5 — pięć liczb. Tylko w A: 1 i 2. Tylko w B: 5. W dokładnie jednym: 1, 2 i 5 — trzy."
+        }
+      ],
+      "hint": "cout << (a | b).count() << \" \" << (a & ~b).count() << \" \" << (b & ~a).count() << \" \" << (a ^ b).count() << \"\\n\";. Nawiasy wokół (a | b) są potrzebne, zanim wywołasz .count().",
+      "tests_count": 6
+    },
+    {
+      "id": "bs-odleglosc-hamminga",
+      "number": 2553,
+      "title": "Odległość Hamminga",
+      "category": "Bitset / krok 4: dwa bitsety",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Odległość Hamminga dwóch napisów tej samej długości to liczba pozycji, na których mają różne znaki. Dla każdej z q par napisów z zer i jedynek wypisz ich odległość Hamminga.",
+        "Zamień oba napisy na bitset<1000> — krótsze napisy dostaną zera z przodu, ale oba tyle samo, więc niczego to nie psuje. Bity a ^ b świecą dokładnie tam, gdzie napisy się różnią."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy dwa napisy tej samej długości oddzielone spacją."
+      ],
+      "output_format": [
+        "q wierszy: odległości Hamminga."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 40",
+        "napisy w parze mają tę samą długość, od 1 do 1000 znaków 0 i 1"
+      ],
+      "examples": [
+        {
+          "input": "3\n10110 11100\n0 0\n1111 0000",
+          "output": "2\n0\n4",
+          "note": "10110 i 11100 różnią się na drugiej i czwartej pozycji — odległość 2. Takie same napisy mają odległość 0, a 1111 i 0000 różnią się wszędzie."
+        }
+      ],
+      "hint": "string s, t; cin >> s >> t; bitset<1000> a(s), b(t); cout << (a ^ b).count() << \"\\n\";.",
+      "tests_count": 4
+    },
+    {
+      "id": "bs-czy-podzbior",
+      "number": 2554,
+      "title": "Czy to podzbiór?",
+      "category": "Bitset / krok 4: dwa bitsety",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej z q par zbiorów A i B (liczby od 0 do 999) wypisz jedno słowo. Sprawdzaj warunki w tej kolejności i wypisz pierwszy pasujący:",
+        "rowne — gdy zbiory są takie same (a == b); A w B — gdy każdy element A jest w B ((a & b) == a); B w A — gdy każdy element B jest w A; rozlaczne — gdy nie mają wspólnego elementu ((a & b).none()); inne — w pozostałych przypadkach. Zbiór może być pusty — wtedy jest podzbiorem każdego zbioru."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "Dla każdej pary dwa wiersze: liczba elementów zbioru A i jego elementy, potem liczba elementów zbioru B i jego elementy (liczby mogą się powtarzać)."
+      ],
+      "output_format": [
+        "q wierszy: rowne, A w B, B w A, rozlaczne albo inne."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 100",
+        "0 ≤ liczba elementów ≤ 1000",
+        "w całych danych jest najwyżej 20 000 elementów",
+        "0 ≤ każdy element ≤ 999"
+      ],
+      "examples": [
+        {
+          "input": "5\n3 1 2 3\n3 3 2 1\n2 5 6\n4 5 6 7 8\n3 1 2 3\n1 2\n2 1 2\n2 3 4\n3 1 2 3\n3 3 4 5",
+          "output": "rowne\nA w B\nB w A\nrozlaczne\ninne",
+          "note": "Pierwsza para to te same zbiory. {5, 6} leży w {5, 6, 7, 8}. {2} leży w {1, 2, 3}, więc to B w A. {1, 2} i {3, 4} nie mają nic wspólnego, a ostatnia para ma wspólną trójkę, ale żaden zbiór nie leży w drugim."
+        }
+      ],
+      "hint": "Dla każdej pary nowe bitset<1000> a, b;. Potem: if (a == b) … else if ((a & b) == a) … else if ((a & b) == b) … else if ((a & b).none()) … else …. Nawiasy wokół a & b są konieczne.",
+      "tests_count": 5
+    },
+    {
+      "id": "bs-obecnosc",
+      "number": 2555,
+      "title": "Lista obecności",
+      "category": "Bitset / krok 4: dwa bitsety",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W klasie jest n uczniów o numerach od 1 do n. Przez d dni nauczyciel zapisywał, kto był obecny. Wypisz trzy liczby: ilu uczniów było obecnych każdego dnia, ilu przyszło choć raz i ilu nie było ani razu.",
+        "Zrób to na bitsetach: zawsze zaczyna jako same jedynki (zawsze.set()), choc_raz — jako same zera, a dla każdego dnia: zawsze &= dzien; choc_raz |= dzien;. Bity powyżej n zgasną już po pierwszym &=, bo w dzien ich nie ma."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i d.",
+        "W każdym z kolejnych d wierszy liczba k, a po niej k różnych numerów obecnych uczniów."
+      ],
+      "output_format": [
+        "Jeden wiersz: trzy liczby — obecni codziennie, obecni choć raz, ani razu."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "1 ≤ d ≤ 100",
+        "0 ≤ k ≤ n",
+        "w całych danych jest najwyżej 20 000 numerów"
+      ],
+      "examples": [
+        {
+          "input": "5 3\n3 1 2 3\n2 2 3\n4 2 3 4 1",
+          "output": "2 4 1",
+          "note": "Uczniowie 2 i 3 byli zawsze. Choć raz przyszli 1, 2, 3 i 4. Uczeń 5 nie przyszedł ani razu."
+        }
+      ],
+      "hint": "bitset<1001> zawsze, choc_raz; zawsze.set();. Dla każdego dnia zbuduj bitset<1001> dzien;, a po wczytaniu: zawsze &= dzien; choc_raz |= dzien;. Na koniec: zawsze.count(), choc_raz.count() i n - choc_raz.count().",
+      "tests_count": 8
+    },
+    {
+      "id": "bs-nieparzyscie",
+      "number": 2556,
+      "title": "Reflektory na scenie",
+      "category": "Bitset / krok 4: dwa bitsety",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Nad sceną wisi 1000 reflektorów o numerach od 0 do 999, na początku zgaszonych. Kolejno m techników przełącza swój zestaw reflektorów — każdy reflektor z zestawu zmienia stan na przeciwny.",
+        "Reflektor świeci na końcu, jeśli przełączono go nieparzyście wiele razy. Zbuduj bitset każdego zestawu i zrób stan ^= zestaw; — XOR dwa razy z tym samym bitem przywraca stan sprzed. Wypisz, ile reflektorów świeci, a w drugim wierszu ich numery rosnąco."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba m.",
+        "W każdym z kolejnych m wierszy liczba k, a po niej k różnych numerów reflektorów z zestawu."
+      ],
+      "output_format": [
+        "W pierwszym wierszu liczba świecących reflektorów.",
+        "W drugim wierszu ich numery rosnąco (gdy żaden nie świeci — pusty wiersz)."
+      ],
+      "constraints": [
+        "1 ≤ m ≤ 100",
+        "0 ≤ k ≤ 1000",
+        "w całych danych jest najwyżej 20 000 numerów",
+        "0 ≤ każdy numer ≤ 999"
+      ],
+      "examples": [
+        {
+          "input": "3\n3 1 2 3\n2 2 3\n2 3 900",
+          "output": "3\n1 3 900",
+          "note": "Reflektor 1 przełączono raz, 2 — dwa razy (zgasł), 3 — trzy razy (świeci), 900 — raz. Świecą 1, 3 i 900."
+        }
+      ],
+      "hint": "bitset<1000> stan; dla każdego technika: bitset<1000> z; wczytaj numery do z, potem stan ^= z;. Na końcu stan.count() i pętla po numerach.",
+      "tests_count": 7
+    },
+    {
+      "id": "bs-najpodobniejsza-para",
+      "number": 2557,
+      "title": "Najpodobniejsza para",
+      "category": "Bitset / krok 4: dwa bitsety",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Każda z n osób wypełniła ankietę o m tematach: napis z m znaków, w którym 1 na pozycji j znaczy „interesuje mnie temat j”. Znajdź parę osób, które mają najwięcej wspólnych zainteresowań.",
+        "Wypisz numery tych osób (od 1, mniejszy pierwszy) i liczbę wspólnych tematów. Przy remisie wybierz parę z najmniejszym pierwszym numerem, a potem — z najmniejszym drugim."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z kolejnych n wierszy napis z m zer i jedynek."
+      ],
+      "output_format": [
+        "Jeden wiersz: numery dwóch osób i liczba wspólnych zainteresowań."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 300",
+        "1 ≤ m ≤ 300"
+      ],
+      "examples": [
+        {
+          "input": "4 6\n110010\n011011\n110011\n000100",
+          "output": "1 3 3",
+          "note": "Osoby 1 i 3 mają wspólne trzy tematy (pozycje 1, 2 i 5), a osoby 2 i 3 — też trzy (2, 5 i 6). Remis rozstrzyga mniejszy pierwszy numer: 1 3 3."
+        }
+      ],
+      "hint": "vector<bitset<300>> o(n); i dla każdej osoby o[i] = bitset<300>(s);. Potem dwie pętle i < j: int w = (o[i] & o[j]).count(); if (w > najlepsze) { … }. Ostre > zostawia pierwszą znalezioną parę przy remisie.",
+      "tests_count": 8
+    },
+    {
+      "id": "bs-pary-uzupelniajace",
+      "number": 2558,
+      "title": "Pary, które umieją wszystko",
+      "category": "Bitset / krok 4: dwa bitsety",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na zawody drużynowe trzeba wysłać dwie osoby, które razem znają wszystkie m tematów. Każda z n osób opisała swoją wiedzę napisem z m znaków: 1 na pozycji j znaczy „znam temat j”.",
+        "Ile jest par osób (bez kolejności), które razem znają każdy temat — czyli dla każdego tematu przynajmniej jedna z dwóch osób go zna? Bitset ma stały rozmiar 300, a tematów może być mniej, więc porównuj (a | b).count() z m, a nie używaj all()."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z kolejnych n wierszy napis z m zer i jedynek."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba takich par."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 300",
+        "1 ≤ m ≤ 300"
+      ],
+      "examples": [
+        {
+          "input": "4 4\n1100\n0011\n1011\n0110",
+          "output": "3",
+          "note": "Pasują pary (1, 2): 1100 | 0011 = 1111, (1, 3): 1100 | 1011 = 1111 i (3, 4): 1011 | 0110 = 1111. Pozostałe trzy pary mają dziurę — razem 3."
+        }
+      ],
+      "hint": "Dla każdej pary i < j: if ((int)(o[i] | o[j]).count() == m) ile++;. Wynik zmieści się w int — par jest najwyżej 44 850.",
+      "tests_count": 9
+    },
+    {
+      "id": "bs-przesuwanie",
+      "number": 2559,
+      "title": "Przesuwanie w lewo i w prawo",
+      "category": "Bitset / krok 5: przesunięcia",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wczytaj 16 cyfr zer i jedynek — to bitset<16> b (pierwsza cyfra to bit 15, ostatnia — bit 0). Potem wykonaj po kolei q przesunięć i po każdym wypisz cały bitset.",
+        "<< k przesuwa bity o k pozycji w lewo (w stronę wyższych numerów), a >> k — o k pozycji w prawo. Z drugiej strony wchodzą zera, a bity, które wypadną poza 16 pozycji, przepadają — kolejne przesunięcie ich nie przywróci. Przesunięcie o 16 albo więcej daje same zera."
+      ],
+      "input_format": [
+        "W pierwszym wierszu 16 cyfr 0 i 1.",
+        "W drugim wierszu liczba q.",
+        "W każdym z kolejnych q wierszy przesunięcie: << k albo >> k."
+      ],
+      "output_format": [
+        "q wierszy po 16 cyfr — stan bitsetu po każdym przesunięciu."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 500",
+        "0 ≤ k ≤ 20"
+      ],
+      "examples": [
+        {
+          "input": "0000000000101101\n3\n<< 3\n>> 5\n<< 13",
+          "output": "0000000101101000\n0000000000001011\n0110000000000000",
+          "note": "W lewo o 3: z prawej wchodzą trzy zera. W prawo o 5: pięć ostatnich cyfr (01000) wypada z prawej strony, a z lewej wchodzą zera. W lewo o 13: najstarsza jedynka wypada z lewej strony i zostają tylko dwie."
+        }
+      ],
+      "hint": "bitset<16> b(s); potem dla każdego przesunięcia: string op; int k; cin >> op >> k; if (op == \"<<\") b <<= k; else b >>= k; cout << b << \"\\n\";.",
+      "tests_count": 10
+    },
+    {
+      "id": "bs-sasiedzi",
+      "number": 2560,
+      "title": "Sąsiedzi w rzędzie",
+      "category": "Bitset / krok 5: przesunięcia",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Rząd w kinie opisuje napis z zer i jedynek: 1 to zajęte miejsce, 0 — wolne. Wypisz dwie liczby: ile jest par sąsiednich miejsc zajętych obok siebie oraz ile osób siedzi samotnie (oba sąsiednie miejsca wolne albo ich brak, bo to brzeg rzędu).",
+        "Zrób to bez pętli po miejscach. W b >> 1 bit i ma wartość bitu i + 1, więc b & (b >> 1) świeci tam, gdzie zajęte jest miejsce i oraz jego sąsiad. Samotne osoby to b & ~(b << 1) & ~(b >> 1)."
+      ],
+      "input_format": [
+        "Jeden wiersz: napis z zer i jedynek."
+      ],
+      "output_format": [
+        "Jeden wiersz: liczba par sąsiadów i liczba samotnych osób."
+      ],
+      "constraints": [
+        "napis ma od 1 do 100 000 znaków"
+      ],
+      "examples": [
+        {
+          "input": "0110111001",
+          "output": "3 1",
+          "note": "Pary sąsiadów: miejsca 2–3, 5–6 i 6–7 — trzy pary (pięć osób w dwóch grupach). Samotnie siedzi tylko osoba na samym końcu rzędu."
+        }
+      ],
+      "hint": "string s; cin >> s; bitset<100000> b(s);. Potem (b & (b >> 1)).count() i (b & ~(b << 1) & ~(b >> 1)).count(). Bity spoza napisu są zerami, więc niczego nie psują.",
+      "tests_count": 11
+    },
+    {
+      "id": "bs-odstep-k",
+      "number": 2561,
+      "title": "Pary w odstępie k",
+      "category": "Bitset / krok 5: przesunięcia",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dany jest napis z zer i jedynek długości n. Para pozycji (i, i + k) jest dobra, jeśli na obu stoją jedynki. Odpowiedz na q pytań: ile jest dobrych par dla danego k?",
+        "Wyrażenie b & (b >> k) ma zapalone bity dokładnie tam, gdzie zaczyna się dobra para — więc wystarczy jedno count() na pytanie."
+      ],
+      "input_format": [
+        "W pierwszym wierszu napis z zer i jedynek.",
+        "W drugim wierszu liczba q.",
+        "W trzecim wierszu q liczb k."
+      ],
+      "output_format": [
+        "q wierszy: liczba dobrych par dla każdego k."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 20 000",
+        "1 ≤ q ≤ 2000",
+        "1 ≤ k < n"
+      ],
+      "examples": [
+        {
+          "input": "1011001\n3\n1 2 3",
+          "output": "1\n1\n2",
+          "note": "Odstęp 1: tylko para na pozycjach 2–3 (licząc od 0 od lewej). Odstęp 2: pozycje 0–2. Odstęp 3: pary 0–3 i 3–6."
+        }
+      ],
+      "hint": "bitset<20000> b(s); i dla każdego k: cout << (b & (b >> k)).count() << \"\\n\";. Kierunek napisu nie ma znaczenia — para w odstępie k pozostaje parą w odstępie k.",
+      "tests_count": 7
+    },
+    {
+      "id": "bs-plotka",
+      "number": 2562,
+      "title": "Plotka w rzędzie",
+      "category": "Bitset / krok 5: przesunięcia",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W rzędzie stoi n osób. Napis z zer i jedynek mówi, kto na początku zna plotkę (1). Co minutę każdy, kto ją zna, przekazuje ją obu sąsiadom. Po ilu minutach plotkę znają wszyscy? Jeśli na początku nie zna jej nikt, wypisz -1.",
+        "Jedna minuta to b |= (b << 1) | (b >> 1);. Uwaga: przesunięcie w lewo przenosi plotkę także na pozycję n, której nie ma — a stamtąd dalej. Po każdej minucie zostaw tylko pierwsze n bitów: b &= maska, gdzie maska ma jedynki na pozycjach od 0 do n − 1."
+      ],
+      "input_format": [
+        "Jeden wiersz: napis z zer i jedynek długości n."
+      ],
+      "output_format": [
+        "Jedna liczba: liczba minut albo -1."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000"
+      ],
+      "examples": [
+        {
+          "input": "0010000",
+          "output": "4",
+          "note": "Po minucie plotkę znają osoby 1, 2 i 3 (licząc od 0 od lewej), po dwóch — 0–4, po trzech — 0–5, po czterech — wszyscy."
+        },
+        {
+          "input": "1000001",
+          "output": "3",
+          "note": "Plotka idzie z obu końców i spotyka się w środku po trzech minutach."
+        },
+        {
+          "input": "000",
+          "output": "-1",
+          "note": "Nikt nie zna plotki — nigdy się nie rozejdzie."
+        }
+      ],
+      "hint": "bitset<10000> b(s), maska; maska.set(); maska >>= 10000 - n; — teraz maska ma n jedynek. Pętla: while ((int)b.count() < n) { b |= (b << 1) | (b >> 1); b &= maska; minuty++; }. Najpierw sprawdź, czy b.none().",
+      "tests_count": 13
+    },
+    {
+      "id": "bs-obrot",
+      "number": 2563,
+      "title": "Obrót bitów",
+      "category": "Bitset / krok 5: przesunięcia",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej z q liczb x zapisanych na 32 bitach wykonaj obrót w lewo o k pozycji: każdy bit przesuwa się o k miejsc w lewo, a bity, które wypadłyby z lewej strony, wracają z prawej — jak na karuzeli. Wypisz otrzymaną liczbę.",
+        "Zwykłe przesunięcie b << k gubi k najstarszych bitów. Odzyskasz je przesunięciem w drugą stronę: b >> (32 - k) przenosi właśnie te bity na najmłodsze pozycje. OR obu części to obrót."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy liczby x i k."
+      ],
+      "output_format": [
+        "q wierszy: liczby po obrocie."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "0 ≤ x ≤ 4 294 967 295",
+        "0 ≤ k ≤ 31"
+      ],
+      "examples": [
+        {
+          "input": "3\n1 3\n2147483648 1\n13 0",
+          "output": "8\n1\n13",
+          "note": "1 po obrocie o 3 to 8. Najstarszy bit 2³¹ po obrocie o 1 wraca na pozycję 0 — wynik 1. Obrót o 0 niczego nie zmienia."
+        }
+      ],
+      "hint": "long long x; int k; cin >> x >> k; bitset<32> b(x); b = (b << k) | (b >> (32 - k)); cout << b.to_ulong() << \"\\n\";. Dla k = 0 drugie przesunięcie jest o 32 — bitset daje wtedy same zera, więc wynik się zgadza.",
+      "tests_count": 4
+    },
+    {
+      "id": "bs-regula-90",
+      "number": 2564,
+      "title": "Reguła 90",
+      "category": "Bitset / krok 5: przesunięcia",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Rząd n komórek, każda żywa (#) albo martwa (.). W każdym kroku wszystkie komórki zmieniają się jednocześnie: komórka staje się żywa, gdy dokładnie jeden z jej dwóch sąsiadów był żywy (XOR sąsiadów). Poza rzędem komórek nie ma — traktujemy je jak martwe.",
+        "Wypisz stan początkowy i stan po każdym z t kroków. Trzymaj komórkę i w bicie i (wczytaj pętlą: b[i] = s[i] == '#'). Krok to b = ((b << 1) ^ (b >> 1)) & maska; — przesunięcie w lewo daje każdej komórce stan lewego sąsiada, w prawo — prawego. Z jednej żywej komórki wyrasta trójkąt Sierpińskiego."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i t.",
+        "W drugim wierszu n znaków # i ."
+      ],
+      "output_format": [
+        "t + 1 wierszy po n znaków: stan początkowy i stan po każdym kroku."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 100",
+        "1 ≤ t ≤ 200"
+      ],
+      "examples": [
+        {
+          "input": "15 7\n.......#.......",
+          "output": ".......#.......\n......#.#......\n.....#...#.....\n....#.#.#.#....\n...#.......#...\n..#.#.....#.#..\n.#...#...#...#.\n#.#.#.#.#.#.#.#",
+          "note": "Z jednej żywej komórki po siedmiu krokach wyrasta trójkąt złożony z mniejszych trójkątów — trójkąt Sierpińskiego."
+        }
+      ],
+      "hint": "bitset<100> b, maska; for (int i = 0; i < n; i++) { b[i] = (s[i] == '#'); maska[i] = 1; }. Wypisywanie: for (int i = 0; i < n; i++) cout << (b[i] ? '#' : '.');.",
+      "tests_count": 8
+    },
+    {
+      "id": "bs-skoki-zaby",
+      "number": 2565,
+      "title": "Skoki żaby",
+      "category": "Bitset / krok 5: przesunięcia",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Żaba stoi na polu 0 planszy z polami od 0 do n − 1. W każdym ruchu skacze w prawo dokładnie o a albo dokładnie o b pól. Skok poza ostatnie pole jest zabroniony. Ile różnych pól może zajmować żaba po dokładnie t ruchach i które z nich jest najdalej?",
+        "Trzymaj zbiór możliwych pól jako bitset S: na początku tylko bit 0. Po jednym ruchu nowy zbiór to (S << a) | (S << b), a pola poza planszą wytnij maską. Jeśli w pewnym momencie zbiór się wyczerpie, żaba nie może wykonać t ruchów — wypisz wtedy 0 -1."
+      ],
+      "input_format": [
+        "Jeden wiersz: liczby n, a, b i t."
+      ],
+      "output_format": [
+        "Jeden wiersz: liczba możliwych pól po t ruchach i numer najdalszego z nich (albo 0 -1)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 100 000",
+        "1 ≤ a, b ≤ n",
+        "1 ≤ t ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "20 2 5 3",
+          "output": "4 15",
+          "note": "Po trzech ruchach żaba może stać na polach 6 (2 + 2 + 2), 9, 12 i 15 (5 + 5 + 5) — cztery pola, najdalsze 15."
+        },
+        {
+          "input": "10 4 6 3",
+          "output": "0 -1",
+          "note": "Najkrótsza droga to 4 + 4 + 4 = 12 — za daleko jak na planszę z polami od 0 do 9."
+        }
+      ],
+      "hint": "bitset<100000> S, maska; S[0] = 1; for (int i = 0; i < n; i++) maska[i] = 1;. Ruch: S = ((S << a) | (S << b)) & maska;. Najdalsze pole znajdziesz pętlą od n - 1 w dół.",
+      "tests_count": 10
+    },
+    {
+      "id": "bs-sumy-par",
+      "number": 2566,
+      "title": "Sumy par",
+      "category": "Bitset / krok 5: przesunięcia",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dany jest zbiór A liczb od 0 do 1000 (liczby na liście mogą się powtarzać). Ile różnych wartości może mieć suma x + y, gdzie x i y należą do A? Można wziąć dwa razy tę samą liczbę.",
+        "A << x to zbiór wszystkich sum x + y dla ustalonego x — każdy element A przesunięty o x. OR takich przesunięć dla wszystkich x z A daje wszystkie sumy. Sumy sięgają 2000, więc oba bitsety muszą mieć rozmiar 2001 — bitsetów różnych rozmiarów nie da się łączyć."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba różnych sum."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "0 ≤ każda liczba ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "3\n1 4 6",
+          "output": "6",
+          "note": "Sumy: 1 + 1 = 2, 1 + 4 = 5, 1 + 6 = 7, 4 + 4 = 8, 4 + 6 = 10, 6 + 6 = 12 — sześć różnych."
+        },
+        {
+          "input": "4\n0 1 2 2",
+          "output": "5",
+          "note": "Sumy od 0 + 0 = 0 do 2 + 2 = 4 — pięć różnych."
+        }
+      ],
+      "hint": "bitset<2001> A, S; zaznacz liczby w A, potem for (int x = 0; x <= 1000; x++) if (A[x]) S |= A << x;. Na końcu S.count().",
+      "tests_count": 8
+    },
+    {
+      "id": "bs-czy-pierwsza",
+      "number": 2567,
+      "title": "Czy pierwsza?",
+      "category": "Bitset / krok 6: sito Eratostenesa",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej z q liczb x wypisz TAK, jeśli x jest liczbą pierwszą, albo NIE w przeciwnym razie. Pamiętaj: 1 nie jest liczbą pierwszą.",
+        "Zamiast sprawdzać każdą liczbę osobno, zrób na początku sito Eratostenesa aż do 10⁷ w bitsecie zlozona. Potem każde pytanie to tylko odczyt jednego bitu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W drugim wierszu q liczb x."
+      ],
+      "output_format": [
+        "q wierszy: TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 5000",
+        "1 ≤ x ≤ 10 000 000"
+      ],
+      "examples": [
+        {
+          "input": "6\n1 2 9 97 10000000 9999991",
+          "output": "NIE\nTAK\nNIE\nTAK\nNIE\nTAK",
+          "note": "1 nie jest pierwsza, 2 jest. 9 = 3 · 3. 97 jest pierwsza. 10⁷ jest parzysta, a 9 999 991 to największa liczba pierwsza poniżej 10⁷."
+        }
+      ],
+      "hint": "const int N = 10000000; bitset<N + 1> zlozona; przed main. W main: zlozona[0] = zlozona[1] = 1; for (int i = 2; i * i <= N; i++) if (!zlozona[i]) for (int j = i * i; j <= N; j += i) zlozona[j] = 1;. Potem pytania: cout << (zlozona[x] ? \"NIE\" : \"TAK\") << \"\\n\";.",
+      "tests_count": 6
+    },
+    {
+      "id": "bs-pierwsze-do-n",
+      "number": 2568,
+      "title": "Wszystkie pierwsze do n",
+      "category": "Bitset / krok 6: sito Eratostenesa",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wypisz rosnąco wszystkie liczby pierwsze nie większe od n.",
+        "Użyj sita Eratostenesa: zaczynasz od 2, skreślasz jej wielokrotności, bierzesz następną nieskreśloną liczbę — 3 — i skreślasz jej wielokrotności, i tak dalej. Wielokrotności liczby i wystarczy skreślać od i · i, a zewnętrzna pętla może się skończyć, gdy i · i > n."
+      ],
+      "input_format": [
+        "Jedna liczba n."
+      ],
+      "output_format": [
+        "Jeden wiersz: liczby pierwsze od 2 do n oddzielone spacjami."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 30 000"
+      ],
+      "examples": [
+        {
+          "input": "30",
+          "output": "2 3 5 7 11 13 17 19 23 29",
+          "note": "Skreślamy wielokrotności 2 (od 4), 3 (od 9) i 5 (od 25). Przy i = 6 mamy 6 · 6 = 36 > 30 — koniec. Zostaje 10 liczb pierwszych."
+        }
+      ],
+      "hint": "bitset<30001> zlozona; zlozona[0] = zlozona[1] = 1; i dwie pętle sita z limitem n. Potem for (int i = 2; i <= n; i++) if (!zlozona[i]) cout << i << \" \";.",
+      "tests_count": 8
+    },
+    {
+      "id": "bs-ile-pierwszych",
+      "number": 2569,
+      "title": "Ile pierwszych do stu milionów",
+      "category": "Bitset / krok 6: sito Eratostenesa",
+      "time_limit": "2 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Policz, ile jest liczb pierwszych nie większych od n. Liczba n może sięgać stu milionów.",
+        "Bitset o 100 000 001 bitach zajmuje około 12,5 MB i musi stać przed main. Sito w bitsecie trwa na sprawdzarce od 0,3 do 0,5 sekundy, a z tablicą bool — 100 MB pamięci i od jednej do dwóch i pół sekundy, bo procesor dużo dłużej czyta tak wielką tablicę. Limit czasu to 2 sekundy."
+      ],
+      "input_format": [
+        "Jedna liczba n."
+      ],
+      "output_format": [
+        "Jedna liczba — ile jest liczb pierwszych nie większych od n."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 100 000 000"
+      ],
+      "examples": [
+        {
+          "input": "100",
+          "output": "25",
+          "note": "Do stu jest 25 liczb pierwszych: 2, 3, 5, 7, 11, …, 89, 97."
+        },
+        {
+          "input": "1",
+          "output": "0",
+          "note": "Jedynka nie jest liczbą pierwszą."
+        }
+      ],
+      "hint": "const int MAX = 100000000; bitset<MAX + 1> zlozona; przed main. W sicie licz do n: for (long long i = 2; i * i <= n; i++) if (!zlozona[i]) for (long long j = i * i; j <= n; j += i) zlozona[j] = 1;. Na koniec pętla od 2 do n liczy niezapalone bity.",
+      "tests_count": 8
+    },
+    {
+      "id": "bs-pierwsze-w-przedziale",
+      "number": 2570,
+      "title": "Pierwsze w przedziale",
+      "category": "Bitset / krok 6: sito Eratostenesa",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Odpowiedz na q pytań: ile liczb pierwszych leży w przedziale od a do b (włącznie)?",
+        "Pytań jest dużo, więc nie licz każdego przedziału pętlą. Po sicie zbuduj tablicę ile[x] = liczba liczb pierwszych od 1 do x (sumy prefiksowe z lekcji Złożoność czasowa). Wtedy odpowiedź to ile[b] - ile[a - 1]."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy liczby a i b."
+      ],
+      "output_format": [
+        "q wierszy: liczba liczb pierwszych w każdym przedziale."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 4000",
+        "1 ≤ a ≤ b ≤ 1 000 000"
+      ],
+      "examples": [
+        {
+          "input": "3\n1 10\n10 20\n24 28",
+          "output": "4\n4\n0",
+          "note": "Od 1 do 10: 2, 3, 5, 7. Od 10 do 20: 11, 13, 17, 19. Między 24 a 28 nie ma żadnej liczby pierwszej."
+        }
+      ],
+      "hint": "int ile[1000001]; przed main. Po sicie: ile[0] = 0; for (int x = 1; x <= N; x++) ile[x] = ile[x - 1] + (zlozona[x] ? 0 : 1);. Dla pytania wypisz ile[b] - ile[a - 1].",
+      "tests_count": 4
+    },
+    {
+      "id": "bs-blizniacze",
+      "number": 2571,
+      "title": "Liczby bliźniacze",
+      "category": "Bitset / krok 6: sito Eratostenesa",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Para liczb bliźniaczych to dwie liczby pierwsze p i p + 2, na przykład 3 i 5, 5 i 7, 11 i 13. Policz, ile jest par bliźniaczych, w których obie liczby są nie większe od n, i wypisz największą taką parę.",
+        "Jeśli nie ma żadnej pary, w drugim wierszu wypisz brak."
+      ],
+      "input_format": [
+        "Jedna liczba n."
+      ],
+      "output_format": [
+        "W pierwszym wierszu liczba par.",
+        "W drugim wierszu największa para (dwie liczby) albo brak."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000 000"
+      ],
+      "examples": [
+        {
+          "input": "20",
+          "output": "4\n17 19",
+          "note": "Pary: 3 i 5, 5 i 7, 11 i 13, 17 i 19 — cztery. Liczba 5 należy do dwóch par."
+        },
+        {
+          "input": "4",
+          "output": "0\nbrak",
+          "note": "Para 3 i 5 nie mieści się, bo 5 > 4."
+        }
+      ],
+      "hint": "Sito do n, a potem for (int p = 2; p + 2 <= n; p++) if (!zlozona[p] && !zlozona[p + 2]) { ile++; ostatnia = p; }.",
+      "tests_count": 9
+    },
+    {
+      "id": "bs-goldbach",
+      "number": 2572,
+      "title": "Hipoteza Goldbacha",
+      "category": "Bitset / krok 6: sito Eratostenesa",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Hipoteza Goldbacha mówi, że każda liczba parzysta większa od 2 jest sumą dwóch liczb pierwszych. Nikt jej nie udowodnił, ale sprawdzono ją dla ogromnych liczb. Sprawdź ją i Ty.",
+        "Dla każdej z q parzystych liczb n wypisz rozkład n = p + q, w którym p jest najmniejsze możliwe (oczywiście p ≤ q). Zrób sito raz, a potem dla każdego n sprawdzaj kolejne p."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W drugim wierszu q parzystych liczb n."
+      ],
+      "output_format": [
+        "q wierszy w postaci n = p + q."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "4 ≤ n ≤ 1 000 000, n parzyste"
+      ],
+      "examples": [
+        {
+          "input": "3\n4 28 100",
+          "output": "4 = 2 + 2\n28 = 5 + 23\n100 = 3 + 97",
+          "note": "4 = 2 + 2. 28 = 5 + 23 (28 − 2 = 26 i 28 − 3 = 25 nie są pierwsze). 100 = 3 + 97."
+        }
+      ],
+      "hint": "Po sicie do 10⁶: for (int p = 2; ; p++) if (!zlozona[p] && !zlozona[n - p]) { cout << n << \" = \" << p << \" + \" << n - p << \"\\n\"; break; }. Najmniejsze p jest zawsze małe, więc ta pętla jest szybka.",
+      "tests_count": 5
+    },
+    {
+      "id": "bs-najblizsza-pierwsza",
+      "number": 2573,
+      "title": "Najbliższa liczba pierwsza",
+      "category": "Bitset / krok 6: sito Eratostenesa",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej z q liczb x wypisz liczbę pierwszą najbliższą x. Jeśli dwie liczby pierwsze są tak samo daleko (jedna mniejsza, druga większa od x), wypisz mniejszą. Gdy x samo jest pierwsze, odpowiedzią jest x.",
+        "Sprawdzaj odległości d = 0, 1, 2, …: najpierw x − d, potem x + d. Uwaga na zakres: najbliższa liczba pierwsza dla 10⁶ to 1 000 003, więc sito zrób trochę dalej niż do miliona."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy liczba x."
+      ],
+      "output_format": [
+        "q wierszy: najbliższe liczby pierwsze."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 3000",
+        "1 ≤ x ≤ 1 000 000"
+      ],
+      "examples": [
+        {
+          "input": "5\n1\n10\n12\n97\n1000000",
+          "output": "2\n11\n11\n97\n1000003",
+          "note": "Dla 1 najbliższa jest 2. 10 leży między 7 a 11 — bliżej 11. 12 jest tak samo daleko od 11 i od 13 — wybieramy 11. 97 jest pierwsza. Milion: 999 983 jest o 17 niżej, a 1 000 003 tylko o 3 wyżej."
+        }
+      ],
+      "hint": "bitset<1000101> zlozona; i sito do 1 000 100. Dla x: for (int d = 0; ; d++) { if (x - d >= 2 && !zlozona[x - d]) { … x - d …; break; } if (!zlozona[x + d]) { … x + d …; break; } }.",
+      "tests_count": 4
+    },
+    {
+      "id": "bs-k-ta-pierwsza",
+      "number": 2574,
+      "title": "k-ta liczba pierwsza",
+      "category": "Bitset / krok 6: sito Eratostenesa",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Liczby pierwsze ustawione rosnąco: pierwsza to 2, druga — 3, trzecia — 5, czwarta — 7 i tak dalej. Odpowiedz na q pytań: jaka jest k-ta liczba pierwsza?",
+        "Wszystkie odpowiedzi są mniejsze niż 10⁷ — do dziesięciu milionów jest dokładnie 664 579 liczb pierwszych. Zrób sito, przepisz liczby pierwsze do vectora i odpowiadaj odczytem z vectora."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W drugim wierszu q liczb k."
+      ],
+      "output_format": [
+        "q wierszy: k-te liczby pierwsze."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 3000",
+        "1 ≤ k ≤ 664 579"
+      ],
+      "examples": [
+        {
+          "input": "4\n1 4 10 664579",
+          "output": "2\n7\n29\n9999991",
+          "note": "Pierwsza to 2, czwarta — 7, dziesiąta — 29, a ostatnia przed dziesięcioma milionami to 9 999 991."
+        }
+      ],
+      "hint": "vector<int> pierwsze; for (int i = 2; i <= N; i++) if (!zlozona[i]) pierwsze.push_back(i);. Odpowiedź: pierwsze[k - 1] — vector numeruje od zera.",
+      "tests_count": 4
+    },
+    {
+      "id": "bs-wszystkie-sumy",
+      "number": 2575,
+      "title": "Wszystkie sumy",
+      "category": "Bitset / krok 7: sumy podzbiorów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz n liczb. Wybierasz dowolną część z nich — każdą liczbę najwyżej raz, możesz też nie wybrać żadnej — i dodajesz. Wypisz rosnąco wszystkie sumy, które da się w ten sposób otrzymać (także 0).",
+        "Trzymaj zbiór możliwych sum w bitsecie S: na początku S[0] = 1, bo pusty wybór daje 0. Gdy dochodzi liczba x, każdą starą sumę można powiększyć o x albo zostawić — czyli S |= S << x;."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb."
+      ],
+      "output_format": [
+        "Jeden wiersz: wszystkie możliwe sumy rosnąco, oddzielone spacjami."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10",
+        "1 ≤ każda liczba ≤ 100"
+      ],
+      "examples": [
+        {
+          "input": "3\n3 5 4",
+          "output": "0 3 4 5 7 8 9 12",
+          "note": "Na początku {0}. Po trójce: {0, 3}. Po piątce: {0, 3, 5, 8}. Po czwórce dochodzą 4, 7, 9 i 12: razem 0, 3, 4, 5, 7, 8, 9, 12."
+        },
+        {
+          "input": "2\n2 2",
+          "output": "0 2 4",
+          "note": "Dwie dwójki dają sumy 0, 2 i 4 — suma 2 powstaje na dwa sposoby, ale wypisujemy ją raz."
+        }
+      ],
+      "hint": "bitset<1001> S; S[0] = 1; i dla każdej liczby x: S |= S << x;. Na końcu for (int s = 0; s <= 1000; s++) if (S[s]) cout << s << \" \";.",
+      "tests_count": 8
+    },
+    {
+      "id": "bs-czy-zaplace",
+      "number": 2576,
+      "title": "Czy zapłacę bez reszty?",
+      "category": "Bitset / krok 7: sumy podzbiorów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W portfelu jest n monet o podanych nominałach (każdą monetę można wydać najwyżej raz). Odpowiedz na q pytań: czy da się zapłacić dokładnie k złotych, bez reszty?",
+        "Kwota 0 jest zawsze możliwa — po prostu nic nie dajesz. Najpierw zbuduj zbiór wszystkich możliwych kwot (S |= S << x dla każdej monety), a potem dla każdego pytania sprawdź bit S[k]."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i q.",
+        "W drugim wierszu n nominałów.",
+        "W trzecim wierszu q kwot k."
+      ],
+      "output_format": [
+        "q wierszy: TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 100",
+        "1 ≤ każdy nominał ≤ 1000",
+        "1 ≤ q ≤ 5000",
+        "0 ≤ k ≤ 100 000"
+      ],
+      "examples": [
+        {
+          "input": "3 4\n2 5 9\n7 1 16 0",
+          "output": "TAK\nNIE\nTAK\nTAK",
+          "note": "7 = 2 + 5, a 16 = 2 + 5 + 9. Złotówki nie da się zapłacić. Zero — zawsze."
+        }
+      ],
+      "hint": "bitset<100001> S; S[0] = 1; dla każdej monety S |= S << x;. Potem dla każdego k: cout << (S[k] ? \"TAK\" : \"NIE\") << \"\\n\";.",
+      "tests_count": 7
+    },
+    {
+      "id": "bs-ile-sum",
+      "number": 2577,
+      "title": "Ile różnych sum",
+      "category": "Bitset / krok 7: sumy podzbiorów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ile różnych dodatnich sum da się otrzymać, wybierając niepustą część z n liczb (każdą liczbę najwyżej raz)?",
+        "Wszystkie liczby razem dają najwyżej 100 · 10 000 = 1 000 000, więc bitset musi mieć 1 000 001 bitów i stać przed main. Po zbudowaniu zbioru sum S.count() liczy też sumę 0 — odejmij ją."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n liczb."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba różnych dodatnich sum."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 100",
+        "1 ≤ każda liczba ≤ 10 000"
+      ],
+      "examples": [
+        {
+          "input": "3\n1 2 3",
+          "output": "6",
+          "note": "Da się otrzymać każdą sumę od 1 do 6 — sześć różnych (3 = 3 albo 1 + 2, ale to jedna suma)."
+        },
+        {
+          "input": "2\n5 5",
+          "output": "2",
+          "note": "Sumy 5 i 10 — dwie."
+        }
+      ],
+      "hint": "bitset<1000001> S; przed main, w main: S[0] = 1; S |= S << x; dla każdej liczby, a na końcu cout << S.count() - 1;.",
+      "tests_count": 8
+    },
+    {
+      "id": "bs-podzial-na-pol",
+      "number": 2578,
+      "title": "Podział na pół",
+      "category": "Bitset / krok 7: sumy podzbiorów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Rodzeństwo dzieli n prezentów o podanych wartościach — każdy prezent dostaje dokładnie jedna osoba. Jak podzielić prezenty, żeby różnica wartości obu części była jak najmniejsza? Wypisz tę najmniejszą różnicę.",
+        "Jeśli jedna osoba dostanie prezenty o sumie s, druga dostanie razem − s, a różnica wyniesie razem − 2s. Zbuduj zbiór możliwych sum i znajdź największe s ≤ razem / 2, które da się ułożyć."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n wartości."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejsza możliwa różnica."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 200",
+        "1 ≤ każda wartość ≤ 5000"
+      ],
+      "examples": [
+        {
+          "input": "5\n3 1 4 2 2",
+          "output": "0",
+          "note": "Razem 12. Sumę 6 da się ułożyć (4 + 2 albo 3 + 1 + 2), więc różnica 0."
+        },
+        {
+          "input": "3\n1 2 7",
+          "output": "4",
+          "note": "Razem 10, połowa to 5. Największa suma nie większa od 5 to 3 (1 + 2), więc różnica 10 − 6 = 4: siódemka zawsze przeważa."
+        }
+      ],
+      "hint": "Po zbudowaniu S: for (int s = razem / 2; s >= 0; s--) if (S[s]) { cout << razem - 2 * s; break; }. Pamiętaj o S[0] = 1 — gdy jest jeden prezent, odpowiedzią jest jego wartość.",
+      "tests_count": 9
+    },
+    {
+      "id": "bs-najblizej-celu",
+      "number": 2579,
+      "title": "Najbliżej celu",
+      "category": "Bitset / krok 7: sumy podzbiorów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz n odważników. Chcesz ułożyć z nich (każdy najwyżej raz) ciężar jak najbliższy T. Wypisz ciężar, który da się ułożyć i który jest najbliżej T. Jeśli dwa ciężary są tak samo blisko, wypisz mniejszy.",
+        "Po zbudowaniu zbioru sum sprawdzaj kolejno odległości d = 0, 1, 2, …: najpierw T − d (o ile nie jest ujemne), potem T + d (o ile mieści się w bitsecie). Ciężar 0 — gdy nie bierzesz niczego — też się liczy."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i T.",
+        "W drugim wierszu n ciężarów odważników."
+      ],
+      "output_format": [
+        "Jedna liczba — możliwy ciężar najbliższy T."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 100",
+        "1 ≤ każdy ciężar ≤ 10 000",
+        "0 ≤ T ≤ 1 000 000"
+      ],
+      "examples": [
+        {
+          "input": "3 10\n4 7 9",
+          "output": "9",
+          "note": "Możliwe ciężary: 0, 4, 7, 9, 11, 13, 16, 20. Do 10 najbliżej są 9 i 11 — wybieramy mniejszy."
+        },
+        {
+          "input": "2 1000000\n3 5",
+          "output": "8",
+          "note": "Największy możliwy ciężar to 8."
+        }
+      ],
+      "hint": "for (int d = 0; ; d++) { if (T - d >= 0 && S[T - d]) { cout << T - d; break; } if (T + d <= 1000000 && S[T + d]) { cout << T + d; break; } }.",
+      "tests_count": 10
+    },
+    {
+      "id": "bs-kostki",
+      "number": 2580,
+      "title": "Dziwne kostki",
+      "category": "Bitset / krok 7: sumy podzbiorów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz d nietypowych kostek: każda ma swoją liczbę ścianek z własnymi liczbami oczek. Rzucasz wszystkimi kostkami naraz i dodajesz wyniki. Ile różnych sum może wypaść?",
+        "Inaczej niż przy monetach, tu każdą kostkę trzeba „użyć” — z każdej bierzemy dokładnie jedną ściankę. Dla nowej kostki zbuduj nowy zbiór N: dla każdej ścianki v zrób N |= S << v, a potem S = N. Stary zbiór (bez tej kostki) nie przechodzi dalej."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba d.",
+        "W każdym z kolejnych d wierszy liczba ścianek f, a po niej f liczb oczek."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba różnych sum."
+      ],
+      "constraints": [
+        "1 ≤ d ≤ 50",
+        "1 ≤ f ≤ 20",
+        "1 ≤ liczba oczek ≤ 100"
+      ],
+      "examples": [
+        {
+          "input": "2\n6 1 2 3 4 5 6\n6 1 2 3 4 5 6",
+          "output": "11",
+          "note": "Dwie zwykłe kostki dają sumy od 2 do 12 — jedenaście różnych."
+        },
+        {
+          "input": "2\n2 1 10\n2 1 100",
+          "output": "4",
+          "note": "Sumy: 1 + 1 = 2, 1 + 100 = 101, 10 + 1 = 11, 10 + 100 = 110 — cztery."
+        }
+      ],
+      "hint": "bitset<5001> S; S[0] = 1; dla każdej kostki: bitset<5001> N; for (każda ścianka v) N |= S << v; S = N;. Na końcu S.count() — zera już tam nie ma.",
+      "tests_count": 10
+    },
+    {
+      "id": "bs-waga-szalkowa",
+      "number": 2581,
+      "title": "Waga szalkowa",
+      "category": "Bitset / krok 7: sumy podzbiorów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na lewą szalkę wagi kładziesz przedmiot. Masz n odważników — każdy możesz położyć na prawej szalce, na lewej (obok przedmiotu) albo nie używać go wcale. Przedmiot o masie m da się zważyć, jeśli da się tak ułożyć odważniki, żeby waga była w równowadze, czyli m = (suma na prawej) − (suma odważników na lewej).",
+        "Policz, ile mas od 1 do razem (suma wszystkich odważników) da się zważyć, i wypisz najmniejszą masę od 1 w górę, której zważyć się nie da. Różnica „prawa − lewa” może być ujemna, a bity mają tylko numery od 0 — dlatego przesuń wszystko o razem: różnicę d trzymaj w bicie razem + d. Na początku zapal bit razem (różnica 0), a każdy odważnik w daje S | (S << w) | (S >> w)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n mas odważników."
+      ],
+      "output_format": [
+        "Jeden wiersz: liczba mas od 1 do razem, które da się zważyć, i najmniejsza masa, której zważyć się nie da."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 50",
+        "1 ≤ każda masa ≤ 1000"
+      ],
+      "examples": [
+        {
+          "input": "2\n1 3",
+          "output": "4 5",
+          "note": "Razem 4. Masa 1: odważnik 1 na prawej. 2: trójka na prawej, jedynka na lewej. 3 i 4: trójka (i jedynka) na prawej. Wszystkie cztery się da, a 5 już nie."
+        },
+        {
+          "input": "2\n2 5",
+          "output": "4 1",
+          "note": "Da się zważyć 2, 3 (5 na prawej, 2 na lewej), 5 i 7. Nie da się zważyć 1."
+        }
+      ],
+      "hint": "bitset<100001> S; int T = razem; S[T] = 1; dla każdego w: S = S | (S << w) | (S >> w);. Masę m da się zważyć, gdy S[T + m]. Najmniejsza niemożliwa może wynosić razem + 1.",
+      "tests_count": 9
+    },
+    {
+      "id": "bs-niezbedne-monety",
+      "number": 2582,
+      "title": "Niezbędne monety",
+      "category": "Bitset / krok 7: sumy podzbiorów",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W portfelu jest n monet, a trzeba zapłacić dokładnie k złotych (każdą monetę można dać najwyżej raz). Jeśli się nie da, wypisz niemozliwe. W przeciwnym razie wypisz numery monet niezbędnych — takich, bez których zapłacić k już się nie da. Gdy żadna nie jest niezbędna, wypisz brak.",
+        "Dla każdej monety i zbuduj od nowa zbiór sum ze wszystkich monet oprócz i i sprawdź bit k. To n zbiorów po n przesunięć — na bitsetach to bardzo szybko."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W drugim wierszu n nominałów (moneta numer 1, 2, …, n)."
+      ],
+      "output_format": [
+        "Jeden wiersz: niemozliwe, brak albo numery niezbędnych monet rosnąco."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 100",
+        "1 ≤ każdy nominał ≤ 1000",
+        "1 ≤ k ≤ 100 000"
+      ],
+      "examples": [
+        {
+          "input": "4 9\n2 7 3 4",
+          "output": "1",
+          "note": "9 = 2 + 7 = 2 + 3 + 4. Bez dwójki zostają 7, 3 i 4 — dziewięciu z nich nie ułożysz, więc moneta 1 jest niezbędna. Każdą inną da się zastąpić."
+        },
+        {
+          "input": "2 5\n2 2",
+          "output": "niemozliwe",
+          "note": "Z dwóch dwójek nie da się ułożyć pięciu."
+        },
+        {
+          "input": "3 4\n4 4 1",
+          "output": "brak",
+          "note": "Czwórki są dwie, więc żadna nie jest niezbędna."
+        }
+      ],
+      "hint": "Najpierw zbiór ze wszystkich monet — jeśli !S[k], wypisz niemozliwe. Potem dla każdego i: bitset<100001> T; T[0] = 1; for (int j = 0; j < n; j++) if (j != i) T |= T << a[j]; if (!T[k]) … moneta i + 1 jest niezbędna.",
+      "tests_count": 15
+    },
+    {
+      "id": "bs-wspolni-znajomi",
+      "number": 2583,
+      "title": "Wspólni znajomi",
+      "category": "Bitset / krok 8: przyspieszanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W serwisie społecznościowym jest n osób i m par znajomych (znajomość działa w obie strony). Odpowiedz na q pytań: ile wspólnych znajomych mają osoby u i v?",
+        "Dla każdej osoby trzymaj bitset jej znajomych: z[a][b] = 1, gdy a zna b. Wspólni znajomi to bity zapalone w obu bitsetach — jedno & i jedno count() na pytanie. Tablica 2001 bitsetów po 2001 bitów zajmuje około pół megabajta i musi stać przed main."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n, m i q.",
+        "W każdym z kolejnych m wierszy dwie osoby, które się znają.",
+        "W każdym z kolejnych q wierszy pytanie: dwie różne osoby u i v."
+      ],
+      "output_format": [
+        "q wierszy: liczba wspólnych znajomych."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 2000",
+        "1 ≤ m ≤ 4000",
+        "1 ≤ q ≤ 4000",
+        "każda para znajomych występuje najwyżej raz"
+      ],
+      "examples": [
+        {
+          "input": "5 5 3\n1 2\n1 3\n2 3\n3 4\n4 5\n1 2\n1 4\n2 5",
+          "output": "1\n1\n0",
+          "note": "Osoby 1 i 2 znają obie trójkę. 1 i 4 też mają wspólnego znajomego 3. Osoby 2 i 5 nie mają wspólnych znajomych."
+        }
+      ],
+      "hint": "bitset<2001> z[2001]; przed main. Dla każdej znajomości: z[a][b] = 1; z[b][a] = 1;. Pytanie: cout << (z[u] & z[v]).count() << \"\\n\";.",
+      "tests_count": 7
+    },
+    {
+      "id": "bs-trojkaty",
+      "number": 2584,
+      "title": "Trójkąty w grafie",
+      "category": "Bitset / krok 8: przyspieszanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W grafie jest n wierzchołków i m krawędzi. Trójkąt to trzy wierzchołki połączone każdy z każdym. Ile trójkątów jest w grafie?",
+        "Dla krawędzi a–b każdy wspólny sąsiad c daje trójkąt a, b, c — a wspólnych sąsiadów policzy (s[a] & s[b]).count(). Gdy zsumujesz to po wszystkich krawędziach, każdy trójkąt policzysz trzy razy (raz dla każdego z jego boków), więc na końcu podziel przez 3."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z kolejnych m wierszy krawędź: dwa różne wierzchołki."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba trójkątów."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 1000",
+        "1 ≤ m ≤ 8000",
+        "każda krawędź występuje najwyżej raz"
+      ],
+      "examples": [
+        {
+          "input": "4 5\n1 2\n2 3\n1 3\n3 4\n2 4",
+          "output": "2",
+          "note": "Trójkąty: 1–2–3 i 2–3–4. Krawędź 2–3 należy do obu."
+        }
+      ],
+      "hint": "bitset<1001> s[1001]; zapamiętaj też krawędzie w vectorze. Potem long long razem = 0; for (auto [a, b] : krawedzie) razem += (s[a] & s[b]).count(); cout << razem / 3;.",
+      "tests_count": 8
+    },
+    {
+      "id": "bs-zasieg",
+      "number": 2585,
+      "title": "Dokąd dojadę",
+      "category": "Bitset / krok 8: przyspieszanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W kraju jest n miast i m dróg jednokierunkowych: droga a b pozwala jechać z a do b, ale nie z powrotem. Dla każdego miasta policz, do ilu miast da się z niego dojechać (licząc samo miasto).",
+        "Zacznij od dojade[i] = {i} plus bezpośrednie drogi. Potem dla każdego miasta pośredniego k (zewnętrzna pętla!) i każdego miasta i: jeśli z i da się dojechać do k, to z i da się dojechać wszędzie tam, dokąd z k — if (dojade[i][k]) dojade[i] |= dojade[k];. To n² działań na bitsetach po n bitów."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z kolejnych m wierszy droga: miasto a i miasto b (a ≠ b)."
+      ],
+      "output_format": [
+        "n wierszy: liczba miast osiągalnych z miasta 1, 2, …, n."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 1000",
+        "1 ≤ m ≤ 8000",
+        "każda droga a b występuje najwyżej raz"
+      ],
+      "examples": [
+        {
+          "input": "4 3\n1 2\n2 3\n4 1",
+          "output": "3\n2\n1\n4",
+          "note": "Z miasta 1 dojedziesz do 2 i 3 (razem z sobą — 3 miasta). Z 2 — do 3. Z 3 nigdzie. Z 4 — wszędzie."
+        }
+      ],
+      "hint": "bitset<1001> dojade[1001]; ustaw dojade[i][i] = 1 i dojade[a][b] = 1 dla dróg. Potem for (int k = 1; k <= n; k++) for (int i = 1; i <= n; i++) if (dojade[i][k]) dojade[i] |= dojade[k];. Wynik: dojade[i].count().",
+      "tests_count": 8
+    },
+    {
+      "id": "bs-prostokaty",
+      "number": 2586,
+      "title": "Prostokąty w kratce",
+      "category": "Bitset / krok 8: przyspieszanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Kratka ma n wierszy i m kolumn, w każdym polu 0 albo 1. Ile jest prostokątów o bokach wzdłuż linii kratki, których wszystkie cztery rogi to jedynki? Rogi muszą leżeć w dwóch różnych wierszach i dwóch różnych kolumnach.",
+        "Weź dwa wiersze i oraz j. Kolumny, w których oba mają jedynkę, to bity (w[i] & w[j]) — niech jest ich c. Każde dwie takie kolumny razem z wierszami i, j tworzą prostokąt, więc ta para wierszy daje c · (c − 1) / 2 prostokątów."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z kolejnych n wierszy napis z m zer i jedynek."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba prostokątów."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 300"
+      ],
+      "examples": [
+        {
+          "input": "3 4\n1101\n1111\n0101",
+          "output": "5",
+          "note": "Wiersze 1 i 2 mają wspólne jedynki w trzech kolumnach — 3 prostokąty. Wiersze 1 i 3 — w dwóch (1 prostokąt), wiersze 2 i 3 — też w dwóch. Razem 5."
+        }
+      ],
+      "hint": "vector<bitset<300>> w(n); wczytaj wiersze jako bitsety. Potem long long razem = 0; for (int i = 0; i < n; i++) for (int j = i + 1; j < n; j++) { long long c = (w[i] & w[j]).count(); razem += c * (c - 1) / 2; }.",
+      "tests_count": 8
+    },
+    {
+      "id": "bs-kolejny-wolny",
+      "number": 2587,
+      "title": "Pierwszy wolny od k",
+      "category": "Bitset / krok 8: przyspieszanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na przystani jest n miejsc dla łódek o numerach od 1 do n, na początku wszystkie wolne. Zdarzenia: zajmij k — przypływa łódka, której kapitan chce stanąć jak najbliżej miejsca k, ale nie przed nim: dostaje wolne miejsce o najmniejszym numerze ≥ k (wypisz je albo brak, gdy takiego nie ma); zwolnij k — łódka z miejsca k odpływa.",
+        "Trzymaj bitset wolne, w którym zapalone są wolne miejsca. GCC ma do bitsetów funkcję _Find_next(i): zwraca numer pierwszej jedynki o numerze większym niż i (a gdy takiej nie ma — rozmiar bitsetu). Szuka po 64 bity naraz, więc jest dużo szybsza niż pętla po pojedynczych bitach."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i q.",
+        "W każdym z kolejnych q wierszy zdarzenie: zajmij k albo zwolnij k."
+      ],
+      "output_format": [
+        "Dla każdego zdarzenia zajmij jeden wiersz: numer miejsca albo brak."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 100 000",
+        "1 ≤ q ≤ 4000",
+        "1 ≤ k ≤ n",
+        "zwolnij k dotyczy zawsze zajętego miejsca",
+        "jest co najmniej jedno zdarzenie zajmij"
+      ],
+      "examples": [
+        {
+          "input": "5 6\nzajmij 2\nzajmij 2\nzajmij 5\nzajmij 5\nzwolnij 3\nzajmij 1",
+          "output": "2\n3\n5\nbrak\n1",
+          "note": "Pierwsza łódka staje na 2, druga — na 3 (2 zajęte), trzecia — na 5. Dla czwartej nie ma wolnego miejsca od 5 w górę. Po zwolnieniu trójki ostatnia łódka dostaje miejsce 1 — wolne od początku."
+        }
+      ],
+      "hint": "bitset<100001> wolne; for (int i = 1; i <= n; i++) wolne[i] = 1;. zajmij k: int x = wolne._Find_next(k - 1); if (x > n) brak, inaczej wolne[x] = 0; i wypisz x. zwolnij k: wolne[k] = 1;.",
+      "tests_count": 7
+    },
+    {
+      "id": "bs-podobni-ankietowani",
+      "number": 2588,
+      "title": "Podobni ankietowani",
+      "category": "Bitset / krok 8: przyspieszanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Każda z n osób odpowiedziała na m pytań TAK (1) albo NIE (0). Dwie osoby są podobne, jeśli udzieliły takiej samej odpowiedzi na co najmniej k pytań. Ile jest par podobnych osób?",
+        "Liczba pytań z różnymi odpowiedziami to (a ^ b).count(), więc takich samych odpowiedzi jest m − (a ^ b).count(). Bitset ma 300 bitów, ale XOR na bitach powyżej m daje zawsze 0 ^ 0 = 0, więc nic nie psuje."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n, m i k.",
+        "W każdym z kolejnych n wierszy napis z m zer i jedynek."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba par podobnych osób."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 300",
+        "1 ≤ m ≤ 300",
+        "0 ≤ k ≤ m"
+      ],
+      "examples": [
+        {
+          "input": "3 4 3\n1100\n1101\n0011",
+          "output": "1",
+          "note": "Osoby 1 i 2 różnią się tylko ostatnią odpowiedzią — zgodne 3 razy. Osoby 1 i 3 różnią się wszędzie, a 2 i 3 zgadzają się tylko raz. Jedna para."
+        }
+      ],
+      "hint": "for (int i = 0; i < n; i++) for (int j = i + 1; j < n; j++) if (m - (int)(o[i] ^ o[j]).count() >= k) ile++;.",
+      "tests_count": 9
+    },
+    {
+      "id": "bs-rozlaczne-zbiory",
+      "number": 2589,
+      "title": "Zbiory rozłączne",
+      "category": "Bitset / krok 8: przyspieszanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Jest n zbiorów liczb od 0 do 499. Ile jest par zbiorów (bez kolejności), które nie mają żadnego wspólnego elementu? Pusty zbiór jest rozłączny z każdym.",
+        "Zamień każdy zbiór na bitset<500> i dla każdej pary sprawdź (s[i] & s[j]).none(). Par może być prawie dwa miliony — przy zwykłym porównywaniu list trwałoby to długo, a bitset robi jedno porównanie w ośmiu krokach po 64 bity."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z kolejnych n wierszy liczba k, a po niej k liczb zbioru (mogą się powtarzać)."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba par rozłącznych zbiorów."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 2000",
+        "0 ≤ k ≤ 500",
+        "w całych danych jest najwyżej 20 000 liczb",
+        "0 ≤ każda liczba ≤ 499"
+      ],
+      "examples": [
+        {
+          "input": "4\n2 1 2\n2 3 4\n1 2\n0",
+          "output": "5",
+          "note": "Zbiory {1, 2}, {3, 4}, {2} i pusty. Tylko {1, 2} i {2} mają coś wspólnego — rozłącznych par jest 5 z 6."
+        }
+      ],
+      "hint": "vector<bitset<500>> s(n); i dla każdej pary i < j: if ((s[i] & s[j]).none()) ile++;. Wynik może przekroczyć milion, ale zmieści się w long long (a nawet w int).",
+      "tests_count": 8
+    },
+    {
+      "id": "bs-dwa-kroki",
+      "number": 2590,
+      "title": "Znajomi znajomych",
+      "category": "Bitset / krok 8: przyspieszanie",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W sieci jest n osób i m par znajomych. Dla każdej osoby v policz, ile innych osób jest jej znajomymi albo znajomymi jej znajomych (osoby, do których od v prowadzi droga z jednego albo dwóch kroków).",
+        "Weź bitset znajomych v i dołóż do niego bitsety wszystkich znajomych v: r |= z[u]. Wtedy zapalą się osoby w odległości 1 i 2 — ale też sama osoba v (jest znajomą swoich znajomych), więc na koniec zgaś r[v]. Listy znajomych trzymaj w vectorach, żeby szybko przejść po sąsiadach."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z kolejnych m wierszy dwie osoby, które się znają."
+      ],
+      "output_format": [
+        "n wierszy: liczba osób w odległości 1 albo 2 od osoby 1, 2, …, n."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 2000",
+        "1 ≤ m ≤ 8000",
+        "każda para znajomych występuje najwyżej raz"
+      ],
+      "examples": [
+        {
+          "input": "5 4\n1 2\n2 3\n3 4\n4 5",
+          "output": "2\n3\n4\n3\n2",
+          "note": "Osoby stoją w łańcuchu 1–2–3–4–5. Od osoby 3 w dwóch krokach dojdziesz do wszystkich czterech pozostałych, a od osoby 1 — tylko do 2 i 3."
+        }
+      ],
+      "hint": "bitset<2001> z[2001]; vector<int> sasiedzi[2001];. Dla osoby v: bitset<2001> r = z[v]; for (int u : sasiedzi[v]) r |= z[u]; r[v] = 0; cout << r.count() << \"\\n\";.",
+      "tests_count": 7
+    },
+    {
+      "id": "bs-b-skarpetki",
+      "number": 2591,
+      "title": "Skarpetki bez pary",
+      "category": "Bitset / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W szufladzie leży n skarpetek, każda w jednym z 1000 kolorów (numery od 0 do 999). Mama łączy skarpetki w pary tego samego koloru. W których kolorach zostanie skarpetka bez pary?",
+        "Nie trzeba liczyć skarpetek każdego koloru: wystarczy przełączać bit koloru przy każdej skarpetce (flip). Para przełącza bit dwa razy — wraca do zera. Na końcu świecą dokładnie kolory, w których skarpetek jest nieparzyście wiele."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W drugim wierszu n kolorów."
+      ],
+      "output_format": [
+        "W pierwszym wierszu liczba kolorów ze skarpetką bez pary.",
+        "W drugim wierszu te kolory rosnąco (gdy ich nie ma — pusty wiersz)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 20 000",
+        "0 ≤ każdy kolor ≤ 999"
+      ],
+      "examples": [
+        {
+          "input": "7\n5 3 5 5 900 3 7",
+          "output": "3\n5 7 900",
+          "note": "Piątki są trzy (jedna para i jedna samotna), trójki dwie (para), dziewięćsetka i siódemka po jednej. Bez pary: 5, 7 i 900."
+        }
+      ],
+      "hint": "bitset<1000> b; for (…) { cin >> c; b.flip(c); }. Potem b.count() i pętla po kolorach od 0 do 999.",
+      "tests_count": 7
+    },
+    {
+      "id": "bs-b-wspolne-litery",
+      "number": 2592,
+      "title": "Wspólne litery",
+      "category": "Bitset / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej z q par słów wypisz litery, które występują w obu słowach — każdą raz, w kolejności alfabetycznej, bez spacji. Jeśli słowa nie mają wspólnej litery, wypisz brak.",
+        "Zapisz litery każdego słowa w bitset<26>: litera c zapala bit c - 'a'. Wspólne litery to bity zapalone w obu."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy dwa słowa z małych liter alfabetu łacińskiego."
+      ],
+      "output_format": [
+        "q wierszy: wspólne litery albo brak."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "każde słowo ma od 1 do 100 liter"
+      ],
+      "examples": [
+        {
+          "input": "3\nbitset kolejka\nalgorytm program\nkot pies",
+          "output": "e\nagmor\nbrak",
+          "note": "bitset i kolejka mają wspólną tylko literę e. algorytm i program dzielą a, g, m, o i r. kot i pies nie mają ani jednej wspólnej litery."
+        }
+      ],
+      "hint": "bitset<26> a, b; for (char c : s) a[c - 'a'] = 1; (tak samo dla drugiego słowa), potem bitset<26> w = a & b;. Jeśli w.none(), wypisz brak, inaczej for (int k = 0; k < 26; k++) if (w[k]) cout << char('a' + k);.",
+      "tests_count": 5
+    },
+    {
+      "id": "bs-b-sudoku",
+      "number": 2593,
+      "title": "Sprawdź sudoku",
+      "category": "Bitset / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dla każdej z q wypełnionych plansz sudoku 9 × 9 sprawdź, czy jest poprawna: w każdym wierszu, w każdej kolumnie i w każdym z dziewięciu kwadratów 3 × 3 każda cyfra od 1 do 9 występuje dokładnie raz.",
+        "Grupa dziewięciu pól jest dobra, gdy po zapaleniu bitów jej cyfr w bitset<10> świeci dokładnie 9 bitów — powtórzona cyfra zapala ten sam bit, więc jakiegoś zabraknie."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "Każda plansza to 9 wierszy po 9 cyfr od 1 do 9 (bez spacji)."
+      ],
+      "output_format": [
+        "q wierszy: TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 100"
+      ],
+      "examples": [
+        {
+          "input": "2\n534678912\n672195348\n198342567\n859761423\n426853791\n713924856\n961537284\n287419635\n345286179\n534678912\n672195348\n198342567\n859761423\n426853791\n713924856\n961537284\n287419635\n345286197",
+          "output": "TAK\nNIE",
+          "note": "Pierwsza plansza jest poprawna. W drugiej zamieniono dwie ostatnie cyfry ostatniego wiersza — wiersz dalej ma wszystkie cyfry, ale dwie kolumny już nie."
+        }
+      ],
+      "hint": "Wczytaj planszę do string t[9]. Dla wiersza w: bitset<10> b; for (int k = 0; k < 9; k++) b[t[w][k] - '0'] = 1; if (b.count() != 9) zle = true;. Tak samo kolumny i kwadraty: pole (3 * (i / 3) + k / 3, 3 * (i % 3) + k % 3) to k-te pole i-tego kwadratu.",
+      "tests_count": 4
+    },
+    {
+      "id": "bs-b-bingo",
+      "number": 2594,
+      "title": "Bingo",
+      "category": "Bitset / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W bingo każdy gracz ma kartę z 15 różnymi liczbami od 1 do 75. Prowadzący losuje liczby po kolei (bez powtórzeń). Karta wygrywa w chwili, gdy wylosowano już wszystkie jej liczby.",
+        "Dla każdej karty wypisz, w którym losowaniu (licząc od 1) się zapełniła, albo -1, jeśli nie zapełniła się do końca. Karta jest pełna, gdy (karta & ~wylosowane).none() — nie ma na niej liczby, która nie padła."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba kart n.",
+        "W każdym z kolejnych n wierszy 15 liczb karty.",
+        "Potem liczba losowań k, a w następnym wierszu k wylosowanych liczb."
+      ],
+      "output_format": [
+        "n wierszy: numer losowania, w którym zapełniła się karta, albo -1."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 500",
+        "1 ≤ k ≤ 75",
+        "liczby na karcie są różne, wylosowane liczby też"
+      ],
+      "examples": [
+        {
+          "input": "2\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15\n61 62 63 64 65 66 67 68 69 70 71 72 73 74 75\n16\n15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 75",
+          "output": "15\n-1",
+          "note": "Pierwsza karta zapełnia się w 15. losowaniu. Na drugiej padła tylko 75."
+        }
+      ],
+      "hint": "bitset<76> karta[500], wylosowane; int wynik[500]; (na start -1). Po każdym losowaniu t: for (int i = 0; i < n; i++) if (wynik[i] == -1 && (karta[i] & ~wylosowane).none()) wynik[i] = t;.",
+      "tests_count": 6
+    },
+    {
+      "id": "bs-b-urlopy",
+      "number": 2595,
+      "title": "Kalendarz urlopów",
+      "category": "Bitset / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W firmie pracuje n osób. Każda podała swoje urlopy jako przedziały dni od a do b (dni roku numerujemy od 1 do 365). Szef chce wiedzieć dwie rzeczy: przez ile dni roku ktoś jest na urlopie oraz jak długa jest najdłuższa seria kolejnych dni, w których nikt nie ma urlopu.",
+        "Zapal w bitset<366> wszystkie dni urlopów (pętla od a do b). Dni z kimś na urlopie to count(), a najdłuższą serię dni bez urlopów znajdziesz pętlą od 1 do 365 z licznikiem bieżącej serii."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "Dla każdej osoby wiersz z liczbą urlopów k, a po niej k par liczb a b."
+      ],
+      "output_format": [
+        "Jeden wiersz: liczba dni z kimś na urlopie i długość najdłuższej serii dni bez urlopów."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "0 ≤ k ≤ 20",
+        "w całych danych jest najwyżej 5000 urlopów",
+        "1 ≤ a ≤ b ≤ 365"
+      ],
+      "examples": [
+        {
+          "input": "3\n2 10 20 100 105\n1 15 30\n0",
+          "output": "27 260",
+          "note": "Urlopy pokrywają dni 10–30 (21 dni) i 100–105 (6 dni) — razem 27. Najdłuższa seria bez urlopów to dni 106–365: 260 dni."
+        }
+      ],
+      "hint": "bitset<366> urlop; for (int d = a; d <= b; d++) urlop[d] = 1;. Seria: int seria = 0, naj = 0; for (int d = 1; d <= 365; d++) { if (urlop[d]) seria = 0; else seria++; naj = max(naj, seria); }.",
+      "tests_count": 9
+    },
+    {
+      "id": "bs-b-album",
+      "number": 2596,
+      "title": "Album z naklejkami",
+      "category": "Bitset / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Album ma n miejsc na naklejki o numerach od 1 do n. Kasia kupuje kolejno q paczek, w każdej jest 5 naklejek (numery w paczce mogą się powtarzać). Naklejka, którą Kasia już ma w chwili otwarcia, to dubel.",
+        "Wypisz numer paczki, po której otwarciu album jest pełny (albo -1, jeśli się nie zapełni), oraz liczbę wszystkich dubli we wszystkich paczkach."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i q.",
+        "W każdym z kolejnych q wierszy 5 numerów naklejek z jednej paczki."
+      ],
+      "output_format": [
+        "Jeden wiersz: numer paczki albo -1 i liczba dubli."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "1 ≤ q ≤ 3000",
+        "1 ≤ każdy numer ≤ n"
+      ],
+      "examples": [
+        {
+          "input": "6 3\n1 2 2 3 4\n4 5 1 1 1\n6 2 3 5 6",
+          "output": "3 9",
+          "note": "W pierwszej paczce dubel to druga dwójka. W drugiej — czwórka i trzy jedynki. Po trzeciej paczce album jest pełny; dubli razem 1 + 4 + 4 = 9."
+        }
+      ],
+      "hint": "bitset<1001> mam; dla każdej naklejki x: if (mam[x]) duble++; else mam[x] = 1;. Po każdej paczce: if (pelny == -1 && (int)mam.count() == n) pelny = numer paczki;.",
+      "tests_count": 8
+    },
+    {
+      "id": "bs-b-wieze",
+      "number": 2597,
+      "title": "Wieże na szachownicy",
+      "category": "Bitset / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na szachownicy n × n stoi k wież. Wieża bije wszystkie pola w swoim wierszu i w swojej kolumnie (inne figury jej nie zasłaniają). Ile pól nie jest bitych przez żadną wieżę i nie stoi na nich wieża?",
+        "Pole jest bezpieczne, gdy jego wiersz i jego kolumna są wolne od wież. Zaznacz wiersze i kolumny z wieżami w dwóch bitsetach — wynik to (n − liczba zajętych wierszy) · (n − liczba zajętych kolumn). Może przekroczyć zakres int."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i k.",
+        "W każdym z kolejnych k wierszy pozycja wieży: wiersz i kolumna (od 1 do n)."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba bezpiecznych pól."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 100 000",
+        "1 ≤ k ≤ 7000",
+        "na jednym polu stoi najwyżej jedna wieża"
+      ],
+      "examples": [
+        {
+          "input": "8 3\n1 1\n1 5\n4 5",
+          "output": "36",
+          "note": "Zajęte wiersze: 1 i 4, zajęte kolumny: 1 i 5. Bezpiecznych pól jest (8 − 2) · (8 − 2) = 36."
+        }
+      ],
+      "hint": "bitset<100001> w, k; przed main. Dla każdej wieży: w[r] = 1; k[c] = 1;. Wynik: (long long)(n - w.count()) * (n - k.count()).",
+      "tests_count": 7
+    },
+    {
+      "id": "bs-b-bezkwadratowe",
+      "number": 2598,
+      "title": "Liczby bez kwadratów",
+      "category": "Bitset / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Liczba jest bezkwadratowa, jeśli nie dzieli się przez żaden kwadrat liczby większej od 1 — czyli przez 4, 9, 16, 25, … Na przykład 30 = 2 · 3 · 5 jest bezkwadratowa, a 12 = 4 · 3 — nie. Ile jest liczb bezkwadratowych od 1 do n?",
+        "Zrób sito: dla każdego i od 2, dopóki i · i ≤ n, skreśl wszystkie wielokrotności i · i. Liczby nieskreślone są bezkwadratowe."
+      ],
+      "input_format": [
+        "Jedna liczba n."
+      ],
+      "output_format": [
+        "Jedna liczba — ile jest liczb bezkwadratowych od 1 do n."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000 000"
+      ],
+      "examples": [
+        {
+          "input": "12",
+          "output": "8",
+          "note": "Skreślone: 4, 8, 12 (wielokrotności 4) i 9. Zostaje 12 − 4 = 8 liczb: 1, 2, 3, 5, 6, 7, 10, 11."
+        }
+      ],
+      "hint": "bitset<10000001> skreslona; przed main. for (long long i = 2; i * i <= n; i++) for (long long j = i * i; j <= n; j += i * i) skreslona[j] = 1;. Potem policz nieskreślone od 1 do n.",
+      "tests_count": 8
+    },
+    {
+      "id": "bs-b-pierwsze-palindromy",
+      "number": 2599,
+      "title": "Pierwsze palindromy",
+      "category": "Bitset / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Wypisz wszystkie liczby pierwsze nie większe od n, które są palindromami — czytane od tyłu dają tę samą liczbę, jak 11, 101 czy 313.",
+        "W pierwszym wierszu wypisz, ile ich jest, a w drugim — je same rosnąco. Ciekawostka: poza liczbą 11 żaden palindrom o parzystej liczbie cyfr nie jest pierwszy, bo dzieli się przez 11."
+      ],
+      "input_format": [
+        "Jedna liczba n."
+      ],
+      "output_format": [
+        "W pierwszym wierszu liczba pierwszych palindromów.",
+        "W drugim wierszu te liczby rosnąco."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 10 000 000"
+      ],
+      "examples": [
+        {
+          "input": "200",
+          "output": "10\n2 3 5 7 11 101 131 151 181 191",
+          "note": "Jednocyfrowe 2, 3, 5, 7, potem 11 i trzycyfrowe 101, 131, 151, 181, 191 — razem 10."
+        }
+      ],
+      "hint": "Po sicie: for (int p = 2; p <= n; p++) if (!zlozona[p]) { string s = to_string(p), t = s; reverse(t.begin(), t.end()); if (s == t) … }.",
+      "tests_count": 8
+    },
+    {
+      "id": "bs-b-kod-kreskowy",
+      "number": 2600,
+      "title": "Kod kreskowy",
+      "category": "Bitset / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Kod kreskowy zapisano jako napis z zer i jedynek: 1 to czarny pasek o szerokości jednej kolumny. Kilka jedynek obok siebie tworzy jedną grubą kreskę. Dla każdego kodu wypisz, ile ma kresek i jak szeroka jest najszersza z nich.",
+        "Dwa sposoby bez pętli po kolumnach: początek kreski to jedynka, przed którą stoi zero — wszystkie początki naraz to b & ~(b << 1). A c &= c >> 1 skraca każdą kreskę o jedną kolumnę — ile razy da się to zrobić, zanim c zgaśnie, tak szeroka jest najszersza kreska."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W każdym z kolejnych q wierszy napis z zer i jedynek."
+      ],
+      "output_format": [
+        "q wierszy: liczba kresek i szerokość najszerszej (dla kodu bez kresek: 0 0)."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 100",
+        "każdy napis ma od 1 do 20 000 znaków",
+        "wszystkie napisy mają razem najwyżej 60 000 znaków"
+      ],
+      "examples": [
+        {
+          "input": "3\n0110111001\n0000\n1",
+          "output": "3 3\n0 0\n1 1",
+          "note": "Pierwszy kod ma trzy kreski: o szerokości 2, 3 i 1. Drugi nie ma żadnej. Trzeci to jedna wąska kreska."
+        }
+      ],
+      "hint": "bitset<20000> b(s); int kreski = (b & ~(b << 1)).count();. Szerokość: bitset<20000> c = b; int szer = 0; while (c.any()) { c &= c >> 1; szer++; }.",
+      "tests_count": 4
+    },
+    {
+      "id": "bs-b-ankieta",
+      "number": 2601,
+      "title": "Wyniki ankiety",
+      "category": "Bitset / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W ankiecie wzięło udział n osób, a każda odpowiedziała na m pytań TAK (1) albo NIE (0). Teraz trzeba szybko odpowiadać na pytania typu: ile osób odpowiedziało TAK zarówno na pytanie i, jak i na pytanie j? (Gdy i = j — po prostu ile osób odpowiedziało TAK na pytanie i.)",
+        "Zbuduj osobny bitset dla każdego pytania: bit numer p świeci, gdy osoba p odpowiedziała na to pytanie TAK. Wtedy każde zapytanie to (pyt[i] & pyt[j]).count()."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n, m i q.",
+        "W każdym z kolejnych n wierszy napis z m zer i jedynek — odpowiedzi jednej osoby (pierwszy znak to pytanie 1).",
+        "W każdym z kolejnych q wierszy dwa numery pytań i oraz j."
+      ],
+      "output_format": [
+        "q wierszy: liczba osób, które odpowiedziały TAK na oba pytania."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1500",
+        "1 ≤ m ≤ 40",
+        "1 ≤ q ≤ 3000",
+        "1 ≤ i, j ≤ m"
+      ],
+      "examples": [
+        {
+          "input": "4 3 3\n110\n111\n010\n101\n1 2\n3 3\n1 3",
+          "output": "2\n2\n2",
+          "note": "Na pytania 1 i 2 TAK powiedziały osoby 1 i 2. Na pytanie 3 — osoby 2 i 4. Na pytania 1 i 3 — tylko osoby 2 i 4."
+        }
+      ],
+      "hint": "bitset<1500> pyt[41]; dla osoby p i pytania j: if (s[j - 1] == '1') pyt[j][p] = 1;. Zapytanie: cout << (pyt[i] & pyt[j]).count() << \"\\n\";.",
+      "tests_count": 6
+    },
+    {
+      "id": "bs-b-alergie",
+      "number": 2602,
+      "title": "Alergie w stołówce",
+      "category": "Bitset / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W stołówce je n dzieci, a każde jest uczulone na kilka składników (numery od 1 do 300). Kucharz przygotował m dań, każde ze swoich składników. Dla każdego dania policz, ile dzieci może je zjeść — czyli ile dzieci nie jest uczulonych na żaden składnik tego dania.",
+        "Zapisz alergie każdego dziecka i składniki każdego dania w bitsetach. Dziecko d może zjeść danie, gdy (alergie[d] & danie).none()."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z kolejnych n wierszy liczba k, a po niej k składników, na które dziecko jest uczulone.",
+        "W każdym z kolejnych m wierszy liczba k, a po niej k składników dania."
+      ],
+      "output_format": [
+        "m wierszy: liczba dzieci, które mogą zjeść danie."
+      ],
+      "constraints": [
+        "1 ≤ n, m ≤ 1000",
+        "0 ≤ k ≤ 300",
+        "w całych danych jest najwyżej 20 000 numerów składników",
+        "1 ≤ każdy składnik ≤ 300"
+      ],
+      "examples": [
+        {
+          "input": "3 2\n1 5\n2 5 7\n0\n2 1 2\n3 7 8 9",
+          "output": "3\n2",
+          "note": "Pierwsze danie (składniki 1 i 2) mogą zjeść wszyscy. W drugim jest składnik 7 — zje je tylko pierwsze i trzecie dziecko."
+        }
+      ],
+      "hint": "bitset<301> alergie[1000]; dla dania: bitset<301> d; wczytaj składniki, a potem int ile = 0; for (int i = 0; i < n; i++) if ((alergie[i] & d).none()) ile++;.",
+      "tests_count": 6
+    },
+    {
+      "id": "bs-b-anagramy-zbiorow",
+      "number": 2603,
+      "title": "Słowa z tymi samymi literami",
+      "category": "Bitset / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dwa słowa są „kuzynami”, jeśli są zbudowane z dokładnie tych samych liter — nie liczy się, ile razy litera występuje ani w jakiej kolejności. Na przykład kot, tok i kotto są kuzynami (litery k, o, t), a kota — już nie.",
+        "Podziel n słów na grupy kuzynów. Wypisz liczbę grup i liczbę słów w największej grupie. Kluczem grupy jest bitset<26> liter słowa — ale mapa wymaga porównania <, którego bitset nie ma. Użyj więc liczby to_ulong() jako klucza."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z kolejnych n wierszy słowo z małych liter."
+      ],
+      "output_format": [
+        "Jeden wiersz: liczba grup i rozmiar największej grupy."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 8000",
+        "każde słowo ma od 1 do 10 liter"
+      ],
+      "examples": [
+        {
+          "input": "6\nkot\ntok\nkotto\nkota\nala\nla",
+          "output": "3 3",
+          "note": "Grupy: {kot, tok, kotto}, {kota}, {ala, la}. Trzy grupy, największa ma 3 słowa."
+        }
+      ],
+      "hint": "map<unsigned long, int> grupy; dla słowa: bitset<26> b; for (char c : s) b[c - 'a'] = 1; grupy[b.to_ulong()]++;. Liczba grup to grupy.size().",
+      "tests_count": 6
+    },
+    {
+      "id": "bs-b-linijka",
+      "number": 2604,
+      "title": "Linijka z kreskami",
+      "category": "Bitset / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na linijce długości L narysowano n kresek w różnych miejscach (pozycje od 0 do L). Linijką można zmierzyć odcinek długości d, jeśli dwie kreski są odległe dokładnie o d. Ile długości od 1 do L da się zmierzyć i jaka jest najmniejsza długość, której zmierzyć się nie da?",
+        "Zapisz kreski w bitsecie K. Dla kreski na pozycji p zbiór K >> p zawiera odległości od p do wszystkich kresek leżących dalej — OR tych przesunięć po wszystkich kreskach daje wszystkie możliwe odległości (bit 0 to odległość kreski od samej siebie — pomiń go). Jeśli da się zmierzyć wszystko, zamiast najmniejszej brakującej wypisz wszystkie."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby L i n.",
+        "W drugim wierszu n różnych pozycji kresek."
+      ],
+      "output_format": [
+        "Jeden wiersz: liczba długości, które da się zmierzyć, i najmniejsza długość, której się nie da (albo słowo wszystkie)."
+      ],
+      "constraints": [
+        "1 ≤ L ≤ 100 000",
+        "1 ≤ n ≤ 10 000",
+        "0 ≤ każda pozycja ≤ L"
+      ],
+      "examples": [
+        {
+          "input": "6 4\n0 1 4 6",
+          "output": "6 wszystkie",
+          "note": "Odległości: 1, 4, 6, 3, 5, 2 — każda długość od 1 do 6, dokładnie raz. To słynna linijka Golomba."
+        },
+        {
+          "input": "10 3\n0 3 10",
+          "output": "3 1",
+          "note": "Da się zmierzyć 3, 7 i 10. Najmniejsza brakująca długość to 1."
+        }
+      ],
+      "hint": "bitset<100001> K, D; dla każdej kreski K[p] = 1; zapamiętaj też pozycje w vectorze. Potem for (int p : kreski) D |= K >> p; D[0] = 0;. Szukaj pierwszego zgaszonego bitu od 1 do L.",
+      "tests_count": 8
+    },
+    {
+      "id": "bs-b-najwiecej-wspolnych",
+      "number": 2605,
+      "title": "Najwięcej wspólnych znajomych",
+      "category": "Bitset / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W sieci jest n osób i m par znajomych. Znajdź dwie osoby (nie muszą się znać), które mają najwięcej wspólnych znajomych. Przy remisie wybierz parę z najmniejszym pierwszym numerem, a potem z najmniejszym drugim. Wypisz numery osób (mniejszy pierwszy) i liczbę wspólnych znajomych.",
+        "Par jest około pół miliona. Sprawdzanie każdej pętlą po wszystkich osobach to n³ = miliard kroków. Na bitsetach każda para kosztuje kilkanaście kroków."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z kolejnych m wierszy para znajomych."
+      ],
+      "output_format": [
+        "Jeden wiersz: dwie osoby i liczba ich wspólnych znajomych."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 1000",
+        "1 ≤ m ≤ 10 000",
+        "każda para znajomych występuje najwyżej raz"
+      ],
+      "examples": [
+        {
+          "input": "5 5\n1 3\n2 3\n1 4\n2 4\n4 5",
+          "output": "1 2 2",
+          "note": "Osoby 1 i 2 mają dwóch wspólnych znajomych: 3 i 4. Żadna inna para nie ma więcej."
+        }
+      ],
+      "hint": "bitset<1001> z[1001]; potem dwie pętle u < v: int c = (z[u] & z[v]).count(); if (c > naj) { naj = c; a = u; b = v; }. Na start naj = -1, żeby para 1 2 wygrała, gdy wszędzie jest 0.",
+      "tests_count": 8
+    },
+    {
+      "id": "bs-b-kursy",
+      "number": 2606,
+      "title": "Kursy na wakacje",
+      "category": "Bitset / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na wakacje oferowanych jest n kursów, a każdy obejmuje kilka z m tematów (numery od 1 do m). Jaka jest najmniejsza liczba kursów, na które trzeba się zapisać, żeby poznać wszystkie m tematów? Jeśli się nie da, wypisz -1.",
+        "Kursów jest mało, więc sprawdź wszystkie możliwe wybory — każdy wybór to maska od 1 do 2ⁿ − 1, jak w lekcji Liczby dwójkowe. Tematy z wybranych kursów to OR ich bitsetów. Wybór jest dobry, gdy (int)razem.count() == m."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z kolejnych n wierszy liczba k, a po niej k różnych tematów kursu."
+      ],
+      "output_format": [
+        "Jedna liczba — najmniejsza liczba kursów albo -1."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 16",
+        "1 ≤ m ≤ 500",
+        "0 ≤ k ≤ m",
+        "1 ≤ każdy temat ≤ m"
+      ],
+      "examples": [
+        {
+          "input": "4 5\n2 1 2\n3 2 3 4\n2 4 5\n1 5",
+          "output": "3",
+          "note": "Kursy 1 i 3 dają tematy 1, 2, 4, 5 — brakuje 3. Kursy 1, 2 i 3 (albo 1, 2 i 4) pokrywają wszystko. Dwóch kursów nie wystarczy, więc odpowiedź to 3."
+        },
+        {
+          "input": "2 3\n1 1\n1 2",
+          "output": "-1",
+          "note": "Tematu 3 nie ma w żadnym kursie."
+        }
+      ],
+      "hint": "bitset<501> kurs[16]; for (int maska = 1; maska < (1 << n); maska++) { bitset<501> razem; for (int i = 0; i < n; i++) if ((maska >> i) & 1) razem |= kurs[i]; if ((int)razem.count() == m) naj = min(naj, __builtin_popcount(maska)); }.",
+      "tests_count": 10
+    },
+    {
+      "id": "bs-b-pokrycie-odcinkami",
+      "number": 2607,
+      "title": "Odcinki bez pętli po punktach",
+      "category": "Bitset / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na osi narysowano n odcinków o końcach w punktach całkowitych od 0 do 999 999. Ile punktów całkowitych należy do co najmniej jednego odcinka i na ile osobnych kawałków rozpada się pokryta część osi? Odcinek [a, b] zawiera punkty a, a + 1, …, b.",
+        "Odcinki mogą być bardzo długie — razem nawet 3 miliardy punktów. W tym zadaniu ćwiczysz budowanie całego odcinka jednym działaniem, bez pętli po punktach. Zbuduj odcinek jako maskę: ~bitset<N>() to same jedynki; po przesunięciu w prawo o N − dl zostaje dl jedynek na samym dole, a przesunięcie w lewo o a stawia je na pozycjach od a do b. Kawałki policzysz jak kreski w kodzie kreskowym."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z kolejnych n wierszy końce odcinka a i b."
+      ],
+      "output_format": [
+        "Jeden wiersz: liczba pokrytych punktów i liczba kawałków."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 3000",
+        "0 ≤ a ≤ b ≤ 999 999"
+      ],
+      "examples": [
+        {
+          "input": "3\n1 5\n4 9\n20 20",
+          "output": "10 2",
+          "note": "Odcinki [1, 5] i [4, 9] zlewają się w [1, 9] — 9 punktów. Do tego punkt 20. Razem 10 punktów w 2 kawałkach."
+        }
+      ],
+      "hint": "const int N = 1000000; bitset<N> pokrycie; przed main. Dla odcinka: int dl = b - a + 1; pokrycie |= (~bitset<N>() >> (N - dl)) << a;. Kawałki: (pokrycie & ~(pokrycie << 1)).count().",
+      "tests_count": 8
+    },
+    {
+      "id": "bs-b-plakaty",
+      "number": 2608,
+      "title": "Plakaty na ścianie",
+      "category": "Bitset / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Ściana to kratka W kolumn na H wierszy. Uczniowie przykleili n prostokątnych plakatów: plakat zajmuje kolumny od x1 do x2 i wiersze od y1 do y2 (włącznie). Plakaty mogą na siebie zachodzić. Ile pól ściany jest przykrytych przynajmniej jednym plakatem?",
+        "Plakatów jest dużo, a każdy może zajmować prawie całą ścianę — razem nawet dwa miliardy pól. Ćwiczysz tu sposób bez pętli po pojedynczych polach: trzymaj każdy wiersz ściany jako bitset kolumn. Dla plakatu zbuduj raz maskę kolumn x1…x2 (jak odcinek w poprzednim zadaniu) i zrób sciana[y] |= maska dla każdego wiersza y od y1 do y2."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby W, H i n.",
+        "W każdym z kolejnych n wierszy liczby x1, y1, x2, y2."
+      ],
+      "output_format": [
+        "Jedna liczba — liczba przykrytych pól."
+      ],
+      "constraints": [
+        "1 ≤ W, H ≤ 1000",
+        "1 ≤ n ≤ 2000",
+        "1 ≤ x1 ≤ x2 ≤ W",
+        "1 ≤ y1 ≤ y2 ≤ H"
+      ],
+      "examples": [
+        {
+          "input": "10 5 2\n1 1 4 2\n3 2 6 5",
+          "output": "22",
+          "note": "Pierwszy plakat zajmuje 4 · 2 = 8 pól, drugi 4 · 4 = 16. Wspólne są pola w kolumnach 3–4 wiersza 2 — dwa. Razem 8 + 16 − 2 = 22."
+        }
+      ],
+      "hint": "bitset<1001> sciana[1001]; przed main. Plakat: int dl = x2 - x1 + 1; bitset<1001> maska = (~bitset<1001>() >> (1001 - dl)) << x1; for (int y = y1; y <= y2; y++) sciana[y] |= maska;. Wynik to suma sciana[y].count().",
+      "tests_count": 9
+    },
+    {
+      "id": "bs-b-goldbach-sposoby",
+      "number": 2609,
+      "title": "Na ile sposobów Goldbach?",
+      "category": "Bitset / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na ile sposobów można zapisać parzystą liczbę n jako sumę dwóch liczb pierwszych p + q, gdzie p ≤ q? Na przykład 10 = 3 + 7 = 5 + 5 — dwa sposoby. Odpowiedz na q pytań.",
+        "Pętla po wszystkich p dla każdego pytania to nawet pół miliarda kroków. Sztuczka: zbuduj bitset P liczb pierwszych i jego odbicie R, w którym R[i] = P[MAX − i]. Bit p w R >> (MAX − n) to R[p + MAX − n] = P[n − p], więc (P & (R >> (MAX − n))).count() liczy wszystkie p, dla których p i n − p są pierwsze. Każdy rozkład policzysz wtedy dwa razy (p + q i q + p) — oprócz rozkładu n/2 + n/2."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba q.",
+        "W drugim wierszu q parzystych liczb n."
+      ],
+      "output_format": [
+        "q wierszy: liczba sposobów."
+      ],
+      "constraints": [
+        "1 ≤ q ≤ 1000",
+        "4 ≤ n ≤ 1 000 000, n parzyste"
+      ],
+      "examples": [
+        {
+          "input": "3\n4 10 100",
+          "output": "1\n2\n6",
+          "note": "4 = 2 + 2. 10 = 3 + 7 = 5 + 5. 100 = 3 + 97 = 11 + 89 = 17 + 83 = 29 + 71 = 41 + 59 = 47 + 53 — sześć sposobów."
+        }
+      ],
+      "hint": "const int MAX = 1000000; bitset<MAX + 1> P, R; po sicie: for (int i = 0; i <= MAX; i++) R[i] = P[MAX - i];. Dla n: int c = (P & (R >> (MAX - n))).count(); if (P[n / 2]) c++; cout << c / 2 << \"\\n\";.",
+      "tests_count": 6
+    },
+    {
+      "id": "bs-b-sito-przedzialowe",
+      "number": 2610,
+      "title": "Sito na dalekim przedziale",
+      "category": "Bitset / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Policz liczby pierwsze w przedziale od L do R oraz wypisz najmniejszą i największą z nich. Liczby są ogromne (do 10¹²), ale przedział jest krótki: R − L ≤ 1 000 000.",
+        "Każda liczba złożona j ≤ 10¹² ma dzielnik pierwszy nie większy niż √j ≤ 10⁶. Zrób więc zwykłe sito do 10⁶, a potem każdą małą liczbą pierwszą p skreśl jej wielokrotności w przedziale: od max(p · p, pierwszej wielokrotności p nie mniejszej niż L). Liczbę j trzymaj w bicie j − L. Pamiętaj, że 1 nie jest pierwsza."
+      ],
+      "input_format": [
+        "Jeden wiersz: liczby L i R."
+      ],
+      "output_format": [
+        "W pierwszym wierszu liczba liczb pierwszych w przedziale.",
+        "W drugim wierszu najmniejsza i największa z nich albo brak."
+      ],
+      "constraints": [
+        "1 ≤ L ≤ R ≤ 10¹²",
+        "R − L ≤ 1 000 000"
+      ],
+      "examples": [
+        {
+          "input": "10 30",
+          "output": "6\n11 29",
+          "note": "W przedziale są 11, 13, 17, 19, 23 i 29 — sześć liczb pierwszych."
+        },
+        {
+          "input": "999999999900 1000000000000",
+          "output": "4\n999999999937 999999999989",
+          "note": "Wśród stu jeden liczb tuż pod bilionem są tylko cztery liczby pierwsze: 999 999 999 937, …959, …961 i 999 999 999 989 — największa liczba pierwsza nie większa od biliona."
+        },
+        {
+          "input": "24 28",
+          "output": "0\nbrak",
+          "note": "Między 24 a 28 nie ma liczb pierwszych."
+        }
+      ],
+      "hint": "bitset<1000001> male, przedzial;. Dla każdej małej pierwszej p, dopóki p * p <= R: long long start = max(p * p, (L + p - 1) / p * p); for (long long j = start; j <= R; j += p) przedzial[j - L] = 1;. Jeśli L == 1, zapal przedzial[0].",
+      "tests_count": 12
+    },
+    {
+      "id": "bs-b-dokladnie-k",
+      "number": 2611,
+      "title": "Dokładnie k monet",
+      "category": "Bitset / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Masz n monet o podanych nominałach. Interesują nas tylko kwoty, które da się zapłacić dokładnie k monetami (każdą monetę można dać najwyżej raz). Ile jest różnych takich kwot? Potem odpowiedz na q pytań: czy kwotę s da się zapłacić dokładnie k monetami?",
+        "Jeden bitset nie wystarczy, bo nie pamięta, ile monet użyto. Zrób tablicę: dp[j] to zbiór kwot z dokładnie j monet. Na start dp[0] = {0}. Moneta x dokłada do dp[j] kwoty z dp[j − 1] powiększone o x — dp[j] |= dp[j − 1] << x — a j przechodzisz od góry do dołu, żeby ta sama moneta nie trafiła do sumy drugi raz."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n, k i q.",
+        "W drugim wierszu n nominałów.",
+        "W trzecim wierszu q kwot s."
+      ],
+      "output_format": [
+        "W pierwszym wierszu liczba różnych kwot z dokładnie k monet.",
+        "Potem q wierszy: TAK albo NIE."
+      ],
+      "constraints": [
+        "1 ≤ k ≤ n ≤ 100",
+        "1 ≤ każdy nominał ≤ 1000",
+        "1 ≤ q ≤ 3000",
+        "0 ≤ s ≤ 100 000"
+      ],
+      "examples": [
+        {
+          "input": "4 2 4\n1 2 5 5\n3 6 10 8",
+          "output": "4\nTAK\nTAK\nTAK\nNIE",
+          "note": "Dwie monety dają kwoty 1 + 2 = 3, 1 + 5 = 6, 2 + 5 = 7 i 5 + 5 = 10 — cztery różne. Ośmiu z dwóch monet nie ułożysz."
+        }
+      ],
+      "hint": "bitset<100001> dp[101]; przed main, dp[0][0] = 1;. Dla i-tej monety x: for (int j = min(k, i + 1); j >= 1; j--) dp[j] |= dp[j - 1] << x;. Wynik: dp[k].count() i dp[k][s].",
+      "tests_count": 8
+    },
+    {
+      "id": "bs-b-ograniczone-monety",
+      "number": 2612,
+      "title": "Monety w ograniczonej liczbie",
+      "category": "Bitset / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W kasie jest n rodzajów monet: c sztuk monet o nominale v dla każdego rodzaju. Ile różnych dodatnich kwot da się wypłacić bez reszty? Wypisz też najmniejszą dodatnią kwotę, której wypłacić się nie da.",
+        "Każdą monetę osobno: S |= S << v powtórzone c razy — to nawet sto tysięcy przesunięć bitsetu o milionie bitów, za wolno. Sztuczka: c monet podziel na paczki po 1, 2, 4, 8, … monet i jedną paczkę z resztą (13 = 1 + 2 + 4 + 6). Z takich paczek złożysz każdą liczbę monet od 0 do c, więc wystarczy przesunąć S raz na paczkę: S |= S << (v · wielkość paczki)."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z kolejnych n wierszy nominał v i liczba monet c."
+      ],
+      "output_format": [
+        "Jeden wiersz: liczba dodatnich kwot, które da się wypłacić, i najmniejsza dodatnia kwota, której się nie da."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 100",
+        "1 ≤ v ≤ 1000",
+        "1 ≤ c ≤ 1000",
+        "suma wszystkich v · c ≤ 1 000 000"
+      ],
+      "examples": [
+        {
+          "input": "2\n2 3\n5 1",
+          "output": "7 1",
+          "note": "Z trzech dwójek i piątki da się wypłacić 2, 4, 6, 5, 7, 9 i 11 — siedem kwot. Najmniejsza niemożliwa to 1."
+        },
+        {
+          "input": "1\n1 1000",
+          "output": "1000 1001",
+          "note": "Tysiąc złotówek: wszystkie kwoty od 1 do 1000. Pierwsza niemożliwa to 1001."
+        }
+      ],
+      "hint": "bitset<1000001> S; przed main, S[0] = 1;. Dla rodzaju (v, c): for (int p = 1; c > 0; p *= 2) { int t = min(p, c); S |= S << (v * t); c -= t; }. Potem S.count() - 1 i pierwszy zgaszony bit od 1.",
+      "tests_count": 9
+    },
+    {
+      "id": "bs-b-krzyzowka",
+      "number": 2613,
+      "title": "Krzyżówka ze słownikiem",
+      "category": "Bitset / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Rozwiązujesz krzyżówkę i masz słownik n różnych słów. Dla każdego z q wzorców (litery i znaki ? — znak zapytania pasuje do dowolnej litery) policz, ile słów ze słownika pasuje do wzorca: ma tę samą długość i te same litery na pozycjach bez znaku zapytania. Wypisz też pierwsze takie słowo w kolejności ze słownika (albo -, gdy nic nie pasuje).",
+        "Przygotuj bitsety słów: dl[L] — słowa długości L, poz[p][c] — słowa z literą c na pozycji p (bit i to słowo numer i). Wtedy wzorzec to AND kilku bitsetów, count() mówi, ile słów pasuje, a _Find_first() — które jest pierwsze."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z kolejnych n wierszy słowo ze słownika.",
+        "Potem liczba q, a w każdym z kolejnych q wierszy wzorzec."
+      ],
+      "output_format": [
+        "q wierszy: liczba pasujących słów i pierwsze z nich (albo -)."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 6000",
+        "1 ≤ q ≤ 1500",
+        "słowa i wzorce mają od 1 do 10 znaków",
+        "słowa z małych liter, różne; wzorce z małych liter i ?"
+      ],
+      "examples": [
+        {
+          "input": "5\nkot\nkit\nlot\nkoto\ntok\n3\nk?t\n?o?\n????",
+          "output": "2 kot\n3 kot\n1 koto",
+          "note": "Do k?t pasują kot i kit — pierwszy jest kot. Do ?o? pasują kot, lot i tok. Czteroliterowe jest tylko koto."
+        }
+      ],
+      "hint": "bitset<6000> dl[11], poz[10][26];. Wzorzec w: bitset<6000> r = dl[w.size()]; for (int p = 0; p < w.size(); p++) if (w[p] != '?') r &= poz[p][w[p] - 'a'];. Potem r.count() i int i = r._Find_first(); — gdy i == 6000, nic nie pasuje.",
+      "tests_count": 6
+    },
+    {
+      "id": "bs-b-wzorzec",
+      "number": 2614,
+      "title": "Wzorzec z dżokerami",
+      "category": "Bitset / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Dany jest długi tekst i q wzorców. Wzorzec składa się z liter i dżokerów ? — dżoker pasuje do dowolnej litery. Dla każdego wzorca policz, na ilu pozycjach tekstu może się zaczynać jego wystąpienie (wystąpienia mogą na siebie zachodzić).",
+        "Porównywanie wzorca z każdym miejscem tekstu to nawet miliard porównań. Zamiast tego zbuduj 26 bitsetów: M[c][j] = 1, gdy w tekście na pozycji j stoi litera c. Bit j w M[c] >> i mówi, czy na pozycji j + i stoi c. Wzorzec pasuje od pozycji j, gdy ten bit świeci dla każdej litery wzorca — więc zacznij od maski wszystkich możliwych początków (od 0 do |T| − |P|) i zrób r &= M[P[i]] >> i dla każdej litery."
+      ],
+      "input_format": [
+        "W pierwszym wierszu tekst T (małe litery).",
+        "W drugim wierszu liczba q.",
+        "W każdym z kolejnych q wierszy wzorzec (małe litery i znaki ?)."
+      ],
+      "output_format": [
+        "q wierszy: liczba miejsc, od których zaczyna się wystąpienie wzorca."
+      ],
+      "constraints": [
+        "1 ≤ |T| ≤ 50 000",
+        "1 ≤ q ≤ 1000",
+        "każdy wzorzec ma od 1 do 50 000 znaków",
+        "wszystkie wzorce mają razem najwyżej 20 000 znaków"
+      ],
+      "examples": [
+        {
+          "input": "abracadabra\n4\nabra\na?a\n??\nz",
+          "output": "2\n2\n10\n0",
+          "note": "abra zaczyna się na pozycjach 0 i 7. a?a pasuje do aca i ada. Dwa dżokery pasują od każdej z 10 pozycji. Litery z nie ma w tekście."
+        }
+      ],
+      "hint": "bitset<50000> M[26]; M[T[j] - 'a'][j] = 1;. Dla wzorca P: if (P.size() > T.size()) { cout << 0; … } bitset<50000> r; r.set(); r >>= 50000 - (T.size() - P.size() + 1); — to maska dobrych początków. Potem for (int i = 0; i < P.size(); i++) if (P[i] != '?') r &= M[P[i] - 'a'] >> i;.",
+      "tests_count": 8
+    },
+    {
+      "id": "bs-b-automat",
+      "number": 2615,
+      "title": "Automat komórkowy",
+      "category": "Bitset / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Rząd n komórek, każda w stanie 0 albo 1. W każdym kroku wszystkie komórki zmieniają się jednocześnie: nowy stan zależy od lewego sąsiada l, samej komórki c i prawego sąsiada p (poza rzędem są same zera). Regułę opisuje liczba R od 0 do 255: nowy stan to bit numer 4l + 2c + p liczby R. Reguła 90 z części o przesunięciach to właśnie R = 90.",
+        "Wypisz stan rzędu po t krokach i liczbę jedynek. Na bitsetach: L = b << 1 (stan lewego sąsiada każdej komórki), P = b >> 1 (prawego). Dla każdego układu (l, c, p), w którym R ma jedynkę, dołóż do nowego stanu (l ? L : ~L) & (c ? b : ~b) & (p ? P : ~P), a na koniec przytnij maską n komórek."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n, t i R.",
+        "W drugim wierszu n cyfr 0 i 1 — stan początkowy (pierwsza cyfra to komórka 0)."
+      ],
+      "output_format": [
+        "W pierwszym wierszu stan po t krokach (n cyfr).",
+        "W drugim wierszu liczba jedynek."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 10 000",
+        "1 ≤ t ≤ 10 000",
+        "0 ≤ R ≤ 255"
+      ],
+      "examples": [
+        {
+          "input": "7 2 90\n0001000",
+          "output": "0100010\n2",
+          "note": "Reguła 90 to XOR sąsiadów: po kroku 0010100, po drugim 0100010."
+        },
+        {
+          "input": "5 1 255\n00000",
+          "output": "11111\n5",
+          "note": "Reguła 255 zawsze daje 1 — nawet z samych zer."
+        }
+      ],
+      "hint": "Komórkę i trzymaj w bicie i (wczytaj pętlą). W kroku: bitset<10000> L = b << 1, P = b >> 1, nowy; for (int u = 0; u < 8; u++) if ((R >> u) & 1) nowy |= (((u >> 2) & 1) ? L : ~L) & (((u >> 1) & 1) ? b : ~b) & ((u & 1) ? P : ~P); b = nowy & maska;.",
+      "tests_count": 9
+    },
+    {
+      "id": "bs-b-skoczek",
+      "number": 2616,
+      "title": "Skoczek na wielkiej szachownicy",
+      "category": "Bitset / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Na szachownicy n × n niektóre pola są zajęte — na nie skoczek stanąć nie może. Skoczek stoi na polu (w, k) i wykonuje dokładnie t ruchów (każdy ruch jak w szachach: o 2 w jednym kierunku i o 1 w drugim; nie wolno wyjść poza planszę). Na ilu różnych polach może stać po t ruchach?",
+        "Pętla po wszystkich polach w każdym ruchu to przy największych danych pół miliarda pól i cztery miliardy prób skoku — na sprawdzarce około dwóch i pół sekundy. Trzymaj więc zbiór możliwych pól jako tablicę bitsetów S — po jednym na wiersz, bit x to kolumna x. Ruch (dy, dx) przenosi wiersz y − dy do wiersza y przesunięty o dx kolumn: N[y] |= S[y - dy] << dx (albo >> −dx). Na końcu kroku N[y] &= wolne[y] usuwa pola zajęte i wychodzące poza planszę."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i t.",
+        "W drugim wierszu pole startowe: wiersz w i kolumna k (od 1 do n).",
+        "W trzecim wierszu liczba zajętych pól z, a w każdym z kolejnych z wierszy jedno zajęte pole."
+      ],
+      "output_format": [
+        "Jedna liczba — na ilu polach może stać skoczek po t ruchach."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "1 ≤ t ≤ 500",
+        "0 ≤ z ≤ 5000",
+        "pole startowe jest wolne"
+      ],
+      "examples": [
+        {
+          "input": "3 1\n2 2\n0",
+          "output": "0",
+          "note": "Ze środka planszy 3 × 3 skoczek nie ma żadnego ruchu — po jednym ruchu nie stoi nigdzie."
+        },
+        {
+          "input": "8 1\n1 1\n1\n2 3",
+          "output": "1",
+          "note": "Z rogu są dwa ruchy: na (2, 3) i na (3, 2). Pierwsze pole jest zajęte, więc zostaje jedno."
+        }
+      ],
+      "hint": "bitset<1000> S[1000], N[1000], wolne[1000]; (wiersze i kolumny od 0). Ruchy: int dy[8] = {1, 2, 2, 1, -1, -2, -2, -1}, dx[8] = {2, 1, -1, -2, -2, -1, 1, 2};. W kroku dla każdego y i ruchu: int z = y - dy[m]; if (z < 0 || z >= n) continue; N[y] |= dx[m] > 0 ? S[z] << dx[m] : S[z] >> (-dx[m]);.",
+      "tests_count": 10
+    },
+    {
+      "id": "bs-b-drogi-jednokierunkowe",
+      "number": 2617,
+      "title": "Nowe drogi jednokierunkowe",
+      "category": "Bitset / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "W kraju jest n miast i na początku nie ma żadnych dróg. Kolejno buduje się m dróg jednokierunkowych: droga u v pozwala jechać z u do v. Po każdej nowej drodze wypisz, ile jest uporządkowanych par różnych miast (x, y), takich że z x da się dojechać do y.",
+        "Liczenie wszystkiego od nowa po każdej drodze jest za wolne. Trzymaj bitsety r[x] — dokąd da się dojechać z x (razem z samym x). Gdy pojawia się droga u → v, nowe cele zyskują tylko miasta w, z których da się dojechać do u (r[w][u] = 1), i dostają wszystko, dokąd się da z v: r[w] |= r[v]. Jeśli z u dało się już dojechać do v, nic się nie zmienia. Wynik poprawiaj o to, o ile wzrosło r[w].count()."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczby n i m.",
+        "W każdym z kolejnych m wierszy nowa droga: u i v (u ≠ v)."
+      ],
+      "output_format": [
+        "m wierszy: liczba par po każdej nowej drodze."
+      ],
+      "constraints": [
+        "2 ≤ n ≤ 500",
+        "1 ≤ m ≤ 3000",
+        "ta sama droga może zostać zbudowana drugi raz"
+      ],
+      "examples": [
+        {
+          "input": "4 4\n1 2\n2 3\n3 1\n4 1",
+          "output": "1\n3\n6\n9",
+          "note": "Po drodze 1 → 2 jest jedna para. Po 2 → 3 dochodzą (2, 3) i (1, 3). Droga 3 → 1 zamyka koło: z każdego z trzech miast dojedziesz do dwóch pozostałych — 6 par. Droga 4 → 1 dokłada trzy pary z miasta 4."
+        }
+      ],
+      "hint": "bitset<500> r[500]; r[i][i] = 1;. Droga u → v: if (!r[u][v]) for (int w = 0; w < n; w++) if (r[w][u]) { int przed = r[w].count(); r[w] |= r[v]; razem += r[w].count() - przed; }.",
+      "tests_count": 8
+    },
+    {
+      "id": "bs-b-final-wyszukiwarka",
+      "number": 2618,
+      "title": "Wielki finał: wyszukiwarka dokumentów",
+      "category": "Bitset / baza zadań",
+      "time_limit": "1 s",
+      "memory_limit": "256 MB",
+      "statement": [
+        "Budujesz wyszukiwarkę. Masz n dokumentów (dokument to wiersz słów z małych liter) i q zapytań. Zapytanie to wyrażenie ze słów oraz operatorów AND, OR, NOT i nawiasów, oddzielonych spacjami. Słowo oznacza „dokument zawiera to słowo”. NOT ma najwyższy priorytet, potem AND, a najniższy OR — tak jak !, && i || w C++. Operatory tego samego rodzaju liczymy od lewej.",
+        "Dla każdego zapytania wypisz, ile dokumentów do niego pasuje, a po spacji numery (od 1) najwyżej dziesięciu pierwszych z nich, rosnąco. Zbuduj indeks: dla każdego słowa bitset dokumentów, w których występuje. Zapytanie policz rekurencyjnie, jak kalkulator z nawiasami z lekcji Rekurencja: wyrazenie = skladnik OR skladnik OR …, skladnik = czynnik AND czynnik AND …, czynnik = NOT czynnik albo ( wyrazenie ) albo słowo. OR to |, AND to &, a NOT to ~x — ale przycięte do n dokumentów: ~x & wszystkie."
+      ],
+      "input_format": [
+        "W pierwszym wierszu liczba n.",
+        "W każdym z kolejnych n wierszy dokument: słowa z małych liter oddzielone pojedynczymi spacjami.",
+        "Potem liczba q, a w każdym z kolejnych q wierszy zapytanie (elementy oddzielone pojedynczymi spacjami)."
+      ],
+      "output_format": [
+        "q wierszy: liczba pasujących dokumentów i numery najwyżej dziesięciu pierwszych."
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 1000",
+        "w dokumentach jest razem najwyżej 12 000 słów, każde ma od 1 do 15 liter",
+        "1 ≤ q ≤ 300",
+        "każde zapytanie jest poprawne i ma najwyżej 60 elementów"
+      ],
+      "examples": [
+        {
+          "input": "4\nkot ma ale\npies i kot\nala ma psa\nkot kot kot\n4\nkot\nkot AND NOT pies\nala OR pies AND kot\n( ala OR pies ) AND kot",
+          "output": "3 1 2 4\n2 1 4\n2 2 3\n1 2",
+          "note": "kot jest w dokumentach 1, 2 i 4. Bez psa zostają 1 i 4. W trzecim zapytaniu AND wiąże mocniej: ala OR (pies AND kot) — dokumenty 2 i 3. Nawiasy zmieniają wynik: (ala OR pies) AND kot to tylko dokument 2."
+        }
+      ],
+      "hint": "vector<string> t; int poz; bitset<1000> wyrazenie(); czynnik() { if (t[poz] == \"NOT\") { poz++; return ~czynnik() & wszystkie; } if (t[poz] == \"(\") { poz++; auto w = wyrazenie(); poz++; return w; } return indeks[t[poz++]]; }. Wypisywanie: for (int d = w._Find_first(); d < n && ile < 10; d = w._Find_next(d)).",
+      "tests_count": 7
     }
   ]
 }
